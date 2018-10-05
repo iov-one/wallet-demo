@@ -14,9 +14,19 @@
     "test": "echo 'not yet implemented'"
   },
   "dependencies": {
+    "@types/react": "^16.4.15",
+    "react": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-promise-middleware": "^5.1.1",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "typesafe-actions": "^2.0.4"
   },
   "devDependencies": {
+    "@types/react-redux": "^6.0.9",
+    "@types/redux-promise-middleware": "^0.0.11",
+    "@types/redux-thunk": "^2.1.0",
     "prettier": "^1.14.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
