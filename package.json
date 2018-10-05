@@ -1,0 +1,26 @@
+{
+  "name": "redux-demo",
+  "version": "0.0.1",
+  "description": "Demo of building typesafe redux",
+  "main": "build/index.js",
+  "author": "Ethan Frey <ethanfrey@users.noreply.github.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "lint": "tslint -t verbose --project .",
+    "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
+    "prebuild": "yarn format && yarn lint",
+    "build": "tsc",
+    "test": "echo 'not yet implemented'"
+  },
+  "dependencies": {
+    "typesafe-actions": "^2.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-immutable": "^4.7.0",
+    "typescript": "^3.1.1"
+  }
+}
