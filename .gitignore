@@ -16,5 +16,6 @@ node_modules/
 .vscode/
 
 # Release dir
-build/
+/dist/
+/build/
 tmp/
