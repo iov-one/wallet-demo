@@ -10,12 +10,13 @@
     "lint": "tslint -t verbose --project .",
     "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
     "prebuild": "yarn format && yarn lint",
-    "build": "tsc",
+    "build": "tsc && webpack --progress",
+    "start": "webpack-dev-server",
     "test": "echo 'not yet implemented'"
   },
   "dependencies": {
-    "@types/react": "^16.4.15",
     "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-promise-middleware": "^5.1.1",
@@ -24,13 +25,24 @@
     "typesafe-actions": "^2.0.4"
   },
   "devDependencies": {
+    "@types/react": "^16.4.15",
+    "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^6.0.9",
     "@types/redux-promise-middleware": "^0.0.11",
     "@types/redux-thunk": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.3",
     "prettier": "^1.14.3",
+    "source-map-loader": "^0.2.4",
+    "ts-import-plugin": "^1.5.5",
+    "ts-loader": "^4.4.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-immutable": "^4.7.0",
-    "typescript": "^3.1.1"
+    "tslint-loader": "^3.6.0",
+    "typescript": "^3.1.1",
+    "webpack": "^4.20.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.0"
   }
 }
