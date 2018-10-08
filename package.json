@@ -15,8 +15,6 @@
     "test": "echo 'not yet implemented'"
   },
   "dependencies": {
-    "@types/react-router-dom": "^4.3.1",
-    "@types/redux-persist": "^4.3.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^3.1.0",
@@ -32,11 +30,11 @@
     "@types/react": "^16.4.15",
     "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^6.0.9",
+    "@types/react-router-dom": "^4.3.1",
     "@types/redux-promise-middleware": "^0.0.11",
     "@types/redux-thunk": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.3",
-    "open-browser-webpack-plugin": "0.0.5",
     "prettier": "^1.14.3",
     "source-map-loader": "^0.2.4",
     "ts-import-plugin": "^1.5.5",
