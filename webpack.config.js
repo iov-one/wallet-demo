@@ -1,7 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const tsImportPluginFactory = require('ts-import-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
@@ -24,7 +23,9 @@ module.exports = {
         publicPath: '/'
         // necessary for HMR to know where to load the hot update chunks
     },
-    devtool: 'inline-source-map',
+    // https://github.com/gaearon/react-hot-loader/tree/v3.1.3#source-maps
+    // devtool: 'inline-source-map',
+    devtool: 'eavl',
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
@@ -49,10 +50,13 @@ module.exports = {
                 test: /\.(ts|tsx)?$/, 
                 loader: 'tslint-loader',
                 exclude: [resolve(__dirname, "node_modules")],
-            },             
+            },     
             { 
                 test: /\.(ts|tsx)?$/, 
                 use: [
+                    {
+                        loader: 'react-hot-loader/webpack',
+                    },
                     {
                         loader: 'ts-loader',
                         options: {
