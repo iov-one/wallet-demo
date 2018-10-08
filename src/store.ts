@@ -1,23 +1,16 @@
-import { applyMiddleware, combineReducers, compose, createStore, Middleware } from "redux";
+// import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
+import { applyMiddleware, compose, createStore, Middleware } from "redux";
+import { persistStore } from "redux-persist";
 import promiseMiddleware from "redux-promise-middleware";
 import thunk from "redux-thunk";
 
-import { CounterActions, counterReducer, CounterState } from "./counter";
+import persistReducer from "./reducers";
 
 const middlewares: ReadonlyArray<Middleware> = [/* scopeTie, */ thunk, promiseMiddleware()];
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export interface RootState {
-  readonly counter: CounterState;
-}
+const store = createStore(persistReducer, composeEnhancers(applyMiddleware(...middlewares)));
+const persistor = persistStore(store);
 
-export type RootActions = CounterActions;
-
-const rootReducer = combineReducers<RootState, RootActions>({
-  counter: counterReducer,
-});
-
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middlewares)));
-
-export { store };
+export { store, persistor };
