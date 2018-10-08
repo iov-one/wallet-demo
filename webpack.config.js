@@ -1,5 +1,4 @@
 const { resolve } = require("path");
-const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
@@ -38,11 +37,12 @@ module.exports = {
     noInfo: true,
     quiet: false,
     // minimize the output to terminal.
-    contentBase: resolve(__dirname, "src"),
+    contentBase: resolve(__dirname, "dist"),
     // match the output path
     publicPath: "/",
     // match the output `publicPath`,
     historyApiFallback: true,
+    open: true,
   },
   module: {
     rules: [
@@ -99,7 +99,5 @@ module.exports = {
     // prints more readable module names in the browser console on HMR updates
     new HtmlWebpackPlugin({ template: resolve(__dirname, "src/index.html") }),
     // inject <script> in html file.
-    new OpenBrowserPlugin({ url: "http://localhost:8080" }),
-    // open browser when running npm start
   ],
 };
