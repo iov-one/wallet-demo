@@ -12,11 +12,12 @@ export interface CounterProps {
 
 export class Counter extends React.Component<CounterProps, {}> {
     public render(): JSX.Element {
+        const { count, onIncrement } = this.props;
         return (
             <div>
                 <h1>Welcome Counter</h1>
-                <span>Number of smiles today: {this.props.count} </span>
-                <button type="button" onClick={this.props.onIncrement}> Smile Again </button>
+                <span>Number of Smiles today: {count} </span>
+                <button type="button" onClick={onIncrement}> Smile Again </button>
             </div>
         );
     }
