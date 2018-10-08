@@ -1,12 +1,15 @@
 import * as React from "react";
+import { Provider } from "react-redux";
+
+import { store } from "../store";
+import { CounterContainer } from "./pages";
 
 class App extends React.Component<{}, {}> {
     public render(): JSX.Element {
         return (
-            <div>
-                <h1>Hello, World!</h1>
-                <p>Hope you're having a great day</p>
-            </div>
+            <Provider store={store}>
+                <CounterContainer />
+            </Provider>
         );
     }
 }
