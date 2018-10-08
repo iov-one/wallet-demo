@@ -15,11 +15,15 @@
     "test": "echo 'not yet implemented'"
   },
   "dependencies": {
+    "@types/react-router-dom": "^4.3.1",
+    "@types/redux-persist": "^4.3.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^3.1.0",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
+    "redux-persist": "^5.10.0",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
@@ -33,6 +37,7 @@
     "@types/redux-thunk": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.3",
+    "open-browser-webpack-plugin": "0.0.5",
     "prettier": "^1.14.3",
     "source-map-loader": "^0.2.4",
     "ts-import-plugin": "^1.5.5",
