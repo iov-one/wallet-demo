@@ -1,4 +1,3 @@
-// import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { applyMiddleware, combineReducers, compose, createStore, Middleware } from "redux";
 import promiseMiddleware from "redux-promise-middleware";
 import thunk from "redux-thunk";
