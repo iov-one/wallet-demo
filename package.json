@@ -10,10 +10,11 @@
     "lint": "tslint -t verbose --project .",
     "format": "prettier --write --loglevel warn \"./src/**/*.{tx,tsx}\"",
     "prebuild": "yarn format && yarn lint",
-    "build": "tsc && webpack --progress",
-    "compile": "tsc",
+    "build": "shx rm -rf ./build && tsc",
+    "test": "yarn build && yarn test-node",
+    "test-node": "mocha build/**/*.spec.js",
     "start": "webpack-dev-server",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "pack": "webpack --progress"
   },
   "dependencies": {
     "react": "^16.5.2",
@@ -44,7 +45,6 @@
     "source-map-loader": "^0.2.4",
     "ts-import-plugin": "^1.5.5",
     "ts-loader": "^4.4.1",
-    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-immutable": "^4.7.0",
