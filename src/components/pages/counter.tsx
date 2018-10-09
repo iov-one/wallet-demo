@@ -13,11 +13,12 @@ export interface CounterProps {
 
 export class Counter extends React.Component<CounterProps, {}> {
   public render(): JSX.Element {
+    const { count, onIncrement } = this.props;
     return (
       <div>
         <h1>Welcome Counter</h1>
-        <span>Number of smiles today: {this.props.count} </span>
-        <button type="button" onClick={this.props.onIncrement}>
+        <span>Number of smiles today: {count} </span>
+        <button type="button" onClick={onIncrement}>
           {" "}
           Smile Again{" "}
         </button>
@@ -29,17 +30,10 @@ export class Counter extends React.Component<CounterProps, {}> {
 }
 
 // note how this verifies that we properly extracted the data
-const mapStateToProps = (state: RootState) => ({
-  count: state.counter,
-});
+const mapStateToProps = (state: RootState) => ({ count: state.counter });
 
 const mapDispatchToProps = (dispatch: Dispatch<RootActions>) =>
-  bindActionCreators(
-    {
-      onIncrement: incrementCounter,
-    },
-    dispatch,
-  );
+  bindActionCreators({ onIncrement: incrementCounter }, dispatch);
 
 export const CounterContainer = connect(
   mapStateToProps,
