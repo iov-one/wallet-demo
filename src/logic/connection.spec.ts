@@ -9,7 +9,7 @@ import { createProfile } from "./profile";
 
 const testSpec: BlockchainSpec = {
     codecType: CodecType.Bns,
-    bootstrapNodes: ["wss://localhost:23456"],
+    bootstrapNodes: ["ws://localhost:23456"],
 }
 
 describe("addBlockchain", () => {
@@ -17,9 +17,13 @@ describe("addBlockchain", () => {
         const profile = await createProfile();
         const writer = new IovWriter(profile);
         const reader = await addBlockchain(writer, testSpec);
-        expect(reader).to.be.ok;
-        // basic checks that we connected properly
-        expect(reader.chainId).to.include("chain-");
-        expect(await reader.height()).to.be.greaterThan(1);
+        try {
+            expect(reader).to.be.ok;
+            // basic checks that we connected properly
+            expect(reader.chainId()).to.include("chain-");
+            expect(await reader.height()).to.be.greaterThan(1);    
+        } finally {
+            reader.disconnect();
+        }
     });
 });

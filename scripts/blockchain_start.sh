@@ -39,7 +39,7 @@ else
     --log_level=state:info,rpc:info,*:error > /tmp/bns_tm.log &
   export BNS_TM_PID=$!
 
-  docker run -v "${BNS_DIR}:/data" "iov1/bov:${VERSION}" -home "/data" \
+  docker run -v "${BNS_DIR}:/data" "iov1/bov:${BNS_VERSION}" -home "/data" \
     start -bind="unix:///data/app.sock" > /tmp/bns_app.log &
   export BNS_APP_PID=$!
 
