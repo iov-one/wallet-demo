@@ -1,6 +1,5 @@
 os:
   - linux
-  - osx
 
 # Workaround for Chrome sandboxing issue (https://github.com/travis-ci/travis-ci/issues/8836)
 sudo: required
