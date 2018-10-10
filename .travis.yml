@@ -4,9 +4,8 @@ os:
 # Workaround for Chrome sandboxing issue (https://github.com/travis-ci/travis-ci/issues/8836)
 sudo: required
 
-# LATER
-# services:
-#   - docker
+services:
+  - docker
 
 language: node_js
 node_js:
@@ -41,9 +40,13 @@ before_script:
   if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     defaults write com.apple.Safari ApplePersistenceIgnoreState YES
   fi
+- source ./scripts/blockchain_start.sh
 
 script:
 - yarn test
+
+after_script:
+- source ./scripts/blockchain_stop.sh
 
 # whitelist long living branches to avoid testing feature branches twice (as branch and as pull request)
 branches:
