@@ -12,8 +12,14 @@ const testSpec: BlockchainSpec = {
     bootstrapNodes: ["ws://localhost:23456"],
 }
 
+const skipTests = (): boolean => !process.env.BNS_ENABLED;
+
 describe("addBlockchain", () => {
-    it("should connect to local testnet", async () => {
+    it("should connect to local testnet", async function(): Promise<void> {
+        if (skipTests()) {
+            this.skip();
+            return;
+        }
         const profile = await createProfile();
         const writer = new IovWriter(profile);
         const reader = await addBlockchain(writer, testSpec);
