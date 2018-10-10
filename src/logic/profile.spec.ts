@@ -2,6 +2,8 @@
 import { expect } from 'chai';
 import 'mocha';
 
+import { UserProfile } from "@iov/keycontrol";
+
 import { createProfile, getMainIdentity } from "./profile";
 
 describe("createProfile", () => {
@@ -27,3 +29,10 @@ describe("createProfile", () => {
     });
 });
 
+
+describe("getMainIdentity", () => {
+    it("should error if no data present", async () => {
+        const profile = new UserProfile();
+        expect(() => getMainIdentity(profile)).to.throw();
+    });
+});
