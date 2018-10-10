@@ -10,9 +10,11 @@
     "lint": "tslint -t verbose --project .",
     "format": "prettier --write --loglevel warn \"./src/**/*.{tx,tsx}\"",
     "prebuild": "yarn format && yarn lint",
-    "build": "tsc && webpack --progress",
+    "build": "shx rm -rf ./build && tsc --module commonjs",
+    "test": "yarn build && yarn test-node",
+    "test-node": "mocha build/**/*.spec.js",
     "start": "webpack-dev-server",
-    "test": "yarn build"
+    "pack": "webpack --progress"
   },
   "dependencies": {
     "react": "^16.5.2",
@@ -27,15 +29,20 @@
     "typesafe-actions": "^2.0.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
     "@types/react": "^16.4.15",
     "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^6.0.9",
     "@types/react-router-dom": "^4.3.1",
     "@types/redux-promise-middleware": "^0.0.11",
     "@types/redux-thunk": "^2.1.0",
+    "chai": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.3",
+    "mocha": "^5.2.0",
     "prettier": "^1.14.3",
+    "shx": "^0.3.2",
     "source-map-loader": "^0.2.4",
     "ts-import-plugin": "^1.5.5",
     "ts-loader": "^4.4.1",
