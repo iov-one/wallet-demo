@@ -1,8 +1,12 @@
 // tslint:disable:no-unused-expression
-import { expect } from 'chai';
+import { expect, use } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import 'mocha';
 
+use(chaiAsPromised);
+
 import { createMemDb, hasDbKey } from "./db";
+
 
 describe("createMemDb", () => {
     const demoKey = "demo";
@@ -31,5 +35,10 @@ describe("hasDbKey", () => {
         expect(await hasDbKey(db, demoKey)).to.be.false;
         db.put(demoKey, "foo");
         expect(await hasDbKey(db, demoKey)).to.be.true;
+    });
+
+    it("throws error on bad db", async () => {
+        const badDb: any = null;
+        return expect(hasDbKey(badDb, demoKey)).to.be.rejected;
     });
 });
