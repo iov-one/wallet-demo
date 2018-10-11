@@ -4,15 +4,9 @@ import 'mocha';
 
 import { IovWriter } from '@iov/core';
 
-import { addBlockchain, BlockchainSpec, CodecType } from "./connection";
+import { addBlockchain } from "./connection";
 import { createProfile } from "./profile";
-
-const testSpec: BlockchainSpec = {
-    codecType: CodecType.Bns,
-    bootstrapNodes: ["ws://localhost:23456"],
-}
-
-const skipTests = (): boolean => !process.env.BNS_ENABLED;
+import { skipTests, testSpec, } from "./testhelpers";
 
 describe("addBlockchain", () => {
     it("should connect to local testnet", async function(): Promise<void> {

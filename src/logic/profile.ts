@@ -5,10 +5,10 @@ import { hasDbKey, StringDB } from "./db";
 
 const EntropyBytes = 16;
 
-// initializes a UserProfile with one keyring and one identity using random seed
-export async function createProfile(): Promise<UserProfile> {
-    const entropy = await Random.getBytes(EntropyBytes);
-    const mnemonic = Bip39.encode(entropy).asString();
+// initializes a UserProfile with one keyring and one identity
+// you can pass in a mnemonic or it will generate a random one
+export async function createProfile(fixedMnemonic?: string): Promise<UserProfile> {
+    const mnemonic = fixedMnemonic || Bip39.encode(await Random.getBytes(EntropyBytes)).asString();
     const keyring = Ed25519HdWallet.fromMnemonic(mnemonic)
     const profile = new UserProfile();
     profile.addEntry(keyring);
