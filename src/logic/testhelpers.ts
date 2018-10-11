@@ -17,4 +17,5 @@ const faucetMnemonic = "hidden ask fever furnace alter bridge rib ride banana ba
 export const faucetProfile = () => createProfile(faucetMnemonic);
 
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();
-export const randomString = (len: number) => PseudoRandom.string()(prng, len);
+const pool = "abcdefghijklmnopqrstuvwxyz0123456789";
+export const randomString = (len: number) => PseudoRandom.string(pool)(prng, len);
