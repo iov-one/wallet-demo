@@ -5,7 +5,7 @@ import 'mocha';
 import { FungibleToken } from '@iov/bcp-types';
 import { IovWriter } from '@iov/core';
 
-import { getAccount, keyToAddress, sendTransaction } from './account';
+import { getAccount, keyToAddress, sendTransaction, setName } from './account';
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { faucetProfile, skipTests, testSpec, testTicker } from "./testhelpers";
@@ -78,7 +78,6 @@ describe("sendTransaction", () => {
 
             // ensure the recipient is properly rewarded
             const after = await getAccount(reader, rcpt);
-            expect(after).to.equal(undefined);
             expect(after).to.be.ok;
             expect(after!.name).to.equal(undefined);
             expect(after!.balance.length).to.equal(1);
@@ -88,6 +87,47 @@ describe("sendTransaction", () => {
             expect(token.fractional).to.equal(amount.fractional);
         } finally {
             reader.disconnect();
+        }
+    });
+});
+
+
+describe("setName", () => {
+    it("sets a name on account with funds", async function(): Promise<void> {
+        if (skipTests()) {
+            this.skip();
+            return;
+        }
+        const faucet = await faucetProfile();
+        const empty = await createProfile();
+        const rcpt = getMainIdentity(empty);
+
+        const writer = new IovWriter(faucet);
+        const reader = await addBlockchain(writer, testSpec);
+
+        const rcptWriter = new IovWriter(empty);
+        const rcptReader = await addBlockchain(rcptWriter, testSpec);
+        try {
+            // send a token from the genesis account
+            const amount: FungibleToken = {
+                whole: 10,
+                fractional: 0,
+                tokenTicker: testTicker,
+            }
+            await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+
+            // set the name - note we must sign with the recipient's writer
+            const name = "special"
+            await setName(rcptWriter, rcptReader.chainId(), name);
+
+            // ensure the recipient is properly named
+            const after = await getAccount(reader, rcpt);
+            expect(after).to.be.ok;
+            expect(after!.name).to.equal(name);
+            expect(after!.balance.length).to.equal(1);
+        } finally {
+            reader.disconnect();
+            rcptReader.disconnect();
         }
     });
 });

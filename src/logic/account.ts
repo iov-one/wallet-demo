@@ -41,3 +41,20 @@ export async function sendTransaction(
       };
       return writer.signAndCommit(unsigned, walletId);
   }
+
+// sets the name of the given account (old-style, pre-bns)
+export async function setName(
+    writer: IovWriter,
+    chainId: ChainId,
+    name: string,
+  ): Promise<BcpTransactionResponse> {
+      const walletId = getMainKeyring(writer.profile);
+      const signer = getMainIdentity(writer.profile);
+      const unsigned : UnsignedTransaction = {
+        kind: TransactionKind.SetName,
+        chainId: chainId,
+        signer: signer.pubkey,
+        name,
+      };
+      return writer.signAndCommit(unsigned, walletId);
+  }
