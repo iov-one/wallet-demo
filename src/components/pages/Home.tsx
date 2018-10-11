@@ -1,3 +1,5 @@
+// tslint:disable:no-empty
+// TODO: remove above comment when the empty onClick is gone
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { NextButton } from "../subComponents/buttons";
