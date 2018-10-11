@@ -2,13 +2,15 @@
 import { expect } from "chai";
 import "mocha";
 
-import { FungibleToken } from "@iov/bcp-types";
+import { BcpAccount, FungibleToken } from "@iov/bcp-types";
 import { IovWriter } from "@iov/core";
 
-import { getAccount, keyToAddress, sendTransaction, setName } from "./account";
+import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./testhelpers";
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 describe("getAccount", () => {
   it("random account should be empty", async function(): Promise<void> {
@@ -131,5 +133,95 @@ describe("setName", () => {
       reader.disconnect();
       rcptReader.disconnect();
     }
+  });
+
+  describe("watchAccount", () => {
+    it("updates on all changes", async function(): Promise<void> {
+      if (skipTests()) {
+        this.skip();
+        return;
+      }
+      // multiple transactions, so multiple blocks... let's give it some time
+      this.timeout(5000);
+
+      const faucet = await faucetProfile();
+      const empty = await createProfile();
+      const rcpt = getMainIdentity(empty);
+
+      const writer = new IovWriter(faucet);
+      const reader = await addBlockchain(writer, testSpec);
+
+      const rcptWriter = new IovWriter(empty);
+      const rcptReader = await addBlockchain(rcptWriter, testSpec);
+      try {
+        let updatesFaucet = 0;
+        let acctFaucet: BcpAccount | undefined;
+        const unsubscribeFaucet = await watchAccount(reader, getMainIdentity(faucet), (acct?: BcpAccount) => {
+          updatesFaucet++;
+          acctFaucet = acct;
+        });
+
+        let updatesRcpt = 0;
+        let acctRcpt: BcpAccount | undefined;
+        const unsubscribeRcpt = await watchAccount(reader, rcpt, (acct?: BcpAccount) => {
+          updatesRcpt++;
+          acctRcpt = acct;
+        });
+
+        // validate update messages came
+        await sleep(50);
+        expect(updatesFaucet).to.equal(1);
+        expect(acctFaucet).to.be.ok;
+        expect(acctFaucet!.name).to.equal("admin");
+        expect(updatesRcpt).to.equal(1);
+        expect(acctRcpt).to.be.undefined;
+
+        // send a token from the genesis account
+        const amount: FungibleToken = {
+          whole: 10,
+          fractional: 0,
+          tokenTicker: testTicker,
+        };
+        await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+
+        // validate update messages came
+        await sleep(50);
+        expect(updatesFaucet).to.equal(2);
+        expect(acctFaucet).to.be.ok;
+        expect(acctFaucet!.name).to.equal("admin");
+        expect(updatesRcpt).to.equal(2);
+        expect(acctRcpt).to.be.ok;
+        expect(acctRcpt!.name).to.be.undefined;
+        expect(acctRcpt!.balance.length).to.equal(1);
+        const token = acctRcpt!.balance[0];
+        expect(token.tokenTicker).to.equal(amount.tokenTicker);
+        expect(token.whole).to.equal(amount.whole);
+
+        // unsubscribe from one, only one update should come
+        unsubscribeFaucet();
+        // send a second payment
+        await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+
+        await sleep(50);
+        // no more facuet updates should come
+        expect(updatesFaucet).to.equal(2);
+        expect(acctFaucet).to.be.ok;
+        expect(acctFaucet!.name).to.equal("admin");
+        // rcpt should get one more callback
+        expect(updatesRcpt).to.equal(3);
+        expect(acctRcpt).to.be.ok;
+        expect(acctRcpt!.name).to.be.undefined;
+        expect(acctRcpt!.balance.length).to.equal(1);
+        const token2 = acctRcpt!.balance[0];
+        expect(token2.tokenTicker).to.equal(amount.tokenTicker);
+        expect(token2.whole).to.equal(amount.whole * 2);
+
+        // end other subscription
+        unsubscribeRcpt();
+      } finally {
+        reader.disconnect();
+        rcptReader.disconnect();
+      }
+    });
   });
 });
