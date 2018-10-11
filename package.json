@@ -8,18 +8,20 @@
   "private": false,
   "scripts": {
     "lint": "tslint -t verbose --project .",
-    "format": "prettier --write --loglevel warn \"./src/**/*.{tx,tsx}\"",
+    "format": "prettier --write --loglevel warn \"./src/**/*.{ts,tsx}\"",
     "prebuild": "yarn format && yarn lint",
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "yarn build && yarn test-node",
     "test-node": "mocha build/**/*.spec.js",
     "start": "webpack-dev-server",
-    "pack": "webpack --progress"
+    "pack": "webpack --progress",
+    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
   },
   "dependencies": {
     "@iov/bns": "^0.7.0-alpha.0",
     "@iov/core": "^0.7.0-alpha.0",
     "@iov/crypto": "^0.7.0-alpha.0",
+    "@iov/faucets": "^0.7.0-alpha.1",
     "@iov/keycontrol": "^0.7.0-alpha.0",
     "chai-as-promised": "^7.1.1",
     "levelup": "^3.1.1",
@@ -52,6 +54,7 @@
     "mini-css-extract-plugin": "^0.4.3",
     "mocha": "^5.2.0",
     "prettier": "^1.14.3",
+    "random-js": "^1.0.8",
     "shx": "^0.3.2",
     "source-map-loader": "^0.2.4",
     "ts-import-plugin": "^1.5.5",

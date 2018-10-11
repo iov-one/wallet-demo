@@ -24,11 +24,11 @@ else
   echo "BNS_DIR = $BNS_DIR"
 
   # init tendermint and bns
-  # TODO: revisit original address
   docker run -v "${BNS_DIR}:/tendermint" "iov1/tendermint:${TM_VERSION}" init
+  # Address is derived from HdPaths.simpleAddress(0) with mnemonic:
+  # hidden ask fever furnace alter bridge rib ride banana bargain moon bacon
   docker run -v "${BNS_DIR}:/data" "iov1/bov:${BNS_VERSION}" -home "/data" \
-    init CASH b1ca7e78f74423ae01da3b51e676934d9105f282
-
+    init CASH 5696CEB0B816B374352DEA04819226EB9E946041
 
   # start tendermint daemon
   BNS_PORT=23456
