@@ -20,12 +20,12 @@ Highly recommended is VSCode with the TSLint extension, to give immediate feedba
 and build errors. If you use another editor, please install such immediate feedback and
 document how to do so.
 
-Testing browser recommended Chrome or Firefox with 
-[react-devtools](https://github.com/facebook/react-devtools) and 
+Testing browser recommended Chrome or Firefox with
+[react-devtools](https://github.com/facebook/react-devtools) and
 [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension).
 
-The development server (`yarn start`) supports 
-[hot-reloading of code](https://github.com/webpack/webpack-dev-server), as well as 
+The development server (`yarn start`) supports
+[hot-reloading of code](https://github.com/webpack/webpack-dev-server), as well as
 [hot-reloading of redux state](https://github.com/gaearon/react-hot-loader).
 That means when you modify a component, the code will be compiled and new application
 deployed to the browser. The redux actions will then be re-run to recreate the current state
@@ -49,6 +49,9 @@ above mentioned extensions installed).
 
 Please run `yarn prebuild` before committing code to ensure it is properly linted and formatted.
 (This runs `tslint` and `prettier`).
+
+For testing the UI components using storybook, please run `yarn storybook`.
+Storybook page will open in http://localhost:6006/ in your browser.
 
 ## References:
 

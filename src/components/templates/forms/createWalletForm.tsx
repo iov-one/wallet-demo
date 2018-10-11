@@ -4,12 +4,16 @@ import * as FormComponents from "../../compoundComponents/form";
 import { NextButton } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
 
-export const CreateWalletForm = () => {
+interface FormProp {
+  readonly onNext: () => any;
+}
+
+export const CreateWalletForm = (props: FormProp): JSX.Element => {
   const nextButton = (
     <NextButton
       title="Continue"
       onClick={() => {
-        console.log("action");
+        props.onNext();
       }}
     />
   );

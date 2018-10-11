@@ -4,16 +4,16 @@ import * as React from "react";
 import { withRouter } from "react-router";
 
 import { PageStructure } from "../compoundComponents/page";
-import { CreateWalletForm } from "../templates/forms";
+import { SetPasswordForm } from "../templates/forms";
 
-class Home extends React.Component<any, any> {
+class Password extends React.Component<any, any> {
   public render(): JSX.Element {
     const { history } = this.props;
     return (
       <PageStructure whiteBg>
-        <CreateWalletForm
+        <SetPasswordForm
           onNext={() => {
-            history.push("/setPassword/");
+            history.push("/balance/");
           }}
         />
       </PageStructure>
@@ -21,4 +21,4 @@ class Home extends React.Component<any, any> {
   }
 }
 
-export const HomePage = withRouter(Home);
+export const PasswordPage = withRouter(Password);

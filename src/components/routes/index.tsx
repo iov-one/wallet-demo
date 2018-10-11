@@ -1,14 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import styled from "styled-components";
 
-import { CounterContainer, Home } from "../pages";
+import { BalancePage, HomePage, PasswordPage } from "../pages";
+
+const Wrapper = styled.div`
+  height: 100vh;
+`;
 
 const MainRouter = () => (
   <Router>
-    <div>
-      <Route exact path="/" component={Home} />
-      <Route path="/counter/" component={CounterContainer} />
-    </div>
+    <Wrapper>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/setPassword/" component={PasswordPage} />
+      <Route path="/balance/" component={BalancePage} />
+    </Wrapper>
   </Router>
 );
 

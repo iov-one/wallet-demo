@@ -4,12 +4,16 @@ import * as FormComponents from "../../compoundComponents/form";
 import { NextButton } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
 
-export const SetPasswordForm = () => {
+interface FormProp {
+  readonly onNext: () => any;
+}
+
+export const SetPasswordForm = (props: FormProp) => {
   const nextButton = (
     <NextButton
       title="Continue"
       onClick={() => {
-        console.log("action");
+        props.onNext();
       }}
     />
   );
