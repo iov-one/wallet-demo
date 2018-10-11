@@ -8,7 +8,7 @@
   "private": false,
   "scripts": {
     "lint": "tslint -t verbose --project .",
-    "format": "prettier --write --loglevel warn \"./src/**/*.{tx,tsx}\"",
+    "format": "prettier --write --loglevel warn \"./src/**/*.{ts,tsx}\"",
     "prebuild": "yarn format && yarn lint",
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "yarn build && yarn test-node",
