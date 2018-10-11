@@ -16,6 +16,15 @@ const Input = styled.input`
   &.right {
     text-align: right;
   }
+  &::placeholder {
+    color: #b8bccc;
+  }
+  &:-ms-placeholder {
+    color: #b8bccc;
+  }
+  &::placeholder {
+    color: #b8bccc;
+  }
 `;
 
 export const TextInput = (props: any): JSX.Element => {

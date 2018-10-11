@@ -4,13 +4,14 @@ import { storiesOf } from "@storybook/react";
 
 import { H1, Description, FieldLabel } from "../src/components/subComponents/typography";
 
-storiesOf("Headings", module)
+storiesOf("Typography", module)
   .add("H1", () => <H1>Create your first wallet</H1>)
   .add("Description", () => (
     <Description>
       Choose an unique address you’ll use to sign in to IOV, send and receive payments
     </Description>
   ))
-  .add("FieldLabel", () => (
+  .add("FieldLabel with Description", () => (
     <FieldLabel title="Your IOV handle" description="letters, numbers and dashes only" />
-  ));
+  ))
+  .add("FieldLabel without Description", () => <FieldLabel title="Your IOV handle" />);

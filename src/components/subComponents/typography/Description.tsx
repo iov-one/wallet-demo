@@ -9,4 +9,5 @@ export const Description = styled.div`
   line-height: 1.6;
   letter-spacing: 0.8px;
   color: #6f749a;
+  margin-bottom: 30px;
 `;

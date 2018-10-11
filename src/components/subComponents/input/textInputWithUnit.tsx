@@ -8,6 +8,7 @@ const Wrapper = styled.div`
 `;
 
 const Input = styled.input`
+  flex: 1;
   padding: 10px 12px;
   border-radius: 4px;
   border: solid 1px #e9eaf0;
