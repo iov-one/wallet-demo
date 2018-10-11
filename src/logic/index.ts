@@ -1,2 +1,5 @@
+export { getAccount, keyToAddress, sendTransaction } from "./account"
+export { addBlockchain } from "./connection";
 export { createMemDb } from "./db";
-export { getMainIdentity, loadOrCreateProfile } from "./profile";
+export { takeFaucetCredit } from "./faucet"
+export { getMainIdentity, getMainKeyring, loadOrCreateProfile } from "./profile";

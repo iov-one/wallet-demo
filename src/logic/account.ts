@@ -1,4 +1,4 @@
-import { Address, BcpAccount, BcpCoin, BcpConnection, BcpTransactionResponse, TransactionKind, TxCodec, UnsignedTransaction,    } from "@iov/bcp-types";
+import { Address, BcpAccount, BcpConnection, BcpTransactionResponse, FungibleToken, TransactionKind, TxCodec, UnsignedTransaction,    } from "@iov/bcp-types";
 import { bnsCodec } from "@iov/bns";
 import { IovWriter } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
@@ -6,10 +6,14 @@ import { ChainId } from "@iov/tendermint-types";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
+export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
+    return codec.keyToAddress(ident.pubkey);
+}
+
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
-export async function getAccount(reader: BcpConnection, ident: PublicIdentity, codec: TxCodec = bnsCodec): Promise<BcpAccount|undefined> {
-    const address = codec.keyToAddress(ident.pubkey);
+export async function getAccount(reader: BcpConnection, ident: PublicIdentity, codec?: TxCodec): Promise<BcpAccount|undefined> {
+    const address = keyToAddress(ident, codec);
     const result = await reader.getAccount({address});
     if (result.data && result.data.length > 0) {
         return result.data[0];
@@ -22,7 +26,7 @@ export async function sendTransaction(
     writer: IovWriter,
     chainId: ChainId,
     recipient: Address,
-    amount: BcpCoin,
+    amount: FungibleToken,
     memo?: string,
   ): Promise<BcpTransactionResponse> {
       const walletId = getMainKeyring(writer.profile);
