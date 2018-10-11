@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-// tslint:disable-next-line:no-var-requires
-const Logo = require("../../../../resources/iov-logo-2@3x.png");
+import Logo from "../../../../resources/iov-logo-2@3x.png";
 
 const Header = styled.div`
   padding: 16px 22px;

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-// tslint:disable-next-line:no-var-requires
-const Arrow = require("../../../../resources/arrow.png");
+import Arrow from "../../../../resources/arrow.png";
 
 interface ButtonProps {
   readonly title: string;
