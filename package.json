@@ -14,7 +14,8 @@
     "test": "yarn build && yarn test-node",
     "test-node": "mocha build/**/*.spec.js",
     "start": "webpack-dev-server",
-    "pack": "webpack --progress"
+    "pack": "webpack --progress",
+    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
   },
   "dependencies": {
     "@iov/bns": "^0.7.0-alpha.0",
