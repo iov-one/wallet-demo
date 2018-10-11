@@ -34,6 +34,10 @@ export async function getAccount(
   return undefined;
 }
 
+export interface Unsubscriber {
+  readonly unsubscribe: () => void;
+}
+
 // call cb with current state and again on any change.
 // it returns an unsubscribe function that can be called to turn off callbacks
 export function watchAccount(
@@ -41,7 +45,7 @@ export function watchAccount(
   ident: PublicIdentity,
   cb: (acct?: BcpAccount) => any,
   codec?: TxCodec,
-): () => void {
+): Unsubscriber {
   const address = keyToAddress(ident, codec);
   const stream = reader.watchAccount({ address });
   const subscription = stream.subscribe({
@@ -50,7 +54,7 @@ export function watchAccount(
       throw err;
     },
   });
-  return subscription.unsubscribe;
+  return subscription;
 }
 
 // sends the given transaction from the main account

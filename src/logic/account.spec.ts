@@ -198,7 +198,7 @@ describe("setName", () => {
         expect(token.whole).to.equal(amount.whole);
 
         // unsubscribe from one, only one update should come
-        unsubscribeFaucet();
+        unsubscribeFaucet.unsubscribe();
         // send a second payment
         await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
 
@@ -217,7 +217,7 @@ describe("setName", () => {
         expect(token2.whole).to.equal(amount.whole * 2);
 
         // end other subscription
-        unsubscribeRcpt();
+        unsubscribeRcpt.unsubscribe();
       } finally {
         reader.disconnect();
         rcptReader.disconnect();
