@@ -17,6 +17,11 @@
     "pack": "webpack --progress"
   },
   "dependencies": {
+    "@iov/crypto": "^0.7.0-alpha.0",
+    "@iov/keycontrol": "^0.7.0-alpha.0",
+    "chai-as-promised": "^7.1.1",
+    "levelup": "^3.1.1",
+    "memdown": "^3.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^3.1.0",
@@ -30,6 +35,9 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/levelup": "^3.1.0",
+    "@types/memdown": "^3.0.0",
     "@types/mocha": "^5.2.5",
     "@types/react": "^16.4.15",
     "@types/react-dom": "^16.0.8",
