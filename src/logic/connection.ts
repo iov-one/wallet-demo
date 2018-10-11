@@ -1,6 +1,6 @@
 import { BcpConnection, ChainConnector } from "@iov/bcp-types";
 import { bnsConnector } from "@iov/bns";
-import { ChainId, IovWriter } from "@iov/core";
+import { ChainId, MultiChainSigner } from "@iov/core";
 // import { UserProfile } from "@iov/keycontrol";
 
 /**** this may make it into iov-core *******/
@@ -34,7 +34,10 @@ function specToConnector(spec: BlockchainSpec): ChainConnector {
 
 /******* end iov-core proposal ********/
 
-export async function addBlockchain(writer: IovWriter, blockchain: BlockchainSpec): Promise<BcpConnection> {
+export async function addBlockchain(
+  writer: MultiChainSigner,
+  blockchain: BlockchainSpec,
+): Promise<BcpConnection> {
   const connector = specToConnector(blockchain);
 
   // TODO: return the new chainId in promise....
@@ -47,5 +50,5 @@ export async function addBlockchain(writer: IovWriter, blockchain: BlockchainSpe
     throw new Error(`Expected chain ${blockchain.chainId}, got ${chainId}`);
   }
 
-  return writer.reader(chainId);
+  return writer.connection(chainId);
 }

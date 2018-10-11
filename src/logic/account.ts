@@ -9,7 +9,7 @@ import {
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { bnsCodec } from "@iov/bns";
-import { IovWriter } from "@iov/core";
+import { MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ChainId } from "@iov/tendermint-types";
 
@@ -59,7 +59,7 @@ export function watchAccount(
 
 // sends the given transaction from the main account
 export async function sendTransaction(
-  writer: IovWriter,
+  writer: MultiChainSigner,
   chainId: ChainId,
   recipient: Address,
   amount: FungibleToken,
@@ -80,7 +80,7 @@ export async function sendTransaction(
 
 // sets the name of the given account (old-style, pre-bns)
 export async function setName(
-  writer: IovWriter,
+  writer: MultiChainSigner,
   chainId: ChainId,
   name: string,
 ): Promise<BcpTransactionResponse> {

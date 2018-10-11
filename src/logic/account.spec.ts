@@ -3,7 +3,7 @@ import { expect } from "chai";
 import "mocha";
 
 import { BcpAccount, FungibleToken } from "@iov/bcp-types";
-import { IovWriter } from "@iov/core";
+import { MultiChainSigner } from "@iov/core";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
@@ -19,7 +19,7 @@ describe("getAccount", () => {
       return;
     }
     const profile = await createProfile();
-    const writer = new IovWriter(profile);
+    const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
@@ -35,7 +35,7 @@ describe("getAccount", () => {
       return;
     }
     const profile = await faucetProfile();
-    const writer = new IovWriter(profile);
+    const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
@@ -61,7 +61,7 @@ describe("sendTransaction", () => {
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
 
-    const writer = new IovWriter(faucet);
+    const writer = new MultiChainSigner(faucet);
     const reader = await addBlockchain(writer, testSpec);
     try {
       // ensure rcpt is empty before
@@ -106,10 +106,10 @@ describe("setName", () => {
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
 
-    const writer = new IovWriter(faucet);
+    const writer = new MultiChainSigner(faucet);
     const reader = await addBlockchain(writer, testSpec);
 
-    const rcptWriter = new IovWriter(empty);
+    const rcptWriter = new MultiChainSigner(empty);
     const rcptReader = await addBlockchain(rcptWriter, testSpec);
     try {
       // send a token from the genesis account
@@ -148,10 +148,10 @@ describe("setName", () => {
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
 
-      const writer = new IovWriter(faucet);
+      const writer = new MultiChainSigner(faucet);
       const reader = await addBlockchain(writer, testSpec);
 
-      const rcptWriter = new IovWriter(empty);
+      const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpec);
       try {
         let updatesFaucet = 0;

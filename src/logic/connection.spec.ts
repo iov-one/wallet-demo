@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import "mocha";
 
-import { IovWriter } from "@iov/core";
+import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";
 import { createProfile } from "./profile";
@@ -15,7 +15,7 @@ describe("addBlockchain", () => {
       return;
     }
     const profile = await createProfile();
-    const writer = new IovWriter(profile);
+    const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
       expect(reader).to.be.ok;
