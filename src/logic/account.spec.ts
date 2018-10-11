@@ -8,7 +8,7 @@ import { IovWriter } from '@iov/core';
 import { getAccount, keyToAddress, sendTransaction, setName } from './account';
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { faucetProfile, skipTests, testSpec, testTicker } from "./testhelpers";
+import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./testhelpers";
 
 describe("getAccount", () => {
     it("random account should be empty", async function(): Promise<void> {
@@ -119,7 +119,7 @@ describe("setName", () => {
             await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
 
             // set the name - note we must sign with the recipient's writer
-            const name = "special"
+            const name = randomString(10);
             await setName(rcptWriter, rcptReader.chainId(), name);
 
             // ensure the recipient is properly named
