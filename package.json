@@ -18,11 +18,11 @@
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
   },
   "dependencies": {
-    "@iov/bns": "^0.7.0-alpha.0",
-    "@iov/core": "^0.7.0-alpha.0",
-    "@iov/crypto": "^0.7.0-alpha.0",
+    "@iov/bns": "^0.7.0-alpha.1",
+    "@iov/core": "^0.7.0-alpha.1",
+    "@iov/crypto": "^0.7.0-alpha.1",
     "@iov/faucets": "^0.7.0-alpha.1",
-    "@iov/keycontrol": "^0.7.0-alpha.0",
+    "@iov/keycontrol": "^0.7.0-alpha.1",
     "chai-as-promised": "^7.1.1",
     "levelup": "^3.1.1",
     "memdown": "^3.0.0",
