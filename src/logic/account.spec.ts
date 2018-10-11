@@ -91,13 +91,15 @@ describe("sendTransaction", () => {
     });
 });
 
-
 describe("setName", () => {
     it("sets a name on account with funds", async function(): Promise<void> {
         if (skipTests()) {
             this.skip();
             return;
         }
+        // multiple transactions, so multiple blocks... let's give it some time
+        this.timeout(4000);
+
         const faucet = await faucetProfile();
         const empty = await createProfile();
         const rcpt = getMainIdentity(empty);
