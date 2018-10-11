@@ -1,5 +1,5 @@
 import { Bip39, Random } from "@iov/crypto";
-import { Ed25519HdWallet, HdPaths, LocalIdentity, UserProfile } from "@iov/keycontrol";
+import { Ed25519HdWallet, HdPaths, KeyringEntryId, LocalIdentity, UserProfile } from "@iov/keycontrol";
 
 import { hasDbKey, StringDB } from "./db";
 
@@ -16,14 +16,19 @@ export async function createProfile(): Promise<UserProfile> {
     return profile;
 }
 
-// returns the first identity on the first keyring.
-// throws an error if this doesn't exist
-export function getMainIdentity(profile: UserProfile): LocalIdentity {
+// returns id of the first keyring
+export function getMainKeyring(profile: UserProfile): KeyringEntryId {
     const wallets = profile.wallets.value;
     if (wallets.length < 1) {
         throw new Error("No wallet on the UserProfile");
     }
-    const walletId = wallets[0].id;
+    return wallets[0].id;
+}
+
+// returns the first identity on the first keyring.
+// throws an error if this doesn't exist
+export function getMainIdentity(profile: UserProfile): LocalIdentity {
+    const walletId = getMainKeyring(profile);
     const idents = profile.getIdentities(walletId);
     if (idents.length < 1) {
         throw new Error("There must be an identity on the first wallet");

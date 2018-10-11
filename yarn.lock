@@ -12,6 +12,16 @@
     type-tagger "^1.0.0"
     xstream "^11.7.0"
 
+"@iov/bcp-types@^0.7.0-alpha.1":
+  version "0.7.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@iov/bcp-types/-/bcp-types-0.7.0-alpha.1.tgz#d8a0a4185773de7a019d5bc2e2b899abe554ea6d"
+  dependencies:
+    "@iov/tendermint-types" "^0.7.0-alpha.1"
+    "@types/long" "^4.0.0"
+    long "^4.0.0"
+    type-tagger "^1.0.0"
+    xstream "^11.7.0"
+
 "@iov/bns@^0.7.0-alpha.0":
   version "0.7.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@iov/bns/-/bns-0.7.0-alpha.0.tgz#5a627fdc16ec2d74e29ed15f7f181d2e1033e649"
@@ -55,12 +65,36 @@
     type-tagger "^1.0.0"
     unorm "^1.4.1"
 
+"@iov/crypto@^0.7.0-alpha.1":
+  version "0.7.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@iov/crypto/-/crypto-0.7.0-alpha.1.tgz#83d0d681490d2519cb8271ca5322d194f2b3a9c0"
+  dependencies:
+    "@iov/encoding" "^0.6.0"
+    bip39 "^2.5.0"
+    bn.js "^4.11.8"
+    elliptic "^6.4.0"
+    libsodium-wrappers "^0.7.3"
+    pbkdf2 "^3.0.16"
+    ripemd160 "^2.0.2"
+    sha.js "^2.4.11"
+    type-tagger "^1.0.0"
+    unorm "^1.4.1"
+
 "@iov/encoding@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@iov/encoding/-/encoding-0.6.0.tgz#8dea8e349b3f7706371c88389311d6ae8f6ee172"
   dependencies:
     base64-js "^1.3.0"
     readonly-date "^1.0.0"
+
+"@iov/faucets@^0.7.0-alpha.1":
+  version "0.7.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@iov/faucets/-/faucets-0.7.0-alpha.1.tgz#f180bd27b01cca67fd115e661587c4ca6b5940a8"
+  dependencies:
+    "@iov/bcp-types" "^0.7.0-alpha.1"
+    "@iov/crypto" "^0.7.0-alpha.1"
+    "@iov/encoding" "^0.6.0"
+    axios "^0.18.0"
 
 "@iov/keycontrol@^0.7.0-alpha.0":
   version "0.7.0-alpha.0"
@@ -107,6 +141,14 @@
 "@iov/tendermint-types@^0.7.0-alpha.0":
   version "0.7.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@iov/tendermint-types/-/tendermint-types-0.7.0-alpha.0.tgz#9d0f2f6fd354536ec9d8280987d45b08a1b01bed"
+  dependencies:
+    "@types/long" "^4.0.0"
+    long "^4.0.0"
+    type-tagger "^1.0.0"
+
+"@iov/tendermint-types@^0.7.0-alpha.1":
+  version "0.7.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@iov/tendermint-types/-/tendermint-types-0.7.0-alpha.1.tgz#101f3dd3dac169d23702a2f7c4df7d7314d3bbcc"
   dependencies:
     "@types/long" "^4.0.0"
     long "^4.0.0"
