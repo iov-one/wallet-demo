@@ -1,4 +1,7 @@
 import { AbstractLevelDOWN } from "abstract-leveldown";
+import { browsedown } from "browsedown";
+import encode from "encoding-down";
+import leveldown from "leveldown";
 import levelup, { LevelUp } from "levelup";
 import MemDownConstructor from "memdown";
 
@@ -8,7 +11,15 @@ export type StringDB = DB<string, string>;
 export function createMemDb(): StringDB {
   return levelup(MemDownConstructor<string, string>());
 }
-// TODO: create leveldb, indexeddb variants
+
+export function createBrowserDb(name: string): StringDB {
+  return levelup(browsedown(name));
+}
+
+export function createLevelDb(path: string): StringDB {
+  // encode will turn Buffers into utf-8 strings, so we always get strings back
+  return levelup(encode(leveldown(path)));
+}
 
 export async function hasDbKey(db: StringDB, key: string): Promise<boolean> {
   try {
