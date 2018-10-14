@@ -6,9 +6,11 @@ import { ThunkDispatch } from "redux-thunk";
 import { ChainId } from "@iov/core";
 
 import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
+import { setName } from "../logic/account";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
+import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
 type RootThunkDispatch = ThunkDispatch<RootState, any, RootActions>;
 
@@ -19,8 +21,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   getState: () => RootState,
 ) => {
   // --- initialize the profile
-  // TODO: make selectors for this?
-  const db = getState().profile.internal.db;
+  const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
   const res1 = dispatch(createProfileAsyncAction.start(db, password, {}));
   const profile = await res1.payload;
@@ -49,23 +50,27 @@ export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => asyn
   dispatch: RootThunkDispatch,
   getState: () => RootState,
 ) => {
-  // TODO: make selectors for this?
-  const active = getState().profile.activeIdentity;
-  if (!active) {
-    throw new Error("You must activate an identity before drinking from the faucet");
-  }
-  const { identity } = active;
-
-  // take a drink from the faucet
+  const identity = requireActiveIdentity(getState());
+  // --take a drink from the faucet
   const address = keyToAddress(identity);
   await takeFaucetCredit(facuetUri, address, undefined);
 
   // now, get the new account info
-  // TODO: another selector, coming up
-  const conn = getState().blockchain.internal.connections[chainId];
-  if (!conn) {
-    throw new Error(`Cannot query on unknown chain: ${chainId}`);
-  }
-  const { payload } = await dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+  const conn = requireConnection(getState(), chainId);
+  const { payload } = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+  return payload;
+};
+
+export const setNameSequence = (name: string, chainId: ChainId) => async (
+  dispatch: RootThunkDispatch,
+  getState: () => RootState,
+) => {
+  const signer = requireSigner(getState());
+  await setName(signer, chainId, name);
+
+  // now, get the new account info
+  const conn = requireConnection(getState(), chainId);
+  const identity = requireActiveIdentity(getState());
+  const { payload } = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
   return payload;
 };
