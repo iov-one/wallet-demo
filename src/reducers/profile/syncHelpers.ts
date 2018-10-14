@@ -1,6 +1,3 @@
-import { createAction } from "typesafe-actions";
-
-import { loadOrCreateProfile, StringDB } from "../../logic";
 import { Fn, Fn0, Fn1, Fn2, Fn3, isFn0, isFn1, isFn2 } from "./functions";
 
 // this is how we trigger the action
@@ -34,26 +31,3 @@ export function funcToAction<T extends string, R, A1, A2, A3>(
     return (a: A1, b: A2, c: A3) => ({ type: t, payload: fn(a, b, c) });
   }
 }
-
-/****** demo **************/
-
-// "old" way to do this
-export const loadProfileAction = createAction("CREATE_PROFILE", resolve => (db: StringDB, password: string) =>
-  resolve(loadOrCreateProfile(db, password)),
-);
-type ExpectedAction = typeof loadProfileAction;
-// more automatic promise-wrapping with type-pass-through is equivalent
-export const autoLoadProfile: ExpectedAction = funcToAction("CREATE_PROFILE", loadOrCreateProfile);
-
-// trial with typescript
-// const actions = {autoLoadProfile};
-// type Action = ActionType<typeof actions>;
-// export function foo(act: Action): void {
-//     switch(act.type) {
-//         case "CREATE_PROFILE":
-//         console.log("YES");
-//         break;
-//         default:
-//         console.log(`What? ${act.type}`);
-//     }
-// };
