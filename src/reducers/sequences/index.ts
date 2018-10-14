@@ -3,8 +3,10 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
+import { ChainId } from "@iov/core";
+
 import { RootActions, RootState } from "..";
-import { BlockchainSpec } from "../../logic/connection";
+import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../../logic";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../blockchain";
 import { createProfileAsyncAction, getIdentityAction } from "../profile";
 
@@ -35,9 +37,35 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   for (const blockchain of blockchains) {
     const res2 = dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}));
     const conn = await res2.payload;
-    await dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+    const res3 = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+    await res3.payload;
   }
 
   // return the MultiChainSigner if we want to sequence something else after this
   return signer;
+};
+
+export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => async (
+  dispatch: RootThunkDispatch,
+  getState: () => RootState,
+) => {
+  // TODO: make selectors for this?
+  const active = getState().profile.activeIdentity;
+  if (!active) {
+    throw new Error("You must activate an identity before drinking from the faucet");
+  }
+  const { identity } = active;
+
+  // take a drink from the faucet
+  const address = keyToAddress(identity);
+  await takeFaucetCredit(facuetUri, address, undefined);
+
+  // now, get the new account info
+  // TODO: another selector, coming up
+  const conn = getState().blockchain.internal.connections[chainId];
+  if (!conn) {
+    throw new Error(`Cannot query on unknown chain: ${chainId}`);
+  }
+  const { payload } = await dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+  return payload;
 };
