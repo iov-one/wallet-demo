@@ -13,7 +13,7 @@ export const createSignerAction = createSyncAction(
 export const addBlockchainAsyncAction = createPromiseAction(
   "ADD_BLOCKCHAIN",
   "ADD_BLOCKCHAIN_PENDING",
-  "ADD_BLOCKCHAIN_SUCCESS",
+  "ADD_BLOCKCHAIN_FULFILLED",
   "ADD_BLOCKCHAIN_REJECTED",
 )(addBlockchain);
 
@@ -36,6 +36,6 @@ const getAccountWithChain = async (
 export const getAccountAsyncAction = createPromiseAction(
   "GET_ACCOUNT",
   "GET_ACCOUNT_PENDING",
-  "GET_ACCOUNT_SUCCESS",
+  "GET_ACCOUNT_FULFILLED",
   "GET_ACCOUNT_REJECTED",
 )(getAccountWithChain);

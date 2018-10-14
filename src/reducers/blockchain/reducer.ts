@@ -19,12 +19,12 @@ export function blockchainReducer(
     // TODO: can we just auto-create upon profile creation?
     case "CREATE_SIGNER":
       return { ...state, internal: { ...state.internal, signer: action.payload } };
-    case "ADD_BLOCKCHAIN_SUCCESS":
+    case "ADD_BLOCKCHAIN_FULFILLED":
       const { internal } = state;
       const { connections } = internal;
       const conn = action.payload;
       return { ...state, internal: { ...internal, connections: { ...connections, [conn.chainId()]: conn } } };
-    case "GET_ACCOUNT_SUCCESS":
+    case "GET_ACCOUNT_FULFILLED":
       if (!action.payload) {
         return state;
       }
