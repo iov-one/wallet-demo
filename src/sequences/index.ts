@@ -5,10 +5,10 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { ChainId } from "@iov/core";
 
-import { RootActions, RootState } from "..";
-import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../../logic";
-import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../blockchain";
-import { createProfileAsyncAction, getIdentityAction } from "../profile";
+import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
+import { RootActions, RootState } from "../reducers";
+import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
+import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 
 type RootThunkDispatch = ThunkDispatch<RootState, any, RootActions>;
 
