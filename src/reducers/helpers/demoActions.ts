@@ -3,8 +3,7 @@ import { ActionType, createAction, createAsyncAction } from "typesafe-actions";
 import { UserProfile } from "@iov/core";
 
 import { loadOrCreateProfile, StringDB } from "../../logic";
-import { createActionFromPromise } from "./asyncHelpers";
-import { funcToAction } from "./syncHelpers";
+import { createPromiseAction, createSyncAction } from "./actions";
 
 /****** sync demo **************/
 
@@ -14,7 +13,7 @@ export const loadProfileAction = createAction("CREATE_PROFILE", resolve => (db: 
 );
 type ExpectedAction = typeof loadProfileAction;
 // more automatic promise-wrapping with type-pass-through is equivalent
-export const autoLoadProfile: ExpectedAction = funcToAction("CREATE_PROFILE", loadOrCreateProfile);
+export const autoLoadProfile: ExpectedAction = createSyncAction("CREATE_PROFILE", loadOrCreateProfile);
 
 // trial with typescript
 const actions = { autoLoadProfile };
@@ -40,7 +39,7 @@ const profileAsyncAction = createAsyncAction(
 type ExpectedType = typeof profileAsyncAction;
 
 // this is custom code to generate whole promise-middleware sequence from one promise
-export const profilePromiseAction = createActionFromPromise(
+export const profilePromiseAction = createPromiseAction(
   "CREATE_PROFILE",
   "CREATE_PROFILE_PENDING",
   "CREATE_PROFILE_SUCCESS",
