@@ -2,8 +2,10 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import WebFont from "webfontloader";
 
-import { store } from "../store";
+import { makeStore } from "../store";
 import Route from "./routes";
+
+const store = makeStore();
 
 WebFont.load({
   google: {

@@ -12,7 +12,7 @@
     "prebuild": "yarn format && yarn lint",
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "yarn build && yarn test-node",
-    "test-node": "mocha build/**/*.spec.js",
+    "test-node": "mocha build/*/*.spec.js build/*/*/*.spec.js",
     "start": "webpack-dev-server",
     "pack": "webpack --progress",
     "storybook": "start-storybook -p 6006",
