@@ -36,9 +36,21 @@ export function funcToAction<T extends string, R, A1, A2, A3>(t: T, fn: Fn<R, A1
 
 // "old" way to do this
 export const loadProfileAction = createAction("CREATE_PROFILE", resolve => (db: StringDB, password: string) =>
-resolve(loadOrCreateProfile(db, password)),
+    resolve(loadOrCreateProfile(db, password)),
 );
 type ExpectedAction = typeof loadProfileAction;
 // more automatic promise-wrapping with type-pass-through is equivalent
 export const autoLoadProfile: ExpectedAction = funcToAction("CREATE_PROFILE", loadOrCreateProfile);
-  
+
+// trial with typescript
+// const actions = {autoLoadProfile};
+// type Action = ActionType<typeof actions>;
+// export function foo(act: Action): void {
+//     switch(act.type) {
+//         case "CREATE_PROFILE":
+//         console.log("YES");
+//         break;
+//         default:
+//         console.log(`What? ${act.type}`);
+//     }
+// };
