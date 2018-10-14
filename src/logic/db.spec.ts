@@ -5,7 +5,7 @@ import "mocha";
 
 use(chaiAsPromised);
 
-import { createMemDb, hasDbKey } from "./db";
+import { createDb, createMemDb, hasDbKey } from "./db";
 
 describe("createMemDb", () => {
   const demoKey = "demo";
@@ -20,6 +20,21 @@ describe("createMemDb", () => {
     db.put(demoKey, "foo");
 
     const db2 = createMemDb();
+
+    expect(await hasDbKey(db, demoKey)).to.be.true;
+    expect(await hasDbKey(db2, demoKey)).to.be.false;
+  });
+});
+
+describe("createDb", () => {
+  it("returns a test in test-cases", async () => {
+    const demoKey = "demo";
+    const dbName = "mydb";
+
+    const db = createDb(dbName);
+    db.put(demoKey, "foo");
+
+    const db2 = createDb(dbName);
 
     expect(await hasDbKey(db, demoKey)).to.be.true;
     expect(await hasDbKey(db2, demoKey)).to.be.false;

@@ -21,6 +21,30 @@ export function createLevelDb(path: string): StringDB {
   return levelup(encode(leveldown(path)));
 }
 
+/*** TODO: move this into some configuration file.... node-config? ***/
+const isTest = () => typeof global.it === "function";
+
+const isNode = () => typeof process !== "undefined" && !!process.versions && !!process.versions.node;
+
+const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
+
+// This should be smarter, put it in some default dir, etc...
+const nameToPath = (name: string) => `${name}.db`;
+/*** end TODO ****/
+
+// createDb auto-detects proper db to use
+export function createDb(name: string): StringDB {
+  if (isTest()) {
+    return createMemDb();
+  } else if (isNode()) {
+    return createLevelDb(nameToPath(name));
+  } else if (isBrowser()) {
+    return createBrowserDb(name);
+  } else {
+    throw new Error("I don't know where I am!");
+  }
+}
+
 export async function hasDbKey(db: StringDB, key: string): Promise<boolean> {
   try {
     await db.get(key);
