@@ -11,15 +11,14 @@ const initState: BlockchainState = {
   accounts: {},
 };
 
-export function BlockchainReducer(
+export function blockchainReducer(
   state: BlockchainState = initState,
   action: BlockchainActions,
 ): BlockchainState {
   switch (action.type) {
-    // example of promise resolution
+    // TODO: can we just auto-create upon profile creation?
     case "CREATE_SIGNER":
       return { ...state, internal: { ...state.internal, signer: action.payload } };
-    // example of synchronous function
     case "ADD_BLOCKCHAIN_SUCCESS":
       const { internal } = state;
       const { connections } = internal;
