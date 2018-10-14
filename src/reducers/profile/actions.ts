@@ -1,7 +1,9 @@
 import { UserProfile } from "@iov/core";
 
-import { createAction, createAsyncAction } from "typesafe-actions";
-import { loadOrCreateProfile, StringDB } from "../../logic";
+import { createAsyncAction } from "typesafe-actions";
+
+import { loadOrCreateProfile } from "../../logic";
+
 
 // export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
 
@@ -29,38 +31,29 @@ export const profilePromiseAction: ExpectedType = createActionFromPromise(
   "CREATE_PROFILE_REJECTED",
 )(loadOrCreateProfile);
 
-// this is how we trigger the action
-export const loadProfileAction = createAction("CREATE_PROFILE", resolve => (db: StringDB, password: string) =>
-  resolve(loadOrCreateProfile(db, password)),
-);
-type ExpectedAction = typeof loadProfileAction;
 
-export interface ActionPayload<T, P> {
-  readonly type: T;
-  readonly payload: P;
-}
+// export function funcToAction0<T extends string, R>(t: T, fn: Fn0<R>): Fn0<ActionPayload<T, R>> {
+//   return () => ({ type: t, payload: fn() });
+// }
+// export function funcToAction1<T extends string, A1, R>(t: T, fn: Fn1<R, A1>): Fn1<ActionPayload<T, R>, A1> {
+//   return (a: A1) => ({ type: t, payload: fn(a) });
+// }
+// export function funcToAction2<T extends string, A1, A2, R>(
+//   t: T,
+//   fn: Fn2<R, A1, A2>,
+// ): Fn2<ActionPayload<T, R>, A1, A2> {
+//   return (a: A1, b: A2) => ({ type: t, payload: fn(a, b) });
+// }
+// export function funcToAction3<T extends string, A1, A2, A3, R>(
+//   t: T,
+//   fn: Fn3<R, A1, A2, A3>,
+// ): Fn3<ActionPayload<T, R>, A1, A2, A3> {
+//   return (a: A1, b: A2, c: A3) => ({ type: t, payload: fn(a, b, c) });
+// }
 
-// TODO: figure out how to use one-name with overloading....
-export function funcToAction0<T extends string, R>(t: T, fn: () => R): () => ActionPayload<T, R> {
-  return () => ({ type: t, payload: fn() });
-}
-export function funcToAction1<T extends string, A1, R>(
-  t: T,
-  fn: (a: A1) => R,
-): (a: A1) => ActionPayload<T, R> {
-  return (a: A1) => ({ type: t, payload: fn(a) });
-}
-export function funcToAction2<T extends string, A1, A2, R>(
-  t: T,
-  fn: (a: A1, b: A2) => R,
-): (a: A1, b: A2) => ActionPayload<T, R> {
-  return (a: A1, b: A2) => ({ type: t, payload: fn(a, b) });
-}
-export function funcToAction3<T extends string, A1, A2, A3, R>(
-  t: T,
-  fn: (a: A1, b: A2, c: A3) => R,
-): (a: A1, b: A2, c: A3) => ActionPayload<T, R> {
-  return (a: A1, b: A2, c: A3) => ({ type: t, payload: fn(a, b, c) });
-}
-
-export const autoLoadProfile: ExpectedAction = funcToAction2("CREATE_PROFILE", loadOrCreateProfile);
+// const fullPromiseAction = <T0 extends string, T1 extends string, T2 extends string, T3 extends string>(
+//     req: T0,
+//     p: T1,
+//     s: T2,
+//     e: T3,
+//   ) => <P extends {}>(_: PromiseCreator<P>) => createAsyncAction(p, s, e)<void, P, Error>();
