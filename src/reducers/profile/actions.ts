@@ -4,7 +4,6 @@ import { createAsyncAction } from "typesafe-actions";
 
 import { loadOrCreateProfile } from "../../logic";
 
-
 // export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
 
 export const profileAsyncAction = createAsyncAction(
@@ -30,7 +29,6 @@ export const profilePromiseAction: ExpectedType = createActionFromPromise(
   "CREATE_PROFILE_SUCCESS",
   "CREATE_PROFILE_REJECTED",
 )(loadOrCreateProfile);
-
 
 // export function funcToAction0<T extends string, R>(t: T, fn: Fn0<R>): Fn0<ActionPayload<T, R>> {
 //   return () => ({ type: t, payload: fn() });
