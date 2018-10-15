@@ -4,11 +4,12 @@
  * Here is a wrapper that undoes Promise and Thunk middlewares. 
  */
 
-interface Action<T, P> {
-  readonly type: T;
-  readonly payload: P;
+import { Action } from "redux";
+
+interface StdAction<T, P> extends Action<T> {
+    readonly payload: P;
 }
-type PromisedAction<T, P> = Action<T, Promise<P>>;
+type PromisedAction<T, P> = StdAction<T, Promise<P>>;
 
 export interface PromisedResult<T, P> {
   readonly value: P;
@@ -26,7 +27,21 @@ export function unpromisify<P>(result: PromisedAction<string, P>): Promise<Promi
 }
 
 // tslint:disable-next-line:readonly-array
-type ThunkAction<T, P> = Action<T, (...args: any[]) => P>;
-export function unthunk<T extends string, P>(result: ThunkAction<T, P>): Action<T, P> {
-  return (result as any) as Action<T, P>;
+type ThunkAction<T, P> = StdAction<T, (...args: any[]) => P>;
+
+export function unthunk<T extends string, P>(result: ThunkAction<T, P>): StdAction<T, P> {
+  return (result as any) as StdAction<T, P>;
 }
+
+function isPromisedAction<T, P>(action: StdAction<T, P>): action is PromisedAction<T, P> {
+    const value = action.payload;
+    return (!!value && typeof value === 'object' && typeof (value as any).then === 'function');
+}
+
+export function typeCheck<T, P>(result: PromisedAction<T, P>): Promise<PromisedResult<string, P>>;
+export function typeCheck<T, P>(result: ThunkAction<T, P>): StdAction<T, P>;
+export function typeCheck<T, P>(result: StdAction<T, P>): StdAction<T, P> | Promise<PromisedResult<string, P>> {
+
+    return (result as any) as Promise<PromisedResult<string, P>>;
+  }
+  
