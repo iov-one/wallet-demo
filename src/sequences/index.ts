@@ -9,6 +9,7 @@ import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
 import { setName } from "../logic/account";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
+import { unpromisify } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
@@ -23,8 +24,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- initialize the profile
   const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
-  const res1 = dispatch(createProfileAsyncAction.start(db, password, {}));
-  const profile = await res1.payload;
+  const { value: profile } = await unpromisify(dispatch(createProfileAsyncAction.start(db, password, {})));
 
   // --- get the active identity
   const {
@@ -36,10 +36,10 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
 
   // --- connect all readers and query account balances
   for (const blockchain of blockchains) {
-    const res2 = dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}));
-    const conn = await res2.payload;
-    const res3 = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
-    await res3.payload;
+    const { value: conn } = await unpromisify(
+      dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})),
+    );
+    await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
   }
 
   // return the MultiChainSigner if we want to sequence something else after this
@@ -57,8 +57,8 @@ export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => asyn
 
   // now, get the new account info
   const conn = requireConnection(getState(), chainId);
-  const { payload } = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
-  return payload;
+  const { value } = await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+  return value;
 };
 
 export const setNameSequence = (name: string, chainId: ChainId) => async (
@@ -71,6 +71,6 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
   // now, get the new account info
   const conn = requireConnection(getState(), chainId);
   const identity = requireActiveIdentity(getState());
-  const { payload } = dispatch(getAccountAsyncAction.start(conn, identity, undefined));
-  return payload;
+  const { value } = await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+  return value;
 };
