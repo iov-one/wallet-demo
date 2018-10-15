@@ -6,6 +6,7 @@ import { UserProfile } from "@iov/core";
 
 import { createMemDb, loadOrCreateProfile } from "../../logic";
 import { makeStore } from "../../store";
+import { unpromisify } from "../helpers";
 import { createProfileAsyncAction, getIdentityAction } from "./actions";
 
 describe("profile async actions", () => {
@@ -43,7 +44,8 @@ describe("profile async actions", () => {
 
     // dispatch and check out the return values
     // NOTE: this is not properly captured by the type-system!
-    const { action, value } = (await store.dispatch(create)) as any;
+
+    const { action, value } = await unpromisify(store.dispatch(create));
     expect(action.type).to.equal("CREATE_PROFILE_FULFILLED");
     const profile: UserProfile = value;
     expect(profile).not.to.be.undefined;
