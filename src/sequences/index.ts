@@ -9,7 +9,7 @@ import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
 import { setName } from "../logic/account";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
-import { fixTypes } from "../reducers/helpers";
+import { createSyncAction, fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
@@ -17,7 +17,7 @@ type RootThunkDispatch = ThunkDispatch<RootState, any, RootActions>;
 
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
-export const bootSequence = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
+const boot = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
   dispatch: RootThunkDispatch,
   getState: () => RootState,
 ) => {
@@ -43,6 +43,8 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // return the MultiChainSigner if we want to sequence something else after this
   return signer;
 };
+// export it as a proper action
+export const bootSequence = createSyncAction("BOOT_SEQUENCE", boot);
 
 export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => async (
   dispatch: RootThunkDispatch,
