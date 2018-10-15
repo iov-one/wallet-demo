@@ -22,12 +22,12 @@ export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): 
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
 export async function getAccount(
-  reader: BcpConnection,
+  connection: BcpConnection,
   ident: PublicIdentity,
   codec?: TxCodec,
 ): Promise<BcpAccount | undefined> {
   const address = keyToAddress(ident, codec);
-  const result = await reader.getAccount({ address });
+  const result = await connection.getAccount({ address });
   if (result.data && result.data.length > 0) {
     return result.data[0];
   }
@@ -41,13 +41,13 @@ export interface Unsubscriber {
 // call cb with current state and again on any change.
 // it returns an unsubscribe function that can be called to turn off callbacks
 export function watchAccount(
-  reader: BcpConnection,
+  connection: BcpConnection,
   ident: PublicIdentity,
   cb: (acct?: BcpAccount) => any,
   codec?: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
-  const stream = reader.watchAccount({ address });
+  const stream = connection.watchAccount({ address });
   const subscription = stream.subscribe({
     next: cb,
     error: err => {

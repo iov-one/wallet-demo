@@ -1,16 +1,15 @@
-// import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { combineReducers } from "redux";
+import { StateType } from "typesafe-actions";
 
-import { CounterActions, counterReducer, CounterState } from "./counter";
+import { BlockchainActions, blockchainReducer } from "./blockchain";
+import { ProfileActions, profileReducer } from "./profile";
 
-export interface RootState {
-  readonly counter: CounterState;
-}
-
-export type RootActions = CounterActions;
-
-const rootReducer = combineReducers<RootState, RootActions>({
-  counter: counterReducer,
+const rootReducer = combineReducers({
+  blockchain: blockchainReducer,
+  profile: profileReducer,
 });
+
+export type RootActions = BlockchainActions | ProfileActions;
+export type RootState = StateType<typeof rootReducer>;
 
 export default rootReducer;

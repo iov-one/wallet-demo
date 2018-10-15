@@ -47,7 +47,7 @@ export const createPromiseAction = <
   suc: T2,
   err: T3,
 ) => <P, A1, A2, A3>(fn: PromiseFn<P, A1, A2, A3>) => ({
-  sending: createSyncAction(send, fn),
+  start: createSyncAction(send, fn),
   request: createSyncAction(pend, voidFunc),
   success: createSyncAction(suc, (p: P) => p),
   failure: createSyncAction(err, (e: Error) => e),
