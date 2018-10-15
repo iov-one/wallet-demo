@@ -25,15 +25,27 @@ export function getMainKeyring(profile: UserProfile): KeyringEntryId {
   return wallets[0].id;
 }
 
+export interface WalletAndIdentity {
+  readonly walletId: KeyringEntryId;
+  readonly identity: LocalIdentity;
+}
+
 // returns the first identity on the first keyring.
 // throws an error if this doesn't exist
-export function getMainIdentity(profile: UserProfile): LocalIdentity {
+export function getMainWalletAndIdentity(profile: UserProfile): WalletAndIdentity {
   const walletId = getMainKeyring(profile);
   const idents = profile.getIdentities(walletId);
   if (idents.length < 1) {
     throw new Error("There must be an identity on the first wallet");
   }
-  return idents[0];
+  return {
+    walletId,
+    identity: idents[0],
+  };
+}
+
+export function getMainIdentity(profile: UserProfile): LocalIdentity {
+  return getMainWalletAndIdentity(profile).identity;
 }
 
 // returns true if there is a profile to load
