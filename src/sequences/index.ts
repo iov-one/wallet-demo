@@ -9,7 +9,7 @@ import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
 import { setName } from "../logic/account";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
-import { unpromisify } from "../reducers/helpers";
+import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
@@ -24,7 +24,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- initialize the profile
   const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
-  const { value: profile } = await unpromisify(dispatch(createProfileAsyncAction.start(db, password, {})));
+  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, {})));
 
   // --- get the active identity
   const {
@@ -32,14 +32,12 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   } = dispatch(getIdentityAction(profile));
 
   // --- initiate the signer
-  const { payload: signer } = dispatch(createSignerAction(profile));
+  const { payload: signer } = fixTypes(dispatch(createSignerAction(profile)));
 
   // --- connect all readers and query account balances
   for (const blockchain of blockchains) {
-    const { value: conn } = await unpromisify(
-      dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})),
-    );
-    await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+    const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
+    await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
   }
 
   // return the MultiChainSigner if we want to sequence something else after this
@@ -57,7 +55,7 @@ export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => asyn
 
   // now, get the new account info
   const conn = requireConnection(getState(), chainId);
-  const { value } = await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
   return value;
 };
 
@@ -71,6 +69,6 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
   // now, get the new account info
   const conn = requireConnection(getState(), chainId);
   const identity = requireActiveIdentity(getState());
-  const { value } = await unpromisify(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
   return value;
 };
