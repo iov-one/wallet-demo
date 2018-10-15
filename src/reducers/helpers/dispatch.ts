@@ -12,11 +12,9 @@ interface SyncAction<T, P> extends Action<T> {
 interface PromisedAction<T, P> extends Action<T> {
   readonly payload: Promise<P>;
 }
-interface ThunkAction<T, P> extends Action<T> {
-  // tslint:disable-next-line:readonly-array
-  readonly payload: (...args: any[]) => P;
-}
-export type StdAction<T, P> = SyncAction<T, P> | PromisedAction<T, P> | ThunkAction<T, P>;
+// tslint:disable-next-line:readonly-array
+type ThunkAction<P> = (...args: any[]) => P;
+export type StdAction<T, P> = SyncAction<T, P> | PromisedAction<T, P> | ThunkAction<P>;
 
 export interface PromisedResult<T, P> {
   readonly value: P;
@@ -27,19 +25,19 @@ export interface PromisedResult<T, P> {
 }
 
 function isPromisedAction<T, P>(action: StdAction<T, P>): action is PromisedAction<T, P> {
-  const value = action.payload;
+  const value = (action as any).payload;
   return !!value && typeof value === "object" && typeof (value as any).then === "function";
 }
-function isThunkAction<T, P>(action: StdAction<T, P>): action is ThunkAction<T, P> {
-  const value = action.payload;
-  return !!value && typeof value === "function";
+function isThunkAction<T, P>(action: StdAction<T, P>): action is ThunkAction<P> {
+  return typeof action === "function";
 }
 
 export function fixTypes<T, P>(result: PromisedAction<T, P>): Promise<PromisedResult<string, P>>;
-export function fixTypes<T, P>(result: ThunkAction<T, P> | SyncAction<T, P>): SyncAction<T, P>;
+export function fixTypes<T, P>(result: ThunkAction<P>): P;
+export function fixTypes<T, P>(result: SyncAction<T, P>): SyncAction<T, P>;
 export function fixTypes<T, P>(
   result: StdAction<T, P>,
-): SyncAction<T, P> | Promise<PromisedResult<string, P>> {
+): SyncAction<T, P> | Promise<PromisedResult<string, P>> | P {
   if (isPromisedAction(result)) {
     return (result as any) as Promise<PromisedResult<string, P>>;
   } else if (isThunkAction(result)) {
