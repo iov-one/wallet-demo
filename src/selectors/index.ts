@@ -5,6 +5,7 @@ import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
 import { RootState } from "../reducers";
+import { AccountsByChainAndAddress, getAccountByChainAndAddress } from "../reducers/blockchain";
 
 /*** TODO: separate this out into multiple files ****/
 
@@ -47,7 +48,17 @@ export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainA
       : chainIds.map(chainId => ({ chainId, address: signer.keyToAddress(chainId, identity.pubkey) })),
 );
 
-export const getAllBalances = (state: RootState) => state.blockchain.accounts;
+export const getAllAccounts = (state: RootState) => state.blockchain.accounts;
+
+export const getMyAccounts: (state: RootState) => ReadonlyArray<ChainAccount> = createSelector(
+  getAllAccounts,
+  getActiveChainAddresses,
+  (balances: AccountsByChainAndAddress, addresses: ReadonlyArray<ChainAddress>) =>
+    addresses.map(({ chainId, address }) => ({
+      chainId,
+      account: getAccountByChainAndAddress(balances, chainId, address).account,
+    })),
+);
 
 /* TODO add some generic "require" helper? */
 export const requireActiveIdentity = (state: RootState) => {
