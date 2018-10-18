@@ -6,6 +6,7 @@ import { Description } from "../../subComponents/typography";
 
 interface FormProp {
   readonly onNext: () => any;
+  readonly onChange: (text: string) => any;
 }
 
 export const CreateWalletForm = (props: FormProp): JSX.Element => {
@@ -26,6 +27,9 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
         title="Your IOV handle"
         description="letters, numbers and dashes only"
         unit="*iov.value"
+        onChange={(evt: any) => {
+          props.onChange(evt.target.value);
+        }}
       />
     </div>
   );
