@@ -1,5 +1,5 @@
-import { BcpAccount, BcpConnection } from "@iov/bcp-types";
-import { MultiChainSigner } from "@iov/core";
+import { Address, BcpAccount, BcpConnection } from "@iov/bcp-types";
+import { ChainId, MultiChainSigner } from "@iov/core";
 
 export interface BlockchainState {
   readonly internal: InternalDetails;
@@ -12,6 +12,15 @@ export interface AccountsByChainAndAddress {
 
 export interface AccountsByAddress {
   readonly [address: string]: Account;
+}
+
+export function getAccountByChainAndAddress(
+  accounts: AccountsByChainAndAddress,
+  chainId: ChainId,
+  address: Address,
+): Account {
+  const empty = {};
+  return !accounts || !accounts[chainId] ? empty : accounts[chainId][address] || empty;
 }
 
 export interface Account {
