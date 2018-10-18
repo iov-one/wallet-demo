@@ -1,7 +1,7 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
 
-import { BcpConnection } from "@iov/bcp-types";
+import { BcpConnection, FungibleToken } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 import { isEmpty } from "lodash";
@@ -19,20 +19,20 @@ import {
 } from "../../reducers/blockchain";
 import { createProfileAsyncAction, getIdentityAction } from "../../reducers/profile";
 
-import { setName } from "../../logic/account";
+import { setName, sendTransaction, getAccount } from "../../logic/account";
 import { BlockchainSpec, CodecType } from "../../logic/connection";
 import { takeFaucetCredit } from "../../logic/faucet";
 
 const chainSpec: BlockchainSpec = {
   codecType: CodecType.Bns,
-  bootstrapNodes: ["wss://bov.friendnet-fast.iov.one/"],
+  bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
 };
 
 interface HomeState {
   readonly name: string;
   readonly profileCreated: boolean;
   readonly ready: boolean;
-  readonly chainId: ChainId;
+  readonly chainId: string;
 }
 
 class Home extends React.Component<any, HomeState> {
@@ -82,15 +82,11 @@ class Home extends React.Component<any, HomeState> {
         internal: { signer },
       },
     } = this.props;
-    const { chainId } = this.state;
+    const { chainId, name } = this.state;
     if (this.state.ready) {
-      setName(signer, chainId, name)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      setName(signer, chainId, name).then((response: any) => {
+        console.log(response);
+      });
     } else {
       alert("Not ready for set name for your account");
     }
@@ -125,11 +121,15 @@ class Home extends React.Component<any, HomeState> {
           ready: true,
           chainId,
         });
-        takeFaucetCredit("https://faucet.friendnet-fast.iov.one/faucet", addr).then(() => {
-          this.setState({
-            ready: true,
+        takeFaucetCredit("https://faucet.friendnet-slow.iov.one/faucet", addr)
+          .then(() => {
+            this.setState({
+              ready: true,
+            });
+          })
+          .catch(err => {
+            console.log(err);
           });
-        });
       }
     });
   };
