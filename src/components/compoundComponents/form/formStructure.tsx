@@ -18,10 +18,12 @@ const Wrapper = styled.div`
 
 const FormTitleContainer = styled.div`
   margin-bottom: 25px;
+  width: 100%;
 `;
 
 const FormContentContainer = styled.div`
   margin-bottom: 100px;
+  width: 100%;
 `;
 
 const FormActionContainer = styled.div`

@@ -13,4 +13,10 @@ export const AccountName = styled.div`
   padding-bottom: 30px;
   margin-bottom: 0px;
   border-bottom: 1px solid #e9eaf0;
+  width: 100%;
+  &.noBorder {
+    border-bottom: none;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+  }
 `;

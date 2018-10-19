@@ -3,8 +3,8 @@
 import * as React from "react";
 import { withRouter } from "react-router";
 
-import { PageStructure } from "../compoundComponents/page";
-import { AccountInfoSection } from "../templates/sections";
+import { PageStructure } from "../components/compoundComponents/page";
+import { AccountInfoSection } from "../components/templates/sections";
 
 class Balance extends React.Component<any, any> {
   public render(): JSX.Element {

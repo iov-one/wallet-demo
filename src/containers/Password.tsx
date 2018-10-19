@@ -3,8 +3,8 @@
 import * as React from "react";
 import { withRouter } from "react-router";
 
-import { PageStructure } from "../compoundComponents/page";
-import { SetPasswordForm } from "../templates/forms";
+import { PageStructure } from "../components/compoundComponents/page";
+import { SetPasswordForm } from "../components/templates/forms";
 
 class Password extends React.Component<any, any> {
   public render(): JSX.Element {
