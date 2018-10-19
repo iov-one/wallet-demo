@@ -12,13 +12,15 @@ import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
 
 import { BlockchainSpec, CodecType } from "../../logic/connection";
-import { getProfile, getSigner } from "../../selectors";
+import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../../selectors";
 import { bootSequence, drinkFaucetSequence, setNameSequence } from "../../sequences";
 
+// TODO: these constants should come from config or props later
 const chainSpec: BlockchainSpec = {
   codecType: CodecType.Bns,
   bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
 };
+const defaultPassword = "test-pass";
 
 interface HomeState {
   readonly name: string;
@@ -28,14 +30,12 @@ interface HomeState {
 }
 
 interface HomeProps {
+  readonly accounts: ReadonlyArray<ChainAccount>;
   readonly profile: UserProfile | undefined;
   readonly signer: MultiChainSigner | undefined;
-  readonly bootSequence: (
-    password: string,
-    blockchains: ReadonlyArray<BlockchainSpec>,
-  ) => Promise<MultiChainSigner>;
-  readonly drinkFaucetSequence: (facuetUri: string, chainId: ChainId) => Promise<any>;
-  readonly setNameSequence: (name: string, chainId: ChainId) => Promise<any>;
+  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
+  readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
+  readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
@@ -48,8 +48,15 @@ class Home extends React.Component<HomeProps, HomeState> {
       chainId: "" as ChainId,
     };
   }
-  public componentDidMount(): any {
-    this.props.bootSequence("test-pass", [chainSpec]);
+  public componentDidMount(): void {
+    const { boot } = this.props;
+    (async () => {
+      await boot(defaultPassword, [chainSpec]);
+      // TODO: check current account, if undefined, drinkFaucet
+      // TODO: check if current account has name
+      //   yes -> go to next page
+      //   no -> display this page
+    })();
   }
   public createAccount(): void {
     console.log("do this later");
@@ -69,6 +76,7 @@ class Home extends React.Component<HomeProps, HomeState> {
   // }
   public render(): JSX.Element {
     // const { history } = this.props;
+    // TODO: if not ready, then display "loading", else display "real data"...
     return (
       <PageStructure whiteBg>
         <CreateWalletForm
@@ -87,14 +95,14 @@ class Home extends React.Component<HomeProps, HomeState> {
 const mapStateToProps = (state: any): any => ({
   profile: getProfile(state),
   signer: getSigner(state),
+  accounts: getMyAccounts(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  bootSequence: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
+  boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
-  drinkFaucetSequence: (facuetUri: string, chainId: ChainId) =>
-    dispatch(drinkFaucetSequence(facuetUri, chainId)),
-  setNameSequence: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
+  drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
 export const HomePage = connect(
