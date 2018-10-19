@@ -1,12 +1,10 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
 
-// import { BcpConnection } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
-// import { PublicIdentity } from "@iov/keycontrol";
-// import { isEmpty } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
@@ -37,6 +35,7 @@ interface HomeProps {
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
+  readonly history: any;
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
@@ -61,6 +60,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     const {
       accounts: [{ account, chainId }],
       drinkFaucet,
+      history,
     } = this.props;
     if (!account) {
       const setup = async () => {
@@ -76,7 +76,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           ready: true,
         });
       } else {
-        alert("Account Ready"); // will implement next part
+        history.push("/balance/");
       }
     }
   }
@@ -86,17 +86,16 @@ class Home extends React.Component<HomeProps, HomeState> {
       const {
         setName,
         accounts: [{ chainId }],
+        history,
       } = this.props;
       const setup = async () => {
         await setName(name, chainId);
-        alert("Account Ready"); // will implement next part
+        history.push("/balance/");
       };
       setup();
     }
   }
   public render(): JSX.Element {
-    // const { history } = this.props;
-    // TODO: if not ready, then display "loading", else display "real data"...
     return (
       <PageStructure whiteBg>
         <CreateWalletForm
@@ -127,7 +126,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
-export const HomePage = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Home);
+export const HomePage = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Home),
+);

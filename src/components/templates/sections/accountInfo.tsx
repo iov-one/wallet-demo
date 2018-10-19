@@ -1,3 +1,4 @@
+import { FungibleToken } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -6,7 +7,7 @@ import { AccountName, TokenValue } from "../../subComponents/typography";
 
 interface AccountInfo {
   readonly name: string;
-  readonly balances: ReadonlyArray<any>;
+  readonly balances: ReadonlyArray<FungibleToken>;
 }
 
 const Container = styled.div`
@@ -66,10 +67,14 @@ export const AccountInfoSection = (props: AccountInfo) => {
         <AccountName>{name}</AccountName>
         <Content>
           {balances.map((balance, idx) => {
-            const { amount, tokenUnit, info } = balance;
+            const { whole, fractional, tokenTicker } = balance;
             return (
               <FieldWrapper key={`balance_${idx}`}>
-                <TokenValue amount={amount} tokenUnit={tokenUnit} info={info} />
+                <TokenValue
+                  amount={`${whole}.${fractional}`}
+                  tokenUnit={tokenTicker}
+                  info={`${tokenTicker} TOKEN`}
+                />
                 <SendReceiveButton
                   onReceive={() => {
                     console.log("Receive");
