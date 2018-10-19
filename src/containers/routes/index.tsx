@@ -2,7 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import styled from "styled-components";
 
-import { BalancePage, HomePage, PasswordPage } from "../pages";
+import {
+  BackupAccountPage,
+  BalancePage,
+  HomePage,
+  ImportAccountPage,
+  LoginPage,
+  PasswordPage,
+  SendTokenPage,
+} from "../../containers";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -14,6 +22,10 @@ const MainRouter = () => (
       <Route exact path="/" component={HomePage} />
       <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/balance/" component={BalancePage} />
+      <Route path="/account-backup/" component={BackupAccountPage} />
+      <Route path="/import-account/" component={ImportAccountPage} />
+      <Route path="/login/" component={LoginPage} />
+      <Route path="/send-token/" component={SendTokenPage} />
     </Wrapper>
   </Router>
 );
