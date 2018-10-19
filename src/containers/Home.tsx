@@ -11,9 +11,9 @@ import { connect } from "react-redux";
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
 
-import { BlockchainSpec, CodecType } from "../../logic/connection";
-import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../../selectors";
-import { bootSequence, drinkFaucetSequence, setNameSequence } from "../../sequences";
+import { BlockchainSpec, CodecType } from "../logic/connection";
+import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
+import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
 
 // TODO: these constants should come from config or props later
 const chainSpec: BlockchainSpec = {
@@ -75,6 +75,8 @@ class Home extends React.Component<HomeProps, HomeState> {
         this.setState({
           ready: true,
         });
+      } else {
+        alert("Account Ready"); // will implement next part
       }
     }
   }
@@ -87,6 +89,7 @@ class Home extends React.Component<HomeProps, HomeState> {
       } = this.props;
       const setup = async () => {
         await setName(name, chainId);
+        alert("Account Ready"); // will implement next part
       };
       setup();
     }
