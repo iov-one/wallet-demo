@@ -21,7 +21,7 @@ const chainSpec: BlockchainSpec = {
   bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
 };
 const defaultPassword = "test-pass";
-const facuetUri = "https://faucet.friendnet-slow.iov.one/faucet";
+const defaultFacuetUri = "https://faucet.friendnet-slow.iov.one/faucet";
 
 interface HomeState {
   readonly name: string;
@@ -64,7 +64,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     } = this.props;
     if (!account) {
       const setup = async () => {
-        await drinkFaucet(facuetUri, chainId);
+        await drinkFaucet(defaultFacuetUri, chainId);
         this.setState({
           ready: true,
         });
