@@ -2,7 +2,7 @@
 // TODO: remove above comment when the empty onClick is gone
 import { get } from "lodash";
 import * as React from "react";
-import { withRouter } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import { connect } from "react-redux";
 
 import { PageStructure } from "../components/compoundComponents/page";
@@ -10,9 +10,8 @@ import { AccountInfoSection } from "../components/templates/sections";
 
 import { ChainAccount, getMyAccounts } from "../selectors";
 
-interface BalanceProps {
+interface BalanceProps extends RouteComponentProps {
   accounts: ReadonlyArray<ChainAccount>;
-  history: any;
 }
 
 class Balance extends React.Component<BalanceProps, any> {

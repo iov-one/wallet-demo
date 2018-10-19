@@ -4,7 +4,7 @@
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
@@ -28,14 +28,13 @@ interface HomeState {
   readonly chainId: ChainId;
 }
 
-interface HomeProps {
+interface HomeProps extends RouteComponentProps {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly profile: UserProfile | undefined;
   readonly signer: MultiChainSigner | undefined;
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
-  readonly history: any;
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
