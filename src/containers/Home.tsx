@@ -11,16 +11,8 @@ import { connect } from "react-redux";
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
 
-import {
-  addBlockchainAsyncAction,
-  createSignerAction,
-  getAccountAsyncAction,
-} from "../../reducers/blockchain";
-import { createProfileAsyncAction, getIdentityAction } from "../../reducers/profile";
-
-import { setName } from "../../logic/account";
 import { BlockchainSpec, CodecType } from "../../logic/connection";
-import { takeFaucetCredit } from "../../logic/faucet";
+import { bootSequence, drinkFaucetSequence, setNameSequence } from "../../sequences";
 
 const chainSpec: BlockchainSpec = {
   codecType: CodecType.Bns,
@@ -161,13 +153,9 @@ const mapStateToProps = (state: any): any => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  createProfile: (db: any, pass: string) => dispatch(createProfileAsyncAction.start(db, pass, {})),
-  getMainIdentity: (profile: UserProfile) => dispatch(getIdentityAction(profile)),
-  createSigner: (profile: UserProfile) => dispatch(createSignerAction(profile)),
-  addBlockchain: (writer: MultiChainSigner, blockchain: BlockchainSpec) =>
-    dispatch(addBlockchainAsyncAction.start(writer, blockchain, {})),
-  getAccount: (connection: BcpConnection, ident: PublicIdentity) =>
-    dispatch(getAccountAsyncAction.start(connection, ident, undefined)),
+  bootSequence: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => dispatch(bootSequence(password, blockchains)),
+  drinkFaucetSequence: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  setNameSequence: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
 export const HomePage = connect(
