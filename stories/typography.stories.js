@@ -8,6 +8,7 @@ import {
   FieldLabel,
   TokenValue,
   AccountName,
+  BackupPhrase,
 } from "../src/components/subComponents/typography";
 
 storiesOf("Typography", module)
@@ -24,4 +25,5 @@ storiesOf("Typography", module)
   .add("Token Value", () => (
     <TokenValue amount="100.00" tokenUnit="IOV" info="Lisk is the native token of the Lisk blockchain" />
   ))
-  .add("Account Name", () => <AccountName>victor*iov.value</AccountName>);
+  .add("Account Name", () => <AccountName>victor*iov.value</AccountName>)
+  .add("Backup Phrase", () => <BackupPhrase>test test test test test</BackupPhrase>);
