@@ -1,13 +1,12 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
 
-import { BcpConnection, FungibleToken } from "@iov/bcp-types";
+import { BcpConnection } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 import { isEmpty } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
@@ -19,7 +18,7 @@ import {
 } from "../../reducers/blockchain";
 import { createProfileAsyncAction, getIdentityAction } from "../../reducers/profile";
 
-import { setName, sendTransaction, getAccount } from "../../logic/account";
+import { setName } from "../../logic/account";
 import { BlockchainSpec, CodecType } from "../../logic/connection";
 import { takeFaucetCredit } from "../../logic/faucet";
 
@@ -32,7 +31,7 @@ interface HomeState {
   readonly name: string;
   readonly profileCreated: boolean;
   readonly ready: boolean;
-  readonly chainId: string;
+  readonly chainId: ChainId;
 }
 
 class Home extends React.Component<any, HomeState> {
@@ -42,7 +41,7 @@ class Home extends React.Component<any, HomeState> {
       name: "",
       profileCreated: false,
       ready: false,
-      chainId: "",
+      chainId: "" as ChainId,
     };
   }
   public componentDidMount(): any {
