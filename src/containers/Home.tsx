@@ -21,6 +21,7 @@ const chainSpec: BlockchainSpec = {
   bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
 };
 const defaultPassword = "test-pass";
+const facuetUri = "https://faucet.friendnet-slow.iov.one/faucet";
 
 interface HomeState {
   readonly name: string;
@@ -50,37 +51,55 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
   public componentDidMount(): void {
     const { boot } = this.props;
-    (async () => {
+    const setup = async () => {
       await boot(defaultPassword, [chainSpec]);
-      // TODO: check current account, if undefined, drinkFaucet
-      // TODO: check if current account has name
-      //   yes -> go to next page
-      //   no -> display this page
-    })();
+      this.checkAndDrinkFaucet();
+    };
+    setup();
+  }
+  public checkAndDrinkFaucet(): void {
+    const {
+      accounts: [{ account, chainId }],
+      drinkFaucet,
+    } = this.props;
+    if (!account) {
+      const setup = async () => {
+        await drinkFaucet(facuetUri, chainId);
+        this.setState({
+          ready: true,
+        });
+      };
+      setup();
+    } else {
+      if (!account.name) {
+        this.setState({
+          ready: true,
+        });
+      }
+    }
   }
   public createAccount(): void {
-    console.log("do this later");
+    const { name, ready } = this.state;
+    if (ready) {
+      const {
+        setName,
+        accounts: [{ chainId }],
+      } = this.props;
+      const setup = async () => {
+        await setName(name, chainId);
+      };
+      setup();
+    }
   }
-  // public getSnapshotBeforeUpdate(prevProps: any): any {
-  //   if (!isEmpty(this.props.profile.internal.profile) && isEmpty(prevProps.profile.internal.profile)) {
-  //     return {
-  //       profileCreated: true,
-  //     };
-  //   }
-  //   return false;
-  // }
-  // public componentDidUpdate(prevProps: any): void {
-  //   if (!isEmpty(this.props.profile.internal.profile) && isEmpty(prevProps.profile.internal.profile)) {
-  //     this.nextStep();
-  //   }
-  // }
   public render(): JSX.Element {
     // const { history } = this.props;
     // TODO: if not ready, then display "loading", else display "real data"...
     return (
       <PageStructure whiteBg>
         <CreateWalletForm
-          onNext={this.createAccount}
+          onNext={() => {
+            this.createAccount();
+          }}
           onChange={name => {
             this.setState({
               name,
