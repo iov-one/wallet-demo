@@ -2,8 +2,8 @@
 // TODO: remove above comment when the empty onClick is gone
 import { get } from "lodash";
 import * as React from "react";
-import { RouteComponentProps, withRouter } from "react-router";
 import { connect } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { AccountInfoSection } from "../components/templates/sections";
@@ -11,11 +11,11 @@ import { AccountInfoSection } from "../components/templates/sections";
 import { ChainAccount, getMyAccounts } from "../selectors";
 
 interface BalanceProps extends RouteComponentProps {
-  accounts: ReadonlyArray<ChainAccount>;
+  readonly accounts: ReadonlyArray<ChainAccount>;
 }
 
 class Balance extends React.Component<BalanceProps, any> {
-  public componentDidMount() {
+  public componentDidMount(): void {
     const { accounts, history } = this.props;
     if (accounts.length === 0) {
       history.push("/");
@@ -24,7 +24,9 @@ class Balance extends React.Component<BalanceProps, any> {
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
     const account = get(accounts, "[0].account", false);
-    if (!account) return false;
+    if (!account) {
+      return false;
+    }
     const name = account ? `${account.name}*iov.value` : "";
     const balance = account ? account.balance : [];
     return (
