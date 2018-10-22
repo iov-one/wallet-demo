@@ -1,4 +1,4 @@
-import { FungibleToken } from "@iov/bcp-types";
+import { BcpCoin } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -7,7 +7,7 @@ import { AccountName, TokenValue } from "../../subComponents/typography";
 
 interface AccountInfo {
   readonly name: string;
-  readonly balances: ReadonlyArray<FungibleToken>;
+  readonly balances: ReadonlyArray<BcpCoin>;
 }
 
 const Container = styled.div`
@@ -67,14 +67,13 @@ export const AccountInfoSection = (props: AccountInfo) => {
         <AccountName>{name}</AccountName>
         <Content>
           {balances.map((balance, idx) => {
-            const { whole, fractional, tokenTicker } = balance;
+            const { whole, fractional, tokenTicker, tokenName } = balance;
+            // TODO: there is sigFigs, and we need to create amount in a smarter way
+            // not needed until we can send and have non-whole balances, but soon will
+            // be useful
             return (
               <FieldWrapper key={`balance_${idx}`}>
-                <TokenValue
-                  amount={`${whole}.${fractional}`}
-                  tokenUnit={tokenTicker}
-                  info={`${tokenTicker} TOKEN`}
-                />
+                <TokenValue amount={`${whole}.${fractional}`} tokenUnit={tokenTicker} info={`${tokenName}`} />
                 <SendReceiveButton
                   onReceive={() => {
                     console.log("Receive");
