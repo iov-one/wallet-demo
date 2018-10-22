@@ -28,16 +28,19 @@ interface HomeState {
   readonly chainId: ChainId;
 }
 
-interface HomeProps extends RouteComponentProps {
+interface HomeProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly profile: UserProfile | undefined;
   readonly signer: MultiChainSigner | undefined;
+}
+
+interface HomeDispatchProps {
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
 
-class Home extends React.Component<HomeProps, HomeState> {
+class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -112,22 +115,23 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 }
 
-const mapStateToProps = (state: any): any => ({
+const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
+  ...ownProps,
   profile: getProfile(state),
   signer: getSigner(state),
   accounts: getMyAccounts(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
   drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
-export const HomePage = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Home),
-);
+const connectedModule = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
+
+export const HomePage = withRouter(connectedModule);
