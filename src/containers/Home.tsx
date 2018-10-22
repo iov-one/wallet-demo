@@ -1,6 +1,3 @@
-// tslint:disable:no-empty
-// TODO: remove above comment when the empty onClick is gone
-
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -28,18 +25,22 @@ interface HomeState {
   readonly chainId: ChainId;
 }
 
+// In RouteComponentProps you can pass in the actual properties you read from the routers...
+// like "title", "route" if any. Otherwise, I think it just adds history
 interface HomeProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly profile: UserProfile | undefined;
   readonly signer: MultiChainSigner | undefined;
 }
 
+// Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
 
+// HomeProps & HomeDispatchProps means to use them both (as if we hadn't just separated them)
 class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   constructor(props: any) {
     super(props);
@@ -115,6 +116,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
 }
 
+// Note that this takes ownProps as an argument (for the router stuff), and must return a typed HomeProps
 const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
   ...ownProps,
   profile: getProfile(state),
@@ -122,6 +124,7 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
   accounts: getMyAccounts(state),
 });
 
+// This returns a types DispatchProps
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
@@ -129,6 +132,7 @@ const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
+// With the above info, we can now properly combine this all and withRouter will be happy
 const connectedModule = connect(
   mapStateToProps,
   mapDispatchToProps,

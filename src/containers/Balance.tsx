@@ -1,5 +1,3 @@
-// tslint:disable:no-empty
-// TODO: remove above comment when the empty onClick is gone
 import { get } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -10,7 +8,7 @@ import { AccountInfoSection } from "../components/templates/sections";
 
 import { ChainAccount, getMyAccounts } from "../selectors";
 
-interface BalanceProps extends RouteComponentProps {
+interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
 }
 
@@ -37,7 +35,9 @@ class Balance extends React.Component<BalanceProps, any> {
   }
 }
 
-const mapStateToProps = (state: any): any => ({
+// Updated with types like in Home.tsc
+const mapStateToProps = (state: any, ownProps: BalanceProps): BalanceProps => ({
+  ...ownProps,
   accounts: getMyAccounts(state),
 });
 
