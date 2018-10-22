@@ -25,7 +25,6 @@
     "@iov/crypto": "^0.7.0-alpha.1",
     "@iov/faucets": "^0.7.0-alpha.1",
     "@iov/keycontrol": "^0.7.0-alpha.1",
-    "browsedown": "^0.1.1",
     "chai-as-promised": "^7.1.1",
     "encoding-down": "^5.0.4",
     "leveldown": "^4.0.1",

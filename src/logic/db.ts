@@ -1,4 +1,6 @@
 import { AbstractLevelDOWN } from "abstract-leveldown";
+import encode from "encoding-down";
+import leveljs from "level-js";
 import levelup, { LevelUp } from "levelup";
 import MemDownConstructor from "memdown";
 
@@ -9,46 +11,14 @@ export function createMemDb(): StringDB {
   return levelup(MemDownConstructor<string, string>());
 }
 
+export function createBrowserDb(name: string): StringDB {
+  return levelup(encode(leveljs(name)));
+}
+
+const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
+
 // placeholder to be read from configuration later
-export let createDb = (_: string) => createMemDb();
-
-/*** TODO: move this into some configuration file.... node-config? ***/
-// As it was, it forced the import of leveldown even in webpack... bad!
-// import { browsedown } from "browsedown";
-// import encode from "encoding-down";
-// import leveldown from "leveldown";
-
-// export function createBrowserDb(name: string): StringDB {
-//   return levelup(browsedown(name));
-// }
-
-// export function createLevelDb(path: string): StringDB {
-//   // encode will turn Buffers into utf-8 strings, so we always get strings back
-//   return levelup(encode(leveldown(path)));
-// }
-
-// const isTest = () => typeof global.it === "function";
-
-// const isNode = () => typeof process !== "undefined" && !!process.versions && !!process.versions.node;
-
-// const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
-
-// // This should be smarter, put it in some default dir, etc...
-// const nameToPath = (name: string) => `${name}.db`;
-// /*** end TODO ****/
-
-// // createDb auto-detects proper db to use
-// export function createDb(name: string): StringDB {
-//   if (isTest()) {
-//     return createMemDb();
-//   } else if (isNode()) {
-//     return createLevelDb(nameToPath(name));
-//   } else if (isBrowser()) {
-//     return createBrowserDb(name);
-//   } else {
-//     throw new Error("I don't know where I am!");
-//   }
-// }
+export const createDb = (name: string) => (isBrowser() ? createBrowserDb(name) : createMemDb());
 
 export async function hasDbKey(db: StringDB, key: string): Promise<boolean> {
   try {
