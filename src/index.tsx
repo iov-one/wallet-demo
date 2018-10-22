@@ -1,3 +1,5 @@
+/* tslint:disable */
+import "react-hot-loader/patch";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
@@ -16,7 +18,7 @@ const render = Component => {
 render(App);
 
 if ((module as any).hot) {
-  (module as any).hot.accept("./components/App", () => {
+  (module as any).hot.accept("./containers/App", () => {
     render(App);
   });
 }

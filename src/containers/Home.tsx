@@ -1,19 +1,114 @@
-// tslint:disable:no-empty
-// TODO: remove above comment when the empty onClick is gone
+import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import * as React from "react";
-import { withRouter } from "react-router";
+import { connect } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
 
-class Home extends React.Component<any, any> {
+import { BlockchainSpec, CodecType } from "../logic/connection";
+import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
+import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
+
+// TODO: these constants should come from config or props later
+const chainSpec: BlockchainSpec = {
+  codecType: CodecType.Bns,
+  bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
+};
+const defaultPassword = "test-pass";
+const defaultFacuetUri = "https://faucet.friendnet-slow.iov.one/faucet";
+
+interface HomeState {
+  readonly name: string;
+  readonly profileCreated: boolean;
+  readonly ready: boolean;
+  readonly chainId: ChainId;
+}
+
+// In RouteComponentProps you can pass in the actual properties you read from the routers...
+// like "title", "route" if any. Otherwise, I think it just adds history
+interface HomeProps extends RouteComponentProps<{}> {
+  readonly accounts: ReadonlyArray<ChainAccount>;
+  readonly profile: UserProfile | undefined;
+  readonly signer: MultiChainSigner | undefined;
+}
+
+// Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
+interface HomeDispatchProps {
+  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
+  readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
+  readonly setName: (name: string, chainId: ChainId) => Promise<any>;
+}
+
+// HomeProps & HomeDispatchProps means to use them both (as if we hadn't just separated them)
+class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      name: "",
+      profileCreated: false,
+      ready: false,
+      chainId: "" as ChainId,
+    };
+  }
+  public componentDidMount(): void {
+    const { boot } = this.props;
+    const setup = async () => {
+      await boot(defaultPassword, [chainSpec]);
+      this.checkAndDrinkFaucet();
+    };
+    setup();
+  }
+  public checkAndDrinkFaucet(): void {
+    const {
+      accounts: [{ account, chainId }],
+      drinkFaucet,
+      history,
+    } = this.props;
+    if (!account) {
+      const setup = async () => {
+        await drinkFaucet(defaultFacuetUri, chainId);
+        this.setState({
+          ready: true,
+        });
+      };
+      setup();
+    } else {
+      if (!account.name) {
+        this.setState({
+          ready: true,
+        });
+      } else {
+        history.push("/balance/");
+      }
+    }
+  }
+  public createAccount(): void {
+    const { name, ready } = this.state;
+    if (ready) {
+      const {
+        setName,
+        accounts: [{ chainId }],
+        history,
+      } = this.props;
+      const setup = async () => {
+        await setName(name, chainId);
+        history.push("/balance/");
+      };
+      setup();
+    }
+  }
   public render(): JSX.Element {
-    const { history } = this.props;
     return (
       <PageStructure whiteBg>
         <CreateWalletForm
           onNext={() => {
-            history.push("/setPassword/");
+            this.createAccount();
+          }}
+          onChange={name => {
+            this.setState({
+              name,
+            });
           }}
         />
       </PageStructure>
@@ -21,4 +116,26 @@ class Home extends React.Component<any, any> {
   }
 }
 
-export const HomePage = withRouter(Home);
+// Note that this takes ownProps as an argument (for the router stuff), and must return a typed HomeProps
+const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
+  ...ownProps,
+  profile: getProfile(state),
+  signer: getSigner(state),
+  accounts: getMyAccounts(state),
+});
+
+// This returns a types DispatchProps
+const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
+  boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
+    dispatch(bootSequence(password, blockchains)),
+  drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
+});
+
+// With the above info, we can now properly combine this all and withRouter will be happy
+const connectedModule = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
+
+export const HomePage = withRouter(connectedModule);

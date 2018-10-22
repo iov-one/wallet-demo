@@ -20,6 +20,7 @@ export interface ChainAccount {
 }
 
 export const getProfileDB = (state: RootState) => state.profile.internal.db;
+export const getProfile = (state: RootState) => state.profile.internal.profile;
 
 export const getSigner = (state: RootState) => state.blockchain.internal.signer;
 export const getConnections = (state: RootState) => state.blockchain.internal.connections;
