@@ -7,6 +7,7 @@ import {
   BalancePage,
   HomePage,
   ImportAccountPage,
+  JsxDemo,
   LoginPage,
   PasswordPage,
   SendTokenPage,
@@ -26,6 +27,7 @@ const MainRouter = () => (
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />
       <Route path="/send-token/" component={SendTokenPage} />
+      <Route path="/jsx-demo/" component={JsxDemo} />
     </Wrapper>
   </Router>
 );
