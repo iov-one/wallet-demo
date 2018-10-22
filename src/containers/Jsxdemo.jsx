@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import { PageStructure } from "../components/compoundComponents/page";
 import { LoginForm } from "../components/templates/forms";
 
-class Demo {
+class Demo extends React.Component {
   render() {
     const { history } = this.props;
     return (

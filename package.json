@@ -14,7 +14,8 @@
     "test": "yarn build && yarn test-node",
     "test-node": "mocha build/*/*.spec.js build/*/*/*.spec.js",
     "start": "webpack-dev-server",
-    "pack": "webpack --progress",
+    "start-jsx": "yarn build && webpack-dev-server --config ./webpack.config.withjsx.js",
+    "pack": "yarn build && webpack --progress --config ./webpack.config.withjsx.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"

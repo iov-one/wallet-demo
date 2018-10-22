@@ -18,10 +18,10 @@
     "pretty": true,
     "removeComments": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es6",
     "typeRoots": ["node_modules/@types", "custom_typings"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx"],
-  "exclude": ["node_modules", "src/index.tsx"]
+  "exclude": ["node_modules"]
 }
