@@ -8,16 +8,12 @@ const baseDir = resolve(__dirname, "..");
 
 module.exports = merge(common, {
   mode: "development",
-  entry: [
-    "webpack-dev-server/client?http://localhost:8080",
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
+  endtry: [
     "webpack/hot/only-dev-server",
     // bundle the client for hot reloading
     // only- means to only hot reload for successful updates
-    "./index.tsx",
-    // the entry point of our app
   ],
+  devtool: "inline-source-map",
   output: {
     filename: "hotloader.js",
     // the output bundle
@@ -25,21 +21,16 @@ module.exports = merge(common, {
     publicPath: "/",
     // necessary for HMR to know where to load the hot update chunks
   },
-  devtool: "inline-source-map",
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify("production"),
+      },
+    }),
+  ],
   devServer: {
-    port: "8080",
-    // Change it if other port needs to be used
     hot: true,
     // enable HMR on the server
-    noInfo: true,
-    quiet: false,
-    // minimize the output to terminal.
-    contentBase: resolve(baseDir, "dist"),
-    // match the output path
-    publicPath: "/",
-    // match the output `publicPath`,
-    historyApiFallback: true,
-    open: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
 });
