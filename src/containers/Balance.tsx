@@ -20,7 +20,7 @@ class Balance extends React.Component<BalanceProps, any> {
     }
   }
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
+    const { accounts, history } = this.props;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
@@ -29,7 +29,13 @@ class Balance extends React.Component<BalanceProps, any> {
     const balance = account ? account.balance : [];
     return (
       <PageStructure>
-        <AccountInfoSection name={name} balances={balance} />
+        <AccountInfoSection
+          name={name}
+          balances={balance}
+          onSend={() => {
+            history.push("/send-token/");
+          }}
+        />
       </PageStructure>
     );
   }

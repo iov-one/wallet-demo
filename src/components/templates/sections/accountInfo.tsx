@@ -8,6 +8,7 @@ import { AccountName, TokenValue } from "../../subComponents/typography";
 interface AccountInfo {
   readonly name: string;
   readonly balances: ReadonlyArray<BcpCoin>;
+  readonly onSend: () => any;
 }
 
 const Container = styled.div`
@@ -60,7 +61,7 @@ const Backup = styled.a`
 `;
 
 export const AccountInfoSection = (props: AccountInfo) => {
-  const { name, balances } = props;
+  const { name, balances, onSend } = props;
   return (
     <Container>
       <Wrapper>
@@ -78,9 +79,7 @@ export const AccountInfoSection = (props: AccountInfo) => {
                   onReceive={() => {
                     console.log("Receive");
                   }}
-                  onSend={() => {
-                    console.log("Send");
-                  }}
+                  onSend={onSend}
                 />
               </FieldWrapper>
             );
