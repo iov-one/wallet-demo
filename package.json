@@ -13,8 +13,9 @@
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "yarn build && yarn test-node",
     "test-node": "mocha build/*/*.spec.js build/*/*/*.spec.js",
-    "start": "webpack-dev-server",
-    "pack": "webpack --progress",
+    "start": "webpack-dev-server --config webpack/development.config.js",
+    "start-prod": "webpack-dev-server --config webpack/production.config.js",
+    "dist": "webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
@@ -82,9 +83,11 @@
     "tslint-immutable": "^4.7.0",
     "tslint-loader": "^3.6.0",
     "typescript": "^3.1.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.20.0",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.0"
+    "webpack-dev-server": "^3.1.0",
+    "webpack-merge": "^4.1.4"
   }
 }
