@@ -4,9 +4,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const baseDir = resolve(__dirname, "..");
+
 module.exports = {
   mode: "development",
-  context: resolve(__dirname, "src"),
+  context: resolve(baseDir, "src"),
   entry: [
     "webpack-dev-server/client?http://localhost:8080",
     // bundle the client for webpack-dev-server
@@ -20,7 +22,7 @@ module.exports = {
   output: {
     filename: "hotloader.js",
     // the output bundle
-    path: resolve(__dirname, "dist"),
+    path: resolve(baseDir, "dist"),
     publicPath: "/",
     // necessary for HMR to know where to load the hot update chunks
   },
@@ -37,7 +39,7 @@ module.exports = {
     noInfo: true,
     quiet: false,
     // minimize the output to terminal.
-    contentBase: resolve(__dirname, "dist"),
+    contentBase: resolve(baseDir, "dist"),
     // match the output path
     publicPath: "/",
     // match the output `publicPath`,
@@ -50,7 +52,7 @@ module.exports = {
         enforce: "pre",
         test: /\.(ts|tsx)?$/,
         loader: "tslint-loader",
-        exclude: [resolve(__dirname, "node_modules")],
+        exclude: [resolve(baseDir, "node_modules")],
       },
       {
         test: /\.(ts|tsx)?$/,
@@ -62,7 +64,7 @@ module.exports = {
             },
           },
         ],
-        exclude: [resolve(__dirname, "node_modules")],
+        exclude: [resolve(baseDir, "node_modules")],
       },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       // TODO: not sure any of the below are optimal, just copied from another project
@@ -97,7 +99,7 @@ module.exports = {
     // enable HMR globally
     new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
-    new HtmlWebpackPlugin({ template: resolve(__dirname, "src/index.html") }),
+    new HtmlWebpackPlugin({ template: resolve(baseDir, "src/index.html") }),
     // inject <script> in html file.
   ],
 };

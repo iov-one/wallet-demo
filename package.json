@@ -13,8 +13,8 @@
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "yarn build && yarn test-node",
     "test-node": "mocha build/*/*.spec.js build/*/*/*.spec.js",
-    "start": "webpack-dev-server",
-    "pack": "webpack --progress",
+    "start": "webpack-dev-server --config webpack/development.config.js",
+    "dist": "webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
