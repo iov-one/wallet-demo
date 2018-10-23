@@ -34,6 +34,27 @@ export async function getAccount(
   return undefined;
 }
 
+// looks up account for a given name (or undefined)
+export async function getAccountByName(
+  connection: BcpConnection,
+  name: string,
+): Promise<BcpAccount | undefined> {
+  const result = await connection.getAccount({ name });
+  if (result.data && result.data.length > 0) {
+    return result.data[0];
+  }
+  return undefined;
+}
+
+// getAddressByName returns the address associated with the name, or undefined if not registered
+export async function getAddressByName(
+  connection: BcpConnection,
+  name: string,
+): Promise<Address | undefined> {
+  const acct = await getAccountByName(connection, name);
+  return acct ? acct.address : undefined;
+}
+
 export interface Unsubscriber {
   readonly unsubscribe: () => void;
 }
