@@ -8,7 +8,7 @@ const baseDir = resolve(__dirname, "..");
 
 module.exports = merge(common, {
   mode: "development",
-  endtry: [
+  entry: [
     "webpack/hot/only-dev-server",
     // bundle the client for hot reloading
     // only- means to only hot reload for successful updates
