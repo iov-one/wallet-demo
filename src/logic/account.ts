@@ -35,6 +35,7 @@ export async function getAccount(
 }
 
 // looks up account for a given name (or undefined)
+// the name should not have the "*iov" suffix
 export async function getAccountByName(
   connection: BcpConnection,
   name: string,
@@ -47,6 +48,7 @@ export async function getAccountByName(
 }
 
 // getAddressByName returns the address associated with the name, or undefined if not registered
+// the name should not have the "*iov" suffix
 export async function getAddressByName(
   connection: BcpConnection,
   name: string,

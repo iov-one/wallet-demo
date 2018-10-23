@@ -11,7 +11,9 @@ export function isValueName(address: string): boolean {
 // you can call resolve address on the result from the ui to get a
 export async function resolveAddress(connection: BcpConnection, maybeAddress: string): Promise<Address> {
   if (isValueName(maybeAddress)) {
-    const address = await getAddressByName(connection, maybeAddress);
+    // we trim off the "*iov" suffix at the end to get the name to query
+    const name = maybeAddress.slice(0, -valueNameSuffix.length);
+    const address = await getAddressByName(connection, name);
     if (address === undefined) {
       throw new Error(`Value name ${maybeAddress} not registered`);
     } else {
