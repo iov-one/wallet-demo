@@ -18,7 +18,8 @@
     "dist": "webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
+    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js",
+    "docker-build": "yarn dist && cd docker && docker build"
   },
   "dependencies": {
     "@iov/bns": "^0.7.0-alpha.1",
