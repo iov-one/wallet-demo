@@ -9,6 +9,7 @@ interface AccountInfo {
   readonly name: string;
   readonly balances: ReadonlyArray<BcpCoin>;
   readonly onSend: () => any;
+  readonly onReceive: () => any;
 }
 
 const Container = styled.div`
@@ -61,7 +62,7 @@ const Backup = styled.a`
 `;
 
 export const AccountInfoSection = (props: AccountInfo) => {
-  const { name, balances, onSend } = props;
+  const { name, balances, onSend, onReceive } = props;
   return (
     <Container>
       <Wrapper>
@@ -75,12 +76,7 @@ export const AccountInfoSection = (props: AccountInfo) => {
             return (
               <FieldWrapper key={`balance_${idx}`}>
                 <TokenValue amount={`${whole}.${fractional}`} tokenUnit={tokenTicker} info={`${tokenName}`} />
-                <SendReceiveButton
-                  onReceive={() => {
-                    console.log("Receive");
-                  }}
-                  onSend={onSend}
-                />
+                <SendReceiveButton onReceive={onReceive} onSend={onSend} />
               </FieldWrapper>
             );
           })}
