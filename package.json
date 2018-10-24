@@ -20,7 +20,7 @@
     "build-storybook": "build-storybook",
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js",
     "docker-build": "yarn dist && docker build --pull -t wallet-demo:${BUILD_VERSION:-manual} .",
-    "docker-run": "docker run -p 3000:3000 wallet-demo:manual"
+    "docker-run": "docker run --read-only -p 3000:3000 wallet-demo:manual"
   },
   "dependencies": {
     "@iov/bns": "^0.7.0-alpha.1",
