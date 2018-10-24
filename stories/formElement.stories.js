@@ -2,7 +2,7 @@ import React from "react";
 
 import { storiesOf } from "@storybook/react";
 
-import { InputField, TextArea } from "../src/components/compoundComponents/form";
+import { InputField, TextArea, TextCopy } from "../src/components/compoundComponents/form";
 
 storiesOf("Form Elements", module)
   .add("Input Field with Description", () => (
@@ -19,4 +19,5 @@ storiesOf("Form Elements", module)
   .add("TextArea with Description", () => <TextArea title="Title" description="Description" />)
   .add("TextArea with Notification", () => (
     <TextArea title="Title" description="Description" notification="Notification" />
-  ));
+  ))
+  .add("TextCopy", () => <TextCopy title="Your IOV address" notification="Link Copied" value="testtest" />);

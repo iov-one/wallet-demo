@@ -6,11 +6,6 @@ import { InputField } from "../../compoundComponents/form";
 import { PrimaryButton } from "../../subComponents/buttons";
 import { AccountBalance, AccountName } from "../../subComponents/typography";
 
-interface AccountInfo {
-  readonly name: string;
-  readonly balance: FungibleToken;
-}
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,27 +37,78 @@ const ActionWrapper = styled.div`
   margin-top: 50px;
 `;
 
-export const SendTokenForm = (props: AccountInfo) => {
-  const { name, balance } = props;
-  return (
-    <Container>
-      <Wrapper>
-        <AccountName className="noBorder">{name}</AccountName>
-        <AccountBalance balance={balance} />
-        <Content>
-          <InputField title="To:" placeholder="IOV address" />
-          <InputField title="Amount:" placeholder="1000" unit="IOV" />
-          <InputField title="Memo:" placeholder="Save the forest" />
-        </Content>
-      </Wrapper>
-      <ActionWrapper>
-        <PrimaryButton
-          title="Send"
-          onClick={() => {
-            console.log("send");
-          }}
-        />
-      </ActionWrapper>
-    </Container>
-  );
-};
+export interface SendTokenFormState {
+  readonly iovAddress: string;
+  readonly tokenAmount: string;
+  readonly memo: string;
+}
+
+interface SendTokenFormProps {
+  readonly name: string;
+  readonly balance: FungibleToken;
+  readonly onSend: (transactionInfo: SendTokenFormState) => any;
+}
+
+export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
+  public readonly state = {
+    iovAddress: "",
+    tokenAmount: "",
+    memo: "",
+  };
+  public readonly onChangeAddress = (evt: any) => {
+    this.setState({
+      iovAddress: evt.target.value,
+    });
+  };
+  public readonly onChangeAmount = (evt: any) => {
+    this.setState({
+      tokenAmount: evt.target.value,
+    });
+  };
+  public readonly onChangeMemo = (evt: any) => {
+    this.setState({
+      memo: evt.target.value,
+    });
+  };
+  public render(): JSX.Element | boolean {
+    const { name, balance, onSend } = this.props;
+    const { iovAddress, tokenAmount, memo } = this.state;
+    return (
+      <Container>
+        <Wrapper>
+          <AccountName className="noBorder">{name}</AccountName>
+          <AccountBalance balance={balance} />
+          <Content>
+            <InputField
+              title="To:"
+              placeholder="IOV address"
+              value={iovAddress}
+              onChange={this.onChangeAddress}
+            />
+            <InputField
+              title="Amount:"
+              placeholder="1000"
+              unit="IOV"
+              value={tokenAmount}
+              onChange={this.onChangeAmount}
+            />
+            <InputField
+              title="Memo:"
+              placeholder="Save the forest"
+              value={memo}
+              onChange={this.onChangeMemo}
+            />
+          </Content>
+        </Wrapper>
+        <ActionWrapper>
+          <PrimaryButton
+            title="Send"
+            onClick={() => {
+              onSend(this.state);
+            }}
+          />
+        </ActionWrapper>
+      </Container>
+    );
+  }
+}

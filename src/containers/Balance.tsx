@@ -3,33 +3,81 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { BcpConnection } from "@iov/bcp-types";
+import { PublicIdentity } from "@iov/keycontrol";
+
 import { PageStructure } from "../components/compoundComponents/page";
+import { ReceiveModal } from "../components/templates/modal";
 import { AccountInfoSection } from "../components/templates/sections";
 
+import { BcpAccountWithChain } from "../reducers/blockchain";
 import { ChainAccount, getMyAccounts } from "../selectors";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
+  readonly connections: { readonly [chainId: string]: BcpConnection };
+  readonly identity: any;
 }
 
-class Balance extends React.Component<BalanceProps, any> {
+interface BalanceDispatchProps {
+  readonly getAccount: (
+    conn: BcpConnection,
+    identity: PublicIdentity,
+  ) => Promise<BcpAccountWithChain | undefined>;
+}
+
+interface BalanceState {
+  readonly showReceiveModal: boolean;
+}
+
+class Balance extends React.Component<BalanceProps & BalanceDispatchProps, BalanceState> {
+  public readonly state = {
+    showReceiveModal: false,
+  };
+
   public componentDidMount(): void {
     const { accounts, history } = this.props;
     if (accounts.length === 0) {
       history.push("/");
     }
   }
+
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
+    const { accounts, history } = this.props;
+    const { showReceiveModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
-    const name = account ? `${account.name}*iov.value` : "";
-    const balance = account ? account.balance : [];
+    const name = `${account.name}*iov.value`;
+    const address = account.address;
+    const balance = account.balance;
     return (
       <PageStructure>
-        <AccountInfoSection name={name} balances={balance} />
+        <div>
+          <AccountInfoSection
+            name={name}
+            balances={balance}
+            onSend={() => {
+              history.push("/send-token/");
+            }}
+            onReceive={() => {
+              this.setState({
+                showReceiveModal: true,
+              });
+            }}
+          />
+          <ReceiveModal
+            name={name}
+            address={address}
+            onRequestClose={() => {
+              this.setState({
+                showReceiveModal: false,
+              });
+            }}
+            visible={showReceiveModal}
+          />
+        </div>
       </PageStructure>
     );
   }
