@@ -8,6 +8,7 @@ import { ChainId } from "@iov/core";
 
 import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
 import { setName, sendTransaction } from "../logic/account";
+import { resolveAddress } from "../logic/name";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
@@ -77,16 +78,23 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
 
 export const sendTransactionSequence = (
   chainId: ChainId,
-  iovAddress: Address,
+  iovAddress: string,
   amount: FungibleToken,
   memo: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
   const signer = requireSigner(getState());
-  await sendTransaction(signer, chainId, iovAddress, amount, memo);
-
-  // now, get the new account info
   const conn = requireConnection(getState(), chainId);
-  const identity = requireActiveIdentity(getState());
-  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-  return value;
+  try {
+    const address = await resolveAddress(conn, iovAddress);
+    await sendTransaction(signer, chainId, address, amount, memo);
+
+    // now, get the new account info
+
+    const identity = requireActiveIdentity(getState());
+    const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+    return value;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

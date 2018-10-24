@@ -22,7 +22,7 @@ interface SendTokenProps extends RouteComponentProps<{}> {
 interface SendTokenDispatchToProps {
   readonly sendTransaction: (
     chainId: ChainId,
-    iovAddress: Address,
+    iovAddress: string,
     amount: FungibleToken,
     memo: string,
   ) => Promise<any>;
@@ -43,7 +43,7 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
     const amount = convertStringToFungibleToken(tokenAmount);
-    sendTransaction(chainIds[0], iovAddress as Address, amount, memo).then(() => {
+    sendTransaction(chainIds[0], iovAddress, amount, memo).then(() => {
       history.goBack();
     });
   };
@@ -70,7 +70,7 @@ const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps =
 });
 
 const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
-  sendTransaction: (chainId: ChainId, iovAddress: Address, amount: FungibleToken, memo: string) =>
+  sendTransaction: (chainId: ChainId, iovAddress: string, amount: FungibleToken, memo: string) =>
     dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
 });
 
