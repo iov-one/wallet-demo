@@ -3,10 +3,11 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
+import { Address, FungibleToken } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 
 import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
-import { setName } from "../logic/account";
+import { setName, sendTransaction } from "../logic/account";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
@@ -66,6 +67,22 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
 ) => {
   const signer = requireSigner(getState());
   await setName(signer, chainId, name);
+
+  // now, get the new account info
+  const conn = requireConnection(getState(), chainId);
+  const identity = requireActiveIdentity(getState());
+  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+  return value;
+};
+
+export const sendTransactionSequence = (
+  chainId: ChainId,
+  iovAddress: Address,
+  amount: FungibleToken,
+  memo: string,
+) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+  const signer = requireSigner(getState());
+  await sendTransaction(signer, chainId, iovAddress, amount, memo);
 
   // now, get the new account info
   const conn = requireConnection(getState(), chainId);

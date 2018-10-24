@@ -10,8 +10,8 @@ import { PageStructure } from "../components/compoundComponents/page";
 import { AccountInfoSection } from "../components/templates/sections";
 import { ReceiveModal } from "../components/templates/modal";
 
-import { ChainAccount, getMyAccounts, getConnections, getActiveIdentity } from "../selectors";
-import { BcpAccountWithChain, getAccountAsyncAction } from "../reducers/blockchain";
+import { ChainAccount, getMyAccounts } from "../selectors";
+import { BcpAccountWithChain } from "../reducers/blockchain";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
@@ -36,14 +36,9 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
   };
 
   public componentDidMount(): void {
-    const { accounts, history, getAccount, connections, identity } = this.props;
+    const { accounts, history } = this.props;
     if (accounts.length === 0) {
       history.push("/");
-    }
-
-    if (identity && Object.keys(connections).length > 0) {
-      const cons = Object.keys(connections).map(key => connections[key]);
-      getAccount(cons[0], identity);
     }
   }
 
@@ -92,18 +87,6 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
 const mapStateToProps = (state: any, ownProps: BalanceProps): BalanceProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
-  connections: getConnections(state),
-  identity: getActiveIdentity(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  getAccount: (conn: BcpConnection, identity: PublicIdentity) =>
-    dispatch(getAccountAsyncAction.start(conn, identity, undefined)),
-});
-
-export const BalancePage = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Balance),
-);
+export const BalancePage = withRouter(connect(mapStateToProps)(Balance));

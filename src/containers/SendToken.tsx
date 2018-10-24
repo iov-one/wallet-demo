@@ -1,7 +1,7 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
 import { Address, FungibleToken, TokenTicker } from "@iov/bcp-types";
-import { ChainId, MultiChainSigner } from "@iov/core";
+import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -10,14 +10,22 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { PageStructure } from "../components/compoundComponents/page";
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
 
-import { ChainAccount, getChainIds, getMyAccounts, getSigner } from "../selectors";
+import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 
-import { sendTransaction } from "../logic/account";
+import { sendTransactionSequence } from "../sequences";
 
 interface SendTokenProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
-  readonly signer?: MultiChainSigner;
   readonly chainIds: ReadonlyArray<ChainId>;
+}
+
+interface SendTokenDispatchToProps {
+  readonly sendTransaction: (
+    chainId: ChainId,
+    iovAddress: Address,
+    amount: FungibleToken,
+    memo: string,
+  ) => Promise<any>;
 }
 
 const convertStringToFungibleToken = (tokenAmount: string): FungibleToken => {
@@ -30,16 +38,14 @@ const convertStringToFungibleToken = (tokenAmount: string): FungibleToken => {
   return result;
 };
 
-class SendToken extends React.Component<SendTokenProps, any> {
+class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, any> {
   public onSend = (transInfo: SendTokenFormState): any => {
-    const { signer, chainIds } = this.props;
+    const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
     const amount = convertStringToFungibleToken(tokenAmount);
-    if (signer) {
-      sendTransaction(signer, chainIds[0], iovAddress as Address, amount, memo).then((response: any) => {
-        this.props.history.goBack();
-      });
-    }
+    sendTransaction(chainIds[0], iovAddress as Address, amount, memo).then(() => {
+      history.goBack();
+    });
   };
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
@@ -60,8 +66,17 @@ class SendToken extends React.Component<SendTokenProps, any> {
 const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
-  signer: getSigner(state),
   chainIds: getChainIds(state),
 });
 
-export const SendTokenPage = withRouter(connect(mapStateToProps)(SendToken));
+const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
+  sendTransaction: (chainId: ChainId, iovAddress: Address, amount: FungibleToken, memo: string) =>
+    dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
+});
+
+export const SendTokenPage = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SendToken),
+);
