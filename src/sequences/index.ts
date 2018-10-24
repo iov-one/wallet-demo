@@ -3,11 +3,11 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
-import { Address, FungibleToken } from "@iov/bcp-types";
+import { FungibleToken } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 
 import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
-import { setName, sendTransaction } from "../logic/account";
+import { sendTransaction, setName } from "../logic/account";
 import { resolveAddress } from "../logic/name";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";

@@ -50,27 +50,27 @@ interface SendTokenFormProps {
 }
 
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
-  state = {
+  public readonly state = {
     iovAddress: "",
     tokenAmount: "",
     memo: "",
   };
-  onChangeAddress = (evt: any) => {
+  public readonly onChangeAddress = (evt: any) => {
     this.setState({
       iovAddress: evt.target.value,
     });
   };
-  onChangeAmount = (evt: any) => {
+  public readonly onChangeAmount = (evt: any) => {
     this.setState({
       tokenAmount: evt.target.value,
     });
   };
-  onChangeMemo = (evt: any) => {
+  public readonly onChangeMemo = (evt: any) => {
     this.setState({
       memo: evt.target.value,
     });
   };
-  render() {
+  public render(): JSX.Element | boolean {
     const { name, balance, onSend } = this.props;
     const { iovAddress, tokenAmount, memo } = this.state;
     return (

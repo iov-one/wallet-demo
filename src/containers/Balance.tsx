@@ -7,11 +7,11 @@ import { BcpConnection } from "@iov/bcp-types";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { AccountInfoSection } from "../components/templates/sections";
 import { ReceiveModal } from "../components/templates/modal";
+import { AccountInfoSection } from "../components/templates/sections";
 
-import { ChainAccount, getMyAccounts } from "../selectors";
 import { BcpAccountWithChain } from "../reducers/blockchain";
+import { ChainAccount, getMyAccounts } from "../selectors";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
@@ -31,7 +31,7 @@ interface BalanceState {
 }
 
 class Balance extends React.Component<BalanceProps & BalanceDispatchProps, BalanceState> {
-  state = {
+  public readonly state = {
     showReceiveModal: false,
   };
 

@@ -2,8 +2,8 @@ import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import { AccountName, Description } from "../../subComponents/typography";
 import { TextCopy } from "../../compoundComponents/form";
+import { AccountName, Description } from "../../subComponents/typography";
 
 const CopyWrapper = styled.div`
   margin-top: 50px;

@@ -43,10 +43,10 @@ const Notification = styled.div`
 `;
 
 export class TextCopy extends React.Component<any> {
-  state = {
+  public readonly state = {
     checked: false,
   };
-  private copied = (): any => {
+  public readonly copied = (): any => {
     this.setState({
       checked: true,
     });
