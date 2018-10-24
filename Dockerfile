@@ -10,8 +10,9 @@ RUN mkdir -p /rw-volume /assets
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 ADD ./dist /assets
 
-# set volume permissions
+# set permissions
 RUN chown -R nginx:nginx /assets /rw-volume
+# We define this as a separate volume, so it is not affected by the --read-only flag
 VOLUME ["/rw-volume"]
 
 # and as a user nginx on non-privledged port
