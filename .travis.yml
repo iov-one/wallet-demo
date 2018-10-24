@@ -44,9 +44,11 @@ before_script:
 
 script:
 - yarn test
+- yarn dist
 
 after_script:
 - source ./scripts/blockchain_stop.sh
+- ./scripts/publish_docker.sh
 
 # whitelist long living branches to avoid testing feature branches twice (as branch and as pull request)
 branches:
