@@ -34,6 +34,10 @@ deployed to the browser. The redux actions will then be re-run to recreate the c
 _Note:_ we are pinned to the v3.x release of react-hot-loader as v4.x requires
 babel, which is unnecessary overhead for a typescript project.
 
+## Design process
+
+The process from idea to design to implementation is [described in another document](./Design.md)
+
 ## Development process
 
 Before modifying any code, ensure that it works in your environment:
