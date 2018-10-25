@@ -1,3 +1,4 @@
+// tslint:disable:no-string-literal
 import config from "config";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -47,7 +48,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public componentDidMount(): void {
     const { boot } = this.props;
     const setup = async () => {
-      await boot(config.get("defaultPassword"), [config.get("chainSpec")]);
+      await boot(config["defaultPassword"], [config["chainSpec"]]);
       this.checkAndDrinkFaucet();
     };
     setup();
@@ -60,7 +61,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     } = this.props;
     if (!account) {
       const setup = async () => {
-        await drinkFaucet(config.get("defaultFaucetUri"), chainId);
+        await drinkFaucet(config["defaultFaucetUri"], chainId);
         this.setState({
           ready: true,
         });
