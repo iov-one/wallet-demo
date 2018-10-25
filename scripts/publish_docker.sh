@@ -10,29 +10,25 @@
 
 BUILD_VERSION=$(echo ${TRAVIS_COMMIT} | cut -c 1-10);
 
-[[ "$TRAVIS_TAG" != "" ]];
-BUILD_TAG=$?
+echo BUILD_VERSION $BUILD_VERSION
+echo TRAVIS_BRANCH $TRAVIS_BRANCH
+echo TRAVIS_TAG $TRAVIS_TAG
+echo TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_PULL_REQUEST_BRANCH
 
-# always push latest from a successful master build
-# BRANCH is set to master for prs targetting master, must ensure not PRs
-[[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_PULL_REQUEST" == "" ]];
-BUILD_LATEST=$?
-
-if [[ "$BUILD_TAG" == "0" || "$BUILD_LATEST" == "0" ]]; then
+if [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_TAG" == "" ]] && [[ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]]; then
+  echo "Building master"
   docker build --pull -t "iov1/wallet-demo:${BUILD_VERSION}" .
   docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-
-  # we may want to push both, but only need to build once
-  if [[ "$BUILD_TAG" == "0" ]]; then
-      docker tag  "iov1/wallet-demo:${BUILD_VERSION}" "iov1/wallet-demo:${TRAVIS_TAG}";
-      docker push "iov1/wallet-demo:${TRAVIS_TAG}";
-  fi
-  if [[ "$BUILD_LATEST" == "0" ]]; then
-    docker tag  "iov1/wallet-demo:${BUILD_VERSION}" "iov1/wallet-demo:latest";
-    docker push "iov1/wallet-demo:latest";
-  fi;
-
+  docker tag  "iov1/wallet-demo:${BUILD_VERSION}" "iov1/wallet-demo:latest";
+  docker push "iov1/wallet-demo:latest";
   docker logout;
-else
-  echo "Only build docker images on master: ${BUILD_VERSION} / ${TAG}";
-fi
+fi;
+
+if [[ "$TRAVIS_TAG" != "" ]]; then
+  echo "Building tag $TRAVIS_TAG"
+  docker build --pull -t "iov1/wallet-demo:${BUILD_VERSION}" .
+  docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  docker tag  "iov1/wallet-demo:${BUILD_VERSION}" "iov1/wallet-demo:${TRAVIS_TAG}";
+  docker push "iov1/wallet-demo:${TRAVIS_TAG}";
+  docker logout;
+fi;
