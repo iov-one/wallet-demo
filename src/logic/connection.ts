@@ -26,7 +26,7 @@ function specToConnector(spec: BlockchainSpec): ChainConnector {
 
   switch (spec.codecType) {
     case CodecType.Bns:
-      return bnsConnector(uri);
+      return { ...bnsConnector(uri), expectedChainId: spec.chainId };
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
@@ -39,16 +39,6 @@ export async function addBlockchain(
   blockchain: BlockchainSpec,
 ): Promise<BcpConnection> {
   const connector = specToConnector(blockchain);
-
-  // TODO: return the new chainId in promise....
-  await writer.addChain(connector);
-  const chainIds = writer.chainIds();
-  const chainId = chainIds[chainIds.length - 1];
-
-  // TODO: enforce this in writer.addChain?
-  if (blockchain.chainId !== undefined && chainId !== blockchain.chainId) {
-    throw new Error(`Expected chain ${blockchain.chainId}, got ${chainId}`);
-  }
-
-  return writer.connection(chainId);
+  const { connection } = await writer.addChain(connector);
+  return connection;
 }
