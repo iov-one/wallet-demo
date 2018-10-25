@@ -1,0 +1,8 @@
+{
+  "chainSpec": {
+    "codecType": "bns",
+    "bootstrapNodes": ["wss://bov.friendnet-fast.iov.one/"]
+  },
+  "defaultPassword": "test-pass",
+  "defaultFaucetUri": "https://faucet.friendnet-fast.iov.one/faucet"
+}

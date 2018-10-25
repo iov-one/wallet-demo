@@ -6,17 +6,9 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
 
-import { BlockchainSpec, CodecType } from "../logic/connection";
+import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
 import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
-
-// TODO: these constants should come from config or props later
-const chainSpec: BlockchainSpec = {
-  codecType: CodecType.Bns,
-  bootstrapNodes: ["wss://bov.friendnet-slow.iov.one/"],
-};
-const defaultPassword = "test-pass";
-const defaultFacuetUri = "https://faucet.friendnet-slow.iov.one/faucet";
 
 interface HomeState {
   readonly name: string;
@@ -54,7 +46,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public componentDidMount(): void {
     const { boot } = this.props;
     const setup = async () => {
-      await boot(defaultPassword, [chainSpec]);
+      await boot(CONFIG.defaultPassword, [CONFIG.chainSpec]);
       this.checkAndDrinkFaucet();
     };
     setup();
@@ -67,7 +59,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     } = this.props;
     if (!account) {
       const setup = async () => {
-        await drinkFaucet(defaultFacuetUri, chainId);
+        await drinkFaucet(CONFIG.defaultFaucetUri, chainId);
         this.setState({
           ready: true,
         });

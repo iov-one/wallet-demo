@@ -79,6 +79,7 @@ module.exports = {
     // prints more readable module names in the browser console on HMR updates
     new HtmlWebpackPlugin({ template: resolve(baseDir, "src/index.html") }),
     // inject <script> in html file.
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require("config")) }),
   ],
 
   devServer: {
