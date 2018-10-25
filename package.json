@@ -18,7 +18,9 @@
     "dist": "webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js"
+    "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js",
+    "docker-build": "yarn dist && docker build --pull -t wallet-demo:${BUILD_VERSION:-manual} .",
+    "docker-run": "docker run --read-only -p 3000:3000 wallet-demo:manual"
   },
   "dependencies": {
     "@iov/bns": "^0.7.0-alpha.1",
