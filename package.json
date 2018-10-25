@@ -23,11 +23,11 @@
     "docker-run": "docker run --read-only -p 3000:3000 wallet-demo:manual"
   },
   "dependencies": {
-    "@iov/bns": "^0.7.0-alpha.1",
-    "@iov/core": "^0.7.0-alpha.1",
-    "@iov/crypto": "^0.7.0-alpha.1",
-    "@iov/faucets": "^0.7.0-alpha.1",
-    "@iov/keycontrol": "^0.7.0-alpha.1",
+    "@iov/bns": "^0.7.0",
+    "@iov/core": "^0.7.0",
+    "@iov/crypto": "^0.7.0",
+    "@iov/faucets": "^0.7.0",
+    "@iov/keycontrol": "^0.7.0",
     "chai-as-promised": "^7.1.1",
     "config": "^2.0.1",
     "encoding-down": "^5.0.4",

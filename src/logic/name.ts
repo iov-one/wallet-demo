@@ -1,4 +1,6 @@
-import { Address, BcpConnection } from "@iov/bcp-types";
+import { Address, BcpConnection, TxReadCodec } from "@iov/bcp-types";
+import { bnsCodec } from "@iov/bns";
+
 import { getAddressByName } from "./account";
 
 const valueNameSuffix = "*iov";
@@ -9,7 +11,11 @@ export function isValueName(address: string): boolean {
 }
 
 // you can call resolve address on the result from the ui to get a
-export async function resolveAddress(connection: BcpConnection, maybeAddress: string): Promise<Address> {
+export async function resolveAddress(
+  connection: BcpConnection,
+  maybeAddress: string,
+  codec: TxReadCodec = bnsCodec,
+): Promise<Address> {
   if (isValueName(maybeAddress)) {
     // we trim off the "*iov" suffix at the end to get the name to query
     const name = maybeAddress.slice(0, -valueNameSuffix.length);
@@ -19,7 +25,10 @@ export async function resolveAddress(connection: BcpConnection, maybeAddress: st
     } else {
       return address;
     }
+  } else {
+    if (!codec.isValidAddress(maybeAddress)) {
+      throw new Error(`Invalid address for chain ${connection.chainId()}: ${maybeAddress}`);
+    }
+    return maybeAddress as Address;
   }
-  // TODO: use Connection codec to check if valid address
-  return maybeAddress as Address;
 }
