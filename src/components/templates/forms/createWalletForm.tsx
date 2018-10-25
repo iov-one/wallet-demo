@@ -3,6 +3,7 @@ import React from "react";
 import * as FormComponents from "../../compoundComponents/form";
 import { NextButton } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
+import { FormWrapper } from "../../subComponents/wrappers";
 
 interface FormProp {
   readonly onNext: () => any;
@@ -19,7 +20,7 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
     />
   );
   const content = (
-    <div>
+    <FormWrapper>
       <Description>
         Choose an unique address you’ll use to sign in to IOV, send and receive payments
       </Description>
@@ -31,7 +32,7 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
           props.onChange(evt.target.value);
         }}
       />
-    </div>
+    </FormWrapper>
   );
   return (
     <FormComponents.FormStructure title="Create your first wallet" content={content} actions={nextButton} />

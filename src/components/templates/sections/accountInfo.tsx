@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { coinToString } from "../../../logic";
 import { SendReceiveButton } from "../../subComponents/buttons";
 import { AccountName, TokenValue } from "../../subComponents/typography";
+import { SectionWrapper } from "../../subComponents/wrappers";
 
 interface AccountInfo {
   readonly name: string;
@@ -65,27 +66,29 @@ const Backup = styled.a`
 export const AccountInfoSection = (props: AccountInfo) => {
   const { name, balances, onSend, onReceive } = props;
   return (
-    <Container>
-      <Wrapper>
-        <AccountName>{name}</AccountName>
-        <Content>
-          {balances.map((balance, idx) => {
-            const { whole, fractional, tokenTicker, tokenName } = balance;
+    <SectionWrapper>
+      <Container>
+        <Wrapper>
+          <AccountName>{name}</AccountName>
+          <Content>
+            {balances.map((balance, idx) => {
+              const { whole, fractional, tokenTicker, tokenName } = balance;
 
-            // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
-            const amount = coinToString({ whole, fractional, sigFigs: 9 });
-            // const amount = coinToString({ whole, fractional, sigFigs});
+              // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
+              const amount = coinToString({ whole, fractional, sigFigs: 9 });
+              // const amount = coinToString({ whole, fractional, sigFigs});
 
-            return (
-              <FieldWrapper key={`balance_${idx}`}>
-                <TokenValue amount={amount} tokenUnit={tokenTicker} info={tokenName} />
-                <SendReceiveButton onReceive={onReceive} onSend={onSend} />
-              </FieldWrapper>
-            );
-          })}
-        </Content>
-      </Wrapper>
-      <Backup>Backup your account</Backup>
-    </Container>
+              return (
+                <FieldWrapper key={`balance_${idx}`}>
+                  <TokenValue amount={amount} tokenUnit={tokenTicker} info={tokenName} />
+                  <SendReceiveButton onReceive={onReceive} onSend={onSend} />
+                </FieldWrapper>
+              );
+            })}
+          </Content>
+        </Wrapper>
+        <Backup>Backup your account</Backup>
+      </Container>
+    </SectionWrapper>
   );
 };

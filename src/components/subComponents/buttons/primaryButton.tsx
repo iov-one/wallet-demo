@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface ButtonProps {
   readonly title: string;
+  readonly disabled?: boolean;
   readonly onClick: () => any;
 }
 
@@ -19,6 +20,15 @@ const ButtonContent = styled.div`
   border-radius: 6.7px;
   cursor: pointer;
   background-color: #31e6c9;
+  &:hover {
+    background-color: #2cd0b6;
+  }
+  &.disabled {
+    background-color: #31e6c9;
+    &:hover {
+      background-color: #31e6c9;
+    }
+  }
 `;
 const ButtonTitle = styled.div`
   font-family: Open Sans;
@@ -33,10 +43,10 @@ const ButtonTitle = styled.div`
 `;
 
 export const PrimaryButton = (props: ButtonProps): JSX.Element => {
-  const { title, onClick } = props;
+  const { title, onClick, disabled } = props;
   return (
     <ButtonWrapper onClick={onClick}>
-      <ButtonContent>
+      <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
       </ButtonContent>
     </ButtonWrapper>

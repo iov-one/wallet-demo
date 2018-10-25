@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { InputField } from "../../compoundComponents/form";
 import { PrimaryButton } from "../../subComponents/buttons";
 import { AccountBalance, AccountName } from "../../subComponents/typography";
+import { FormWrapper } from "../../subComponents/wrappers";
 
 const Container = styled.div`
   display: flex;
@@ -74,41 +75,43 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     const { name, balance, onSend } = this.props;
     const { iovAddress, tokenAmount, memo } = this.state;
     return (
-      <Container>
-        <Wrapper>
-          <AccountName className="noBorder">{name}</AccountName>
-          <AccountBalance balance={balance} />
-          <Content>
-            <InputField
-              title="To:"
-              placeholder="IOV address"
-              value={iovAddress}
-              onChange={this.onChangeAddress}
+      <FormWrapper>
+        <Container>
+          <Wrapper>
+            <AccountName className="noBorder">{name}</AccountName>
+            <AccountBalance balance={balance} />
+            <Content>
+              <InputField
+                title="To:"
+                placeholder="IOV address"
+                value={iovAddress}
+                onChange={this.onChangeAddress}
+              />
+              <InputField
+                title="Amount:"
+                placeholder="1000"
+                unit="IOV"
+                value={tokenAmount}
+                onChange={this.onChangeAmount}
+              />
+              <InputField
+                title="Memo:"
+                placeholder="Save the forest"
+                value={memo}
+                onChange={this.onChangeMemo}
+              />
+            </Content>
+          </Wrapper>
+          <ActionWrapper>
+            <PrimaryButton
+              title="Send"
+              onClick={() => {
+                onSend(this.state);
+              }}
             />
-            <InputField
-              title="Amount:"
-              placeholder="1000"
-              unit="IOV"
-              value={tokenAmount}
-              onChange={this.onChangeAmount}
-            />
-            <InputField
-              title="Memo:"
-              placeholder="Save the forest"
-              value={memo}
-              onChange={this.onChangeMemo}
-            />
-          </Content>
-        </Wrapper>
-        <ActionWrapper>
-          <PrimaryButton
-            title="Send"
-            onClick={() => {
-              onSend(this.state);
-            }}
-          />
-        </ActionWrapper>
-      </Container>
+          </ActionWrapper>
+        </Container>
+      </FormWrapper>
     );
   }
 }

@@ -3,6 +3,7 @@ import React from "react";
 import * as FormComponents from "../../compoundComponents/form";
 import { NextButton } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
+import { FormWrapper } from "../../subComponents/wrappers";
 
 interface FormProp {
   readonly onNext: () => any;
@@ -18,10 +19,10 @@ export const ImportAccountForm = (props: FormProp): JSX.Element => {
     />
   );
   const content = (
-    <div>
+    <FormWrapper>
       <Description>Please enter the recovery phase to import your account</Description>
       <FormComponents.TextArea placeholder="ocean wall flower chair mountain…" />
-    </div>
+    </FormWrapper>
   );
   return <FormComponents.FormStructure title="Import your account" content={content} actions={nextButton} />;
 };
