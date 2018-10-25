@@ -1,3 +1,6 @@
+// webpack-config.js
+const config = require('config')
+const fs = require('fs')
 const { resolve } = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -5,6 +8,9 @@ const tsImportPluginFactory = require("ts-import-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const baseDir = resolve(__dirname, "..");
+// taken from: https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-3
+const configFile = resolve(baseDir, "build", "client.json")
+fs.writeFileSync(configFile, JSON.stringify(config))
 
 module.exports = {
   context: resolve(baseDir, "src"),
@@ -25,6 +31,9 @@ module.exports = {
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: {
+      config: configFile,
+    },  
   },
   module: {
     rules: [
@@ -79,6 +88,7 @@ module.exports = {
     // prints more readable module names in the browser console on HMR updates
     new HtmlWebpackPlugin({ template: resolve(baseDir, "src/index.html") }),
     // inject <script> in html file.
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require("config")) }),
   ],
 
   devServer: {
