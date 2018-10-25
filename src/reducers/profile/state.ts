@@ -1,4 +1,4 @@
-import { KeyringEntryId, LocalIdentity, UserProfile } from "@iov/keycontrol";
+import { LocalIdentity, UserProfile, WalletId } from "@iov/keycontrol";
 
 import { StringDB } from "../../logic";
 
@@ -8,7 +8,7 @@ export interface ProfileState {
 }
 
 export interface ActiveIdentity {
-  readonly walletId: KeyringEntryId;
+  readonly walletId: WalletId;
   readonly identity: LocalIdentity;
 }
 

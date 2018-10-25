@@ -1,5 +1,5 @@
 import { Bip39, Random } from "@iov/crypto";
-import { Ed25519HdWallet, HdPaths, KeyringEntryId, LocalIdentity, UserProfile } from "@iov/keycontrol";
+import { Ed25519HdWallet, HdPaths, LocalIdentity, UserProfile, WalletId } from "@iov/keycontrol";
 
 import { hasDbKey, StringDB } from "./db";
 
@@ -11,13 +11,13 @@ export async function createProfile(fixedMnemonic?: string): Promise<UserProfile
   const mnemonic = fixedMnemonic || Bip39.encode(await Random.getBytes(EntropyBytes)).asString();
   const keyring = Ed25519HdWallet.fromMnemonic(mnemonic);
   const profile = new UserProfile();
-  profile.addEntry(keyring);
+  profile.addWallet(keyring);
   await profile.createIdentity(keyring.id, HdPaths.simpleAddress(0));
   return profile;
 }
 
 // returns id of the first keyring
-export function getMainKeyring(profile: UserProfile): KeyringEntryId {
+export function getMainKeyring(profile: UserProfile): WalletId {
   const wallets = profile.wallets.value;
   if (wallets.length < 1) {
     throw new Error("No wallet on the UserProfile");
@@ -26,7 +26,7 @@ export function getMainKeyring(profile: UserProfile): KeyringEntryId {
 }
 
 export interface WalletAndIdentity {
-  readonly walletId: KeyringEntryId;
+  readonly walletId: WalletId;
   readonly identity: LocalIdentity;
 }
 
