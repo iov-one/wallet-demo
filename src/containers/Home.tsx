@@ -1,11 +1,12 @@
-import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
+import config from "config";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
+
 import { PageStructure } from "../components/compoundComponents/page";
 import { CreateWalletForm } from "../components/templates/forms";
-
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
 import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
@@ -46,7 +47,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public componentDidMount(): void {
     const { boot } = this.props;
     const setup = async () => {
-      await boot(CONFIG.defaultPassword, [CONFIG.chainSpec]);
+      await boot(config.get("defaultPassword"), [config.get("chainSpec")]);
       this.checkAndDrinkFaucet();
     };
     setup();
@@ -59,7 +60,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     } = this.props;
     if (!account) {
       const setup = async () => {
-        await drinkFaucet(CONFIG.defaultFaucetUri, chainId);
+        await drinkFaucet(config.get("defaultFaucetUri"), chainId);
         this.setState({
           ready: true,
         });
