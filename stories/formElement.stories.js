@@ -20,4 +20,5 @@ storiesOf("Form Elements", module)
   .add("TextArea with Notification", () => (
     <TextArea title="Title" description="Description" notification="Notification" />
   ))
+  .add("TextArea with Error State", () => <InputField title="Your IOV handle" notification="Error" error />)
   .add("TextCopy", () => <TextCopy title="Your IOV address" notification="Link Copied" value="testtest" />);

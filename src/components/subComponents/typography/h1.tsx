@@ -9,4 +9,7 @@ export const H1 = styled.h1`
   line-height: 1.35;
   letter-spacing: 1.7px;
   color: #1c1c1c;
+  &.center {
+    text-align: center;
+  }
 `;
