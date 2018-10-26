@@ -1,6 +1,6 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
-import { FungibleToken, TokenTicker } from "@iov/bcp-types";
+import { BcpAccount, BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
@@ -10,8 +10,8 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { PageStructure } from "../components/compoundComponents/page";
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
 
+import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
-
 import { sendTransactionSequence } from "../sequences";
 
 interface SendTokenProps extends RouteComponentProps<{}> {
@@ -28,36 +28,68 @@ interface SendTokenDispatchToProps {
   ) => Promise<any>;
 }
 
-const convertStringToFungibleToken = (tokenAmount: string): FungibleToken => {
-  const parts = tokenAmount.split(".");
-  const result: FungibleToken = {
-    whole: parseInt(parts[0], 10),
-    fractional: parseInt(parts[1], 10),
-    tokenTicker: "IOV" as TokenTicker,
-  };
-  return result;
+const convertStringToFungibleToken = (
+  tokenAmount: string,
+  sigFigs: number,
+  tokenTicker: TokenTicker,
+): FungibleToken => {
+  const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
+  return { whole, fractional, tokenTicker };
 };
 
 class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, any> {
-  public readonly onSend = (transInfo: SendTokenFormState): any => {
+  public onSend(transInfo: SendTokenFormState): void {
+    console.log("onSend");
+    console.log(transInfo);
     const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
-    const amount = convertStringToFungibleToken(tokenAmount);
-    sendTransaction(chainIds[0], iovAddress, amount, memo).then(() => {
-      history.goBack();
-    });
-  };
+    const account = this.getFirstAccount();
+    console.log(account);
+    if (!account) {
+      throw new Error("Cannot send without account");
+    }
+    const balance = this.getFirstBalance(account);
+    console.log(balance);
+    if (!balance) {
+      throw new Error("Cannot send without balance");
+    }
+    // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
+    const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
+    // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
+    console.log(amount);
+    sendTransaction(chainIds[0], iovAddress, amount, memo)
+      .then(() => {
+        history.goBack();
+      })
+      .catch(err => console.log(err));
+  }
+
+  public getFirstAccount(): BcpAccount | undefined {
+    return get(this.props.accounts, "[0].account", undefined);
+  }
+  public getFirstBalance(account: BcpAccount): BcpCoin | undefined {
+    return account.balance[0];
+  }
+
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
-    const account = get(accounts, "[0].account", false);
+    // TODO: we should really iterate over all accounts... this is a work-around for demo
+    const account = this.getFirstAccount();
+    console.log(`Account:`);
+    console.log(account);
     if (!account) {
       return false;
     }
-    const name = `${account.name}*iov.value`;
-    const balance = account.balance;
+    const name = `${account.name}*iov`;
+    const balance = this.getFirstBalance(account);
+    console.log(`Balance: ${balance}`);
+    if (!balance) {
+      return false;
+    }
+    // tslint:disable-next-line:no-this-assignment
+    const that = this;
     return (
       <PageStructure whiteBg>
-        <SendTokenForm name={name} balance={balance[0]} onSend={this.onSend} />
+        <SendTokenForm name={name} balance={balance} onSend={info => that.onSend(info)} />
       </PageStructure>
     );
   }

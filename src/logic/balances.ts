@@ -1,9 +1,3 @@
-export interface CoinInfo {
-  readonly whole: number;
-  readonly fractional: number;
-  readonly sigFigs: number;
-}
-
 export function stringToFractional(fractionString: string, sigFigs: number): number {
   // we ensure no more than sigFigs are parsed
   const cleanFrac = fractionString.slice(0, sigFigs);
@@ -22,6 +16,12 @@ export function fractionalToString(fractional: number, sigFigs: number): string 
     return fraction.slice(0, -trailingZeros.length);
   }
   return fraction;
+}
+
+export interface CoinInfo {
+  readonly whole: number;
+  readonly fractional: number;
+  readonly sigFigs: number;
 }
 
 export function stringToCoin(amount: string, sigFigs: number): CoinInfo {
