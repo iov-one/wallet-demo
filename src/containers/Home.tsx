@@ -7,10 +7,11 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 
 import { PageStructure } from "../components/compoundComponents/page";
+import { NextButton } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
-import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
+import { bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
 
 interface HomeState {
   readonly name: string;
@@ -29,6 +30,7 @@ interface HomeProps extends RouteComponentProps<{}> {
 
 // Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
+  readonly reset: (password: string) => Promise<any>;
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
@@ -45,17 +47,15 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       chainId: "" as ChainId,
     };
   }
-  public componentDidMount(): void {
+  public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
-    const setup = async () => {
+    try {
       await boot(config["defaultPassword"], [config["chainSpec"]]);
       await this.checkAndDrinkFaucet();
-    };
-    // TODO: properly handle setup errors
-    setup().catch(err => {
+    } catch (err) {
       console.log("error during boot phase");
       console.log(err);
-    });
+    }
   }
   public async checkAndDrinkFaucet(): Promise<void> {
     const {
@@ -93,9 +93,14 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       console.log("Not ready yet");
     }
   }
+
   public render(): JSX.Element {
-    return (
-      <PageStructure whiteBg>
+    return <PageStructure whiteBg>{this.renderChild()}</PageStructure>;
+  }
+
+  private renderChild(): JSX.Element {
+    if (this.state.ready) {
+      return (
         <CreateWalletForm
           onNext={() => {
             this.createAccount();
@@ -106,8 +111,22 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
             });
           }}
         />
-      </PageStructure>
-    );
+      );
+    } else {
+      return (
+        <NextButton
+          title="Reset Account"
+          onClick={() => {
+            this.resetProfile();
+          }}
+        />
+      );
+    }
+  }
+
+  private async resetProfile(): Promise<void> {
+    await this.props.reset(config["defaultPassword"]);
+    await this.componentDidMount();
   }
 }
 
@@ -124,6 +143,7 @@ const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
   drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 

@@ -59,17 +59,28 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 // loads the profile if possible, otherwise creates a new one and saves it
 // throws an error on existing profile, but bad password
 export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
+  console.log(`loadOrCreateProfile: ${password}`);
   if (await hasStoredProfile(db)) {
-    try {
-      const res = await UserProfile.loadFrom(db, password);
-      return res;
-    } catch (err) {
-      // TODO: rethink how we handle this, this is a bit dangerous as is, but there
-      // is no recovery path yet. From iov-core 0.8.0, there should be auto-migration
-      console.log("Invalid format of current DB, overwriting with new profile...");
-    }
+    return loadProfile(db, password);
   }
+  return resetProfile(db, password);
+}
+
+export async function resetProfile(db: StringDB, password: string): Promise<UserProfile> {
   const profile = await createProfile();
   await profile.storeIn(db, password);
   return profile;
+}
+
+export async function loadProfile(db: StringDB, password: string): Promise<UserProfile> {
+  try {
+    const res = await UserProfile.loadFrom(db, password);
+    return res;
+  } catch (err) {
+    // TODO: rethink how we handle this, this is a bit dangerous as is, but there
+    // is no recovery path yet. From iov-core 0.8.0, there should be auto-migration
+    console.log("Invalid password or invalid format of current DB");
+    console.log("If the password is correct, try resetProfile...");
+    throw err;
+  }
 }

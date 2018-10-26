@@ -6,9 +6,15 @@ import { ThunkDispatch } from "redux-thunk";
 import { FungibleToken } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 
-import { BlockchainSpec, keyToAddress, takeFaucetCredit } from "../logic";
-import { sendTransaction, setName } from "../logic/account";
-import { resolveAddress } from "../logic/name";
+import {
+  BlockchainSpec,
+  keyToAddress,
+  resetProfile,
+  resolveAddress,
+  sendTransaction,
+  setName,
+  takeFaucetCredit,
+} from "../logic";
 import { RootActions, RootState } from "../reducers";
 import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
@@ -16,6 +22,14 @@ import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
 type RootThunkDispatch = ThunkDispatch<RootState, any, RootActions>;
+
+export const resetSequence = (password: string) => async (
+  _: RootThunkDispatch,
+  getState: () => RootState,
+) => {
+  const db = getProfileDB(getState());
+  return resetProfile(db, password);
+};
 
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
