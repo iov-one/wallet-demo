@@ -7,10 +7,11 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 
 import { PageStructure } from "../components/compoundComponents/page";
+import { NextButton } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
-import { bootSequence, drinkFaucetSequence, setNameSequence } from "../sequences";
+import { bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
 
 interface HomeState {
   readonly name: string;
@@ -29,6 +30,7 @@ interface HomeProps extends RouteComponentProps<{}> {
 
 // Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
+  readonly reset: (password: string) => Promise<any>;
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
   readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
@@ -45,28 +47,27 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       chainId: "" as ChainId,
     };
   }
-  public componentDidMount(): void {
+  public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
-    const setup = async () => {
+    try {
       await boot(config["defaultPassword"], [config["chainSpec"]]);
-      this.checkAndDrinkFaucet();
-    };
-    setup();
+      await this.checkAndDrinkFaucet();
+    } catch (err) {
+      console.log("error during boot phase");
+      console.log(err);
+    }
   }
-  public checkAndDrinkFaucet(): void {
+  public async checkAndDrinkFaucet(): Promise<void> {
     const {
       accounts: [{ account, chainId }],
       drinkFaucet,
       history,
     } = this.props;
     if (!account) {
-      const setup = async () => {
-        await drinkFaucet(config["defaultFaucetUri"], chainId);
-        this.setState({
-          ready: true,
-        });
-      };
-      setup();
+      await drinkFaucet(config["defaultFaucetUri"], chainId);
+      this.setState({
+        ready: true,
+      });
     } else {
       if (!account.name) {
         this.setState({
@@ -77,7 +78,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       }
     }
   }
-  public createAccount(): void {
+  public async createAccount(): Promise<void> {
     const { name, ready } = this.state;
     if (ready) {
       const {
@@ -85,16 +86,21 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
         accounts: [{ chainId }],
         history,
       } = this.props;
-      const setup = async () => {
-        await setName(name, chainId);
-        history.push("/balance/");
-      };
-      setup();
+      await setName(name, chainId);
+      history.push("/balance/");
+    } else {
+      // TODO: better display, actually we shouldn't even render page until ready (show loading)
+      console.log("Not ready yet");
     }
   }
+
   public render(): JSX.Element {
-    return (
-      <PageStructure whiteBg>
+    return <PageStructure whiteBg>{this.renderChild()}</PageStructure>;
+  }
+
+  private renderChild(): JSX.Element {
+    if (this.state.ready) {
+      return (
         <CreateWalletForm
           onNext={() => {
             this.createAccount();
@@ -105,8 +111,22 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
             });
           }}
         />
-      </PageStructure>
-    );
+      );
+    } else {
+      return (
+        <NextButton
+          title="Reset Account"
+          onClick={() => {
+            this.resetProfile();
+          }}
+        />
+      );
+    }
+  }
+
+  private async resetProfile(): Promise<void> {
+    await this.props.reset(config["defaultPassword"]);
+    await this.componentDidMount();
   }
 }
 
@@ -123,6 +143,7 @@ const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
   drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
 
