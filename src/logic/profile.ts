@@ -60,7 +60,14 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 // throws an error on existing profile, but bad password
 export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
   if (await hasStoredProfile(db)) {
-    return UserProfile.loadFrom(db, password);
+    try {
+      const res = await UserProfile.loadFrom(db, password);
+      return res;
+    } catch (err) {
+      // TODO: rethink how we handle this, this is a bit dangerous as is, but there
+      // is no recovery path yet. From iov-core 0.8.0, there should be auto-migration
+      console.log("Invalid format of current DB, overwriting with new profile...");
+    }
   }
   const profile = await createProfile();
   await profile.storeIn(db, password);

@@ -49,24 +49,25 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const { boot } = this.props;
     const setup = async () => {
       await boot(config["defaultPassword"], [config["chainSpec"]]);
-      this.checkAndDrinkFaucet();
+      await this.checkAndDrinkFaucet();
     };
-    setup();
+    // TODO: properly handle setup errors
+    setup().catch(err => {
+      console.log("error during boot phase");
+      console.log(err);
+    });
   }
-  public checkAndDrinkFaucet(): void {
+  public async checkAndDrinkFaucet(): Promise<void> {
     const {
       accounts: [{ account, chainId }],
       drinkFaucet,
       history,
     } = this.props;
     if (!account) {
-      const setup = async () => {
-        await drinkFaucet(config["defaultFaucetUri"], chainId);
-        this.setState({
-          ready: true,
-        });
-      };
-      setup();
+      await drinkFaucet(config["defaultFaucetUri"], chainId);
+      this.setState({
+        ready: true,
+      });
     } else {
       if (!account.name) {
         this.setState({
@@ -77,7 +78,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       }
     }
   }
-  public createAccount(): void {
+  public async createAccount(): Promise<void> {
     const { name, ready } = this.state;
     if (ready) {
       const {
@@ -85,11 +86,11 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
         accounts: [{ chainId }],
         history,
       } = this.props;
-      const setup = async () => {
-        await setName(name, chainId);
-        history.push("/balance/");
-      };
-      setup();
+      await setName(name, chainId);
+      history.push("/balance/");
+    } else {
+      // TODO: better display, actually we shouldn't even render page until ready (show loading)
+      console.log("Not ready yet");
     }
   }
   public render(): JSX.Element {
