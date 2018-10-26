@@ -2,6 +2,7 @@ import { BcpCoin } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
+import { coinToString } from "../../../logic";
 import { SendReceiveButton } from "../../subComponents/buttons";
 import { AccountName, TokenValue } from "../../subComponents/typography";
 
@@ -70,12 +71,14 @@ export const AccountInfoSection = (props: AccountInfo) => {
         <Content>
           {balances.map((balance, idx) => {
             const { whole, fractional, tokenTicker, tokenName } = balance;
-            // TODO: there is sigFigs, and we need to create amount in a smarter way
-            // not needed until we can send and have non-whole balances, but soon will
-            // be useful
+
+            // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
+            const amount = coinToString({ whole, fractional, sigFigs: 9 });
+            // const amount = coinToString({ whole, fractional, sigFigs});
+
             return (
               <FieldWrapper key={`balance_${idx}`}>
-                <TokenValue amount={`${whole}.${fractional}`} tokenUnit={tokenTicker} info={`${tokenName}`} />
+                <TokenValue amount={amount} tokenUnit={tokenTicker} info={tokenName} />
                 <SendReceiveButton onReceive={onReceive} onSend={onSend} />
               </FieldWrapper>
             );

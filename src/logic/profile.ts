@@ -59,7 +59,6 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 // loads the profile if possible, otherwise creates a new one and saves it
 // throws an error on existing profile, but bad password
 export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
-  console.log(`loadOrCreateProfile: ${password}`);
   if (await hasStoredProfile(db)) {
     return loadProfile(db, password);
   }
