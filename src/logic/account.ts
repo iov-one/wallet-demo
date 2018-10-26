@@ -95,7 +95,7 @@ export async function sendTransaction(
     chainId: chainId,
     signer: signer.pubkey,
     recipient: recipient,
-    memo,
+    memo: memo || undefined,  // use undefined not "" for compatibility with golang codec
     amount,
   };
   return writer.signAndCommit(unsigned, walletId);
