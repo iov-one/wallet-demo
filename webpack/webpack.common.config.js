@@ -1,6 +1,6 @@
 // webpack-config.js
-const config = require('config')
-const fs = require('fs')
+const config = require("config");
+const fs = require("fs");
 const { resolve } = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -9,31 +9,21 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const baseDir = resolve(__dirname, "..");
 // taken from: https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-3
-const configFile = resolve(baseDir, "build", "client.json")
-fs.writeFileSync(configFile, JSON.stringify(config))
+const configFile = resolve(baseDir, "build", "client.json");
+fs.writeFileSync(configFile, JSON.stringify(config));
 
 module.exports = {
   context: resolve(baseDir, "src"),
   entry: [
     "./index.tsx",
     // the entry point of our app
-    "webpack-dev-server/client?http://localhost:8080",
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
   ],
-  output: {
-    filename: "hotloader.js",
-    // the output bundle
-    path: resolve(baseDir, "dist"),
-    publicPath: "/",
-    // necessary for HMR to know where to load the hot update chunks
-  },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"],
     alias: {
       config: configFile,
-    },  
+    },
   },
   module: {
     rules: [
@@ -84,7 +74,6 @@ module.exports = {
       filename: "style.css",
       chunkFilename: "[id].css",
     }),
-    new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
     new HtmlWebpackPlugin({ template: resolve(baseDir, "src/index.html") }),
     // inject <script> in html file.

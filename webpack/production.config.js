@@ -46,4 +46,8 @@ module.exports = merge(common, {
       },
     }),
   ],
+  devServer: {
+    hot: false,
+    inline: false,
+  },
 });
