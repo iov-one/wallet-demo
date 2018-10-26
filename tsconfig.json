@@ -18,7 +18,7 @@
     "removeComments": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6",
+    "target": "es2017",
     "typeRoots": ["./node_modules/@types", "./custom_typings"]
   },
   "include": ["src/**/*.ts", "src/components/**/*.tsx"],
