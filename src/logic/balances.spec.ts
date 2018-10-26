@@ -24,7 +24,10 @@ describe("coinToString", () => {
 
   it("should handle only fractional", () => {
     expect(coinToString(coinInfo({ fractional: 123, sigFigs: 3 }))).to.equal("0.123");
-    expect(coinToString(coinInfo({ fractional: 100400, sigFigs: 8 }))).to.equal("0.00100400");
+    expect(coinToString(coinInfo({ fractional: 456, sigFigs: 6 }))).to.equal("0.000456");
+    // trimming off trailing 0's
+    expect(coinToString(coinInfo({ fractional: 100400, sigFigs: 8 }))).to.equal("0.001004");
+    expect(coinToString(coinInfo({ fractional: 4560000, sigFigs: 7 }))).to.equal("0.456");
   });
 
   it("should handle only whole and fractional", () => {

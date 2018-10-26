@@ -11,7 +11,17 @@ export function stringToFractional(fractionString: string, sigFigs: number): num
 }
 
 export function fractionalToString(fractional: number, sigFigs: number): string {
-  return fractional.toString().padStart(sigFigs, "0");
+  const fraction = fractional.toString().padStart(sigFigs, "0");
+  if (fraction.length > sigFigs) {
+    throw new Error("Number too large for the given sigFigs");
+  }
+  const [, trailingZeros] = fraction.match(/(0*)$/)!;
+  console.log(fraction);
+  console.log(trailingZeros);
+  if (trailingZeros !== "") {
+    return fraction.slice(0, -trailingZeros.length);
+  }
+  return fraction;
 }
 
 export function stringToCoin(amount: string, sigFigs: number): CoinInfo {
