@@ -27,7 +27,7 @@ else
   docker run -v "${BNS_DIR}:/tendermint" "iov1/tendermint:${TM_VERSION}" init
   # Address is derived from HdPaths.simpleAddress(0) with mnemonic:
   # hidden ask fever furnace alter bridge rib ride banana bargain moon bacon
-  docker run -v "${BNS_DIR}:/data" "iov1/bov:${BNS_VERSION}" -home "/data" \
+  docker run -v "${BNS_DIR}:/data" "iov1/bnsd:${BNS_VERSION}" -home "/data" \
     init CASH 5696CEB0B816B374352DEA04819226EB9E946041
 
   # start tendermint daemon
@@ -39,7 +39,7 @@ else
     --log_level=state:info,rpc:info,*:error > /tmp/bns_tm.log &
   export BNS_TM_PID=$!
 
-  docker run -v "${BNS_DIR}:/data" "iov1/bov:${BNS_VERSION}" -home "/data" \
+  docker run -v "${BNS_DIR}:/data" "iov1/bnsd:${BNS_VERSION}" -home "/data" \
     start -bind="unix:///data/app.sock" > /tmp/bns_app.log &
   export BNS_APP_PID=$!
 
