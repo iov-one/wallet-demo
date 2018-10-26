@@ -14,9 +14,9 @@ else
   SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
   export TM_VERSION=0.21.0
-  export BNS_VERSION=v0.6.0
+  export BNS_VERSION=v0.8.0
   docker pull iov1/tendermint:${TM_VERSION}
-  docker pull iov1/bov:${BNS_VERSION}
+  docker pull iov1/bnsd:${BNS_VERSION}
   export BNS_ENABLED=1
 
   export BNS_DIR=$(mktemp -d "${TMPDIR:-/tmp}/bns_${BNS_VERSION}.XXXXXXXXX")
