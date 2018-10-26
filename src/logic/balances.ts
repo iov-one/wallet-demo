@@ -15,13 +15,15 @@ export function fractionalToString(fractional: number, sigFigs: number): string 
 }
 
 export function stringToCoin(amount: string, sigFigs: number): CoinInfo {
-  const matched = amount.match(/^([0-9]+)?(.[0-9]+)?$/);
+  const matched = amount.match(/^([0-9]+)?(.([0-9]+))?$/);
   if (!matched) {
     throw new Error(`Not a valid number: ${amount}`);
   }
-  const [, wholeString, fractionString] = matched;
+  // elements 1 and 3...
+  const wholeString = matched[1];
+  const fractionString = matched[3];
   const whole = wholeString ? parseInt(wholeString, 10) : 0;
-  const fractional = stringToFractional(fractionString, sigFigs);
+  const fractional = fractionString ? stringToFractional(fractionString, sigFigs) : 0;
   return { whole, fractional, sigFigs };
 }
 
