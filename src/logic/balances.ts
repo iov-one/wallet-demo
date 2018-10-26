@@ -10,8 +10,6 @@ export function fractionalToString(fractional: number, sigFigs: number): string 
     throw new Error("Number too large for the given sigFigs");
   }
   const [, trailingZeros] = fraction.match(/(0*)$/)!;
-  console.log(fraction);
-  console.log(trailingZeros);
   if (trailingZeros !== "") {
     return fraction.slice(0, -trailingZeros.length);
   }

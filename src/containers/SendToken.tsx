@@ -39,24 +39,19 @@ const convertStringToFungibleToken = (
 
 class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, any> {
   public onSend(transInfo: SendTokenFormState): void {
-    console.log("onSend");
-    console.log(transInfo);
     const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
     const account = this.getFirstAccount();
-    console.log(account);
     if (!account) {
       throw new Error("Cannot send without account");
     }
     const balance = this.getFirstBalance(account);
-    console.log(balance);
     if (!balance) {
       throw new Error("Cannot send without balance");
     }
     // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
     const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
     // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
-    console.log(amount);
     sendTransaction(chainIds[0], iovAddress, amount, memo)
       .then(() => {
         history.goBack();
@@ -74,14 +69,11 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
   public render(): JSX.Element | boolean {
     // TODO: we should really iterate over all accounts... this is a work-around for demo
     const account = this.getFirstAccount();
-    console.log(`Account:`);
-    console.log(account);
     if (!account) {
       return false;
     }
     const name = `${account.name}*iov`;
     const balance = this.getFirstBalance(account);
-    console.log(`Balance: ${balance}`);
     if (!balance) {
       return false;
     }
