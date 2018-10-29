@@ -68,20 +68,20 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     const prom = new Promise((resolve, reject) => {
       let done = false;
       cb = (acct?: BcpAccountWithChain, err?: any) => {
-        // finish the promise for the first query
-        if (!done) {
-          done = true;
-          if (acct) {
-            resolve();
-          } else {
-            reject(err);
-          }
-        }
         // actual do the dispatching
         if (acct) {
           dispatch(getAccountAsyncAction.success(acct));
         } else {
           dispatch(getAccountAsyncAction.failure(err));
+        }
+        // finish the promise for the first query
+        if (!done) {
+          done = true;
+          if (acct) {
+            resolve(acct);
+          } else {
+            reject(err);
+          }
         }
       };
     });
@@ -89,11 +89,13 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     initAccounts = [...initAccounts, prom];
   }
 
-  // wait for all accounts to initialize
-  Promise.all(initAccounts);
+  // wait for all accounts to initialize, and return these accounts
+  const resolvedAccounts = await Promise.all(initAccounts);
+  return resolvedAccounts;
 
+  // OR do we want to return this?
   // return the MultiChainSigner if we want to sequence something else after this
-  return signer;
+  // return signer;
 };
 
 export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => async (
