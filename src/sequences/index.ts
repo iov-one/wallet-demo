@@ -4,7 +4,7 @@
 import { ThunkDispatch } from "redux-thunk";
 
 import { FungibleToken } from "@iov/bcp-types";
-import { ChainId } from "@iov/core";
+import { ChainId, MultiChainSigner } from "@iov/core";
 
 import {
   BlockchainSpec,
@@ -37,13 +37,18 @@ export const resetSequence = (password: string) => async (
   return resetProfile(db, password);
 };
 
+export interface BootResult {
+  readonly signer: MultiChainSigner;
+  readonly accounts: ReadonlyArray<BcpAccountWithChain>;
+}
+
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
 // tslint:disable-next-line:only-arrow-functions
 export const bootSequence = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
   dispatch: RootThunkDispatch,
   getState: () => RootState,
-) => {
+): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
@@ -89,13 +94,10 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     initAccounts = [...initAccounts, prom];
   }
 
-  // wait for all accounts to initialize, and return these accounts
-  const resolvedAccounts = await Promise.all(initAccounts);
-  return resolvedAccounts;
-
-  // OR do we want to return this?
-  // return the MultiChainSigner if we want to sequence something else after this
-  // return signer;
+  // wait for all accounts to initialize
+  const accounts = await Promise.all(initAccounts);
+  // return initial account state as well as signer
+  return { accounts, signer };
 };
 
 export const drinkFaucetSequence = (facuetUri: string) => async (
