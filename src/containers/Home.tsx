@@ -32,11 +32,11 @@ interface HomeProps extends RouteComponentProps<{}> {
 interface HomeDispatchProps {
   readonly reset: (password: string) => Promise<any>;
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
-  readonly drinkFaucet: (facuetUri: string, chainId: ChainId) => Promise<any>;
+  readonly drinkFaucet: (facuetUri: string) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
 
-// HomeProps & HomeDispatchProps means to use them both (as if we hadn't just separated them)
+// HomeProps & HomeDispatchProps means to use the (as if we hadn't just separated them)
 class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   constructor(props: any) {
     super(props);
@@ -59,12 +59,12 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
   public async checkAndDrinkFaucet(): Promise<void> {
     const {
-      accounts: [{ account, chainId }],
+      accounts: [{ account }],
       drinkFaucet,
       history,
     } = this.props;
     if (!account) {
-      await drinkFaucet(config["defaultFaucetUri"], chainId);
+      await drinkFaucet(config["defaultFaucetUri"]);
       this.setState({
         ready: true,
       });
@@ -142,7 +142,7 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
-  drinkFaucet: (facuetUri: string, chainId: ChainId) => dispatch(drinkFaucetSequence(facuetUri, chainId)),
+  drinkFaucet: (facuetUri: string) => dispatch(drinkFaucetSequence(facuetUri)),
   reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });

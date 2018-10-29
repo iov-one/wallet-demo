@@ -4,7 +4,7 @@
 import { ThunkDispatch } from "redux-thunk";
 
 import { FungibleToken } from "@iov/bcp-types";
-import { ChainId } from "@iov/core";
+import { ChainId, MultiChainSigner } from "@iov/core";
 
 import {
   BlockchainSpec,
@@ -16,7 +16,13 @@ import {
   takeFaucetCredit,
 } from "../logic";
 import { RootActions, RootState } from "../reducers";
-import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
+import {
+  addBlockchainAsyncAction,
+  BcpAccountWithChain,
+  createSignerAction,
+  getAccountAsyncAction,
+  watchAccountAction,
+} from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
@@ -31,13 +37,18 @@ export const resetSequence = (password: string) => async (
   return resetProfile(db, password);
 };
 
+export interface BootResult {
+  readonly signer: MultiChainSigner;
+  readonly accounts: ReadonlyArray<BcpAccountWithChain>;
+}
+
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
 // tslint:disable-next-line:only-arrow-functions
 export const bootSequence = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
   dispatch: RootThunkDispatch,
   getState: () => RootState,
-) => {
+): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
@@ -51,43 +62,61 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- initiate the signer
   const { payload: signer } = fixTypes(dispatch(createSignerAction(profile)));
 
+  let initAccounts: ReadonlyArray<Promise<any>> = [];
+
   // --- connect all readers and query account balances
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-    await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+
+    // we need to set a callback that resolves a promise
+    let cb: (acct?: BcpAccountWithChain, err?: any) => any;
+    const prom = new Promise((resolve, reject) => {
+      let done = false;
+      cb = (acct?: BcpAccountWithChain, err?: any) => {
+        // actually do the dispatching
+        // Note: acct, err both undefined is valid for non-existent account
+        if (!err) {
+          dispatch(getAccountAsyncAction.success(acct));
+        } else {
+          dispatch(getAccountAsyncAction.failure(err));
+        }
+        // finish the promise for the first query
+        if (!done) {
+          done = true;
+          if (!err) {
+            resolve(acct);
+          } else {
+            reject(err);
+          }
+        }
+      };
+    });
+    dispatch(watchAccountAction(conn, identity, cb!));
+    initAccounts = [...initAccounts, prom];
   }
 
-  // return the MultiChainSigner if we want to sequence something else after this
-  return signer;
+  // wait for all accounts to initialize
+  const accounts = await Promise.all(initAccounts);
+  // return initial account state as well as signer
+  return { accounts, signer };
 };
 
-export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => async (
-  dispatch: RootThunkDispatch,
+export const drinkFaucetSequence = (facuetUri: string) => async (
+  _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const identity = requireActiveIdentity(getState());
   // --take a drink from the faucet
   const address = keyToAddress(identity);
   await takeFaucetCredit(facuetUri, address, undefined);
-
-  // now, get the new account info
-  const conn = requireConnection(getState(), chainId);
-  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-  return value;
 };
 
 export const setNameSequence = (name: string, chainId: ChainId) => async (
-  dispatch: RootThunkDispatch,
+  _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const signer = requireSigner(getState());
   await setName(signer, chainId, name);
-
-  // now, get the new account info
-  const conn = requireConnection(getState(), chainId);
-  const identity = requireActiveIdentity(getState());
-  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-  return value;
 };
 
 export const sendTransactionSequence = (
@@ -95,18 +124,12 @@ export const sendTransactionSequence = (
   iovAddress: string,
   amount: FungibleToken,
   memo: string,
-) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+) => async (_: RootThunkDispatch, getState: () => RootState) => {
   const signer = requireSigner(getState());
   const conn = requireConnection(getState(), chainId);
   try {
     const address = await resolveAddress(conn, iovAddress);
     await sendTransaction(signer, chainId, address, amount, memo);
-
-    // now, get the new account info
-
-    const identity = requireActiveIdentity(getState());
-    const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-    return value;
   } catch (err) {
     console.log(err);
     return err;

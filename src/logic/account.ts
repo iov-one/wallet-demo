@@ -66,16 +66,14 @@ export interface Unsubscriber {
 export function watchAccount(
   connection: BcpConnection,
   ident: PublicIdentity,
-  cb: (acct?: BcpAccount) => any,
+  cb: (acct?: BcpAccount, err?: any) => any,
   codec?: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
   const stream = connection.watchAccount({ address });
   const subscription = stream.subscribe({
-    next: cb,
-    error: err => {
-      throw err;
-    },
+    next: x => cb(x),
+    error: err => cb(undefined, err),
   });
   return subscription;
 }
@@ -95,7 +93,7 @@ export async function sendTransaction(
     chainId: chainId,
     signer: signer.pubkey,
     recipient: recipient,
-    memo: memo || undefined,  // use undefined not "" for compatibility with golang codec
+    memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
   };
   return writer.signAndCommit(unsigned, walletId);
