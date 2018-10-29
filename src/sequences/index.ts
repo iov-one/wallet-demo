@@ -98,33 +98,22 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // return signer;
 };
 
-export const drinkFaucetSequence = (facuetUri: string, chainId: ChainId) => async (
-  dispatch: RootThunkDispatch,
+export const drinkFaucetSequence = (facuetUri: string) => async (
+  _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const identity = requireActiveIdentity(getState());
   // --take a drink from the faucet
   const address = keyToAddress(identity);
   await takeFaucetCredit(facuetUri, address, undefined);
-
-  // now, get the new account info
-  const conn = requireConnection(getState(), chainId);
-  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-  return value;
 };
 
 export const setNameSequence = (name: string, chainId: ChainId) => async (
-  dispatch: RootThunkDispatch,
+  _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const signer = requireSigner(getState());
   await setName(signer, chainId, name);
-
-  // now, get the new account info
-  const conn = requireConnection(getState(), chainId);
-  const identity = requireActiveIdentity(getState());
-  const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-  return value;
 };
 
 export const sendTransactionSequence = (
@@ -132,18 +121,12 @@ export const sendTransactionSequence = (
   iovAddress: string,
   amount: FungibleToken,
   memo: string,
-) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+) => async (_: RootThunkDispatch, getState: () => RootState) => {
   const signer = requireSigner(getState());
   const conn = requireConnection(getState(), chainId);
   try {
     const address = await resolveAddress(conn, iovAddress);
     await sendTransaction(signer, chainId, address, amount, memo);
-
-    // now, get the new account info
-
-    const identity = requireActiveIdentity(getState());
-    const { value } = await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
-    return value;
   } catch (err) {
     console.log(err);
     return err;
