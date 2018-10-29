@@ -2,7 +2,7 @@ import { BcpAccount, BcpConnection, TxCodec } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
-import { addBlockchain, getAccount } from "../../logic";
+import { addBlockchain, getAccount, Unsubscriber, watchAccount } from "../../logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
 
 export const createSignerAction = createSyncAction(
@@ -39,3 +39,18 @@ export const getAccountAsyncAction = createPromiseAction(
   "GET_ACCOUNT_FULFILLED",
   "GET_ACCOUNT_REJECTED",
 )(getAccountWithChain);
+
+function watchAccountWithChain(
+  connection: BcpConnection,
+  ident: PublicIdentity,
+  cb: (acct?: BcpAccountWithChain, err?: any) => any,
+  codec?: TxCodec,
+): Unsubscriber {
+  const chainId = connection.chainId();
+  const wrapped = (account?: BcpAccount, err?: any) =>
+    account ? cb({ account, chainId }) : cb(undefined, err);
+  return watchAccount(connection, ident, wrapped, codec);
+}
+
+export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
+// TODO: add unwatch to stop it

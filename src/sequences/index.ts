@@ -16,7 +16,13 @@ import {
   takeFaucetCredit,
 } from "../logic";
 import { RootActions, RootState } from "../reducers";
-import { addBlockchainAsyncAction, createSignerAction, getAccountAsyncAction } from "../reducers/blockchain";
+import {
+  addBlockchainAsyncAction,
+  BcpAccountWithChain,
+  createSignerAction,
+  getAccountAsyncAction,
+  watchAccountAction,
+} from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
@@ -51,11 +57,40 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- initiate the signer
   const { payload: signer } = fixTypes(dispatch(createSignerAction(profile)));
 
+  let initAccounts: ReadonlyArray<Promise<any>> = [];
+
   // --- connect all readers and query account balances
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-    await fixTypes(dispatch(getAccountAsyncAction.start(conn, identity, undefined)));
+
+    // we need to set a callback that resolves a promise
+    let cb: (acct?: BcpAccountWithChain, err?: any) => any;
+    const prom = new Promise((resolve, reject) => {
+      let done = false;
+      cb = (acct?: BcpAccountWithChain, err?: any) => {
+        // finish the promise for the first query
+        if (!done) {
+          done = true;
+          if (acct) {
+            resolve();
+          } else {
+            reject(err);
+          }
+        }
+        // actual do the dispatching
+        if (acct) {
+          dispatch(getAccountAsyncAction.success(acct));
+        } else {
+          dispatch(getAccountAsyncAction.failure(err));
+        }
+      };
+    });
+    dispatch(watchAccountAction(conn, identity, cb!));
+    initAccounts = [...initAccounts, prom];
   }
+
+  // wait for all accounts to initialize
+  Promise.all(initAccounts);
 
   // return the MultiChainSigner if we want to sequence something else after this
   return signer;
