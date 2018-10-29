@@ -73,7 +73,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     const prom = new Promise((resolve, reject) => {
       let done = false;
       cb = (acct?: BcpAccountWithChain, err?: any) => {
-        // actual do the dispatching 
+        // actually do the dispatching
         // Note: acct, err both undefined is valid for non-existent account
         if (!err) {
           dispatch(getAccountAsyncAction.success(acct));
