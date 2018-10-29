@@ -10,7 +10,7 @@ interface InputFieldProps {
   readonly description?: string;
   readonly unit?: string;
   readonly notification?: string;
-  readonly error?: string;
+  readonly error?: boolean;
   readonly [prop: string]: any;
 }
 

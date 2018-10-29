@@ -26,7 +26,7 @@ const Input = styled.input`
   &::placeholder {
     color: #b8bccc;
   }
-  &.error {
+  &.hasError {
     border: solid 1px #ffa941;
     background-color: #fff1e1;
   }

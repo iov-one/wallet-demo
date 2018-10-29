@@ -8,9 +8,12 @@ import { FormWrapper } from "../../subComponents/wrappers";
 interface FormProp {
   readonly onNext: () => any;
   readonly onChange: (text: string) => any;
+  readonly error: boolean;
+  readonly errorMessage: string;
 }
 
 export const CreateWalletForm = (props: FormProp): JSX.Element => {
+  const { error, errorMessage } = props;
   const nextButton = (
     <NextButton
       title="Continue"
@@ -31,6 +34,8 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
         onChange={(evt: any) => {
           props.onChange(evt.target.value);
         }}
+        error={error}
+        notification={errorMessage}
       />
     </FormWrapper>
   );

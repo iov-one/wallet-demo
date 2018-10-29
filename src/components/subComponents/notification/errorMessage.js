@@ -7,4 +7,9 @@ const Wrapper = styled.div`
   box-shadow: 0 0 6px 0 #f3f4fb;
   background-color: #ffffff;
   padding: 20px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
+
+const IconWrapper = styled.div``;

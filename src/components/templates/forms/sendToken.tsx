@@ -1,4 +1,5 @@
 import { FungibleToken } from "@iov/bcp-types";
+import { isEmpty } from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -40,7 +41,9 @@ const ActionWrapper = styled.div`
 
 export interface SendTokenFormState {
   readonly iovAddress: string;
+  readonly isValidAddress: boolean;
   readonly tokenAmount: string;
+  readonly isValidAmount: boolean;
   readonly memo: string;
 }
 
@@ -53,17 +56,27 @@ interface SendTokenFormProps {
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
     iovAddress: "",
+    isValidAddress: true,
     tokenAmount: "",
+    isValidAmount: true,
     memo: "",
   };
   public readonly onChangeAddress = (evt: any) => {
+    const regex = /[a-z0-9]*\*iov$/gi;
+    const address = evt.target.value;
+    const isValid = regex.exec(address) !== null;
     this.setState({
-      iovAddress: evt.target.value,
+      iovAddress: address,
+      isValidAddress: isValid,
     });
   };
   public readonly onChangeAmount = (evt: any) => {
+    const regex = /[0-9][0-9]*[.]*[0-9]*$/g;
+    const amount = evt.target.value;
+    const isValid = regex.exec(amount) !== null;
     this.setState({
-      tokenAmount: evt.target.value,
+      tokenAmount: amount,
+      isValidAmount: isValid,
     });
   };
   public readonly onChangeMemo = (evt: any) => {
@@ -73,7 +86,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   };
   public render(): JSX.Element | boolean {
     const { name, balance, onSend } = this.props;
-    const { iovAddress, tokenAmount, memo } = this.state;
+    const { iovAddress, tokenAmount, memo, isValidAddress, isValidAmount } = this.state;
     return (
       <FormWrapper>
         <Container>
@@ -86,6 +99,8 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
                 placeholder="IOV address"
                 value={iovAddress}
                 onChange={this.onChangeAddress}
+                error={!isValidAddress}
+                notification={isValidAddress ? "" : "Invalid Address"}
               />
               <InputField
                 title="Amount:"
@@ -93,6 +108,8 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
                 unit="IOV"
                 value={tokenAmount}
                 onChange={this.onChangeAmount}
+                error={!isValidAmount}
+                notification={isValidAmount ? "" : "Invalid Amount"}
               />
               <InputField
                 title="Memo:"
@@ -106,7 +123,9 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             <PrimaryButton
               title="Send"
               onClick={() => {
-                onSend(this.state);
+                if (isValidAddress && isValidAmount && !isEmpty(iovAddress) && !isEmpty(tokenAmount)) {
+                  onSend(this.state);
+                }
               }}
             />
           </ActionWrapper>

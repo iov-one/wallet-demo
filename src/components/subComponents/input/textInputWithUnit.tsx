@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,6 +23,10 @@ const Input = styled.input`
   color: #1c1c1c;
   text-align: right;
   margin-right: 7px;
+  &.hasError {
+    border: solid 1px #ffa941;
+    background-color: #fff1e1;
+  }
 `;
 
 const Unit = styled.div`
@@ -37,9 +42,12 @@ const Unit = styled.div`
 `;
 
 export const TextInputWithUnit = (props: any): JSX.Element => {
+  const className = classNames(props.align || "left", {
+    hasError: props.hasError,
+  });
   return (
     <Wrapper>
-      <Input type="text" {...props} />
+      <Input className={className} type="text" {...props} />
       <Unit>{props.unit}</Unit>
     </Wrapper>
   );

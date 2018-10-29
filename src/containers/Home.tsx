@@ -18,6 +18,8 @@ interface HomeState {
   readonly profileCreated: boolean;
   readonly ready: boolean;
   readonly chainId: ChainId;
+  readonly error: boolean;
+  readonly errorMessage: string;
 }
 
 // In RouteComponentProps you can pass in the actual properties you read from the routers...
@@ -45,6 +47,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       profileCreated: false,
       ready: false,
       chainId: "" as ChainId,
+      error: false,
+      errorMessage: "",
     };
   }
   public async componentDidMount(): Promise<void> {
@@ -86,8 +90,15 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
         accounts: [{ chainId }],
         history,
       } = this.props;
-      await setName(name, chainId);
-      history.push("/balance/");
+      try {
+        await setName(name, chainId);
+        history.push("/balance/");
+      } catch (err) {
+        this.setState({
+          error: true,
+          errorMessage: "Name is already taken",
+        });
+      }
     } else {
       // TODO: better display, actually we shouldn't even render page until ready (show loading)
       console.log("Not ready yet");
@@ -99,6 +110,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
 
   private renderChild(): JSX.Element {
+    const { error, errorMessage } = this.state;
     if (this.state.ready) {
       return (
         <CreateWalletForm
@@ -108,8 +120,12 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
           onChange={name => {
             this.setState({
               name,
+              error: false,
+              errorMessage: "",
             });
           }}
+          error={error}
+          errorMessage={errorMessage}
         />
       );
     } else {
