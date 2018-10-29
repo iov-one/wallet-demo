@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import React from "react";
 import styled from "styled-components";
-import classNames from "classnames";
 
 const Input = styled.input`
   padding: 10px 12px;
