@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Spinner } from "../icons";
+
 interface ButtonProps {
   readonly title: string;
   readonly disabled?: boolean;
+  readonly loading?: boolean;
   readonly onClick: () => any;
 }
 
@@ -44,11 +47,12 @@ const ButtonTitle = styled.div`
 `;
 
 export const PrimaryButton = (props: ButtonProps): JSX.Element => {
-  const { title, onClick, disabled } = props;
+  const { title, onClick, disabled, loading } = props;
   return (
     <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
       <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
+        { loading ? <Spinner/> : ""}
       </ButtonContent>
     </ButtonWrapper>
   );
