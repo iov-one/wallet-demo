@@ -104,6 +104,26 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       console.log("Not ready yet");
     }
   }
+  public onChangeName(name: string): void {
+    // taken from https://github.com/iov-one/weave/blob/master/x/namecoin/msg.go#L29
+    const regex = /^[a-z0-9_]{4,20}$/;  
+    const error = regex.exec(name) === null;
+    let errorMessage: string;
+    if (!error) { 
+      errorMessage = "";
+    } else if (name.length < 4) {
+      errorMessage = "Name must be at least 4 characters";
+    } else if (name.length > 20) {
+      errorMessage = "Name cannot be longer than 20 characters";
+    } else {
+      errorMessage = "Name must be lower case letters and numbers";
+    }
+    this.setState({
+      name,
+      error,
+      errorMessage,
+    });
+  }
 
   public render(): JSX.Element {
     return <PageStructure whiteBg>{this.renderChild()}</PageStructure>;
@@ -117,13 +137,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
           onNext={() => {
             this.createAccount();
           }}
-          onChange={name => {
-            this.setState({
-              name,
-              error: false,
-              errorMessage: "",
-            });
-          }}
+          onChange={name => this.onChangeName(name)}
           error={error}
           errorMessage={errorMessage}
         />
@@ -132,6 +146,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       return (
         <NextButton
           title="Reset Account"
+          disabled={error}
           onClick={() => {
             this.resetProfile();
           }}
