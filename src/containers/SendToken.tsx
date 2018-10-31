@@ -30,6 +30,7 @@ interface SendTokenDispatchToProps {
 
 interface SendTokenState {
   readonly error?: string;
+  readonly loading: boolean;
 }
 
 const convertStringToFungibleToken = (
@@ -44,7 +45,9 @@ const convertStringToFungibleToken = (
 class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
 
   public async onSend(transInfo: SendTokenFormState): Promise<void> {
@@ -60,13 +63,16 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     }
 
     try {
+      this.setState({ loading: true });
       // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
       const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
       // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
       await sendTransaction(chainIds[0], iovAddress, amount, memo);
+      this.setState({ loading: false });
       history.push("/balance");
     } catch (err) {
       this.setState({
+        loading: false,
         error: `${err}`,
       });
       console.log(err);
@@ -91,12 +97,18 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     if (!balance) {
       return false;
     }
-    const { error } = this.state;
+    const { error, loading } = this.state;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     return (
       <PageStructure whiteBg>
-        <SendTokenForm name={name} balance={balance} error={error} onSend={info => that.onSend(info)} />
+        <SendTokenForm
+          name={name}
+          balance={balance}
+          error={error}
+          loading={loading}
+          onSend={info => that.onSend(info)}
+        />
       </PageStructure>
     );
   }

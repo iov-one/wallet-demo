@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import Arrow from "../../../../resources/arrow.png";
+import { Spinner } from "../icons";
 
 interface ButtonProps {
   readonly title: string;
   readonly disabled?: boolean;
+  readonly loading?: boolean;
   readonly onClick: () => any;
 }
 
@@ -52,12 +54,12 @@ const ButtonIcon = styled.img`
 `;
 
 export const NextButton = (props: ButtonProps): JSX.Element => {
-  const { title, onClick, disabled } = props;
+  const { title, onClick, disabled, loading } = props;
   return (
     <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
       <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
-        <ButtonIcon src={Arrow} />
+        {loading ? <Spinner /> : <ButtonIcon src={Arrow} />}
       </ButtonContent>
     </ButtonWrapper>
   );
