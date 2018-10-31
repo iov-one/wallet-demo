@@ -1,5 +1,4 @@
 import { FungibleToken } from "@iov/bcp-types";
-import { isEmpty } from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -56,24 +55,22 @@ interface SendTokenFormProps {
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
     iovAddress: "",
-    isValidAddress: true,
+    isValidAddress: false,
     tokenAmount: "",
-    isValidAmount: true,
+    isValidAmount: false,
     memo: "",
   };
   public readonly onChangeAddress = (evt: any) => {
-    const regex = /[a-z0-9]*\*iov$/gi;
     const address = evt.target.value;
-    const isValid = regex.exec(address) !== null;
     this.setState({
       iovAddress: address,
-      isValidAddress: isValid,
+      isValidAddress: address.length > 0,
     });
   };
   public readonly onChangeAmount = (evt: any) => {
-    const regex = /[0-9][0-9]*[.]*[0-9]*$/g;
+    const regex = /^[0-9]*([\.\,][0-9]+)?$/;
     const amount = evt.target.value;
-    const isValid = regex.exec(amount) !== null;
+    const isValid = amount.length > 0 && regex.exec(amount) !== null;
     this.setState({
       tokenAmount: amount,
       isValidAmount: isValid,
@@ -122,11 +119,8 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
           <ActionWrapper>
             <PrimaryButton
               title="Send"
-              onClick={() => {
-                if (isValidAddress && isValidAmount && !isEmpty(iovAddress) && !isEmpty(tokenAmount)) {
-                  onSend(this.state);
-                }
-              }}
+              disabled={!isValidAddress || !isValidAmount}
+              onClick={() => onSend(this.state)}
             />
           </ActionWrapper>
         </Container>
