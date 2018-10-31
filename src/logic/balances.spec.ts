@@ -47,11 +47,16 @@ describe("stringToCoin", () => {
     expect(stringToCoin("0.23", 8)).to.deep.equal(makeInfo(0, 23000000, 8));
   });
 
+  it("should support , as separator", () => {
+    expect(stringToCoin("0,1234", 5)).to.deep.equal(makeInfo(0, 12340, 5));
+    expect(stringToCoin("13,67", 4)).to.deep.equal(makeInfo(13, 6700, 4));
+    expect(stringToCoin(",42", 3)).to.deep.equal(makeInfo(0, 420, 3));
+  });
+
   it("should error on invalid strings", () => {
     expect(() => stringToCoin("12a", 4)).to.throw(/Not a valid number/);
-    expect(() => stringToCoin("13,67", 4)).to.throw(/Not a valid number/);
     expect(() => stringToCoin("0x1234", 4)).to.throw(/Not a valid number/);
-    expect(() => stringToCoin("-15.6", 4)).to.throw();
-    expect(() => stringToCoin("12.", 6)).to.throw();
+    expect(() => stringToCoin("-15.6", 4)).to.throw(/Not a valid number/);
+    expect(() => stringToCoin("12.", 6)).to.throw(/Not a valid number/);
   });
 });

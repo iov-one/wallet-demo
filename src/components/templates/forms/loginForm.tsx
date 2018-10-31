@@ -3,6 +3,7 @@ import React from "react";
 import * as FormComponents from "../../compoundComponents/form";
 import { NextButton } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
+import { FormWrapper } from "../../subComponents/wrappers";
 
 interface FormProp {
   readonly onNext: () => any;
@@ -18,7 +19,7 @@ export const LoginForm = (props: FormProp) => {
     />
   );
   const content = (
-    <div>
+    <FormWrapper>
       <Description>Log in to your IOV wallet</Description>
       <FormComponents.InputField
         title="Password"
@@ -26,7 +27,7 @@ export const LoginForm = (props: FormProp) => {
         placeholder="Your Password"
         notification="Passwords must be at least 6 characters long"
       />
-    </div>
+    </FormWrapper>
   );
   return <FormComponents.FormStructure title="Login" content={content} actions={nextButton} />;
 };

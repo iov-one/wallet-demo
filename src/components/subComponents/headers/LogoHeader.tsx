@@ -9,6 +9,7 @@ const Header = styled.div`
   box-shadow: 0 2px 4px 0 #f3f4f8;
   background-color: #ffffff;
   box-sizing: border-box;
+  z-index: 100;
 `;
 
 const LogoImage = styled.img`

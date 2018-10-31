@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import styled from "styled-components";
 
@@ -25,8 +26,15 @@ const Input = styled.input`
   &::placeholder {
     color: #b8bccc;
   }
+  &.hasError {
+    border: solid 1px #ffa941;
+    background-color: #fff1e1;
+  }
 `;
 
 export const TextInput = (props: any): JSX.Element => {
-  return <Input type="text" className={props.align || "left"} {...props} />;
+  const className = classNames(props.align || "left", {
+    hasError: props.hasError,
+  });
+  return <Input type="text" className={className} {...props} />;
 };

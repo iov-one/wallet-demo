@@ -5,6 +5,7 @@ import Arrow from "../../../../resources/arrow.png";
 
 interface ButtonProps {
   readonly title: string;
+  readonly disabled?: boolean;
   readonly onClick: () => any;
 }
 
@@ -21,6 +22,16 @@ const ButtonContent = styled.div`
   border-radius: 6.7px;
   cursor: pointer;
   background-color: #31e6c9;
+  &:hover {
+    background-color: #2cd0b6;
+  }
+  &.disabled {
+    opacity: 0.5;
+    background-color: #31e6c9;
+    &:hover {
+      background-color: #31e6c9;
+    }
+  }
 `;
 const ButtonTitle = styled.div`
   font-family: Open Sans;
@@ -41,10 +52,10 @@ const ButtonIcon = styled.img`
 `;
 
 export const NextButton = (props: ButtonProps): JSX.Element => {
-  const { title, onClick } = props;
+  const { title, onClick, disabled } = props;
   return (
-    <ButtonWrapper onClick={onClick}>
-      <ButtonContent>
+    <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
+      <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
         <ButtonIcon src={Arrow} />
       </ButtonContent>
