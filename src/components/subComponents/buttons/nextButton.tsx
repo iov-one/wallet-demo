@@ -26,6 +26,7 @@ const ButtonContent = styled.div`
     background-color: #2cd0b6;
   }
   &.disabled {
+    opacity: 0.5;
     background-color: #31e6c9;
     &:hover {
       background-color: #31e6c9;
@@ -53,7 +54,7 @@ const ButtonIcon = styled.img`
 export const NextButton = (props: ButtonProps): JSX.Element => {
   const { title, onClick, disabled } = props;
   return (
-    <ButtonWrapper onClick={onClick}>
+    <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
       <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
         <ButtonIcon src={Arrow} />

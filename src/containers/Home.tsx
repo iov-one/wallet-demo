@@ -106,10 +106,10 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
   public onChangeName(name: string): void {
     // taken from https://github.com/iov-one/weave/blob/master/x/namecoin/msg.go#L29
-    const regex = /^[a-z0-9_]{4,20}$/;  
+    const regex = /^[a-z0-9_]{4,20}$/;
     const error = regex.exec(name) === null;
     let errorMessage: string;
-    if (!error) { 
+    if (!error) {
       errorMessage = "";
     } else if (name.length < 4) {
       errorMessage = "Name must be at least 4 characters";

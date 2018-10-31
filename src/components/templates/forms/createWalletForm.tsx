@@ -17,6 +17,7 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
   const nextButton = (
     <NextButton
       title="Continue"
+      disabled={error}
       onClick={() => {
         props.onNext();
       }}
