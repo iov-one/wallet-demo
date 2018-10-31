@@ -63,12 +63,12 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     }
 
     try {
-      this.setState({loading: true});
+      this.setState({ loading: true });
       // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
       const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
       // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
       await sendTransaction(chainIds[0], iovAddress, amount, memo);
-      this.setState({loading: false});
+      this.setState({ loading: false });
       history.push("/balance");
     } catch (err) {
       this.setState({
@@ -102,7 +102,13 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     const that = this;
     return (
       <PageStructure whiteBg>
-        <SendTokenForm name={name} balance={balance} error={error} loading={loading} onSend={info => that.onSend(info)} />
+        <SendTokenForm
+          name={name}
+          balance={balance}
+          error={error}
+          loading={loading}
+          onSend={info => that.onSend(info)}
+        />
       </PageStructure>
     );
   }

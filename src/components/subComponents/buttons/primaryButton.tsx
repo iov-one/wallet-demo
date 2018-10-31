@@ -52,7 +52,7 @@ export const PrimaryButton = (props: ButtonProps): JSX.Element => {
     <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
       <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
-        { loading ? <Spinner/> : ""}
+        {loading ? <Spinner /> : ""}
       </ButtonContent>
     </ButtonWrapper>
   );

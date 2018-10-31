@@ -50,7 +50,7 @@ interface SendTokenFormProps {
   readonly name: string;
   readonly balance: FungibleToken;
   readonly error?: string;
-  readonly loading?: boolean;
+  readonly loading: boolean;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
 }
 

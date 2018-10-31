@@ -8,16 +8,18 @@ import { FormWrapper } from "../../subComponents/wrappers";
 interface FormProp {
   readonly onNext: () => any;
   readonly onChange: (text: string) => any;
+  readonly loading: boolean;
   readonly error: boolean;
   readonly errorMessage: string;
 }
 
 export const CreateWalletForm = (props: FormProp): JSX.Element => {
-  const { error, errorMessage } = props;
+  const { error, errorMessage, loading } = props;
   const nextButton = (
     <NextButton
       title="Continue"
       disabled={error}
+      loading={loading}
       onClick={() => {
         props.onNext();
       }}

@@ -59,7 +59,7 @@ export const NextButton = (props: ButtonProps): JSX.Element => {
     <ButtonWrapper onClick={() => (disabled ? "" : onClick())}>
       <ButtonContent className={disabled ? "disabled" : "active"}>
         <ButtonTitle>{title}</ButtonTitle>
-        { loading ? <Spinner/> : <ButtonIcon src={Arrow} />}
+        {loading ? <Spinner /> : <ButtonIcon src={Arrow} />}
       </ButtonContent>
     </ButtonWrapper>
   );

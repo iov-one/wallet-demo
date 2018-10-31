@@ -18,6 +18,7 @@ interface HomeState {
   readonly profileCreated: boolean;
   readonly ready: boolean;
   readonly chainId: ChainId;
+  readonly loading: boolean;
   readonly error: boolean;
   readonly errorMessage: string;
 }
@@ -49,6 +50,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       chainId: "" as ChainId,
       error: false,
       errorMessage: "",
+      loading: false,
     };
   }
   public async componentDidMount(): Promise<void> {
@@ -90,13 +92,16 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
         accounts: [{ chainId }],
         history,
       } = this.props;
+      this.setState({ loading: true });
       try {
         await setName(name, chainId);
+        this.setState({ loading: false });
         history.push("/balance/");
       } catch (err) {
         this.setState({
           error: true,
           errorMessage: "Name is already taken",
+          loading: false,
         });
       }
     } else {
@@ -130,14 +135,15 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
 
   private renderChild(): JSX.Element {
-    const { error, errorMessage } = this.state;
-    if (this.state.ready) {
+    const { error, errorMessage, loading, ready } = this.state;
+    if (ready) {
       return (
         <CreateWalletForm
           onNext={() => {
             this.createAccount();
           }}
           onChange={name => this.onChangeName(name)}
+          loading={loading}
           error={error}
           errorMessage={errorMessage}
         />
@@ -146,7 +152,6 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       return (
         <NextButton
           title="Reset Account"
-          disabled={error}
           onClick={() => {
             this.resetProfile();
           }}
