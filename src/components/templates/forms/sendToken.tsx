@@ -50,6 +50,7 @@ interface SendTokenFormProps {
   readonly name: string;
   readonly balance: FungibleToken;
   readonly error?: string;
+  readonly loading?: boolean;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
 }
 
@@ -83,7 +84,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     });
   };
   public render(): JSX.Element | boolean {
-    const { name, balance, error, onSend } = this.props;
+    const { name, balance, error, loading, onSend } = this.props;
     const { iovAddress, tokenAmount, memo, isValidAddress, isValidAmount } = this.state;
     return (
       <FormWrapper>
@@ -122,6 +123,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             <PrimaryButton
               title="Send"
               disabled={!isValidAddress || !isValidAmount}
+              loading={loading}
               onClick={() => onSend(this.state)}
             />
           </ActionWrapper>
