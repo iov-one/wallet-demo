@@ -127,11 +127,6 @@ export const sendTransactionSequence = (
 ) => async (_: RootThunkDispatch, getState: () => RootState) => {
   const signer = requireSigner(getState());
   const conn = requireConnection(getState(), chainId);
-  try {
-    const address = await resolveAddress(conn, iovAddress);
-    await sendTransaction(signer, chainId, address, amount, memo);
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+  const address = await resolveAddress(conn, iovAddress);
+  await sendTransaction(signer, chainId, address, amount, memo);
 };

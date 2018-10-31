@@ -28,6 +28,10 @@ interface SendTokenDispatchToProps {
   ) => Promise<any>;
 }
 
+interface SendTokenState {
+  readonly error?: string;
+}
+
 const convertStringToFungibleToken = (
   tokenAmount: string,
   sigFigs: number,
@@ -37,8 +41,13 @@ const convertStringToFungibleToken = (
   return { whole, fractional, tokenTicker };
 };
 
-class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, any> {
-  public onSend(transInfo: SendTokenFormState): void {
+class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
+
+  public async onSend(transInfo: SendTokenFormState): Promise<void> {
     const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
     const account = this.getFirstAccount();
@@ -49,14 +58,19 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     if (!balance) {
       throw new Error("Cannot send without balance");
     }
-    // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
-    const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
-    // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
-    sendTransaction(chainIds[0], iovAddress, amount, memo)
-      .then(() => {
-        history.goBack();
-      })
-      .catch(err => console.log(err));
+
+    try {
+      // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
+      const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
+      // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
+      await sendTransaction(chainIds[0], iovAddress, amount, memo);
+      history.push("/balance");
+    } catch (err) {
+      this.setState({
+        error: `${err}`,
+      });
+      console.log(err);
+    }
   }
 
   public getFirstAccount(): BcpAccount | undefined {
@@ -77,11 +91,12 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     if (!balance) {
       return false;
     }
+    const { error } = this.state;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     return (
       <PageStructure whiteBg>
-        <SendTokenForm name={name} balance={balance} onSend={info => that.onSend(info)} />
+        <SendTokenForm name={name} balance={balance} error={error} onSend={info => that.onSend(info)} />
       </PageStructure>
     );
   }

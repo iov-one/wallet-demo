@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { InputField } from "../../compoundComponents/form";
 import { PrimaryButton } from "../../subComponents/buttons";
-import { AccountBalance, AccountName } from "../../subComponents/typography";
+import { AccountBalance, AccountName, H2 } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
 
 const Container = styled.div`
@@ -49,6 +49,7 @@ export interface SendTokenFormState {
 interface SendTokenFormProps {
   readonly name: string;
   readonly balance: FungibleToken;
+  readonly error?: string;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
 }
 
@@ -82,12 +83,13 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     });
   };
   public render(): JSX.Element | boolean {
-    const { name, balance, onSend } = this.props;
+    const { name, balance, error, onSend } = this.props;
     const { iovAddress, tokenAmount, memo, isValidAddress, isValidAmount } = this.state;
     return (
       <FormWrapper>
         <Container>
           <Wrapper>
+            <H2>{error ? error.slice(0, 300) : ""}</H2>
             <AccountName className="noBorder">{name}</AccountName>
             <AccountBalance balance={balance} />
             <Content>
