@@ -27,6 +27,10 @@ const Input = styled.input`
     border: solid 1px #ffa941;
     background-color: #fff1e1;
   }
+  &:disabled {
+    border: none;
+    background-color: #f4f5f8;
+  }
 `;
 
 const Unit = styled.div`

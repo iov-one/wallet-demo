@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { ErrorNotification } from "../../subComponents/error";
 import { NormalHeader } from "../../subComponents/headers";
 
 interface PageProps {
@@ -29,9 +30,30 @@ const PageContent = styled.div`
   }
 `;
 
-export const PageStructure = (props: PageProps): JSX.Element => (
-  <Wrapper>
-    <NormalHeader />
-    <PageContent className={props.whiteBg ? "whiteBg" : "darkBg"}>{props.children}</PageContent>
-  </Wrapper>
-);
+export class PageStructure extends React.Component<PageProps> {
+  private readonly networkError = React.createRef<ErrorNotification>();
+  public componentDidMount(): any {
+    window.addEventListener("online", this.updateOnlineStatus);
+    window.addEventListener("offline", this.updateOnlineStatus);
+  }
+  public readonly updateOnlineStatus = (): any => {
+    const node = this.networkError.current;
+    if (navigator.onLine) {
+      node!.hideNotification();
+    } else {
+      node!.showNotification();
+    }
+  };
+  public render(): JSX.Element {
+    const { whiteBg, children } = this.props;
+    return (
+      <Wrapper>
+        <NormalHeader />
+        <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
+          <ErrorNotification type="network" ref={this.networkError} />
+          {children}
+        </PageContent>
+      </Wrapper>
+    );
+  }
+}

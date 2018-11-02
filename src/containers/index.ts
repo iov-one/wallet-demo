@@ -5,3 +5,4 @@ export * from "./Login";
 export * from "./ImportAccount";
 export * from "./SendToken";
 export * from "./BackupAccount";
+export * from "./ConfirmAndSendToken";
