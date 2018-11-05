@@ -1,19 +1,25 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, BcpCoin, FungibleToken } from "@iov/bcp-types";
+import { BcpAccount, BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
+import { ConfirmTransactionForm, TransactionInfo } from "../components/templates/forms";
 
+import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 import { sendTransactionSequence } from "../sequences";
 
-interface SendTokenProps extends RouteComponentProps<{}> {
+interface SendTokenProps
+  extends RouteComponentProps<{
+      readonly iovAddress: string;
+      readonly tokenAmount: string;
+    }> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly chainIds: ReadonlyArray<ChainId>;
 }
@@ -32,7 +38,16 @@ interface SendTokenState {
   readonly loading: boolean;
 }
 
-class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
+const convertStringToFungibleToken = (
+  tokenAmount: string,
+  sigFigs: number,
+  tokenTicker: TokenTicker,
+): FungibleToken => {
+  const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
+  return { whole, fractional, tokenTicker };
+};
+
+class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -40,11 +55,33 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     };
   }
 
-  public onSend(transInfo: SendTokenFormState): any {
-    const { history } = this.props;
+  public async onSend(transInfo: TransactionInfo): Promise<void> {
+    const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
-    const memoString = memo === "" ? "" : `/?memo=${memo}`;
-    history.push(`/confirm-transaction/${iovAddress}/${tokenAmount}${memoString}`);
+    const account = this.getFirstAccount();
+    if (!account) {
+      throw new Error("Cannot send without account");
+    }
+    const balance = this.getFirstBalance(account);
+    if (!balance) {
+      throw new Error("Cannot send without balance");
+    }
+
+    try {
+      this.setState({ loading: true });
+      // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
+      const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
+      // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
+      await sendTransaction(chainIds[0], iovAddress, amount, memo);
+      this.setState({ loading: false });
+      history.push("/balance");
+    } catch (err) {
+      this.setState({
+        loading: false,
+        error: `${err}`,
+      });
+      console.log(err);
+    }
   }
 
   public getFirstAccount(): BcpAccount | undefined {
@@ -60,7 +97,6 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     if (!account) {
       return false;
     }
-    const name = `${account.name}*iov`;
     const balance = this.getFirstBalance(account);
     if (!balance) {
       return false;
@@ -68,11 +104,15 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
     const { error, loading } = this.state;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
+    const { iovAddress, tokenAmount } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
+    const memo = query.memo || "";
     return (
       <PageStructure whiteBg>
-        <SendTokenForm
-          name={name}
-          balance={balance}
+        <ConfirmTransactionForm
+          iovAddress={iovAddress}
+          tokenAmount={tokenAmount}
+          memo={memo as string}
           error={error}
           loading={loading}
           onBack={() => {
@@ -96,9 +136,9 @@ const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
     dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
 });
 
-export const SendTokenPage = withRouter(
+export const ConfirmTransactionPage = withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SendToken),
+  )(ConfirmAndSendForm),
 );

@@ -3,11 +3,20 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { NextButton, PrimaryButton, SendReceiveButton } from "../src/components/subComponents/buttons";
+import { Button, SendReceiveButton } from "../src/components/subComponents/buttons";
 
 storiesOf("Buttons", module)
-  .add("NextButton", () => <NextButton title="Continue" onClick={action("clicked")} />)
-  .add("Primary Button", () => <PrimaryButton title="Done" onClick={action("clicked")} />)
+  .add("NextButton", () => <Button type="primary" title="Continue" onClick={action("clicked")} icon="next" />)
+  .add("Primary Button", () => <Button type="primary" title="Done" loading onClick={action("clicked")} />)
+  .add("Cancel Button", () => <Button type="revert" title="Cancel" />)
+  .add("Check Status Button", () => <Button type="primary" checked title="Copied" icon="check" />)
   .add("Send and Receive Button", () => (
-    <SendReceiveButton onSend={action("send")} onReceive={action("receive")} />
+    <SendReceiveButton
+      onSend={() => {
+        action("Send Clicked");
+      }}
+      onReceive={() => {
+        action("Receive Clicked");
+      }}
+    />
   ));

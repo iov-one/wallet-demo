@@ -2,9 +2,12 @@ import { FungibleToken } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
+import { isEmpty } from "lodash";
+
 import { InputField } from "../../compoundComponents/form";
-import { PrimaryButton } from "../../subComponents/buttons";
-import { AccountBalance, AccountName, H2 } from "../../subComponents/typography";
+import { Button } from "../../subComponents/buttons";
+import { ErrorNotification } from "../../subComponents/error";
+import { AccountBalance, AccountName } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
 
 const Container = styled.div`
@@ -52,6 +55,7 @@ interface SendTokenFormProps {
   readonly error?: string;
   readonly loading: boolean;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
+  readonly onBack: () => any;
 }
 
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
@@ -84,13 +88,14 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     });
   };
   public render(): JSX.Element | boolean {
-    const { name, balance, error, loading, onSend } = this.props;
+    const { name, balance, error, loading, onSend, onBack } = this.props;
     const { iovAddress, tokenAmount, memo, isValidAddress, isValidAmount } = this.state;
     return (
       <FormWrapper>
+        <ErrorNotification type="transaction" show={!isEmpty(error)} />
         <Container>
           <Wrapper>
-            <H2>{error ? error.slice(0, 300) : ""}</H2>
+            {/* <H2>{error ? error.slice(0, 300) : ""}</H2> */}
             <AccountName className="noBorder">{name}</AccountName>
             <AccountBalance balance={balance} />
             <Content>
@@ -120,8 +125,10 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             </Content>
           </Wrapper>
           <ActionWrapper>
-            <PrimaryButton
-              title="Send"
+            <Button type="revert" title="Cancel" onClick={onBack} />
+            <Button
+              type="primary"
+              title="Continue"
               disabled={!isValidAddress || !isValidAmount}
               loading={loading}
               onClick={() => onSend(this.state)}

@@ -28,4 +28,8 @@ export const TextArea = styled.textarea`
   &::placeholder {
     color: #b8bccc;
   }
+  &:disabled {
+    border: none;
+    background-color: #f4f5f8;
+  }
 `;

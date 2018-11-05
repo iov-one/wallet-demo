@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {
   BackupAccountPage,
   BalancePage,
+  ConfirmTransactionPage,
   HomePage,
   ImportAccountPage,
   LoginPage,
@@ -26,6 +27,7 @@ const MainRouter = () => (
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />
       <Route path="/send-token/" component={SendTokenPage} />
+      <Route path="/confirm-transaction/:iovAddress/:tokenAmount/" component={ConfirmTransactionPage} />
     </Wrapper>
   </Router>
 );

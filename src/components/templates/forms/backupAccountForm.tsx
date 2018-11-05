@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as FormComponents from "../../compoundComponents/form";
-import { PrimaryButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { BackupPhrase, Description } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
 
@@ -11,7 +11,8 @@ interface FormProp {
 
 export const BackupAccountForm = (props: FormProp): JSX.Element => {
   const nextButton = (
-    <PrimaryButton
+    <Button
+      type="primary"
       title="Continue"
       onClick={() => {
         props.onNext();
