@@ -43,7 +43,8 @@ class SendToken extends React.Component<SendTokenProps & SendTokenDispatchToProp
   public onSend(transInfo: SendTokenFormState): any {
     const { history } = this.props;
     const { iovAddress, tokenAmount, memo } = transInfo;
-    history.push(`/confirm-transaction/${iovAddress}/${tokenAmount}/${memo}/`);
+    const memoString = memo === "" ? "" : `/?memo=${memo}`;
+    history.push(`/confirm-transaction/${iovAddress}/${tokenAmount}${memoString}`);
   }
 
   public getFirstAccount(): BcpAccount | undefined {

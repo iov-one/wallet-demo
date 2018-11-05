@@ -3,6 +3,7 @@
 import { BcpAccount, BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -18,7 +19,6 @@ interface SendTokenProps
   extends RouteComponentProps<{
       readonly iovAddress: string;
       readonly tokenAmount: string;
-      readonly memo: string;
     }> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly chainIds: ReadonlyArray<ChainId>;
@@ -104,13 +104,15 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     const { error, loading } = this.state;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
-    const { iovAddress, tokenAmount, memo } = this.props.match.params;
+    const { iovAddress, tokenAmount } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
+    const memo = query.memo || "";
     return (
       <PageStructure whiteBg>
         <ConfirmTransactionForm
           iovAddress={iovAddress}
           tokenAmount={tokenAmount}
-          memo={memo}
+          memo={memo as string}
           error={error}
           loading={loading}
           onBack={() => {
