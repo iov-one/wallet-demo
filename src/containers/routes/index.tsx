@@ -5,12 +5,12 @@ import styled from "styled-components";
 import {
   BackupAccountPage,
   BalancePage,
+  ConfirmTransactionPage,
   HomePage,
   ImportAccountPage,
   LoginPage,
   PasswordPage,
   SendTokenPage,
-  ConfirmTransactionPage,
 } from "../../containers";
 
 const Wrapper = styled.div`
