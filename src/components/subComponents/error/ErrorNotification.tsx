@@ -12,16 +12,16 @@ const Wrapper = styled.div`
   align-items: center;
   opacity: 0;
   width: 510px;
-  height: 0px;
+  min-height: 0px;
   padding: 15px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   border-radius: 2px;
   box-shadow: 0 0 6px 0 #f3f4fb;
   background-color: #ffffff;
-  transition: height 0.5s, margin-bottom 0.5s, opacity 0.5s;
+  transition: all 0.5s;
   &.show {
     opacity: 1;
-    height: 90px;
+    min-height: 90px;
     margin-bottom: 20px;
   }
 `;
