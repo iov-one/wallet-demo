@@ -9,6 +9,10 @@ interface PageProps {
   readonly whiteBg?: boolean;
 }
 
+interface PageState {
+  readonly isOffline: boolean;
+}
+
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -30,27 +34,33 @@ const PageContent = styled.div`
   }
 `;
 
-export class PageStructure extends React.Component<PageProps> {
-  private readonly networkError = React.createRef<ErrorNotification>();
+export class PageStructure extends React.Component<PageProps, PageState> {
+  readonly state = {
+    isOffline: false,
+  };
   public componentDidMount(): any {
     window.addEventListener("online", this.updateOnlineStatus);
     window.addEventListener("offline", this.updateOnlineStatus);
   }
   public readonly updateOnlineStatus = (): any => {
-    const node = this.networkError.current;
     if (navigator.onLine) {
-      node!.hideNotification();
+      this.setState({
+        isOffline: false,
+      });
     } else {
-      node!.showNotification();
+      this.setState({
+        isOffline: true,
+      });
     }
   };
   public render(): JSX.Element {
     const { whiteBg, children } = this.props;
+    const { isOffline } = this.state;
     return (
       <Wrapper>
         <NormalHeader />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
-          <ErrorNotification type="network" ref={this.networkError} />
+          <ErrorNotification type="network" show={isOffline} />
           {children}
         </PageContent>
       </Wrapper>

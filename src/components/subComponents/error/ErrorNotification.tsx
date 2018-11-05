@@ -88,11 +88,6 @@ export class ErrorNotification extends React.Component<ErrorNotificationProps, E
       }
     }
   }
-  public readonly showNotification = (): any => {
-    this.setState({
-      show: true,
-    });
-  };
   public readonly hideNotification = (): any => {
     this.setState({
       show: false,
