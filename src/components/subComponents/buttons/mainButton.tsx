@@ -11,6 +11,7 @@ import Checkmark from "../../../../resources/checkmark@3x.png";
 interface ButtonProps {
   readonly type: string;
   readonly title: string;
+  readonly icon?: string;
   readonly disabled?: boolean;
   readonly checked?: boolean;
   readonly loading?: boolean;
@@ -78,18 +79,18 @@ const NextIcon = styled.img`
 `;
 
 export const Button = (props: ButtonProps): JSX.Element => {
-  const { type, title, onClick, disabled, loading, checked } = props;
+  const { type, title, onClick, disabled, loading, checked, icon } = props;
   const classname = className({
     revert: type === "revert",
-    primary: type === "primary" || type === "checkStatus" || type === "next",
+    primary: type === "primary",
     disabled: disabled,
   });
   return (
     <ButtonWrapper onClick={() => (disabled || !onClick ? "" : onClick())}>
       <ButtonContent className={classname}>
-        {type === "checkStatus" && checked && <CheckMarkIcon src={Checkmark} />}
+        {icon === "check" && checked && <CheckMarkIcon src={Checkmark} />}
         <ButtonTitle className={className({ revert: type === "revert" })}>{title}</ButtonTitle>
-        {loading ? <Spinner /> : type === "next" && <NextIcon src={Arrow} />}
+        {loading ? <Spinner /> : icon === "next" && <NextIcon src={Arrow} />}
       </ButtonContent>
     </ButtonWrapper>
   );

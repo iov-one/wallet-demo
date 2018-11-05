@@ -17,7 +17,8 @@ export const CreateWalletForm = (props: FormProp): JSX.Element => {
   const { error, errorMessage, loading } = props;
   const nextButton = (
     <Button
-      type="next"
+      type="primary"
+      icon="next"
       title="Continue"
       disabled={error}
       loading={loading}

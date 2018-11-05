@@ -60,7 +60,7 @@ export class TextCopy extends React.Component<any> {
         <Content>
           <Input type="text" value={value} disabled {...this.props} />
           <CopyToClipboard text={value} onCopy={this.copied}>
-            <Button type="checkStatus" title="Copy!" checked={checked} />
+            <Button type="primary" icon="check" title="Copy!" checked={checked} />
           </CopyToClipboard>
         </Content>
         {checked && <Notification>{notification}</Notification>}

@@ -12,7 +12,8 @@ interface FormProp {
 export const SetPasswordForm = (props: FormProp) => {
   const nextButton = (
     <Button
-      type="next"
+      type="primary"
+      icon="next"
       title="Continue"
       onClick={() => {
         props.onNext();

@@ -151,7 +151,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     } else {
       return (
         <Button
-          type="next"
+          type="primary"
+          icon="next"
           title="Reset Account"
           onClick={() => {
             this.resetProfile();

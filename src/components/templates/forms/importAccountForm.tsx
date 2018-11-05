@@ -12,7 +12,8 @@ interface FormProp {
 export const ImportAccountForm = (props: FormProp): JSX.Element => {
   const nextButton = (
     <Button
-      type="next"
+      type="primary"
+      icon="next"
       title="Continue"
       onClick={() => {
         props.onNext();
