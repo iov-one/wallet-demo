@@ -1,5 +1,2 @@
-export * from "./nextButton";
-export * from "./primaryButton";
 export * from "./sendReceive";
-export * from "./checkStatus";
-export * from "./revertButton";
+export * from "./mainButton";

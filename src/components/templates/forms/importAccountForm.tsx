@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as FormComponents from "../../compoundComponents/form";
-import { NextButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
 
@@ -11,7 +11,8 @@ interface FormProp {
 
 export const ImportAccountForm = (props: FormProp): JSX.Element => {
   const nextButton = (
-    <NextButton
+    <Button
+      type="next"
       title="Continue"
       onClick={() => {
         props.onNext();

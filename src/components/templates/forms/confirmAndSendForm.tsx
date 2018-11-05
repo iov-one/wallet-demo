@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { isEmpty } from "lodash";
 
 import { InputField } from "../../compoundComponents/form";
-import { PrimaryButton, RevertButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { ErrorNotification } from "../../subComponents/error";
 import { H1 } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
@@ -73,8 +73,9 @@ export class ConfirmTransactionForm extends React.Component<ConfirmFormProps> {
             </Content>
           </Wrapper>
           <ActionWrapper>
-            <RevertButton title="Back" onClick={onBack} />
-            <PrimaryButton
+            <Button type="revert" title="Back" onClick={onBack} />
+            <Button
+              type="primary"
               title="Confirm"
               loading={loading}
               onClick={() => onSend({ iovAddress, tokenAmount, memo })}

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { isEmpty } from "lodash";
 
 import { InputField } from "../../compoundComponents/form";
-import { PrimaryButton, RevertButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { ErrorNotification } from "../../subComponents/error";
 import { AccountBalance, AccountName } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
@@ -125,8 +125,9 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             </Content>
           </Wrapper>
           <ActionWrapper>
-            <RevertButton title="Cancel" onClick={onBack} />
-            <PrimaryButton
+            <Button type="revert" title="Cancel" onClick={onBack} />
+            <Button
+              type="primary"
               title="Continue"
               disabled={!isValidAddress || !isValidAmount}
               loading={loading}

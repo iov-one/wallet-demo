@@ -2,7 +2,7 @@ import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
-import { CheckStatusButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { FieldLabel } from "../../subComponents/typography";
 
 const Wrapper = styled.div``;
@@ -60,7 +60,7 @@ export class TextCopy extends React.Component<any> {
         <Content>
           <Input type="text" value={value} disabled {...this.props} />
           <CopyToClipboard text={value} onCopy={this.copied}>
-            <CheckStatusButton title="Copy!" checked={checked} />
+            <Button type="checkStatus" title="Copy!" checked={checked} />
           </CopyToClipboard>
         </Content>
         {checked && <Notification>{notification}</Notification>}

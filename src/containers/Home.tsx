@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { NextButton } from "../components/subComponents/buttons";
+import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
@@ -150,7 +150,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       );
     } else {
       return (
-        <NextButton
+        <Button
+          type="next"
           title="Reset Account"
           onClick={() => {
             this.resetProfile();

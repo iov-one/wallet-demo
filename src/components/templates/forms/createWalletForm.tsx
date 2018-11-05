@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as FormComponents from "../../compoundComponents/form";
-import { NextButton } from "../../subComponents/buttons";
+import { Button } from "../../subComponents/buttons";
 import { Description } from "../../subComponents/typography";
 import { FormWrapper } from "../../subComponents/wrappers";
 
@@ -16,7 +16,8 @@ interface FormProp {
 export const CreateWalletForm = (props: FormProp): JSX.Element => {
   const { error, errorMessage, loading } = props;
   const nextButton = (
-    <NextButton
+    <Button
+      type="next"
       title="Continue"
       disabled={error}
       loading={loading}
