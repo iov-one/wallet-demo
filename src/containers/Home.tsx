@@ -16,7 +16,7 @@ import { bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } fro
 interface HomeState {
   readonly name: string;
   readonly profileCreated: boolean;
-  readonly ready: boolean;
+  readonly booted?: boolean; // undefined is not booted, true is success, false is error
   readonly chainId: ChainId;
   readonly loading: boolean;
   readonly error: boolean;
@@ -46,7 +46,6 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     this.state = {
       name: "",
       profileCreated: false,
-      ready: false,
       chainId: "" as ChainId,
       error: false,
       errorMessage: "",
@@ -59,6 +58,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       await boot(config["defaultPassword"], [config["chainSpec"]]);
       await this.checkAndDrinkFaucet();
     } catch (err) {
+      this.setState({ booted: false });
       console.log("error during boot phase");
       console.log(err);
     }
@@ -72,12 +72,12 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     if (!account) {
       await drinkFaucet(config["defaultFaucetUri"]);
       this.setState({
-        ready: true,
+        booted: true,
       });
     } else {
       if (!account.name) {
         this.setState({
-          ready: true,
+          booted: true,
         });
       } else {
         history.push("/balance/");
@@ -85,8 +85,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     }
   }
   public async createAccount(): Promise<void> {
-    const { name, ready } = this.state;
-    if (ready) {
+    const { name, booted } = this.state;
+    if (booted) {
       const {
         setName,
         accounts: [{ chainId }],
@@ -135,8 +135,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
 
   private renderChild(): JSX.Element {
-    const { error, errorMessage, loading, ready } = this.state;
-    if (ready) {
+    const { error, errorMessage, loading, booted } = this.state;
+    if (booted === true) {
       return (
         <CreateWalletForm
           onNext={() => {
@@ -148,7 +148,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
           errorMessage={errorMessage}
         />
       );
-    } else {
+    } else if (booted === false) {
       return (
         <Button
           type="next"
@@ -158,6 +158,9 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
           }}
         />
       );
+    } else {
+      // booted === undefined => loading
+      return <div />;
     }
   }
 
