@@ -35,7 +35,7 @@ const PageContent = styled.div`
 `;
 
 export class PageStructure extends React.Component<PageProps, PageState> {
-  readonly state = {
+  public readonly state = {
     isOffline: false,
   };
   public componentDidMount(): any {
