@@ -1,4 +1,5 @@
 export * from "./formInput";
+export * from "./confirmation";
 
 //below will be replaced with new ones
 export * from "./inputField";

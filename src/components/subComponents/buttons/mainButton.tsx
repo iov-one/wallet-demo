@@ -5,8 +5,8 @@ import className from "classnames";
 
 import { Spinner } from "../icons";
 
-import Arrow from "../../../../resources/arrow.png";
-import Checkmark from "../../../../resources/checkmark@3x.png";
+import Arrow from "../../../../resources/arrow.svg";
+import Checkmark from "../../../../resources/check.svg";
 
 interface ButtonProps {
   readonly type: string;
@@ -42,6 +42,7 @@ const ButtonWrapper = styled.div`
 const ButtonContent = styled.div`
   box-sizing: border-box;
   display: flex;
+  min-width: 114px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -114,7 +115,9 @@ export const Button = (props: ButtonProps): JSX.Element => {
     <ButtonWrapper className={wrapperClass} onClick={() => (disabled || !onClick ? "" : onClick())}>
       <ButtonContent className={classname}>
         {icon === "check" && checked && <CheckMarkIcon src={Checkmark} />}
-        <ButtonTitle className={className({ revert: type === "revert" })}>{title}</ButtonTitle>
+        {!(icon === "check" && checked) && (
+          <ButtonTitle className={className({ revert: type === "revert" })}>{title}</ButtonTitle>
+        )}
         {loading ? <Spinner /> : icon === "next" && <NextIcon src={Arrow} />}
       </ButtonContent>
     </ButtonWrapper>

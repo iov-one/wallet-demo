@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import ReceiveIcon from "../../../../resources/receive_transaction@3x.png";
-import SendIcon from "../../../../resources/send_transaction@3x.png";
+import ReceiveIcon from "../../../../resources/receive_transaction.svg";
+import SendIcon from "../../../../resources/send_transaction.svg";
 
 const Button = styled.button`
   outline: none;

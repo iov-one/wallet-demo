@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
+import { get } from "lodash";
+
 import classNames from "classnames";
 
 import { ToastsText } from "../../subComponents/typography";
 
-import NetworkIcon from "../../../../resources/no_connection_circle@3x.png";
-import TansactionIcon from "../../../../resources/transaction_fail_circle@3x.png";
+import CheckIcon from "../../../../resources/check.svg";
+import EmailIcon from "../../../../resources/email_circle_icon.svg";
+import NetworkIcon from "../../../../resources/no_connection_circle.svg";
+import TransactionIcon from "../../../../resources/transaction_fail_circle.svg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,6 +35,25 @@ const Wrapper = styled.div`
 const Icon = styled.img`
   width: 60px;
   height: 60px;
+`;
+
+const IconWrapper = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+
+const CheckImg = styled.div`
+  width: 25px;
+  height: 25px;
+  background-color: #09d69e;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-image: url(${CheckIcon});
+  background-size: 14px 10px;
+  background-position: center;
+  position: absolute;
+  right: -4px;
+  top: -4px;
 `;
 
 const CloseButton = styled.button`
@@ -60,6 +83,24 @@ interface ToastsState {
   readonly show: boolean;
 }
 
+const toastContent = {
+  network: {
+    icon: NetworkIcon,
+    text: "No network connection to the blockchains",
+    textColor: "#ffb968",
+  },
+  transaction: {
+    icon: TransactionIcon,
+    text: "Transaction rejected by blockchain",
+    textColor: "#f05956",
+  },
+  emailVerification: {
+    icon: EmailIcon,
+    text: "Email has been successfully verified ",
+    textColor: "#09d69e",
+  },
+};
+
 export class Toasts extends React.Component<ToatsProps, ToastsState> {
   public readonly state = {
     show: false,
@@ -88,13 +129,13 @@ export class Toasts extends React.Component<ToatsProps, ToastsState> {
   public render(): JSX.Element {
     const { type } = this.props;
     const { show } = this.state;
-    const IconSource = type === "network" ? NetworkIcon : TansactionIcon;
-    const textColor = type === "network" ? "#ffb968" : "#f05956";
-    const text =
-      type === "network" ? "No network connection to the blockchains" : "Transaction rejected by blockchain";
+    const { icon, text, textColor } = get(toastContent, type);
     return (
       <Wrapper className={classNames({ show: show })}>
-        <Icon src={IconSource} />
+        <IconWrapper>
+          <Icon src={icon} />
+          {type === "emailVerification" && <CheckImg />}
+        </IconWrapper>
         <ToastsText style={{ color: textColor, margin: "0px 20px", flex: 1 }}>{text}</ToastsText>
         <CloseButton onClick={this.hideNotification}>X</CloseButton>
       </Wrapper>

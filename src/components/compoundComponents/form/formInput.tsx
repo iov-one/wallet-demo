@@ -10,22 +10,19 @@ const Wrapper = styled.div``;
 
 interface FormInputProps {
   readonly title: string;
-  readonly type?: string;
-  readonly error?: string;
-  readonly confirmation?: string;
+  readonly notification?: string;
   readonly [prop: string]: any;
 }
 
 export const FormInput = (props: FormInputProps) => {
-  const { title, type, notification } = props;
+  const { title, notification } = props;
   const inputClassName = classNames({
-    hasError: notification && type !== "confirm",
-    confirm: type === "confirm",
+    hasError: notification,
   });
   return (
     <Wrapper>
       <TextFieldLabel>{title}</TextFieldLabel>
-      <Input className={inputClassName} {...props} disabled={props.disabled || type === "confirm"} />
+      <Input className={inputClassName} {...props} />
       {notification && <InputNotification className={inputClassName}>{notification}</InputNotification>}
     </Wrapper>
   );

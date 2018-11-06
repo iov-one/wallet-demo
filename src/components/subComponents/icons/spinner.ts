@@ -9,8 +9,8 @@ const keyFrameSpin = keyframes`
 `;
 
 export const Spinner = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 
   border: 2px solid #ffffff;
   border-top: 2px solid #b8bccc;
