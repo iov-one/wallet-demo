@@ -2,8 +2,8 @@ import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
-import { Input } from "../../subComponents/input";
 import { Button } from "../../subComponents/buttons";
+import { Input } from "../../subComponents/input";
 import { InputNotification, TextFieldLabel } from "../../subComponents/typography";
 
 const Wrapper = styled.div``;
@@ -33,7 +33,7 @@ export class ConfirmInput extends React.Component<ConfirmProps, ConfirmState> {
       checked: true,
     });
   };
-  render() {
+  public render(): JSX.Element {
     const { title, notification } = this.props;
     const { checked } = this.state;
     return (
