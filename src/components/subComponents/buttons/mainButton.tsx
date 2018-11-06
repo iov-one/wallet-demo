@@ -15,23 +15,40 @@ interface ButtonProps {
   readonly disabled?: boolean;
   readonly checked?: boolean;
   readonly loading?: boolean;
+  readonly isVertical?: boolean;
   readonly onClick?: () => any;
 }
 
 const ButtonWrapper = styled.div`
   display: inline-block;
+  margin: 0px 8px;
+  &:first-child {
+    margin-left: 0px;
+  }
+  &:last-child {
+    margin-right: 0px;
+  }
+  &.vertical {
+    margin: 8px 0px;
+    &:first-child {
+      margin-top: 0px;
+    }
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
 `;
 
 const ButtonContent = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 16px 36px;
-  border-radius: 6.7px;
+  padding: 11px 27px;
+  border-radius: 4.7px;
   cursor: pointer;
   background-color: #31e6c9;
-  margin: 0px 10px;
   &:hover {
     background-color: #2cd0b6;
   }
@@ -49,17 +66,20 @@ const ButtonContent = styled.div`
       color: white !important;
     }
   }
+  &.hasIcon {
+    height: 50px;
+  }
 `;
 const ButtonTitle = styled.div`
-  font-family: Open Sans;
-  font-size: 17.9px;
+  font-family: Muli;
+  font-size: 16px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
   letter-spacing: 0px;
   text-align: center;
-  color: #fefefe;
+  color: #ffffff;
   &.revert {
     color: #31e6c9;
   }
@@ -79,14 +99,18 @@ const NextIcon = styled.img`
 `;
 
 export const Button = (props: ButtonProps): JSX.Element => {
-  const { type, title, onClick, disabled, loading, checked, icon } = props;
+  const { type, title, onClick, disabled, loading, checked, isVertical, icon } = props;
   const classname = className({
     revert: type === "revert",
     primary: type === "primary",
     disabled: disabled,
+    hasIcon: icon,
+  });
+  const wrapperClass = className({
+    vertical: isVertical,
   });
   return (
-    <ButtonWrapper onClick={() => (disabled || !onClick ? "" : onClick())}>
+    <ButtonWrapper className={wrapperClass} onClick={() => (disabled || !onClick ? "" : onClick())}>
       <ButtonContent className={classname}>
         {icon === "check" && checked && <CheckMarkIcon src={Checkmark} />}
         <ButtonTitle className={className({ revert: type === "revert" })}>{title}</ButtonTitle>
