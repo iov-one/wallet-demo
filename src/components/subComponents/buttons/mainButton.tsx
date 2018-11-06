@@ -89,6 +89,7 @@ const CheckMarkIcon = styled.img`
   width: 22.7px;
   height: 17px;
   object-fit: contain;
+  margin-right: 3px;
 `;
 
 const NextIcon = styled.img`
