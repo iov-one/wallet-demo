@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 export const H2 = styled.h2`
-  font-family: Open Sans;
+  width: 762px;
+  height: 32px;
+  font-family: Muli;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.35;
-  letter-spacing: 1.7px;
+  line-height: 32px;
+  letter-spacing: 0.8px;
   color: #1c1c1c;
 `;
