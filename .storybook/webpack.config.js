@@ -18,6 +18,18 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: require.resolve("url-loader"),
+            options: {
+              limit: 100000,
+              mimetype: "image/svg+xml",
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [new TSDocgenPlugin()],
