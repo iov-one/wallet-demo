@@ -20,7 +20,7 @@ interface ButtonType {
 }
 
 interface GroupProps {
-  buttons: ReadonlyArray<ButtonType>;
+  readonly buttons: ReadonlyArray<ButtonType>;
 }
 
 export const VerticalButtonGroup = (props: GroupProps) => (

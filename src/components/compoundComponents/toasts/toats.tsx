@@ -61,15 +61,15 @@ interface ToastsState {
 }
 
 export class Toasts extends React.Component<ToatsProps, ToastsState> {
+  public readonly state = {
+    show: false,
+  };
   constructor(props: ToatsProps) {
     super(props);
     this.state = {
       show: props.show || false,
     };
   }
-  public readonly state = {
-    show: false,
-  };
   public componentWillReceiveProps(nextProps: ToatsProps): any {
     if (nextProps.show !== this.props.show) {
       const { show } = nextProps;
