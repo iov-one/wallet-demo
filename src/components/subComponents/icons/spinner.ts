@@ -9,14 +9,19 @@ const keyFrameSpin = keyframes`
 `;
 
 export const Spinner = styled.div`
-  width: 20px;
-  height: 20px;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
 
   border: 2px solid #ffffff;
-  border-top: 2px solid #b8bccc;
+  border-top: 2px solid rgba(184, 188, 221, 0.5);
   border-radius: 100%;
   margin-left: 10px;
   margin-right: 10px;
 
   animation: ${keyFrameSpin} 0.55s infinite linear;
+  &.lg {
+    width: 22px;
+    height: 22px;
+  }
 `;

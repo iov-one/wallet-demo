@@ -11,6 +11,7 @@ import Checkmark from "../../../../resources/check.svg";
 interface ButtonProps {
   readonly type: string;
   readonly title: string;
+  readonly large?: boolean;
   readonly icon?: string;
   readonly disabled?: boolean;
   readonly checked?: boolean;
@@ -67,7 +68,8 @@ const ButtonContent = styled.div`
       color: white !important;
     }
   }
-  &.hasIcon {
+  height: 42px;
+  &.lg {
     height: 50px;
   }
 `;
@@ -101,12 +103,12 @@ const NextIcon = styled.img`
 `;
 
 export const Button = (props: ButtonProps): JSX.Element => {
-  const { type, title, onClick, disabled, loading, checked, isVertical, icon } = props;
+  const { type, title, onClick, disabled, loading, checked, isVertical, icon, large } = props;
   const classname = className({
     revert: type === "revert",
     primary: type === "primary",
     disabled: disabled,
-    hasIcon: icon,
+    lg: large,
   });
   const wrapperClass = className({
     vertical: isVertical,
@@ -114,11 +116,15 @@ export const Button = (props: ButtonProps): JSX.Element => {
   return (
     <ButtonWrapper className={wrapperClass} onClick={() => (disabled || !onClick ? "" : onClick())}>
       <ButtonContent className={classname}>
-        {icon === "check" && checked && <CheckMarkIcon src={Checkmark} />}
+        {loading ? (
+          <Spinner className={className({ lg: large })} />
+        ) : (
+          icon === "check" && checked && <CheckMarkIcon src={Checkmark} />
+        )}
         {!(icon === "check" && checked) && (
           <ButtonTitle className={className({ revert: type === "revert" })}>{title}</ButtonTitle>
         )}
-        {loading ? <Spinner /> : icon === "next" && <NextIcon src={Arrow} />}
+        {icon === "next" && <NextIcon src={Arrow} />}
       </ButtonContent>
     </ButtonWrapper>
   );

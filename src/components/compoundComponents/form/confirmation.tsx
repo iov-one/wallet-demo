@@ -42,7 +42,7 @@ export class ConfirmInput extends React.Component<ConfirmProps, ConfirmState> {
         <ContentWrapper>
           <Input style={{ marginRight: "8px" }} className="confirm" {...this.props} disabled />
           <CopyToClipboard text={this.props.value} onCopy={this.copied}>
-            <Button title="Copy!" type="primary" icon="check" checked={checked} />
+            <Button large title="Copy!" type="primary" icon="check" checked={checked} />
           </CopyToClipboard>
         </ContentWrapper>
         {checked && <InputNotification className="confirm">{notification}</InputNotification>}

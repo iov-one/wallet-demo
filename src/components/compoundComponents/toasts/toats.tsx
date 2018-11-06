@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { ToastsText } from "../../subComponents/typography";
 
 import CheckIcon from "../../../../resources/check.svg";
+import CloseIcon from "../../../../resources/close.svg";
 import EmailIcon from "../../../../resources/email_circle_icon.svg";
 import NetworkIcon from "../../../../resources/no_connection_circle.svg";
 import TransactionIcon from "../../../../resources/transaction_fail_circle.svg";
@@ -57,6 +58,9 @@ const CheckImg = styled.div`
 `;
 
 const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   outline: none;
   cursor: pointer;
   background: transparent;
@@ -64,12 +68,15 @@ const CloseButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  font-family: Open Sans;
-  font-size: 20px;
   color: #d5d9db;
   &:hover {
     background-color: #f6f7f9;
   }
+`;
+
+const CloseImg = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
 interface ToatsProps {
@@ -137,7 +144,9 @@ export class Toasts extends React.Component<ToatsProps, ToastsState> {
           {type === "emailVerification" && <CheckImg />}
         </IconWrapper>
         <ToastsText style={{ color: textColor, margin: "0px 20px", flex: 1 }}>{text}</ToastsText>
-        <CloseButton onClick={this.hideNotification}>X</CloseButton>
+        <CloseButton onClick={this.hideNotification}>
+          <CloseImg src={CloseIcon} />
+        </CloseButton>
       </Wrapper>
     );
   }

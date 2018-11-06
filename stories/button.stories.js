@@ -8,12 +8,30 @@ import { TransactionButtonGroup, VerticalButtonGroup } from "../src/components/c
 
 storiesOf("Buttons", module)
   .add("Next Button", () => (
-    <Button type="primary" title="Continue" onClick={action("clicked")} icon="next" />
+    <div>
+      <Button type="primary" title="Continue" onClick={action("clicked")} icon="next" />
+      <Button type="primary" title="Continue" onClick={action("clicked")} icon="next" large />
+    </div>
   ))
-  .add("Primary Button", () => <Button type="primary" title="Done" onClick={action("clicked")} />)
-  .add("Loading Button", () => <Button type="primary" title="Done" loading onClick={action("clicked")} />)
+  .add("Primary Button", () => (
+    <div>
+      <Button type="primary" title="Done" onClick={action("clicked")} />
+      <Button type="primary" title="Done" onClick={action("clicked")} large />
+    </div>
+  ))
+  .add("Loading Button", () => (
+    <div>
+      <Button type="primary" title="Done" loading onClick={action("clicked")} />
+      <Button type="primary" title="Done" loading onClick={action("clicked")} large />
+    </div>
+  ))
   .add("Cancel Button", () => <Button type="revert" title="Cancel" />)
-  .add("Check Status Button", () => <Button type="primary" checked title="Copied" icon="check" />)
+  .add("Check Status Button", () => (
+    <div>
+      <Button type="primary" checked title="Copied" icon="check" />
+      <Button type="primary" checked title="Copied" icon="check" large />
+    </div>
+  ))
   .add("Disabled Button", () => (
     <Button type="primary" disabled title="Continue" onClick={action("clicked")} icon="next" />
   ))
