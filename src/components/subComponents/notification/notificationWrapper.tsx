@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const NotificationWrapper = styled.div`
   position: relative;
   display: inline-block;
-  border-radius: 4px;
+  border: 1px solid #f3f3f3;
+  border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 4px 16px 0 #e3e4e7;
   margin-top: 10px;
