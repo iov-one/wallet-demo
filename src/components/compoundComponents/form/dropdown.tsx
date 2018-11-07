@@ -85,7 +85,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       items,
       (result, item) => {
         if (selected === item.value) {
-          return item.value;
+          return item.label;
         }
         return result;
       },
