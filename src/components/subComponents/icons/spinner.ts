@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
+import LoadingIcon from "../../../../resources/dot_loading.svg";
+
 const keyFrameSpin = keyframes`
     from {
         transform: rotate(0deg);
@@ -22,5 +24,15 @@ export const Spinner = styled.div`
   &.lg {
     width: 22px;
     height: 22px;
+  }
+  &.secondary {
+    border: none;
+    width: 27px;
+    height: 27px;
+    background: url(${LoadingIcon}) no-repeat;
+    background-position: center center;
+    background-size: 27px;
+    margin-left: 0px;
+    margin-right: 18px;
   }
 `;
