@@ -12,19 +12,26 @@ export const NotificationWrapper = styled.div`
   min-width: 194px;
   &.secondary {
     background-color: #31e6c9;
+    border: none;
   }
   &::before {
     content: "";
     position: absolute;
-    top: -20px;
+    top: -6px;
     right: 20px;
-    width: 2px;
+    width: 0px;
     height: 0px;
-    border: 10px solid transparent;
+    border: 5px solid transparent;
     border-bottom: 10px solid white;
+    border-right: 10px solid white;
+    box-shadow: 1px 1px #f3f3f3;
+    border-radius: 3px;
+    transform: rotate(-135deg);
   }
   &.secondary::before {
     border-bottom: 10px solid #31e6c9;
+    border-right: 10px solid #31e6c9;
+    box-shadow: none;
   }
   font-family: Muli;
   font-size: 16px;
