@@ -22,5 +22,5 @@ storiesOf("Dropdown and Notifications", module).add("Dropdown", () => {
       description: "Ethereum",
     },
   ];
-  return <Dropdown trigger="Lisk" items={items} />;
+  return <Dropdown defaultValue="lsk" items={items} />;
 });
