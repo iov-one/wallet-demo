@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { reduce } from "lodash";
+
 import classNames from "classnames";
 
 import { DropdownMenu, DropdownOption } from "../../subComponents/dropdown";
@@ -53,6 +55,10 @@ interface DropdownState {
 }
 
 export class Dropdown extends React.Component<DropdownProps, DropdownState> {
+  public readonly state = {
+    show: false,
+    selected: "",
+  };
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
@@ -60,33 +66,33 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       selected: props.defaultValue || "",
     };
   }
-  public state = {
-    show: false,
-    selected: "",
-  };
-  showMenu = () => {
+  public readonly showMenu = () => {
     this.setState({
       show: true,
     });
   };
-  onSelect = (val: string) => {
+  public readonly onSelect = (val: string) => {
     this.setState({
       show: false,
       selected: val,
     });
     this.props.onSelect(val);
   };
-  getSelected = () => {
+  public readonly getSelected = () => {
     const { items, placeholder } = this.props;
     const { selected } = this.state;
-    for (let i = 0; i < items.length; i += 1) {
-      if (items[i].value === selected) {
-        return items[i].label;
-      }
-    }
-    return placeholder || "Select One";
+    return reduce(
+      items,
+      (result, item) => {
+        if (selected === item.value) {
+          return item.value;
+        }
+        return result;
+      },
+      placeholder || "Select One",
+    );
   };
-  public render() {
+  public render(): JSX.Element {
     const { show } = this.state;
     const { items } = this.props;
     const menuClassName = classNames({ show: show });

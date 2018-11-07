@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import {
-  NotificationWrapper,
   NotificationTitle,
+  NotificationWrapper,
   TransactionNotificationItem,
   TransNotificationProps,
 } from "../../subComponents/notification";
