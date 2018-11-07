@@ -30,7 +30,7 @@ storiesOf("Dropdown and Notifications", module)
     ];
     return <Dropdown defaultValue="lsk" items={items} />;
   })
-  .add("Dropdown", () => {
+  .add("Dropdown without defaultValue props", () => {
     const items = [
       {
         value: "lsk",
