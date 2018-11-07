@@ -16,7 +16,6 @@ export const Spinner = styled.div`
   border: 2px solid #ffffff;
   border-top: 2px solid rgba(184, 188, 221, 0.5);
   border-radius: 100%;
-  margin-left: 10px;
   margin-right: 10px;
 
   animation: ${keyFrameSpin} 0.55s infinite linear;
