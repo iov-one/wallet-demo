@@ -15,6 +15,8 @@ interface TransactionNotificationProps {
 const Content = styled.div`
   background-color: #fcfcfc;
   padding: 0px 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `;
 
 export const TransactionNotification = (props: TransactionNotificationProps) => (

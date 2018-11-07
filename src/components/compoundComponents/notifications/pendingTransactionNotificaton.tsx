@@ -11,6 +11,8 @@ import {
 
 const Content = styled.div`
   padding: 0px 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `;
 
 interface PendingTransactionProps {
