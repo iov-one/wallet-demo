@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { BcpCoin } from "@iov/bcp-types";
+
 import { Spinner } from "../icons";
 
 const Content = styled.div`
@@ -58,8 +60,7 @@ const Grey = styled.div`
 
 export interface PendingNotificationItemProps {
   readonly receiver: string;
-  readonly amount: number;
-  readonly unit: string;
+  readonly amount: BcpCoin;
 }
 
 export const PendingNotificationItem = (props: PendingNotificationItemProps): JSX.Element => (
@@ -69,7 +70,7 @@ export const PendingNotificationItem = (props: PendingNotificationItemProps): JS
       <TransInfo>
         <Message>
           <Bold>
-            {props.amount} {props.unit}
+            {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
           </Bold>{" "}
           to <Bold>{props.receiver}</Bold>
         </Message>

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { BcpCoin } from "@iov/bcp-types";
+
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
 import SendIcon from "../../../../resources/send_transaction.svg";
 
@@ -68,8 +70,7 @@ export interface TransNotificationProps {
   readonly received: string;
   readonly sender: string;
   readonly receiver: string;
-  readonly amount: number;
-  readonly unit: string;
+  readonly amount: BcpCoin;
   readonly time: string;
 }
 
@@ -82,7 +83,7 @@ export const TransactionNotificationItem = (props: TransNotificationProps): JSX.
           {props.received ? <Bold>{props.sender}</Bold> : "You"} sent{" "}
           {props.received ? "you" : <Bold>{props.receiver}</Bold>}{" "}
           <Bold>
-            {props.amount} {props.unit}
+            {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
           </Bold>
         </Message>
         <Time>time</Time>

@@ -55,10 +55,7 @@ interface DropdownState {
 }
 
 export class Dropdown extends React.Component<DropdownProps, DropdownState> {
-  public readonly state = {
-    show: false,
-    selected: "",
-  };
+  public readonly state: DropdownState;
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
