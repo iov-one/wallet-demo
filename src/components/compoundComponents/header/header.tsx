@@ -1,7 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { NormalHeader, HeaderDropdown, HeaderIcon, Navigation } from "../../subComponents/headers";
+import { HeaderDropdown, Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+
+import {
+  PendingOnboarding,
+  PendingTransactions,
+  PendingTransactionProps,
+  TransactionNotification,
+  TransactionNotificationProps,
+} from "../notifications";
 
 const HeaderContent = styled.div`
   display: flex;
@@ -17,15 +25,22 @@ const RightNavigation = styled.div`
   align-items: center;
 `;
 
-export const Header = () => {
-  const navItems = ["Balance", "Payments"];
+interface HeaderProps {
+  readonly navigationInfo: NavigationProps;
+  readonly transactionInfo: TransactionNotificationProps;
+  readonly pendingTransactionInfo: PendingTransactionProps;
+  readonly isFirst: boolean;
+}
+
+export const Header = (props: HeaderProps): JSX.Element => {
+  const { navigationInfo, transactionInfo, pendingTransactionInfo, isFirst } = props;
   return (
     <NormalHeader>
       <HeaderContent>
-        <Navigation items={navItems} />
+        <Navigation {...navigationInfo} />
         <RightNavigation>
-          <HeaderIcon icon="loading" />
-          <HeaderIcon icon="bell" />
+          <TransactionNotification {...transactionInfo} />
+          {isFirst ? <PendingOnboarding /> : <PendingTransactions {...pendingTransactionInfo} />}
           <HeaderDropdown title="Hi!" />
         </RightNavigation>
       </HeaderContent>
