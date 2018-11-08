@@ -10,6 +10,8 @@ const Header = styled.div`
   background-color: #ffffff;
   box-sizing: border-box;
   z-index: 100;
+  display: flex;
+  flex-direction: row;
 `;
 
 const LogoImage = styled.img`
@@ -18,8 +20,9 @@ const LogoImage = styled.img`
   object-fit: contain;
 `;
 
-export const NormalHeader = (): JSX.Element => (
+export const NormalHeader = ({ children }: any): JSX.Element => (
   <Header>
     <LogoImage src={Logo} alt="logo" />
+    {children}
   </Header>
 );

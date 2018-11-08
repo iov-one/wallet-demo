@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import NoteIcon from "../../../../resources/note@3x.png";
+import NoteIcon from "../../../../resources/note.svg";
 
 const Wrapper = styled.div`
   display: flex;

@@ -50,7 +50,7 @@ const NavText = styled.div`
   padding: 2px 1px;
 `;
 
-interface NavigationProps {
+export interface NavigationProps {
   readonly items: ReadonlyArray<string>;
   readonly activeItem?: string;
 }
