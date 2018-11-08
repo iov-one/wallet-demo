@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-import { HeaderDropdown, Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+import {
+  HeaderDropdown,
+  HeaderIcon,
+  Navigation,
+  NavigationProps,
+  NormalHeader,
+} from "../../subComponents/headers";
 
 import {
+  NotificationMenuItem,
   PendingOnboarding,
   PendingTransactionProps,
   PendingTransactions,
@@ -39,8 +46,16 @@ export const Header = (props: HeaderProps): JSX.Element => {
       <HeaderContent>
         <Navigation {...navigationInfo} />
         <RightNavigation>
-          <TransactionNotification {...transactionInfo} />
-          {isFirst ? <PendingOnboarding /> : <PendingTransactions {...pendingTransactionInfo} />}
+          <NotificationMenuItem
+            icon={<HeaderIcon icon="bell" />}
+            notification={
+              isFirst ? <PendingOnboarding /> : <PendingTransactions {...pendingTransactionInfo} />
+            }
+          />
+          <NotificationMenuItem
+            icon={<HeaderIcon icon="loading" />}
+            notification={<TransactionNotification {...transactionInfo} />}
+          />
           <HeaderDropdown title="Hi!" />
         </RightNavigation>
       </HeaderContent>
