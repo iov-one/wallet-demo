@@ -47,7 +47,7 @@ const NavText = styled.div`
   line-height: normal;
   letter-spacing: normal;
   color: #2d2f30;
-  padding: 2px 1px;
+  padding: 2px 2px;
 `;
 
 export interface NavigationProps {
