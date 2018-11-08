@@ -1,4 +1,4 @@
-export * from "./logoHeader";
+export * from "./baseHeader";
 export * from "./navigation";
 export * from "./headerIcon";
 export * from "./headerDropdown";
