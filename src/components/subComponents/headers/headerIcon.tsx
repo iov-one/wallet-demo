@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import LoadingIcon from "../../../../resources/loading.svg";
 import BellIcon from "../../../../resources/bell.svg";
+import LoadingIcon from "../../../../resources/loading.svg";
 
 interface HeaderIconProps {
   readonly icon: string;

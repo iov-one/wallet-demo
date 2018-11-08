@@ -5,8 +5,8 @@ import { HeaderDropdown, Navigation, NavigationProps, NormalHeader } from "../..
 
 import {
   PendingOnboarding,
-  PendingTransactions,
   PendingTransactionProps,
+  PendingTransactions,
   TransactionNotification,
   TransactionNotificationProps,
 } from "../notifications";
