@@ -67,7 +67,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
           <RightNavigation>
             <NotificationMenuItem
               icon="loading"
-              type="normal"
+              type={hasPendingItems ? "success" : "normal"}
               spin={hasPendingItems}
               notification={
                 isFirst ? (

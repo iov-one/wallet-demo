@@ -25,7 +25,7 @@ const keyFrameSpin = keyframes`
 export const HeaderIcon = styled.div.attrs<HeaderIconProps>({})`
   display: inline-block;
   position: relative;
-  width: 17px;
+  width: ${props => (props.icon === "bell" ? "14px" : "17px")};
   height: 20px;
   transition: background-color 0.5s;
   &.active,
