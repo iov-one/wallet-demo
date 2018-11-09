@@ -124,4 +124,57 @@ storiesOf("Header", module)
         navigationInfo={navigationInfo}
       />
     );
+  })
+  .add("Header with loading pending transaction", () => {
+    const navigationInfo = {
+      items: ["Balance", "Payments"],
+      activeItem: "Payments",
+    };
+    const transactionInfo = {
+      items: [
+        {
+          received: true,
+          sender: "george*iov",
+          receiver: "me",
+          amount: {
+            whole: 100,
+            fractional: 5,
+            tokenTicker: "LSK",
+          },
+          time: "1h",
+        },
+        {
+          received: false,
+          sender: "me",
+          receiver: "alex*iov",
+          amount: {
+            whole: 100,
+            fractional: 5,
+            tokenTicker: "IOV",
+          },
+          time: "3d",
+        },
+      ],
+    };
+    const pendingTransactionInfo = {
+      items: [
+        {
+          receiver: "alex*iov",
+          amount: {
+            whole: 100,
+            fractional: 5,
+            tokenTicker: "IOV",
+          },
+        },
+      ],
+    };
+    return (
+      <Header
+        transactionInfo={transactionInfo}
+        pendingTransactionInfo={pendingTransactionInfo}
+        navigationInfo={navigationInfo}
+        isFirst
+        isLoadingPending
+      />
+    );
   });

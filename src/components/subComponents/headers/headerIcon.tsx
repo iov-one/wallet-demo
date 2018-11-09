@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { get } from "lodash";
 
@@ -14,6 +14,14 @@ const icons = {
   bell: BellIcon,
 };
 
+const keyFrameSpin = keyframes`
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
+`;
+
 export const HeaderIcon = styled.div.attrs<HeaderIconProps>({})`
   display: inline-block;
   width: 17px;
@@ -25,4 +33,7 @@ export const HeaderIcon = styled.div.attrs<HeaderIconProps>({})`
   }
   background-color: #dbdde4;
   mask: url(${props => get(icons, props.icon)}) no-repeat center;
+  &.spin {
+    animation: ${keyFrameSpin} 0.55s infinite linear;
+  }
 `;

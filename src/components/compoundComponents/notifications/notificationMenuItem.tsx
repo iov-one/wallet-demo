@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import classNames from "classnames";
 
+import { HeaderIcon } from "../../subComponents/headers";
+
 const Wrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -30,8 +32,9 @@ const Button = styled.button`
 `;
 
 interface MenuItemProps {
-  readonly icon: JSX.Element;
   readonly notification: JSX.Element;
+  readonly icon: string;
+  readonly spin?: boolean;
 }
 
 interface MenuItemState {
@@ -57,7 +60,7 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
     }
   };
   public render(): any {
-    const { icon, notification } = this.props;
+    const { icon, notification, spin } = this.props;
     const { show } = this.state;
     return (
       <Wrapper innerRef={this.wrapperRef}>
@@ -66,7 +69,7 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
             this.setState({ show: true });
           }}
         >
-          {icon}
+          <HeaderIcon icon={icon} className={classNames({ show, spin })} />
         </Button>
         <FadeWrapper className={classNames({ show })}>{notification}</FadeWrapper>
       </Wrapper>
