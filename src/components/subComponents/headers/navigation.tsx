@@ -50,16 +50,25 @@ const NavText = styled.div`
   padding: 2px 2px;
 `;
 
+interface NavItemInfo {
+  readonly label: string;
+  readonly onClick: () => any;
+}
+
 export interface NavigationProps {
-  readonly items: ReadonlyArray<string>;
+  readonly items: ReadonlyArray<NavItemInfo>;
   readonly activeItem?: string;
 }
 
 export const Navigation = (props: NavigationProps): JSX.Element => (
   <NavWrapper>
     {props.items.map((item, key) => (
-      <NavItem className={classNames({ active: item === props.activeItem })} key={`nav_item_${key}`}>
-        <NavText>{item}</NavText>
+      <NavItem
+        className={classNames({ active: item.label === props.activeItem })}
+        key={`nav_item_${key}`}
+        onClick={item.onClick}
+      >
+        <NavText>{item.label}</NavText>
         <ActiveIndicator />
       </NavItem>
     ))}

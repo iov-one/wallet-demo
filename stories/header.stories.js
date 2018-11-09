@@ -24,7 +24,20 @@ storiesOf("Header", module)
   .add("Header Dropdown", () => <HeaderDropdown title="Hi!" />)
   .add("Header with first transaction", () => {
     const navigationInfo = {
-      items: ["Balance", "Payments"],
+      items: [
+        {
+          label: "Balance",
+          onClick: () => {
+            console.log("To Balance");
+          },
+        },
+        {
+          label: "Payments",
+          onClick: () => {
+            console.log("To Payments");
+          },
+        },
+      ],
       activeItem: "Payments",
     };
     const transactionInfo = {
@@ -76,7 +89,20 @@ storiesOf("Header", module)
   })
   .add("Header with pending transaction", () => {
     const navigationInfo = {
-      items: ["Balance", "Payments"],
+      items: [
+        {
+          label: "Balance",
+          onClick: () => {
+            console.log("To Balance");
+          },
+        },
+        {
+          label: "Payments",
+          onClick: () => {
+            console.log("To Payments");
+          },
+        },
+      ],
       activeItem: "Payments",
     };
     const transactionInfo = {
@@ -127,7 +153,20 @@ storiesOf("Header", module)
   })
   .add("Header with loading pending transaction", () => {
     const navigationInfo = {
-      items: ["Balance", "Payments"],
+      items: [
+        {
+          label: "Balance",
+          onClick: () => {
+            console.log("To Balance");
+          },
+        },
+        {
+          label: "Payments",
+          onClick: () => {
+            console.log("To Payments");
+          },
+        },
+      ],
       activeItem: "Payments",
     };
     const transactionInfo = {
