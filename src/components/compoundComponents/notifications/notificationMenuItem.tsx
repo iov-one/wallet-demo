@@ -38,7 +38,7 @@ const Button = styled.button`
     background-color: transparent;
     position: absolute;
     top: -3px;
-    right: -5px;
+    right: -7px;
   }
   &.success::before {
     background-color: #4be9d0;
