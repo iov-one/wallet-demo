@@ -42,29 +42,25 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
   public readonly state = {
     show: false,
   };
-  public wrapperRef: any;
-  componentDidMount() {
+  public readonly wrapperRef = React.createRef<HTMLElement>();
+  public componentDidMount(): any {
     document.addEventListener("mousedown", this.handleClick);
   }
-  componentWillUnmount() {
+  public componentWillUnmount(): any {
     document.removeEventListener("mousedown", this.handleClick);
   }
   public readonly handleClick = (event: any) => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+    if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
       this.setState({
         show: false,
       });
     }
   };
-  render() {
+  public render(): any {
     const { icon, notification } = this.props;
     const { show } = this.state;
     return (
-      <Wrapper
-        innerRef={(ref: any) => {
-          this.wrapperRef = ref;
-        }}
-      >
+      <Wrapper innerRef={this.wrapperRef}>
         <Button
           onClick={() => {
             this.setState({ show: true });
