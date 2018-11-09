@@ -35,6 +35,6 @@ export const HeaderIcon = styled.div.attrs<HeaderIconProps>({})`
   background-color: #dbdde4;
   mask: url(${props => get(icons, props.icon)}) no-repeat center;
   &.spin {
-    animation: ${keyFrameSpin} 0.55s infinite linear;
+    animation: ${keyFrameSpin} 5s infinite linear;
   }
 `;

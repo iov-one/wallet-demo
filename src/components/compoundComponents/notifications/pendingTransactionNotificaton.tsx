@@ -20,9 +20,13 @@ export interface PendingTransactionProps {
   readonly items: ReadonlyArray<PendingNotificationItemProps>;
 }
 
-export const PendingOnboarding = (): JSX.Element => (
+export interface PendingOnboardingProps {
+  readonly onGotIt: () => any;
+}
+
+export const PendingOnboarding = (props: PendingOnboardingProps): JSX.Element => (
   <NotificationWrapper className="secondary">
-    <PendingTransactionNotification />
+    <PendingTransactionNotification onClick={props.onGotIt} />
   </NotificationWrapper>
 );
 

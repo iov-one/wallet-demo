@@ -33,7 +33,10 @@ interface HeaderProps {
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly isFirst: boolean;
-  readonly isLoadingPending?: boolean;
+}
+
+interface HeaderState {
+  readonly isFirst: boolean;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -44,30 +47,49 @@ const getLastTransactionType = (transactionInfo: TransactionNotificationProps): 
   return "normal";
 };
 
-export const Header = (props: HeaderProps): JSX.Element => {
-  const { navigationInfo, transactionInfo, pendingTransactionInfo, isFirst, isLoadingPending } = props;
-  const type = getLastTransactionType(transactionInfo);
-  return (
-    <NormalHeader>
-      <HeaderContent>
-        <Navigation {...navigationInfo} />
-        <RightNavigation>
-          <NotificationMenuItem
-            icon="loading"
-            type="normal"
-            spin={isLoadingPending}
-            notification={
-              isFirst ? <PendingOnboarding /> : <PendingTransactions {...pendingTransactionInfo} />
-            }
-          />
-          <NotificationMenuItem
-            type={type}
-            icon="bell"
-            notification={<TransactionNotification {...transactionInfo} />}
-          />
-          <HeaderDropdown title="Hi!" />
-        </RightNavigation>
-      </HeaderContent>
-    </NormalHeader>
-  );
-};
+export class Header extends React.Component<HeaderProps, HeaderState> {
+  public readonly state: HeaderState;
+  constructor(props: HeaderProps) {
+    super(props);
+    this.state = {
+      isFirst: props.isFirst,
+    };
+  }
+  public render(): any {
+    const { navigationInfo, transactionInfo, pendingTransactionInfo } = this.props;
+    const type = getLastTransactionType(transactionInfo);
+    const hasPendingItems = pendingTransactionInfo.items.length > 0;
+    const { isFirst } = this.state;
+    return (
+      <NormalHeader>
+        <HeaderContent>
+          <Navigation {...navigationInfo} />
+          <RightNavigation>
+            <NotificationMenuItem
+              icon="loading"
+              type="normal"
+              spin={hasPendingItems}
+              notification={
+                isFirst ? (
+                  <PendingOnboarding
+                    onGotIt={() => {
+                      this.setState({ isFirst: false });
+                    }}
+                  />
+                ) : (
+                  <PendingTransactions {...pendingTransactionInfo} />
+                )
+              }
+            />
+            <NotificationMenuItem
+              type={type}
+              icon="bell"
+              notification={<TransactionNotification {...transactionInfo} />}
+            />
+            <HeaderDropdown title="Hi!" />
+          </RightNavigation>
+        </HeaderContent>
+      </NormalHeader>
+    );
+  }
+}
