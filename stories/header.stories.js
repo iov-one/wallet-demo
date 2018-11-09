@@ -8,11 +8,37 @@ import { Header } from "../src/components/compoundComponents/header";
 
 storiesOf("Header", module)
   .add("Navigation", () => {
-    const items = ["Balance", "Payments"];
+    const items = [
+      {
+        label: "Balance",
+        onClick: () => {
+          console.log("To Balance");
+        },
+      },
+      {
+        label: "Payments",
+        onClick: () => {
+          console.log("To Payments");
+        },
+      },
+    ];
     return <Navigation items={items} />;
   })
   .add("Navigation with active item", () => {
-    const items = ["Balance", "Payments"];
+    const items = [
+      {
+        label: "Balance",
+        onClick: () => {
+          console.log("To Balance");
+        },
+      },
+      {
+        label: "Payments",
+        onClick: () => {
+          console.log("To Payments");
+        },
+      },
+    ];
     return <Navigation items={items} activeItem="Payments" />;
   })
   .add("Header Icons", () => (
