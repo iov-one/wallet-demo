@@ -29,6 +29,7 @@ const Button = styled.button`
   background: transparent;
   outline: none;
   cursor: pointer;
+  padding: 0px;
   &::before {
     content: " ";
     width: 7px;
