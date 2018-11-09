@@ -72,6 +72,7 @@ export interface TransNotificationProps {
   readonly receiver: string;
   readonly amount: BcpCoin;
   readonly time: string;
+  readonly success: boolean;
 }
 
 export const TransactionNotificationItem = (props: TransNotificationProps): JSX.Element => (
@@ -79,13 +80,19 @@ export const TransactionNotificationItem = (props: TransNotificationProps): JSX.
     <Content>
       <Icon src={props.received ? ReceiveIcon : SendIcon} />
       <TransInfo>
-        <Message>
-          {props.received ? <Bold>{props.sender}</Bold> : "You"} sent{" "}
-          {props.received ? "you" : <Bold>{props.receiver}</Bold>}{" "}
-          <Bold>
-            {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
-          </Bold>
-        </Message>
+        {props.success ? (
+          <Message>
+            {props.received ? <Bold>{props.sender}</Bold> : "You"} sent{" "}
+            {props.received ? "you" : <Bold>{props.receiver}</Bold>}{" "}
+            <Bold>
+              {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
+            </Bold>
+          </Message>
+        ) : (
+          <Message>
+            Your payment to <Bold>{props.receiver}</Bold> is failed
+          </Message>
+        )}
         <Time>time</Time>
       </TransInfo>
     </Content>

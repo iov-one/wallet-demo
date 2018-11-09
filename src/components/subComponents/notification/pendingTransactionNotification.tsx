@@ -30,9 +30,13 @@ const GotIt = styled.button`
   cursor: pointer;
 `;
 
-export const PendingTransactionNotification = (): JSX.Element => (
+interface Props {
+  readonly onClick: () => any;
+}
+
+export const PendingTransactionNotification = (props: Props): JSX.Element => (
   <Wrapper>
     <Text>Pending transactions will appear here</Text>
-    <GotIt>Got it</GotIt>
+    <GotIt onClick={props.onClick}>Got it</GotIt>
   </Wrapper>
 );

@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 import { storiesOf } from "@storybook/react";
 
@@ -8,6 +9,10 @@ import {
   PendingTransactions,
   TransactionNotification,
 } from "../src/components/compoundComponents/notifications";
+
+const NotificationWrapper = styled.div`
+  padding-left: 400px;
+`;
 
 storiesOf("Dropdown and Notifications", module)
   .add("Dropdown", () => {
@@ -50,7 +55,11 @@ storiesOf("Dropdown and Notifications", module)
     ];
     return <Dropdown items={items} />;
   })
-  .add("Pending Onboarding Notification", () => <PendingOnboarding />)
+  .add("Pending Onboarding Notification", () => (
+    <NotificationWrapper>
+      <PendingOnboarding />
+    </NotificationWrapper>
+  ))
   .add("Transaction Notification", () => {
     const items = [
       {
@@ -76,7 +85,11 @@ storiesOf("Dropdown and Notifications", module)
         time: "3d",
       },
     ];
-    return <TransactionNotification items={items} />;
+    return (
+      <NotificationWrapper>
+        <TransactionNotification items={items} />
+      </NotificationWrapper>
+    );
   })
   .add("Pending Transactions", () => {
     const items = [
@@ -89,5 +102,9 @@ storiesOf("Dropdown and Notifications", module)
         },
       },
     ];
-    return <PendingTransactions items={items} />;
+    return (
+      <NotificationWrapper>
+        <PendingTransactions items={items} />
+      </NotificationWrapper>
+    );
   });

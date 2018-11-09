@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import classNames from "classnames";
 
-import NetworkIcon from "../../../../resources/no_connection_circle@3x.png";
-import TansactionIcon from "../../../../resources/transaction_fail_circle@3x.png";
+import NetworkIcon from "../../../../resources/no_connection_circle.svg";
+import TansactionIcon from "../../../../resources/transaction_fail_circle.svg";
 
 const Wrapper = styled.div`
   display: flex;
