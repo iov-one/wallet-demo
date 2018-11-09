@@ -117,6 +117,7 @@ storiesOf("Header", module)
             tokenTicker: "LSK",
           },
           time: "1h",
+          success: true,
         },
         {
           received: false,
@@ -128,6 +129,7 @@ storiesOf("Header", module)
             tokenTicker: "IOV",
           },
           time: "3d",
+          success: false,
         },
       ],
     };
@@ -181,6 +183,7 @@ storiesOf("Header", module)
             tokenTicker: "LSK",
           },
           time: "1h",
+          success: true,
         },
         {
           received: false,
@@ -192,6 +195,7 @@ storiesOf("Header", module)
             tokenTicker: "IOV",
           },
           time: "3d",
+          success: true,
         },
       ],
     };
@@ -213,6 +217,39 @@ storiesOf("Header", module)
         pendingTransactionInfo={pendingTransactionInfo}
         navigationInfo={navigationInfo}
         isFirst
+        isLoadingPending
+      />
+    );
+  })
+  .add("Header with empty items", () => {
+    const navigationInfo = {
+      items: [
+        {
+          label: "Balance",
+          onClick: () => {
+            console.log("To Balance");
+          },
+        },
+        {
+          label: "Payments",
+          onClick: () => {
+            console.log("To Payments");
+          },
+        },
+      ],
+      activeItem: "Payments",
+    };
+    const transactionInfo = {
+      items: [],
+    };
+    const pendingTransactionInfo = {
+      items: [],
+    };
+    return (
+      <Header
+        transactionInfo={transactionInfo}
+        pendingTransactionInfo={pendingTransactionInfo}
+        navigationInfo={navigationInfo}
         isLoadingPending
       />
     );

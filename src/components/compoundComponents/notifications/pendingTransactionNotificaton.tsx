@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import {
+  NotificationEmptyState,
   NotificationTitle,
   NotificationWrapper,
   PendingNotificationItem,
@@ -29,9 +30,11 @@ export const PendingTransactions = (props: PendingTransactionProps) => (
   <NotificationWrapper>
     <NotificationTitle>Pending transactions</NotificationTitle>
     <Content>
-      {props.items.map((item, key) => (
-        <PendingNotificationItem {...item} key={`notif_${key}`} />
-      ))}
+      {props.items.length > 0 ? (
+        props.items.map((item, key) => <PendingNotificationItem {...item} key={`notif_${key}`} />)
+      ) : (
+        <NotificationEmptyState type="noPending" />
+      )}
     </Content>
   </NotificationWrapper>
 );

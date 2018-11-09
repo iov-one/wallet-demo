@@ -29,11 +29,28 @@ const Button = styled.button`
   background: transparent;
   outline: none;
   cursor: pointer;
+  &::before {
+    content: " ";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    top: -3px;
+    right: 3px;
+  }
+  &.success::before {
+    background-color: #4be9d0;
+  }
+  &.failed::before {
+    background-color: #f05956;
+  }
 `;
 
 interface MenuItemProps {
   readonly notification: JSX.Element;
   readonly icon: string;
+  readonly type?: string;
   readonly spin?: boolean;
 }
 
@@ -60,16 +77,18 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
     }
   };
   public render(): any {
-    const { icon, notification, spin } = this.props;
+    const { icon, notification, spin, type } = this.props;
     const { show } = this.state;
+    console.log(classNames(type, { active: show, spin }));
     return (
       <Wrapper innerRef={this.wrapperRef}>
         <Button
           onClick={() => {
             this.setState({ show: true });
           }}
+          className={type}
         >
-          <HeaderIcon icon={icon} className={classNames({ show, spin })} />
+          <HeaderIcon icon={icon} className={classNames({ active: show, spin })} />
         </Button>
         <FadeWrapper className={classNames({ show })}>{notification}</FadeWrapper>
       </Wrapper>
