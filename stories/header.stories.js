@@ -179,7 +179,7 @@ storiesOf("Header", module)
       />
     );
   })
-  .add("Header with loading pending transaction", () => {
+  .add("Header with visited pending transaction", () => {
     const navigationInfo = {
       items: [
         {
