@@ -80,7 +80,6 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
   public render(): any {
     const { icon, notification, spin, type } = this.props;
     const { show } = this.state;
-    console.log(classNames(type, { active: show, spin }));
     return (
       <Wrapper innerRef={this.wrapperRef}>
         <Button

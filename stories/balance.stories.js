@@ -2,6 +2,7 @@ import React from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import "@storybook/addon-actions/register";
 
 import { BalanceForm } from "../src/components/templates/forms";
 
