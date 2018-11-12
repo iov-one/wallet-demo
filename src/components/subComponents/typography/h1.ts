@@ -12,4 +12,9 @@ export const H1 = styled.h1`
   &.center {
     text-align: center;
   }
+  &.sm {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  margin: 0px;
 `;

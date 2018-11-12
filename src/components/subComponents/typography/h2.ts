@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const H2 = styled.h2`
-  width: 762px;
   height: 32px;
   font-family: Muli;
   font-size: 20px;
@@ -11,4 +10,8 @@ export const H2 = styled.h2`
   line-height: 32px;
   letter-spacing: 0.8px;
   color: #1c1c1c;
+  margin: 0px;
+  &.center {
+    text-align: center;
+  }
 `;

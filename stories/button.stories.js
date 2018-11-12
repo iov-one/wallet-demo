@@ -3,7 +3,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { Button } from "../src/components/subComponents/buttons";
+import { BackupAccountButton, Button } from "../src/components/subComponents/buttons";
 import { TransactionButtonGroup, VerticalButtonGroup } from "../src/components/compoundComponents/sections";
 
 storiesOf("Buttons", module)
@@ -63,4 +63,11 @@ storiesOf("Buttons", module)
       },
     ];
     return <VerticalButtonGroup buttons={buttons} />;
-  });
+  })
+  .add("Backup Account", () => (
+    <BackupAccountButton
+      onClick={() => {
+        console.log("To Backup Account");
+      }}
+    />
+  ));

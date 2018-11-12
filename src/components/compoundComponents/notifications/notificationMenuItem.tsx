@@ -25,11 +25,17 @@ const FadeWrapper = styled.div`
 `;
 
 const Button = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justiy-content: center;
   border: none;
   background: transparent;
   outline: none;
   cursor: pointer;
   padding: 0px;
+  width: 20px;
+  height: 20px;
   &::before {
     content: " ";
     width: 7px;
@@ -37,8 +43,11 @@ const Button = styled.button`
     border-radius: 50%;
     background-color: transparent;
     position: absolute;
-    top: -3px;
-    right: -7px;
+    top: -4px;
+    right: -3px;
+  }
+  &.loading::before {
+    right: -8px;
   }
   &.success::before {
     background-color: #4be9d0;
@@ -80,16 +89,15 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
   public render(): any {
     const { icon, notification, spin, type } = this.props;
     const { show } = this.state;
-    console.log(classNames(type, { active: show, spin }));
     return (
       <Wrapper innerRef={this.wrapperRef}>
         <Button
           onClick={() => {
             this.setState({ show: true });
           }}
-          className={type}
+          className={classNames(type, icon)}
         >
-          <HeaderIcon icon={icon} className={classNames({ active: show, spin })} />
+          <HeaderIcon icon={icon} className={classNames(type, { active: show, spin })} />
         </Button>
         <FadeWrapper className={classNames({ show })}>{notification}</FadeWrapper>
       </Wrapper>

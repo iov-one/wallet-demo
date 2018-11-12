@@ -1,3 +1,6 @@
+export * from "./balanceForm";
+
+/* below will be replaced */
 export * from "./createWalletForm";
 export * from "./setPasswordForm";
 export * from "./loginForm";
