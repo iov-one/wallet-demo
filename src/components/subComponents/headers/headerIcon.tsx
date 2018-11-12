@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { keyframes } from "styled-components";
 
 import { get } from "lodash";
@@ -5,7 +6,7 @@ import { get } from "lodash";
 import BellIcon from "../../../../resources/bell.svg";
 import LoadingIcon from "../../../../resources/loading.svg";
 
-interface HeaderIconProps {
+interface HeaderIconProps extends React.HTMLAttributes<{}> {
   readonly icon: string;
 }
 
@@ -22,19 +23,26 @@ const keyFrameSpin = keyframes`
     }
 `;
 
-export const HeaderIcon = styled.div.attrs<HeaderIconProps>({})`
+const IconImage = styled.img.attrs<HeaderIconProps>({})`
   display: inline-block;
   position: relative;
   width: ${props => (props.icon === "bell" ? "14px" : "17px")};
   height: 20px;
   transition: background-color 0.5s;
   &.active,
-  &:hover {
-    background-color: #31e6c9;
+  &:hover path {
+    fill: #31e6c9;
   }
-  background-color: #dbdde4;
-  mask: url(${props => get(icons, props.icon)}) no-repeat center;
+
+  path {
+    fill: #dbdde4;
+  }
+
   &.spin {
     animation: ${keyFrameSpin} 5s infinite linear;
   }
 `;
+
+export const HeaderIcon = (props: HeaderIconProps): JSX.Element => (
+  <IconImage {...props} src={get(icons, props.icon)} />
+);
