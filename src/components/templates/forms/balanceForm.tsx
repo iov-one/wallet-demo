@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `;
 
 const BalanceSection = styled.div`
-  margin-top: 15px;
+  padding-top: 15px;
 `;
 
 export const BalanceForm = (props: BalanceProps) => (
@@ -33,7 +33,7 @@ export const BalanceForm = (props: BalanceProps) => (
       <TextFieldLabel className="centered">Your Currencies</TextFieldLabel>
       <BalanceSection>
         {props.balances.map((balance, idx) => (
-          <BalanceInfo balance={balance} key={`balanceInfo_${idx}`}/>
+          <BalanceInfo balance={balance} key={`balanceInfo_${idx}`} />
         ))}
       </BalanceSection>
     </Paper>
