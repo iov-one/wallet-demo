@@ -26,8 +26,8 @@ const keyFrameSpin = keyframes`
 const IconImage = styled.img.attrs<HeaderIconProps>({})`
   display: inline-block;
   position: relative;
-  width: ${props => (props.icon === "bell" ? "14px" : "17px")};
-  height: 20px;
+  width: ${props => (props.icon === "bell" ? "14.3px" : "17px")};
+  height: ${props => (props.icon === "bell" ? "20px" : "17px")};
   transition: background-color 0.5s;
   &.active,
   &:hover path {
