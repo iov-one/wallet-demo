@@ -9,4 +9,7 @@ export const TextFieldLabel = styled.div`
   line-height: 26px;
   letter-spacing: 0.7px;
   color: #1c1c1c;
+  &.centered {
+    text-align: center;
+  }
 `;

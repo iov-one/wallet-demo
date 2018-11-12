@@ -6,6 +6,7 @@ export * from "./popoverText";
 export * from "./textFieldLabel";
 export * from "./toasts";
 export * from "./inputNotification";
+export * from "./balanceInfo";
 
 // Below are old ones which will be removed in this sprint
 export * from "./description";
