@@ -32,8 +32,8 @@ export const BalanceForm = (props: BalanceProps) => (
       <Separator />
       <TextFieldLabel className="centered">Your Currencies</TextFieldLabel>
       <BalanceSection>
-        {props.balances.map(balance => (
-          <BalanceInfo balance={balance} />
+        {props.balances.map((balance, idx) => (
+          <BalanceInfo balance={balance} key={`balanceInfo_${idx}`}/>
         ))}
       </BalanceSection>
     </Paper>

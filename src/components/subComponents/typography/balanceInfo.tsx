@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { BcpCoin } from "@iov/bcp-types";
 
+import { coinToString } from "../../../logic";
+
 const InfoText = styled.div`
   text-align: center;
   font-family: Muli;
@@ -24,6 +26,6 @@ interface BalanceProps {
 
 export const BalanceInfo = (props: BalanceProps) => (
   <InfoText>
-    {props.balance.whole}.{props.balance.fractional} {props.balance.tokenTicker}
+    {coinToString(props.balance)} {props.balance.tokenTicker}
   </InfoText>
 );

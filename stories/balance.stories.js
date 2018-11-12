@@ -11,14 +11,14 @@ storiesOf("Forms", module).add("Balance Form", () => {
       whole: 10,
       fractional: 0,
       tokenTicker: "IOV",
-      sigFigs: 0,
+      sigFigs: 1,
       tokenName: "IOV Main Token",
     },
     {
       whole: 0,
       fractional: 2,
       tokenTicker: "LSK",
-      sigFigs: 0,
+      sigFigs: 1,
       tokenName: "LISK Token",
     },
   ];
