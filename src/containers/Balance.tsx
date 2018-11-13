@@ -3,12 +3,12 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { BcpConnection } from "@iov/bcp-types";
+import { BcpCoin, BcpConnection } from "@iov/bcp-types";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import { PageStructure } from "../components/compoundComponents/page";
+import { BalanceForm } from "../components/templates/forms";
 import { ReceiveModal } from "../components/templates/modal";
-import { AccountInfoSection } from "../components/templates/sections";
 
 import { BcpAccountWithChain } from "../reducers/blockchain";
 import { ChainAccount, getMyAccounts } from "../selectors";
@@ -51,13 +51,22 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
     }
     const name = `${account.name}*iov.value`;
     const address = account.address;
-    const balance = account.balance;
+    const balances = account.balance.map((balance: BcpCoin) => {
+      const { whole, fractional, tokenTicker, tokenName } = balance;
+      return {
+        whole,
+        fractional,
+        sigFigs: 9,
+        tokenTicker,
+        tokenName,
+      };
+    });
     return (
       <PageStructure>
         <div>
-          <AccountInfoSection
-            name={name}
-            balances={balance}
+          <BalanceForm
+            accountName={name}
+            balances={balances}
             onSend={() => {
               history.push("/send-token/");
             }}
@@ -65,6 +74,9 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
               this.setState({
                 showReceiveModal: true,
               });
+            }}
+            onBackup={() => {
+              console.log("on Backup");
             }}
           />
           <ReceiveModal
