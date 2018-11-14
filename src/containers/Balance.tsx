@@ -7,8 +7,8 @@ import { BcpCoin, BcpConnection } from "@iov/bcp-types";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { BalanceForm } from "../components/templates/forms";
-import { ReceiveModal } from "../components/templates/modal";
+import { AddressInputForm, BalanceForm } from "../components/templates/forms";
+import { IOVModal, ReceiveModal } from "../components/templates/modal";
 
 import { BcpAccountWithChain } from "../reducers/blockchain";
 import { ChainAccount, getMyAccounts } from "../selectors";
@@ -28,11 +28,13 @@ interface BalanceDispatchProps {
 
 interface BalanceState {
   readonly showReceiveModal: boolean;
+  readonly showAddressModal: boolean;
 }
 
 class Balance extends React.Component<BalanceProps & BalanceDispatchProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
+    showAddressModal: false,
   };
 
   public componentDidMount(): void {
@@ -42,9 +44,13 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
     }
   }
 
+  public readonly onSend = (): void => {
+    console.log("Sending ...");
+  };
+
   public render(): JSX.Element | boolean {
-    const { accounts, history } = this.props;
-    const { showReceiveModal } = this.state;
+    const { accounts } = this.props;
+    const { showReceiveModal, showAddressModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
@@ -68,7 +74,9 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
             accountName={name}
             balances={balances}
             onSend={() => {
-              history.push("/send-token/");
+              this.setState({
+                showAddressModal: true,
+              });
             }}
             onReceive={() => {
               this.setState({
@@ -79,6 +87,21 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
               console.log("on Backup");
             }}
           />
+          <IOVModal
+            visible={showAddressModal}
+            onRequestClose={() => {
+              this.setState({
+                showAddressModal: false,
+              });
+            }}
+            suggestionText="Your friends not on IOV yet?"
+            buttonText="Invite someone to IOV now"
+            onSuggestion={() => {
+              console.log("Suggestion");
+            }}
+          >
+            <AddressInputForm onNext={this.onSend} />
+          </IOVModal>
           <ReceiveModal
             name={name}
             address={address}

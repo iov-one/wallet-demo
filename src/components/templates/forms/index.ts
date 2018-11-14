@@ -1,4 +1,5 @@
 export * from "./balanceForm";
+export * from "./addressInputForm";
 
 /* below will be replaced */
 export * from "./createWalletForm";

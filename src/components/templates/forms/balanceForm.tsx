@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { BcpCoin } from "@iov/bcp-types";
 
 import { TransactionButtonGroup } from "../../compoundComponents/sections";
-import { BackupAccountButton } from "../../subComponents/buttons";
+import { SuggestionButton } from "../../subComponents/buttons";
 import { Paper, Separator } from "../../subComponents/page";
 import { BalanceInfo, H1, TextFieldLabel } from "../../subComponents/typography";
 
@@ -37,6 +37,10 @@ export const BalanceForm = (props: BalanceProps) => (
         ))}
       </BalanceSection>
     </Paper>
-    <BackupAccountButton onClick={props.onBackup} />
+    <SuggestionButton
+      suggestionText="Extra Security?"
+      buttonText="Backup your account now"
+      onClick={props.onBackup}
+    />
   </Wrapper>
 );

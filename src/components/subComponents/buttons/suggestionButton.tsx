@@ -35,13 +35,15 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-interface ButtonProps {
+export interface SuggestionButtonProps {
+  readonly suggestionText: string;
+  readonly buttonText: string;
   readonly onClick: () => any;
 }
 
-export const BackupAccountButton = (props: ButtonProps) => (
+export const SuggestionButton = (props: SuggestionButtonProps) => (
   <Wrapper>
-    <Text>Extra Security?</Text>
-    <Button onClick={props.onClick}>Backup your account now</Button>
+    <Text>{props.suggestionText}</Text>
+    <Button onClick={props.onClick}>{props.buttonText}</Button>
   </Wrapper>
 );
