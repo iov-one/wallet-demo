@@ -57,6 +57,9 @@ describe("sendTransaction", () => {
       this.skip();
       return;
     }
+    // default 2 seconds is not long enough when CI is under load
+    this.timeout(3500);
+
     const faucet = await faucetProfile();
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
