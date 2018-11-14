@@ -10,6 +10,7 @@ import {
   ImportAccountPage,
   LoginPage,
   PasswordPage,
+  SendPaymentPage,
   SendTokenPage,
 } from "../../containers";
 
@@ -21,8 +22,9 @@ const MainRouter = () => (
   <Router>
     <Wrapper>
       <Route exact path="/" component={HomePage} />
-      <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/balance/" component={BalancePage} />
+      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
+      <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/account-backup/" component={BackupAccountPage} />
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />

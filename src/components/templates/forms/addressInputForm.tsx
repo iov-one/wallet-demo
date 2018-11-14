@@ -8,7 +8,8 @@ import { Button } from "../../subComponents/buttons";
 import { Paper } from "../../subComponents/page";
 
 interface AddressInputProps {
-  readonly onNext: () => any;
+  readonly addressError: string;
+  readonly onNext: (address: string) => any;
 }
 
 interface AddressInputState {
@@ -36,6 +37,13 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     address: "",
     errorMessage: "",
   };
+  constructor(props: AddressInputProps) {
+    super(props);
+    this.state = {
+      address: "",
+      errorMessage: props.addressError,
+    };
+  }
   public readonly handleInputChange = (evt: any): any => {
     const address = evt.target.value;
     this.setState({
@@ -51,6 +59,20 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
       });
     }
   };
+  public readonly handleNext = (): any => {
+    const { address } = this.state;
+    const { onNext } = this.props;
+    onNext(address);
+  };
+
+  public componentWillReceiveProps(nextProps: AddressInputProps): any {
+    if (nextProps.addressError !== this.props.addressError) {
+      this.setState({
+        errorMessage: nextProps.addressError,
+      });
+    }
+  }
+
   public render(): JSX.Element {
     const { errorMessage, address } = this.state;
     return (
@@ -63,7 +85,12 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
             onChange={this.handleInputChange}
           />
           <ActionWrapper>
-            <Button title="Next" type="primary" disabled={!isEmpty(errorMessage) || isEmpty(address)} />
+            <Button
+              title="Next"
+              type="primary"
+              disabled={!isEmpty(errorMessage) || isEmpty(address)}
+              onClick={this.handleNext}
+            />
             <TooltipDescription
               label="How it works"
               info="Send payments to anyone with an IOV handle, and it will go directly to their account. If they don’t have an IOV account add their blockchain address."

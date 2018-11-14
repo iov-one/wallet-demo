@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { BcpCoin, BcpConnection } from "@iov/bcp-types";
-import { PublicIdentity } from "@iov/keycontrol";
 
 import { PageStructure } from "../components/compoundComponents/page";
 import { AddressInputForm, BalanceForm } from "../components/templates/forms";
 import { IOVModal, ReceiveModal } from "../components/templates/modal";
 
-import { BcpAccountWithChain } from "../reducers/blockchain";
-import { ChainAccount, getMyAccounts } from "../selectors";
+import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
+
+import { resolveAddress } from "../logic";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
@@ -19,22 +19,17 @@ interface BalanceProps extends RouteComponentProps<{}> {
   readonly identity: any;
 }
 
-interface BalanceDispatchProps {
-  readonly getAccount: (
-    conn: BcpConnection,
-    identity: PublicIdentity,
-  ) => Promise<BcpAccountWithChain | undefined>;
-}
-
 interface BalanceState {
   readonly showReceiveModal: boolean;
   readonly showAddressModal: boolean;
+  readonly addressError: string;
 }
 
-class Balance extends React.Component<BalanceProps & BalanceDispatchProps, BalanceState> {
+class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
     showAddressModal: false,
+    addressError: "",
   };
 
   public componentDidMount(): void {
@@ -44,13 +39,23 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
     }
   }
 
-  public readonly onSend = (): void => {
-    console.log("Sending ...");
+  public readonly onSend = async (address: string): Promise<any> => {
+    const { history, connections } = this.props;
+    const chainIds = Object.keys(connections);
+    const connection = connections[chainIds[0]];
+    try {
+      await resolveAddress(connection, address);
+      history.push(`/send-payment/${address}/`);
+    } catch {
+      this.setState({
+        addressError: "Address is not registered in the chain",
+      });
+    }
   };
 
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
-    const { showReceiveModal, showAddressModal } = this.state;
+    const { showReceiveModal, showAddressModal, addressError } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
@@ -100,7 +105,7 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
               console.log("Suggestion");
             }}
           >
-            <AddressInputForm onNext={this.onSend} />
+            <AddressInputForm addressError={addressError} onNext={this.onSend} />
           </IOVModal>
           <ReceiveModal
             name={name}
@@ -122,6 +127,7 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
 const mapStateToProps = (state: any, ownProps: BalanceProps): BalanceProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
+  connections: getConnections(state),
 });
 
 export const BalancePage = withRouter(connect(mapStateToProps)(Balance));
