@@ -51,7 +51,7 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     });
     if (!checkAddressFormat(address)) {
       this.setState({
-        errorMessage: "Invalid Address",
+        errorMessage: "Not a valid IOV or wallet address",
       });
     } else {
       this.setState({
