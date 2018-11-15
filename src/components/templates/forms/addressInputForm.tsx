@@ -45,14 +45,15 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
       errorMessage: "",
     };
   }
-  public readonly handleInputChange = async (evt: any): Promise<any> => {
+  public readonly handleInputChange = async (evt: React.SyntheticEvent<EventTarget>): Promise<any> => {
     const { connection } = this.props;
-    const address = evt.target.value;
+    const target = evt.target as HTMLInputElement;
+    const address = target.value;
     this.setState({
       address,
     });
     try {
-      const result = await resolveAddress(connection, address);
+      await resolveAddress(connection, address);
       this.setState({
         errorMessage: "",
       });
