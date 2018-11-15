@@ -24,7 +24,6 @@ const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 25px;
   overflow-x: scroll;
   &.whiteBg {
     background-color: transparent;
