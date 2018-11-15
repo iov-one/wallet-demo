@@ -52,9 +52,12 @@ const TokenText = styled.div`
   letter-spacing: normal;
   color: #a2a6a8;
   margin: 30px 0px;
+  text-align: center;
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 50px;
+`;
 
 export interface SendTokenFormState {
   readonly tokenAmount: string;
