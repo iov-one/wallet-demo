@@ -60,7 +60,7 @@ export const DropdownOption = (props: DropdownItemProps): JSX.Element => {
   return (
     <DropdownOptionWrapper className={className} onClick={() => onClick(value)}>
       <DropdownLabel>{label}</DropdownLabel>
-      <DropdownDescription>{description}</DropdownDescription>
+      {description && <DropdownDescription>{description}</DropdownDescription>}
     </DropdownOptionWrapper>
   );
 };

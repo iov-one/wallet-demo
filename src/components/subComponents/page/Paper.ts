@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Paper = styled.div`
+  position: relative;
   box-sizing: border-box;
   width: 450px;
   padding: 40px 30px;

@@ -16,6 +16,7 @@ interface ButtonType {
   readonly title: string;
   readonly type: string;
   readonly icon?: string;
+  readonly disabled?: boolean;
   readonly onClick: () => any;
 }
 

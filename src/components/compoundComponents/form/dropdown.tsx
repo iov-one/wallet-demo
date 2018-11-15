@@ -26,6 +26,12 @@ const TriggerButton = styled.button`
   align-items: center;
 `;
 
+const NormalTriggerButton = styled.button`
+  background: transparent;
+  border: none;
+  outline: none;
+`;
+
 const Wrapper = styled.div`
   position: relative;
 `;
@@ -92,14 +98,18 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
   public render(): JSX.Element {
     const { show } = this.state;
     const { items } = this.props;
-    const menuClassName = classNames({ show: show });
+    const menuClassName = classNames({ show: show, near: this.props.children });
     const label = this.getSelected();
     return (
       <Wrapper>
-        <TriggerButton onClick={this.showMenu}>
-          {label}
-          <ChevronIcon src={ChevronDownIcon} />
-        </TriggerButton>
+        {this.props.children ? (
+          <NormalTriggerButton onClick={this.showMenu}>{this.props.children}</NormalTriggerButton>
+        ) : (
+          <TriggerButton onClick={this.showMenu}>
+            {label}
+            <ChevronIcon src={ChevronDownIcon} />
+          </TriggerButton>
+        )}
         <DropdownMenu className={menuClassName}>
           {items.map((item, key) => (
             <DropdownOption
