@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import InfoHighlight from "../../../../resources/icons-8-info-copy@3x.png";
-import InfoNormal from "../../../../resources/icons-8-info@3x.png";
+import InfoHighlight from "../../../../resources/info_active.svg";
+import InfoNormal from "../../../../resources/info_normal.svg";
 
 export const InfoIcon = styled.div`
   width: 17px;

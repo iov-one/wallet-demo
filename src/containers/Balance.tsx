@@ -3,15 +3,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { BcpConnection } from "@iov/bcp-types";
-import { PublicIdentity } from "@iov/keycontrol";
+import { BcpCoin, BcpConnection } from "@iov/bcp-types";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { ReceiveModal } from "../components/templates/modal";
-import { AccountInfoSection } from "../components/templates/sections";
+import { AddressInputForm, BalanceForm } from "../components/templates/forms";
+import { IOVModal, ReceiveModal } from "../components/templates/modal";
 
-import { BcpAccountWithChain } from "../reducers/blockchain";
-import { ChainAccount, getMyAccounts } from "../selectors";
+import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
@@ -19,20 +17,15 @@ interface BalanceProps extends RouteComponentProps<{}> {
   readonly identity: any;
 }
 
-interface BalanceDispatchProps {
-  readonly getAccount: (
-    conn: BcpConnection,
-    identity: PublicIdentity,
-  ) => Promise<BcpAccountWithChain | undefined>;
-}
-
 interface BalanceState {
   readonly showReceiveModal: boolean;
+  readonly showAddressModal: boolean;
 }
 
-class Balance extends React.Component<BalanceProps & BalanceDispatchProps, BalanceState> {
+class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
+    showAddressModal: false,
   };
 
   public componentDidMount(): void {
@@ -42,31 +35,68 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
     }
   }
 
+  public readonly onSend = (address: string): any => {
+    const { history } = this.props;
+    history.push(`/send-payment/${address}/`);
+  };
+
   public render(): JSX.Element | boolean {
-    const { accounts, history } = this.props;
-    const { showReceiveModal } = this.state;
+    const { accounts } = this.props;
+    const { showReceiveModal, showAddressModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
     const name = `${account.name}*iov.value`;
     const address = account.address;
-    const balance = account.balance;
+    const balances = account.balance.map((balance: BcpCoin) => {
+      const { whole, fractional, tokenTicker, tokenName } = balance;
+      return {
+        whole,
+        fractional,
+        sigFigs: 9,
+        tokenTicker,
+        tokenName,
+      };
+    });
+    const { connections } = this.props;
+    const chainIds = Object.keys(connections);
+    const connection = connections[chainIds[0]];
     return (
       <PageStructure>
         <div>
-          <AccountInfoSection
-            name={name}
-            balances={balance}
+          <BalanceForm
+            accountName={name}
+            balances={balances}
             onSend={() => {
-              history.push("/send-token/");
+              this.setState({
+                showAddressModal: true,
+              });
             }}
             onReceive={() => {
               this.setState({
                 showReceiveModal: true,
               });
             }}
+            onBackup={() => {
+              console.log("on Backup");
+            }}
           />
+          <IOVModal
+            visible={showAddressModal}
+            onRequestClose={() => {
+              this.setState({
+                showAddressModal: false,
+              });
+            }}
+            suggestionText="Your friends not on IOV yet?"
+            buttonText="Invite someone to IOV now"
+            onSuggestion={() => {
+              console.log("Suggestion");
+            }}
+          >
+            <AddressInputForm connection={connection} onNext={this.onSend} />
+          </IOVModal>
           <ReceiveModal
             name={name}
             address={address}
@@ -87,6 +117,7 @@ class Balance extends React.Component<BalanceProps & BalanceDispatchProps, Balan
 const mapStateToProps = (state: any, ownProps: BalanceProps): BalanceProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
+  connections: getConnections(state),
 });
 
 export const BalancePage = withRouter(connect(mapStateToProps)(Balance));
