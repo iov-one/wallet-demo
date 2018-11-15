@@ -2,13 +2,16 @@ import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import CloseIcon from "../../../../resources/close.svg";
+import CloseIcon from "../../../../resources/close_type2.svg";
 
 import { SuggestionButton } from "../../subComponents/buttons";
 
 const CloseButton = styled.button`
-  width: 26px;
-  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 37px;
   background-image: url(${CloseIcon});
   background-size: contain,
   background-position: center;
@@ -18,7 +21,6 @@ const CloseButton = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
-  margin-bottom: 37px;
 `;
 
 const ModalContentWrapper = styled.div`
@@ -44,8 +46,10 @@ const customStyle = {
   content: {
     left: "calc(50vw - 273px)",
     width: "506px",
+    top: "0px",
+    bottom: "0px",
     paddingTop: "140px",
-    paddingBottom: "85px",
+    paddingBottom: "10%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

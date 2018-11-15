@@ -11,8 +11,6 @@ import { IOVModal, ReceiveModal } from "../components/templates/modal";
 
 import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
 
-import { resolveAddress } from "../logic";
-
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly connections: { readonly [chainId: string]: BcpConnection };
@@ -22,14 +20,12 @@ interface BalanceProps extends RouteComponentProps<{}> {
 interface BalanceState {
   readonly showReceiveModal: boolean;
   readonly showAddressModal: boolean;
-  readonly addressError: string;
 }
 
 class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
     showAddressModal: false,
-    addressError: "",
   };
 
   public componentDidMount(): void {
@@ -39,23 +35,14 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     }
   }
 
-  public readonly onSend = async (address: string): Promise<any> => {
-    const { history, connections } = this.props;
-    const chainIds = Object.keys(connections);
-    const connection = connections[chainIds[0]];
-    try {
-      await resolveAddress(connection, address);
-      history.push(`/send-payment/${address}/`);
-    } catch {
-      this.setState({
-        addressError: "Address is not registered in the chain",
-      });
-    }
+  public readonly onSend = (address: string): any => {
+    const { history } = this.props;
+    history.push(`/send-payment/${address}/`);
   };
 
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
-    const { showReceiveModal, showAddressModal, addressError } = this.state;
+    const { showReceiveModal, showAddressModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
@@ -72,6 +59,9 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
         tokenName,
       };
     });
+    const { connections } = this.props;
+    const chainIds = Object.keys(connections);
+    const connection = connections[chainIds[0]];
     return (
       <PageStructure>
         <div>
@@ -105,7 +95,7 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
               console.log("Suggestion");
             }}
           >
-            <AddressInputForm addressError={addressError} onNext={this.onSend} />
+            <AddressInputForm connection={connection} onNext={this.onSend} />
           </IOVModal>
           <ReceiveModal
             name={name}

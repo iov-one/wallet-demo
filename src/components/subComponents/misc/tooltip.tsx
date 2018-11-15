@@ -23,7 +23,7 @@ const TooltipBox = styled.div`
   width: 179px;
   border-radius: 5px;
   box-shadow: 0 0 4px 0 #f3f4f8;
-  border: solid 0.5px #e9eaf0;
+  border: solid 0.5px #f3f3f3;
   background-color: #ffffff;
   font-family: Muli;
   font-size: 14px;
@@ -32,7 +32,7 @@ const TooltipBox = styled.div`
   font-stretch: normal;
   line-height: 1.5;
   letter-spacing: normal;
-  color: #81869d;
+  color: #1c1c1c;
   ${Wrapper}:hover & {
     display: inline-block;
     opacity: 1;

@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
+import { BcpConnection } from "@iov/bcp-types";
+
 import { isEmpty } from "lodash";
 
 import { FormInput, TooltipDescription } from "../../compoundComponents/form";
 import { Button } from "../../subComponents/buttons";
 import { Paper } from "../../subComponents/page";
 
+import { resolveAddress } from "../../../../src/logic";
+
 interface AddressInputProps {
-  readonly addressError: string;
+  readonly connection: BcpConnection;
   readonly onNext: (address: string) => any;
 }
 
@@ -29,9 +33,6 @@ const ActionWrapper = styled.div`
   margin-top: 13px;
 `;
 
-const addrRegex = /[a-z0-9_]{4,32}\*iov/;
-const checkAddressFormat = (address: string): boolean => addrRegex.exec(address) !== null;
-
 export class AddressInputForm extends React.Component<AddressInputProps, AddressInputState> {
   public readonly state = {
     address: "",
@@ -41,21 +42,24 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     super(props);
     this.state = {
       address: "",
-      errorMessage: props.addressError,
+      errorMessage: "",
     };
   }
-  public readonly handleInputChange = (evt: any): any => {
+  public readonly handleInputChange = async (evt: any): Promise<any> => {
+    const { connection } = this.props;
     const address = evt.target.value;
     this.setState({
       address,
     });
-    if (!checkAddressFormat(address)) {
-      this.setState({
-        errorMessage: "Not a valid IOV or wallet address",
-      });
-    } else {
+    try {
+      const result = await resolveAddress(connection, address);
+      console.log(address, result);
       this.setState({
         errorMessage: "",
+      });
+    } catch {
+      this.setState({
+        errorMessage: "Not a valid IOV or wallet address",
       });
     }
   };
@@ -64,14 +68,6 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     const { onNext } = this.props;
     onNext(address);
   };
-
-  public componentWillReceiveProps(nextProps: AddressInputProps): any {
-    if (nextProps.addressError !== this.props.addressError) {
-      this.setState({
-        errorMessage: nextProps.addressError,
-      });
-    }
-  }
 
   public render(): JSX.Element {
     const { errorMessage, address } = this.state;
