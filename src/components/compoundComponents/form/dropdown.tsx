@@ -69,6 +69,20 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       selected: props.defaultValue || "",
     };
   }
+  public readonly wrapperRef = React.createRef<HTMLElement>();
+  public componentDidMount(): any {
+    document.addEventListener("mousedown", this.handleClick);
+  }
+  public componentWillUnmount(): any {
+    document.removeEventListener("mousedown", this.handleClick);
+  }
+  public readonly handleClick = (event: any) => {
+    if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
+      this.setState({
+        show: false,
+      });
+    }
+  };
   public readonly showMenu = () => {
     this.setState({
       show: true,
@@ -101,7 +115,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
     const menuClassName = classNames({ show: show, withCustomTrigger: this.props.children });
     const label = this.getSelected();
     return (
-      <Wrapper>
+      <Wrapper innerRef={this.wrapperRef}>
         {this.props.children ? (
           <NormalTriggerButton onClick={this.showMenu}>{this.props.children}</NormalTriggerButton>
         ) : (
