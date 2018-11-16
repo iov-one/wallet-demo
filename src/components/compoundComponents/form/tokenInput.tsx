@@ -48,13 +48,13 @@ const TokenDropdownTrigger = styled.div`
 
 const InputWrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
 `;
 
 const Input = styled.input`
-  width: 80px;
+  width: 50%;
   border: none;
   outline: none;
   background: transparent;
@@ -69,6 +69,8 @@ const Input = styled.input`
   margin-right: 10px;
   text-align: right;
 `;
+
+const DropdownWrapper = styled.div``;
 
 const ErrorMessage = styled.div`
   text-align: center;
@@ -114,6 +116,7 @@ export class TokenInput extends React.Component<TokenInputProps, TokenInputState
     const selectables = tokens.map(token => ({
       value: token as string,
       label: token as string,
+      description: token as string,
     }));
     return (
       <Wrapper>

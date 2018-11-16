@@ -20,6 +20,10 @@ const DropdownOptionWrapper = styled.button`
     opacity: 1;
     height: 76px;
   }
+  &:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 `;
 
 const DropdownLabel = styled.div`

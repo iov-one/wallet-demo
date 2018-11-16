@@ -29,7 +29,7 @@ const NameWrapper = styled.div`
   font-stretch: normal;
   line-height: normal;
   color: #fff;
-  text-transform: capitalize;
+  text-transform: uppercase;
   left: 190px;
   top: -35px;
 `;
@@ -191,7 +191,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     return (
       <Wrapper>
         <Paper>
-          <NameWrapper>{name.slice(0, 1)}</NameWrapper>
+          <NameWrapper>{name.slice(0, 2)}</NameWrapper>
           <H2 className="center">{iovAddress}</H2>
           <Splitter />
           <SendingLabel>You send</SendingLabel>
