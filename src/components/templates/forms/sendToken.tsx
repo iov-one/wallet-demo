@@ -110,12 +110,20 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   }
   public readonly getSelectedToken = (token: TokenTicker): BcpCoin => {
     const { balances } = this.props;
-    const balance = find(balances, balance => balance.tokenTicker === token) || balances[0];
-    return {
-      ...balance,
-      sigFigs: 9,
-      tokenName: balance.tokenTicker,
-    } as BcpCoin;
+    const balance = find(balances, item => item.tokenTicker === token);
+    return balance
+      ? ({
+          ...balance,
+          sigFigs: 9,
+          tokenName: balance.tokenTicker,
+        } as BcpCoin)
+      : ({
+          whole: 0,
+          fractional: 0,
+          sigFigs: 9,
+          tokenTicker: token,
+          tokenName: token,
+        } as BcpCoin);
   };
   public readonly hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
     try {
@@ -137,7 +145,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
       return false;
     }
   };
-  public readonly onChangeAmount = (tokenAmount: string): any => {
+  public readonly onChangeAmount = (tokenAmount: string): void => {
     const { token } = this.state;
     const balance = this.getSelectedToken(token);
     const hasEnoughToken = this.hasEnoughBalance(balance, tokenAmount);
@@ -146,12 +154,12 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
       hasEnoughToken,
     });
   };
-  public readonly onChangeToken = (token: TokenTicker): any => {
+  public readonly onChangeToken = (token: TokenTicker): void => {
     this.setState({
       token,
     });
   };
-  public readonly onChangeMemo = (evt: React.SyntheticEvent<EventTarget>) => {
+  public readonly onChangeMemo = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.target as HTMLInputElement;
     this.setState({
       memo: target.value,

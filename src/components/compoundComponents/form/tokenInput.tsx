@@ -94,13 +94,13 @@ export class TokenInput extends React.Component<TokenInputProps, TokenInputState
       selectedToken: props.tokens[0],
     };
   }
-  public readonly onChangeToken = (token: string): any => {
+  public readonly onChangeToken = (token: string): void => {
     this.setState({
       selectedToken: token as TokenTicker,
     });
     this.props.onChangeToken(token as TokenTicker);
   };
-  public readonly onChangeAmount = (evt: React.SyntheticEvent<EventTarget>): any => {
+  public readonly onChangeAmount = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.target as HTMLInputElement;
     const amount = target.value;
     this.setState({

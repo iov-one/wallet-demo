@@ -28,7 +28,7 @@ interface SendTokenDispatchToProps {
 }
 
 class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToProps> {
-  public onSend = (transInfo: SendTokenFormState): any => {
+  public readonly onSend = (transInfo: SendTokenFormState): any => {
     const { history } = this.props;
     const { iovAddress } = this.props.match.params;
     const { tokenAmount, memo, token } = transInfo;
