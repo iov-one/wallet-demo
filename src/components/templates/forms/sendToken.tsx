@@ -18,12 +18,12 @@ const NameWrapper = styled.div`
   box-sizing: border-box;
   width: 70px;
   height: 70px;
-  padding: 14px 0px;
+  padding: 20px 0px;
   border-radius: 35px;
   background-color: #ffe152;
   text-align: center;
   font-family: Muli;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
