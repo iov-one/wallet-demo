@@ -35,7 +35,7 @@ const TokenDropdownTrigger = styled.div`
   background-image: url(${DropTriangleIcon});
   background-repeat: no-repeat;
   background-position: center right 7px;
-  background-size: 4.5px 9px;
+  background-size: 8px 4.5px;
   font-family: Muli;
   font-size: 16px;
   font-weight: 300;
