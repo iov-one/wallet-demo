@@ -67,7 +67,7 @@ const Input = styled.input`
   letter-spacing: normal;
   color: #1c1c1c;
   margin-right: 10px;
-  text-align: center;
+  text-align: right;
 `;
 
 const ErrorMessage = styled.div`
@@ -84,7 +84,7 @@ const ErrorMessage = styled.div`
 
 export class TokenInput extends React.Component<TokenInputProps, TokenInputState> {
   public readonly state = {
-    amount: "0",
+    amount: "",
     selectedToken: "" as TokenTicker,
   };
   constructor(props: TokenInputProps) {
@@ -118,7 +118,7 @@ export class TokenInput extends React.Component<TokenInputProps, TokenInputState
     return (
       <Wrapper>
         <InputWrapper>
-          <Input type="text" value={amount} onChange={this.onChangeAmount} />
+          <Input type="text" value={amount} onChange={this.onChangeAmount} placeholder="0,00" />
           <Dropdown items={selectables} defaultValue={selectedToken} onSelect={this.onChangeToken}>
             <TokenDropdownTrigger>{selectedToken}</TokenDropdownTrigger>
           </Dropdown>

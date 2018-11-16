@@ -59,10 +59,6 @@ const Wrapper = styled.div`
   margin-top: 50px;
 `;
 
-const CustomPaper = styled(Paper)`
-  margin-bottom: 30px;
-`;
-
 const SendingLabel = styled(TextFieldLabel)`
   margin-bottom: 30px;
   text-align: center;
@@ -105,7 +101,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     super(props);
     const token = props.balances[0].tokenTicker;
     this.state = {
-      tokenAmount: "0",
+      tokenAmount: "",
       isValidAmount: true,
       hasEnoughToken: true,
       memo: "",
@@ -168,7 +164,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   };
   public render(): JSX.Element | boolean {
     const { balances, name, iovAddress } = this.props;
-    const { token, isValidAmount, hasEnoughToken } = this.state;
+    const { tokenAmount, token, isValidAmount, hasEnoughToken } = this.state;
     const tokens = balances.map(balance => balance.tokenTicker);
     const selectedBalance = this.getSelectedToken(token);
     const buttons: ReadonlyArray<any> = [
@@ -186,13 +182,13 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     ];
     return (
       <Wrapper>
-        <CustomPaper>
+        <Paper>
           <NameWrapper>{name.slice(0, 1)}</NameWrapper>
           <H2 className="center">{iovAddress}</H2>
           <Splitter />
           <SendingLabel>You send</SendingLabel>
           <TokenInput
-            amount="0"
+            amount={tokenAmount}
             isValidAmount={isValidAmount}
             hasEnoughToken={hasEnoughToken}
             tokens={tokens}
@@ -200,10 +196,10 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             onChangeToken={this.onChangeToken}
           />
           <TokenText>
-            {coinToString(selectedBalance)} {selectedBalance.tokenTicker}
+            balance: {coinToString(selectedBalance)} {selectedBalance.tokenTicker}
           </TokenText>
           <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
-        </CustomPaper>
+        </Paper>
         <VerticalButtonGroup buttons={buttons} />
       </Wrapper>
     );
