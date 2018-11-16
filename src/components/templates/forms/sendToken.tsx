@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { findIndex } from "lodash";
+import { find } from "lodash";
 
 import { BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 
@@ -84,17 +84,6 @@ const convertStringToFungibleToken = (
   return { whole, fractional, tokenTicker };
 };
 
-const hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
-  const amountInToken = convertStringToFungibleToken(amount, 9, balance.tokenTicker);
-  if (amountInToken.whole < balance.whole) {
-    return true;
-  }
-  if (amountInToken.whole === balance.whole && amountInToken.fractional <= balance.fractional) {
-    return true;
-  }
-  return false;
-};
-
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
     tokenAmount: "0",
@@ -116,22 +105,36 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   }
   public readonly getSelectedToken = (token: TokenTicker): BcpCoin => {
     const { balances } = this.props;
-    const balanceIdx = findIndex(balances, balance => balance.tokenTicker === token);
+    const balance = find(balances, balance => balance.tokenTicker === token) || balances[0];
     return {
-      ...balances[balanceIdx],
+      ...balance,
       sigFigs: 9,
-      tokenName: balances[balanceIdx].tokenTicker,
-    };
+      tokenName: balance.tokenTicker,
+    } as BcpCoin;
+  };
+  public readonly hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
+    try {
+      const amountInToken = convertStringToFungibleToken(amount, 9, balance.tokenTicker);
+      if (amountInToken.whole < balance.whole) {
+        return true;
+      }
+      if (amountInToken.whole === balance.whole && amountInToken.fractional <= balance.fractional) {
+        return true;
+      }
+      return false;
+    } catch {
+      this.setState({
+        isValidAmount: false,
+      });
+      return false;
+    }
   };
   public readonly onChangeAmount = (tokenAmount: string): any => {
     const { token } = this.state;
     const balance = this.getSelectedToken(token);
-    const regex = /^[0-9]*([\.\,][0-9]+)?$/;
-    const isValidAmount = tokenAmount.length > 0 && regex.exec(tokenAmount) !== null;
-    const hasEnoughToken = hasEnoughBalance(balance, tokenAmount);
+    const hasEnoughToken = this.hasEnoughBalance(balance, tokenAmount);
     this.setState({
       tokenAmount,
-      isValidAmount,
       hasEnoughToken,
     });
   };

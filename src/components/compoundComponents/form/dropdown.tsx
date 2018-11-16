@@ -98,7 +98,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
   public render(): JSX.Element {
     const { show } = this.state;
     const { items } = this.props;
-    const menuClassName = classNames({ show: show, near: this.props.children });
+    const menuClassName = classNames({ show: show, withCustomTrigger: this.props.children });
     const label = this.getSelected();
     return (
       <Wrapper>
