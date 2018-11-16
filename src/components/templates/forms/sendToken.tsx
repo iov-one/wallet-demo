@@ -34,6 +34,11 @@ const NameWrapper = styled.div`
   top: -35px;
 `;
 
+const SendingAddress = styled(H2)`
+  text-align: center;
+  margin-top: 11px;
+`;
+
 const Splitter = styled.div`
   height: 1px;
   width: 100%;
@@ -192,7 +197,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
       <Wrapper>
         <Paper>
           <NameWrapper>{name.slice(0, 2)}</NameWrapper>
-          <H2 className="center">{iovAddress}</H2>
+          <SendingAddress>{iovAddress}</SendingAddress>
           <Splitter />
           <SendingLabel>You send</SendingLabel>
           <TokenInput
