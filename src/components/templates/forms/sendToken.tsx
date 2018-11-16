@@ -67,6 +67,7 @@ const Wrapper = styled.div`
 const SendingLabel = styled(TextFieldLabel)`
   margin-bottom: 30px;
   text-align: center;
+  line-height: 18px;
 `;
 
 export interface SendTokenFormState {
