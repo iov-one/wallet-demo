@@ -59,6 +59,15 @@ const Wrapper = styled.div`
   margin-top: 50px;
 `;
 
+const CustomPaper = styled(Paper)`
+  margin-bottom: 30px;
+`;
+
+const SendingLabel = styled(TextFieldLabel)`
+  margin-bottom: 30px;
+  text-align: center;
+`;
+
 export interface SendTokenFormState {
   readonly tokenAmount: string;
   readonly token: TokenTicker;
@@ -115,6 +124,9 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   public readonly hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
     try {
       const amountInToken = convertStringToFungibleToken(amount, 9, balance.tokenTicker);
+      this.setState({
+        isValidAmount: true,
+      });
       if (amountInToken.whole < balance.whole) {
         return true;
       }
@@ -174,11 +186,11 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     ];
     return (
       <Wrapper>
-        <Paper style={{ marginBottom: "30px" }}>
+        <CustomPaper>
           <NameWrapper>{name.slice(0, 1)}</NameWrapper>
           <H2 className="center">{iovAddress}</H2>
           <Splitter />
-          <TextFieldLabel style={{ marginBottom: "30px" }}>You send</TextFieldLabel>
+          <SendingLabel>You send</SendingLabel>
           <TokenInput
             amount="0"
             isValidAmount={isValidAmount}
@@ -191,7 +203,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             {coinToString(selectedBalance)} {selectedBalance.tokenTicker}
           </TokenText>
           <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
-        </Paper>
+        </CustomPaper>
         <VerticalButtonGroup buttons={buttons} />
       </Wrapper>
     );

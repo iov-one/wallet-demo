@@ -28,13 +28,13 @@ interface SendTokenDispatchToProps {
 }
 
 class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToProps> {
-  public onSend(transInfo: SendTokenFormState): any {
+  public onSend = (transInfo: SendTokenFormState): any => {
     const { history } = this.props;
     const { iovAddress } = this.props.match.params;
     const { tokenAmount, memo, token } = transInfo;
     const memoString = memo === "" ? "" : `/?memo=${memo}`;
     history.push(`/confirm-transaction/${iovAddress}/${token}/${tokenAmount}${memoString}`);
-  }
+  };
 
   public getFirstAccount(): BcpAccount | undefined {
     return get(this.props.accounts, "[0].account", undefined);
@@ -60,10 +60,8 @@ class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToPr
           name={name}
           iovAddress={iovAddress}
           balances={balances}
-          onBack={() => {
-            history.back();
-          }}
-          onSend={info => that.onSend(info)}
+          onBack={that.props.history.goBack}
+          onSend={that.onSend}
         />
       </PageStructure>
     );
