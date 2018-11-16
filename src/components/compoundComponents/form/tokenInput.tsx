@@ -70,8 +70,6 @@ const Input = styled.input`
   text-align: right;
 `;
 
-const DropdownWrapper = styled.div``;
-
 const ErrorMessage = styled.div`
   text-align: center;
   font-family: Muli;
