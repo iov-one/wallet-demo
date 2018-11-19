@@ -49,7 +49,9 @@ const Input = styled.input`
   }
   &:disabled {
     color: #dcdee5;
-    opacity: 0.5;
+    &::placeholder {
+      opacity: 0.5;
+    }
   }
   border: none;
   outline: none;
