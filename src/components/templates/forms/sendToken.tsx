@@ -1,141 +1,221 @@
-import { FungibleToken } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
-import { isEmpty } from "lodash";
+import { find } from "lodash";
 
-import { InputField } from "../../compoundComponents/form";
-import { Button } from "../../subComponents/buttons";
-import { ErrorNotification } from "../../subComponents/error";
-import { AccountBalance, AccountName } from "../../subComponents/typography";
-import { FormWrapper } from "../../subComponents/wrappers";
+import { BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 510px;
-  align-items: center;
+import { TokenInput } from "../../compoundComponents/form";
+import { VerticalButtonGroup } from "../../compoundComponents/sections";
+import { SecondaryInput } from "../../subComponents/input";
+import { Paper } from "../../subComponents/page";
+import { H2, TextFieldLabel } from "../../subComponents/typography";
+
+import { coinToString, stringToCoin } from "../../../logic/balances";
+
+const NameWrapper = styled.div`
+  position: absolute;
+  box-sizing: border-box;
+  width: 70px;
+  height: 70px;
+  padding: 20px 0px;
+  border-radius: 35px;
+  background-color: #ffe152;
+  text-align: center;
+  font-family: Muli;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  color: #fff;
+  text-transform: uppercase;
+  left: 190px;
+  top: -35px;
+`;
+
+const SendingAddress = styled(H2)`
+  text-align: center;
+  margin-top: 11px;
+`;
+
+const Splitter = styled.div`
+  height: 1px;
+  width: 100%;
+  background-color: #f3f3f3;
+  margin-top: 40px;
+  margin-bottom: 30px;
+`;
+
+const TokenText = styled.div`
+  font-family: Muli;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #a2a6a8;
+  margin: 30px 0px;
+  text-align: center;
 `;
 
 const Wrapper = styled.div`
-  width: 510px;
-  box-sizing: border-box;
-  min-height: 450px;
-  border-radius: 2px;
-  box-shadow: 0 0 6px 0 #f3f4f8;
-  background-color: #ffffff;
-  padding: 30px;
-`;
-
-const Content = styled.div`
-  margin-top: 30px;
-  width: 100%;
-`;
-
-const ActionWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
   margin-top: 50px;
 `;
 
+const SendingLabel = styled(TextFieldLabel)`
+  margin-bottom: 30px;
+  text-align: center;
+  line-height: 18px;
+`;
+
 export interface SendTokenFormState {
-  readonly iovAddress: string;
-  readonly isValidAddress: boolean;
   readonly tokenAmount: string;
+  readonly token: TokenTicker;
   readonly isValidAmount: boolean;
+  readonly hasEnoughToken: boolean;
   readonly memo: string;
 }
 
 interface SendTokenFormProps {
   readonly name: string;
-  readonly balance: FungibleToken;
-  readonly error?: string;
-  readonly loading: boolean;
+  readonly iovAddress: string;
+  readonly balances: ReadonlyArray<FungibleToken>;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
   readonly onBack: () => any;
 }
 
+const convertStringToFungibleToken = (
+  tokenAmount: string,
+  sigFigs: number,
+  tokenTicker: TokenTicker,
+): FungibleToken => {
+  const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
+  return { whole, fractional, tokenTicker };
+};
+
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
-    iovAddress: "",
-    isValidAddress: false,
-    tokenAmount: "",
+    tokenAmount: "0",
     isValidAmount: false,
     memo: "",
+    hasEnoughToken: false,
+    token: "" as TokenTicker,
   };
-  public readonly onChangeAddress = (evt: any) => {
-    const address = evt.target.value;
+  constructor(props: SendTokenFormProps) {
+    super(props);
+    const token = props.balances[0].tokenTicker;
+    this.state = {
+      tokenAmount: "",
+      isValidAmount: true,
+      hasEnoughToken: true,
+      memo: "",
+      token,
+    };
+  }
+  public readonly getSelectedToken = (token: TokenTicker): BcpCoin => {
+    const { balances } = this.props;
+    const balance = find(balances, item => item.tokenTicker === token);
+    return balance
+      ? ({
+          ...balance,
+          sigFigs: 9,
+          tokenName: balance.tokenTicker,
+        } as BcpCoin)
+      : ({
+          whole: 0,
+          fractional: 0,
+          sigFigs: 9,
+          tokenTicker: token,
+          tokenName: token,
+        } as BcpCoin);
+  };
+  public readonly hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
+    try {
+      const amountInToken = convertStringToFungibleToken(amount, 9, balance.tokenTicker);
+      this.setState({
+        isValidAmount: true,
+      });
+      if (amountInToken.whole < balance.whole) {
+        return true;
+      }
+      if (amountInToken.whole === balance.whole && amountInToken.fractional <= balance.fractional) {
+        return true;
+      }
+      return false;
+    } catch {
+      this.setState({
+        isValidAmount: false,
+      });
+      return false;
+    }
+  };
+  public readonly onChangeAmount = (tokenAmount: string): void => {
+    const { token } = this.state;
+    const balance = this.getSelectedToken(token);
+    const hasEnoughToken = this.hasEnoughBalance(balance, tokenAmount);
     this.setState({
-      iovAddress: address,
-      isValidAddress: address.length > 0,
+      tokenAmount,
+      hasEnoughToken,
     });
   };
-  public readonly onChangeAmount = (evt: any) => {
-    const regex = /^[0-9]*([\.\,][0-9]+)?$/;
-    const amount = evt.target.value;
-    const isValid = amount.length > 0 && regex.exec(amount) !== null;
+  public readonly onChangeToken = (token: TokenTicker): void => {
     this.setState({
-      tokenAmount: amount,
-      isValidAmount: isValid,
+      token,
     });
   };
-  public readonly onChangeMemo = (evt: any) => {
+  public readonly onChangeMemo = (evt: React.SyntheticEvent<EventTarget>): void => {
+    const target = evt.target as HTMLInputElement;
     this.setState({
-      memo: evt.target.value,
+      memo: target.value,
+    });
+  };
+  public readonly onSend = () => {
+    this.props.onSend({
+      ...this.state,
     });
   };
   public render(): JSX.Element | boolean {
-    const { name, balance, error, loading, onSend, onBack } = this.props;
-    const { iovAddress, tokenAmount, memo, isValidAddress, isValidAmount } = this.state;
+    const { balances, name, iovAddress } = this.props;
+    const { tokenAmount, token, isValidAmount, hasEnoughToken } = this.state;
+    const tokens = balances.map(balance => balance.tokenTicker);
+    const selectedBalance = this.getSelectedToken(token);
+    const buttons: ReadonlyArray<any> = [
+      {
+        title: "Continue",
+        type: "primary",
+        onClick: this.onSend,
+        disabled: !isValidAmount || !hasEnoughToken,
+      },
+      {
+        title: "Cancel",
+        type: "revert",
+        onClick: this.props.onBack,
+      },
+    ];
     return (
-      <FormWrapper>
-        <ErrorNotification type="transaction" show={!isEmpty(error)} />
-        <Container>
-          <Wrapper>
-            {/* <H2>{error ? error.slice(0, 300) : ""}</H2> */}
-            <AccountName className="noBorder">{name}</AccountName>
-            <AccountBalance balance={balance} />
-            <Content>
-              <InputField
-                title="To:"
-                placeholder="IOV address"
-                value={iovAddress}
-                onChange={this.onChangeAddress}
-                error={!isValidAddress}
-                notification={isValidAddress ? "" : "Invalid Address"}
-              />
-              <InputField
-                title="Amount:"
-                placeholder="1000"
-                unit="IOV"
-                value={tokenAmount}
-                onChange={this.onChangeAmount}
-                error={!isValidAmount}
-                notification={isValidAmount ? "" : "Invalid Amount"}
-              />
-              <InputField
-                title="Memo:"
-                placeholder="Save the forest"
-                value={memo}
-                onChange={this.onChangeMemo}
-              />
-            </Content>
-          </Wrapper>
-          <ActionWrapper>
-            <Button type="revert" title="Cancel" onClick={onBack} />
-            <Button
-              type="primary"
-              title="Continue"
-              disabled={!isValidAddress || !isValidAmount}
-              loading={loading}
-              onClick={() => onSend(this.state)}
-            />
-          </ActionWrapper>
-        </Container>
-      </FormWrapper>
+      <Wrapper>
+        <Paper>
+          <NameWrapper>{name.slice(0, 2)}</NameWrapper>
+          <SendingAddress>{iovAddress}</SendingAddress>
+          <Splitter />
+          <SendingLabel>You send</SendingLabel>
+          <TokenInput
+            amount={tokenAmount}
+            isValidAmount={isValidAmount}
+            hasEnoughToken={hasEnoughToken}
+            tokens={tokens}
+            onChangeAmount={this.onChangeAmount}
+            onChangeToken={this.onChangeToken}
+          />
+          <TokenText>
+            balance: {coinToString(selectedBalance)} {selectedBalance.tokenTicker}
+          </TokenText>
+          <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
+        </Paper>
+        <VerticalButtonGroup buttons={buttons} />
+      </Wrapper>
     );
   }
 }

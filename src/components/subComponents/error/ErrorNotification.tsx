@@ -12,8 +12,9 @@ const Wrapper = styled.div`
   align-items: center;
   opacity: 0;
   width: 510px;
-  min-height: 0px;
+  max-height: 4px;
   padding: 15px 20px;
+  margin-top: 0px;
   margin-bottom: 0px;
   border-radius: 2px;
   box-shadow: 0 0 6px 0 #f3f4fb;
@@ -21,7 +22,8 @@ const Wrapper = styled.div`
   transition: all 0.5s;
   &.show {
     opacity: 1;
-    min-height: 90px;
+    max-height: 90px;
+    margin-top: 20px;
     margin-bottom: 20px;
   }
 `;

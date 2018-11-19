@@ -20,6 +20,10 @@ const DropdownOptionWrapper = styled.button`
     opacity: 1;
     height: 76px;
   }
+  &:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 `;
 
 const DropdownLabel = styled.div`
@@ -32,7 +36,7 @@ const DropdownLabel = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #000000;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 `;
 
 const DropdownDescription = styled.div`
@@ -60,7 +64,7 @@ export const DropdownOption = (props: DropdownItemProps): JSX.Element => {
   return (
     <DropdownOptionWrapper className={className} onClick={() => onClick(value)}>
       <DropdownLabel>{label}</DropdownLabel>
-      <DropdownDescription>{description}</DropdownDescription>
+      {description && <DropdownDescription>{description}</DropdownDescription>}
     </DropdownOptionWrapper>
   );
 };

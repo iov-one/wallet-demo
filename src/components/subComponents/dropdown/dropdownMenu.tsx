@@ -13,4 +13,7 @@ export const DropdownMenu = styled.div`
   &.show {
     display: flex;
   }
+  &.withCustomTrigger {
+    top: 32px;
+  }
 `;

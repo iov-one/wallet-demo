@@ -11,7 +11,6 @@ import {
   LoginPage,
   PasswordPage,
   SendPaymentPage,
-  SendTokenPage,
 } from "../../containers";
 
 const Wrapper = styled.div`
@@ -28,8 +27,10 @@ const MainRouter = () => (
       <Route path="/account-backup/" component={BackupAccountPage} />
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />
-      <Route path="/send-token/" component={SendTokenPage} />
-      <Route path="/confirm-transaction/:iovAddress/:tokenAmount/" component={ConfirmTransactionPage} />
+      <Route
+        path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
+        component={ConfirmTransactionPage}
+      />
     </Wrapper>
   </Router>
 );

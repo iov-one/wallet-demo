@@ -26,6 +26,12 @@ const TriggerButton = styled.button`
   align-items: center;
 `;
 
+const NormalTriggerButton = styled.button`
+  background: transparent;
+  border: none;
+  outline: none;
+`;
+
 const Wrapper = styled.div`
   position: relative;
 `;
@@ -56,6 +62,7 @@ interface DropdownState {
 
 export class Dropdown extends React.Component<DropdownProps, DropdownState> {
   public readonly state: DropdownState;
+  public readonly wrapperRef = React.createRef<HTMLElement>();
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
@@ -63,6 +70,19 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       selected: props.defaultValue || "",
     };
   }
+  public componentDidMount(): any {
+    document.addEventListener("mousedown", this.handleClick);
+  }
+  public componentWillUnmount(): any {
+    document.removeEventListener("mousedown", this.handleClick);
+  }
+  public readonly handleClick = (event: any) => {
+    if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
+      this.setState({
+        show: false,
+      });
+    }
+  };
   public readonly showMenu = () => {
     this.setState({
       show: true,
@@ -92,14 +112,18 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
   public render(): JSX.Element {
     const { show } = this.state;
     const { items } = this.props;
-    const menuClassName = classNames({ show: show });
+    const menuClassName = classNames({ show: show, withCustomTrigger: this.props.children });
     const label = this.getSelected();
     return (
-      <Wrapper>
-        <TriggerButton onClick={this.showMenu}>
-          {label}
-          <ChevronIcon src={ChevronDownIcon} />
-        </TriggerButton>
+      <Wrapper innerRef={this.wrapperRef}>
+        {this.props.children ? (
+          <NormalTriggerButton onClick={this.showMenu}>{this.props.children}</NormalTriggerButton>
+        ) : (
+          <TriggerButton onClick={this.showMenu}>
+            {label}
+            <ChevronIcon src={ChevronDownIcon} />
+          </TriggerButton>
+        )}
         <DropdownMenu className={menuClassName}>
           {items.map((item, key) => (
             <DropdownOption

@@ -1,6 +1,6 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, BcpCoin, FungibleToken } from "@iov/bcp-types";
+import { BcpAccount, FungibleToken } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
@@ -27,31 +27,17 @@ interface SendTokenDispatchToProps {
   ) => Promise<any>;
 }
 
-interface SendTokenState {
-  readonly error?: string;
-  readonly loading: boolean;
-}
-
-class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
-
-  public onSend(transInfo: SendTokenFormState): any {
+class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToProps> {
+  public readonly onSend = (transInfo: SendTokenFormState): any => {
     const { history } = this.props;
-    const { iovAddress, tokenAmount, memo } = transInfo;
+    const { iovAddress } = this.props.match.params;
+    const { tokenAmount, memo, token } = transInfo;
     const memoString = memo === "" ? "" : `/?memo=${memo}`;
-    history.push(`/confirm-transaction/${iovAddress}/${tokenAmount}${memoString}`);
-  }
+    history.push(`/confirm-transaction/${iovAddress}/${token}/${tokenAmount}${memoString}`);
+  };
 
   public getFirstAccount(): BcpAccount | undefined {
     return get(this.props.accounts, "[0].account", undefined);
-  }
-  public getFirstBalance(account: BcpAccount): BcpCoin | undefined {
-    return account.balance[0];
   }
 
   public render(): JSX.Element | boolean {
@@ -61,24 +47,21 @@ class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToPr
       return false;
     }
     const name = `${account.name}*iov`;
-    const balance = this.getFirstBalance(account);
-    if (!balance) {
+    const balances = account.balance;
+    if (balances.length === 0) {
       return false;
     }
-    const { error, loading } = this.state;
+    const { iovAddress } = this.props.match.params;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     return (
-      <PageStructure whiteBg>
+      <PageStructure>
         <SendTokenForm
           name={name}
-          balance={balance}
-          error={error}
-          loading={loading}
-          onBack={() => {
-            history.back();
-          }}
-          onSend={info => that.onSend(info)}
+          iovAddress={iovAddress}
+          balances={balances}
+          onBack={that.props.history.goBack}
+          onSend={that.onSend}
         />
       </PageStructure>
     );
