@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Toasts } from "../toasts";
 import { NormalHeader } from "../../subComponents/headers";
+import { Toasts } from "../toasts";
 
 interface PageProps {
   readonly children: JSX.Element;

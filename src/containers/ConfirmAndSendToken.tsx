@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { ConfirmTransactionForm, TransactionInfo } from "../components/templates/forms";
+import { ConfirmTransactionForm } from "../components/templates/forms";
 
 import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
