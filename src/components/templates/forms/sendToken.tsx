@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { find } from "lodash";
+import { find, isEmpty } from "lodash";
 
 import { BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
 
@@ -61,7 +61,7 @@ const TokenText = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-top: 50px;
+  margin-top: 85px;
 `;
 
 const SendingLabel = styled(TextFieldLabel)`
@@ -172,6 +172,12 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
     });
   };
   public readonly onSend = () => {
+    if (isEmpty(this.state.tokenAmount)) {
+      this.setState({
+        isValidAmount: false,
+      });
+      return;
+    }
     this.props.onSend({
       ...this.state,
     });

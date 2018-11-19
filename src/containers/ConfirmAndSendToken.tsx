@@ -56,28 +56,30 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     };
   }
 
-  public async onSend(transInfo: TransactionInfo): Promise<void> {
-    const { chainIds, sendTransaction, history } = this.props;
-    const { iovAddress, tokenAmount, memo } = transInfo;
-    const account = this.getFirstAccount();
+  public async onSend(that: any): Promise<void> {
+    const { chainIds, sendTransaction, history } = that.props;
+    const { iovAddress, tokenAmount } = that.props.match.params;
+    const query = queryString.parse(that.props.location.search);
+    const memo = query.memo as string;
+    const account = that.getFirstAccount();
     if (!account) {
       throw new Error("Cannot send without account");
     }
-    const balance = this.getFirstBalance(account);
+    const balance = that.getFirstBalance(account);
     if (!balance) {
       throw new Error("Cannot send without balance");
     }
 
     try {
-      this.setState({ loading: true });
+      that.setState({ loading: true });
       // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
       const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
       // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
       await sendTransaction(chainIds[0], iovAddress, amount, memo);
-      this.setState({ loading: false });
+      that.setState({ loading: false });
       history.push("/balance");
     } catch (err) {
-      this.setState({
+      that.setState({
         loading: false,
         error: `${err}`,
       });
@@ -105,21 +107,22 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     const { error, loading } = this.state;
     // tslint:disable-next-line:no-this-assignment
     const that = this;
-    const { iovAddress, tokenAmount } = this.props.match.params;
+    const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
     return (
-      <PageStructure whiteBg>
+      <PageStructure>
         <ConfirmTransactionForm
           iovAddress={iovAddress}
           tokenAmount={tokenAmount}
+          token={token}
           memo={memo as string}
           error={error}
           loading={loading}
           onBack={() => {
             history.back();
           }}
-          onSend={info => that.onSend(info)}
+          onSend={() => this.onSend(that)}
         />
       </PageStructure>
     );
