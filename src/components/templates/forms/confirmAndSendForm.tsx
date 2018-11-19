@@ -47,7 +47,7 @@ export class ConfirmTransactionForm extends React.Component<ConfirmFormProps> {
         icon: loading ? "loading" : "",
       },
       {
-        title: "Cancel",
+        title: "Back",
         type: "revert",
         onClick: onBack,
       },

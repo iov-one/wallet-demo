@@ -56,36 +56,36 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     };
   }
 
-  public async onSend(that: any): Promise<void> {
-    const { chainIds, sendTransaction, history } = that.props;
-    const { iovAddress, tokenAmount } = that.props.match.params;
-    const query = queryString.parse(that.props.location.search);
+  public readonly onSend = async (): Promise<void> => {
+    const { chainIds, sendTransaction, history } = this.props;
+    const { iovAddress, tokenAmount } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
     const memo = query.memo as string;
-    const account = that.getFirstAccount();
+    const account = this.getFirstAccount();
     if (!account) {
       throw new Error("Cannot send without account");
     }
-    const balance = that.getFirstBalance(account);
+    const balance = this.getFirstBalance(account);
     if (!balance) {
       throw new Error("Cannot send without balance");
     }
 
     try {
-      that.setState({ loading: true });
+      this.setState({ loading: true });
       // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
       const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
       // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
       await sendTransaction(chainIds[0], iovAddress, amount, memo);
-      that.setState({ loading: false });
+      this.setState({ loading: false });
       history.push("/balance");
     } catch (err) {
-      that.setState({
+      this.setState({
         loading: false,
         error: `${err}`,
       });
       console.log(err);
     }
-  }
+  };
 
   public getFirstAccount(): BcpAccount | undefined {
     return get(this.props.accounts, "[0].account", undefined);
@@ -105,8 +105,6 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       return false;
     }
     const { error, loading } = this.state;
-    // tslint:disable-next-line:no-this-assignment
-    const that = this;
     const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
@@ -122,7 +120,7 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
           onBack={() => {
             history.back();
           }}
-          onSend={() => this.onSend(that)}
+          onSend={this.onSend}
         />
       </PageStructure>
     );
