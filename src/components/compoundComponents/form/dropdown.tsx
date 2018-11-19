@@ -62,6 +62,7 @@ interface DropdownState {
 
 export class Dropdown extends React.Component<DropdownProps, DropdownState> {
   public readonly state: DropdownState;
+  public readonly wrapperRef = React.createRef<HTMLElement>();
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
@@ -69,7 +70,6 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       selected: props.defaultValue || "",
     };
   }
-  public readonly wrapperRef = React.createRef<HTMLElement>();
   public componentDidMount(): any {
     document.addEventListener("mousedown", this.handleClick);
   }
