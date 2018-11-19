@@ -32,6 +32,9 @@ const Icon = styled.img`
   &.disabled {
     opacity: 0.5;
   }
+  path {
+    fill: #dcdee5;
+  }
 `;
 
 const Input = styled.input`
@@ -48,7 +51,7 @@ const Input = styled.input`
     color: #b9bdcc;
   }
   &:disabled {
-    color: #b9bdcc80;
+    color: #dcdee580;
   }
   border: none;
   outline: none;
