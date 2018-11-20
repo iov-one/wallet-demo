@@ -1,10 +1,9 @@
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import { RouteComponentProps, withRouter } from "react-router";
+import styled from "styled-components";
 
-import { isEmpty } from "lodash";
 import queryString from "query-string";
 
 import { BcpConnection } from "@iov/bcp-types";

@@ -1,6 +1,6 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, FungibleToken } from "@iov/bcp-types";
+import { BcpAccount, FungibleToken, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
@@ -60,7 +60,7 @@ class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToPr
       <PageStructure activeNavigation="Payments">
         <SendTokenForm
           name={name}
-          defaultToken={token}
+          defaultToken={token as TokenTicker}
           iovAddress={iovAddress}
           balances={balances}
           onBack={this.props.history.goBack}
