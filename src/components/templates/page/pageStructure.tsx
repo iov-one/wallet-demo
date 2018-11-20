@@ -106,6 +106,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           transactionInfo={transactionInfo}
           pendingTransactionInfo={pendingTransactionInfo}
           isFirst
+          onLogo={() => history.push("/balance")}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
