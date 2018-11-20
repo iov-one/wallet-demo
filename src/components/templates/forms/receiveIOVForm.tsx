@@ -3,8 +3,7 @@ import styled from "styled-components";
 
 import { ConfirmInput, TooltipDescription } from "../../compoundComponents/form";
 import { Paper } from "../../subComponents/page";
-
-import { resolveAddress } from "../../../../src/logic";
+import { H2 } from "../../subComponents/typography";
 
 interface ReceiveIOVProps {
   readonly iovAddress: string;
@@ -22,12 +21,23 @@ const ActionWrapper = styled.div`
   margin-top: 13px;
 `;
 
+const MainText = styled(H2)`
+  margin-bottom: 30px;
+`;
+
+const Highlight = styled.span`
+  color: #31e6c9;
+`;
+
 export class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
   public render(): JSX.Element {
     const { iovAddress } = this.props;
     return (
       <Wrapper>
         <Paper style={{ width: "506px" }}>
+          <MainText>
+            Receive payment from <Highlight>IOV wallet users</Highlight> by giving them your IOV address
+          </MainText>
           <ConfirmInput
             title="Your IOV Address"
             value={iovAddress}

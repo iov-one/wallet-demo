@@ -56,6 +56,7 @@ const customStyle = {
     backgroundColor: "transparent",
     justifyContent: "space-between",
     border: "none",
+    overflow: "visible",
   },
 };
 

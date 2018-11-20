@@ -29,6 +29,11 @@ export const Input = styled.input`
     background-color: #fff1e1;
   }
   &.confirm {
+    background-color: #fcfcfc;
+    border: 1px solid #f3f3f3;
+    color: #1c1c1c;
+  }
+  &.confirm.checked {
     border: solid 1px #31e6c9 !important;
     background-color: #d7faf5 !important;
     color: #1c1c1c;

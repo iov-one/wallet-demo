@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const H2 = styled.h2`
-  height: 32px;
   font-family: Muli;
   font-size: 20px;
   font-weight: 300;

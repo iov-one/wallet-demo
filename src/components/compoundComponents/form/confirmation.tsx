@@ -2,6 +2,8 @@ import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
+import classNames from "classnames";
+
 import { Button } from "../../subComponents/buttons";
 import { Input } from "../../subComponents/input";
 import { InputNotification, TextFieldLabel } from "../../subComponents/typography";
@@ -40,7 +42,12 @@ export class ConfirmInput extends React.Component<ConfirmProps, ConfirmState> {
       <Wrapper>
         <TextFieldLabel>{title}</TextFieldLabel>
         <ContentWrapper>
-          <Input style={{ marginRight: "8px" }} className="confirm" {...this.props} disabled />
+          <Input
+            style={{ marginRight: "8px" }}
+            className={classNames("confirm", { checked })}
+            {...this.props}
+            disabled
+          />
           <CopyToClipboard text={this.props.value} onCopy={this.copied}>
             <Button large title="Copy!" type="primary" icon="check" checked={checked} />
           </CopyToClipboard>
