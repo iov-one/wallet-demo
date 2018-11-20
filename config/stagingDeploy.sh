@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Based on: https://medium.com/onfido-tech/travis-surge-github-auto-deploy-every-pr-branch-and-tag-a6c8c790831f
- 
+
 echo "Deployment script for wallet-demo"
 
 RANGE=500
@@ -30,7 +30,7 @@ then
   then
     LATEST_TAG=`git tag | grep -v rc | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | sed '1!G;h;$!d' | sed -n 1p`
     echo $LATEST_TAG
-     if [ "$TRAVIS_TAG" == "$LATEST_TAG" ]
+    if [ "$TRAVIS_TAG" == "$LATEST_TAG" ]
     then
       SUBDOMAIN_UNFORMATTED_LIST+=(latest)
     fi
