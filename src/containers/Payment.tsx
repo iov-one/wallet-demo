@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { isEmpty } from "lodash";
+import queryString from "query-string";
+
 import { BcpConnection } from "@iov/bcp-types";
 
 import { AddressInputForm } from "../components/templates/forms";
@@ -35,8 +38,14 @@ class Payment extends React.Component<PaymentProps> {
   }
 
   public readonly onSend = (address: string): any => {
-    const { history } = this.props;
-    history.push(`/send-payment/${address}/`);
+    const { history, location } = this.props;
+    const query = queryString.parse(location.search);
+    const token = query.token as string;
+    if (isEmpty(token)) {
+      history.push(`/send-payment/${address}/`);
+    } else {
+      history.push(`/send-payment/${address}/?token=${token}`);
+    }
   };
 
   public render(): JSX.Element | boolean {

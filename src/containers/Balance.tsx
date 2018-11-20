@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { BcpCoin, BcpConnection } from "@iov/bcp-types";
+import { BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
 
 import { AddressInputForm, BalanceForm } from "../components/templates/forms";
 import { IOVModal, ReceiveModal } from "../components/templates/modal";
@@ -38,6 +38,11 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly onSend = (address: string): any => {
     const { history } = this.props;
     history.push(`/send-payment/${address}/`);
+  };
+
+  public readonly onClickBalance = (token: TokenTicker): any => {
+    const { history } = this.props;
+    history.push(`/payment/?token=${token}`);
   };
 
   public render(): JSX.Element | boolean {
@@ -81,6 +86,7 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
             onBackup={() => {
               console.log("on Backup");
             }}
+            onBalance={this.onClickBalance}
           />
           <IOVModal
             visible={showAddressModal}
