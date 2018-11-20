@@ -7,6 +7,7 @@ export * from "./textFieldLabel";
 export * from "./toasts";
 export * from "./inputNotification";
 export * from "./balanceInfo";
+export * from "./transactionInfo";
 
 // Below are old ones which will be removed in this sprint
 export * from "./description";

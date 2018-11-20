@@ -18,6 +18,7 @@ interface BalanceProps {
 
 const Wrapper = styled.div`
   width: 450px;
+  margin-top: 50px;
 `;
 
 const BalanceSection = styled.div`

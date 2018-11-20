@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ErrorNotification } from "../../subComponents/error";
 import { NormalHeader } from "../../subComponents/headers";
+import { Toasts } from "../toasts";
 
 interface PageProps {
   readonly children: JSX.Element;
@@ -59,7 +59,7 @@ export class PageStructure extends React.Component<PageProps, PageState> {
       <Wrapper>
         <NormalHeader />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
-          <ErrorNotification type="network" show={isOffline} />
+          <Toasts type="network" show={isOffline} />
           {children}
         </PageContent>
       </Wrapper>

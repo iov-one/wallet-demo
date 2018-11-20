@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { PageStructure } from "../components/compoundComponents/page";
-import { ConfirmTransactionForm, TransactionInfo } from "../components/templates/forms";
+import { ConfirmTransactionForm } from "../components/templates/forms";
 
 import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
@@ -56,9 +56,11 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     };
   }
 
-  public async onSend(transInfo: TransactionInfo): Promise<void> {
+  public readonly onSend = async (): Promise<void> => {
     const { chainIds, sendTransaction, history } = this.props;
-    const { iovAddress, tokenAmount, memo } = transInfo;
+    const { iovAddress, tokenAmount } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
+    const memo = query.memo as string;
     const account = this.getFirstAccount();
     if (!account) {
       throw new Error("Cannot send without account");
@@ -83,7 +85,7 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       });
       console.log(err);
     }
-  }
+  };
 
   public getFirstAccount(): BcpAccount | undefined {
     return get(this.props.accounts, "[0].account", undefined);
@@ -103,23 +105,22 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       return false;
     }
     const { error, loading } = this.state;
-    // tslint:disable-next-line:no-this-assignment
-    const that = this;
-    const { iovAddress, tokenAmount } = this.props.match.params;
+    const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
     return (
-      <PageStructure whiteBg>
+      <PageStructure>
         <ConfirmTransactionForm
           iovAddress={iovAddress}
           tokenAmount={tokenAmount}
+          token={token}
           memo={memo as string}
           error={error}
           loading={loading}
           onBack={() => {
             history.back();
           }}
-          onSend={info => that.onSend(info)}
+          onSend={this.onSend}
         />
       </PageStructure>
     );

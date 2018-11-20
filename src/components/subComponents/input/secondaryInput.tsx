@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import classNames from "classnames";
+
 import NoteIcon from "../../../../resources/note.svg";
 
 const Wrapper = styled.div`
@@ -27,6 +29,9 @@ const Icon = styled.img`
   width: 15px;
   height: 15px;
   margin-right: 15px;
+  &.disabled {
+    opacity: 0.5;
+  }
 `;
 
 const Input = styled.input`
@@ -43,7 +48,10 @@ const Input = styled.input`
     color: #b9bdcc;
   }
   &:disabled {
-    color: #b9bdcc80;
+    color: #dcdee5;
+    &::placeholder {
+      color: #dcdee5;
+    }
   }
   border: none;
   outline: none;
@@ -52,7 +60,7 @@ const Input = styled.input`
 export const SecondaryInput = (props: any): JSX.Element => (
   <Wrapper>
     <ContentWrapper>
-      <Icon src={NoteIcon} />
+      <Icon src={NoteIcon} className={classNames({ disabled: props.disabled })} />
       <Input {...props} />
     </ContentWrapper>
   </Wrapper>
