@@ -34,6 +34,34 @@ deployed to the browser. The redux actions will then be re-run to recreate the c
 _Note:_ we are pinned to the v3.x release of react-hot-loader as v4.x requires
 babel, which is unnecessary overhead for a typescript project.
 
+### Debug
+1. Laun the app normally using: ```yarn start```
+2. Create a launch config file in vscode. I have used the next one:
+```
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug CRA",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceRoot}/src",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      },
+      "sourceMaps": true,
+      "userDataDir": false,
+    },
+  ]
+}
+```
+3. Launch debugger session
+4. If you do not want to mess with Chrome profiles and open ports ([see some related info here](https://github.com/Microsoft/vscode-chrome-debug#chrome-user-profile-note-cannot-connect-to-the-target-connect-econnrefused)), I recommend use Canary version of chrome for daily basis and leave regular chrome for developing (if you do not use your own profile, you will have access problems running IndexedDB).
+
 ## Design process
 
 The process from idea to design to implementation is [described in another document](./Design.md)
