@@ -57,7 +57,7 @@ class Payment extends React.Component<PaymentProps> {
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
     return (
-      <PageStructure activeNavigation="Payment">
+      <PageStructure activeNavigation="Payments">
         <ContentWrapper>
           <AddressInputForm connection={connection} onNext={this.onSend} />
         </ContentWrapper>
