@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Based on: https://medium.com/onfido-tech/travis-surge-github-auto-deploy-every-pr-branch-and-tag-a6c8c790831f
+ 
 echo "Deployment script for wallet-demo"
 
 RANGE=500

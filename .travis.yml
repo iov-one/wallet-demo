@@ -52,7 +52,8 @@ after_script:
 - source ./scripts/blockchain_stop.sh
 - bash ./scripts/publish_docker.sh
 - cd dist/ && cp index.html 200.html && cd ..
-- source ./config/stagingDeploy.sh
+- chmod ugo+x ./config/stagingDeploy.sh
+- ./config/stagingDeploy.sh
 
 # whitelist long living branches to avoid testing feature branches twice (as branch and as pull request)
 branches:
