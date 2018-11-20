@@ -1,6 +1,7 @@
 export * from "./balanceForm";
 export * from "./addressInputForm";
 export * from "./sendToken";
+export * from "./receiveIOVForm";
 
 /* below will be replaced */
 export * from "./createWalletForm";

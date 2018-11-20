@@ -5,8 +5,8 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
 
-import { AddressInputForm, BalanceForm } from "../components/templates/forms";
-import { IOVModal, ReceiveModal } from "../components/templates/modal";
+import { AddressInputForm, BalanceForm, ReceiveIOVForm } from "../components/templates/forms";
+import { IOVModal } from "../components/templates/modal";
 import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
@@ -52,8 +52,7 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     if (!account) {
       return false;
     }
-    const name = `${account.name}*iov.value`;
-    const address = account.address;
+    const name = `${account.name}*iov`;
     const balances = account.balance.map((balance: BcpCoin) => {
       const { whole, fractional, tokenTicker, tokenName } = balance;
       return {
@@ -103,16 +102,23 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
           >
             <AddressInputForm connection={connection} onNext={this.onSend} />
           </IOVModal>
-          <ReceiveModal
-            name={name}
-            address={address}
+          <IOVModal
+            visible={showReceiveModal}
             onRequestClose={() => {
               this.setState({
                 showReceiveModal: false,
               });
             }}
-            visible={showReceiveModal}
-          />
+            suggestionText="Receiving from outside IOV?"
+            buttonText="View your address"
+            onSuggestion={() => {
+              this.setState({
+                showReceiveModal: false,
+              });
+            }}
+          >
+            <ReceiveIOVForm iovAddress={name} />
+          </IOVModal>
         </div>
       </PageStructure>
     );
