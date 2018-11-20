@@ -7,8 +7,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { PageStructure } from "../components/compoundComponents/page";
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
+import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 import { sendTransactionSequence } from "../sequences";
@@ -55,7 +55,7 @@ class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToPr
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     return (
-      <PageStructure>
+      <PageStructure activeNavigation="Payments">
         <SendTokenForm
           name={name}
           iovAddress={iovAddress}

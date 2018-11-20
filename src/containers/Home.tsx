@@ -6,9 +6,9 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 
-import { PageStructure } from "../components/compoundComponents/page";
 import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
+import { PageStructure } from "../components/templates/page";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
 import { bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";

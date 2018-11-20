@@ -8,8 +8,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { PageStructure } from "../components/compoundComponents/page";
 import { ConfirmTransactionForm } from "../components/templates/forms";
+import { PageStructure } from "../components/templates/page";
 
 import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
@@ -109,7 +109,7 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
     return (
-      <PageStructure>
+      <PageStructure activeNavigation="Payments">
         <ConfirmTransactionForm
           iovAddress={iovAddress}
           tokenAmount={tokenAmount}

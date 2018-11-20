@@ -5,9 +5,9 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { BcpCoin, BcpConnection } from "@iov/bcp-types";
 
-import { PageStructure } from "../components/compoundComponents/page";
 import { AddressInputForm, BalanceForm } from "../components/templates/forms";
 import { IOVModal, ReceiveModal } from "../components/templates/modal";
+import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
 
@@ -63,7 +63,7 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
     return (
-      <PageStructure>
+      <PageStructure activeNavigation="Balance">
         <div>
           <BalanceForm
             accountName={name}
