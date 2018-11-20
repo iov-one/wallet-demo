@@ -25,8 +25,8 @@ before_install:
   fi
 
 install:
-- apt-get install curl
-- apt-get install sed
+- sudo apt-get install curl
+- sudo apt-get install sed
 - source ./scripts/retry.sh
 - retry 3 yarn install
 - yarn add surge --dev
