@@ -43,17 +43,17 @@ fi
 for SUBDOMAIN_UNFORMATTED in "${SUBDOMAIN_UNFORMATTED_LIST[@]}"
 do
   echo $SUBDOMAIN_UNFORMATTED
-  SUBDOMAIN=`echo "$SUBDOMAIN_UNFORMATTED" | sed -r 's/[^A-Za-z0-9]+/\-/g'`
+  SUBDOMAIN=`echo "$SUBDOMAIN_UNFORMATTED" | sudo sed -r 's/[^A-Za-z0-9]+/\-/g'`
   echo $SUBDOMAIN
   DEPLOY_DOMAIN=https://${SUBDOMAIN}-${REPOSITORY_NAME}-${REPOSITORY_OWNER}.surge.sh
   DEPLOY_STORYBOOK=https://storybook-${SUBDOMAIN}-${REPOSITORY_NAME}-${REPOSITORY_OWNER}.surge.sh
-  surge --project ${PATH} --domain $DEPLOY_DOMAIN;
-  surge --project ${PATH_STORYBOOK} --domain $DEPLOY_STORYBOOK
+  sudo surge --project ${PATH} --domain $DEPLOY_DOMAIN;
+  sudo surge --project ${PATH_STORYBOOK} --domain $DEPLOY_STORYBOOK
   
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
     GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPOSITORY_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
-    curl -H "Authorization: token ${API_ENV_GITHUB}" --request POST ${GITHUB_PR_COMMENTS} --data '{"body":"Travis automatic deployment:\r\n '${DEPLOY_DOMAIN}' \r\n \r\n Storybook book automatic deployment: \r\n '${DEPLOY_STORYBOOK}'"}'
+    sudo curl -H "Authorization: token ${API_ENV_GITHUB}" --request POST ${GITHUB_PR_COMMENTS} --data '{"body":"Travis automatic deployment:\r\n '${DEPLOY_DOMAIN}' \r\n \r\n Storybook book automatic deployment: \r\n '${DEPLOY_STORYBOOK}'"}'
   fi
 done
 
