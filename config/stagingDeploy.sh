@@ -10,8 +10,8 @@ let "number %= $RANGE"
 REPOSITORY_SLUG_ARRAY=(${TRAVIS_REPOSITORY_SLUG//\// })
 REPOSITORY_OWNER=${REPOSITORY_SLUG_ARRAY[0]}
 REPOSITORY_NAME=${REPOSITORY_SLUG_ARRAY[1]}
-PATH=./build_webpack
-PATH_STORYBOOK=./build_storybook
+PATH=./dist
+PATH_STORYBOOK=./storybook-static
 SUBDOMAIN_UNFORMATTED_LIST=()
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]
@@ -51,7 +51,7 @@ do
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
     GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPOSITORY_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
-    curl -H "Authorization: token ${GITHUB_API_TOKEN}" --request POST ${GITHUB_PR_COMMENTS} --data '{"body":"Travis automatic deployment:\r\n '${DEPLOY_DOMAIN}' \r\n \r\n Storybook book automatic deployment: \r\n '${DEPLOY_STORYBOOK}'"}'
+    curl -H "Authorization: token ${API_ENV_GITHUB}" --request POST ${GITHUB_PR_COMMENTS} --data '{"body":"Travis automatic deployment:\r\n '${DEPLOY_DOMAIN}' \r\n \r\n Storybook book automatic deployment: \r\n '${DEPLOY_STORYBOOK}'"}'
   fi
 done
 
