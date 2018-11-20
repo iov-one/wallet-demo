@@ -27,9 +27,9 @@ before_install:
 install:
 - source ./scripts/retry.sh
 - retry 3 yarn install
+- yarn global add surge
 
 before_script:
-- yarn global add surge
 # Make variables and function from Travis available in our script
 # See implementation https://github.com/travis-ci/travis-build/blob/4041ba116ddb3bdfd66ab8acbb7094dee28d6797/lib/travis/build/templates/header.sh
 # and http://www.garbers.co.za/2017/11/01/code-folding-and-timing-in-travis-ci/
@@ -48,12 +48,14 @@ script:
 - yarn dist
 - yarn build-storybook
 
-after_script:
-- source ./scripts/blockchain_stop.sh
-- bash ./scripts/publish_docker.sh
+after_sucess:
 - cd dist/ && cp index.html 200.html && cd ..
 - chmod ugo+x ./config/stagingDeploy.sh
 - ./config/stagingDeploy.sh
+
+after_script:
+- source ./scripts/blockchain_stop.sh
+- bash ./scripts/publish_docker.sh
 
 # whitelist long living branches to avoid testing feature branches twice (as branch and as pull request)
 branches:
