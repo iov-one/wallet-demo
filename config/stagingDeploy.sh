@@ -20,9 +20,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]
 then
   if [ "$NODE_ENV" == "production" ]
   then
-    SUBDOMAIN_UNFORMATTED_LIST+=(release-${TRAVIS_PULL_REQUEST}-pr-${number})
+    SUBDOMAIN_UNFORMATTED_LIST+=(release-pr${TRAVIS_PULL_REQUEST}-${number})
   else
-    SUBDOMAIN_UNFORMATTED_LIST+=(staging-${TRAVIS_PULL_REQUEST}-pr-${number})
+    SUBDOMAIN_UNFORMATTED_LIST+=(staging-pr${TRAVIS_PULL_REQUEST}-${number})
   fi
 elif [ -n "${TRAVIS_TAG// }" ]
 then
@@ -45,8 +45,8 @@ do
   echo $SUBDOMAIN_UNFORMATTED
   SUBDOMAIN=`echo "$SUBDOMAIN_UNFORMATTED" | sed -r 's/[^A-Za-z0-9]+/\-/g'`
   echo $SUBDOMAIN
-  DEPLOY_DOMAIN=https://${SUBDOMAIN}-${REPOSITORY_NAME}-${REPOSITORY_OWNER}.surge.sh
-  DEPLOY_STORYBOOK=https://storybook-${SUBDOMAIN}-${REPOSITORY_NAME}-${REPOSITORY_OWNER}.surge.sh
+  DEPLOY_DOMAIN=https://app.${SUBDOMAIN}.${REPOSITORY_NAME}.iov.surge.sh
+  DEPLOY_STORYBOOK=https://storybook.${SUBDOMAIN}.${REPOSITORY_NAME}.iov.surge.sh
   surge --project ${APP_PATH} --domain $DEPLOY_DOMAIN;
   surge --project ${APP_PATH_STORYBOOK} --domain $DEPLOY_STORYBOOK
   
