@@ -43,6 +43,9 @@ const TooltipBox = styled.div`
     opacity: 1;
     left: -176px;
     top: 30px;
+    &.left {
+      left: -22px;
+    }
   }
   &::before {
     content: "";
@@ -58,6 +61,11 @@ const TooltipBox = styled.div`
     border-radius: 3px;
     transform: rotate(-135deg);
   }
+  &.left {
+    &::before {
+      left: 22px;
+    }
+  }
 `;
 
 export const Tooltip = (props: {
@@ -67,6 +75,6 @@ export const Tooltip = (props: {
 }): JSX.Element => (
   <Wrapper className={classNames({ left: props.left })}>
     <Content>{props.children}</Content>
-    <TooltipBox>{props.info}</TooltipBox>
+    <TooltipBox className={classNames({ left: props.left })}>{props.info}</TooltipBox>
   </Wrapper>
 );
