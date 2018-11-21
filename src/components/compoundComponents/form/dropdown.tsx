@@ -39,8 +39,8 @@ const Wrapper = styled.div`
 
 const ChevronIcon = styled.img`
   margin-left: 24px;
-  width: 14.5px;
-  height: 7.5px;
+  width: 17px;
+  height: 17px;
 `;
 
 interface ItemProps {
