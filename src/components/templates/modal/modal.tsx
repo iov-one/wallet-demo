@@ -54,7 +54,7 @@ const customStyle = (hasSecondaryComp: boolean) => ({
     width: "506px",
     top: "0px",
     bottom: "0px",
-    paddingTop: "140px",
+    paddingTop: "80px",
     paddingBottom: hasSecondaryComp ? "7%" : "10%",
     display: "flex",
     flexDirection: "column",

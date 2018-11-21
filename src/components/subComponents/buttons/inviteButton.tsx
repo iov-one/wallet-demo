@@ -38,6 +38,7 @@ const Title = styled.div`
   line-height: 20.6px;
   letter-spacing: normal;
   color: #000000;
+  margin-bottom: 5px;
 `;
 
 const Description = styled.div`
