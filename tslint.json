@@ -9,6 +9,7 @@
   "rules": {
     "comment-format": false,
     "interface-name": [true, "never-prefix"],
+    "interface-over-type-literal": false,
     "max-classes-per-file": false,
     "no-class": false,
     "no-console": false,
@@ -24,6 +25,7 @@
     "no-object-literal-type-assertion": false,
     "no-object-mutation": true,
     "no-parameter-reassignment": true,
+    "no-submodule-imports": false,
     "no-unnecessary-class": ["allow-static-only"],
     "no-var-keyword": true,
     "object-literal-shorthand": false,

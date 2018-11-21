@@ -19,7 +19,10 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "typeRoots": ["./node_modules/@types", "./custom_typings"]
+    "typeRoots": ["./node_modules/@types", "./custom_typings"],
+    "paths": {
+      "~/*":["src/*"],
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "src/index.tsx"]
