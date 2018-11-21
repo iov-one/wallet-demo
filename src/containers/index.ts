@@ -1,6 +1,7 @@
 export * from "./Home";
 export * from "./Balance";
 export * from "./SendPayment";
+export * from "./Payment";
 
 /* Will be replaced with New one*/
 export * from "./Password";

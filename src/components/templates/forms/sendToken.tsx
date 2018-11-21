@@ -81,6 +81,7 @@ export interface SendTokenFormState {
 interface SendTokenFormProps {
   readonly name: string;
   readonly iovAddress: string;
+  readonly defaultToken: TokenTicker;
   readonly balances: ReadonlyArray<FungibleToken>;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
   readonly onBack: () => any;
@@ -105,13 +106,12 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   };
   constructor(props: SendTokenFormProps) {
     super(props);
-    const token = props.balances[0].tokenTicker;
     this.state = {
       tokenAmount: "",
       isValidAmount: true,
       hasEnoughToken: true,
       memo: "",
-      token,
+      token: props.defaultToken,
     };
   }
   public readonly getSelectedToken = (token: TokenTicker): BcpCoin => {

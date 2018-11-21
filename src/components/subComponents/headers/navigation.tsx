@@ -50,7 +50,7 @@ const NavText = styled.div`
   padding: 2px 2px;
 `;
 
-interface NavItemInfo {
+export interface NavItemInfo {
   readonly label: string;
   readonly onClick: () => any;
 }

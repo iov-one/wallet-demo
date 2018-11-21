@@ -6,9 +6,10 @@ import {
   NotificationTitle,
   NotificationWrapper,
   PendingNotificationItem,
-  PendingNotificationItemProps,
   PendingTransactionNotification,
 } from "../../subComponents/notification";
+
+import { PendingNotificationItemProps } from "../../../reducers/notification";
 
 const Content = styled.div`
   padding: 0px 15px;

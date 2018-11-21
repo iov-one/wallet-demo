@@ -33,6 +33,7 @@ interface HeaderProps {
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly isFirst: boolean;
+  readonly onLogo: () => any;
 }
 
 interface HeaderState {
@@ -56,12 +57,12 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
     };
   }
   public render(): any {
-    const { navigationInfo, transactionInfo, pendingTransactionInfo } = this.props;
+    const { navigationInfo, transactionInfo, pendingTransactionInfo, onLogo } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
     const { isFirst } = this.state;
     return (
-      <NormalHeader>
+      <NormalHeader onLogo={onLogo}>
         <HeaderContent>
           <Navigation {...navigationInfo} />
           <RightNavigation>

@@ -16,7 +16,8 @@ const FadeWrapper = styled.div`
   display: none;
   opacity: 0;
   transition: opacity 0.5s;
-  right: -13px;
+  right: -16px;
+  margin-top: 8px;
   &.show {
     display: block;
     opacity: 1;

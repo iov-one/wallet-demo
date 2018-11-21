@@ -1,14 +1,16 @@
 // tslint:disable:no-empty
 // TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, FungibleToken } from "@iov/bcp-types";
+import { BcpAccount, FungibleToken, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { PageStructure } from "../components/compoundComponents/page";
+import queryString from "query-string";
+
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
+import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 import { sendTransactionSequence } from "../sequences";
@@ -52,16 +54,17 @@ class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToPr
       return false;
     }
     const { iovAddress } = this.props.match.params;
-    // tslint:disable-next-line:no-this-assignment
-    const that = this;
+    const query = queryString.parse(this.props.location.search);
+    const token = (query.token as string) || "IOV";
     return (
-      <PageStructure>
+      <PageStructure activeNavigation="Payments">
         <SendTokenForm
           name={name}
+          defaultToken={token as TokenTicker}
           iovAddress={iovAddress}
           balances={balances}
-          onBack={that.props.history.goBack}
-          onSend={that.onSend}
+          onBack={this.props.history.goBack}
+          onSend={this.onSend}
         />
       </PageStructure>
     );

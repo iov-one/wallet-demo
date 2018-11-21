@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BcpCoin } from "@iov/bcp-types";
+import { BcpCoin, TokenTicker } from "@iov/bcp-types";
 
 import { TransactionButtonGroup } from "../../compoundComponents/sections";
 import { SuggestionButton } from "../../subComponents/buttons";
@@ -14,6 +14,7 @@ interface BalanceProps {
   readonly onSend: () => any;
   readonly onReceive: () => any;
   readonly onBackup: () => any;
+  readonly onBalance: (token: TokenTicker) => any;
 }
 
 const Wrapper = styled.div`
@@ -34,7 +35,11 @@ export const BalanceForm = (props: BalanceProps) => (
       <TextFieldLabel className="centered">Your Currencies</TextFieldLabel>
       <BalanceSection>
         {props.balances.map((balance, idx) => (
-          <BalanceInfo balance={balance} key={`balanceInfo_${idx}`} />
+          <BalanceInfo
+            onClick={() => props.onBalance(balance.tokenTicker)}
+            balance={balance}
+            key={`balanceInfo_${idx}`}
+          />
         ))}
       </BalanceSection>
     </Paper>

@@ -22,10 +22,11 @@ const InfoText = styled.div`
 
 interface BalanceProps {
   readonly balance: BcpCoin;
+  readonly onClick: () => any;
 }
 
 export const BalanceInfo = (props: BalanceProps) => (
-  <InfoText>
+  <InfoText onClick={props.onClick}>
     {coinToString(props.balance)} {props.balance.tokenTicker}
   </InfoText>
 );

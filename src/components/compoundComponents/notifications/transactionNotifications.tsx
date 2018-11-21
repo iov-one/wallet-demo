@@ -8,8 +8,9 @@ import {
   NotificationTitle,
   NotificationWrapper,
   TransactionNotificationItem,
-  TransNotificationProps,
 } from "../../subComponents/notification";
+
+import { TransNotificationProps } from "../../../reducers/notification";
 
 export interface TransactionNotificationProps {
   readonly items: ReadonlyArray<TransNotificationProps>;
