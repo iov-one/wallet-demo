@@ -6,14 +6,14 @@ import {
   BackupAccountPage,
   BalancePage,
   ConfirmTransactionPage,
-  HomePage,
   ImportAccountPage,
   InvitePage,
   LoginPage,
   PasswordPage,
   PaymentPage,
   SendPaymentPage,
-} from "../../containers";
+} from "~/containers";
+import SignUp from "~/routes/signup/container";
 
 // TODO improve redux config using connected-react-router remove middle components
 // levaring the usage of WithRouter
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const MainRouter = () => (
   <Router>
     <Wrapper>
-      <Route exact path="/" component={HomePage} />
+      <Route exact path="/" component={SignUp} />
       <Route path="/balance/" component={BalancePage} />
       <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/account-backup/" component={BackupAccountPage} />
