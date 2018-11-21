@@ -24,6 +24,7 @@ const TriggerButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0px;
 `;
 
 const NormalTriggerButton = styled.button`

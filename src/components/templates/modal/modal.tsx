@@ -81,24 +81,14 @@ export const IOVModal = (props: ModalProps): JSX.Element => (
     <ModalUpperPart>
       <CloseButton onClick={props.onRequestClose} />
       <ModalContentWrapper>{props.children}</ModalContentWrapper>
-      {props.secondaryComp && (
-        <SuggestionWrapper>
-          <SuggestionButton
-            suggestionText={props.suggestionText}
-            buttonText={props.buttonText}
-            onClick={props.onSuggestion}
-          />
-        </SuggestionWrapper>
-      )}
+      <SuggestionWrapper>
+        <SuggestionButton
+          suggestionText={props.suggestionText}
+          buttonText={props.buttonText}
+          onClick={props.onSuggestion}
+        />
+      </SuggestionWrapper>
     </ModalUpperPart>
-    {props.secondaryComp ? (
-      props.secondaryComp
-    ) : (
-      <SuggestionButton
-        suggestionText={props.suggestionText}
-        buttonText={props.buttonText}
-        onClick={props.onSuggestion}
-      />
-    )}
+    {props.secondaryComp}
   </Modal>
 );

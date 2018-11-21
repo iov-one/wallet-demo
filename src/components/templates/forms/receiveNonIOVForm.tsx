@@ -26,12 +26,16 @@ const Wrapper = styled.div`
   width: 506px;
 `;
 
+const DropdownWrapper = styled.div`
+  margin-bottom: 30px;
+`;
+
 const ActionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 13px;
+  margin-top: 30px;
 `;
 
 const MainText = styled(H2)`
@@ -71,11 +75,13 @@ export class ReceiveNonIOVForm extends React.Component<ReceiveNonIOVProps, Recie
     const address = this.getTokenAddress();
     return (
       <Wrapper>
-        <Paper style={{ width: "506px" }}>
+        <Paper style={{ width: "506px", paddingBottom: "38px" }}>
           <MainText>
             Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
           </MainText>
-          <Dropdown items={tokenList} defaultValue={token} onSelect={this.onChangeAddress} />
+          <DropdownWrapper>
+            <Dropdown items={tokenList} defaultValue={token} onSelect={this.onChangeAddress} />
+          </DropdownWrapper>
           <ConfirmInput
             title={`Your ${token} Address`}
             value={address}
