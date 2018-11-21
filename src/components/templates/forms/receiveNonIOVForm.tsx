@@ -42,6 +42,11 @@ const MainText = styled(H2)`
   margin-bottom: 30px;
 `;
 
+const ModalPaper = styled(Paper)`
+  width: 506px;
+  padding-bottom: 40px;
+`;
+
 const Highlight = styled.span`
   color: #31e6c9;
 `;
@@ -75,7 +80,7 @@ export class ReceiveNonIOVForm extends React.Component<ReceiveNonIOVProps, Recie
     const address = this.getTokenAddress();
     return (
       <Wrapper>
-        <Paper style={{ width: "506px", paddingBottom: "40px" }}>
+        <ModalPaper>
           <MainText>
             Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
           </MainText>
@@ -94,7 +99,7 @@ export class ReceiveNonIOVForm extends React.Component<ReceiveNonIOVProps, Recie
               info="Have a non IOV user send you Lisk to this address and it will show up on your account"
             />
           </ActionWrapper>
-        </Paper>
+        </ModalPaper>
       </Wrapper>
     );
   }

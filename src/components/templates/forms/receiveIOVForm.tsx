@@ -21,6 +21,11 @@ const ActionWrapper = styled.div`
   margin-top: 23px;
 `;
 
+const ModalPaper = styled(Paper)`
+  width: 506px;
+  padding-bottom: 40px;
+`;
+
 const MainText = styled(H2)`
   margin-bottom: 30px;
 `;
@@ -34,7 +39,7 @@ export class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
     const { iovAddress } = this.props;
     return (
       <Wrapper>
-        <Paper style={{ width: "506px", paddingBottom: "40px" }}>
+        <ModalPaper>
           <MainText>
             Receive payment from <Highlight>IOV wallet users</Highlight> by giving them your IOV address
           </MainText>
@@ -50,7 +55,7 @@ export class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
               info="Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds will get send directly to your wallet"
             />
           </ActionWrapper>
-        </Paper>
+        </ModalPaper>
       </Wrapper>
     );
   }

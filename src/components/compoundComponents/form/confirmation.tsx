@@ -16,6 +16,10 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 
+const ConfirmationInput = styled(Input)`
+  margin-right: 8px;
+`;
+
 interface ConfirmProps {
   readonly title: string;
   readonly notification: string;
@@ -42,12 +46,7 @@ export class ConfirmInput extends React.Component<ConfirmProps, ConfirmState> {
       <Wrapper>
         <TextFieldLabel>{title}</TextFieldLabel>
         <ContentWrapper>
-          <Input
-            style={{ marginRight: "8px" }}
-            className={classNames("confirm", { checked })}
-            {...this.props}
-            disabled
-          />
+          <ConfirmationInput className={classNames("confirm", { checked })} {...this.props} disabled />
           <CopyToClipboard text={this.props.value} onCopy={this.copied}>
             <Button large title="Copy!" type="primary" icon="check" checked={checked} />
           </CopyToClipboard>

@@ -33,6 +33,7 @@ const ModalContentWrapper = styled.div`
 const ModalUpperPart = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 80px;
 `;
 
 const SuggestionWrapper = styled.div`
@@ -60,7 +61,7 @@ const customStyle = (hasSecondaryComp: boolean) => ({
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "transparent",
-    justifyContent: "space-between",
+    justifyContent: hasSecondaryComp ? "flex-start" : "space-between",
     border: "none",
     overflow: "visible",
   },
@@ -82,13 +83,22 @@ export const IOVModal = (props: ModalProps): JSX.Element => (
       <CloseButton onClick={props.onRequestClose} />
       <ModalContentWrapper>{props.children}</ModalContentWrapper>
       <SuggestionWrapper>
-        <SuggestionButton
-          suggestionText={props.suggestionText}
-          buttonText={props.buttonText}
-          onClick={props.onSuggestion}
-        />
+        {props.secondaryComp && (
+          <SuggestionButton
+            suggestionText={props.suggestionText}
+            buttonText={props.buttonText}
+            onClick={props.onSuggestion}
+          />
+        )}
       </SuggestionWrapper>
     </ModalUpperPart>
+    {isEmpty(props.secondaryComp) && (
+      <SuggestionButton
+        suggestionText={props.suggestionText}
+        buttonText={props.buttonText}
+        onClick={props.onSuggestion}
+      />
+    )}
     {props.secondaryComp}
   </Modal>
 );

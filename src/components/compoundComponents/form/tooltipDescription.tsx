@@ -30,20 +30,16 @@ const Label = styled.span`
 
 export const TooltipDescription = (props: ToolTipProps) => (
   <Wrapper>
-    {props.reversed ? (
-      <React.Fragment>
-        <Tooltip left info={props.info}>
-          <InfoIcon />
-        </Tooltip>
-        <Label>{props.label}</Label>
-      </React.Fragment>
-    ) : (
-      <React.Fragment>
-        <Label>{props.label}</Label>
-        <Tooltip info={props.info}>
-          <InfoIcon />
-        </Tooltip>
-      </React.Fragment>
+    {props.reversed && (
+      <Tooltip left info={props.info}>
+        <InfoIcon />
+      </Tooltip>
+    )}
+    <Label>{props.label}</Label>
+    {!props.reversed && (
+      <Tooltip info={props.info}>
+        <InfoIcon />
+      </Tooltip>
     )}
   </Wrapper>
 );

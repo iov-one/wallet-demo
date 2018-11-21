@@ -62,6 +62,32 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     console.log("Invite");
   };
 
+  public readonly closeNonIovModal = (): any => {
+    this.setState({
+      showReceiveNonIovModal: false,
+    });
+  };
+
+  public readonly closeIovModal = (): any => {
+    this.setState({
+      showReceiveModal: false,
+    });
+  };
+
+  public readonly toNonIovModal = (): any => {
+    this.setState({
+      showReceiveModal: false,
+      showReceiveNonIovModal: true,
+    });
+  };
+
+  public readonly toIovModal = (): any => {
+    this.setState({
+      showReceiveNonIovModal: false,
+      showReceiveModal: true,
+    });
+  };
+
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
     const { showReceiveModal, showAddressModal, showReceiveNonIovModal } = this.state;
@@ -127,37 +153,19 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
           </IOVModal>
           <IOVModal
             visible={showReceiveModal}
-            onRequestClose={() => {
-              this.setState({
-                showReceiveModal: false,
-              });
-            }}
+            onRequestClose={this.closeIovModal}
             suggestionText="Receiving from outside IOV?"
             buttonText="View your address"
-            onSuggestion={() => {
-              this.setState({
-                showReceiveModal: false,
-                showReceiveNonIovModal: true,
-              });
-            }}
+            onSuggestion={this.toNonIovModal}
           >
             <ReceiveIOVForm iovAddress={name} />
           </IOVModal>
           <IOVModal
             visible={showReceiveNonIovModal}
-            onRequestClose={() => {
-              this.setState({
-                showReceiveNonIovModal: false,
-              });
-            }}
+            onRequestClose={this.closeNonIovModal}
             suggestionText="Receiving from an IOV user?"
             buttonText="View your IOV address"
-            onSuggestion={() => {
-              this.setState({
-                showReceiveNonIovModal: false,
-                showReceiveModal: true,
-              });
-            }}
+            onSuggestion={this.toIovModal}
             secondaryComp={<InviteButton onInvite={this.onInvite} />}
           >
             <ReceiveNonIOVForm addressList={addressList} />
