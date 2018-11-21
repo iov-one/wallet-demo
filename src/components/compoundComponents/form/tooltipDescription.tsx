@@ -7,7 +7,7 @@ import { Tooltip } from "../../subComponents/misc";
 interface ToolTipProps {
   readonly label: string;
   readonly info: string;
-  readonly reversed: boolean;
+  readonly reversed?: boolean;
 }
 
 const Wrapper = styled.div`
