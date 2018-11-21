@@ -45,6 +45,12 @@ before_script:
 script:
 - yarn test
 - yarn dist
+- yarn build-storybook
+
+after_success:
+# Used for ensuring all urls reach app's router in surge 
+- cd dist/ && cp index.html 200.html && cd ..
+- bash ./scripts/stagingDeploy.sh
 
 after_script:
 - source ./scripts/blockchain_stop.sh
