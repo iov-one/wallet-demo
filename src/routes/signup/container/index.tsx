@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PageStructure } from '~/components/compoundComponents/page';
+import { PageStructure } from '~/components/templates/page';
 
 type Props = {
 
