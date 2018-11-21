@@ -2,6 +2,8 @@ import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
+import { isEmpty } from "lodash";
+
 import CloseIcon from "../../../../resources/close_type2.svg";
 
 import { SuggestionButton } from "../../subComponents/buttons";
@@ -37,7 +39,7 @@ const SuggestionWrapper = styled.div`
   margin-top: 5px;
 `;
 
-const customStyle = {
+const customStyle = (hasSecondaryComp: boolean) => ({
   overlay: {
     position: "absolute",
     top: 0,
@@ -53,7 +55,7 @@ const customStyle = {
     top: "0px",
     bottom: "0px",
     paddingTop: "140px",
-    paddingBottom: "10%",
+    paddingBottom: hasSecondaryComp ? "7%" : "10%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -62,7 +64,7 @@ const customStyle = {
     border: "none",
     overflow: "visible",
   },
-};
+});
 
 interface ModalProps {
   readonly suggestionText: string;
@@ -75,7 +77,7 @@ interface ModalProps {
 }
 
 export const IOVModal = (props: ModalProps): JSX.Element => (
-  <Modal style={customStyle} isOpen={props.visible} ariaHideApp={false}>
+  <Modal style={customStyle(isEmpty(props.secondaryComp))} isOpen={props.visible} ariaHideApp={false}>
     <ModalUpperPart>
       <CloseButton onClick={props.onRequestClose} />
       <ModalContentWrapper>{props.children}</ModalContentWrapper>

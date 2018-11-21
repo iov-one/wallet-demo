@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import HeartIcon from "../../../../resources/heart_circle.svg";
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -10,13 +12,14 @@ const Wrapper = styled.div`
 const Button = styled.button`
   outline: none;
   cursor: pointer;
-  width: 51px;
-  height: 51px;
-  border-radius: 50%;
-  opacity: 0.4;
-  background-color: #98f3e4;
-  border: 1px solid #31e6c9;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   margin-right: 16px;
+  padding: 0px;
 `;
 
 const Content = styled.div`
@@ -48,13 +51,21 @@ const Description = styled.div`
   color: #000000;
 `;
 
+const ButtonIcon = styled.img`
+  width: 51px;
+  height: 51px;
+  object-fit: contain;
+`;
+
 interface InviteButtonProps {
   readonly onInvite: () => any;
 }
 
 export const InviteButton = (props: InviteButtonProps): JSX.Element => (
   <Wrapper>
-    <Button onClick={props.onInvite} />
+    <Button onClick={props.onInvite}>
+      <ButtonIcon src={HeartIcon} />
+    </Button>
     <Content>
       <Title>Invite your friends to IOV</Title>
       <Description>Sending & Receiving crypto payments has never been easier</Description>
