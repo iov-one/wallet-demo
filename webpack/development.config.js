@@ -16,8 +16,9 @@ module.exports = merge(common, {
     // bundle the client for webpack-dev-server
     // and connect to the provided endpoint
   ],
-  devtool: "inline-source-map",
+  devtool: "eval",
   output: {
+    pathinfo: true,
     filename: "hotloader.js",
     // the output bundle
     path: resolve(baseDir, "dist"),
