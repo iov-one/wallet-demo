@@ -27,7 +27,6 @@ before_install:
 install:
 - source ./scripts/retry.sh
 - retry 3 yarn install
-- yarn add surge --dev
 
 before_script:
 # Make variables and function from Travis available in our script
@@ -49,8 +48,9 @@ script:
 - yarn build-storybook
 
 after_success:
+# Used for ensuring all urls reach app's router in surge 
 - cd dist/ && cp index.html 200.html && cd ..
-- yarn surge
+- bash ./scripts/stagingDeploy.sh
 
 after_script:
 - source ./scripts/blockchain_stop.sh

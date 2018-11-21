@@ -47,8 +47,8 @@ do
   echo $SUBDOMAIN
   DEPLOY_DOMAIN=https://${SUBDOMAIN}_${REPOSITORY_NAME}_iov.surge.sh
   DEPLOY_STORYBOOK=https://storybook_${SUBDOMAIN}_${REPOSITORY_NAME}_iov.surge.sh
-  surge --project ${APP_PATH} --domain $DEPLOY_DOMAIN;
-  surge --project ${APP_PATH_STORYBOOK} --domain $DEPLOY_STORYBOOK
+  yarn surge --project ${APP_PATH} --domain $DEPLOY_DOMAIN;
+  yarn surge --project ${APP_PATH_STORYBOOK} --domain $DEPLOY_STORYBOOK
   
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
