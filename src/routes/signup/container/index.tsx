@@ -1,28 +1,24 @@
-import * as React from 'react'
-import { PageStructure } from '~/components/templates/page';
+import * as React from "react";
+import { PageStructure } from "~/components/templates/page";
 
-type Props = {
-
-}
+type Props = {};
 
 type State = {
-  readonly page: number,
-}
+  readonly page: number;
+};
 
 class SignUp extends React.Component<Props, State> {
-  public readonly state={
+  public readonly state = {
     page: 0,
-  }
+  };
 
   public render(): JSX.Element {
     return (
       <PageStructure whiteBg>
-        <div>
-          Hello world
-        </div>
+        <div>Hello world</div>
       </PageStructure>
     );
   }
 }
 
-export default SignUp
+export default SignUp;
