@@ -7,14 +7,14 @@ import classNames from "classnames";
 
 import { DropdownMenu, DropdownOption } from "../../subComponents/dropdown";
 
-import ChevronDownIcon from "../../../../resources/chevron-down.svg";
+import ChevronDownIcon from "../../../../resources/dropdown_arrow.svg";
 
 const TriggerButton = styled.button`
   outline: none;
   border: none;
   background: transparent;
   font-family: Muli;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
@@ -24,6 +24,7 @@ const TriggerButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0px;
 `;
 
 const NormalTriggerButton = styled.button`
@@ -37,9 +38,9 @@ const Wrapper = styled.div`
 `;
 
 const ChevronIcon = styled.img`
-  margin-left: 24px;
-  width: 14.5px;
-  height: 7.5px;
+  margin-left: 14px;
+  width: 17px;
+  height: 17px;
 `;
 
 interface ItemProps {

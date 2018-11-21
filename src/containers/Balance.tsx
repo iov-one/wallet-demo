@@ -5,8 +5,14 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
 
-import { AddressInputForm, BalanceForm } from "../components/templates/forms";
-import { IOVModal, ReceiveModal } from "../components/templates/modal";
+import { InviteButton } from "../components/subComponents/buttons";
+import {
+  AddressInputForm,
+  BalanceForm,
+  ReceiveIOVForm,
+  ReceiveNonIOVForm,
+} from "../components/templates/forms";
+import { IOVModal } from "../components/templates/modal";
 import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
@@ -20,12 +26,19 @@ interface BalanceProps extends RouteComponentProps<{}> {
 interface BalanceState {
   readonly showReceiveModal: boolean;
   readonly showAddressModal: boolean;
+  readonly showReceiveNonIovModal: boolean;
+}
+
+interface AddressInfo {
+  readonly token: TokenTicker;
+  readonly address: string;
 }
 
 class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
     showAddressModal: false,
+    showReceiveNonIovModal: false,
   };
 
   public componentDidMount(): void {
@@ -45,15 +58,44 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     history.push(`/payment/?token=${token}`);
   };
 
+  public readonly onInvite = (): any => {
+    console.log("Invite");
+  };
+
+  public readonly closeNonIovModal = (): any => {
+    this.setState({
+      showReceiveNonIovModal: false,
+    });
+  };
+
+  public readonly closeIovModal = (): any => {
+    this.setState({
+      showReceiveModal: false,
+    });
+  };
+
+  public readonly toNonIovModal = (): any => {
+    this.setState({
+      showReceiveModal: false,
+      showReceiveNonIovModal: true,
+    });
+  };
+
+  public readonly toIovModal = (): any => {
+    this.setState({
+      showReceiveNonIovModal: false,
+      showReceiveModal: true,
+    });
+  };
+
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
-    const { showReceiveModal, showAddressModal } = this.state;
+    const { showReceiveModal, showAddressModal, showReceiveNonIovModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
-    const name = `${account.name}*iov.value`;
-    const address = account.address;
+    const name = `${account.name}*iov`;
     const balances = account.balance.map((balance: BcpCoin) => {
       const { whole, fractional, tokenTicker, tokenName } = balance;
       return {
@@ -67,6 +109,12 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     const { connections } = this.props;
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
+    const addressList = [
+      {
+        token: "IOV" as TokenTicker,
+        address: account.address,
+      },
+    ] as ReadonlyArray<AddressInfo>;
     return (
       <PageStructure activeNavigation="Balance">
         <div>
@@ -103,16 +151,25 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
           >
             <AddressInputForm connection={connection} onNext={this.onSend} />
           </IOVModal>
-          <ReceiveModal
-            name={name}
-            address={address}
-            onRequestClose={() => {
-              this.setState({
-                showReceiveModal: false,
-              });
-            }}
+          <IOVModal
             visible={showReceiveModal}
-          />
+            onRequestClose={this.closeIovModal}
+            suggestionText="Receiving from outside IOV?"
+            buttonText="View your address"
+            onSuggestion={this.toNonIovModal}
+          >
+            <ReceiveIOVForm iovAddress={name} />
+          </IOVModal>
+          <IOVModal
+            visible={showReceiveNonIovModal}
+            onRequestClose={this.closeNonIovModal}
+            suggestionText="Receiving from an IOV user?"
+            buttonText="View your IOV address"
+            onSuggestion={this.toIovModal}
+            secondaryComp={<InviteButton onInvite={this.onInvite} />}
+          >
+            <ReceiveNonIOVForm addressList={addressList} />
+          </IOVModal>
         </div>
       </PageStructure>
     );

@@ -119,8 +119,8 @@ class PageTemplate extends React.Component<PageProps, PageState> {
 
 const mapStateToProps = (state: any, ownProps: OwnProps): PageProps => ({
   ...ownProps,
-  transactionInfo: state.notification.transaction,
-  pendingTransactionInfo: state.notification.pending,
+  transactionInfo: { items: state.notification.transaction },
+  pendingTransactionInfo: { items: state.notification.pending },
 });
 
 export const PageStructure = withRouter(connect(mapStateToProps)(PageTemplate));

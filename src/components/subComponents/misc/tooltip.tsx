@@ -1,9 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+import classNames from "classnames";
+
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
+  &.left {
+    margin-right: 9px;
+  }
 `;
 
 const Content = styled.div`
@@ -38,6 +43,9 @@ const TooltipBox = styled.div`
     opacity: 1;
     left: -176px;
     top: 30px;
+    &.left {
+      left: -22px;
+    }
   }
   &::before {
     content: "";
@@ -53,11 +61,20 @@ const TooltipBox = styled.div`
     border-radius: 3px;
     transform: rotate(-135deg);
   }
+  &.left {
+    &::before {
+      left: 22px;
+    }
+  }
 `;
 
-export const Tooltip = (props: { readonly info: any; readonly children: any }): JSX.Element => (
-  <Wrapper>
+export const Tooltip = (props: {
+  readonly info: any;
+  readonly left?: boolean;
+  readonly children: any;
+}): JSX.Element => (
+  <Wrapper className={classNames({ left: props.left })}>
     <Content>{props.children}</Content>
-    <TooltipBox>{props.info}</TooltipBox>
+    <TooltipBox className={classNames({ left: props.left })}>{props.info}</TooltipBox>
   </Wrapper>
 );
