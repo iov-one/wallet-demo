@@ -7,7 +7,7 @@ import classNames from "classnames";
 
 import { DropdownMenu, DropdownOption } from "../../subComponents/dropdown";
 
-import ChevronDownIcon from "../../../../resources/chevron-down.svg";
+import ChevronDownIcon from "../../../../resources/dropdown_arrow.svg";
 
 const TriggerButton = styled.button`
   outline: none;

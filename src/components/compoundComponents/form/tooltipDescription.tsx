@@ -32,7 +32,7 @@ export const TooltipDescription = (props: ToolTipProps) => (
   <Wrapper>
     {props.reversed ? (
       <React.Fragment>
-        <Tooltip info={props.info}>
+        <Tooltip left info={props.info}>
           <InfoIcon />
         </Tooltip>
         <Label>{props.label}</Label>
