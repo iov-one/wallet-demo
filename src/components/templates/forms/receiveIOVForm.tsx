@@ -18,7 +18,7 @@ const ActionWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 23px;
 `;
 
 const MainText = styled(H2)`

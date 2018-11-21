@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 `;
 
 const ChevronIcon = styled.img`
-  margin-left: 24px;
+  margin-left: 14px;
   width: 17px;
   height: 17px;
 `;
