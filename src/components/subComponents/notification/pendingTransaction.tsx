@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BcpCoin } from "@iov/bcp-types";
-
 import { Spinner } from "../icons";
+
+import { PendingNotificationItemProps } from "../../../reducers/notification";
 
 const Content = styled.div`
   display: flex;
@@ -57,11 +57,6 @@ const Grey = styled.div`
   letter-spacing: normal;
   color: #dadada;
 `;
-
-export interface PendingNotificationItemProps {
-  readonly receiver: string;
-  readonly amount: BcpCoin;
-}
 
 export const PendingNotificationItem = (props: PendingNotificationItemProps): JSX.Element => (
   <Wrapper>

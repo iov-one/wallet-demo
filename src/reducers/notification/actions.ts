@@ -1,7 +1,4 @@
-import {
-  PendingNotificationItemProps,
-  TransNotificationProps,
-} from "../../components/subComponents/notification";
+import { PendingNotificationItemProps, TransNotificationProps } from "./state";
 
 import { createSyncAction } from "../helpers";
 
