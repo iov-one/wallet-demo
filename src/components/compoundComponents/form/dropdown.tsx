@@ -14,7 +14,7 @@ const TriggerButton = styled.button`
   border: none;
   background: transparent;
   font-family: Muli;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
