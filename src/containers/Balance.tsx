@@ -5,7 +5,13 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
 
-import { AddressInputForm, BalanceForm, ReceiveIOVForm } from "../components/templates/forms";
+import { InviteButton } from "../components/subComponents/buttons";
+import {
+  AddressInputForm,
+  BalanceForm,
+  ReceiveIOVForm,
+  ReceiveNonIOVForm,
+} from "../components/templates/forms";
 import { IOVModal } from "../components/templates/modal";
 import { PageStructure } from "../components/templates/page";
 
@@ -20,12 +26,19 @@ interface BalanceProps extends RouteComponentProps<{}> {
 interface BalanceState {
   readonly showReceiveModal: boolean;
   readonly showAddressModal: boolean;
+  readonly showReceiveNonIovModal: boolean;
+}
+
+interface AddressInfo {
+  readonly token: TokenTicker;
+  readonly address: string;
 }
 
 class Balance extends React.Component<BalanceProps, BalanceState> {
   public readonly state = {
     showReceiveModal: false,
     showAddressModal: false,
+    showReceiveNonIovModal: false,
   };
 
   public componentDidMount(): void {
@@ -45,9 +58,13 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     history.push(`/payment/?token=${token}`);
   };
 
+  public readonly onInvite = (): any => {
+    console.log("Invite");
+  };
+
   public render(): JSX.Element | boolean {
     const { accounts } = this.props;
-    const { showReceiveModal, showAddressModal } = this.state;
+    const { showReceiveModal, showAddressModal, showReceiveNonIovModal } = this.state;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
@@ -66,6 +83,12 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     const { connections } = this.props;
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
+    const addressList = [
+      {
+        token: "IOV" as TokenTicker,
+        address: account.address,
+      },
+    ] as ReadonlyArray<AddressInfo>;
     return (
       <PageStructure activeNavigation="Balance">
         <div>
@@ -114,10 +137,30 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
             onSuggestion={() => {
               this.setState({
                 showReceiveModal: false,
+                showReceiveNonIovModal: true,
               });
             }}
           >
             <ReceiveIOVForm iovAddress={name} />
+          </IOVModal>
+          <IOVModal
+            visible={showReceiveNonIovModal}
+            onRequestClose={() => {
+              this.setState({
+                showReceiveNonIovModal: false,
+              });
+            }}
+            suggestionText="Receiving from an IOV user?"
+            buttonText="View your IOV address"
+            onSuggestion={() => {
+              this.setState({
+                showReceiveNonIovModal: false,
+                showReceiveModal: true,
+              });
+            }}
+            secondaryComp={<InviteButton onInvite={this.onInvite} />}
+          >
+            <ReceiveNonIOVForm addressList={addressList} />
           </IOVModal>
         </div>
       </PageStructure>

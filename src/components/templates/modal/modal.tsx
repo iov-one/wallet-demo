@@ -33,6 +33,10 @@ const ModalUpperPart = styled.div`
   flex-direction: column;
 `;
 
+const SuggestionWrapper = styled.div`
+  margin-top: 5px;
+`;
+
 const customStyle = {
   overlay: {
     position: "absolute",
@@ -67,6 +71,7 @@ interface ModalProps {
   readonly onRequestClose: () => any;
   readonly visible: boolean;
   readonly children: JSX.Element;
+  readonly secondaryComp?: JSX.Element;
 }
 
 export const IOVModal = (props: ModalProps): JSX.Element => (
@@ -74,11 +79,24 @@ export const IOVModal = (props: ModalProps): JSX.Element => (
     <ModalUpperPart>
       <CloseButton onClick={props.onRequestClose} />
       <ModalContentWrapper>{props.children}</ModalContentWrapper>
+      {props.secondaryComp && (
+        <SuggestionWrapper>
+          <SuggestionButton
+            suggestionText={props.suggestionText}
+            buttonText={props.buttonText}
+            onClick={props.onSuggestion}
+          />
+        </SuggestionWrapper>
+      )}
     </ModalUpperPart>
-    <SuggestionButton
-      suggestionText={props.suggestionText}
-      buttonText={props.buttonText}
-      onClick={props.onSuggestion}
-    />
+    {props.secondaryComp ? (
+      props.secondaryComp
+    ) : (
+      <SuggestionButton
+        suggestionText={props.suggestionText}
+        buttonText={props.buttonText}
+        onClick={props.onSuggestion}
+      />
+    )}
   </Modal>
 );

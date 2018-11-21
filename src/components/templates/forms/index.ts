@@ -2,6 +2,7 @@ export * from "./balanceForm";
 export * from "./addressInputForm";
 export * from "./sendToken";
 export * from "./receiveIOVForm";
+export * from "./receiveNonIOVForm";
 
 /* below will be replaced */
 export * from "./createWalletForm";
