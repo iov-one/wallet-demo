@@ -7,6 +7,7 @@ import { Tooltip } from "../../subComponents/misc";
 interface ToolTipProps {
   readonly label: string;
   readonly info: string;
+  readonly reversed: boolean;
 }
 
 const Wrapper = styled.div`
@@ -29,9 +30,20 @@ const Label = styled.span`
 
 export const TooltipDescription = (props: ToolTipProps) => (
   <Wrapper>
-    <Label>{props.label}</Label>
-    <Tooltip info={props.info}>
-      <InfoIcon />
-    </Tooltip>
+    {props.reversed ? (
+      <React.Fragment>
+        <Tooltip info={props.info}>
+          <InfoIcon />
+        </Tooltip>
+        <Label>{props.label}</Label>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <Label>{props.label}</Label>
+        <Tooltip info={props.info}>
+          <InfoIcon />
+        </Tooltip>
+      </React.Fragment>
+    )}
   </Wrapper>
 );

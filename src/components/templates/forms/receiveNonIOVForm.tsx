@@ -75,7 +75,7 @@ export class ReceiveNonIOVForm extends React.Component<ReceiveNonIOVProps, Recie
     const address = this.getTokenAddress();
     return (
       <Wrapper>
-        <Paper style={{ width: "506px", paddingBottom: "38px" }}>
+        <Paper style={{ width: "506px", paddingBottom: "40px" }}>
           <MainText>
             Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
           </MainText>
@@ -89,6 +89,7 @@ export class ReceiveNonIOVForm extends React.Component<ReceiveNonIOVProps, Recie
           />
           <ActionWrapper>
             <TooltipDescription
+              reversed
               label="How it works"
               info="Have a non IOV user send you Lisk to this address and it will show up on your account"
             />

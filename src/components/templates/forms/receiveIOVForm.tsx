@@ -34,7 +34,7 @@ export class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
     const { iovAddress } = this.props;
     return (
       <Wrapper>
-        <Paper style={{ width: "506px" }}>
+        <Paper style={{ width: "506px", paddingBottom: "40px" }}>
           <MainText>
             Receive payment from <Highlight>IOV wallet users</Highlight> by giving them your IOV address
           </MainText>
@@ -45,6 +45,7 @@ export class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
           />
           <ActionWrapper>
             <TooltipDescription
+              reversed
               label="How it works"
               info="Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds will get send directly to your wallet"
             />
