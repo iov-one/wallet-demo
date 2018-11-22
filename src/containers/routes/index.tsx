@@ -12,7 +12,6 @@ import {
   LoginPage,
   PasswordPage,
   PaymentPage,
-  SendPaymentPage,
 } from "../../containers";
 
 // TODO improve redux config using connected-react-router remove middle components
@@ -26,7 +25,6 @@ const MainRouter = () => (
     <Wrapper>
       <Route exact path="/" component={HomePage} />
       <Route path="/balance/" component={BalancePage} />
-      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
       <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/account-backup/" component={BackupAccountPage} />
       <Route path="/import-account/" component={ImportAccountPage} />

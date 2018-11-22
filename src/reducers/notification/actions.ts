@@ -11,3 +11,10 @@ export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
   (pendingItem: PendingNotificationItemProps) => pendingItem,
 );
+
+export const removePendingTransactionAction = createSyncAction(
+  "REMOVE_PENDING_TRANSACTION",
+  (pendingId: string) => pendingId,
+);
+
+export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);

@@ -32,7 +32,6 @@ interface HeaderProps {
   readonly navigationInfo: NavigationProps;
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
-  readonly isFirst: boolean;
   readonly onLogo: () => any;
 }
 
@@ -52,10 +51,15 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
   public readonly state: HeaderState;
   constructor(props: HeaderProps) {
     super(props);
+    const visited = window.localStorage.getItem("visited");
     this.state = {
-      isFirst: props.isFirst,
+      isFirst: visited !== "visited",
     };
   }
+  public readonly setVisitFlag = (): void => {
+    this.setState({ isFirst: false });
+    window.localStorage.setItem("visited", "visited");
+  };
   public render(): any {
     const { navigationInfo, transactionInfo, pendingTransactionInfo, onLogo } = this.props;
     const type = getLastTransactionType(transactionInfo);
@@ -72,11 +76,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
               spin={hasPendingItems}
               notification={
                 isFirst ? (
-                  <PendingOnboarding
-                    onGotIt={() => {
-                      this.setState({ isFirst: false });
-                    }}
-                  />
+                  <PendingOnboarding onGotIt={this.setVisitFlag} />
                 ) : (
                   <PendingTransactions {...pendingTransactionInfo} />
                 )

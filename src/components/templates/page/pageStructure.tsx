@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { isEmpty } from "lodash";
+
 import { connect } from "react-redux";
 
 import { Header } from "../../compoundComponents/header";
@@ -24,6 +26,7 @@ interface OwnProps extends RouteComponentProps<{}> {
 interface GeneratedProps {
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly transactionInfo: TransactionNotificationProps;
+  readonly transactionError: string;
 }
 
 interface PageProps extends OwnProps, GeneratedProps {}
@@ -77,6 +80,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       activeNavigation,
       transactionInfo,
       pendingTransactionInfo,
+      transactionError,
       history,
     } = this.props;
     const { isOffline } = this.state;
@@ -104,11 +108,11 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           navigationInfo={navigationInfo}
           transactionInfo={transactionInfo}
           pendingTransactionInfo={pendingTransactionInfo}
-          isFirst
           onLogo={() => history.push("/balance")}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
+          <Toasts type="transaction" show={!isEmpty(transactionError)} />
           {children}
         </PageContent>
       </Wrapper>
@@ -120,6 +124,7 @@ const mapStateToProps = (state: any, ownProps: OwnProps): PageProps => ({
   ...ownProps,
   transactionInfo: { items: state.notification.transaction },
   pendingTransactionInfo: { items: state.notification.pending },
+  transactionError: state.notification.transactionError,
 });
 
 export const PageStructure = withRouter(connect(mapStateToProps)(PageTemplate));

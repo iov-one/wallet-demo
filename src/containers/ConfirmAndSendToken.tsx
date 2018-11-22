@@ -6,6 +6,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import uniquId from "uniqid";
+
 import { ConfirmTransactionForm } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
 
@@ -29,12 +31,8 @@ interface SendTokenDispatchToProps {
     iovAddress: string,
     amount: Amount,
     memo: string,
+    id: string,
   ) => Promise<any>;
-}
-
-interface SendTokenState {
-  readonly error?: string;
-  readonly loading: boolean;
 }
 
 const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
@@ -42,14 +40,7 @@ const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker
   return { whole, fractional, tokenTicker };
 };
 
-class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispatchToProps, SendTokenState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
-
+class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispatchToProps, {}> {
   public readonly onSend = async (): Promise<void> => {
     const { chainIds, sendTransaction, history } = this.props;
     const { iovAddress, tokenAmount } = this.props.match.params;
@@ -64,21 +55,10 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       throw new Error("Cannot send without balance");
     }
 
-    try {
-      this.setState({ loading: true });
-      // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
-      const amount = convertStringToAmount(tokenAmount, 9, balance.tokenTicker);
-      // const amount = convertStringToAmount(tokenAmount, balance.sigFigs, balance.tokenTicker);
-      await sendTransaction(chainIds[0], iovAddress, amount, memo);
-      this.setState({ loading: false });
-      history.push("/balance");
-    } catch (err) {
-      this.setState({
-        loading: false,
-        error: `${err}`,
-      });
-      console.log(err);
-    }
+    const amount = convertStringToAmount(tokenAmount, 9, balance.tokenTicker);
+    const transactionId = uniquId();
+    sendTransaction(chainIds[0], iovAddress, amount, memo, transactionId);
+    history.push("/balance");
   };
 
   public getFirstAccount(): BcpAccount | undefined {
@@ -98,7 +78,6 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     if (!balance) {
       return false;
     }
-    const { error, loading } = this.state;
     const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
@@ -109,8 +88,6 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
           tokenAmount={tokenAmount}
           token={token}
           memo={memo as string}
-          error={error}
-          loading={loading}
           onBack={() => {
             history.back();
           }}
@@ -128,8 +105,8 @@ const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps =
 });
 
 const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
-  sendTransaction: (chainId: ChainId, iovAddress: string, amount: Amount, memo: string) =>
-    dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
+  sendTransaction: (chainId: ChainId, iovAddress: string, amount: Amount, memo: string, id: string) =>
+    dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo, id)),
 });
 
 export const ConfirmTransactionPage = withRouter(

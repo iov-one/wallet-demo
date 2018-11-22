@@ -1,5 +1,7 @@
 import { ActionType } from "typesafe-actions";
 
+import { filter } from "lodash";
+
 import * as actions from "./actions";
 import { NotificationState } from "./state";
 
@@ -7,6 +9,7 @@ export type NotificationActions = ActionType<typeof actions>;
 const initState: NotificationState = {
   pending: [],
   transaction: [],
+  transactionError: "",
 };
 
 export function notificationReducer(
@@ -23,6 +26,17 @@ export function notificationReducer(
       return {
         ...state,
         pending: [...state.pending, action.payload],
+      };
+    case "REMOVE_PENDING_TRANSACTION":
+      const newPendings = filter(state.pending, pendingItem => pendingItem.id !== action.payload);
+      return {
+        ...state,
+        pending: newPendings,
+      };
+    case "SET_TRANSACTION_ERROR":
+      return {
+        ...state,
+        transactionError: action.payload,
       };
     default:
       return state;

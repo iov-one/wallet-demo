@@ -24,6 +24,11 @@ import {
   watchAccountAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
+import {
+  addPendingTransactionAction,
+  removePendingTransactionAction,
+  setTransactionErrorAction,
+} from "../reducers/notification";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
@@ -124,9 +129,23 @@ export const sendTransactionSequence = (
   iovAddress: string,
   amount: Amount,
   memo: string,
-) => async (_: RootThunkDispatch, getState: () => RootState) => {
-  const signer = requireSigner(getState());
-  const conn = requireConnection(getState(), chainId);
-  const address = await resolveAddress(conn, iovAddress);
-  await sendTransaction(signer, chainId, address, amount, memo);
+  uniqId: string,
+) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+  dispatch(setTransactionErrorAction(""));
+  try {
+    const signer = requireSigner(getState());
+    const conn = requireConnection(getState(), chainId);
+    const address = await resolveAddress(conn, iovAddress);
+    dispatch(
+      addPendingTransactionAction({
+        id: uniqId,
+        amount,
+        receiver: iovAddress,
+      }),
+    );
+    await sendTransaction(signer, chainId, address, amount, memo);
+    dispatch(removePendingTransactionAction(uniqId));
+  } catch (err) {
+    dispatch(setTransactionErrorAction(err));
+  }
 };
