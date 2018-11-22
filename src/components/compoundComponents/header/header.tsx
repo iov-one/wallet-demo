@@ -36,7 +36,7 @@ interface HeaderProps {
 }
 
 interface HeaderState {
-  readonly isFirst: boolean;
+  readonly isVisited: boolean;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -51,20 +51,20 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
   public readonly state: HeaderState;
   constructor(props: HeaderProps) {
     super(props);
-    const visited = window.localStorage.getItem("visited");
+    const visited = localStorage.getItem("visited");
     this.state = {
-      isFirst: visited !== "visited",
+      isVisited: visited !== "visited",
     };
   }
   public readonly setVisitFlag = (): void => {
-    this.setState({ isFirst: false });
-    window.localStorage.setItem("visited", "visited");
+    this.setState({ isVisited: false });
+    localStorage.setItem("visited", "visited");
   };
   public render(): any {
     const { navigationInfo, transactionInfo, pendingTransactionInfo, onLogo } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
-    const { isFirst } = this.state;
+    const { isVisited } = this.state;
     return (
       <NormalHeader onLogo={onLogo}>
         <HeaderContent>
@@ -75,7 +75,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
               type={hasPendingItems ? "success" : "normal"}
               spin={hasPendingItems}
               notification={
-                isFirst ? (
+                isVisited ? (
                   <PendingOnboarding onGotIt={this.setVisitFlag} />
                 ) : (
                   <PendingTransactions {...pendingTransactionInfo} />
