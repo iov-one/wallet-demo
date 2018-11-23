@@ -37,9 +37,7 @@ class SignUp extends React.Component<Props, State> {
                 <form onSubmit={handleSubmit}>
                   <div>
                     <label>Email</label>
-                    <Field name="email" render={(props) => (
-                        <TextField {...props} placeholder="Your Email" type="text" /> )}>
-                    </Field>
+                    <Field name="email" type="text" component={TextField} placeholder="Your Email" />
                   </div>
                   <Field name="password" type="password" component={TextField} placeholder="Password" />
                   <Field
