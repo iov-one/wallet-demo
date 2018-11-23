@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Form, FormRenderProps } from "react-final-form";
+import { Field, Form, FormRenderProps } from "react-final-form";
 import Checkbox from "~/components/forms/Checkbox";
-import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
+import IovButton from "~/components/layout/Button";
 
 type Props = {};
 
@@ -37,7 +37,9 @@ class SignUp extends React.Component<Props, State> {
                 <form onSubmit={handleSubmit}>
                   <div>
                     <label>Email</label>
-                    <Field name="email" component={TextField} placeholder="Your Email" />
+                    <Field name="email" render={(props) => (
+                        <TextField {...props} placeholder="Your Email" type="text" /> )}>
+                    </Field>
                   </div>
                   <Field name="password" type="password" component={TextField} placeholder="Password" />
                   <Field
@@ -50,9 +52,9 @@ class SignUp extends React.Component<Props, State> {
                     <label>I certify that I am 18 years of age or older</label>
                     <Field name="terms" component={Checkbox} type="checkbox" />
                   </div>
-                  <button type="submit" disabled={pristine || invalid}>
+                  <IovButton type="submit" disabled={pristine || invalid}>
                     Continue
-                  </button>
+                  </IovButton>
                 </form>
               )}
             />
