@@ -29,6 +29,8 @@
     "@iov/crypto": "^0.7.0",
     "@iov/faucets": "^0.7.0",
     "@iov/keycontrol": "^0.7.0",
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
     "classnames": "^2.2.6",
     "config": "^2.0.1",
     "encoding-down": "^5.0.4",
