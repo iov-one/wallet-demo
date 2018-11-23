@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
 import MuiTextField, { TextFieldProps } from "@material-ui/core/TextField";
 import React from "react";
 import { FieldRenderProps } from "react-final-form";
@@ -20,12 +20,11 @@ const styles = () => ({
 
 interface Props extends FieldRenderProps {
   readonly textProps: TextFieldProps;
-  readonly classes: { readonly root: string };
   readonly inputAdornment: { readonly endAdornment: React.ReactNode };
   readonly helperText: string;
 }
 
-class TextField extends React.PureComponent<Props> {
+class TextFieldElem extends React.PureComponent<Props & WithStyles<"root">> {
   public render(): JSX.Element {
     const {
       input: { name, onChange, value, ...restInput },
@@ -59,4 +58,6 @@ class TextField extends React.PureComponent<Props> {
   }
 }
 
-export default withStyles(styles)(TextField);
+const TextField = withStyles(styles)(TextFieldElem);
+
+export default TextField;
