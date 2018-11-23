@@ -21,8 +21,7 @@ const styles = () => createStyles({
 interface Props extends FieldRenderProps, WithStyles<typeof styles> {
   readonly inputAdornment?: { readonly endAdornment: React.ReactNode };
   readonly helperText?: string;
-  readonly placeholder?: string;
-  readonly type?: string;
+  
 }
 
 class TextFieldElem extends React.PureComponent<Props> {
