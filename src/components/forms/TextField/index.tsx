@@ -1,5 +1,5 @@
-import { withStyles, WithStyles } from "@material-ui/core/styles";
-import MuiTextField, { TextFieldProps } from "@material-ui/core/TextField";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import MuiTextField from "@material-ui/core/TextField";
 import React from "react";
 import { FieldRenderProps } from "react-final-form";
 import { lg } from "~/theme/variables";
@@ -10,7 +10,7 @@ const overflowStyle = {
   width: "100%",
 };
 
-const styles = () => ({
+const styles = () => createStyles({
   root: {
     paddingTop: lg,
     paddingBottom: "12px",
@@ -18,13 +18,14 @@ const styles = () => ({
   },
 });
 
-interface Props extends FieldRenderProps {
-  readonly textProps: TextFieldProps;
-  readonly inputAdornment: { readonly endAdornment: React.ReactNode };
-  readonly helperText: string;
+interface Props extends FieldRenderProps, WithStyles<typeof styles> {
+  readonly inputAdornment?: { readonly endAdornment: React.ReactNode };
+  readonly helperText?: string;
+  readonly placeholder?: string;
+  readonly type?: string;
 }
 
-class TextFieldElem extends React.PureComponent<Props & WithStyles<"root">> {
+class TextFieldElem extends React.PureComponent<Props> {
   public render(): JSX.Element {
     const {
       input: { name, onChange, value, ...restInput },
@@ -58,6 +59,6 @@ class TextFieldElem extends React.PureComponent<Props & WithStyles<"root">> {
   }
 }
 
-const TextField = withStyles(styles)(TextFieldElem);
+const TextField  = withStyles(styles)(TextFieldElem);
 
 export default TextField;
