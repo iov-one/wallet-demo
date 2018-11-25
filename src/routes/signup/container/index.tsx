@@ -5,6 +5,7 @@ import Checkbox from "~/components/forms/Checkbox";
 import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
 import Button from "~/components/layout/Button";
+import Col from "~/components/layout/Col";
 
 type Props = {};
 
@@ -46,10 +47,10 @@ class SignUp extends React.Component<Props, State> {
                     component={TextField}
                     placeholder="Confirm Password"
                   />
-                  <div>
+                  <Col margin="sm">
                     <label>I certify that I am 18 years of age or older</label>
                     <Field name="terms" component={Checkbox} type="checkbox" />
-                  </div>
+                  </Col>
                   <Button type="submit" disabled={pristine || invalid}>
                     Continue
                   </Button>
