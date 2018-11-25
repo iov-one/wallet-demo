@@ -1,8 +1,10 @@
+import { FormState } from "final-form";
 import * as React from "react";
-import { Field, Form, FormRenderProps } from "react-final-form";
+import { Form } from "react-final-form";
 import Checkbox from "~/components/forms/Checkbox";
+import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
-import IovButton from "~/components/layout/Button";
+import Button from "~/components/layout/Button";
 
 type Props = {};
 
@@ -30,11 +32,9 @@ class SignUp extends React.Component<Props, State> {
           <div>Row -> Already have an account? Log in</div>
           <div>Row -> Form title here</div>
           <div>
-            <Form
-              onSubmit={onSubmit}
-              // validate={validate}
-              render={({ handleSubmit, pristine, invalid }: FormRenderProps) => (
-                <form onSubmit={handleSubmit}>
+            <Form onSubmit={onSubmit}>
+              {({ pristine, invalid }: FormState) => (
+                <React.Fragment>
                   <div>
                     <label>Email</label>
                     <Field name="email" type="text" component={TextField} placeholder="Your Email" />
@@ -50,12 +50,12 @@ class SignUp extends React.Component<Props, State> {
                     <label>I certify that I am 18 years of age or older</label>
                     <Field name="terms" component={Checkbox} type="checkbox" />
                   </div>
-                  <IovButton type="submit" disabled={pristine || invalid}>
+                  <Button type="submit" disabled={pristine || invalid}>
                     Continue
-                  </IovButton>
-                </form>
+                  </Button>
+                </React.Fragment>
               )}
-            />
+            </Form>
           </div>
         </div>
       </div>
