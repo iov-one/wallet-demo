@@ -15,6 +15,8 @@ import {
 } from "~/containers";
 import SignUp from "~/routes/signup/container";
 
+export const LOG_IN_ROUTE = "/login";
+
 // TODO improve redux config using connected-react-router remove middle components
 // levaring the usage of WithRouter
 const Wrapper = styled.div`
