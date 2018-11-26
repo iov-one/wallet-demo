@@ -18,6 +18,7 @@ import {
 // levaring the usage of WithRouter
 const Wrapper = styled.div`
   height: 100vh;
+  display: flex;
 `;
 
 const MainRouter = () => (
