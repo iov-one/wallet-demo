@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import MessengerIcon from "../../../../resources/icon-social-messenger.svg";
 import EmailIcon from "../../../../resources/icon-social-email.svg";
+import MessengerIcon from "../../../../resources/icon-social-messenger.svg";
 import TelegramIcon from "../../../../resources/icon-social-telegram.svg";
 import TwitterIcon from "../../../../resources/icon-social-twitter.svg";
 import WhatsappIcon from "../../../../resources/icon-social-whatsapp.svg";

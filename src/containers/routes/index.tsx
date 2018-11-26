@@ -8,11 +8,11 @@ import {
   ConfirmTransactionPage,
   HomePage,
   ImportAccountPage,
+  InvitePage,
   LoginPage,
   PasswordPage,
   PaymentPage,
   SendPaymentPage,
-  InvitePage,
 } from "../../containers";
 
 // TODO improve redux config using connected-react-router remove middle components
