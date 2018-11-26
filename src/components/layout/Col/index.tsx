@@ -1,9 +1,9 @@
-import classNames from "classnames";
+import classNames from "classnames/bind";
 import React from "react";
 import { capitalize } from "~/theme/css";
 import styles from "./index.scss";
 
-const cx = classNames.bind(styles);
+const cx: any = classNames.bind(styles);
 
 interface Props {
   readonly start?: "xs" | "sm" | "md" | "lg";
@@ -53,8 +53,8 @@ const Col = ({
   className,
   ...props
 }: Props) => {
-  const colClassNames = cx(
-    "col",
+  const colClassNames: string = cx(
+    styles.col,
     center ? capitalize(center, "center") : undefined,
     start ? capitalize(start, "start") : undefined,
     end ? capitalize(end, "end") : undefined,
