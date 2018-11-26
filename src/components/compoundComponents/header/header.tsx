@@ -32,11 +32,9 @@ interface HeaderProps {
   readonly navigationInfo: NavigationProps;
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
+  readonly visitedPending: boolean;
+  readonly onGotIt: () => any;
   readonly onLogo: () => any;
-}
-
-interface HeaderState {
-  readonly isVisited: boolean;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -47,24 +45,18 @@ const getLastTransactionType = (transactionInfo: TransactionNotificationProps): 
   return "normal";
 };
 
-export class Header extends React.Component<HeaderProps, HeaderState> {
-  public readonly state: HeaderState;
-  constructor(props: HeaderProps) {
-    super(props);
-    const visited = localStorage.getItem("visited");
-    this.state = {
-      isVisited: visited !== "visited",
-    };
-  }
-  public readonly setVisitFlag = (): void => {
-    this.setState({ isVisited: false });
-    localStorage.setItem("visited", "visited");
-  };
+export class Header extends React.Component<HeaderProps> {
   public render(): any {
-    const { navigationInfo, transactionInfo, pendingTransactionInfo, onLogo } = this.props;
+    const {
+      navigationInfo,
+      transactionInfo,
+      pendingTransactionInfo,
+      onLogo,
+      onGotIt,
+      visitedPending,
+    } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
-    const { isVisited } = this.state;
     return (
       <NormalHeader onLogo={onLogo}>
         <HeaderContent>
@@ -75,10 +67,10 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
               type={hasPendingItems ? "success" : "normal"}
               spin={hasPendingItems}
               notification={
-                isVisited ? (
-                  <PendingOnboarding onGotIt={this.setVisitFlag} />
-                ) : (
+                visitedPending ? (
                   <PendingTransactions {...pendingTransactionInfo} />
+                ) : (
+                  <PendingOnboarding onGotIt={onGotIt} />
                 )
               }
             />

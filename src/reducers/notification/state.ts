@@ -18,5 +18,6 @@ export interface TransNotificationProps {
 export interface NotificationState {
   readonly pending: ReadonlyArray<PendingNotificationItemProps>;
   readonly transaction: ReadonlyArray<TransNotificationProps>;
+  readonly visitedPending: boolean;
   readonly transactionError?: string;
 }

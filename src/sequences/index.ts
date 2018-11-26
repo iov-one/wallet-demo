@@ -131,7 +131,6 @@ export const sendTransactionSequence = (
   memo: string,
   uniqId: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
-  dispatch(setTransactionErrorAction(""));
   try {
     const signer = requireSigner(getState());
     const conn = requireConnection(getState(), chainId);
@@ -147,5 +146,6 @@ export const sendTransactionSequence = (
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
     dispatch(setTransactionErrorAction(err));
+    dispatch(removePendingTransactionAction(uniqId));
   }
 };

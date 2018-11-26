@@ -17,6 +17,8 @@ import {
 
 import { NavItemInfo } from "../../subComponents/headers";
 
+import { pendingTransactionVisited } from "../../../reducers/notification";
+
 interface OwnProps extends RouteComponentProps<{}> {
   readonly children: JSX.Element;
   readonly whiteBg?: boolean;
@@ -27,9 +29,16 @@ interface GeneratedProps {
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly transactionInfo: TransactionNotificationProps;
   readonly transactionError: string;
+  readonly visitedPending: boolean;
 }
 
-interface PageProps extends OwnProps, GeneratedProps {}
+interface GeneratedFunctionProps {
+  readonly pendingTransactionVisited: () => any;
+}
+
+interface BaseProps extends OwnProps, GeneratedProps {}
+
+interface PageProps extends OwnProps, GeneratedProps, GeneratedFunctionProps {}
 
 interface PageState {
   readonly isOffline: boolean;
@@ -80,7 +89,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       activeNavigation,
       transactionInfo,
       pendingTransactionInfo,
+      visitedPending,
       transactionError,
+      pendingTransactionVisited,
       history,
     } = this.props;
     const { isOffline } = this.state;
@@ -108,7 +119,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           navigationInfo={navigationInfo}
           transactionInfo={transactionInfo}
           pendingTransactionInfo={pendingTransactionInfo}
+          visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
+          onGotIt={pendingTransactionVisited}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
@@ -120,11 +133,21 @@ class PageTemplate extends React.Component<PageProps, PageState> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: OwnProps): PageProps => ({
+const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
   ...ownProps,
   transactionInfo: { items: state.notification.transaction },
   pendingTransactionInfo: { items: state.notification.pending },
   transactionError: state.notification.transactionError,
+  visitedPending: state.notification.visitedPending,
 });
 
-export const PageStructure = withRouter(connect(mapStateToProps)(PageTemplate));
+const mapDispatchToProps = (dispatch: any) => ({
+  pendingTransactionVisited: () => dispatch(pendingTransactionVisited()),
+});
+
+export const PageStructure = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PageTemplate),
+);
