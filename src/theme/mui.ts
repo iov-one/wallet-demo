@@ -21,6 +21,7 @@ const palette = {
 
 export default createMuiTheme({
   typography: {
+    useNextVariants: true,
     fontFamily: "Muli",
   },
   overrides: {},
