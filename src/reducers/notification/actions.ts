@@ -17,6 +17,6 @@ export const removePendingTransactionAction = createSyncAction(
   (pendingId: string) => pendingId,
 );
 
-export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => {});
+export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
 
 export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);

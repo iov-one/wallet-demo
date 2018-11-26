@@ -33,7 +33,7 @@ interface GeneratedProps {
 }
 
 interface GeneratedFunctionProps {
-  readonly pendingTransactionVisited: () => any;
+  readonly pendingVisited: () => any;
 }
 
 interface BaseProps extends OwnProps, GeneratedProps {}
@@ -91,7 +91,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       pendingTransactionInfo,
       visitedPending,
       transactionError,
-      pendingTransactionVisited,
+      pendingVisited,
       history,
     } = this.props;
     const { isOffline } = this.state;
@@ -121,7 +121,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           pendingTransactionInfo={pendingTransactionInfo}
           visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
-          onGotIt={pendingTransactionVisited}
+          onGotIt={pendingVisited}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
@@ -142,7 +142,7 @@ const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  pendingTransactionVisited: () => dispatch(pendingTransactionVisited()),
+  pendingVisited: () => dispatch(pendingTransactionVisited()),
 });
 
 export const PageStructure = withRouter(

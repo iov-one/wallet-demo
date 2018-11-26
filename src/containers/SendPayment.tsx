@@ -1,10 +1,10 @@
 import { BcpAccount, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import queryString from "query-string";
 
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
