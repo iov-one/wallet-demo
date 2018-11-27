@@ -16,6 +16,8 @@ import {
 import SignUp from "~/routes/signup/container";
 
 export const LOG_IN_ROUTE = "/login";
+export const TERMS_OF_SERVICE_ROUTE = "/terms";
+export const PRIVACY_POLICY_ROUTE = "/privacy";
 
 // TODO improve redux config using connected-react-router remove middle components
 // levaring the usage of WithRouter
