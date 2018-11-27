@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { TransNotificationProps } from "../../../reducers/notification";
+import { get } from "lodash";
+
+import { TransNotificationInfo } from "../../../logic";
 
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
 import SendIcon from "../../../../resources/send_transaction.svg";
@@ -66,26 +68,31 @@ const Time = styled.div`
   color: #dadada;
 `;
 
-export const TransactionNotificationItem = (props: TransNotificationProps): JSX.Element => (
-  <Wrapper>
-    <Content>
-      <Icon src={props.received ? ReceiveIcon : SendIcon} />
-      <TransInfo>
-        {props.success ? (
-          <Message>
-            {props.received ? <Bold>{props.sender}</Bold> : "You"} sent{" "}
-            {props.received ? "you" : <Bold>{props.receiver}</Bold>}{" "}
-            <Bold>
-              {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
-            </Bold>
-          </Message>
-        ) : (
-          <Message>
-            Your payment to <Bold>{props.receiver}</Bold> is failed
-          </Message>
-        )}
-        <Time>time</Time>
-      </TransInfo>
-    </Content>
-  </Wrapper>
-);
+export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
+  const signerName = get(props, "signerAccount.name");
+  const receiverName = get(props, "recipientAccount.name");
+  return (
+    <Wrapper>
+      <Content>
+        <Icon src={props.received ? ReceiveIcon : SendIcon} />
+        <TransInfo>
+          {props.success ? (
+            <Message>
+              {props.received ? <Bold>{signerName}</Bold> : "You"} sent{" "}
+              {props.received ? "you" : <Bold>{receiverName}</Bold>}
+              {" to "}
+              <Bold>
+                {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
+              </Bold>
+            </Message>
+          ) : (
+            <Message>
+              Your payment to <Bold>{receiverName}</Bold> is failed
+            </Message>
+          )}
+          {props.time && <Time>{props.time}</Time>}
+        </TransInfo>
+      </Content>
+    </Wrapper>
+  );
+};

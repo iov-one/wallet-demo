@@ -35,6 +35,18 @@ export async function getAccount(
   return undefined;
 }
 
+//looks up account for a given address (or undefined)
+export async function getAccountByAddress(
+  connection: BcpConnection,
+  address: Address,
+): Promise<BcpAccount | undefined> {
+  const result = await connection.getAccount({ address });
+  if (result.data && result.data.length > 0) {
+    return result.data[0];
+  }
+  return undefined;
+}
+
 // looks up account for a given name (or undefined)
 // the name should not have the "*iov" suffix
 export async function getAccountByName(

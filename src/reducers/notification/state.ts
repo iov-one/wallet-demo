@@ -1,4 +1,5 @@
 import { FungibleToken } from "@iov/bcp-types";
+import { TransNotificationInfo } from "../../logic";
 
 export interface PendingNotificationItemProps {
   readonly id: string;
@@ -6,18 +7,9 @@ export interface PendingNotificationItemProps {
   readonly amount: FungibleToken;
 }
 
-export interface TransNotificationProps {
-  readonly received: string;
-  readonly sender: string;
-  readonly receiver: string;
-  readonly amount: FungibleToken;
-  readonly time: string;
-  readonly success: boolean;
-}
-
 export interface NotificationState {
   readonly pending: ReadonlyArray<PendingNotificationItemProps>;
-  readonly transaction: ReadonlyArray<TransNotificationProps>;
+  readonly transaction: ReadonlyArray<TransNotificationInfo>;
   readonly visitedPending: boolean;
   readonly transactionError?: string;
 }

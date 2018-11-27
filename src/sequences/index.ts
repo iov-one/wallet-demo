@@ -3,13 +3,14 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
-import { Amount, ConfirmedTransaction } from "@iov/bcp-types";
+import { Amount, ConfirmedTransaction, TransactionKind } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
 
 import {
   BlockchainSpec,
   getAccount,
   keyToAddress,
+  parseConfirmedTransaction,
   resetProfile,
   resolveAddress,
   sendTransaction,
@@ -22,7 +23,6 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
-  // watchAccountAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import {
@@ -76,40 +76,17 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
 
-    // we need to set a callback that resolves a promise
-    // let cb: (acct?: BcpAccountWithChain, err?: any) => any;
-    // const prom = new Promise((resolve, reject) => {
-    //   let done = false;
-    //   cb = (acct?: BcpAccountWithChain, err?: any) => {
-    //     // actually do the dispatching
-    //     // Note: acct, err both undefined is valid for non-existent account
-    //     if (!err) {
-    //       console.log(acct);
-    //       dispatch(getAccountAsyncAction.success(acct));
-    //     } else {
-    //       dispatch(getAccountAsyncAction.failure(err));
-    //     }
-    //     // finish the promise for the first query
-    //     if (!done) {
-    //       done = true;
-    //       if (!err) {
-    //         resolve(acct);
-    //       } else {
-    //         reject(err);
-    //       }
-    //     }
-    //   };
-    // });
-    // dispatch(watchAccountAction(conn, identity, cb!));
-
     const chainId = conn.chainId();
 
-    let transCb: (transaction?: ConfirmedTransaction, err?: any) => any;
+    let transCb: (trans?: ConfirmedTransaction, err?: any) => any;
     const transProm = new Promise((resolve, reject) => {
       const done = false;
-      transCb = async (transaction?: ConfirmedTransaction, err?: any) => {
+      transCb = async (trans?: ConfirmedTransaction, err?: any) => {
         if (!err) {
-          dispatch(addConfirmedTransaction(transaction));
+          if (trans && trans.transaction.kind === TransactionKind.Send) {
+            const transInfo = await parseConfirmedTransaction(conn, trans, identity);
+            dispatch(addConfirmedTransaction(transInfo));
+          }
           const account = await getAccount(conn, identity);
           if (account) {
             dispatch(getAccountAsyncAction.success({ account, chainId }));
@@ -117,7 +94,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
         }
         if (!done) {
           if (!err) {
-            resolve(transaction);
+            resolve(trans);
           } else {
             reject(err);
           }

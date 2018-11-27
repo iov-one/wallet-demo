@@ -10,10 +10,10 @@ import {
   TransactionNotificationItem,
 } from "../../subComponents/notification";
 
-import { TransNotificationProps } from "../../../reducers/notification";
+import { TransNotificationInfo } from "../../../logic";
 
 export interface TransactionNotificationProps {
-  readonly items: ReadonlyArray<TransNotificationProps>;
+  readonly items: ReadonlyArray<TransNotificationInfo>;
 }
 
 const Content = styled.div`

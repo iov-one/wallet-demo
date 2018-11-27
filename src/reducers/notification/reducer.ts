@@ -1,6 +1,6 @@
 import { ActionType } from "typesafe-actions";
 
-import { filter } from "lodash";
+import { filter, takeRight } from "lodash";
 
 import * as actions from "./actions";
 import { NotificationState } from "./state";
@@ -18,11 +18,6 @@ export function notificationReducer(
   action: NotificationActions,
 ): NotificationState {
   switch (action.type) {
-    case "ADD_TRANSACTION":
-      return {
-        ...state,
-        transaction: [...state.transaction, action.payload],
-      };
     case "ADD_PENDING_TRANSACTION":
       return {
         ...state,
@@ -43,6 +38,17 @@ export function notificationReducer(
       return {
         ...state,
         visitedPending: true,
+      };
+    case "ADD_CONFIRMED_TRANSACTION":
+      if (action.payload) {
+        const transaction: ReadonlyArray<any> = [...state.transaction, action.payload];
+        return {
+          ...state,
+          transaction: takeRight(transaction, 5),
+        };
+      }
+      return {
+        ...state,
       };
     default:
       return state;

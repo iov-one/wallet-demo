@@ -1,16 +1,11 @@
 import { BcpConnection, ConfirmedTransaction, TxCodec } from "@iov/bcp-types";
 
-import { PendingNotificationItemProps, TransNotificationProps } from "./state";
+import { PendingNotificationItemProps } from "./state";
 
 import { createSyncAction } from "../helpers";
 
 import { PublicIdentity } from "@iov/keycontrol";
-import { Unsubscriber, watchTransaction } from "../../logic";
-
-export const addTransactionAction = createSyncAction(
-  "ADD_TRANSACTION",
-  (transactionItem: TransNotificationProps) => transactionItem,
-);
+import { TransNotificationInfo, Unsubscriber, watchTransaction } from "../../logic";
 
 export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
@@ -24,7 +19,7 @@ export const removePendingTransactionAction = createSyncAction(
 
 export const addConfirmedTransaction = createSyncAction(
   "ADD_CONFIRMED_TRANSACTION",
-  (transaction?: ConfirmedTransaction) => transaction,
+  (transaction?: TransNotificationInfo) => transaction,
 );
 
 export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
