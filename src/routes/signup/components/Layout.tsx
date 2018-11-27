@@ -1,9 +1,9 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
-import { Form } from "react-final-form";
 import Checkbox from "~/components/forms/Checkbox";
 import Field from "~/components/forms/Field";
+import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
@@ -20,25 +20,46 @@ interface Props extends WithStyles<typeof styles> {
   readonly onSubmit: (values: object) => void;
 }
 
-const styles = () =>
-  createStyles({
-    login: {
-      padding: xxl,
+const styles = createStyles({
+  login: {
+    padding: xxl,
+  },
+  title: {
+    maxWidth: "450px",
+  },
+  page: {
+    padding: xxl,
+  },
+  image: {
+    height: "100%",
+    maxWidth: " 420px",
+  },
+  // Unfortunately is not possible to use constants here
+  // see: https://stackoverflow.com/questions/33194138/template-string-as-object-property-name
+  "@media (max-width: 480px)": {
+    image: {
+      maxHeight: "250px",
     },
-    title: {
-      maxWidth: "450px",
-    },
-    page: {
-      padding: xxl,
-    },
-  });
+  },
+  form: {
+    maxWidth: "450px",
+  },
+});
+
+const imgOrder = {
+  xs: 2,
+};
+
+const infoOrder = {
+  xs: 1,
+};
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
   <Row grow>
-    <Col xs={4}>
+    <Col xs={12} order={imgOrder} sm={4} className={classes.image}>
       <Img src={people} alt="Sign up Image" cover />
     </Col>
-    <Col xs={8} layout="column">
+    <Col xs={12} order={infoOrder} sm={8} layout="column">
       <Block align="right" className={classes.login}>
         <Typography variant="body2">Already have an account?&nbsp;</Typography>
         <Link to={LOG_IN_ROUTE}>
@@ -57,25 +78,57 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
           </Typography>
         </Block>
         <Block margin="xl">
-          <Typography variant="body2">Sign up for your IOV wallet below</Typography>
+          <Typography variant="body2" color="textSecondary">
+            Sign up for your IOV wallet below
+          </Typography>
         </Block>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} className={classes.form}>
           {({ pristine, invalid }: FormState) => (
             <React.Fragment>
-              <div>
-                <label>Email</label>
-                <Field name="email" type="text" component={TextField} placeholder="Your Email" />
-              </div>
-              <Field name="password" type="password" component={TextField} placeholder="Password" />
-              <Field
-                name="confirmPassword"
-                type="password"
-                component={TextField}
-                placeholder="Confirm Password"
-              />
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Email
+                </Typography>
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="email"
+                  type="text"
+                  component={TextField}
+                  placeholder="Your Email"
+                />
+              </Block>
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Password
+                </Typography>
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="password"
+                  type="password"
+                  component={TextField}
+                  placeholder="Password"
+                />
+              </Block>
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Confirm Password
+                </Typography>
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="confirmPassword"
+                  type="password"
+                  component={TextField}
+                  placeholder="Confirm Password"
+                />
+              </Block>
               <Col margin="sm">
-                <label>I certify that I am 18 years of age or older</label>
                 <Field name="terms" component={Checkbox} type="checkbox" />
+                <Typography variant="subtitle2" color="textSecondary" inline>
+                  I certify that I am 18 years of age or older
+                </Typography>
               </Col>
               <Button type="submit" disabled={pristine || invalid}>
                 Continue
@@ -89,4 +142,4 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
   </Row>
 );
 
-export default withStyles(styles, { name: "moe" })(Layout);
+export default withStyles(styles)(Layout);
