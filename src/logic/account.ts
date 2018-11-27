@@ -1,17 +1,18 @@
-import { ChainId } from "@iov/base-types";
 import {
   Address,
   Amount,
   BcpAccount,
   BcpConnection,
   BcpTransactionResponse,
+  ConfirmedTransaction,
   TransactionKind,
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { bnsCodec } from "@iov/bns";
-import { MultiChainSigner } from "@iov/core";
+import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
+import { ChainId, TxQuery } from "@iov/tendermint-types";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
@@ -71,6 +72,24 @@ export function watchAccount(
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
   const stream = connection.watchAccount({ address });
+  const subscription = stream.subscribe({
+    next: x => cb(x),
+    error: err => cb(undefined, err),
+  });
+  return subscription;
+}
+
+// get update for the transaction information for account
+
+export function watchTransaction(
+  connection: BcpConnection,
+  ident: PublicIdentity,
+  cb: (transaction?: ConfirmedTransaction, err?: any) => any,
+  codec?: TxCodec,
+): Unsubscriber {
+  const address = keyToAddress(ident, codec);
+  const query: TxQuery = { tags: [bnsFromOrToTag(address)] };
+  const stream = connection.liveTx(query);
   const subscription = stream.subscribe({
     next: x => cb(x),
     error: err => cb(undefined, err),

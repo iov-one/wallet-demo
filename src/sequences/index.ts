@@ -3,7 +3,7 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
-import { Amount } from "@iov/bcp-types";
+import { Amount, ConfirmedTransaction } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
 
 import {
@@ -25,9 +25,11 @@ import {
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import {
+  addConfirmedTransaction,
   addPendingTransactionAction,
   removePendingTransactionAction,
   setTransactionErrorAction,
+  watchTransactionAction,
 } from "../reducers/notification";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
@@ -97,7 +99,24 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
       };
     });
     dispatch(watchAccountAction(conn, identity, cb!));
-    initAccounts = [...initAccounts, prom];
+    let transCb: (transaction?: ConfirmedTransaction, err?: any) => any;
+    const transProm = new Promise((resolve, reject) => {
+      let done = false;
+      transCb = (transaction?: ConfirmedTransaction, err?: any) => {
+        if (!err) {
+          dispatch(addConfirmedTransaction(transaction));
+        }
+        if (!done) {
+          if (!err) {
+            resolve(transaction);
+          } else {
+            reject(err);
+          }
+        }
+      };
+    });
+    dispatch(watchTransactionAction(conn, identity, transCb!));
+    initAccounts = [...initAccounts, prom, transProm];
   }
 
   // wait for all accounts to initialize
