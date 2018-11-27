@@ -5,27 +5,22 @@ import { Form } from "react-final-form";
 interface Props {
   readonly onSubmit: (values: object, form: FormApi, callback?: (errors?: object) => void) => object | Promise<object | undefined> | undefined | void;
   readonly children: (restProps: FormState) => JSX.Element;
-  readonly padding?: number;
   readonly validation?: (values: object) => object | Promise<object>;
   readonly initialValues?: object;
+  readonly className?: string;
 }
 
-const stylesBasedOn = (padding: number): React.CSSProperties => ({
-  padding: `0 ${padding}%`,
-  flexDirection: "column",
-  flex: "1 0 auto",
-});
-
-const IovForm = ({ onSubmit, validation, initialValues, children, padding = 0 }: Props) => (
+const IovForm = ({ onSubmit, validation, initialValues, children, className, ...props }: Props) => (
   <Form
     validate={validation}
     onSubmit={onSubmit}
     initialValues={initialValues}
     render={({ handleSubmit, ...rest }) => (
-      <form onSubmit={handleSubmit} style={stylesBasedOn(padding)}>
+      <form className={className} onSubmit={handleSubmit}>
         {children(rest)}
       </form>
     )}
+    {...props}
   />
 );
 
