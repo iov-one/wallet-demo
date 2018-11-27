@@ -4,6 +4,7 @@ declare module "~/theme/variables" {
   export const error: string;
   export const fontColor: string;
   export const background: string;
+  export const border: string;
   export const xs: string;
   export const sm: string;
   export const md: string;
