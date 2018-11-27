@@ -1,4 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import classNames from "classnames";
 import { FormState } from "final-form";
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
@@ -8,13 +9,14 @@ import TextField from "~/components/forms/TextField";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Col from "~/components/layout/Col";
+import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Link from "~/components/layout/Link";
 import Row from "~/components/layout/Row";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
-import { xxl } from "~/theme/variables";
+import { md, xxl } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
   readonly onSubmit: (values: object) => void;
@@ -35,15 +37,21 @@ const styles = createStyles({
     maxWidth: "420px",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     flexGrow: 1,
+  },
+  container: {
     padding: `0 ${xxl}`,
+    flexDirection: "column",
   },
   spacer: {
-    display: 'flex',
+    display: "flex",
     flexGrow: 1,
-  }
+  },
+  controls: {
+    padding: `${md} ${xxl}`,
+  },
 });
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
@@ -78,70 +86,77 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
       <Form onSubmit={onSubmit} className={classes.form}>
         {({ pristine, invalid }: FormState) => (
           <React.Fragment>
-            <Block>
-              <Typography variant="subtitle2" color="textPrimary">
-                Email
-              </Typography>
-              <Field
-                variant="outlined"
-                margin="dense"
-                name="email"
-                type="text"
-                component={TextField}
-                placeholder="Your Email"
-              />
-            </Block>
-            <Block>
-              <Typography variant="subtitle2" color="textPrimary">
-                Password
-              </Typography>
-              <Field
-                variant="outlined"
-                margin="dense"
-                name="password"
-                type="password"
-                component={TextField}
-                placeholder="Password"
-              />
-            </Block>
-            <Block>
-              <Typography variant="subtitle2" color="textPrimary">
-                Confirm Password
-              </Typography>
-              <Field
-                variant="outlined"
-                margin="dense"
-                name="confirmPassword"
-                type="password"
-                component={TextField}
-                placeholder="Confirm Password"
-              />
-            </Block>
-            <Block>
-              <Field name="terms" component={Checkbox} type="checkbox" />
-              <Typography variant="subtitle2" color="textSecondary" inline>
-                I certify that I am 18 years of age or older, and I agree to the
-              </Typography>
-            </Block>
-            <Block align="center" margin="sm">
-              <Link to={TERMS_OF_SERVICE_ROUTE}>
-                <Typography variant="body2" color="primary" underlined inline>
-                  Terms of Service
+            <Block className={classNames(classes.container, classes.spacer)}>
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Email
                 </Typography>
-              </Link>
-              <Typography variant="subtitle2" color="textSecondary" inline>
-                {"\u00a0&\u00a0"}
-              </Typography>
-              <Link to={PRIVACY_POLICY_ROUTE}>
-                <Typography variant="body2" color="primary" underlined inline>
-                  Privacy Policy
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="email"
+                  type="text"
+                  component={TextField}
+                  placeholder="Your Email"
+                />
+              </Block>
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Password
                 </Typography>
-              </Link>
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="password"
+                  type="password"
+                  component={TextField}
+                  placeholder="Password"
+                />
+              </Block>
+              <Block>
+                <Typography variant="subtitle2" color="textPrimary">
+                  Confirm Password
+                </Typography>
+                <Field
+                  variant="outlined"
+                  margin="dense"
+                  name="confirmPassword"
+                  type="password"
+                  component={TextField}
+                  placeholder="Confirm Password"
+                />
+              </Block>
+              <Block>
+                <Field name="terms" component={Checkbox} type="checkbox" />
+                <Typography variant="subtitle2" color="textSecondary" inline>
+                  I certify that I am 18 years of age or older, and I agree to the
+                </Typography>
+              </Block>
+              <Block align="center" margin="sm">
+                <Link to={TERMS_OF_SERVICE_ROUTE}>
+                  <Typography variant="body2" color="primary" underlined inline>
+                    Terms of Service
+                  </Typography>
+                </Link>
+                <Typography variant="subtitle2" color="textSecondary" inline>
+                  {"\u00a0&\u00a0"}
+                </Typography>
+                <Link to={PRIVACY_POLICY_ROUTE}>
+                  <Typography variant="body2" color="primary" underlined inline>
+                    Privacy Policy
+                  </Typography>
+                </Link>
+              </Block>
+              <Block className={classes.spacer} />
             </Block>
-            <Block className={classes.spacer} />
-            <Button type="submit" disabled={pristine || invalid}>
-              Continue
-            </Button>
+            <Hairline />
+            <Row className={classes.controls}>
+              <Col center="xs" end="xs">
+                <Button variant="contained" color="primary" type="submit" disabled={pristine || invalid}>
+                  Continue
+                </Button>
+              </Col>
+            </Row>
           </React.Fragment>
         )}
       </Form>
