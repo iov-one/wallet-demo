@@ -30,7 +30,7 @@ const styles = () =>
     },
     page: {
       padding: xxl,
-    }
+    },
   });
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
@@ -57,9 +57,7 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
           </Typography>
         </Block>
         <Block margin="xl">
-          <Typography variant="body2">
-            Sign up for your IOV wallet below
-          </Typography>
+          <Typography variant="body2">Sign up for your IOV wallet below</Typography>
         </Block>
         <Form onSubmit={onSubmit}>
           {({ pristine, invalid }: FormState) => (

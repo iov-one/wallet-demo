@@ -1,5 +1,5 @@
-import * as React from "react"
-import Layout from "~/routes/signup/components/Layout"
+import * as React from "react";
+import Layout from "~/routes/signup/components/Layout";
 
 type Props = {};
 
@@ -20,9 +20,7 @@ class SignUp extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    return (
-      <Layout onSubmit={onSubmit} />
-    )
+    return <Layout onSubmit={onSubmit} />;
   }
 }
 
