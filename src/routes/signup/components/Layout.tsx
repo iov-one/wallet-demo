@@ -32,34 +32,19 @@ const styles = createStyles({
   },
   image: {
     height: "100%",
-    maxWidth: " 420px",
-  },
-  // Unfortunately is not possible to use constants here
-  // see: https://stackoverflow.com/questions/33194138/template-string-as-object-property-name
-  "@media (max-width: 480px)": {
-    image: {
-      maxHeight: "250px",
-    },
+    maxWidth: "420px",
   },
   form: {
     maxWidth: "450px",
   },
 });
 
-const imgOrder = {
-  xs: 2,
-};
-
-const infoOrder = {
-  xs: 1,
-};
-
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
   <Row grow>
-    <Col xs={12} order={imgOrder} sm={4} className={classes.image}>
+    <Col xs={0} sm={4} className={classes.image}>
       <Img src={people} alt="Sign up Image" cover />
     </Col>
-    <Col xs={12} order={infoOrder} sm={8} layout="column">
+    <Col xs={12} sm={8} layout="column">
       <Block align="right" className={classes.login}>
         <Typography variant="body2">Already have an account?&nbsp;</Typography>
         <Link to={LOG_IN_ROUTE}>
