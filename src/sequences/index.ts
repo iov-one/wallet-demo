@@ -101,7 +101,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     dispatch(watchAccountAction(conn, identity, cb!));
     let transCb: (transaction?: ConfirmedTransaction, err?: any) => any;
     const transProm = new Promise((resolve, reject) => {
-      let done = false;
+      const done = false;
       transCb = (transaction?: ConfirmedTransaction, err?: any) => {
         if (!err) {
           dispatch(addConfirmedTransaction(transaction));
