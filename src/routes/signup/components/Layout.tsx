@@ -52,6 +52,10 @@ const styles = createStyles({
   controls: {
     padding: `${md} ${xxl}`,
   },
+  agreement: {
+    display: "flex",
+    alignItems: "center",
+  },
 });
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
@@ -78,13 +82,13 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
           </Typography>
         </Block>
         <Block margin="xl">
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="h6" color="textSecondary">
             Sign up for your IOV wallet below
           </Typography>
         </Block>
       </Block>
       <Form onSubmit={onSubmit} className={classes.form}>
-        {({ pristine, invalid }: FormState) => (
+        {({ submitting }: FormState) => (
           <React.Fragment>
             <Block className={classNames(classes.container, classes.spacer)}>
               <Block>
@@ -126,13 +130,11 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
                   placeholder="Confirm Password"
                 />
               </Block>
-              <Block>
+              <Block className={classes.agreement}>
                 <Field name="terms" component={Checkbox} type="checkbox" />
                 <Typography variant="subtitle2" color="textSecondary" inline>
-                  I certify that I am 18 years of age or older, and I agree to the
+                  {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
                 </Typography>
-              </Block>
-              <Block align="center" margin="sm">
                 <Link to={TERMS_OF_SERVICE_ROUTE}>
                   <Typography variant="body2" color="primary" underlined inline>
                     Terms of Service
@@ -152,7 +154,7 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
             <Hairline />
             <Row className={classes.controls}>
               <Col center="xs" end="xs">
-                <Button variant="contained" color="primary" type="submit" disabled={pristine || invalid}>
+                <Button variant="contained" color="primary" type="submit" disabled={submitting} size="large">
                   Continue
                 </Button>
               </Col>
