@@ -37,6 +37,11 @@
 }
 
 @define-mixin col $size {
+  .$(size)0 {
+    flex-basis: 0%;
+    max-width: 0%;
+  }
+
   .$(size)1 {
     flex-basis: 8.333%;
     max-width: 8.333%;
@@ -199,6 +204,35 @@
       justify-content: space-between;
   }
 }
+
+@define-mixin order $size {
+  @media only screen and (max-width: $(screen$(size))px) {
+      .order$(size)1 {
+          order: 1;
+      }
+
+      .order$(size)2 {
+          order: 2;
+      }
+
+      .order$(size)3 {
+          order: 3;
+      }
+
+      .order$(size)4 {
+          order: 4;
+      }
+
+      .order$(size)5 {
+          order: 5;
+      }
+  }
+}
+
+@mixin order Xs;
+@mixin order Sm;
+@mixin order Md;
+@mixin order Lg;
 
 @mixin row Xs;
 

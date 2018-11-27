@@ -5,7 +5,15 @@ import styles from "./index.scss";
 
 const cx: any = classNames.bind(styles);
 
+interface Order {
+  readonly xs?: number;
+  readonly sm?: number;
+  readonly md?: number;
+  readonly lg?: number;
+}
+
 interface Props {
+  readonly order?: Order;
   readonly start?: "xs" | "sm" | "md" | "lg";
   readonly center?: "xs" | "sm" | "md" | "lg";
   readonly end?: "xs" | "sm" | "md" | "lg";
@@ -45,6 +53,7 @@ const Col = ({
   middle,
   bottom,
   around,
+  order,
   between,
   xsOffset,
   smOffset,
@@ -55,23 +64,27 @@ const Col = ({
 }: Props) => {
   const colClassNames: string = cx(
     styles.col,
-    center ? capitalize(center, "center") : undefined,
-    start ? capitalize(start, "start") : undefined,
-    end ? capitalize(end, "end") : undefined,
-    top ? capitalize(top, "top") : undefined,
-    middle ? capitalize(middle, "middle") : undefined,
-    bottom ? capitalize(bottom, "bottom") : undefined,
-    around ? capitalize(around, "around") : undefined,
-    between ? capitalize(between, "between") : undefined,
-    margin ? capitalize(margin, "margin") : undefined,
-    xs ? capitalize(xs, "xs") : undefined,
-    sm ? capitalize(sm, "sm") : undefined,
-    md ? capitalize(md, "md") : undefined,
-    lg ? capitalize(lg, "lg") : undefined,
-    xsOffset ? capitalize(xsOffset, "xsOffset") : undefined,
-    smOffset ? capitalize(smOffset, "smOffset") : undefined,
-    mdOffset ? capitalize(mdOffset, "mdOffset") : undefined,
-    lgOffset ? capitalize(lgOffset, "lgOffset") : undefined,
+    capitalize(center, "center"),
+    capitalize(start, "start"),
+    capitalize(end, "end"),
+    capitalize(top, "top"),
+    capitalize(middle, "middle"),
+    capitalize(bottom, "bottom"),
+    capitalize(around, "around"),
+    capitalize(between, "between"),
+    capitalize(margin, "margin"),
+    capitalize(xs, "xs"),
+    capitalize(sm, "sm"),
+    capitalize(md, "md"),
+    capitalize(lg, "lg"),
+    capitalize(order ? order.lg : undefined, 'orderLg'),
+    capitalize(order ? order.md : undefined, 'orderMd'),
+    capitalize(order ? order.xs : undefined, 'orderXs'),
+    capitalize(order ? order.sm : undefined, 'orderSm'),
+    capitalize(xsOffset, "xsOffset"),
+    capitalize(smOffset, "smOffset"),
+    capitalize(mdOffset, "mdOffset"),
+    capitalize(lgOffset, "lgOffset"),
     { overflow },
     layout,
     className,
