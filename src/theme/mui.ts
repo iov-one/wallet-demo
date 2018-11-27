@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { error, primary, secondary,  } from "~/theme/variables";
+import { error, lightFont, primary, regularFont, secondary, semiBoldFont } from "~/theme/variables";
 
 export type WithStyles = {
   readonly classes: object,
@@ -23,8 +23,18 @@ export default createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: "Muli",
+    fontSize: 14,
+    fontWeightLight: lightFont,
+    fontWeightRegular: regularFont,
+    fontWeightMedium: semiBoldFont,
   },
-  overrides: {},
+  overrides: {
+    MuiButton: {
+      containedPrimary: {
+        color: '#ffffff',
+      },
+    },
+  },
   props: {},
   palette,
 });
