@@ -12,7 +12,7 @@ import Img from "~/components/layout/Image";
 import Link from "~/components/layout/Link";
 import Row from "~/components/layout/Row";
 import Typography from "~/components/layout/Typography";
-import { LOG_IN_ROUTE } from "~/containers/routes";
+import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
 import { xxl } from "~/theme/variables";
 
@@ -35,8 +35,15 @@ const styles = createStyles({
     maxWidth: "420px",
   },
   form: {
-    maxWidth: "450px",
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    padding: `0 ${xxl}`,
   },
+  spacer: {
+    display: 'flex',
+    flexGrow: 1,
+  }
 });
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
@@ -46,7 +53,7 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
     </Col>
     <Col xs={12} sm={8} layout="column">
       <Block align="right" className={classes.login}>
-        <Typography variant="body2">Already have an account?&nbsp;</Typography>
+        <Typography variant="body2">{"Already have an account?\u00a0"}</Typography>
         <Link to={LOG_IN_ROUTE}>
           <Typography variant="body2" color="primary" underlined>
             Log In
@@ -56,7 +63,7 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
       <Block className={classes.page}>
         <Block className={classes.title} margin="sm">
           <Typography variant="h4" color="primary" inline>
-            Get started&nbsp;
+            {"Get started\u00a0"}
           </Typography>
           <Typography variant="h4" inline>
             with your first blockchain wallet.
@@ -67,61 +74,77 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
             Sign up for your IOV wallet below
           </Typography>
         </Block>
-        <Form onSubmit={onSubmit} className={classes.form}>
-          {({ pristine, invalid }: FormState) => (
-            <React.Fragment>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Email
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="email"
-                  type="text"
-                  component={TextField}
-                  placeholder="Your Email"
-                />
-              </Block>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Password
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="password"
-                  type="password"
-                  component={TextField}
-                  placeholder="Password"
-                />
-              </Block>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Confirm Password
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="confirmPassword"
-                  type="password"
-                  component={TextField}
-                  placeholder="Confirm Password"
-                />
-              </Block>
-              <Col margin="sm">
-                <Field name="terms" component={Checkbox} type="checkbox" />
-                <Typography variant="subtitle2" color="textSecondary" inline>
-                  I certify that I am 18 years of age or older
-                </Typography>
-              </Col>
-              <Button type="submit" disabled={pristine || invalid}>
-                Continue
-              </Button>
-            </React.Fragment>
-          )}
-        </Form>
       </Block>
+      <Form onSubmit={onSubmit} className={classes.form}>
+        {({ pristine, invalid }: FormState) => (
+          <React.Fragment>
+            <Block>
+              <Typography variant="subtitle2" color="textPrimary">
+                Email
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="email"
+                type="text"
+                component={TextField}
+                placeholder="Your Email"
+              />
+            </Block>
+            <Block>
+              <Typography variant="subtitle2" color="textPrimary">
+                Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="password"
+                type="password"
+                component={TextField}
+                placeholder="Password"
+              />
+            </Block>
+            <Block>
+              <Typography variant="subtitle2" color="textPrimary">
+                Confirm Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="confirmPassword"
+                type="password"
+                component={TextField}
+                placeholder="Confirm Password"
+              />
+            </Block>
+            <Block>
+              <Field name="terms" component={Checkbox} type="checkbox" />
+              <Typography variant="subtitle2" color="textSecondary" inline>
+                I certify that I am 18 years of age or older, and I agree to the
+              </Typography>
+            </Block>
+            <Block align="center" margin="sm">
+              <Link to={TERMS_OF_SERVICE_ROUTE}>
+                <Typography variant="body2" color="primary" underlined inline>
+                  Terms of Service
+                </Typography>
+              </Link>
+              <Typography variant="subtitle2" color="textSecondary" inline>
+                {"\u00a0&\u00a0"}
+              </Typography>
+              <Link to={PRIVACY_POLICY_ROUTE}>
+                <Typography variant="body2" color="primary" underlined inline>
+                  Privacy Policy
+                </Typography>
+              </Link>
+            </Block>
+            <Block className={classes.spacer} />
+            <Button type="submit" disabled={pristine || invalid}>
+              Continue
+            </Button>
+          </React.Fragment>
+        )}
+      </Form>
       <Block />
     </Col>
   </Row>
