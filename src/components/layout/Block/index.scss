@@ -39,15 +39,9 @@
 }
 
 .center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  text-align: center;
 }
 
 .right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-shrink: 0;
+  text-align: right;
 }
