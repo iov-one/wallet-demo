@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import React from "react";
 import { capitalize } from "~/theme/css";
+import { Size } from "~/theme/size";
 import styles from "./index.scss";
 
 const cx: any = classNames.bind(styles);
@@ -23,7 +24,8 @@ interface Props {
   readonly bottom?: "xs" | "sm" | "md" | "lg";
   readonly around?: "xs" | "sm" | "md" | "lg";
   readonly between?: "xs" | "sm" | "md" | "lg";
-  readonly margin?: "sm" | "md" | "lg" | "xl";
+  readonly margin?: Size;
+  readonly padding?: Size;
   readonly overflow?: boolean;
   readonly xs?: number | boolean;
   readonly sm?: number | boolean;
@@ -59,10 +61,10 @@ const GridItem = ({
   smOffset,
   mdOffset,
   lgOffset,
+  padding,
   className,
   ...props
 }: Props) => {
-  console.log(variant)
   const colClassNames: string = cx(
     styles.item,
     capitalize(center, "center"),
@@ -86,6 +88,7 @@ const GridItem = ({
     capitalize(smOffset, "smOffset"),
     capitalize(mdOffset, "mdOffset"),
     capitalize(lgOffset, "lgOffset"),
+    capitalize(padding, "padding"),
     { overflow },
     variant,
     className,
