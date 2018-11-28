@@ -23,11 +23,6 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const styles = createStyles({
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-  },
   container: {
     flexDirection: "column",
   },
@@ -49,8 +44,8 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
     <GridItem variant="block" xs={12} sm={4}>
       <Img src={people} alt="Sign up Image" cover />
     </GridItem>
-    <GridItem xs={12} sm={8} variant="column">
-      <Block padding="xxl" align="right">
+    <GridItem xs={12} sm={8} variant="column" padding="xxl">
+      <Block padding="xxl" align="right" margin="xxl">
         <Typography variant="body2" inline>
           {"Already have an account?\u00a0"}
         </Typography>
@@ -73,7 +68,7 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
           Sign up for your IOV wallet below
         </Typography>
       </Block>
-      <Form onSubmit={onSubmit} className={classes.form}>
+      <Form onSubmit={onSubmit} grow>
         {({ submitting }: FormState) => (
           <React.Fragment>
             <Block padding="xxl" className={classNames(classes.container, classes.spacer)}>
