@@ -1,4 +1,3 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
@@ -15,23 +14,12 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
-import { md, xxl } from "~/theme/variables";
 
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   readonly onSubmit: (values: object) => void;
 }
 
-const styles = createStyles({
-  controls: {
-    padding: `${md} ${xxl}`,
-  },
-  agreement: {
-    display: "flex",
-    alignItems: "center",
-  },
-});
-
-const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
+const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
     <GridItem variant="block" xs={12} sm={4}>
       <Img src={people} alt="Sign up Image" cover />
@@ -131,19 +119,27 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
             </Block>
             <Block grow />
             <Hairline />
-            <Grid className={classes.controls}>
-              <GridItem center="xs" end="xs">
-                <Button variant="contained" color="primary" type="submit" disabled={submitting} size="large">
-                  Continue
-                </Button>
+            <Block margin="md" />
+            <Grid shrink>
+              <GridItem grow center="xs" end="xs">
+                <Block margin="md" padding="xxl">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={submitting}
+                    size="large"
+                  >
+                    Continue
+                  </Button>
+                </Block>
               </GridItem>
             </Grid>
           </React.Fragment>
         )}
       </Form>
-      <Block />
     </GridItem>
   </Grid>
 );
 
-export default withStyles(styles)(Layout);
+export default Layout;
