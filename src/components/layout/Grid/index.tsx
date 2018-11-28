@@ -11,15 +11,15 @@ interface Props {
   readonly className?: string;
   readonly margin?: Size;
   readonly align?: "center" | "end" | "start";
-  readonly grow?: boolean;
+  readonly shrink?: boolean;
 }
 
-const Row = ({ children, className, margin, align, grow, ...props }: Props) => {
+const Grid = ({ children, className, margin, align, shrink, ...props }: Props) => {
   const rowClassNames = cx(
-    styles.row,
+    styles.grid,
     margin ? capitalize(margin, "margin") : undefined,
     align ? capitalize(align, "align") : undefined,
-    { grow },
+    { shrink },
     className,
   );
 
@@ -30,4 +30,4 @@ const Row = ({ children, className, margin, align, grow, ...props }: Props) => {
   );
 };
 
-export default Row;
+export default Grid;

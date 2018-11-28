@@ -16,7 +16,7 @@ interface Props {
 
 const Hairline = ({ margin, color }: Props) => {
   const style = calculateStyleFrom(color, margin);
-  console.log(border)
+
   return <div style={style} />;
 };
 

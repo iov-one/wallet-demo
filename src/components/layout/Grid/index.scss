@@ -1,11 +1,12 @@
-.row {
+.grid {
   display: flex;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.grow {
-  flex: 1 1 auto;
+
+.shrink {
+  flex: 0 1 auto;
 }
 
 .marginXs {

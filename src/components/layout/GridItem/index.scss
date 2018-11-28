@@ -1,18 +1,15 @@
-.col {
+.item {
   flex: 1 1 auto;
-  display: inherit;
+  display: flex;
 }
 
-.inherit {
-  display: inherit;
+.row {
+  flex-direction: column;
 }
-
 .block {
   display: block;
 }
-
 .column {
-  display: flex;
   flex-direction: column;
 }
 
@@ -23,15 +20,12 @@
 .marginSm {
   margin-bottom: $sm;
 }
-
 .marginMd {
   margin-bottom: $md;
 }
-
 .marginLg {
   margin-bottom: $xl;
 }
-
 .marginXl {
   margin-bottom: $xl;
 }

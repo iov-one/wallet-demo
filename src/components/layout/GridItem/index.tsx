@@ -14,6 +14,7 @@ interface Order {
 
 interface Props {
   readonly order?: Order;
+  readonly variant?: "row" | "column" | "block";
   readonly start?: "xs" | "sm" | "md" | "lg";
   readonly center?: "xs" | "sm" | "md" | "lg";
   readonly end?: "xs" | "sm" | "md" | "lg";
@@ -23,7 +24,6 @@ interface Props {
   readonly around?: "xs" | "sm" | "md" | "lg";
   readonly between?: "xs" | "sm" | "md" | "lg";
   readonly margin?: "sm" | "md" | "lg" | "xl";
-  readonly layout?: "inherit" | "block" | "column";
   readonly overflow?: boolean;
   readonly xs?: number | boolean;
   readonly sm?: number | boolean;
@@ -37,10 +37,10 @@ interface Props {
   readonly children: React.ReactNode;
 }
 
-const Col = ({
+const GridItem = ({
   children,
   margin,
-  layout = "inherit",
+  variant = "row",
   overflow,
   xs,
   sm,
@@ -62,8 +62,9 @@ const Col = ({
   className,
   ...props
 }: Props) => {
+  console.log(variant)
   const colClassNames: string = cx(
-    styles.col,
+    styles.item,
     capitalize(center, "center"),
     capitalize(start, "start"),
     capitalize(end, "end"),
@@ -86,7 +87,7 @@ const Col = ({
     capitalize(mdOffset, "mdOffset"),
     capitalize(lgOffset, "lgOffset"),
     { overflow },
-    layout,
+    variant,
     className,
   );
 
@@ -97,4 +98,4 @@ const Col = ({
   );
 };
 
-export default Col;
+export default GridItem;
