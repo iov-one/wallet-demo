@@ -1,10 +1,6 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { error, lightFont, primary, regularFont, secondary, semiBoldFont } from "~/theme/variables";
 
-export type WithStyles = {
-  readonly classes: object,
-};
-
 const palette = {
   primary: {
     main: primary,
