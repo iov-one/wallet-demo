@@ -9,7 +9,6 @@
   "rules": {
     "comment-format": false,
     "interface-name": [true, "never-prefix"],
-    "interface-over-type-literal": false,
     "max-classes-per-file": false,
     "no-class": false,
     "no-console": false,
