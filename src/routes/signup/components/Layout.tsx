@@ -1,5 +1,4 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import classNames from "classnames";
 import { FormState } from "final-form";
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
@@ -23,13 +22,6 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const styles = createStyles({
-  container: {
-    flexDirection: "column",
-  },
-  spacer: {
-    display: "flex",
-    flexGrow: 1,
-  },
   controls: {
     padding: `${md} ${xxl}`,
   },
@@ -71,67 +63,66 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
       <Form onSubmit={onSubmit} grow>
         {({ submitting }: FormState) => (
           <React.Fragment>
-            <Block padding="xxl" className={classNames(classes.container, classes.spacer)}>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Email
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="email"
-                  type="text"
-                  component={TextField}
-                  placeholder="Your Email"
-                />
-              </Block>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Password
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="password"
-                  type="password"
-                  component={TextField}
-                  placeholder="Password"
-                />
-              </Block>
-              <Block>
-                <Typography variant="subtitle2" color="textPrimary">
-                  Confirm Password
-                </Typography>
-                <Field
-                  variant="outlined"
-                  margin="dense"
-                  name="confirmPassword"
-                  type="password"
-                  component={TextField}
-                  placeholder="Confirm Password"
-                />
-              </Block>
-              <Block className={classes.agreement}>
-                <Field name="terms" component={Checkbox} type="checkbox" />
-                <Typography variant="subtitle2" color="textSecondary" inline>
-                  {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
-                </Typography>
-                <Link to={TERMS_OF_SERVICE_ROUTE}>
-                  <Typography variant="body2" color="primary" underlined inline>
-                    Terms of Service
-                  </Typography>
-                </Link>
-                <Typography variant="subtitle2" color="textSecondary" inline>
-                  {"\u00a0&\u00a0"}
-                </Typography>
-                <Link to={PRIVACY_POLICY_ROUTE}>
-                  <Typography variant="body2" color="primary" underlined inline>
-                    Privacy Policy
-                  </Typography>
-                </Link>
-              </Block>
-              <Block className={classes.spacer} />
+            <Block padding="xxl">
+              <Typography variant="subtitle2" color="textPrimary">
+                Email
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="email"
+                type="text"
+                component={TextField}
+                placeholder="Your Email"
+              />
             </Block>
+            <Block padding="xxl">
+              <Typography variant="subtitle2" color="textPrimary">
+                Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="password"
+                type="password"
+                component={TextField}
+                placeholder="Password"
+              />
+            </Block>
+            <Block padding="xxl">
+              <Typography variant="subtitle2" color="textPrimary">
+                Confirm Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="confirmPassword"
+                type="password"
+                component={TextField}
+                placeholder="Confirm Password"
+              />
+            </Block>
+            <Block className={classes.agreement}>
+              <Field name="terms" component={Checkbox} type="checkbox" />
+              <Typography variant="subtitle2" color="textSecondary" inline>
+                {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
+              </Typography>
+              <Link to={TERMS_OF_SERVICE_ROUTE}>
+                <Typography variant="body2" color="primary" underlined inline>
+                  Terms of Service
+                </Typography>
+              </Link>
+              <Typography variant="subtitle2" color="textSecondary" inline>
+                {"\u00a0&\u00a0"}
+              </Typography>
+              <Link to={PRIVACY_POLICY_ROUTE}>
+                <Typography variant="body2" color="primary" underlined inline>
+                  Privacy Policy
+                </Typography>
+              </Link>
+            </Block>
+            <Block grow />
+
             <Hairline />
             <Grid className={classes.controls}>
               <GridItem center="xs" end="xs">
