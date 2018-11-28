@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { error, lightFont, primary, regularFont, secondary, semiBoldFont } from "~/theme/variables";
+import { error, lightFont, primary, regularFont, secondary, semiBoldFont, sm } from "~/theme/variables";
 
 const palette = {
   primary: {
@@ -25,6 +25,11 @@ export default createMuiTheme({
     fontWeightMedium: semiBoldFont,
   },
   overrides: {
+    MuiCheckbox: {
+      root: {
+        padding: `0 ${sm} 0 0`,
+      }
+    },
     MuiButton: {
       containedPrimary: {
         color: "#ffffff",
