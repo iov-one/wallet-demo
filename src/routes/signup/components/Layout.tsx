@@ -23,22 +23,12 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const styles = createStyles({
-  login: {
-    padding: xxl,
-  },
-  title: {
-    maxWidth: "450px",
-  },
-  page: {
-    padding: xxl,
-  },
   form: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
   },
   container: {
-    padding: `0 ${xxl}`,
     flexDirection: "column",
   },
   spacer: {
@@ -60,33 +50,33 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
       <Img src={people} alt="Sign up Image" cover />
     </GridItem>
     <GridItem xs={12} sm={8} variant="column">
-      <Block align="right" className={classes.login}>
-        <Typography variant="body2" inline>{"Already have an account?\u00a0"}</Typography>
+      <Block padding="xxl" align="right">
+        <Typography variant="body2" inline>
+          {"Already have an account?\u00a0"}
+        </Typography>
         <Link to={LOG_IN_ROUTE}>
           <Typography variant="body2" color="primary" underlined inline>
             Log In
           </Typography>
         </Link>
       </Block>
-      <Block className={classes.page}>
-        <Block className={classes.title} margin="sm">
-          <Typography variant="h4" color="primary" inline>
-            {"Get started\u00a0"}
-          </Typography>
-          <Typography variant="h4" inline>
-            with your first blockchain wallet.
-          </Typography>
-        </Block>
-        <Block margin="xl">
-          <Typography variant="h6" color="textSecondary">
-            Sign up for your IOV wallet below
-          </Typography>
-        </Block>
+      <Block padding="xxl" maxWidth={450} margin="sm">
+        <Typography variant="h4" color="primary" inline>
+          {"Get started\u00a0"}
+        </Typography>
+        <Typography variant="h4" inline>
+          with your first blockchain wallet.
+        </Typography>
+      </Block>
+      <Block padding="xxl" margin="xl">
+        <Typography variant="h6" color="textSecondary">
+          Sign up for your IOV wallet below
+        </Typography>
       </Block>
       <Form onSubmit={onSubmit} className={classes.form}>
         {({ submitting }: FormState) => (
           <React.Fragment>
-            <Block className={classNames(classes.container, classes.spacer)}>
+            <Block padding="xxl" className={classNames(classes.container, classes.spacer)}>
               <Block>
                 <Typography variant="subtitle2" color="textPrimary">
                   Email
