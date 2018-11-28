@@ -1,12 +1,5 @@
-import Button, { ButtonProps } from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+import MuiButton, { ButtonProps } from "@material-ui/core/Button";
 import * as React from "react";
-
-const styles = {
-  root: {
-    borderRadius: 0,
-  },
-};
 
 interface Props extends ButtonProps {
   readonly minWidth?: number;
@@ -16,10 +9,10 @@ const calculateStyleBased = (minWidth: number) => ({
   minWidth: `${minWidth}px`,
 });
 
-const IovButton = ({ minWidth, ...props }: Props) => {
+const Button = ({ minWidth, ...props }: Props) => {
   const style = minWidth ? calculateStyleBased(minWidth) : undefined;
 
-  return <Button style={style} {...props} />;
+  return <MuiButton style={style} {...props} />;
 };
 
-export default withStyles(styles)(IovButton);
+export default Button;
