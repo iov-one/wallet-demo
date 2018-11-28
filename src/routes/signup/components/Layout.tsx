@@ -1,3 +1,4 @@
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import { FormState } from "final-form";
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
@@ -14,6 +15,7 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
+import { screenXs } from '~/theme/variables';
 
 interface Props {
   readonly onSubmit: (values: object) => void;
@@ -21,8 +23,10 @@ interface Props {
 
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
-    <GridItem variant="block" xs={12} sm={4}>
-      <Img src={people} alt="Sign up Image" cover />
+    <GridItem xs={12} sm={4}>
+      <Block grow maxWidth={screenXs}>
+        <Img src={people} alt="Sign up Image" cover />
+      </Block>
     </GridItem>
     <GridItem xs={12} sm={8} variant="column" padding="xxl">
       <Block padding="xxl" align="right" margin="xxl">
@@ -51,7 +55,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
       <Form onSubmit={onSubmit} grow>
         {({ submitting }: FormState) => (
           <React.Fragment>
-            <Block padding="xxl">
+            <Block padding="xxl" maxWidth={450}>
               <Typography variant="subtitle2" color="textPrimary">
                 Email
               </Typography>
@@ -64,7 +68,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 placeholder="Your Email"
               />
             </Block>
-            <Block padding="xxl">
+            <Block padding="xxl" maxWidth={450}>
               <Typography variant="subtitle2" color="textPrimary">
                 Password
               </Typography>
@@ -77,7 +81,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 placeholder="Password"
               />
             </Block>
-            <Block padding="xxl">
+            <Block padding="xxl" maxWidth={450}>
               <Typography variant="subtitle2" color="textPrimary">
                 Confirm Password
               </Typography>
@@ -117,7 +121,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 </GridItem>
               </Grid>
             </Block>
-            <Block grow />
+            <Block grow margin="xxl"/>
             <Hairline />
             <Block margin="md" />
             <Grid shrink>
@@ -130,7 +134,8 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                     disabled={submitting}
                     size="large"
                   >
-                    Continue
+                    {"Continue\u00a0"}
+                    <ArrowForwardIcon fontSize="small" />
                   </Button>
                 </Block>
               </GridItem>

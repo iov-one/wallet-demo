@@ -31,6 +31,12 @@ export default createMuiTheme({
       }
     },
     MuiButton: {
+      root: {
+        textTransform: 'capitalize',
+      },
+      contained: {
+        boxShadow: 'none',
+      },
       containedPrimary: {
         color: "#ffffff",
       },
