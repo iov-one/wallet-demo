@@ -8,11 +8,11 @@ import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
-import Col from "~/components/layout/Col";
+import Grid from "~/components/layout/Grid";
+import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Link from "~/components/layout/Link";
-import Row from "~/components/layout/Row";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
@@ -31,10 +31,6 @@ const styles = createStyles({
   },
   page: {
     padding: xxl,
-  },
-  image: {
-    height: "100%",
-    maxWidth: "420px",
   },
   form: {
     display: "flex",
@@ -59,15 +55,15 @@ const styles = createStyles({
 });
 
 const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
-  <Row grow>
-    <Col xs={0} sm={4} className={classes.image}>
+  <Grid>
+    <GridItem variant="block" xs={12} sm={4}>
       <Img src={people} alt="Sign up Image" cover />
-    </Col>
-    <Col xs={12} sm={8} layout="column">
+    </GridItem>
+    <GridItem xs={12} sm={8} variant="column">
       <Block align="right" className={classes.login}>
-        <Typography variant="body2">{"Already have an account?\u00a0"}</Typography>
+        <Typography variant="body2" inline>{"Already have an account?\u00a0"}</Typography>
         <Link to={LOG_IN_ROUTE}>
-          <Typography variant="body2" color="primary" underlined>
+          <Typography variant="body2" color="primary" underlined inline>
             Log In
           </Typography>
         </Link>
@@ -152,19 +148,19 @@ const Layout = ({ onSubmit, classes }: Props): JSX.Element => (
               <Block className={classes.spacer} />
             </Block>
             <Hairline />
-            <Row className={classes.controls}>
-              <Col center="xs" end="xs">
+            <Grid className={classes.controls}>
+              <GridItem center="xs" end="xs">
                 <Button variant="contained" color="primary" type="submit" disabled={submitting} size="large">
                   Continue
                 </Button>
-              </Col>
-            </Row>
+              </GridItem>
+            </Grid>
           </React.Fragment>
         )}
       </Form>
       <Block />
-    </Col>
-  </Row>
+    </GridItem>
+  </Grid>
 );
 
 export default withStyles(styles)(Layout);
