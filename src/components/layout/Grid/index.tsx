@@ -10,15 +10,17 @@ interface Props {
   readonly children: React.ReactNode;
   readonly className?: string;
   readonly margin?: Size;
+  readonly padding?: Size;
   readonly align?: "center" | "end" | "start";
   readonly shrink?: boolean;
 }
 
-const Grid = ({ children, className, margin, align, shrink, ...props }: Props) => {
+const Grid = ({ children, className, margin, padding, align, shrink, ...props }: Props) => {
   const rowClassNames = cx(
     styles.grid,
-    margin ? capitalize(margin, "margin") : undefined,
-    align ? capitalize(align, "align") : undefined,
+    capitalize(margin, "margin"),
+    capitalize(padding, "padding"),
+    capitalize(align, "align"),
     { shrink },
     className,
   );
