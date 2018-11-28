@@ -27,6 +27,7 @@ interface Props {
   readonly margin?: Size;
   readonly padding?: Size;
   readonly overflow?: boolean;
+  readonly grow?: boolean,
   readonly xs?: number | boolean;
   readonly sm?: number | boolean;
   readonly md?: number | boolean;
@@ -62,6 +63,7 @@ const GridItem = ({
   mdOffset,
   lgOffset,
   padding,
+  grow,
   className,
   ...props
 }: Props) => {
@@ -90,6 +92,7 @@ const GridItem = ({
     capitalize(lgOffset, "lgOffset"),
     capitalize(padding, "padding"),
     { overflow },
+    { grow },
     variant,
     className,
   );

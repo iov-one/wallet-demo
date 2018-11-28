@@ -1,6 +1,9 @@
 .item {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   display: flex;
+}
+.grow {
+  flex-grow: 1;
 }
 
 .row {
