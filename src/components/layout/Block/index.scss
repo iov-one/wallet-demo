@@ -18,24 +18,38 @@
   margin-bottom: $xl;
 }
 
+.xxl {
+  margin-bottom: $xxl;
+}
+
 .paddingXs {
-  padding-top: $xs;
+  padding-left: $xs;
+  padding-right: $xs;
 }
 
 .paddingSm {
-  padding-top: $sm;
+  padding-left: $sm;
+  padding-right: $sm;
 }
 
 .paddingMd {
-  padding-top: $md;
+  padding-left: $md;
+  padding-right: $md;
 }
 
 .paddingLg {
-  padding-top: $lg;
+  padding-left: $lg;
+  padding-right: $lg;
 }
 
 .paddingXl {
-  padding-top: $xl;
+  padding-left: $xl;
+  padding-right: $xl;
+}
+
+.paddingXxl {
+  padding-left: $xxl;
+  padding-right: $xxl;
 }
 
 .center {
