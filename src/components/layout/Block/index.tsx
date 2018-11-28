@@ -7,6 +7,7 @@ import styles from "./index.scss";
 const cx: any = classNames.bind(styles);
 
 type Props = {
+  readonly grow?: boolean;
   readonly margin?: Size;
   readonly padding?: Size;
   readonly align?: "center" | "right";
@@ -16,12 +17,13 @@ type Props = {
 
 class Block extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { margin, padding, align, maxWidth, children, className, ...props } = this.props;
+    const { margin, grow, padding, align, maxWidth, children, className, ...props } = this.props;
     const style = maxWidth ? { maxWidth: `${maxWidth}px`} : undefined
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
+    const blockClasses = cx(className, margin, paddingStyle, align, { grow })
 
     return (
-      <div className={cx(className, margin, paddingStyle, align)} style={style} {...props}>
+      <div className={blockClasses} style={style} {...props}>
         {children}
       </div>
     );
