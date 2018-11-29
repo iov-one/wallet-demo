@@ -6,7 +6,7 @@ import styles from "./index.scss";
 
 const cx: any = classNames.bind(styles);
 
-type Props = {
+interface Props {
   readonly grow?: boolean;
   readonly margin?: Size;
   readonly padding?: Size;
