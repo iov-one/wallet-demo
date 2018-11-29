@@ -770,6 +770,24 @@
     type-tagger "^1.0.0"
     xstream "^11.7.0"
 
+"@iov/bns@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@iov/bns/-/bns-0.9.2.tgz#0733bf40512641b3cdf308cd96ad86e5a2bb28ff"
+  integrity sha512-vgA4YgsJ+K1VgcsSki6p1v5Dh1oAyhKItia0XXcuhFX439t7zavWmCDC1mwtyRyNO5J8zPzGB/tx0Btnqdyoxw==
+  dependencies:
+    "@iov/base-types" "^0.9.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
+    "@iov/stream" "^0.9.2"
+    "@iov/tendermint-rpc" "^0.9.1"
+    "@types/long" "^4.0.0"
+    "@types/node" "^10.3.2"
+    long "^4.0.0"
+    protobufjs "^6.8.6"
+    type-tagger "^1.0.0"
+    xstream "^11.7.0"
+
 "@iov/core@^0.9.1":
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/@iov/core/-/core-0.9.1.tgz#9c215ad4af754455ca7077ea6607e8a570618393"
@@ -846,6 +864,13 @@
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/@iov/stream/-/stream-0.9.1.tgz#5bca6ea38ce29601b2339b327db327d23786b84c"
   integrity sha512-Le6NW8xO+/+vi/wRtsGE2TAtd8bSv915EEoEiLnYlRuIHOpOnCGYo8bgyhCkQKQGsLVgX5EpgOdjuKFSLGXdYg==
+  dependencies:
+    xstream "^11.7.0"
+
+"@iov/stream@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@iov/stream/-/stream-0.9.2.tgz#841d9d546b98def9813fc0c7a36955175453ee29"
+  integrity sha512-Ok7ViR7kfsPdDowFL/Myf6RuVnHKcaWDn7oj5g+hsj67FGWhvmq8jXJS6SPoCnYvfMOTQXkPzuxEOTbG8QRIZw==
   dependencies:
     xstream "^11.7.0"
 
