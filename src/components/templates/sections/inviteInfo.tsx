@@ -49,7 +49,7 @@ export class InviteInfo extends React.Component<InviteInfoProps> {
           />
           <ShareText>or share on</ShareText>
           <ShareGroup
-            shareLink={referralLink}
+            referralLink={referralLink}
             sharingPlatform={["messenger", "twitter", "whatsapp", "telegram", "email"]}
           />
         </React.Fragment>

@@ -6,7 +6,7 @@ import { get } from "lodash";
 import { ShareButton } from "../../subComponents/share";
 
 interface ShareGroupProps {
-  readonly shareLink: string;
+  readonly referralLink: string;
   readonly sharingPlatform: ReadonlyArray<string>;
 }
 
@@ -14,22 +14,28 @@ const platformInfo = {
   messenger: {
     icon: "messenger",
     title: "Messenger",
+    buildLink: (link: string): string => `fb-messenger://share/?link=${encodeURI(link)}`,
   },
   email: {
     icon: "email",
     title: "Email",
+    buildLink: (link: string): string =>
+      `mailto:email@address.com?subject=Great+New+Wallet&body=Try it out! ${link}`,
   },
   twitter: {
     icon: "twitter",
     title: "Twitter",
+    buildLink: (link: string): string => `http://twitter.com/share?text=Great+New+Wallet&url=${link}`,
   },
   whatsapp: {
     icon: "twitter",
     title: "Whatsapp",
+    buildLink: (link: string): string => `whatsapp://send?text=${link}`,
   },
   telegram: {
     icon: "whatsapp",
     title: "Telegram",
+    buildLink: (link: string): string => `https://telegram.me/share/url?url=${link}&text=Great+New+Wallet`,
   },
 };
 
@@ -41,15 +47,12 @@ const Wrapper = styled.div`
 `;
 
 export const ShareGroup = (props: ShareGroupProps) => {
-  const { shareLink, sharingPlatform } = props;
+  const { referralLink, sharingPlatform } = props;
   return (
     <Wrapper>
       {sharingPlatform.map((val, idx) => {
-        const info = get(platformInfo, val, {
-          icon: "messenger",
-          title: "Messenger",
-        });
-        return <ShareButton shareLink={shareLink} {...info} key={`shareItem_${idx}`} />;
+        const info = get(platformInfo, val, platformInfo.messenger);
+        return <ShareButton referralLink={referralLink} {...info} key={`shareItem_${idx}`} />;
       })}
     </Wrapper>
   );

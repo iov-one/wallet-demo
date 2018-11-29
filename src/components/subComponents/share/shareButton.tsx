@@ -17,11 +17,12 @@ const Icons = {
   whatsapp: WhatsappIcon,
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.a`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90px;
+  text-decoration: none;
 `;
 
 const Icon = styled.img`
@@ -42,13 +43,14 @@ const Title = styled.div`
 `;
 
 interface ShareButtonProps {
-  readonly shareLink: string;
+  readonly referralLink: string;
   readonly icon: string;
   readonly title: string;
+  readonly buildLink: (link: string) => string;
 }
 
 export const ShareButton = (props: ShareButtonProps): JSX.Element => (
-  <Wrapper>
+  <Wrapper href={props.buildLink(props.referralLink)}>
     <Icon src={get(Icons, props.icon)} />
     <Title>{props.title}</Title>
   </Wrapper>

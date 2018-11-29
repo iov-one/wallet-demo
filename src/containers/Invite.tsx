@@ -9,7 +9,7 @@ export class InvitePage extends React.Component<{}> {
     return (
       <PageStructure>
         <InviteScreenWrapper>
-          <InviteInfo referralLink="iov.one/vicotr7d" />
+          <InviteInfo referralLink="http://iov.one" />
           <InviteDescription />
         </InviteScreenWrapper>
       </PageStructure>
