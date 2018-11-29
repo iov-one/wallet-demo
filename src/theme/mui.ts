@@ -27,7 +27,7 @@ export default createMuiTheme({
   overrides: {
     MuiButton: {
       containedPrimary: {
-        color: '#ffffff',
+        color: "#ffffff",
       },
     },
   },

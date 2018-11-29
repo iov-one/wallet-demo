@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import "react-hot-loader/patch";
 
-import './index.scss'
+import "./index.scss";
 
 import App from "./containers/App";
 
