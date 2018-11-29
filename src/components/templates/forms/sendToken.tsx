@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { find, isEmpty } from "lodash";
 
-import { BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpCoin, TokenTicker } from "@iov/bcp-types";
 
 import { TokenInput } from "../../compoundComponents/form";
 import { VerticalButtonGroup } from "../../compoundComponents/sections";
@@ -82,16 +82,12 @@ interface SendTokenFormProps {
   readonly name: string;
   readonly iovAddress: string;
   readonly defaultToken: TokenTicker;
-  readonly balances: ReadonlyArray<FungibleToken>;
+  readonly balances: ReadonlyArray<Amount>;
   readonly onSend: (transactionInfo: SendTokenFormState) => any;
   readonly onBack: () => any;
 }
 
-const convertStringToFungibleToken = (
-  tokenAmount: string,
-  sigFigs: number,
-  tokenTicker: TokenTicker,
-): FungibleToken => {
+const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
   const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
   return { whole, fractional, tokenTicker };
 };
@@ -131,9 +127,9 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
           tokenName: token,
         } as BcpCoin);
   };
-  public readonly hasEnoughBalance = (balance: FungibleToken, amount: string): boolean => {
+  public readonly hasEnoughBalance = (balance: Amount, amount: string): boolean => {
     try {
-      const amountInToken = convertStringToFungibleToken(amount, 9, balance.tokenTicker);
+      const amountInToken = convertStringToAmount(amount, 9, balance.tokenTicker);
       this.setState({
         isValidAmount: true,
       });

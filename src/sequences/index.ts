@@ -3,7 +3,7 @@
 
 import { ThunkDispatch } from "redux-thunk";
 
-import { FungibleToken } from "@iov/bcp-types";
+import { Amount } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
 
 import {
@@ -122,7 +122,7 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
 export const sendTransactionSequence = (
   chainId: ChainId,
   iovAddress: string,
-  amount: FungibleToken,
+  amount: Amount,
   memo: string,
 ) => async (_: RootThunkDispatch, getState: () => RootState) => {
   const signer = requireSigner(getState());

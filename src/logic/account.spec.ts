@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import "mocha";
 
-import { BcpAccount, FungibleToken } from "@iov/bcp-types";
+import { Amount, BcpAccount } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
@@ -72,7 +72,7 @@ describe("sendTransaction", () => {
       expect(before).to.equal(undefined);
 
       // send a token from the genesis account
-      const amount: FungibleToken = {
+      const amount: Amount = {
         whole: 12345,
         fractional: 678000,
         tokenTicker: testTicker,
@@ -116,7 +116,7 @@ describe("setName", () => {
     const rcptReader = await addBlockchain(rcptWriter, testSpec);
     try {
       // send a token from the genesis account
-      const amount: FungibleToken = {
+      const amount: Amount = {
         whole: 10,
         fractional: 0,
         tokenTicker: testTicker,
@@ -180,7 +180,7 @@ describe("setName", () => {
         expect(acctRcpt).to.be.undefined;
 
         // send a token from the genesis account
-        const amount: FungibleToken = {
+        const amount: Amount = {
           whole: 10,
           fractional: 0,
           tokenTicker: testTicker,
