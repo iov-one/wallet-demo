@@ -24,6 +24,7 @@
     "no-object-literal-type-assertion": false,
     "no-object-mutation": true,
     "no-parameter-reassignment": true,
+    "no-submodule-imports": false,
     "no-unnecessary-class": ["allow-static-only"],
     "no-var-keyword": true,
     "object-literal-shorthand": false,
