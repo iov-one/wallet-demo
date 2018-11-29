@@ -4,5 +4,5 @@
     "bootstrapNodes": ["wss://bov.xerusnet.iov.one/"]
   },
   "defaultPassword": "test-pass",
-  "defaultFaucetUri": "https://faucet.xerusnet.iov.one/faucet"
+  "defaultFaucetUri": "https://iov-faucet.xerusnet.iov.one"
 }
