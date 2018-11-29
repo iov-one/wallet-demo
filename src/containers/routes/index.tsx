@@ -14,6 +14,8 @@ import {
   SendPaymentPage,
 } from "../../containers";
 
+// TODO improve redux config using connected-react-router remove middle components
+// levaring the usage of WithRouter
 const Wrapper = styled.div`
   height: 100vh;
 `;

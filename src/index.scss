@@ -1,0 +1,13 @@
+html, body {
+  height: 100vh;
+}
+
+body {
+  color:  $fontColor;
+  font-family: 'Muli'; 
+  font-size: $mediumFontSize;
+  background-color: $background;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

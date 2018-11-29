@@ -2,12 +2,13 @@ const primary = "#31E6C9";
 const secondary = "#6F749A";
 const error = "#F05956";
 const fontColor = "#1C1C1C";
+const background = "#ffffff";
 const xs = "4px";
 const sm = "8px";
 const md = "16px";
 const lg = "24px";
-const xl = "32px";
-const xxl = "40px";
+const xl = "40px";
+const xxl = "52px";
 const fontSizeHeadingXs = 13;
 const fontSizeHeadingSm = 18;
 const fontSizeHeadingMd = 21;
@@ -21,7 +22,7 @@ const mediumFontSize = "13px";
 const largeFontSize = "15px";
 const extraLargeFontSize = "18px";
 const xxlFontSize = "32px";
-const screenXs = 480;
+const screenXs = 425;
 const screenXsMax = 767;
 const screenSm = 768;
 const screenSmMax = 991;
@@ -36,6 +37,7 @@ module.exports = Object.assign(
     secondary,
     error,
     fontColor,
+    background,
     xs,
     sm,
     md,
