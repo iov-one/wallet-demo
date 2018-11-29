@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import { TransNotificationInfo } from "../../../logic";
+import { CoinInfo, coinToString, TransNotificationInfo } from "../../../logic";
 
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
 import SendIcon from "../../../../resources/send_transaction.svg";
@@ -71,6 +71,12 @@ const Time = styled.div`
 export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
   const signerName = get(props, "signerAccount.name");
   const receiverName = get(props, "recipientAccount.name");
+  const coinInfo: CoinInfo = {
+    fractional: props.amount.fractional,
+    whole: props.amount.whole,
+    sigFigs: 9,
+  };
+  const coinInString = coinToString(coinInfo);
   return (
     <Wrapper>
       <Content>
@@ -79,10 +85,9 @@ export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.E
           {props.success ? (
             <Message>
               {props.received ? <Bold>{signerName}</Bold> : "You"} sent{" "}
-              {props.received ? "you" : <Bold>{receiverName}</Bold>}
-              {" to "}
+              {props.received ? "you" : <Bold>{receiverName}</Bold>}{" "}
               <Bold>
-                {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
+                {coinInString} {props.amount.tokenTicker}
               </Bold>
             </Message>
           ) : (
