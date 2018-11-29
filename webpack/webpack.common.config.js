@@ -6,11 +6,41 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
 
 const baseDir = resolve(__dirname, "..");
 // taken from: https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-3
 const configFile = resolve(baseDir, "build", "client.json");
 fs.writeFileSync(configFile, JSON.stringify(config));
+
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const cssvariables = require(baseDir + "/src/theme/variables.js");
+
+const autoprefixer = require("autoprefixer");
+const cssmixins = require("postcss-mixins");
+const cssvars = require("postcss-simple-vars");
+
+const postcssPlugins = [
+  cssmixins,
+  cssvars({
+    variables: function() {
+      return Object.assign({}, cssvariables);
+    },
+    silent: false,
+  }),
+  require("postcss-flexbugs-fixes"),
+  require("postcss-preset-env")({
+    autoprefixer: {
+      flexbox: "no-2009",
+    },
+    stage: 3,
+  }),
+];
 
 module.exports = {
   context: resolve(baseDir, "src"),
@@ -47,14 +77,27 @@ module.exports = {
         exclude: [resolve(__dirname, "node_modules")],
       },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
-      // TODO: not sure any of the below are optimal, just copied from another project
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
-      },
-      {
-        test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        test: /\.(scss|css)$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: true,
+              minimize: false,
+              localIdentName: "[name]__[local]___[hash:base64:5]",
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              plugins: postcssPlugins,
+            },
+          },
+        ],
       },
       { test: /\.png$/, loader: "url-loader?limit=100000" },
       { test: /\.jpg$/, loader: "file-loader" },
