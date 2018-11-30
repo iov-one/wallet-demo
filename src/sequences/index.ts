@@ -8,7 +8,6 @@ import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
 
 import {
   BlockchainSpec,
-  getAccount,
   keyToAddress,
   parseConfirmedTransaction,
   resetProfile,
@@ -23,6 +22,7 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
+  watchAccountAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import {
@@ -76,34 +76,44 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
 
-    const chainId = conn.chainId();
-
-    let transCb: (trans?: ConfirmedTransaction, err?: any) => any;
-    const transProm = new Promise((resolve, reject) => {
-      const done = false;
-      transCb = async (trans?: ConfirmedTransaction, err?: any) => {
-        const account = await getAccount(conn, identity);
-        if (account) {
-          dispatch(getAccountAsyncAction.success({ account, chainId }));
-        }
+    // we need to set a callback that resolves a promise
+    // this is an ugly setup, but we need to block on the first result before we proceed, so the
+    // next code in sequence works. but then also want to auto-update from the stream
+    let cb: (acct?: BcpAccountWithChain, err?: any) => any;
+    const prom = new Promise((resolve, reject) => {
+      let done = false;
+      cb = (acct?: BcpAccountWithChain, err?: any) => {
+        // actually do the dispatching
+        // Note: acct, err both undefined is valid for non-existent account
         if (!err) {
-          if (trans && trans.transaction.kind === TransactionKind.Send) {
-            const transInfo = await parseConfirmedTransaction(conn, trans, identity);
-            dispatch(addConfirmedTransaction(transInfo));
-          }
+          dispatch(getAccountAsyncAction.success(acct));
+        } else {
+          dispatch(getAccountAsyncAction.failure(err));
         }
+        // finish the promise for the first query
         if (!done) {
+          done = true;
           if (!err) {
-            resolve(trans);
+            resolve(acct);
           } else {
             reject(err);
           }
         }
       };
     });
-    dispatch(watchTransactionAction(conn, identity, transCb!));
+    dispatch(watchAccountAction(conn, identity, cb!));
+    initAccounts = [...initAccounts, prom];
 
-    initAccounts = [...initAccounts, transProm];
+    // this is a normal stream subscription for transactions
+    const transCb = async (trans?: ConfirmedTransaction) => {
+      // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
+      const myConn = conn;
+      if (trans && trans.transaction.kind === TransactionKind.Send) {
+        const transInfo = await parseConfirmedTransaction(myConn, trans, identity);
+        dispatch(addConfirmedTransaction(transInfo));
+      }
+    };
+    dispatch(watchTransactionAction(conn, identity, transCb));
   }
 
   // wait for all accounts to initialize
