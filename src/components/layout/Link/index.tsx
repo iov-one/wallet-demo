@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
- 
-export default Link
- 
+import { Link } from "react-router-dom";
+
+export default Link;

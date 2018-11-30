@@ -1,24 +1,22 @@
-import classNames from 'classnames/bind'
-import * as React from 'react'
+import classNames from "classnames/bind";
+import * as React from "react";
 
-import styles from './index.scss'
+import styles from "./index.scss";
 
-const cx: any = classNames.bind(styles)
+const cx: any = classNames.bind(styles);
 
 interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
-  readonly cover?: boolean,
-  readonly alt: string,
-  readonly fullwidth?: boolean,
-  readonly bordered?: boolean,
-  readonly className?: string,
-  readonly style?: React.CSSProperties,
+  readonly cover?: boolean;
+  readonly alt: string;
+  readonly fullwidth?: boolean;
+  readonly bordered?: boolean;
+  readonly className?: string;
+  readonly style?: React.CSSProperties;
 }
 
 class Img extends React.PureComponent<Props> {
   public render(): JSX.Element {
-    const {
-      fullwidth, alt, cover, bordered, className, style, ...props
-    } = this.props
+    const { fullwidth, alt, cover, bordered, className, style, ...props } = this.props;
 
     return (
       <img
@@ -27,8 +25,8 @@ class Img extends React.PureComponent<Props> {
         {...props}
         className={cx(styles.img, { fullwidth, bordered, cover }, className)}
       />
-    )
+    );
   }
 }
 
-export default Img
+export default Img;

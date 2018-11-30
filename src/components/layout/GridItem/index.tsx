@@ -27,7 +27,7 @@ interface Props {
   readonly margin?: Size;
   readonly padding?: Size;
   readonly overflow?: boolean;
-  readonly grow?: boolean,
+  readonly grow?: boolean;
   readonly xs?: number | boolean;
   readonly sm?: number | boolean;
   readonly md?: number | boolean;
@@ -82,10 +82,10 @@ const GridItem = ({
     capitalize(sm, "sm"),
     capitalize(md, "md"),
     capitalize(lg, "lg"),
-    capitalize(order ? order.lg : undefined, 'orderLg'),
-    capitalize(order ? order.md : undefined, 'orderMd'),
-    capitalize(order ? order.xs : undefined, 'orderXs'),
-    capitalize(order ? order.sm : undefined, 'orderSm'),
+    capitalize(order ? order.lg : undefined, "orderLg"),
+    capitalize(order ? order.md : undefined, "orderMd"),
+    capitalize(order ? order.xs : undefined, "orderXs"),
+    capitalize(order ? order.sm : undefined, "orderSm"),
     capitalize(xsOffset, "xsOffset"),
     capitalize(smOffset, "smOffset"),
     capitalize(mdOffset, "mdOffset"),
