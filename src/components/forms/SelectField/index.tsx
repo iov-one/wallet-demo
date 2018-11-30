@@ -10,27 +10,30 @@ const style = {
 };
 
 interface Props extends FieldRenderProps {
-  readonly formControlProps: FormControlProps;
-  readonly label: string;
+  readonly formControlProps?: FormControlProps;
+  readonly label?: string;
 }
 
-const SelectInput = ({
-  input: { name, value, onChange, ...restInput },
-  meta,
-  label,
-  formControlProps,
-  ...rest
-}: Props) => {
-  const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
-  const inputProps = { ...restInput, name };
+class SelectInput extends React.PureComponent<Props> {
+  public render(): JSX.Element {
+    const {
+      input: { name, value, onChange, ...restInput },
+      meta,
+      formControlProps,
+      label,
+      ...rest
+    } = this.props;
+    const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
+    const inputProps = { ...restInput, name };
 
-  return (
-    <FormControl {...formControlProps} error={showError} style={style}>
-      <InputLabel htmlFor={name}>{label}</InputLabel>
-      <Select {...rest} onChange={onChange} inputProps={inputProps} value={value} />
-      {showError && <FormHelperText>{meta.error || meta.submitError}</FormHelperText>}
-    </FormControl>
-  );
-};
+    return (
+      <FormControl {...formControlProps} error={showError} style={style}>
+        {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
+        <Select {...rest} onChange={onChange} inputProps={inputProps} value={value} />
+        {showError && <FormHelperText>{meta.error || meta.submitError}</FormHelperText>}
+      </FormControl>
+    );
+  }
+}
 
 export default SelectInput;
