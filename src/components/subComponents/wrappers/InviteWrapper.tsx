@@ -5,6 +5,7 @@ import HeartIcon from "../../../../resources/heart_border.svg";
 
 const Wrapper = styled.div`
   width: 551px;
+  height: 600px;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 6px 0 #f3f4fb;
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
   padding-right: 30px;
   padding-bottom: 36px;
   box-sizing: border-box;
+  margin-bottom: 100px;
 `;
 
 const Icon = styled.img`
@@ -22,7 +24,7 @@ const Icon = styled.img`
   height: 100px;
   box-sizing: border-box;
   border-radius: 50px;
-  border: 2px solid white;
+  border: 3.5px solid white;
   position: absolute;
   left: 225.5px;
   top: -50px;

@@ -28,12 +28,12 @@ const platformInfo = {
     buildLink: (link: string): string => `http://twitter.com/share?text=Great+New+Wallet&url=${link}`,
   },
   whatsapp: {
-    icon: "twitter",
+    icon: "whatsapp",
     title: "Whatsapp",
     buildLink: (link: string): string => `whatsapp://send?text=${link}`,
   },
   telegram: {
-    icon: "whatsapp",
+    icon: "telegram",
     title: "Telegram",
     buildLink: (link: string): string => `https://telegram.me/share/url?url=${link}&text=Great+New+Wallet`,
   },

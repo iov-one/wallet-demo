@@ -33,14 +33,19 @@ const ModalContentWrapper = styled.div`
 const ModalUpperPart = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 80px;
+  margin-bottom: 36px;
 `;
 
 const SuggestionWrapper = styled.div`
-  margin-top: 5px;
+  margin-bottom: 74px;
 `;
 
-const customStyle = (hasSecondaryComp: boolean) => ({
+const SecondaryCompWrapper = styled.div`
+  margin-left: 16px;
+  margin-bottom: 70px;
+`;
+
+const customStyle = {
   overlay: {
     position: "absolute",
     top: 0,
@@ -56,16 +61,13 @@ const customStyle = (hasSecondaryComp: boolean) => ({
     top: "0px",
     bottom: "0px",
     paddingTop: "80px",
-    paddingBottom: hasSecondaryComp ? "7%" : "10%",
-    display: "flex",
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "transparent",
-    justifyContent: hasSecondaryComp ? "flex-start" : "space-between",
     border: "none",
-    overflow: "visible",
+    overflow: "inherit",
   },
-});
+};
 
 interface ModalProps {
   readonly suggestionText: string;
@@ -78,27 +80,18 @@ interface ModalProps {
 }
 
 export const IOVModal = (props: ModalProps): JSX.Element => (
-  <Modal style={customStyle(isEmpty(props.secondaryComp))} isOpen={props.visible} ariaHideApp={false}>
+  <Modal style={customStyle} isOpen={props.visible} ariaHideApp={false}>
     <ModalUpperPart>
       <CloseButton onClick={props.onRequestClose} />
       <ModalContentWrapper>{props.children}</ModalContentWrapper>
-      <SuggestionWrapper>
-        {props.secondaryComp && (
-          <SuggestionButton
-            suggestionText={props.suggestionText}
-            buttonText={props.buttonText}
-            onClick={props.onSuggestion}
-          />
-        )}
-      </SuggestionWrapper>
     </ModalUpperPart>
-    {isEmpty(props.secondaryComp) && (
+    <SuggestionWrapper>
       <SuggestionButton
         suggestionText={props.suggestionText}
         buttonText={props.buttonText}
         onClick={props.onSuggestion}
       />
-    )}
-    {props.secondaryComp}
+    </SuggestionWrapper>
+    <SecondaryCompWrapper>{props.secondaryComp}</SecondaryCompWrapper>
   </Modal>
 );

@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   font-stretch: normal;
   line-height: 24.4px;
   letter-spacing: normal;
-  margin-top: 30px;
 `;
 
 const Text = styled.div`

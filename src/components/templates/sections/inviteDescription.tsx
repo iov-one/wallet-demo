@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { H1 } from "../../subComponents/typography";
 
 import ArrowIcon from "../../../../resources/long_down_arrow.svg";
+import LaptopMan from "../../../../resources/laptop_man.svg";
 
 const InviteDescriptionWrapper = styled.div`
   margin-top: 140px;
@@ -15,6 +16,7 @@ const InviteDescriptionWrapper = styled.div`
 
 const MainText = styled(H1)`
   margin-bottom: 50px;
+  letter-spacing: normal;
 `;
 
 const HighLight = styled.span`
@@ -32,6 +34,25 @@ const InviteDescriptionLabel = styled.div`
   letter-spacing: normal;
   color: #2d2f30;
   text-align: center;
+`;
+
+const ContentWrapper = styled.div`
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const LaptopManImg = styled.div`
+  background-image: url(${LaptopMan});
+  background-size: 277.1px 378.8px;
+  background-repeat: no-repeat;
+  width: 277.1px;
+  height: 379.8px;
+  position: fixed;
+  top: calc(50vh - 150px);
+  right: 0px;
+  z-index: 1;
 `;
 
 const InviteDescriptionField = styled.div`
@@ -65,13 +86,16 @@ const ArrowImage = styled.img`
 
 export const InviteDescription = (): JSX.Element => (
   <InviteDescriptionWrapper>
-    <MainText className="center">
-      Let’s make life <HighLight>simple.</HighLight>
-    </MainText>
-    <InviteDescriptionLabel>Instead of having an address like this</InviteDescriptionLabel>
-    <InviteDescriptionField>1DkyBEKt5S2G...AvnsRyHoYM</InviteDescriptionField>
-    <ArrowImage src={ArrowIcon} />
-    <InviteDescriptionLabel>IOV provides an address like this</InviteDescriptionLabel>
-    <InviteDescriptionField className="highlight">John*iov</InviteDescriptionField>
+    <LaptopManImg />
+    <ContentWrapper>
+      <MainText className="center">
+        Let’s make life <HighLight>simple.</HighLight>
+      </MainText>
+      <InviteDescriptionLabel>Instead of having an address like this</InviteDescriptionLabel>
+      <InviteDescriptionField>1DkyBEKt5S2G...AvnsRyHoYM</InviteDescriptionField>
+      <ArrowImage src={ArrowIcon} />
+      <InviteDescriptionLabel>IOV provides an address like this</InviteDescriptionLabel>
+      <InviteDescriptionField className="highlight">John*iov</InviteDescriptionField>
+    </ContentWrapper>
   </InviteDescriptionWrapper>
 );

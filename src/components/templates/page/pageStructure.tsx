@@ -34,22 +34,21 @@ interface PageState {
 
 const Wrapper = styled.div`
   display: flex;
-  height: 100vh;
   flex-direction: column;
 `;
 
 const PageContent = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: scroll;
   &.whiteBg {
     background-color: transparent;
   }
   &.darkBg {
     background-color: #f9fafc;
   }
+  margin-top: 71px;
+  min-height: calc(100vh - 71px);
 `;
 
 class PageTemplate extends React.Component<PageProps, PageState> {
