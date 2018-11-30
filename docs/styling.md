@@ -1,5 +1,6 @@
 # Introduction
 We currenty have three different types of components:
+
 Component Type | CSS | SCSS | CSS-IN-JSS
 -------------- | --- | ---- | ----------
 **layout components** | YES | +++ | +
