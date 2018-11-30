@@ -5,7 +5,7 @@ import "mocha";
 import { Amount, BcpAccount } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
-import { sleep } from "~/utils/timer";
+import { sleep } from "../utils/timer";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
