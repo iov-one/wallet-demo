@@ -1,39 +1,13 @@
-const path = require("path");
-const TSDocgenPlugin = require("react-docgen-typescript-webpack-plugin");
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        loader: require.resolve("ts-loader"),
-      },
-      {
-        test: /\.png$/,
-        use: [
-          {
-            loader: require.resolve("url-loader"),
-            options: {
-              limit: 100000,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: require.resolve("url-loader"),
-            options: {
-              limit: 100000,
-              mimetype: "image/svg+xml",
-            },
-          },
-        ],
-      },
-    ],
-  },
-  plugins: [new TSDocgenPlugin()],
-  resolve: {
-    extensions: [".ts", ".tsx"],
-  },
+
+process.env.NODE_ENV = 'development'
+const devConfig = require('../webpack/development.config.js');
+
+module.exports = function(storybookConfig, configType) {
+    console.log(devConfig)
+    const config = Object.assign({}, devConfig);
+
+    storybookConfig.module.rules = storybookConfig.module.rules.concat(config.module.rules)
+    storybookConfig.resolve = config.resolve;
+
+    return storybookConfig;
 };
