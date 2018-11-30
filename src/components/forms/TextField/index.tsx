@@ -10,7 +10,7 @@ const overflowStyle = {
   width: "100%",
 };
 
-const styles = () => createStyles({
+const styles = createStyles({
   root: {
     paddingTop: lg,
     paddingBottom: "12px",
@@ -21,7 +21,6 @@ const styles = () => createStyles({
 interface Props extends FieldRenderProps, WithStyles<typeof styles> {
   readonly inputAdornment?: { readonly endAdornment: React.ReactNode };
   readonly helperText?: string;
-  
 }
 
 class TextFieldElem extends React.PureComponent<Props> {
@@ -58,6 +57,6 @@ class TextFieldElem extends React.PureComponent<Props> {
   }
 }
 
-const TextField  = withStyles(styles)(TextFieldElem);
+const TextField = withStyles(styles)(TextFieldElem);
 
 export default TextField;
