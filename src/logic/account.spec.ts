@@ -5,12 +5,12 @@ import "mocha";
 import { Amount, BcpAccount } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
+import { sleep } from "~/utils/timer";
+
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./testhelpers";
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 describe("getAccount", () => {
   it("random account should be empty", async function(): Promise<void> {
