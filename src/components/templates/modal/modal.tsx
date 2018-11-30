@@ -2,8 +2,6 @@ import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import { isEmpty } from "lodash";
-
 import CloseIcon from "../../../../resources/close_type2.svg";
 
 import { SuggestionButton } from "../../subComponents/buttons";

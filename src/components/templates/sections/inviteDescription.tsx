@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { H1 } from "../../subComponents/typography";
 
-import ArrowIcon from "../../../../resources/long_down_arrow.svg";
 import LaptopMan from "../../../../resources/laptop_man.svg";
+import ArrowIcon from "../../../../resources/long_down_arrow.svg";
 
 const InviteDescriptionWrapper = styled.div`
   margin-top: 140px;
