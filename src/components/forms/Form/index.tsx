@@ -5,11 +5,10 @@ import * as React from "react";
 import { Form } from "react-final-form";
 
 const styles = createStyles({
-  form: {
+  form: {},
+  grow: {
     display: "flex",
     flexDirection: "column",
-  },
-  grow: {
     flexGrow: 1,
   },
 });
@@ -37,7 +36,7 @@ const IovForm = ({
   className,
   ...props
 }: Props) => {
-  const fromClasses = classNames(classes.form, grow ? classes.grow : undefined, className);
+  const formClasses = classNames(classes.form, grow ? classes.grow : undefined, className);
 
   return (
     <Form
@@ -45,7 +44,7 @@ const IovForm = ({
       onSubmit={onSubmit}
       initialValues={initialValues}
       render={({ handleSubmit, ...rest }) => (
-        <form className={fromClasses} onSubmit={handleSubmit}>
+        <form className={formClasses} onSubmit={handleSubmit}>
           {children(rest)}
         </form>
       )}
