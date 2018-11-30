@@ -82,14 +82,14 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
     const transProm = new Promise((resolve, reject) => {
       const done = false;
       transCb = async (trans?: ConfirmedTransaction, err?: any) => {
+        const account = await getAccount(conn, identity);
+        if (account) {
+          dispatch(getAccountAsyncAction.success({ account, chainId }));
+        }
         if (!err) {
           if (trans && trans.transaction.kind === TransactionKind.Send) {
             const transInfo = await parseConfirmedTransaction(conn, trans, identity);
             dispatch(addConfirmedTransaction(transInfo));
-          }
-          const account = await getAccount(conn, identity);
-          if (account) {
-            dispatch(getAccountAsyncAction.success({ account, chainId }));
           }
         }
         if (!done) {

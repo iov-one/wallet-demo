@@ -1,4 +1,4 @@
-import { BcpAccount, BcpConnection, ConfirmedTransaction, FungibleToken, SendTx } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpConnection, ConfirmedTransaction, SendTx } from "@iov/bcp-types";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import { getAccount, getAccountByAddress, keyToAddress } from "./account";
@@ -7,7 +7,7 @@ export interface TransNotificationInfo {
   readonly received: boolean;
   readonly signerAccount?: BcpAccount;
   readonly recipientAccount?: BcpAccount;
-  readonly amount: FungibleToken;
+  readonly amount: Amount;
   readonly time?: string;
   readonly success: boolean;
 }
