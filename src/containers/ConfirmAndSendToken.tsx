@@ -1,6 +1,4 @@
-// tslint:disable:no-empty
-// TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, BcpCoin, FungibleToken, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpCoin, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import queryString from "query-string";
@@ -29,7 +27,7 @@ interface SendTokenDispatchToProps {
   readonly sendTransaction: (
     chainId: ChainId,
     iovAddress: string,
-    amount: FungibleToken,
+    amount: Amount,
     memo: string,
   ) => Promise<any>;
 }
@@ -39,11 +37,7 @@ interface SendTokenState {
   readonly loading: boolean;
 }
 
-const convertStringToFungibleToken = (
-  tokenAmount: string,
-  sigFigs: number,
-  tokenTicker: TokenTicker,
-): FungibleToken => {
+const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
   const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
   return { whole, fractional, tokenTicker };
 };
@@ -73,8 +67,8 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     try {
       this.setState({ loading: true });
       // TODO: seems that iov tokens say 6 sigfigs, but internally use 9... hmmm...
-      const amount = convertStringToFungibleToken(tokenAmount, 9, balance.tokenTicker);
-      // const amount = convertStringToFungibleToken(tokenAmount, balance.sigFigs, balance.tokenTicker);
+      const amount = convertStringToAmount(tokenAmount, 9, balance.tokenTicker);
+      // const amount = convertStringToAmount(tokenAmount, balance.sigFigs, balance.tokenTicker);
       await sendTransaction(chainIds[0], iovAddress, amount, memo);
       this.setState({ loading: false });
       history.push("/balance");
@@ -134,7 +128,7 @@ const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps =
 });
 
 const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
-  sendTransaction: (chainId: ChainId, iovAddress: string, amount: FungibleToken, memo: string) =>
+  sendTransaction: (chainId: ChainId, iovAddress: string, amount: Amount, memo: string) =>
     dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
 });
 

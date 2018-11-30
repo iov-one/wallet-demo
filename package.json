@@ -24,11 +24,12 @@
     "surge": "surge"
   },
   "dependencies": {
-    "@iov/bns": "^0.7.0",
-    "@iov/core": "^0.7.0",
-    "@iov/crypto": "^0.7.0",
-    "@iov/faucets": "^0.7.0",
-    "@iov/keycontrol": "^0.7.0",
+    "@iov/bns": "^0.9.2",
+    "@iov/core": "^0.9.1",
+    "@iov/crypto": "^0.9.1",
+    "@iov/faucets": "^0.9.1",
+    "@iov/keycontrol": "^0.9.1",
+    "@iov/stream": "^0.9.2",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "classnames": "^2.2.6",

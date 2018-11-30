@@ -1,4 +1,4 @@
-import { FungibleToken } from "@iov/bcp-types";
+import { Amount } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -16,7 +16,7 @@ const BalanceText = styled.div`
 `;
 
 interface PropType {
-  readonly balance: FungibleToken;
+  readonly balance: Amount;
 }
 
 export const AccountBalance = (props: PropType): JSX.Element => {

@@ -1,6 +1,4 @@
-// tslint:disable:no-empty
-// TODO: remove above comment when the empty onClick is gone
-import { BcpAccount, FungibleToken, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpAccount, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import * as React from "react";
@@ -24,7 +22,7 @@ interface SendTokenDispatchToProps {
   readonly sendTransaction: (
     chainId: ChainId,
     iovAddress: string,
-    amount: FungibleToken,
+    amount: Amount,
     memo: string,
   ) => Promise<any>;
 }
@@ -78,7 +76,7 @@ const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps =
 });
 
 const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
-  sendTransaction: (chainId: ChainId, iovAddress: string, amount: FungibleToken, memo: string) =>
+  sendTransaction: (chainId: ChainId, iovAddress: string, amount: Amount, memo: string) =>
     dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
 });
 

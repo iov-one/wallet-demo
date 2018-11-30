@@ -733,51 +733,84 @@
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.1.3.tgz#b700d97385fa91affed60c71dfd51c67e9dad762"
 
-"@iov/bcp-types@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/bcp-types/-/bcp-types-0.7.0.tgz#ef44397bd0c4ed4c7abc0cec20d354acffd76021"
+"@iov/base-types@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@iov/base-types/-/base-types-0.9.0.tgz#fdf14bb01d35eb92ba4cc350b318aa131e898cc9"
+  integrity sha512-EHVuHD/dER9Gx1+n1WwIcl9nvFSwDnfoiMub30vMdOjNYUTY7D7ccW63JwxhK7CVjf+JfHRBJJthmXfPyE7nPA==
   dependencies:
-    "@iov/encoding" "^0.7.0"
-    "@iov/tendermint-types" "^0.7.0"
+    "@types/long" "^4.0.0"
+    long "^4.0.0"
+    type-tagger "^1.0.0"
+
+"@iov/bcp-types@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@iov/bcp-types/-/bcp-types-0.9.0.tgz#281d4a818dd260abdc878142024cdcb52052b0a6"
+  integrity sha512-xvfeyOt1szjIKqCfYjaHNGwudmESAVZ9RV7Po2Ev+jNCDQTvjJJwl+HOQ0phxsCMSLh5n8YmTl2eDdaPHQMZMw==
+  dependencies:
+    "@iov/base-types" "^0.9.0"
+    "@iov/encoding" "^0.9.0"
     type-tagger "^1.0.0"
     xstream "^11.7.0"
 
-"@iov/bns@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/bns/-/bns-0.7.0.tgz#4f3c7e43b5d638abfe1dc1cd67a808c74f4da6c6"
+"@iov/bns@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/bns/-/bns-0.9.1.tgz#b4447f37e2da2f29d7a6e7487f1d3f3d327c5327"
+  integrity sha512-GdtzlRNn761HYnMl48idAx1M0GeEtqPQIWHZiH8MzPXsMnOhB7DWt0WPFOmWGcbg01kn9hTkHN5tC7Ry+OUKXg==
   dependencies:
-    "@iov/bcp-types" "^0.7.0"
-    "@iov/crypto" "^0.7.0"
-    "@iov/encoding" "^0.7.0"
-    "@iov/stream" "^0.7.0"
-    "@iov/tendermint-rpc" "^0.7.0"
-    "@iov/tendermint-types" "^0.7.0"
+    "@iov/base-types" "^0.9.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
+    "@iov/stream" "^0.9.1"
+    "@iov/tendermint-rpc" "^0.9.1"
     "@types/long" "^4.0.0"
     "@types/node" "^10.3.2"
     long "^4.0.0"
     protobufjs "^6.8.6"
+    type-tagger "^1.0.0"
     xstream "^11.7.0"
 
-"@iov/core@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/core/-/core-0.7.0.tgz#2e39bec95c775b063ab79348045d9b7a84435f26"
+"@iov/bns@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@iov/bns/-/bns-0.9.2.tgz#0733bf40512641b3cdf308cd96ad86e5a2bb28ff"
+  integrity sha512-vgA4YgsJ+K1VgcsSki6p1v5Dh1oAyhKItia0XXcuhFX439t7zavWmCDC1mwtyRyNO5J8zPzGB/tx0Btnqdyoxw==
   dependencies:
-    "@iov/bcp-types" "^0.7.0"
-    "@iov/bns" "^0.7.0"
-    "@iov/encoding" "^0.7.0"
-    "@iov/keycontrol" "^0.7.0"
-    "@iov/tendermint-types" "^0.7.0"
+    "@iov/base-types" "^0.9.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
+    "@iov/stream" "^0.9.2"
+    "@iov/tendermint-rpc" "^0.9.1"
+    "@types/long" "^4.0.0"
+    "@types/node" "^10.3.2"
+    long "^4.0.0"
+    protobufjs "^6.8.6"
+    type-tagger "^1.0.0"
+    xstream "^11.7.0"
+
+"@iov/core@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/core/-/core-0.9.1.tgz#9c215ad4af754455ca7077ea6607e8a570618393"
+  integrity sha512-SSvOmtF6gBe0zIUFLTH5H7zaBeqK6FQTu83Az2DsXoi72YfwL23bf1MzJXni8gudMvEirFVsM/EecFwDLcJhkQ==
+  dependencies:
+    "@iov/base-types" "^0.9.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/bns" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
+    "@iov/keycontrol" "^0.9.1"
     "@types/long" "^4.0.0"
     long "^4.0.0"
 
-"@iov/crypto@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/crypto/-/crypto-0.7.0.tgz#67e39d3532a5c23861bbb32aaf35abbae1dc3f5a"
+"@iov/crypto@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/crypto/-/crypto-0.9.1.tgz#22e292a6e78cd8033ebaeb732f86f19e5746bc22"
+  integrity sha512-mou4snaxn5qBrO6OKA0fE6lMr2pj6DngVOieXy8kn7vQ8IdwwXY/0qd14d52hDgj/4aegoMi0msawimyREkOAQ==
   dependencies:
-    "@iov/encoding" "^0.7.0"
+    "@iov/encoding" "^0.9.0"
     bip39 "^2.5.0"
     bn.js "^4.11.8"
     elliptic "^6.4.0"
+    js-sha3 "^0.8.0"
     libsodium-wrappers "^0.7.3"
     pbkdf2 "^3.0.16"
     ripemd160 "^2.0.2"
@@ -785,34 +818,37 @@
     type-tagger "^1.0.0"
     unorm "^1.4.1"
 
-"@iov/encoding@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/encoding/-/encoding-0.7.0.tgz#02b42b7c30f51deb8b37b660527a142dc59ad939"
+"@iov/encoding@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@iov/encoding/-/encoding-0.9.0.tgz#fef7ce18a1091c1b050a2e8b5b2ff6c75b494716"
+  integrity sha512-AZ6kJ/5mCS3K7Mt6Xa1O40LjjgZUSVD5VLOABef7JezUNmXkYjsEXU3AW39WG/HOmKvif8jwU2OACJKxY0LZdQ==
   dependencies:
     base64-js "^1.3.0"
     bech32 "^1.1.3"
     bn.js "^4.11.8"
     readonly-date "^1.0.0"
 
-"@iov/faucets@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/faucets/-/faucets-0.7.0.tgz#0f4b89167d15b3c74022ea5ac88d85e76e80de05"
+"@iov/faucets@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/faucets/-/faucets-0.9.1.tgz#81327c81c78fcdee039fbe314c3a97e1d4310010"
+  integrity sha512-G9HT6lf8CUji0fRslATmG/sNfp3gDaFPtqaUXlHsJP1P3lRVMvxss8KZT6KYpnG41J8T2wO1eW5jtVIAv9z0kA==
   dependencies:
-    "@iov/bcp-types" "^0.7.0"
-    "@iov/bns" "^0.7.0"
-    "@iov/crypto" "^0.7.0"
-    "@iov/encoding" "^0.7.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/bns" "^0.9.1"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
     axios "^0.18.0"
 
-"@iov/keycontrol@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/keycontrol/-/keycontrol-0.7.0.tgz#74ed1d97d24751940a60f70bcebf1667a954ace5"
+"@iov/keycontrol@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/keycontrol/-/keycontrol-0.9.1.tgz#cd799386209fd61290485b72557dfda28624bfbf"
+  integrity sha512-RMZYaBE5xMrlbD38YxR0CzukFJG7VVGdIbC4rAxdyA5DX3Ow/u1bJZCAq/qmOvn00afr3kifrtWhWw08NmNkIw==
   dependencies:
-    "@iov/bcp-types" "^0.7.0"
-    "@iov/crypto" "^0.7.0"
-    "@iov/encoding" "^0.7.0"
-    "@iov/stream" "^0.7.0"
-    "@iov/tendermint-types" "^0.7.0"
+    "@iov/base-types" "^0.9.0"
+    "@iov/bcp-types" "^0.9.0"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
+    "@iov/stream" "^0.9.1"
     "@types/abstract-leveldown" "^5.0.1"
     "@types/levelup" "^3.1.0"
     "@types/node" "^9.6.6"
@@ -824,19 +860,28 @@
     type-tagger "^1.0.0"
     xstream "^11.4.0"
 
-"@iov/stream@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/stream/-/stream-0.7.0.tgz#aed2a28f9dbc17adb0acf7c26b8249aac4801ffc"
+"@iov/stream@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/stream/-/stream-0.9.1.tgz#5bca6ea38ce29601b2339b327db327d23786b84c"
+  integrity sha512-Le6NW8xO+/+vi/wRtsGE2TAtd8bSv915EEoEiLnYlRuIHOpOnCGYo8bgyhCkQKQGsLVgX5EpgOdjuKFSLGXdYg==
   dependencies:
     xstream "^11.7.0"
 
-"@iov/tendermint-rpc@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/tendermint-rpc/-/tendermint-rpc-0.7.0.tgz#6ef393ee2670591bef07a16a9eb8d0049d618bfc"
+"@iov/stream@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@iov/stream/-/stream-0.9.2.tgz#841d9d546b98def9813fc0c7a36955175453ee29"
+  integrity sha512-Ok7ViR7kfsPdDowFL/Myf6RuVnHKcaWDn7oj5g+hsj67FGWhvmq8jXJS6SPoCnYvfMOTQXkPzuxEOTbG8QRIZw==
   dependencies:
-    "@iov/crypto" "^0.7.0"
-    "@iov/encoding" "^0.7.0"
-    "@iov/tendermint-types" "^0.7.0"
+    xstream "^11.7.0"
+
+"@iov/tendermint-rpc@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@iov/tendermint-rpc/-/tendermint-rpc-0.9.1.tgz#7e0a98507dbf56ea1be6169bf918591c30e6194b"
+  integrity sha512-M1emP7+OjrBwcdqDeIFeQuBabDfzQXP8XqGcKGzHf9Gfq5KAocXjaxnErJBOcPqPqfu0QGmmBnlJBFcb0vT4ww==
+  dependencies:
+    "@iov/base-types" "^0.9.0"
+    "@iov/crypto" "^0.9.1"
+    "@iov/encoding" "^0.9.0"
     "@types/node" "^10.3.2"
     "@types/ws" "^5.1.2"
     axios "^0.18.0"
@@ -846,14 +891,6 @@
     type-tagger "^1.0.0"
     ws "^5.2.2"
     xstream "^11.7.0"
-
-"@iov/tendermint-types@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@iov/tendermint-types/-/tendermint-types-0.7.0.tgz#a8a3c6cc47e46d542e4d7b9eb89b6f51d7e287d2"
-  dependencies:
-    "@types/long" "^4.0.0"
-    long "^4.0.0"
-    type-tagger "^1.0.0"
 
 "@material-ui/core@^3.5.1":
   version "3.6.0"
@@ -4589,6 +4626,11 @@ js-base64@^2.1.8:
 js-levenshtein@^1.1.3:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.4.tgz#3a56e3cbf589ca0081eb22cd9ba0b1290a16d26e"
+
+js-sha3@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
+  integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

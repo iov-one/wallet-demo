@@ -1,9 +1,10 @@
+import { ChainId } from "@iov/base-types";
 import {
   Address,
+  Amount,
   BcpAccount,
   BcpConnection,
   BcpTransactionResponse,
-  FungibleToken,
   TransactionKind,
   TxCodec,
   UnsignedTransaction,
@@ -11,7 +12,6 @@ import {
 import { bnsCodec } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
-import { ChainId } from "@iov/tendermint-types";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
@@ -83,7 +83,7 @@ export async function sendTransaction(
   writer: MultiChainSigner,
   chainId: ChainId,
   recipient: Address,
-  amount: FungibleToken,
+  amount: Amount,
   memo?: string,
 ): Promise<BcpTransactionResponse> {
   const walletId = getMainKeyring(writer.profile);
