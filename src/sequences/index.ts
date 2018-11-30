@@ -4,7 +4,7 @@
 import { ThunkDispatch } from "redux-thunk";
 
 import { Amount } from "@iov/bcp-types";
-import { ChainId, MultiChainSigner } from "@iov/core";
+import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
 
 import {
   BlockchainSpec,
@@ -101,14 +101,14 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   return { accounts, signer };
 };
 
-export const drinkFaucetSequence = (facuetUri: string) => async (
+export const drinkFaucetSequence = (facuetUri: string, ticker: TokenTicker) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const identity = requireActiveIdentity(getState());
   // --take a drink from the faucet
   const address = keyToAddress(identity);
-  await takeFaucetCredit(facuetUri, address, undefined);
+  await takeFaucetCredit(facuetUri, address, ticker);
 };
 
 export const setNameSequence = (name: string, chainId: ChainId) => async (

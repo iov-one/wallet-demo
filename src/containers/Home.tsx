@@ -4,7 +4,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
+import { ChainId, MultiChainSigner, TokenTicker, UserProfile } from "@iov/core";
 
 import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
@@ -35,7 +35,7 @@ interface HomeProps extends RouteComponentProps<{}> {
 interface HomeDispatchProps {
   readonly reset: (password: string) => Promise<any>;
   readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
-  readonly drinkFaucet: (facuetUri: string) => Promise<any>;
+  readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
 
@@ -70,7 +70,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       history,
     } = this.props;
     if (!account) {
-      await drinkFaucet(config["defaultFaucetUri"]);
+      await drinkFaucet(config["defaultFaucetUri"], config["faucetToken"]);
       this.setState({
         booted: true,
       });
@@ -183,7 +183,7 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, blockchains)),
-  drinkFaucet: (facuetUri: string) => dispatch(drinkFaucetSequence(facuetUri)),
+  drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
   reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
 });
