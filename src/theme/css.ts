@@ -1,9 +1,11 @@
+import { Size } from "./size";
+
 export const upperFirst = (value: string) => value.charAt(0).toUpperCase() + value.toLowerCase().slice(1);
 
-type Value = "xs" | "sm" | "md" | "lg" | "xl" | "center" | "end" | "start" | number | boolean;
+type Value = Size | "center" | "end" | "start" | number | boolean | undefined;
 
 export const capitalize = (value: Value, prefix?: string) => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
