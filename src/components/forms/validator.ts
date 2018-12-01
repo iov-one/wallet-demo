@@ -1,5 +1,4 @@
 import { FieldValidator } from "final-form";
-type Field = boolean | string | null | typeof undefined;
 
 export const greaterThan = (min: number) => (value: string) => {
   if (Number.isNaN(Number(value)) || Number.parseFloat(value) > Number(min)) {
@@ -9,15 +8,21 @@ export const greaterThan = (min: number) => (value: string) => {
   return `Should be greater than ${min}`;
 };
 
-export const mustBeInteger = (value: string) =>
-  !Number.isInteger(Number(value)) || value.includes(".") ? "Must be an integer" : undefined;
+export const mustBeInteger = (value: string) => {
+  if (!Number.isInteger(Number(value)) || value.includes(".")) {
+    return "Must be an integer";
+  }
 
-export const required = (value: Field) => (value ? undefined : "Required");
+  return undefined;
+};
 
-type Validator = (value: Field) => typeof undefined | string;
+export const required = (value: string) => (value ? undefined : "Required");
+
+type Result = string | undefined;
+type Validator = (value: string) => Result;
 
 // tslint:disable-next-line:readonly-array
-export const composeValidators = (...validators: Validator[]): FieldValidator => (value: Field) =>
+export const composeValidators = (...validators: Validator[]): FieldValidator => (value: string) =>
   validators.reduce(
     (error: string | undefined, validator: Validator) => error || validator(value),
     undefined,
