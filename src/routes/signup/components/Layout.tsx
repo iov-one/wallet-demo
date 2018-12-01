@@ -15,7 +15,6 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
-import { screenXs } from "~/theme/variables";
 
 interface Props {
   readonly onSubmit: (values: object) => void;
@@ -23,8 +22,8 @@ interface Props {
 
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid root>
-    <GridItem xs={12} sm={4}>
-      <Block grow maxWidth={screenXs}>
+    <GridItem maxwidth="sm" xs={12} sm={4}>
+      <Block grow>
         <Img src={people} alt="Sign up Image" cover />
       </Block>
     </GridItem>
@@ -64,6 +63,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 margin="dense"
                 name="email"
                 type="text"
+                fullWidth
                 component={TextField}
                 placeholder="Your Email"
               />
@@ -77,6 +77,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 margin="dense"
                 name="password"
                 type="password"
+                fullWidth
                 component={TextField}
                 placeholder="Password"
               />
@@ -90,6 +91,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 margin="dense"
                 name="confirmPassword"
                 type="password"
+                fullWidth
                 component={TextField}
                 placeholder="Confirm Password"
               />
@@ -124,7 +126,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
             <Block grow margin="xxl" />
             <Hairline />
             <Block margin="md" />
-            <Grid shrink>
+            <Grid nowrap shrink>
               <GridItem grow center="xs" end="xs">
                 <Block margin="md" padding="xxl">
                   <Button
