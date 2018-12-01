@@ -1,0 +1,54 @@
+.grid {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.shrink {
+  flex: 0 1 auto;
+}
+
+.marginXs {
+  margin-bottom: $xs;
+}
+.marginSm {
+  margin-bottom: $sm;
+}
+.marginMd {
+  margin-bottom: $md;
+}
+.marginLg {
+  margin-bottom: $lg;
+}
+.marginXl {
+  margin-bottom: $xl;
+}
+
+.paddingXs {
+  padding: $xs;
+}
+.paddingSm {
+  padding: $sm;
+}
+.paddingMd {
+  padding: $md;
+}
+.paddingLg {
+  padding: $lg;
+}
+.paddingXl {
+  padding: $xl;
+}
+.paddingXxl {
+  padding: $xxl;
+}
+
+.alignStart {
+  align-items: flex-start;
+}
+.alignEnd {
+  align-items: flex-end;
+}
+.alignCenter {
+  align-items: center;
+}

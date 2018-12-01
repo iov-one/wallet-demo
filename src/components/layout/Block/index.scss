@@ -1,0 +1,56 @@
+.xs {
+  margin-bottom: $xs;
+}
+.sm {
+  margin-bottom: $sm;
+}
+.md {
+  margin-bottom: $md;
+}
+.lg {
+  margin-bottom: $lg;
+}
+.xl {
+  margin-bottom: $xl;
+}
+.xxl {
+  margin-bottom: $xxl;
+}
+
+.paddingXs {
+  padding-left: $xs;
+  padding-right: $xs;
+}
+.paddingSm {
+  padding-left: $sm;
+  padding-right: $sm;
+}
+.paddingMd {
+  padding-left: $md;
+  padding-right: $md;
+}
+.paddingLg {
+  padding-left: $lg;
+  padding-right: $lg;
+}
+.paddingXl {
+  padding-left: $xl;
+  padding-right: $xl;
+}
+.paddingXxl {
+  padding-left: $xxl;
+  padding-right: $xxl;
+}
+
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+
+.grow {
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+}
