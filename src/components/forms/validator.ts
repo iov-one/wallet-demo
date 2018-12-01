@@ -16,9 +16,8 @@ export const required = (value: Field) => (value ? undefined : "Required");
 
 type Validator = (value: Field) => typeof undefined | string;
 
-// TODO (...validators: ReadonlyArray<Validator>) does not work due a bug
-// see: https://github.com/Microsoft/TypeScript/issues/15972
-export const composeValidators = (...validators: any): FieldValidator => (value: Field) =>
+// tslint:disable-next-line:readonly-array
+export const composeValidators = (...validators: Validator[]): FieldValidator => (value: Field) =>
   validators.reduce(
     (error: string | undefined, validator: Validator) => error || validator(value),
     undefined,
