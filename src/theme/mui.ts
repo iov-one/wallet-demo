@@ -28,14 +28,14 @@ export default createMuiTheme({
     MuiCheckbox: {
       root: {
         padding: `0 ${sm} 0 0`,
-      }
+      },
     },
     MuiButton: {
       root: {
-        textTransform: 'capitalize',
+        textTransform: "capitalize",
       },
       contained: {
-        boxShadow: 'none',
+        boxShadow: "none",
       },
       containedPrimary: {
         color: "#ffffff",

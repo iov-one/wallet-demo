@@ -1,4 +1,4 @@
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { FormState } from "final-form";
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
@@ -15,14 +15,14 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 import people from "~/routes/signup/assets/People.svg";
-import { screenXs } from '~/theme/variables';
+import { screenXs } from "~/theme/variables";
 
 interface Props {
   readonly onSubmit: (values: object) => void;
 }
 
 const Layout = ({ onSubmit }: Props): JSX.Element => (
-  <Grid>
+  <Grid root>
     <GridItem xs={12} sm={4}>
       <Block grow maxWidth={screenXs}>
         <Img src={people} alt="Sign up Image" cover />
@@ -121,7 +121,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
                 </GridItem>
               </Grid>
             </Block>
-            <Block grow margin="xxl"/>
+            <Block grow margin="xxl" />
             <Hairline />
             <Block margin="md" />
             <Grid shrink>
