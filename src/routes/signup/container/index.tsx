@@ -1,11 +1,9 @@
 import * as React from "react";
 import Layout from "~/routes/signup/components/Layout";
 
-type Props = {};
-
-type State = {
+interface State {
   readonly page: number;
-};
+}
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -14,7 +12,7 @@ const onSubmit = async (values: object) => {
   console.log(values);
 };
 
-class SignUp extends React.Component<Props, State> {
+class SignUp extends React.Component<{}, State> {
   public readonly state = {
     page: 0,
   };
