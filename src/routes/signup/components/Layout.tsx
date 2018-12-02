@@ -27,7 +27,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
         <Img src={people} alt="Sign up Image" cover />
       </Block>
     </GridItem>
-    <GridItem xs={12} sm={8} variant="column" padding="xxl">
+    <GridItem xs={12} sm={8} growSm={4} variant="column" padding="xxl">
       <Block padding="xxl" align="right" margin="xxl">
         <Typography variant="body2" inline>
           {"Already have an account?\u00a0"}
