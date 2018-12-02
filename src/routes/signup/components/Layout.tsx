@@ -97,7 +97,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
               />
             </Block>
             <Block padding="xxl">
-              <Grid shrink>
+              <Grid shrink nowrap>
                 <GridItem top="xs">
                   <Field fontSize="small" name="terms" component={Checkbox} type="checkbox" />
                 </GridItem>
