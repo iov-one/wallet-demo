@@ -7,6 +7,12 @@
 .shrink {
   flex: 0 1 auto;
 }
+.root {
+  height: 100%;
+}
+.nowrap {
+  flex-wrap: nowrap;
+}
 
 .marginXs {
   margin-bottom: $xs;
