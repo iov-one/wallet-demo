@@ -36,6 +36,7 @@ interface Props {
   readonly smOffset?: number;
   readonly mdOffset?: number;
   readonly lgOffset?: number;
+  readonly maxwidth?: "sm" | "md" | "lg";
   readonly className?: string;
   readonly children: React.ReactNode;
 }
@@ -62,6 +63,7 @@ const GridItem = ({
   smOffset,
   mdOffset,
   lgOffset,
+  maxwidth,
   padding,
   grow,
   className,
@@ -91,6 +93,7 @@ const GridItem = ({
     capitalize(mdOffset, "mdOffset"),
     capitalize(lgOffset, "lgOffset"),
     capitalize(padding, "padding"),
+    capitalize(maxwidth, "maxwidth"),
     { overflow },
     { grow },
     variant,
