@@ -53,7 +53,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".json"],
     alias: {
       config: configFile,
-      '~': resolve(__dirname, "..", "src"),
+      "~": resolve(__dirname, "..", "src"),
     },
   },
   module: {
