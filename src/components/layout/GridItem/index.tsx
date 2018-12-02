@@ -3,6 +3,7 @@ import React from "react";
 import { capitalize } from "~/theme/css";
 import { Size } from "~/theme/size";
 import styles from "./index.scss";
+import { calculateMaxWidthBasedOn, Magnitude } from "./magnitudeCalculator";
 
 const cx: any = classNames.bind(styles);
 
@@ -28,10 +29,13 @@ interface Props {
   readonly padding?: Size;
   readonly overflow?: boolean;
   readonly grow?: boolean;
-  readonly xs?: number | boolean;
-  readonly sm?: number | boolean;
-  readonly md?: number | boolean;
-  readonly lg?: number | boolean;
+  readonly xs?: Magnitude;
+  readonly sm?: Magnitude;
+  readonly md?: Magnitude;
+  readonly lg?: Magnitude;
+  readonly growSm?: Magnitude;
+  readonly growMd?: Magnitude;
+  readonly growLg?: Magnitude;
   readonly xsOffset?: number;
   readonly smOffset?: number;
   readonly mdOffset?: number;
@@ -64,6 +68,9 @@ const GridItem = ({
   mdOffset,
   lgOffset,
   maxwidth,
+  growSm,
+  growMd,
+  growLg,
   padding,
   grow,
   className,
@@ -100,8 +107,10 @@ const GridItem = ({
     className,
   );
 
+  const maxWidthStyle = calculateMaxWidthBasedOn(sm, md, lg, growSm, growMd, growLg);
+
   return (
-    <div className={colClassNames} {...props}>
+    <div className={colClassNames} {...props} style={maxWidthStyle}>
       {children}
     </div>
   );
