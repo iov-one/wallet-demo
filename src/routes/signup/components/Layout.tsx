@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Layout = ({ onSubmit }: Props): JSX.Element => (
-  <Grid root>
+  <Grid>
     <GridItem maxwidth="sm" xs={12} sm={4}>
       <Block grow>
         <Img src={people} alt="Sign up Image" cover />
