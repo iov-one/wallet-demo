@@ -2,24 +2,34 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { FormState } from "final-form";
 import * as React from "react";
 import Field from "~/components/forms/Field";
-import Form from "~/components/forms/Form";
+import Form, { Errors } from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
+import { required, validEmail } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
 import FormSpace from "./FormSpace";
-import TermsSection from "./TermsSection";
+import PolicySection from "./PolicySection";
 
 interface Props {
   readonly onSubmit: (values: object) => void;
 }
 
+const validate = (values: any) => {
+  let errors: Errors = {};
+  if (values.password !== values.confirmPassword) {
+    errors = { ...errors, confirmPassword: "Passwords do not match" };
+  }
+
+  return errors;
+};
+
 const SignupFormSection = ({ onSubmit }: Props) => (
   <React.Fragment>
-    <Form onSubmit={onSubmit} grow>
-      {({ submitting }: FormState) => (
+    <Form onSubmit={onSubmit} validation={validate} grow>
+      {({ submitting, valid, validating }: FormState) => (
         <React.Fragment>
           <Block padding="xxl" maxWidth={450}>
             <Typography variant="subtitle2" color="textPrimary">
@@ -31,6 +41,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               name="email"
               type="text"
               fullWidth
+              validate={validEmail}
               component={TextField}
               placeholder="Your Email"
             />
@@ -46,6 +57,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               type="password"
               fullWidth
               component={TextField}
+              validate={required}
               placeholder="Password"
             />
           </Block>
@@ -60,17 +72,24 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               type="password"
               fullWidth
               component={TextField}
+              validate={required}
               placeholder="Confirm Password"
             />
           </Block>
           <Block padding="xxl">
-            <TermsSection />
+            <PolicySection />
           </Block>
           <FormSpace />
           <Grid nowrap shrink>
             <GridItem grow center="xs" end="xs">
               <Block margin="md" padding="xxl">
-                <Button variant="contained" color="primary" type="submit" disabled={submitting} size="large">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={!valid || submitting || validating}
+                  size="large"
+                >
                   {"Continue\u00a0"}
                   <ArrowForwardIcon fontSize="small" />
                 </Button>

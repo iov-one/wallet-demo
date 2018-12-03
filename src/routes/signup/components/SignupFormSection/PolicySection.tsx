@@ -1,6 +1,7 @@
 import * as React from "react";
 import Checkbox from "~/components/forms/Checkbox";
 import Field from "~/components/forms/Field";
+import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
@@ -8,10 +9,17 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 
-const TermsSection = () => (
+const PolicySection = () => (
   <Grid shrink nowrap>
     <GridItem top="xs">
-      <Field fontSize="small" name="terms" component={Checkbox} type="checkbox" />
+      <Field
+        validate={required}
+        disableRipple
+        fontSize="small"
+        name="terms"
+        component={Checkbox}
+        type="checkbox"
+      />
     </GridItem>
     <GridItem variant="column">
       <Typography variant="subtitle2" color="textSecondary" inline>
@@ -36,4 +44,4 @@ const TermsSection = () => (
   </Grid>
 );
 
-export default TermsSection;
+export default PolicySection;

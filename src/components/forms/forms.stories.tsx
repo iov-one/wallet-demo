@@ -5,14 +5,10 @@ import * as React from "react";
 import { sleep } from "~/utils/timer";
 import Checkbox from "./Checkbox";
 import Field from "./Field";
-import Form from "./Form";
+import Form, { Errors } from "./Form";
 import SelectField from "./SelectField";
 import TextField from "./TextField";
 import { composeValidators, greaterThan, mustBeInteger, required } from "./validator";
-
-interface Errors {
-  readonly [key: string]: string;
-}
 
 const onSubmit = async (values: object) => {
   await sleep(300);
