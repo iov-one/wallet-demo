@@ -1,4 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import { error, lightFont, primary, regularFont, secondary, semiBoldFont, sm } from "~/theme/variables";
 
 const palette = {
@@ -15,7 +16,7 @@ const palette = {
   tonalOffset: 0.2,
 };
 
-export default createMuiTheme({
+export const themeObject: ThemeOptions = {
   typography: {
     useNextVariants: true,
     fontFamily: "Muli",
@@ -28,6 +29,11 @@ export default createMuiTheme({
     MuiCheckbox: {
       root: {
         padding: `0 ${sm} 0 0`,
+      },
+    },
+    MuiTypography: {
+      body1: {
+        fontSize: "1rem",
       },
     },
     MuiButton: {
@@ -44,4 +50,6 @@ export default createMuiTheme({
   },
   props: {},
   palette,
-});
+};
+
+export default createMuiTheme(themeObject);
