@@ -1,4 +1,4 @@
-import { screenLg, screenMd, screenSm, screenXs } from "~/theme/variables";
+import { screenLg, screenMd, screenSm } from "~/theme/variables";
 
 export type Magnitude = number | undefined;
 
@@ -76,17 +76,18 @@ export const calculateMaxWidthBasedOn = (
   growMd: Magnitude,
   growLg: Magnitude,
   viewportWidth: number,
+  growColWidth: number,
 ) => {
   if (sm && growSm && viewportWidth >= screenSm) {
-    return getMaxWidthStyleFrom(sm, growSm, screenXs);
+    return getMaxWidthStyleFrom(sm, growSm, growColWidth);
   }
 
   if (md && growMd && viewportWidth >= screenMd) {
-    return getMaxWidthStyleFrom(md, growMd, screenSm);
+    return getMaxWidthStyleFrom(md, growMd, growColWidth);
   }
 
   if (lg && growLg && viewportWidth >= screenLg) {
-    return getMaxWidthStyleFrom(lg, growLg, screenMd);
+    return getMaxWidthStyleFrom(lg, growLg, growColWidth);
   }
 
   return undefined;

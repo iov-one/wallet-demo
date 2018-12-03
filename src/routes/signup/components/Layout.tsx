@@ -13,14 +13,16 @@ interface Props {
   readonly onSubmit: (values: object) => void;
 }
 
+const ref = React.createRef<GridItem>();
+console.log(ref === null);
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
-    <GridItem maxwidth="sm" xs={12} sm={4}>
+    <GridItem ref={ref} maxwidth="sm" xs={12} sm={4}>
       <Block grow>
         <Img src={people} alt="Sign up Image" cover />
       </Block>
     </GridItem>
-    <GridItem xs={12} sm={8} growSm={4} variant="column" padding="xxl">
+    <GridItem xs={12} sm={8} growElem={ref} growSm={4} variant="column" padding="xxl">
       <Block padding="xxl" align="right" margin="xxl">
         <LoginSection />
       </Block>

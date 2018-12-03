@@ -17,6 +17,11 @@ interface Order {
 interface Props {
   readonly order?: Order;
   readonly variant?: "row" | "column" | "block";
+  readonly margin?: Size;
+  readonly padding?: Size;
+  readonly overflow?: boolean;
+  readonly grow?: boolean;
+
   readonly start?: "xs" | "sm" | "md" | "lg";
   readonly center?: "xs" | "sm" | "md" | "lg";
   readonly end?: "xs" | "sm" | "md" | "lg";
@@ -25,22 +30,23 @@ interface Props {
   readonly bottom?: "xs" | "sm" | "md" | "lg";
   readonly around?: "xs" | "sm" | "md" | "lg";
   readonly between?: "xs" | "sm" | "md" | "lg";
-  readonly margin?: Size;
-  readonly padding?: Size;
-  readonly overflow?: boolean;
-  readonly grow?: boolean;
+
   readonly xs?: Magnitude;
   readonly sm?: Magnitude;
   readonly md?: Magnitude;
   readonly lg?: Magnitude;
+
+  readonly maxwidth?: "sm" | "md" | "lg";
   readonly growSm?: Magnitude;
   readonly growMd?: Magnitude;
   readonly growLg?: Magnitude;
+  readonly growElem?: React.RefObject<GridItem>;
+
   readonly xsOffset?: number;
   readonly smOffset?: number;
   readonly mdOffset?: number;
   readonly lgOffset?: number;
-  readonly maxwidth?: "sm" | "md" | "lg";
+
   readonly className?: string;
   readonly children: React.ReactNode;
 }
@@ -51,17 +57,28 @@ interface State {
 
 class GridItem extends React.PureComponent<Props, State> {
   public readonly state = {
-    viewportWidth: window.innerWidth,
+    viewportWidth: 0,
   };
+  private readonly divRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
-    this.updateViewport();
-    window.addEventListener("resize", this.updateViewport);
+    if (this.props.growElem) {
+      this.updateViewport();
+      window.addEventListener("resize", this.updateViewport);
+    }
   }
 
   public componentWillUnmount(): void {
-    window.removeEventListener("resize", this.updateViewport);
+    if (this.props.growElem) {
+      window.removeEventListener("resize", this.updateViewport);
+    }
   }
+
+  public readonly calculateWidth = () => {
+    const width = this.divRef && this.divRef.current && this.divRef.current.clientWidth;
+
+    return width ? width : 0;
+  };
 
   public readonly updateViewport = () => {
     this.setState(() => ({ viewportWidth: window.innerWidth }));
@@ -91,6 +108,7 @@ class GridItem extends React.PureComponent<Props, State> {
       mdOffset,
       lgOffset,
       maxwidth,
+      growElem,
       growSm,
       growMd,
       growLg,
@@ -130,18 +148,24 @@ class GridItem extends React.PureComponent<Props, State> {
       variant,
       className,
     );
-    const maxWidthStyle = calculateMaxWidthBasedOn(
-      sm,
-      md,
-      lg,
-      growSm,
-      growMd,
-      growLg,
-      this.state.viewportWidth,
-    );
+
+    let maxWidthStyle;
+    if (growElem && growElem.current) {
+      const width = growElem.current.calculateWidth();
+      maxWidthStyle = calculateMaxWidthBasedOn(
+        sm,
+        md,
+        lg,
+        growSm,
+        growMd,
+        growLg,
+        this.state.viewportWidth,
+        width,
+      );
+    }
 
     return (
-      <div className={colClassNames} {...props} style={maxWidthStyle}>
+      <div ref={this.divRef} className={colClassNames} {...props} style={maxWidthStyle}>
         {children}
       </div>
     );
