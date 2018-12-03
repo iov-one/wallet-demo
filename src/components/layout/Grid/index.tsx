@@ -7,21 +7,23 @@ import styles from "./index.scss";
 const cx: any = classNames.bind(styles);
 
 interface Props {
+  readonly root?: boolean;
   readonly children: React.ReactNode;
   readonly className?: string;
   readonly margin?: Size;
   readonly padding?: Size;
   readonly align?: "center" | "end" | "start";
   readonly shrink?: boolean;
+  readonly nowrap?: boolean;
 }
 
-const Grid = ({ children, className, margin, padding, align, shrink, ...props }: Props) => {
+const Grid = ({ children, root, className, margin, padding, align, shrink, nowrap, ...props }: Props) => {
   const rowClassNames = cx(
     styles.grid,
     capitalize(margin, "margin"),
     capitalize(padding, "padding"),
     capitalize(align, "align"),
-    { shrink },
+    { shrink, root, nowrap },
     className,
   );
 

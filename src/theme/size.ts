@@ -1,6 +1,6 @@
 import { lg, md, sm, xl, xs } from "~/theme/variables";
 
-export type Size = "xs" | "sm" | "md" | "lg" | "xl";
+export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
 export const getSize = (size: Size | typeof undefined) => {
   switch (size) {

@@ -211,43 +211,43 @@
     text-align: end;
   }
   .top$(size) {
-      align-items: flex-start;
+    align-items: flex-start;
   }
   .middle$(size) {
-      align-items: center;
+    align-items: center;
   }
   .bottom$(size) {
-      align-items: flex-end;
+    align-items: flex-end;
   }
   .around$(size) {
-      justify-content: space-around;
+    justify-content: space-around;
   }
   .between$(size) {
-      justify-content: space-between;
+    justify-content: space-between;
   }
 }
 
 @define-mixin order $size {
   @media only screen and (max-width: $(screen$(size))px) {
-      .order$(size)1 {
-          order: 1;
-      }
+    .order$(size)1 {
+      order: 1;
+    }
 
-      .order$(size)2 {
-          order: 2;
-      }
+    .order$(size)2 {
+      order: 2;
+    }
 
-      .order$(size)3 {
-          order: 3;
-      }
+    .order$(size)3 {
+      order: 3;
+    }
 
-      .order$(size)4 {
-          order: 4;
-      }
+    .order$(size)4 {
+      order: 4;
+    }
 
-      .order$(size)5 {
-          order: 5;
-      }
+    .order$(size)5 {
+      order: 5;
+    }
   }
 }
 
@@ -268,4 +268,22 @@
 
 @media only screen and (min-width: $(screenLg)px) {
   @mixin row Lg;
+}
+
+@media only screen and (min-width: $(screenSm)px) {
+  .maxwidthSm {
+    max-width: $(screenXs)px;
+  }
+}
+
+@media only screen and (min-width: $(screenMd)px) {
+  .maxwidthMd {
+    max-width: $(screenSm)px;
+  }
+}
+
+@media only screen and (min-width: $(screenLg)px) {
+  .maxwidthLg {
+    max-width: $(screenMd)px;
+  }
 }
