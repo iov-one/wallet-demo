@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ref = React.createRef<GridItem>();
-console.log(ref === null);
+
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
     <GridItem ref={ref} maxwidth="sm" xs={12} sm={4}>
