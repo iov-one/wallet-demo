@@ -101,7 +101,9 @@ function watchAccountAndTransactions(
   const handleTx = async (trans: ConfirmedTransaction) => {
     // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
     const transInfo = await parseConfirmedTransaction(conn, trans, identity);
-    dispatch(addConfirmedTransaction(transInfo));
+    if (transInfo) {
+      dispatch(addConfirmedTransaction(transInfo));
+    }
   };
   stream.subscribe({
     next: handleTx,

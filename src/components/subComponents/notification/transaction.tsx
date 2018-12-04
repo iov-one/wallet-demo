@@ -96,7 +96,7 @@ export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.E
               Your payment to <Bold>{recipient}</Bold> failed
             </Message>
           )}
-          <Time>{props.time}</Time>
+          <Time>{props.time.toLocaleString()}</Time>
         </TransInfo>
       </Content>
     </Wrapper>

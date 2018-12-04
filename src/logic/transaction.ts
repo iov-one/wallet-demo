@@ -44,12 +44,13 @@ export const parseConfirmedTransaction = async (
   conn: BcpConnection,
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
-): Promise<TransNotificationInfo> => {
+): Promise<TransNotificationInfo | undefined> => {
   const payload = trans.transaction;
   if (payload.kind !== TransactionKind.Send) {
-    throw new Error(`Only handle SendTx for now, got ${payload.kind}`);
+    console.log(`Only handle SendTx for now, got ${payload.kind}`);
+    return undefined;
   }
-  const received = keysEqual(trans.primarySignature.pubkey, identity.pubkey);
+  const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
   // TODO: fix this, we cannot always assume BnsConnection
   const header = await (conn as BnsConnection).getHeader(trans.height);
   const time = header.time;
