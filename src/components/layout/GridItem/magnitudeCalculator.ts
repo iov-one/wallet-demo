@@ -61,7 +61,7 @@ const getMagnitudeFrom = (magnitude: number): string => {
 export const getMaxWidthStyleFrom = (size: number, growSize: number, screenSize: number) => {
   const originalMaxWidth = getMagnitudeFrom(size);
   const partToTrim = getMagnitudeFrom(growSize);
-  const value = `calc(${originalMaxWidth} + ${partToTrim} - ${screenSize}px)`;
+  const value = `calc(${originalMaxWidth} + ${partToTrim} - 2px - ${screenSize}px)`;
   return {
     maxWidth: value,
     flexBasis: value,
