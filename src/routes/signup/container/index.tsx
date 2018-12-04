@@ -5,20 +5,18 @@ interface State {
   readonly page: number;
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const onSubmit = async (values: object) => {
-  await sleep(300);
-  console.log(values);
-};
-
 class SignUp extends React.Component<{}, State> {
   public readonly state = {
     page: 0,
   };
 
+  public readonly onSubmit = async (values: object) => {
+    this.setState({ page: 1})
+    console.log(values);
+  };
+
   public render(): JSX.Element {
-    return <Layout onSubmit={onSubmit} />;
+    return <Layout onSubmit={this.onSubmit} />;
   }
 }
 
