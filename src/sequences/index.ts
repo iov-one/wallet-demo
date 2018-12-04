@@ -2,9 +2,11 @@
 // The idea is to combine larger sequences of actions into thunks
 
 import { ThunkDispatch } from "redux-thunk";
+import debounce from "xstream/extra/debounce";
 
-import { Amount, BcpConnection, ConfirmedTransaction, TransactionKind } from "@iov/bcp-types";
-import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
+import { ChainId } from "@iov/base-types";
+import { Amount, BcpConnection, BcpTxQuery, ConfirmedTransaction } from "@iov/bcp-types";
+import { bnsFromOrToTag, MultiChainSigner, TokenTicker } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import {
@@ -23,7 +25,6 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
-  watchAccountAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import {
@@ -31,7 +32,6 @@ import {
   addPendingTransactionAction,
   removePendingTransactionAction,
   setTransactionErrorAction,
-  watchTransactionAction,
 } from "../reducers/notification";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
@@ -75,7 +75,7 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-    initAccounts = watchAccountAndTransactions(dispatch, conn, identity);
+    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
   }
 
   // wait for all accounts to initialize
@@ -88,52 +88,36 @@ function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
   conn: BcpConnection,
   identity: PublicIdentity,
-): ReadonlyArray<Promise<BcpAccountWithChain | undefined>> {
-  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
+): Promise<BcpAccountWithChain | undefined> {
+  // request the current account and return a promise resolved when it is loaded
+  const account = getAccountAsyncAction.start(conn, identity, undefined).payload;
 
-  // we need to set a callback that resolves a promise
-  // this is an ugly setup, but we need to block on the first result before we proceed, so the
-  // next code in sequence works. but then also want to auto-update from the stream
-  let cb: (acct?: BcpAccountWithChain, err?: any) => any;
-  const prom = new Promise<BcpAccountWithChain | undefined>((resolve, reject) => {
-    let done = false;
-    cb = (acct?: BcpAccountWithChain, err?: any) => {
-      // actually do the dispatching
-      // Note: acct, err both undefined is valid for non-existent account
-      if (!err) {
-        dispatch(getAccountAsyncAction.success(acct));
-      } else {
-        dispatch(getAccountAsyncAction.failure(err));
-      }
-      // finish the promise for the first query
-      if (!done) {
-        done = true;
-        if (!err) {
-          resolve(acct);
-        } else {
-          reject(err);
-        }
-      }
-    };
-  });
-  dispatch(watchAccountAction(conn, identity, cb!));
-  initAccounts = [...initAccounts, prom];
+  // get a stream of all transactions
+  const address = keyToAddress(identity);
+  const query: BcpTxQuery = { tags: [bnsFromOrToTag(address)] };
+  const stream = conn.liveTx(query);
 
-  // this is a normal stream subscription for transactions
-  const transCb = async (trans?: ConfirmedTransaction, err?: any) => {
+  // process incoming transactions and add to dispatched/redux store
+  const handleTx = async (trans: ConfirmedTransaction) => {
     // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
-    const myConn = conn;
-    if (err) {
-      throw err;
-    }
-    if (trans && trans.transaction.kind === TransactionKind.Send) {
-      const transInfo = await parseConfirmedTransaction(myConn, trans, identity);
-      dispatch(addConfirmedTransaction(transInfo));
-    }
+    const transInfo = await parseConfirmedTransaction(conn, trans, identity);
+    dispatch(addConfirmedTransaction(transInfo));
   };
-  dispatch(watchTransactionAction(conn, identity, transCb));
+  stream.subscribe({
+    next: handleTx,
+    error: err => {
+      throw err;
+    },
+  });
 
-  return initAccounts;
+  // update accounts on new transactions (with debounce)
+  const onChangeAccount = async () => {
+    dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+  };
+  // make sure we only query once per block or search return at max
+  stream.compose(debounce(200)).subscribe({ next: onChangeAccount });
+
+  return account; // resolved when first account is loaded
 }
 
 export const drinkFaucetSequence = (facuetUri: string, ticker: TokenTicker) => async (
