@@ -1,6 +1,15 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
-import { border, error, lightFont, primary, regularFont, secondary, semiBoldFont, sm } from "~/theme/variables";
+import {
+  border,
+  error,
+  lightFont,
+  primary,
+  regularFont,
+  secondary,
+  semiBoldFont,
+  sm,
+} from "~/theme/variables";
 
 const palette = {
   primary: {
@@ -73,12 +82,12 @@ export const themeObject: ThemeOptions = {
     },
     MuiOutlinedInput: {
       root: {
-        '& $notchedOutline': {
+        "& $notchedOutline": {
           borderColor: border,
-          borderWidth: '1px',
-        }
-      }
-    }
+          borderWidth: "1px",
+        },
+      },
+    },
   },
   props: {},
   palette,
