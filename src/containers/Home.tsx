@@ -6,12 +6,13 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { ChainId, MultiChainSigner, TokenTicker, UserProfile } from "@iov/core";
 
+import { BcpAccountWithChain } from "~/reducers/blockchain";
 import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
-import { bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
+import { BootResult, bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
 
 interface HomeState {
   readonly name: string;
@@ -34,7 +35,7 @@ interface HomeProps extends RouteComponentProps<{}> {
 // Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
   readonly reset: (password: string) => Promise<any>;
-  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<MultiChainSigner>;
+  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<BootResult>;
   readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
@@ -55,20 +56,18 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
     try {
-      await boot(config["defaultPassword"], [config["chainSpec"]]);
-      await this.checkAndDrinkFaucet();
+      const { accounts } = await boot(config["defaultPassword"], [config["chainSpec"]]);
+      await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
       this.setState({ booted: false });
       console.log("error during boot phase");
       console.log(err);
     }
   }
-  public async checkAndDrinkFaucet(): Promise<void> {
-    const {
-      accounts: [{ account }],
-      drinkFaucet,
-      history,
-    } = this.props;
+  public async checkAndDrinkFaucet(accounts: ReadonlyArray<BcpAccountWithChain | undefined>): Promise<void> {
+    const { drinkFaucet, history } = this.props;
+    const acct = accounts[0];
+    const account = acct ? acct.account : undefined;
     if (!account) {
       await drinkFaucet(config["defaultFaucetUri"], config["faucetToken"]);
       this.setState({
