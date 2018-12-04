@@ -67,7 +67,9 @@ const Time = styled.div`
 `;
 
 export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
-  const { signerName, recipientName } = props;
+  const { signerAddr, signerName, recipientAddr, recipientName } = props;
+  const signer = signerName || signerAddr;
+  const recipient = recipientName || recipientAddr;
   const { amount } = props.transaction;
   const coinInfo: CoinInfo = {
     fractional: amount.fractional,
@@ -83,15 +85,15 @@ export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.E
         <TransInfo>
           {props.success ? (
             <Message>
-              {props.received ? <Bold>{signerName}</Bold> : "You"} sent{" "}
-              {props.received ? "you" : <Bold>{recipientName}</Bold>}{" "}
+              {props.received ? <Bold>{signer}</Bold> : "You"} sent{" "}
+              {props.received ? "you" : <Bold>{recipient}</Bold>}{" "}
               <Bold>
                 {coinInString} {amount.tokenTicker}
               </Bold>
             </Message>
           ) : (
             <Message>
-              Your payment to <Bold>{recipientName}</Bold> failed
+              Your payment to <Bold>{recipient}</Bold> failed
             </Message>
           )}
           <Time>{props.time}</Time>

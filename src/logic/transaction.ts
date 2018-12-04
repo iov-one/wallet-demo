@@ -10,13 +10,16 @@ import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
 
-// import { getAccount, getAccountByAddress, keyToAddress } from "./account";
+import { /*getAccount, getAccountByAddress,*/ keyToAddress } from "./account";
 
 export interface TransNotificationInfo<T extends UnsignedTransaction = SendTx>
   extends ConfirmedTransaction<T> {
   readonly received: boolean;
   readonly time: ReadonlyDate;
   readonly success: boolean;
+  // these are always set to the raw values (TODO: handle multisig)
+  readonly signerAddr: string;
+  readonly recipientAddr: string;
   // these are set for reverse lookup of valuename
   readonly signerName?: string;
   readonly recipientName?: string;
@@ -51,10 +54,14 @@ export const parseConfirmedTransaction = async (
   const header = await (conn as BnsConnection).getHeader(trans.height);
   const time = header.time;
   // TODO: lookup value names
+  const recipientAddr = payload.recipient;
+  const signerAddr = keyToAddress(trans.primarySignature);
   return {
     ...(trans as ConfirmedTransaction<SendTx>),
     received,
     time,
     success: true,
+    recipientAddr,
+    signerAddr,
   };
 };
