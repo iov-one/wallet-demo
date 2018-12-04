@@ -17,10 +17,10 @@ import { sendTransactionSequence } from "../sequences";
 
 interface SendTokenProps
   extends RouteComponentProps<{
-      readonly iovAddress: string;
-      readonly token: string;
-      readonly tokenAmount: string;
-    }> {
+    readonly iovAddress: string;
+    readonly token: string;
+    readonly tokenAmount: string;
+  }> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly chainIds: ReadonlyArray<ChainId>;
 }
