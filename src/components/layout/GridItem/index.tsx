@@ -1,4 +1,5 @@
 import classNames from "classnames/bind";
+import { throttle } from "lodash";
 import React from "react";
 import { capitalize } from "~/theme/css";
 import { Size } from "~/theme/size";
@@ -60,17 +61,23 @@ class GridItem extends React.PureComponent<Props, State> {
     viewportWidth: 0,
   };
   private readonly divRef = React.createRef<HTMLDivElement>();
+  private readonly throttledOnResize: () => void
 
+  constructor(props: Props) {
+    super(props)
+
+    this.throttledOnResize = throttle(this.updateViewport.bind(this), 1200);
+  }
   public componentDidMount(): void {
     if (this.props.growElem) {
       this.updateViewport();
-      window.addEventListener("resize", this.updateViewport);
+      window.addEventListener("resize", this.throttledOnResize);
     }
   }
 
   public componentWillUnmount(): void {
     if (this.props.growElem) {
-      window.removeEventListener("resize", this.updateViewport);
+      window.removeEventListener("resize", this.throttledOnResize);
     }
   }
 
@@ -80,7 +87,7 @@ class GridItem extends React.PureComponent<Props, State> {
     return width ? width : 0;
   };
 
-  public readonly updateViewport = () => {
+  public updateViewport(): void {
     this.setState(() => ({ viewportWidth: window.innerWidth }));
   };
 
