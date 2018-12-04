@@ -5,6 +5,7 @@ import Logo from "../../../../resources/iov-logo-2@3x.png";
 
 const Header = styled.div`
   padding: 16px 50px;
+  width: 100vw;
   height: 71px;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -12,6 +13,9 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #f3f3f3;
+  position: fixed;
+  top: 0px;
+  left: 0px;
 `;
 
 const LogoImage = styled.img`

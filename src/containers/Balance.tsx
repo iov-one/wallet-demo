@@ -59,7 +59,8 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
   };
 
   public readonly onInvite = (): any => {
-    console.log("Invite");
+    const { history } = this.props;
+    history.push("/invite/");
   };
 
   public readonly closeNonIovModal = (): any => {

@@ -8,6 +8,7 @@ import {
   ConfirmTransactionPage,
   HomePage,
   ImportAccountPage,
+  InvitePage,
   LoginPage,
   PasswordPage,
   PaymentPage,
@@ -31,6 +32,7 @@ const MainRouter = () => (
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />
       <Route path="/payment/" component={PaymentPage} />
+      <Route path="/invite/" component={InvitePage} />
       <Route
         path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
         component={ConfirmTransactionPage}
