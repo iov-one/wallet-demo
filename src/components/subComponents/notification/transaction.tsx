@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { get } from "lodash";
-
 import { CoinInfo, coinToString, TransNotificationInfo } from "../../../logic";
 
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
@@ -69,11 +67,12 @@ const Time = styled.div`
 `;
 
 export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
-  const signerName = get(props, "signerAccount.name");
-  const receiverName = get(props, "recipientAccount.name");
+  const { signerName, recipientName } = props;
+  const { amount } = props.transaction;
   const coinInfo: CoinInfo = {
-    fractional: props.amount.fractional,
-    whole: props.amount.whole,
+    fractional: amount.fractional,
+    whole: amount.whole,
+    // TODO: we need to clean this up with new iov-core 0.10
     sigFigs: 9,
   };
   const coinInString = coinToString(coinInfo);
@@ -85,17 +84,17 @@ export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.E
           {props.success ? (
             <Message>
               {props.received ? <Bold>{signerName}</Bold> : "You"} sent{" "}
-              {props.received ? "you" : <Bold>{receiverName}</Bold>}{" "}
+              {props.received ? "you" : <Bold>{recipientName}</Bold>}{" "}
               <Bold>
-                {coinInString} {props.amount.tokenTicker}
+                {coinInString} {amount.tokenTicker}
               </Bold>
             </Message>
           ) : (
             <Message>
-              Your payment to <Bold>{receiverName}</Bold> is failed
+              Your payment to <Bold>{recipientName}</Bold> failed
             </Message>
           )}
-          {props.time && <Time>{props.time}</Time>}
+          <Time>{props.time}</Time>
         </TransInfo>
       </Content>
     </Wrapper>
