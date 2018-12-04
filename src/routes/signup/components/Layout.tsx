@@ -2,8 +2,7 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
-import Img from "~/components/layout/Image";
-import people from "~/routes/signup/assets/People.svg";
+import ImageSection from "./ImageSection";
 import LoginSection from "./LoginSection";
 import SignupFormSection from "./SignupFormSection";
 import SubtitleSection from "./SubtitleSection";
@@ -18,9 +17,7 @@ const ref = React.createRef<GridItem>();
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
     <GridItem ref={ref} maxwidth="sm" xs={12} sm={4}>
-      <Block grow>
-        <Img src={people} alt="Sign up Image" cover />
-      </Block>
+      <ImageSection />
     </GridItem>
     <GridItem xs={12} sm={8} growElem={ref} growSm={4} variant="column" padding="xxl">
       <Block padding="xxl" align="right" margin="xxl">
