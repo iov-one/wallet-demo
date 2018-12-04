@@ -11,7 +11,7 @@ class SignUp extends React.Component<{}, State> {
   };
 
   public readonly onSubmit = async (values: object) => {
-    this.setState({ page: 1})
+    this.setState({ page: 1 });
     console.log(values);
   };
 

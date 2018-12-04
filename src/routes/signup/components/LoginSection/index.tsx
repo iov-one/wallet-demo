@@ -5,11 +5,11 @@ import { LOG_IN_ROUTE } from "~/containers/routes";
 
 const LoginSection = () => (
   <React.Fragment>
-    <Typography variant="body2" inline>
+    <Typography variant="subtitle1" inline>
       {"Already have an account?\u00a0"}
     </Typography>
     <Link to={LOG_IN_ROUTE}>
-      <Typography variant="body2" color="primary" underlined inline>
+      <Typography variant="subtitle1" color="primary" underlined inline>
         Log In
       </Typography>
     </Link>

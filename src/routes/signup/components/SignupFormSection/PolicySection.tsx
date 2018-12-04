@@ -22,7 +22,7 @@ const PolicySection = () => (
       />
     </GridItem>
     <GridItem variant="column">
-      <Typography variant="subtitle2" color="textSecondary" inline>
+      <Typography variant="body2" color="textSecondary" inline>
         {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
       </Typography>
       <Block>
@@ -31,7 +31,7 @@ const PolicySection = () => (
             Terms of Service
           </Typography>
         </Link>
-        <Typography variant="subtitle2" color="textSecondary" inline>
+        <Typography variant="body2" color="textSecondary" inline>
           {"\u00a0&\u00a0"}
         </Typography>
         <Link to={PRIVACY_POLICY_ROUTE}>
