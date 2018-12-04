@@ -1,5 +1,5 @@
 export * from "./account";
-export { CoinInfo, coinToString, stringToCoin } from "./balances";
+export * from "./balances";
 export * from "./connection";
 export * from "./db";
 export * from "./faucet";
