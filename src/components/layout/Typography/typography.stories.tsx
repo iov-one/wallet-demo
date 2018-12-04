@@ -1,6 +1,7 @@
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { createMuiTheme, MuiThemeProvider, Theme } from "@material-ui/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
+import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { themeObject } from "~/theme/mui";
 
@@ -52,59 +53,43 @@ const Typographies = () => (
   </React.Fragment>
 );
 
+interface Props {
+  readonly theme: Theme;
+}
+const ThemeComponent = ({ theme }: Props) => (
+  <React.Fragment>
+    <MuiThemeProvider theme={theme}>
+      {/* Block used to force calculate properly font sizes. See: https://material-ui.com/customization/themes/#typography-font-size */}
+      <Block>
+        <Typographies />
+      </Block>
+    </MuiThemeProvider>
+  </React.Fragment>
+);
+
 storiesOf("Components /typography", module)
   .add("Variants 12px seed", () => {
     const theme = createMuiTheme({ ...themeObject, typography: { fontSize: 12 } });
 
-    return (
-      <React.Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Typographies />
-        </MuiThemeProvider>
-      </React.Fragment>
-    );
+    return <ThemeComponent theme={theme} />;
   })
   .add("Variants 13px seed", () => {
     const theme = createMuiTheme({ ...themeObject, typography: { fontSize: 13 } });
 
-    return (
-      <React.Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Typographies />
-        </MuiThemeProvider>
-      </React.Fragment>
-    );
+    return <ThemeComponent theme={theme} />;
   })
   .add("Variants 14px seed", () => {
     const theme = createMuiTheme({ ...themeObject, typography: { fontSize: 14 } });
 
-    return (
-      <React.Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Typographies />
-        </MuiThemeProvider>
-      </React.Fragment>
-    );
+    return <ThemeComponent theme={theme} />;
   })
   .add("Variants 15px seed", () => {
     const theme = createMuiTheme({ ...themeObject, typography: { fontSize: 15 } });
 
-    return (
-      <React.Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Typographies />
-        </MuiThemeProvider>
-      </React.Fragment>
-    );
+    return <ThemeComponent theme={theme} />;
   })
   .add("Variants 16px seed", () => {
     const theme = createMuiTheme({ ...themeObject, typography: { fontSize: 16 } });
 
-    return (
-      <React.Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Typographies />
-        </MuiThemeProvider>
-      </React.Fragment>
-    );
+    return <ThemeComponent theme={theme} />;
   });

@@ -32,6 +32,24 @@ export const themeObject: ThemeOptions = {
       },
     },
     MuiTypography: {
+      h1: {
+        fontSize: "7rem",
+      },
+      h2: {
+        fontSize: "4.25rem",
+      },
+      h3: {
+        fontSize: "3.25rem",
+      },
+      h4: {
+        fontSize: "2.5rem",
+      },
+      h5: {
+        fontSize: "2rem",
+      },
+      h6: {
+        fontSize: "1.125rem",
+      },
       body1: {
         fontSize: "1rem",
       },
