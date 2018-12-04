@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { throttle } from "lodash";
+import { throttle } from "lodash";
 import React from "react";
 import { capitalize } from "~/theme/css";
 import { Size } from "~/theme/size";
@@ -61,10 +61,10 @@ class GridItem extends React.PureComponent<Props, State> {
     viewportWidth: 0,
   };
   private readonly divRef = React.createRef<HTMLDivElement>();
-  private readonly throttledOnResize: () => void
+  private readonly throttledOnResize: () => void;
 
   constructor(props: Props) {
-    super(props)
+    super(props);
 
     this.throttledOnResize = throttle(this.updateViewport.bind(this), 1200);
   }
@@ -89,7 +89,7 @@ class GridItem extends React.PureComponent<Props, State> {
 
   public updateViewport(): void {
     this.setState(() => ({ viewportWidth: window.innerWidth }));
-  };
+  }
 
   public render(): JSX.Element {
     const {

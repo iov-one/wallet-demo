@@ -58,7 +58,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               fullWidth
               component={TextField}
               validate={required}
-              placeholder="Password"
+              placeholder="Create a password"
             />
           </Block>
           <Block padding="xxl" maxWidth={450}>
@@ -73,7 +73,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               fullWidth
               component={TextField}
               validate={required}
-              placeholder="Confirm Password"
+              placeholder="Repeat your password"
             />
           </Block>
           <Block padding="xxl">
