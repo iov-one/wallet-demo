@@ -66,10 +66,13 @@ const Time = styled.div`
   color: #dadada;
 `;
 
+const elipsify = (full: string, maxLength: number): string =>
+  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
+
 export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
   const { signerAddr, signerName, recipientAddr, recipientName } = props;
-  const signer = signerName || signerAddr;
-  const recipient = recipientName || recipientAddr;
+  const signer = elipsify(signerName || signerAddr, 16);
+  const recipient = elipsify(recipientName || recipientAddr, 16);
   const { amount } = props.transaction;
   const coinInfo: CoinInfo = {
     fractional: amount.fractional,
