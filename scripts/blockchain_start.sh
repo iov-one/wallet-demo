@@ -13,8 +13,8 @@ else
   # get this files directory regardless of pwd when we run it
   SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-  export TM_VERSION=0.21.0
-  export BNS_VERSION=v0.8.0
+  export TM_VERSION=0.25.0
+  export BNS_VERSION=v0.9.3
   docker pull iov1/tendermint:${TM_VERSION}
   docker pull iov1/bnsd:${BNS_VERSION}
   export BNS_ENABLED=1
