@@ -4,11 +4,11 @@ import Block from "~/components/layout/Block";
 import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { LOG_IN_ROUTE } from "~/containers/routes";
-import { md } from "~/theme/variables";
+import { xxl } from "~/theme/variables";
 
 const styles = createStyles({
   container: {
-    paddingTop: md,
+    paddingTop: xxl,
   },
 });
 

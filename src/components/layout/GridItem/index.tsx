@@ -19,7 +19,6 @@ interface Props {
   readonly order?: Order;
   readonly variant?: "row" | "column" | "block";
   readonly margin?: Size;
-  readonly padding?: Size;
   readonly overflow?: boolean;
   readonly grow?: boolean;
 
@@ -119,7 +118,6 @@ class GridItem extends React.PureComponent<Props, State> {
       growSm,
       growMd,
       growLg,
-      padding,
       grow,
       className,
       ...props
@@ -148,7 +146,6 @@ class GridItem extends React.PureComponent<Props, State> {
       capitalize(smOffset, "smOffset"),
       capitalize(mdOffset, "mdOffset"),
       capitalize(lgOffset, "lgOffset"),
-      capitalize(padding, "padding"),
       capitalize(maxwidth, "maxwidth"),
       { overflow },
       { grow },

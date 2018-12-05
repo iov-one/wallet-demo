@@ -39,25 +39,6 @@
   margin-bottom: $xxl;
 }
 
-.paddingXs {
-  padding-top: $xs;
-}
-.paddingSm {
-  padding-top: $sm;
-}
-.paddingMd {
-  padding-top: $md;
-}
-.paddingLg {
-  padding-top: $lg;
-}
-.paddingXl {
-  padding-top: $xl;
-}
-.paddingXxl {
-  padding-top: $xxl;
-}
-
 @define-mixin col $size {
   .$(size)0 {
     flex-basis: 0%;
