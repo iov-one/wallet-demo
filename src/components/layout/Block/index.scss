@@ -54,3 +54,8 @@
   width: 100%;
   flex-grow: 1;
 }
+
+.scroll {
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
