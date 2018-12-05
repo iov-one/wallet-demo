@@ -81,10 +81,10 @@ const SignupFormSection = ({ onSubmit }: Props) => (
               <PolicySection />
             </Block>
           </Block>
-          <Grid nowrap noshrink>
+          <Grid nowrap noshrink nogrow>
             <GridItem grow center="xs" end="xs">
-          <Hairline />
-          <Block margin="md" />
+              <Hairline />
+              <Block margin="md" />
               <Block margin="md" padding="xxl">
                 <Button
                   variant="contained"

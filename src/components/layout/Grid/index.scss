@@ -7,6 +7,9 @@
 .noshrink {
   flex-shrink: 0;
 }
+.nogrow {
+  flex-grow: 0;
+}
 .root {
   height: 100%;
 }
