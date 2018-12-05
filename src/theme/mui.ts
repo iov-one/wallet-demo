@@ -45,7 +45,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiTypography: {
       colorTextSecondary: {
-        color: secondaryDegraded,
+        color: secondary,
       },
       h1: {
         fontSize: "7rem",
