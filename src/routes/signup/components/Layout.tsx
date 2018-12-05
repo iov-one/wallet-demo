@@ -26,7 +26,7 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
       <Block padding="xxl" maxWidth={450} margin="md">
         <TitleSection />
       </Block>
-      <Block padding="xxl" margin="xl">
+      <Block padding="xxl" margin="lg">
         <SubtitleSection />
       </Block>
       <SignupFormSection onSubmit={onSubmit} />
