@@ -10,7 +10,7 @@ import Typography from "~/components/layout/Typography";
 import { PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
 
 const PolicySection = () => (
-  <Grid shrink nowrap>
+  <Grid noshrink nowrap>
     <GridItem top="xs">
       <Field
         validate={required}

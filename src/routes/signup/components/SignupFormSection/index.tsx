@@ -77,11 +77,11 @@ const SignupFormSection = ({ onSubmit }: Props) => (
                 placeholder="Repeat your password"
               />
             </Block>
-            <Block padding="xxl">
+            <Block padding="xxl" margin="xl">
               <PolicySection />
             </Block>
           </Block>
-          <Grid nowrap shrink>
+          <Grid nowrap noshrink>
             <GridItem grow center="xs" end="xs">
           <Hairline />
           <Block margin="md" />

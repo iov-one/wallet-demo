@@ -4,8 +4,8 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.shrink {
-  flex: 0 1 auto;
+.noshrink {
+  flex-shrink: 0;
 }
 .root {
   height: 100%;
