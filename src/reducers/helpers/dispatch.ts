@@ -1,7 +1,7 @@
 /* Some middleware changes the return type of store Dispatch...
  * This makes type completion on the results annoying.
- * 
- * Here is a wrapper that undoes Promise and Thunk middlewares. 
+ *
+ * Here is a wrapper that undoes Promise and Thunk middlewares.
  */
 
 import { Action } from "redux";

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const NotificationTitle = styled.div`
   padding: 14px 22px;
-  padding-top: 32px;
+  padding-top: 29px;
   font-family: Muli;
   font-size: 14px;
   font-weight: 600;

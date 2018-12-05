@@ -1,33 +1,21 @@
-import { Amount, BcpAccount, TokenTicker } from "@iov/bcp-types";
+import { BcpAccount, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import queryString from "query-string";
-
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
-
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
-import { sendTransactionSequence } from "../sequences";
 
 interface SendTokenProps extends RouteComponentProps<{ readonly iovAddress: string }> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly chainIds: ReadonlyArray<ChainId>;
 }
 
-interface SendTokenDispatchToProps {
-  readonly sendTransaction: (
-    chainId: ChainId,
-    iovAddress: string,
-    amount: Amount,
-    memo: string,
-  ) => Promise<any>;
-}
-
-class SendPayment extends React.Component<SendTokenProps & SendTokenDispatchToProps> {
+class SendPayment extends React.Component<SendTokenProps> {
   public readonly onSend = (transInfo: SendTokenFormState): any => {
     const { history } = this.props;
     const { iovAddress } = this.props.match.params;
@@ -75,14 +63,4 @@ const mapStateToProps = (state: any, ownProps: SendTokenProps): SendTokenProps =
   chainIds: getChainIds(state),
 });
 
-const mapDispatchToProps = (dispatch: any): SendTokenDispatchToProps => ({
-  sendTransaction: (chainId: ChainId, iovAddress: string, amount: Amount, memo: string) =>
-    dispatch(sendTransactionSequence(chainId, iovAddress, amount, memo)),
-});
-
-export const SendPaymentPage = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SendPayment),
-);
+export const SendPaymentPage = withRouter(connect(mapStateToProps)(SendPayment));

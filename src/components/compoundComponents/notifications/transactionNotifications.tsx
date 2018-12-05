@@ -10,10 +10,10 @@ import {
   TransactionNotificationItem,
 } from "../../subComponents/notification";
 
-import { TransNotificationProps } from "../../../reducers/notification";
+import { TransNotificationInfo } from "../../../logic";
 
 export interface TransactionNotificationProps {
-  readonly items: ReadonlyArray<TransNotificationProps>;
+  readonly items: ReadonlyArray<TransNotificationInfo>;
 }
 
 const Content = styled.div`
@@ -26,15 +26,19 @@ const Content = styled.div`
   }
 `;
 
-export const TransactionNotification = (props: TransactionNotificationProps) => (
-  <NotificationWrapper>
-    <NotificationTitle>Notifications</NotificationTitle>
-    <Content className={classNames({ empty: props.items.length === 0 })}>
-      {props.items.length > 0 ? (
-        props.items.map((item, key) => <TransactionNotificationItem {...item} key={`notif_${key}`} />)
-      ) : (
-        <NotificationEmptyState type="noNotification" />
-      )}
-    </Content>
-  </NotificationWrapper>
-);
+export const TransactionNotification = (props: TransactionNotificationProps) => {
+  // tslint:disable-next-line:readonly-array
+  const items = (props.items as TransNotificationInfo[]).reverse().slice(0, 3);
+  return (
+    <NotificationWrapper>
+      <NotificationTitle>Notifications</NotificationTitle>
+      <Content className={classNames({ empty: items.length === 0 })}>
+        {items.length > 0 ? (
+          items.map((item, key) => <TransactionNotificationItem {...item} key={`notif_${key}`} />)
+        ) : (
+          <NotificationEmptyState type="noNotification" />
+        )}
+      </Content>
+    </NotificationWrapper>
+  );
+};

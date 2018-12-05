@@ -2,13 +2,17 @@
 // The idea is to combine larger sequences of actions into thunks
 
 import { ThunkDispatch } from "redux-thunk";
+import debounce from "xstream/extra/debounce";
 
-import { Amount } from "@iov/bcp-types";
-import { ChainId, MultiChainSigner, TokenTicker } from "@iov/core";
+import { ChainId } from "@iov/base-types";
+import { Amount, BcpConnection, BcpTxQuery, ConfirmedTransaction } from "@iov/bcp-types";
+import { bnsFromOrToTag, MultiChainSigner, TokenTicker } from "@iov/core";
+import { PublicIdentity } from "@iov/keycontrol";
 
 import {
   BlockchainSpec,
   keyToAddress,
+  parseConfirmedTransaction,
   resetProfile,
   resolveAddress,
   sendTransaction,
@@ -21,9 +25,14 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
-  watchAccountAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
+import {
+  addConfirmedTransaction,
+  addPendingTransactionAction,
+  removePendingTransactionAction,
+  setTransactionErrorAction,
+} from "../reducers/notification";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB, requireActiveIdentity, requireConnection, requireSigner } from "../selectors";
 
@@ -39,7 +48,7 @@ export const resetSequence = (password: string) => async (
 
 export interface BootResult {
   readonly signer: MultiChainSigner;
-  readonly accounts: ReadonlyArray<BcpAccountWithChain>;
+  readonly accounts: ReadonlyArray<BcpAccountWithChain | undefined>;
 }
 
 // boot sequence initializes all objects
@@ -62,37 +71,11 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- initiate the signer
   const { payload: signer } = fixTypes(dispatch(createSignerAction(profile)));
 
-  let initAccounts: ReadonlyArray<Promise<any>> = [];
-
   // --- connect all readers and query account balances
+  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-
-    // we need to set a callback that resolves a promise
-    let cb: (acct?: BcpAccountWithChain, err?: any) => any;
-    const prom = new Promise((resolve, reject) => {
-      let done = false;
-      cb = (acct?: BcpAccountWithChain, err?: any) => {
-        // actually do the dispatching
-        // Note: acct, err both undefined is valid for non-existent account
-        if (!err) {
-          dispatch(getAccountAsyncAction.success(acct));
-        } else {
-          dispatch(getAccountAsyncAction.failure(err));
-        }
-        // finish the promise for the first query
-        if (!done) {
-          done = true;
-          if (!err) {
-            resolve(acct);
-          } else {
-            reject(err);
-          }
-        }
-      };
-    });
-    dispatch(watchAccountAction(conn, identity, cb!));
-    initAccounts = [...initAccounts, prom];
+    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
   }
 
   // wait for all accounts to initialize
@@ -100,6 +83,44 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // return initial account state as well as signer
   return { accounts, signer };
 };
+
+function watchAccountAndTransactions(
+  dispatch: RootThunkDispatch,
+  conn: BcpConnection,
+  identity: PublicIdentity,
+): Promise<BcpAccountWithChain | undefined> {
+  // request the current account and return a promise resolved when it is loaded
+  const account = getAccountAsyncAction.start(conn, identity, undefined).payload;
+
+  // get a stream of all transactions
+  const address = keyToAddress(identity);
+  const query: BcpTxQuery = { tags: [bnsFromOrToTag(address)] };
+  const stream = conn.liveTx(query);
+
+  // process incoming transactions and add to dispatched/redux store
+  const handleTx = async (trans: ConfirmedTransaction) => {
+    // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
+    const transInfo = await parseConfirmedTransaction(conn, trans, identity);
+    if (transInfo) {
+      dispatch(addConfirmedTransaction(transInfo));
+    }
+  };
+  stream.subscribe({
+    next: handleTx,
+    error: err => {
+      throw err;
+    },
+  });
+
+  // update accounts on new transactions (with debounce)
+  const onChangeAccount = async () => {
+    dispatch(getAccountAsyncAction.start(conn, identity, undefined));
+  };
+  // make sure we only query once per block or search return at max
+  stream.compose(debounce(200)).subscribe({ next: onChangeAccount });
+
+  return account; // resolved when first account is loaded
+}
 
 export const drinkFaucetSequence = (facuetUri: string, ticker: TokenTicker) => async (
   _: RootThunkDispatch,
@@ -124,9 +145,23 @@ export const sendTransactionSequence = (
   iovAddress: string,
   amount: Amount,
   memo: string,
-) => async (_: RootThunkDispatch, getState: () => RootState) => {
-  const signer = requireSigner(getState());
-  const conn = requireConnection(getState(), chainId);
-  const address = await resolveAddress(conn, iovAddress);
-  await sendTransaction(signer, chainId, address, amount, memo);
+  uniqId: string,
+) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+  try {
+    const signer = requireSigner(getState());
+    const conn = requireConnection(getState(), chainId);
+    const address = await resolveAddress(conn, iovAddress);
+    dispatch(
+      addPendingTransactionAction({
+        id: uniqId,
+        amount,
+        receiver: iovAddress,
+      }),
+    );
+    await sendTransaction(signer, chainId, address, amount, memo);
+    dispatch(removePendingTransactionAction(uniqId));
+  } catch (err) {
+    dispatch(setTransactionErrorAction(err));
+    dispatch(removePendingTransactionAction(uniqId));
+  }
 };

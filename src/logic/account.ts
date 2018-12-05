@@ -1,17 +1,18 @@
-import { ChainId } from "@iov/base-types";
 import {
   Address,
   Amount,
   BcpAccount,
   BcpConnection,
   BcpTransactionResponse,
+  ConfirmedTransaction,
   TransactionKind,
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { bnsCodec } from "@iov/bns";
-import { MultiChainSigner } from "@iov/core";
+import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
+import { ChainId, TxQuery } from "@iov/tendermint-types";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
@@ -30,6 +31,31 @@ export async function getAccount(
   const result = await connection.getAccount({ address });
   if (result.data && result.data.length > 0) {
     return result.data[0];
+  }
+  return undefined;
+}
+
+// looks up account for a given address (or undefined)
+export async function getAccountByAddress(
+  connection: BcpConnection,
+  address: Address,
+): Promise<BcpAccount | undefined> {
+  const result = await connection.getAccount({ address });
+  if (result.data && result.data.length > 0) {
+    return result.data[0];
+  }
+  return undefined;
+}
+
+// looks up name for a given address (or undefined)
+// this will need to use a much different algorithm when we update to BNS, which is why it is a separate function
+export async function getNameByAddress(
+  connection: BcpConnection,
+  address: Address,
+): Promise<string | undefined> {
+  const account = await getAccountByAddress(connection, address);
+  if (account && account.name) {
+    return `${account.name}*iov`;
   }
   return undefined;
 }
@@ -71,6 +97,24 @@ export function watchAccount(
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
   const stream = connection.watchAccount({ address });
+  const subscription = stream.subscribe({
+    next: x => cb(x),
+    error: err => cb(undefined, err),
+  });
+  return subscription;
+}
+
+// get update for the transaction information for account
+
+export function watchTransaction(
+  connection: BcpConnection,
+  ident: PublicIdentity,
+  cb: (transaction?: ConfirmedTransaction, err?: any) => any,
+  codec?: TxCodec,
+): Unsubscriber {
+  const address = keyToAddress(ident, codec);
+  const query: TxQuery = { tags: [bnsFromOrToTag(address)] };
+  const stream = connection.liveTx(query);
   const subscription = stream.subscribe({
     next: x => cb(x),
     error: err => cb(undefined, err),

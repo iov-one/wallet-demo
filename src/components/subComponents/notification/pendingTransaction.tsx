@@ -9,7 +9,7 @@ const Content = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 `;
 
@@ -40,7 +40,6 @@ const Message = styled.div`
   line-height: 18px;
   letter-spacing: normal;
   color: #1c1c1c;
-  margin-bottom: 1px;
 `;
 
 const Bold = styled.span`
@@ -69,7 +68,7 @@ export const PendingNotificationItem = (props: PendingNotificationItemProps): JS
           </Bold>{" "}
           to <Bold>{props.receiver}</Bold>
         </Message>
-        <Grey>..sending</Grey>
+        <Grey>Sending...</Grey>
       </TransInfo>
     </Content>
   </Wrapper>

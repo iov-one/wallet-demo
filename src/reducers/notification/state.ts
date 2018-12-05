@@ -1,20 +1,15 @@
-import { BcpCoin } from "@iov/bcp-types";
+import { Amount } from "@iov/bcp-types";
+import { TransNotificationInfo } from "../../logic";
 
 export interface PendingNotificationItemProps {
+  readonly id: string;
   readonly receiver: string;
-  readonly amount: BcpCoin;
-}
-
-export interface TransNotificationProps {
-  readonly received: string;
-  readonly sender: string;
-  readonly receiver: string;
-  readonly amount: BcpCoin;
-  readonly time: string;
-  readonly success: boolean;
+  readonly amount: Amount;
 }
 
 export interface NotificationState {
   readonly pending: ReadonlyArray<PendingNotificationItemProps>;
-  readonly transaction: ReadonlyArray<TransNotificationProps>;
+  readonly transaction: ReadonlyArray<TransNotificationInfo>;
+  readonly visitedPending: boolean;
+  readonly transactionError?: string;
 }

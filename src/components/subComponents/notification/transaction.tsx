@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { TransNotificationProps } from "../../../reducers/notification";
+import { CoinInfo, coinToString, TransNotificationInfo } from "../../../logic";
 
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
 import SendIcon from "../../../../resources/send_transaction.svg";
@@ -66,26 +66,42 @@ const Time = styled.div`
   color: #dadada;
 `;
 
-export const TransactionNotificationItem = (props: TransNotificationProps): JSX.Element => (
-  <Wrapper>
-    <Content>
-      <Icon src={props.received ? ReceiveIcon : SendIcon} />
-      <TransInfo>
-        {props.success ? (
-          <Message>
-            {props.received ? <Bold>{props.sender}</Bold> : "You"} sent{" "}
-            {props.received ? "you" : <Bold>{props.receiver}</Bold>}{" "}
-            <Bold>
-              {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
-            </Bold>
-          </Message>
-        ) : (
-          <Message>
-            Your payment to <Bold>{props.receiver}</Bold> is failed
-          </Message>
-        )}
-        <Time>time</Time>
-      </TransInfo>
-    </Content>
-  </Wrapper>
-);
+const elipsify = (full: string, maxLength: number): string =>
+  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
+
+export const TransactionNotificationItem = (props: TransNotificationInfo): JSX.Element => {
+  const { signerAddr, signerName, recipientAddr, recipientName } = props;
+  const signer = elipsify(signerName || signerAddr, 16);
+  const recipient = elipsify(recipientName || recipientAddr, 16);
+  const { amount } = props.transaction;
+  const coinInfo: CoinInfo = {
+    fractional: amount.fractional,
+    whole: amount.whole,
+    // TODO: we need to clean this up with new iov-core 0.10
+    sigFigs: 9,
+  };
+  const coinInString = coinToString(coinInfo);
+  return (
+    <Wrapper>
+      <Content>
+        <Icon src={props.received ? ReceiveIcon : SendIcon} />
+        <TransInfo>
+          {props.success ? (
+            <Message>
+              {props.received ? <Bold>{signer}</Bold> : "You"} sent{" "}
+              {props.received ? "you" : <Bold>{recipient}</Bold>}{" "}
+              <Bold>
+                {coinInString} {amount.tokenTicker}
+              </Bold>
+            </Message>
+          ) : (
+            <Message>
+              Your payment to <Bold>{recipient}</Bold> failed
+            </Message>
+          )}
+          <Time>{props.time.toLocaleString()}</Time>
+        </TransInfo>
+      </Content>
+    </Wrapper>
+  );
+};

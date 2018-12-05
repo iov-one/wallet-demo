@@ -32,12 +32,9 @@ interface HeaderProps {
   readonly navigationInfo: NavigationProps;
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
-  readonly isFirst: boolean;
+  readonly visitedPending: boolean;
+  readonly onGotIt: () => any;
   readonly onLogo: () => any;
-}
-
-interface HeaderState {
-  readonly isFirst: boolean;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -48,19 +45,18 @@ const getLastTransactionType = (transactionInfo: TransactionNotificationProps): 
   return "normal";
 };
 
-export class Header extends React.Component<HeaderProps, HeaderState> {
-  public readonly state: HeaderState;
-  constructor(props: HeaderProps) {
-    super(props);
-    this.state = {
-      isFirst: props.isFirst,
-    };
-  }
+export class Header extends React.Component<HeaderProps> {
   public render(): any {
-    const { navigationInfo, transactionInfo, pendingTransactionInfo, onLogo } = this.props;
+    const {
+      navigationInfo,
+      transactionInfo,
+      pendingTransactionInfo,
+      onLogo,
+      onGotIt,
+      visitedPending,
+    } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
-    const { isFirst } = this.state;
     return (
       <NormalHeader onLogo={onLogo}>
         <HeaderContent>
@@ -71,14 +67,10 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
               type={hasPendingItems ? "success" : "normal"}
               spin={hasPendingItems}
               notification={
-                isFirst ? (
-                  <PendingOnboarding
-                    onGotIt={() => {
-                      this.setState({ isFirst: false });
-                    }}
-                  />
-                ) : (
+                visitedPending ? (
                   <PendingTransactions {...pendingTransactionInfo} />
+                ) : (
+                  <PendingOnboarding onGotIt={onGotIt} />
                 )
               }
             />

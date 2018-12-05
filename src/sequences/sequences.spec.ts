@@ -15,6 +15,8 @@ describe("boot sequence", () => {
       this.skip();
       return;
     }
+    this.timeout(4000);
+
     const store = makeStore();
     const password = randomString(16);
 

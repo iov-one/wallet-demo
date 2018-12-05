@@ -26,11 +26,11 @@ const MainRouter = () => (
     <Wrapper>
       <Route exact path="/" component={HomePage} />
       <Route path="/balance/" component={BalancePage} />
-      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
       <Route path="/setPassword/" component={PasswordPage} />
       <Route path="/account-backup/" component={BackupAccountPage} />
       <Route path="/import-account/" component={ImportAccountPage} />
       <Route path="/login/" component={LoginPage} />
+      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
       <Route path="/payment/" component={PaymentPage} />
       <Route path="/invite/" component={InvitePage} />
       <Route

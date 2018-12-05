@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { isEmpty } from "lodash";
+
 import { connect } from "react-redux";
 
 import { Header } from "../../compoundComponents/header";
@@ -15,6 +17,8 @@ import {
 
 import { NavItemInfo } from "../../subComponents/headers";
 
+import { pendingTransactionVisited } from "../../../reducers/notification";
+
 interface OwnProps extends RouteComponentProps<{}> {
   readonly children: JSX.Element;
   readonly whiteBg?: boolean;
@@ -24,9 +28,17 @@ interface OwnProps extends RouteComponentProps<{}> {
 interface GeneratedProps {
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly transactionInfo: TransactionNotificationProps;
+  readonly transactionError: string;
+  readonly visitedPending: boolean;
 }
 
-interface PageProps extends OwnProps, GeneratedProps {}
+interface GeneratedFunctionProps {
+  readonly pendingVisited: () => any;
+}
+
+interface BaseProps extends OwnProps, GeneratedProps {}
+
+interface PageProps extends OwnProps, GeneratedProps, GeneratedFunctionProps {}
 
 interface PageState {
   readonly isOffline: boolean;
@@ -77,6 +89,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       activeNavigation,
       transactionInfo,
       pendingTransactionInfo,
+      visitedPending,
+      transactionError,
+      pendingVisited,
       history,
     } = this.props;
     const { isOffline } = this.state;
@@ -104,11 +119,13 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           navigationInfo={navigationInfo}
           transactionInfo={transactionInfo}
           pendingTransactionInfo={pendingTransactionInfo}
-          isFirst
+          visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
+          onGotIt={pendingVisited}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
+          <Toasts type="transaction" show={!isEmpty(transactionError)} />
           {children}
         </PageContent>
       </Wrapper>
@@ -116,10 +133,21 @@ class PageTemplate extends React.Component<PageProps, PageState> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: OwnProps): PageProps => ({
+const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
   ...ownProps,
   transactionInfo: { items: state.notification.transaction },
   pendingTransactionInfo: { items: state.notification.pending },
+  transactionError: state.notification.transactionError,
+  visitedPending: state.notification.visitedPending,
 });
 
-export const PageStructure = withRouter(connect(mapStateToProps)(PageTemplate));
+const mapDispatchToProps = (dispatch: any) => ({
+  pendingVisited: () => dispatch(pendingTransactionVisited()),
+});
+
+export const PageStructure = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PageTemplate),
+);
