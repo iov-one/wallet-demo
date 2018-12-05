@@ -9,8 +9,8 @@ import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
+import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
-import FormSpace from "./FormSpace";
 import PolicySection from "./PolicySection";
 
 interface Props {
@@ -31,57 +31,60 @@ const SignupFormSection = ({ onSubmit }: Props) => (
     <Form onSubmit={onSubmit} validation={validate} grow>
       {({ submitting, valid, validating }: FormState) => (
         <React.Fragment>
-          <Block padding="xxl" maxWidth={450}>
-            <Typography variant="subtitle2" color="textPrimary">
-              Email
-            </Typography>
-            <Field
-              variant="outlined"
-              margin="dense"
-              name="email"
-              type="text"
-              fullWidth
-              validate={validEmail}
-              component={TextField}
-              placeholder="Your Email"
-            />
+          <Block scroll grow>
+            <Block padding="xxl" maxWidth={450}>
+              <Typography variant="subtitle2" color="textPrimary">
+                Email
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="email"
+                type="text"
+                fullWidth
+                validate={validEmail}
+                component={TextField}
+                placeholder="Your Email"
+              />
+            </Block>
+            <Block padding="xxl" maxWidth={450}>
+              <Typography variant="subtitle2" color="textPrimary">
+                Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="password"
+                type="password"
+                fullWidth
+                component={TextField}
+                validate={required}
+                placeholder="Create a password"
+              />
+            </Block>
+            <Block padding="xxl" maxWidth={450}>
+              <Typography variant="subtitle2" color="textPrimary">
+                Confirm Password
+              </Typography>
+              <Field
+                variant="outlined"
+                margin="dense"
+                name="confirmPassword"
+                type="password"
+                fullWidth
+                component={TextField}
+                validate={required}
+                placeholder="Repeat your password"
+              />
+            </Block>
+            <Block padding="xxl">
+              <PolicySection />
+            </Block>
           </Block>
-          <Block padding="xxl" maxWidth={450}>
-            <Typography variant="subtitle2" color="textPrimary">
-              Password
-            </Typography>
-            <Field
-              variant="outlined"
-              margin="dense"
-              name="password"
-              type="password"
-              fullWidth
-              component={TextField}
-              validate={required}
-              placeholder="Create a password"
-            />
-          </Block>
-          <Block padding="xxl" maxWidth={450}>
-            <Typography variant="subtitle2" color="textPrimary">
-              Confirm Password
-            </Typography>
-            <Field
-              variant="outlined"
-              margin="dense"
-              name="confirmPassword"
-              type="password"
-              fullWidth
-              component={TextField}
-              validate={required}
-              placeholder="Repeat your password"
-            />
-          </Block>
-          <Block padding="xxl">
-            <PolicySection />
-          </Block>
-          <FormSpace />
           <Grid nowrap shrink>
             <GridItem grow center="xs" end="xs">
+          <Hairline />
+          <Block margin="md" />
               <Block margin="md" padding="xxl">
                 <Button
                   variant="contained"
