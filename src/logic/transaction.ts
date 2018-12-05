@@ -10,7 +10,7 @@ import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
 
-import { /*getAccount, getAccountByAddress,*/ keyToAddress } from "./account";
+import { getNameByAddress, keyToAddress } from "./account";
 
 export interface TransNotificationInfo<T extends UnsignedTransaction = SendTx>
   extends ConfirmedTransaction<T> {
@@ -54,15 +54,21 @@ export const parseConfirmedTransaction = async (
   // TODO: fix this, we cannot always assume BnsConnection
   const header = await (conn as BnsConnection).getHeader(trans.height);
   const time = header.time;
-  // TODO: lookup value names
+  // set addresses and lookup value names
   const recipientAddr = payload.recipient;
+  const recipientName = await getNameByAddress(conn, recipientAddr);
   const signerAddr = keyToAddress(trans.primarySignature);
+  const signerName = await getNameByAddress(conn, signerAddr);
+  console.log(`rcpt: ${recipientAddr} = ${recipientName}`);
+  console.log(`signer: ${signerAddr} = ${signerName}`);
   return {
     ...(trans as ConfirmedTransaction<SendTx>),
     received,
     time,
     success: true,
     recipientAddr,
+    recipientName,
     signerAddr,
+    signerName,
   };
 };
