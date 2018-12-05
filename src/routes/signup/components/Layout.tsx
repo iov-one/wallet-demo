@@ -19,14 +19,14 @@ const Layout = ({ onSubmit }: Props): JSX.Element => (
     <GridItem ref={ref} maxwidth="sm" xs={12} sm={4}>
       <ImageSection />
     </GridItem>
-    <GridItem xs={12} sm={8} growElem={ref} growSm={4} variant="column" padding="xxl">
-      <Block padding="xxl" align="right" margin="xxl">
+    <GridItem xs={12} sm={8} growElem={ref} growSm={4} variant="column" padding="xl">
+      <Block padding="xxl" align="right" margin="md">
         <LoginSection />
       </Block>
       <Block padding="xxl" maxWidth={450} margin="md">
         <TitleSection />
       </Block>
-      <Block padding="xxl" margin="lg">
+      <Block padding="xxl" margin="xl">
         <SubtitleSection />
       </Block>
       <SignupFormSection onSubmit={onSubmit} />

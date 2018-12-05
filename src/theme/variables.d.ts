@@ -5,6 +5,8 @@ declare module "~/theme/variables" {
   export const fontColor: string;
   export const border: string;
   export const background: string;
+  export const placeholder: string;
+  export const temporaryError: string;
   export const xs: string;
   export const sm: string;
   export const md: string;
@@ -21,8 +23,6 @@ declare module "~/theme/variables" {
   export const semiBoldFont: number;
   export const smallFontSize: string;
   export const mediumFontSize: string;
-  export const largeFontSize: string;
-  export const extraLargeFontSize: string;
   export const xxlFontSize: string;
   export const screenXs: number;
   export const screenXsMax: number;

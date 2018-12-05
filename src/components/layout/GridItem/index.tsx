@@ -49,7 +49,7 @@ interface Props {
   readonly lgOffset?: number;
 
   readonly className?: string;
-  readonly children: React.ReactNode;
+  readonly children?: React.ReactNode;
 }
 
 interface State {

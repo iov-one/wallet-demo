@@ -32,13 +32,14 @@ const SignupFormSection = ({ onSubmit }: Props) => (
       {({ submitting, valid, validating }: FormState) => (
         <React.Fragment>
           <Block scroll grow>
-            <Block padding="xxl" maxWidth={450}>
-              <Typography variant="subtitle2" color="textPrimary">
-                Email
-              </Typography>
+            <Block padding="xxl" maxWidth={450} margin="xl">
+              <Block margin="sm">
+                <Typography variant="subtitle2" color="textPrimary">
+                  Email
+                </Typography>
+              </Block>
               <Field
                 variant="outlined"
-                margin="dense"
                 name="email"
                 type="text"
                 fullWidth
@@ -47,13 +48,14 @@ const SignupFormSection = ({ onSubmit }: Props) => (
                 placeholder="Your Email"
               />
             </Block>
-            <Block padding="xxl" maxWidth={450}>
-              <Typography variant="subtitle2" color="textPrimary">
-                Password
-              </Typography>
+            <Block padding="xxl" maxWidth={450} margin="xl">
+              <Block margin="sm">
+                <Typography variant="subtitle2" color="textPrimary">
+                  Password
+                </Typography>
+              </Block>
               <Field
                 variant="outlined"
-                margin="dense"
                 name="password"
                 type="password"
                 fullWidth
@@ -62,13 +64,14 @@ const SignupFormSection = ({ onSubmit }: Props) => (
                 placeholder="Create a password"
               />
             </Block>
-            <Block padding="xxl" maxWidth={450}>
-              <Typography variant="subtitle2" color="textPrimary">
-                Confirm Password
-              </Typography>
+            <Block padding="xxl" maxWidth={450} margin="xl">
+              <Block margin="sm">
+                <Typography variant="subtitle2" color="textPrimary">
+                  Confirm Password
+                </Typography>
+              </Block>
               <Field
                 variant="outlined"
-                margin="dense"
                 name="confirmPassword"
                 type="password"
                 fullWidth

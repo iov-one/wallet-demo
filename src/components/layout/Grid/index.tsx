@@ -18,7 +18,18 @@ interface Props {
   readonly nogrow?: boolean;
 }
 
-const Grid = ({ children, root, className, margin, padding, align, noshrink, nowrap, nogrow, ...props }: Props) => {
+const Grid = ({
+  children,
+  root,
+  className,
+  margin,
+  padding,
+  align,
+  noshrink,
+  nowrap,
+  nogrow,
+  ...props
+}: Props) => {
   const rowClassNames = cx(
     styles.grid,
     capitalize(margin, "margin"),

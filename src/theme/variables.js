@@ -4,6 +4,8 @@ const error = "#F05956";
 const fontColor = "#1C1C1C";
 const background = "#ffffff";
 const border = "#f3f3f3";
+const placeholder = "#b8bccb";
+const temporaryError = "#ffb968";
 const xs = "4px";
 const sm = "8px";
 const md = "16px";
@@ -18,10 +20,8 @@ const buttonLargeFontSize = "12px";
 const lightFont = 300;
 const regularFont = 400;
 const semiBoldFont = 600;
-const smallFontSize = "11px";
-const mediumFontSize = "13px";
-const largeFontSize = "15px";
-const extraLargeFontSize = "18px";
+const smallFontSize = "14px";
+const mediumFontSize = "16px";
 const xxlFontSize = "32px";
 const screenXs = 425;
 const screenXsMax = 767;
@@ -56,8 +56,6 @@ module.exports = Object.assign(
     semiBoldFont,
     smallFontSize,
     mediumFontSize,
-    largeFontSize,
-    extraLargeFontSize,
     xxlFontSize,
     screenXs,
     screenXsMax,
@@ -66,5 +64,8 @@ module.exports = Object.assign(
     screenMd,
     screenMdMax,
     screenLg,
+    temporaryError,
+    placeholder,
+
   },
 )
