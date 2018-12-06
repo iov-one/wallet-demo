@@ -181,7 +181,7 @@
 @define-mixin row $size {
   .start$(size) {
     justify-content: flex-start;
-    text-align: start;
+    text-align: left;
   }
   .center$(size) {
     justify-content: center;
@@ -189,7 +189,7 @@
   }
   .end$(size) {
     justify-content: flex-end;
-    text-align: end;
+    text-align: right;
   }
   .top$(size) {
     align-items: flex-start;
