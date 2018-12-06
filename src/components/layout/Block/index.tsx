@@ -19,29 +19,41 @@ interface Props {
   readonly offset?: 2 | 4 | 6 | 8;
 }
 
-const calculateStyleBased = ( maxWidth?: number, offset?: 2 | 4 | 6 | 8) => {
+const calculateStyleBased = (maxWidth?: number, offset?: 2 | 4 | 6 | 8) => {
   if (!maxWidth && !offset) {
     return undefined;
-  } 
+  }
 
-  let style = {}
+  let style = {};
 
   if (offset) {
-    const offsetUnit = getMagnitudeFrom(offset/2);
-    style = { ...style, marginLeft: offsetUnit, marginRight: offsetUnit, width: 'initial' }
-  }
-  
-  if (maxWidth) {
-    style = { ...style, maxWidth: `${maxWidth}px` }
+    const offsetUnit = getMagnitudeFrom(offset / 2);
+    style = { ...style, marginLeft: offsetUnit, marginRight: offsetUnit, width: "initial" };
   }
 
-  return style
-}
+  if (maxWidth) {
+    style = { ...style, maxWidth: `${maxWidth}px` };
+  }
+
+  return style;
+};
 
 class Block extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { margin, grow, padding, scroll, offset, overlap, align, maxWidth, children, className, ...props } = this.props;
-    const style = calculateStyleBased(maxWidth, offset)
+    const {
+      margin,
+      grow,
+      padding,
+      scroll,
+      offset,
+      overlap,
+      align,
+      maxWidth,
+      children,
+      className,
+      ...props
+    } = this.props;
+    const style = calculateStyleBased(maxWidth, offset);
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
     const blockClasses = cx(className, margin, paddingStyle, align, { grow, scroll, overlap });
 
