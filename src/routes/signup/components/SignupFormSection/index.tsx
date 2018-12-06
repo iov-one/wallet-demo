@@ -34,7 +34,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
     <Form onSubmit={onSubmit} validation={validate} grow>
       {({ submitting, valid, validating }: FormState) => (
         <React.Fragment>
-          <Block scroll grow offset={2}>
+          <Block scroll grow offsetSm={2}>
             <Block padding="xxl" align="right" margin="md">
               <LoginSection />
             </Block>
@@ -116,7 +116,7 @@ const SignupFormSection = ({ onSubmit }: Props) => (
           <Block margin="md" />
           <Grid nowrap noshrink nogrow>
             <GridItem xs={12} sm={12} grow center="xs" end="xs">
-              <Block margin="md" offset={2} padding="xxl">
+              <Block margin="md" offsetSm={2} padding="xxl">
                 <Button
                   variant="contained"
                   color="primary"

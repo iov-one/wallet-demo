@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import React, { PureComponent } from "react";
-import { getMagnitudeFrom } from "~/components/layout/GridItem/magnitudeCalculator";
 import { capitalize } from "~/theme/css";
 import { Size } from "~/theme/size";
 import styles from "./index.scss";
@@ -16,27 +15,10 @@ interface Props {
   readonly align?: "center" | "right";
   readonly className?: string;
   readonly maxWidth?: number;
-  readonly offset?: 2 | 4 | 6 | 8;
+  readonly offsetXs?: 2 | 4 | 6 | 8;
+  readonly offsetSm?: 2 | 4 | 6 | 8;
+  readonly offsetMd?: 2 | 4 | 6 | 8;
 }
-
-const calculateStyleBased = (maxWidth?: number, offset?: 2 | 4 | 6 | 8) => {
-  if (!maxWidth && !offset) {
-    return undefined;
-  }
-
-  let style = {};
-
-  if (offset) {
-    const offsetUnit = getMagnitudeFrom(offset / 2);
-    style = { ...style, marginLeft: offsetUnit, marginRight: offsetUnit, width: "initial" };
-  }
-
-  if (maxWidth) {
-    style = { ...style, maxWidth: `${maxWidth}px` };
-  }
-
-  return style;
-};
 
 class Block extends PureComponent<Props> {
   public render(): JSX.Element {
@@ -45,7 +27,9 @@ class Block extends PureComponent<Props> {
       grow,
       padding,
       scroll,
-      offset,
+      offsetXs,
+      offsetSm,
+      offsetMd,
       overlap,
       align,
       maxWidth,
@@ -53,9 +37,18 @@ class Block extends PureComponent<Props> {
       className,
       ...props
     } = this.props;
-    const style = calculateStyleBased(maxWidth, offset);
+    const style = maxWidth ? { maxWidth: `${maxWidth}px` } : undefined;
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
-    const blockClasses = cx(className, margin, paddingStyle, align, { grow, scroll, overlap });
+    const blockClasses = cx(
+      className,
+      margin,
+      paddingStyle,
+      align,
+      capitalize(offsetXs, "smOffset"),
+      capitalize(offsetSm, "smOffset"),
+      capitalize(offsetMd, "mdOffset"),
+      { grow, scroll, overlap },
+    );
 
     return (
       <div className={blockClasses} style={style} {...props}>
