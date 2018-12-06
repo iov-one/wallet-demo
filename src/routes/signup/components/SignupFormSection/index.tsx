@@ -36,10 +36,10 @@ const SignupFormSection = ({ onSubmit }: Props) => (
         <React.Fragment>
           <Grid>
             <GridItem xs={12} smOffset={1} sm={10} variant="column">
-              <Block padding="xxl" align="right" margin="md">
-                <LoginSection />
-              </Block>
               <Block scroll grow>
+                <Block padding="xxl" align="right" margin="md">
+                  <LoginSection />
+                </Block>
                 <Block padding="xxl" maxWidth={450} margin="md">
                   <TitleSection />
                 </Block>

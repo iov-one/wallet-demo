@@ -17,7 +17,7 @@ const styles = createStyles({
 interface Props extends WithStyles<typeof styles> {}
 
 const ImageSection = ({ classes }: Props) => (
-  <Block grow>
+  <Block overlap>
     <Img src={people} alt="Sign up Image" cover />
     <Img src={logo} alt="Logo" className={classes.logo} />
   </Block>
