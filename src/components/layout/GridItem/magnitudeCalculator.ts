@@ -2,7 +2,7 @@ import { screenLg, screenMd, screenSm } from "~/theme/variables";
 
 export type Magnitude = number | undefined;
 
-const getMagnitudeFrom = (magnitude: number): string => {
+export const getMagnitudeFrom = (magnitude: number): string => {
   if (magnitude === 0) {
     return "0%";
   }

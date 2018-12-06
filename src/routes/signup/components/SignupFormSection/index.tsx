@@ -34,11 +34,25 @@ const SignupFormSection = ({ onSubmit }: Props) => (
     <Form onSubmit={onSubmit} validation={validate} grow>
       {({ submitting, valid, validating }: FormState) => (
         <React.Fragment>
-          <Grid>
-            <GridItem xs={12} smOffset={1} sm={10} variant="column">
-              <Block scroll grow>
+
+              <Block scroll grow offset={2}>
                 <Block padding="xxl" align="right" margin="md">
                   <LoginSection />
+                </Block>
+                <Block padding="xxl" maxWidth={450} margin="md">
+                  <TitleSection />
+                </Block>
+                <Block padding="xxl" maxWidth={450} margin="md">
+                  <TitleSection />
+                </Block>
+                <Block padding="xxl" maxWidth={450} margin="md">
+                  <TitleSection />
+                </Block>
+                <Block padding="xxl" maxWidth={450} margin="md">
+                  <TitleSection />
+                </Block>
+                <Block padding="xxl" maxWidth={450} margin="md">
+                  <TitleSection />
                 </Block>
                 <Block padding="xxl" maxWidth={450} margin="md">
                   <TitleSection />
@@ -98,14 +112,12 @@ const SignupFormSection = ({ onSubmit }: Props) => (
                   <PolicySection />
                 </Block>
               </Block>
-            </GridItem>
-            <GridItem xs={0} smOffset={1} />
-          </Grid>
+           
           <Hairline />
           <Block margin="md" />
           <Grid nowrap noshrink nogrow>
-            <GridItem xs={12} smOffset={1} sm={10} grow center="xs" end="xs">
-              <Block margin="md" padding="xxl">
+            <GridItem xs={12} sm={12} grow center="xs" end="xs">
+              <Block margin="md" offset={2} padding="xxl">
                 <Button
                   variant="contained"
                   color="primary"
@@ -118,7 +130,6 @@ const SignupFormSection = ({ onSubmit }: Props) => (
                 </Button>
               </Block>
             </GridItem>
-            <GridItem xs={0} smOffset={1} />
           </Grid>
         </React.Fragment>
       )}
