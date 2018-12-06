@@ -54,8 +54,14 @@
   width: 100%;
   flex-grow: 1;
 }
-
 .scroll {
   overflow-y: scroll;
   overflow-x: hidden;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0px;
+}
+.overlap { 
+  display: grid;
+  height: 100vh;
 }

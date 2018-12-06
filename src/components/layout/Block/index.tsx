@@ -8,6 +8,7 @@ const cx: any = classNames.bind(styles);
 
 interface Props {
   readonly grow?: boolean;
+  readonly overlap?: boolean;
   readonly scroll?: boolean;
   readonly margin?: Size;
   readonly padding?: Size;
@@ -18,10 +19,10 @@ interface Props {
 
 class Block extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { margin, grow, padding, scroll, align, maxWidth, children, className, ...props } = this.props;
+    const { margin, grow, padding, scroll, overlap, align, maxWidth, children, className, ...props } = this.props;
     const style = maxWidth ? { maxWidth: `${maxWidth}px` } : undefined;
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
-    const blockClasses = cx(className, margin, paddingStyle, align, { grow, scroll });
+    const blockClasses = cx(className, margin, paddingStyle, align, { grow, scroll, overlap });
 
     return (
       <div className={blockClasses} style={style} {...props}>
