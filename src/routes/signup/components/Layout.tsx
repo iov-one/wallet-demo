@@ -12,7 +12,7 @@ const ref = React.createRef<GridItem>();
 
 const Layout = ({ onSubmit }: Props): JSX.Element => (
   <Grid>
-    <GridItem ref={ref} maxwidth="sm" xs={12} sm={4}>
+    <GridItem ref={ref} maxwidth="sm" xs={0} sm={4}>
       <ImageSection />
     </GridItem>
     <GridItem xs={12} sm={8} growElem={ref} growSm={4} variant="column">
