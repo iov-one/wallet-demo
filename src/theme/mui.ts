@@ -59,16 +59,12 @@ export const themeObject: ThemeOptions = {
     },
     MuiFormHelperText: {
       root: {
-        display: "none",
         fontWeight: semiBoldFont,
         fontSize: smallFontSize,
         lineHeight: "18px",
       },
       contained: {
         margin: `${sm} 0 0 0`,
-      },
-      filled: {
-        display: "initial",
       },
     },
     MuiInputBase: {
@@ -124,6 +120,7 @@ export const themeObject: ThemeOptions = {
       },
       h6: {
         fontSize: "1.25rem",
+        color: fontColor,
       },
       body1: {
         fontSize: "1rem",

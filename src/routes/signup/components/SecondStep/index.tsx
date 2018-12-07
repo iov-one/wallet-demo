@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Errors } from "~/components/forms/Form";
 import PageColumn from "~/components/pages/PageColumn";
-import FormComponent from "../FirstStep/FormComponent";
 import ExplanationMenuComponent from "./ExplanationMenu";
+import FormComponent from "./FormComponent";
 
 const ExplanationMenu = () => <ExplanationMenuComponent />;
 

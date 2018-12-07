@@ -36,13 +36,13 @@ const ExplanationMenu = ({ classes }: Props) => (
         Simple.
       </Typography>
     </Block>
-    <Block margin="sm">
+    <Block margin="md">
       <Typography variant="subtitle2" weight="semibold">
         Instead of having an address like this:
       </Typography>
     </Block>
     <RoundTextBox text="1DkyBEKt5S2G...AvnsRyHoYM" />
-    <Block margin="sm">
+    <Block margin="md">
       <Img src={arrow} alt="Account transformation" />
     </Block>
     <Block margin="sm">
