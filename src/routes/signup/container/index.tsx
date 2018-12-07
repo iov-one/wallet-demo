@@ -1,5 +1,6 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
+import ExplanationMenu from "~/routes/signup/components/SecondStep/ExplanationMenu"
 import { CreateAccount, PeopleImg } from "../components/FirstStep";
 
 interface State {
@@ -24,7 +25,7 @@ class SignUp extends React.Component<{}, State> {
         <CreateAccount onSubmit={this.onCreateAccount} />
       </PageColumn>
     ) : (
-      <PageColumn leftMenu={PeopleImg}>
+      <PageColumn leftMenu={<ExplanationMenu />}>
         <CreateAccount onSubmit={this.onCreateAccount} />
       </PageColumn>
     );
