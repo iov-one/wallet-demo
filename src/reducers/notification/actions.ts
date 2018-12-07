@@ -17,6 +17,8 @@ export const addConfirmedTransaction = createSyncAction(
   (transaction?: TransNotificationInfo) => transaction,
 );
 
+export const resetTransactionList = createSyncAction("RESET_CONFIRMED_TRANSACTION_LIST", () => true);
+
 export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
 
 export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);

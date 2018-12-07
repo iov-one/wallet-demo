@@ -19,9 +19,10 @@ export function notificationReducer(
 ): NotificationState {
   switch (action.type) {
     case "ADD_PENDING_TRANSACTION":
+      const pending: ReadonlyArray<any> = [...state.pending, action.payload];
       return {
         ...state,
-        pending: [...state.pending, action.payload],
+        pending,
       };
     case "REMOVE_PENDING_TRANSACTION":
       const newPendings = filter(state.pending, pendingItem => pendingItem.id !== action.payload);
@@ -44,11 +45,16 @@ export function notificationReducer(
         const transaction: ReadonlyArray<any> = [...state.transaction, action.payload];
         return {
           ...state,
-          transaction: takeRight(transaction, 5),
+          transaction: takeRight(transaction, 3),
         };
       }
       return {
         ...state,
+      };
+    case "RESET_CONFIRMED_TRANSACTION_LIST":
+      return {
+        ...state,
+        transaction: [],
       };
     default:
       return state;

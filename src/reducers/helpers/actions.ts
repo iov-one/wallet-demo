@@ -3,7 +3,7 @@ import { Fn, Fn0, Fn1, Fn2, Fn3, isFn0, isFn1, isFn2 } from "./functions";
 // this is how we trigger the action
 export interface ActionPayload<T, P> {
   readonly type: T;
-  readonly payload: P;
+  readonly payload?: P;
 }
 
 // one-heavily overloaded function

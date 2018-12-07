@@ -63,6 +63,7 @@ interface MenuItemProps {
   readonly icon: string;
   readonly type?: string;
   readonly spin?: boolean;
+  readonly onHidePopup?: () => any;
 }
 
 interface MenuItemState {
@@ -81,10 +82,24 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
     document.removeEventListener("mousedown", this.handleClick);
   }
   public readonly handleClick = (event: any) => {
+    const { onHidePopup } = this.props;
     if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
       this.setState({
         show: false,
       });
+      if (onHidePopup) {
+        onHidePopup();
+      }
+    }
+  };
+  public readonly handleIconClick = () => {
+    const { show } = this.state;
+    const { onHidePopup } = this.props;
+    this.setState({
+      show: !show,
+    });
+    if (show && onHidePopup) {
+      onHidePopup();
     }
   };
   public render(): any {
@@ -92,12 +107,7 @@ export class NotificationMenuItem extends React.Component<MenuItemProps, MenuIte
     const { show } = this.state;
     return (
       <Wrapper innerRef={this.wrapperRef}>
-        <Button
-          onClick={() => {
-            this.setState({ show: true });
-          }}
-          className={classNames(type, icon)}
-        >
+        <Button onClick={this.handleIconClick} className={classNames(type, icon)}>
           <HeaderIcon icon={icon} className={classNames(type, { active: show, spin })} />
         </Button>
         <FadeWrapper className={classNames({ show })}>{notification}</FadeWrapper>

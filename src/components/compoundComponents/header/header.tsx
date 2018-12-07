@@ -35,6 +35,7 @@ interface HeaderProps {
   readonly visitedPending: boolean;
   readonly onGotIt: () => any;
   readonly onLogo: () => any;
+  readonly resetTransactionList: () => any;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -54,6 +55,7 @@ export class Header extends React.Component<HeaderProps> {
       onLogo,
       onGotIt,
       visitedPending,
+      resetTransactionList,
     } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
@@ -78,6 +80,7 @@ export class Header extends React.Component<HeaderProps> {
               type={type}
               icon="bell"
               notification={<TransactionNotification {...transactionInfo} />}
+              onHidePopup={resetTransactionList}
             />
             <HeaderDropdown title="Hi!" />
           </RightNavigation>

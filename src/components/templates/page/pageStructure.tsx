@@ -17,7 +17,7 @@ import {
 
 import { NavItemInfo } from "../../subComponents/headers";
 
-import { pendingTransactionVisited } from "../../../reducers/notification";
+import { pendingTransactionVisited, resetTransactionList } from "../../../reducers/notification";
 
 interface OwnProps extends RouteComponentProps<{}> {
   readonly children: JSX.Element;
@@ -34,6 +34,7 @@ interface GeneratedProps {
 
 interface GeneratedFunctionProps {
   readonly pendingVisited: () => any;
+  readonly resetTransactions: () => any;
 }
 
 interface BaseProps extends OwnProps, GeneratedProps {}
@@ -93,6 +94,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       transactionError,
       pendingVisited,
       history,
+      resetTransactions,
     } = this.props;
     const { isOffline } = this.state;
     const navigationItems = [
@@ -122,6 +124,7 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
           onGotIt={pendingVisited}
+          resetTransactionList={resetTransactions}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
@@ -143,6 +146,7 @@ const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   pendingVisited: () => dispatch(pendingTransactionVisited()),
+  resetTransactions: () => dispatch(resetTransactionList()),
 });
 
 export const PageStructure = withRouter(
