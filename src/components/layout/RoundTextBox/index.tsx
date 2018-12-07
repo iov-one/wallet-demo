@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly text: string,
+  readonly text: string;
 }
 
 const DEFAULT_HEIGHT = "43px";

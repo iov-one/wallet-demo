@@ -12,10 +12,10 @@ import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
+import SubtitleSection from "~/components/pages/PageColumn/SubtitleSection";
+import TitleSection from "~/components/pages/PageColumn/TitleSection";
 import LoginSection from "./LoginSection";
 import PolicySection from "./PolicySection";
-import SubtitleSection from "./SubtitleSection";
-import TitleSection from "./TitleSection";
 
 import people from "~/routes/signup/assets/People.svg";
 
@@ -44,12 +44,8 @@ export const CreateAccount = ({ onSubmit }: Props) => (
               <Block padding="xxl" align="right" margin="md">
                 <LoginSection />
               </Block>
-              <Block padding="xxl" maxWidth={450} margin="md">
-                <TitleSection />
-              </Block>
-              <Block padding="xxl" margin="xl">
-                <SubtitleSection />
-              </Block>
+              <TitleSection primaryTitle="Get started" secondaryTitle="with your first blockchain wallet." />
+              <SubtitleSection text="Sign up for your IOV wallet below" />
               <Block padding="xxl" maxWidth={450} margin="xl">
                 <Block margin="sm">
                   <Typography variant="subtitle2" color="textPrimary">
