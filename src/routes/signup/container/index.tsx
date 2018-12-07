@@ -1,5 +1,6 @@
 import * as React from "react";
 import { CreateAccount } from "../components/FirstStep";
+import { CreateUsername } from "../components/SecondStep";
 
 interface State {
   readonly page: number;
@@ -19,10 +20,10 @@ class SignUp extends React.Component<{}, State> {
     const { page } = this.state;
 
     if (page === 0) {
-      return <CreateAccount onSubmit={this.onCreateAccount} />
+      return <CreateAccount onSubmit={this.onCreateAccount} />;
     }
-    
-    return <CreateAccount onSubmit={this.onCreateAccount} />
+
+    return <CreateUsername onSubmit={this.onCreateAccount} />;
   }
 }
 

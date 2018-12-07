@@ -1,11 +1,9 @@
-import * as React from "react"
+import * as React from "react";
 
 const style = {
   height: "109px",
 };
 
-const EmptyHeader = () => (
-  <div style={style} />
-)
+const EmptyHeader = () => <div style={style} />;
 
-export default EmptyHeader
+export default EmptyHeader;
