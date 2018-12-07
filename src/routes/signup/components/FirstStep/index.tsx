@@ -10,11 +10,16 @@ import Button from "~/components/layout/Button";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
+import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import LoginSection from "../LoginSection";
-import SubtitleSection from "../SubtitleSection";
-import TitleSection from "../TitleSection";
+import LoginSection from "./LoginSection";
 import PolicySection from "./PolicySection";
+import SubtitleSection from "./SubtitleSection";
+import TitleSection from "./TitleSection";
+
+import people from "~/routes/signup/assets/People.svg";
+
+export const PeopleImg = <Img src={people} alt="Sign up Image" cover />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
@@ -29,7 +34,7 @@ const validate = (values: any) => {
   return errors;
 };
 
-const SignupFormSection = ({ onSubmit }: Props) => (
+export const CreateAccount = ({ onSubmit }: Props) => (
   <React.Fragment>
     <Form onSubmit={onSubmit} validation={validate} grow>
       {({ submitting, valid, validating }: FormState) => (
@@ -121,5 +126,3 @@ const SignupFormSection = ({ onSubmit }: Props) => (
     </Form>
   </React.Fragment>
 );
-
-export default SignupFormSection;
