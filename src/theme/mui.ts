@@ -116,6 +116,8 @@ export const themeObject: ThemeOptions = {
       },
       h4: {
         fontSize: "2.5rem",
+        fontWeight: lightFont,
+        color: fontColor,
       },
       h5: {
         fontSize: "2rem",
@@ -125,10 +127,12 @@ export const themeObject: ThemeOptions = {
       },
       body1: {
         fontSize: "1rem",
+        color: fontColor,
       },
       subtitle2: {
         fontSize: "0.875rem",
         lineHeight: "0.875rem",
+        color: fontColor,
       },
     },
   },

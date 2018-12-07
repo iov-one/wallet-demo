@@ -7,7 +7,7 @@ import Img from "~/components/layout/Image";
 import logo from "~/routes/signup/assets/logo.svg";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly leftMenu: JSX.Element;
+  readonly leftMenu: React.ReactNode;
   readonly children: JSX.Element;
 }
 
