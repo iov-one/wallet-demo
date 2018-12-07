@@ -10,6 +10,7 @@ import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import logo from "~/routes/signup/assets/logo.svg";
+import EmptyHeader from "./EmptyHeader";
 import SubtitleSection from "./SubtitleSection";
 import TitleSection from "./TitleSection";
 
@@ -62,7 +63,7 @@ const Layout = ({
           <React.Fragment>
             <Block scroll grow>
               <Block offsetSm={2}>
-                {renderHeader && renderHeader()}
+                {renderHeader ? renderHeader() : <EmptyHeader />}
                 <TitleSection primaryTitle={primaryTitle} secondaryTitle={secondaryTitle} />
                 <SubtitleSection text={subtitle} />
                 {formRender()}
