@@ -1,7 +1,5 @@
 import * as React from "react";
-import PageColumn from "~/components/pages/PageColumn";
-import ExplanationMenu from "~/routes/signup/components/SecondStep/ExplanationMenu"
-import { CreateAccount, PeopleImg } from "../components/FirstStep";
+import { CreateAccount } from "../components/FirstStep";
 
 interface State {
   readonly page: number;
@@ -20,15 +18,11 @@ class SignUp extends React.Component<{}, State> {
   public render(): JSX.Element {
     const { page } = this.state;
 
-    return page === 0 ? (
-      <PageColumn leftMenu={PeopleImg}>
-        <CreateAccount onSubmit={this.onCreateAccount} />
-      </PageColumn>
-    ) : (
-      <PageColumn leftMenu={<ExplanationMenu />}>
-        <CreateAccount onSubmit={this.onCreateAccount} />
-      </PageColumn>
-    );
+    if (page === 0) {
+      return <CreateAccount onSubmit={this.onCreateAccount} />
+    }
+    
+    return <CreateAccount onSubmit={this.onCreateAccount} />
   }
 }
 

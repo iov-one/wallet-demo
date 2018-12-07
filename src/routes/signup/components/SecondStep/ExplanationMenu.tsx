@@ -18,9 +18,7 @@ const styles = createStyles({
       lineHeight: "56px",
     },
   },
-  roundBox: {
-    
-  },
+  roundBox: {},
 });
 
 const ExplanationMenu = ({ classes }: Props) => (

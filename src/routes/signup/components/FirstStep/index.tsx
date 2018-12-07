@@ -1,25 +1,11 @@
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { FormState } from "final-form";
 import * as React from "react";
-import Field from "~/components/forms/Field";
-import Form, { Errors } from "~/components/forms/Form";
-import TextField from "~/components/forms/TextField";
-import { required, validEmail } from "~/components/forms/validator";
-import Block from "~/components/layout/Block";
-import Button from "~/components/layout/Button";
-import Grid from "~/components/layout/Grid";
-import GridItem from "~/components/layout/GridItem";
-import Hairline from "~/components/layout/Hairline";
-import Img from "~/components/layout/Image";
-import Typography from "~/components/layout/Typography";
-import SubtitleSection from "~/components/pages/PageColumn/SubtitleSection";
-import TitleSection from "~/components/pages/PageColumn/TitleSection";
-import LoginSection from "./LoginSection";
-import PolicySection from "./PolicySection";
+import { Errors } from "~/components/forms/Form";
+import PageColumn from "~/components/pages/PageColumn";
+import FormComponent from "./FormComponent";
+import PeopleImg from "./LeftMenu";
+import LoginComponent from "./LoginComponent";
 
-import people from "~/routes/signup/assets/People.svg";
-
-export const PeopleImg = <Img src={people} alt="Sign up Image" cover />;
+const LoginSection = () => <LoginComponent />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
@@ -35,90 +21,14 @@ const validate = (values: any) => {
 };
 
 export const CreateAccount = ({ onSubmit }: Props) => (
-  <React.Fragment>
-    <Form onSubmit={onSubmit} validation={validate} grow>
-      {({ submitting, valid, validating }: FormState) => (
-        <React.Fragment>
-          <Block scroll grow>
-            <Block offsetSm={2}>
-              <Block padding="xxl" align="right" margin="md">
-                <LoginSection />
-              </Block>
-              <TitleSection primaryTitle="Get started" secondaryTitle="with your first blockchain wallet." />
-              <SubtitleSection text="Sign up for your IOV wallet below" />
-              <Block padding="xxl" maxWidth={450} margin="xl">
-                <Block margin="sm">
-                  <Typography variant="subtitle2" color="textPrimary">
-                    Email
-                  </Typography>
-                </Block>
-                <Field
-                  variant="outlined"
-                  name="email"
-                  type="text"
-                  fullWidth
-                  validate={validEmail}
-                  component={TextField}
-                  placeholder="Your Email"
-                />
-              </Block>
-              <Block padding="xxl" maxWidth={450} margin="xl">
-                <Block margin="sm">
-                  <Typography variant="subtitle2" color="textPrimary">
-                    Password
-                  </Typography>
-                </Block>
-                <Field
-                  variant="outlined"
-                  name="password"
-                  type="password"
-                  fullWidth
-                  component={TextField}
-                  validate={required}
-                  placeholder="Create a password"
-                />
-              </Block>
-              <Block padding="xxl" maxWidth={450} margin="xl">
-                <Block margin="sm">
-                  <Typography variant="subtitle2" color="textPrimary">
-                    Confirm Password
-                  </Typography>
-                </Block>
-                <Field
-                  variant="outlined"
-                  name="confirmPassword"
-                  type="password"
-                  fullWidth
-                  component={TextField}
-                  validate={required}
-                  placeholder="Repeat your password"
-                />
-              </Block>
-              <Block padding="xxl" margin="xl">
-                <PolicySection />
-              </Block>
-            </Block>
-          </Block>
-          <Hairline />
-          <Block margin="md" />
-          <Grid nowrap noshrink nogrow>
-            <GridItem xs={12} sm={12} grow center="xs" end="xs">
-              <Block margin="md" offsetSm={2} padding="xxl">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={!valid || submitting || validating}
-                  size="large"
-                >
-                  {"Continue\u00a0"}
-                  <ArrowForwardIcon fontSize="small" />
-                </Button>
-              </Block>
-            </GridItem>
-          </Grid>
-        </React.Fragment>
-      )}
-    </Form>
-  </React.Fragment>
+  <PageColumn
+    leftMenu={PeopleImg}
+    onSubmit={onSubmit}
+    validation={validate}
+    primaryTitle="Get started"
+    secondaryTitle="Sign up for your IOV wallet below"
+    subtitle="Sign up for your IOV wallet below"
+    renderHeader={LoginSection}
+    formRender={FormComponent}
+  />
 );
