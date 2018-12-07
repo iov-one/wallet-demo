@@ -4,6 +4,9 @@ import Block from "~/components/layout/Block";
 import RoundTextBox from "~/components/layout/RoundTextBox";
 import Typography from "~/components/layout/Typography";
 
+import Img from "~/components/layout/Image";
+import arrow from "~/routes/signup/assets/arrow.svg";
+
 interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({
@@ -39,6 +42,9 @@ const ExplanationMenu = ({ classes }: Props) => (
       </Typography>
     </Block>
     <RoundTextBox text="1DkyBEKt5S2G...AvnsRyHoYM" />
+    <Block margin="sm">
+      <Img src={arrow} alt="Account transformation" />
+    </Block>
     <Block margin="sm">
       <Typography variant="subtitle2" weight="semibold" inline>
         {"For\u00a0"}
