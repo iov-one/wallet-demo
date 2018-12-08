@@ -50,6 +50,9 @@ export const themeObject: ThemeOptions = {
       containedPrimary: {
         color: "#ffffff",
       },
+      sizeLarge: {
+        minHeight: "50px",
+      }
     },
     MuiCheckbox: {
       root: {
