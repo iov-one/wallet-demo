@@ -17,6 +17,7 @@ const fontSizeHeadingSm = 18;
 const fontSizeHeadingMd = 21;
 const fontSizeHeadingLg = 32;
 const buttonLargeFontSize = "12px";
+const extraLightFont = 200;
 const lightFont = 300;
 const regularFont = 400;
 const semiBoldFont = 600;
@@ -51,6 +52,7 @@ module.exports = Object.assign(
     fontSizeHeadingMd,
     fontSizeHeadingLg,
     buttonLargeFontSize,
+    extraLightFont,
     lightFont,
     regularFont,
     semiBoldFont,
