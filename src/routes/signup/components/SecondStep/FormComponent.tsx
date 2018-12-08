@@ -15,10 +15,10 @@ const styles = createStyles({
     display: "flex",
     flexWrap: "nowrap",
     alignItems: "center",
-    width: "450px",
+    maxWidth: "450px",
   },
   field: {
-    width: "400px",
+    maxWidth: "400px",
     "& * input": {
       textAlign: "right",
     },
@@ -43,6 +43,7 @@ const FormComponent = ({ classes }: Props) => (
         <Field
           className={classes.field}
           variant="outlined"
+          fullWidth
           name={USERNAME_FIELD}
           type="text"
           component={TextField}
