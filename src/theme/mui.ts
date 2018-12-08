@@ -76,6 +76,7 @@ export const themeObject: ThemeOptions = {
         lineHeight: "1.6rem",
         "& > input::placeholder": {
           color: placeholder,
+          // opacity: "1 !important", Fixed in general css for avoid TS errors
         },
       },
       error: {
