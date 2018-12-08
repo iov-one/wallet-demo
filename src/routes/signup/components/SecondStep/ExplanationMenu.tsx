@@ -27,8 +27,7 @@ const styles = createStyles({
 const ExplanationMenu = ({ classes }: Props) => (
   <Block align="center" className={classes.background}>
     <Block margin="xxl" />
-    <Block margin="xxl" />
-    <Block margin="md" />
+    <Block margin="xl" />
     <Block margin="xxl" className={classes.branding}>
       <Typography variant="h4" weight="extralight">
         Intuitive.
