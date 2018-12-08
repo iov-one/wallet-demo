@@ -8,7 +8,7 @@ interface State {
 
 class SignUp extends React.Component<{}, State> {
   public readonly state = {
-    page: 1,
+    page: 0,
   };
 
   public readonly onCreateAccount = async (values: object) => {
