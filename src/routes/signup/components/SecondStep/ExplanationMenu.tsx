@@ -30,9 +30,13 @@ const ExplanationMenu = ({ classes }: Props) => (
     <Block margin="xxl" />
     <Block margin="md" />
     <Block margin="xxl" className={classes.branding}>
-      <Typography variant="h4">Intuitive.</Typography>
-      <Typography variant="h4">Secure.</Typography>
-      <Typography variant="h4" color="primary">
+      <Typography variant="h4" weight="extralight">
+        Intuitive.
+      </Typography>
+      <Typography variant="h4" weight="extralight">
+        Secure.
+      </Typography>
+      <Typography variant="h4" weight="extralight" color="primary">
         Simple.
       </Typography>
     </Block>
