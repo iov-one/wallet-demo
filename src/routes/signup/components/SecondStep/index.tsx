@@ -8,6 +8,7 @@ const ExplanationMenu = () => <ExplanationMenuComponent />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
+  readonly onBack: () => void;
 }
 
 const validate = (_: object) => {
@@ -16,10 +17,11 @@ const validate = (_: object) => {
   return errors;
 };
 
-export const CreateUsername = ({ onSubmit }: Props) => (
+export const CreateUsername = ({ onSubmit, onBack }: Props) => (
   <PageColumn
     leftMenu={ExplanationMenu}
     onSubmit={onSubmit}
+    onBack={onBack}
     validation={validate}
     primaryTitle="Create"
     secondaryTitle="your unique IOV username"

@@ -10,6 +10,7 @@ import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import logo from "~/routes/signup/assets/logo.svg";
+import { md } from "~/theme/variables";
 import EmptyHeader from "./EmptyHeader";
 import SubtitleSection from "./SubtitleSection";
 import TitleSection from "./TitleSection";
@@ -18,6 +19,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly leftMenu: () => JSX.Element;
 
   readonly onSubmit: (values: object) => void;
+  readonly onBack?: () => void;
   readonly formRender: () => JSX.Element;
   readonly validation?: (values: object) => object | Promise<object>;
 
@@ -37,12 +39,16 @@ const styles = createStyles({
     display: "flex",
     margin: "0 auto",
   },
+  back: {
+    marginRight: md,
+  }
 });
 
 const Layout = ({
   classes,
   formRender,
   onSubmit,
+  onBack,
   primaryTitle,
   secondaryTitle,
   subtitle,
@@ -74,6 +80,11 @@ const Layout = ({
             <Grid nowrap noshrink nogrow>
               <GridItem xs={12} sm={12} grow center="xs" end="xs">
                 <Block margin="md" offsetSm={2} padding="xxl">
+                  {onBack && (
+                    <Button color="primary" size="large" onClick={onBack} className={classes.back}>
+                      Back
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
                     color="primary"

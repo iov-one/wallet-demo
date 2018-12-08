@@ -8,12 +8,16 @@ interface State {
 
 class SignUp extends React.Component<{}, State> {
   public readonly state = {
-    page: 0,
+    page: 1,
   };
 
   public readonly onCreateAccount = async (values: object) => {
     this.setState({ page: 1 });
     console.log(values);
+  };
+
+  public readonly onBack = () => {
+    this.setState((prevState) => ({ page: prevState.page - 1 }));
   };
 
   public render(): JSX.Element {
@@ -23,7 +27,7 @@ class SignUp extends React.Component<{}, State> {
       return <CreateAccount onSubmit={this.onCreateAccount} />;
     }
 
-    return <CreateUsername onSubmit={this.onCreateAccount} />;
+    return <CreateUsername onSubmit={this.onCreateAccount} onBack={this.onBack} />;
   }
 }
 
