@@ -30,9 +30,6 @@ const styles = createStyles({
 
 const FormComponent = ({ classes }: Props) => (
   <React.Fragment>
-    <Block margin="xxl" />
-    <Block margin="xxl" />
-    <Block margin="xxl" />
     <Block padding="xxl" maxWidth={450} margin="xxl">
       <Block margin="sm">
         <Typography variant="subtitle2" color="textPrimary">
