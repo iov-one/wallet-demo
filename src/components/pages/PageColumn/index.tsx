@@ -63,10 +63,12 @@ const Layout = ({
           <React.Fragment>
             <Block scroll grow>
               <Block offsetSm={2}>
-                {renderHeader ? renderHeader() : <EmptyHeader />}
-                <TitleSection primaryTitle={primaryTitle} secondaryTitle={secondaryTitle} />
-                <SubtitleSection text={subtitle} />
-                {formRender()}
+                <GridItem variant="column">
+                  {renderHeader ? renderHeader() : <EmptyHeader />}
+                  <TitleSection primaryTitle={primaryTitle} secondaryTitle={secondaryTitle} />
+                  <SubtitleSection text={subtitle} />
+                  {formRender()}
+                </GridItem>
               </Block>
             </Block>
             <Hairline />

@@ -15,8 +15,8 @@ const styles = createStyles({
 interface Props extends WithStyles<typeof styles> {}
 
 const LoginComponent = ({ classes }: Props) => (
-  <Block padding="xxl" align="right" margin="md">
-    <Block className={classes.container} margin="xl">
+  <React.Fragment>
+    <Block className={classes.container} padding="xxl" margin="xxl" align="right">
       <Typography variant="subtitle1" inline>
         {"Already have an account?\u00a0"}
       </Typography>
@@ -26,7 +26,7 @@ const LoginComponent = ({ classes }: Props) => (
         </Typography>
       </Link>
     </Block>
-  </Block>
+  </React.Fragment>
 );
 
 export default withStyles(styles)(LoginComponent);
