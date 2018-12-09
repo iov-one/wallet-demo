@@ -20,6 +20,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly leftMenu: () => JSX.Element;
 
   readonly icon: "white" | "black";
+  readonly nextMsg: string;
   readonly onSubmit: (values: object) => void;
   readonly onBack?: () => void;
   readonly formRender: () => JSX.Element;
@@ -55,6 +56,7 @@ const Layout = ({
   primaryTitle,
   secondaryTitle,
   subtitle,
+  nextMsg,
   renderHeader,
   leftMenu,
   validation,
@@ -95,7 +97,7 @@ const Layout = ({
                     disabled={!valid || submitting || validating}
                     size="large"
                   >
-                    {"Continue\u00a0"}
+                    {`${nextMsg}\u00a0`}
                     <ArrowForwardIcon fontSize="small" />
                   </Button>
                 </Block>
