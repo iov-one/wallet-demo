@@ -2,6 +2,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
+import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { md } from "~/theme/variables";
@@ -44,6 +45,7 @@ const FormComponent = ({ classes }: Props) => (
           name={USERNAME_FIELD}
           type="text"
           component={TextField}
+          validate={required}
           align="right"
           placeholder="username"
         />
