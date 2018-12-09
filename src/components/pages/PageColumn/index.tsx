@@ -10,6 +10,7 @@ import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import logo from "~/routes/signup/assets/logo.svg";
+import logoBlack from "~/routes/signup/assets/logoBlack.svg";
 import { md } from "~/theme/variables";
 import EmptyHeader from "./EmptyHeader";
 import SubtitleSection from "./SubtitleSection";
@@ -18,6 +19,7 @@ import TitleSection from "./TitleSection";
 interface Props extends WithStyles<typeof styles> {
   readonly leftMenu: () => JSX.Element;
 
+  readonly icon: "white" | "black";
   readonly onSubmit: (values: object) => void;
   readonly onBack?: () => void;
   readonly formRender: () => JSX.Element;
@@ -41,7 +43,7 @@ const styles = createStyles({
   },
   back: {
     marginRight: md,
-  }
+  },
 });
 
 const Layout = ({
@@ -49,6 +51,7 @@ const Layout = ({
   formRender,
   onSubmit,
   onBack,
+  icon,
   primaryTitle,
   secondaryTitle,
   subtitle,
@@ -60,7 +63,7 @@ const Layout = ({
     <GridItem xs={0} sm={4} ref={ref} maxwidth="sm">
       <Block overlap>
         {leftMenu()}
-        <Img src={logo} alt="Logo" className={classes.logo} />
+        <Img src={icon === "black" ? logoBlack : logo} alt="Logo" className={classes.logo} />
       </Block>
     </GridItem>
     <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">

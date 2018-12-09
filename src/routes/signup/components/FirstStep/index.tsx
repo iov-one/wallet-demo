@@ -22,6 +22,7 @@ const validate = (values: any) => {
 
 export const CreateAccount = ({ onSubmit }: Props) => (
   <PageColumn
+    icon="white"
     leftMenu={PeopleImg}
     onSubmit={onSubmit}
     validation={validate}

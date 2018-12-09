@@ -19,6 +19,7 @@ const validate = (_: object) => {
 
 export const CreateUsername = ({ onSubmit, onBack }: Props) => (
   <PageColumn
+    icon="black"
     leftMenu={ExplanationMenu}
     onSubmit={onSubmit}
     onBack={onBack}

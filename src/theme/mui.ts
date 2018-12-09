@@ -52,8 +52,8 @@ export const themeObject: ThemeOptions = {
       },
       sizeLarge: {
         minHeight: "50px",
-        fontSize: '19px',
-      }
+        fontSize: "19px",
+      },
     },
     MuiCheckbox: {
       root: {

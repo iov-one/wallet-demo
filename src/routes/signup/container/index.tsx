@@ -17,7 +17,7 @@ class SignUp extends React.Component<{}, State> {
   };
 
   public readonly onBack = () => {
-    this.setState((prevState) => ({ page: prevState.page - 1 }));
+    this.setState(prevState => ({ page: prevState.page - 1 }));
   };
 
   public render(): JSX.Element {
