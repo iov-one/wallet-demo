@@ -5,3 +5,13 @@
 .inline {
   display: inline !important;
 }
+
+.light {
+  font-weight: $lightFont !important;
+}
+.regular {
+  font-weight: $regularFont !important;
+}
+.semibold {
+  font-weight: $semiBoldFont !important;
+}

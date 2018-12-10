@@ -36,6 +36,7 @@ module.exports = merge(common, {
   ],
   devServer: {
     hot: true,
+    host: '0.0.0.0',
     // enable HMR on the server
   },
 });

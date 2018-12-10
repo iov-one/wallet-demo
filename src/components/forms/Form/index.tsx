@@ -4,6 +4,10 @@ import { FormApi, FormState } from "final-form";
 import * as React from "react";
 import { Form } from "react-final-form";
 
+export interface Errors {
+  readonly [key: string]: string;
+}
+
 const styles = createStyles({
   form: {},
   grow: {

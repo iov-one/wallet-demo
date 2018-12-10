@@ -1,6 +1,7 @@
 .item {
   flex: 0 1 auto;
   display: flex;
+  height: 100%;
 }
 .grow {
   flex-grow: 1;
@@ -37,25 +38,6 @@
 }
 .marginXxl {
   margin-bottom: $xxl;
-}
-
-.paddingXs {
-  padding-top: $xs;
-}
-.paddingSm {
-  padding-top: $sm;
-}
-.paddingMd {
-  padding-top: $md;
-}
-.paddingLg {
-  padding-top: $lg;
-}
-.paddingXl {
-  padding-top: $xl;
-}
-.paddingXxl {
-  padding-top: $xxl;
 }
 
 @define-mixin col $size {
@@ -200,7 +182,7 @@
 @define-mixin row $size {
   .start$(size) {
     justify-content: flex-start;
-    text-align: start;
+    text-align: left;
   }
   .center$(size) {
     justify-content: center;
@@ -208,7 +190,7 @@
   }
   .end$(size) {
     justify-content: flex-end;
-    text-align: end;
+    text-align: right;
   }
   .top$(size) {
     align-items: flex-start;

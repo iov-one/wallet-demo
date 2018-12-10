@@ -18,6 +18,13 @@ export const mustBeInteger = (value: string) => {
 
 export const required = (value: string) => (value ? undefined : "Required");
 
+export const validEmail = (email: string) => {
+  // obtained from https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+  const regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return regexp.test(String(email).toLowerCase()) ? undefined : "Introduce a valid email";
+};
+
 type Result = string | undefined;
 type Validator = (value: string) => Result;
 

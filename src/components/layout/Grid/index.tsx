@@ -13,17 +13,29 @@ interface Props {
   readonly margin?: Size;
   readonly padding?: Size;
   readonly align?: "center" | "end" | "start";
-  readonly shrink?: boolean;
+  readonly noshrink?: boolean;
   readonly nowrap?: boolean;
+  readonly nogrow?: boolean;
 }
 
-const Grid = ({ children, root, className, margin, padding, align, shrink, nowrap, ...props }: Props) => {
+const Grid = ({
+  children,
+  root,
+  className,
+  margin,
+  padding,
+  align,
+  noshrink,
+  nowrap,
+  nogrow,
+  ...props
+}: Props) => {
   const rowClassNames = cx(
     styles.grid,
     capitalize(margin, "margin"),
     capitalize(padding, "padding"),
     capitalize(align, "align"),
-    { shrink, root, nowrap },
+    { noshrink, root, nowrap, nogrow },
     className,
   );
 
