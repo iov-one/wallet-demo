@@ -44,6 +44,7 @@ before_script:
 
 script:
 - yarn test
+- yarn lint
 - yarn dist
 - yarn build-storybook
 
