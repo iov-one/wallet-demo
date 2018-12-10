@@ -6,14 +6,16 @@ import {
   BackupAccountPage,
   BalancePage,
   ConfirmTransactionPage,
+  HomePage,
   ImportAccountPage,
   InvitePage,
+  LoginPage,
   PasswordPage,
   PaymentPage,
   SendPaymentPage,
 } from "~/containers";
-import LogIn from "~/routes/login/container";
-import SignUp from "~/routes/signup/container";
+// import LogIn from "~/routes/login/container";
+// import SignUp from "~/routes/signup/container";
 
 export const LOG_IN_ROUTE = "/login";
 export const SIGN_UP_ROUTE = "/";
@@ -30,9 +32,13 @@ const Wrapper = styled.div`
 const MainRouter = () => (
   <Router>
     <Switch>
+      {/*
       <Route exact path={SIGN_UP_ROUTE} component={SignUp} />
       <Route path={LOG_IN_ROUTE} component={LogIn} />
+      */}
       <Wrapper>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/login/" component={LoginPage} />
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path="/setPassword/" component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
