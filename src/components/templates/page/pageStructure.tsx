@@ -82,6 +82,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
       });
     }
   };
+  public readonly logout = (): any => {
+    console.log("logout");
+  };
   public render(): JSX.Element {
     const {
       whiteBg,
@@ -122,6 +125,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
           onGotIt={pendingVisited}
+          toInviteScreen={() => history.push("/invite/")}
+          toSecurityCenter={() => history.push("/security-center/")}
+          logout={this.logout}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />

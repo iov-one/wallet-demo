@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import { HeaderDropdown, Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+import { HeaderDropdownMenu } from "../headerDropdown";
+import { Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
 
 import {
   NotificationMenuItem,
@@ -33,8 +34,11 @@ interface HeaderProps {
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly visitedPending: boolean;
-  readonly onGotIt: () => any;
-  readonly onLogo: () => any;
+  readonly onGotIt: () => void;
+  readonly onLogo: () => void;
+  readonly toSecurityCenter: () => void;
+  readonly toInviteScreen: () => void;
+  readonly logout: () => void;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -54,6 +58,9 @@ export class Header extends React.Component<HeaderProps> {
       onLogo,
       onGotIt,
       visitedPending,
+      toSecurityCenter,
+      toInviteScreen,
+      logout,
     } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
@@ -79,7 +86,11 @@ export class Header extends React.Component<HeaderProps> {
               icon="bell"
               notification={<TransactionNotification {...transactionInfo} />}
             />
-            <HeaderDropdown title="Hi!" />
+            <HeaderDropdownMenu
+              toSecurityCenter={toSecurityCenter}
+              toInviteScreen={toInviteScreen}
+              logout={logout}
+            />
           </RightNavigation>
         </HeaderContent>
       </NormalHeader>

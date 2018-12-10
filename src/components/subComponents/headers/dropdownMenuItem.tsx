@@ -24,6 +24,7 @@ const Image = styled.img`
   width: 18px;
   height: 19px;
   object-fit: contain;
+  margin-right: 16px;
 `;
 
 const Text = styled.div`
