@@ -11,7 +11,7 @@
     "format": "prettier --write --loglevel warn \"./src/**/*.{ts,tsx}\"",
     "prebuild": "yarn format && yarn lint",
     "build": "shx rm -rf ./build && tsc --module commonjs",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test TERM=dumb jest",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/development.config.js",
     "start-prod": "NODE_ENV=production webpack-dev-server --config webpack/production.config.js",
     "dist": "NODE_ENV=production webpack -p --config webpack/production.config.js --progress",
