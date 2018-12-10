@@ -18,6 +18,7 @@ declare module "~/theme/variables" {
   export const fontSizeHeadingMd: number;
   export const fontSizeHeadingLg: number;
   export const buttonLargeFontSize: string;
+  export const extraLightFont: string;
   export const lightFont: number;
   export const regularFont: number;
   export const semiBoldFont: number;

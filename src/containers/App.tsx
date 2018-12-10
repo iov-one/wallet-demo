@@ -11,7 +11,7 @@ const store = makeStore();
 
 WebFont.load({
   google: {
-    families: ["Muli:300,400,600"],
+    families: ["Muli:200,300,400,600"],
   },
 });
 

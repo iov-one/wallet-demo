@@ -50,6 +50,10 @@ export const themeObject: ThemeOptions = {
       containedPrimary: {
         color: "#ffffff",
       },
+      sizeLarge: {
+        minHeight: "50px",
+        fontSize: "19px",
+      },
     },
     MuiCheckbox: {
       root: {
@@ -59,16 +63,12 @@ export const themeObject: ThemeOptions = {
     },
     MuiFormHelperText: {
       root: {
-        display: "none",
         fontWeight: semiBoldFont,
         fontSize: smallFontSize,
         lineHeight: "18px",
       },
       contained: {
         margin: `${sm} 0 0 0`,
-      },
-      filled: {
-        display: "initial",
       },
     },
     MuiInputBase: {
@@ -77,6 +77,7 @@ export const themeObject: ThemeOptions = {
         lineHeight: "1.6rem",
         "& > input::placeholder": {
           color: placeholder,
+          // opacity: "1 !important", Fixed in general css for avoid TS errors
         },
       },
       error: {
@@ -116,19 +117,24 @@ export const themeObject: ThemeOptions = {
       },
       h4: {
         fontSize: "2.5rem",
+        fontWeight: lightFont,
+        color: fontColor,
       },
       h5: {
         fontSize: "2rem",
       },
       h6: {
         fontSize: "1.25rem",
+        color: fontColor,
       },
       body1: {
         fontSize: "1rem",
+        color: fontColor,
       },
       subtitle2: {
         fontSize: "0.875rem",
         lineHeight: "0.875rem",
+        color: fontColor,
       },
     },
   },

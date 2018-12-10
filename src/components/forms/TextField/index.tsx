@@ -42,7 +42,7 @@ class TextFieldElem extends React.PureComponent<Props> {
       <MuiTextField
         {...rest}
         name={name}
-        helperText={showError ? meta.error : helper || " "} // blank in order to force to have helper text
+        helperText={showError ? meta.error : helper || undefined}
         error={meta.error && (meta.touched || !meta.pristine)}
         InputProps={inputRootProps}
         inputProps={inputProps}

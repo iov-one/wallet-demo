@@ -1,5 +1,6 @@
 import * as React from "react";
-import Layout from "~/routes/signup/components/Layout";
+import { CreateAccount } from "../components/FirstStep";
+import { CreateUsername } from "../components/SecondStep";
 
 interface State {
   readonly page: number;
@@ -10,13 +11,23 @@ class SignUp extends React.Component<{}, State> {
     page: 0,
   };
 
-  public readonly onSubmit = async (values: object) => {
+  public readonly onCreateAccount = async (values: object) => {
     this.setState({ page: 1 });
     console.log(values);
   };
 
+  public readonly onBack = () => {
+    this.setState(prevState => ({ page: prevState.page - 1 }));
+  };
+
   public render(): JSX.Element {
-    return <Layout onSubmit={this.onSubmit} />;
+    const { page } = this.state;
+
+    if (page === 0) {
+      return <CreateAccount onSubmit={this.onCreateAccount} />;
+    }
+
+    return <CreateUsername onSubmit={this.onCreateAccount} onBack={this.onBack} />;
   }
 }
 
