@@ -28,5 +28,6 @@ export const CreateUsername = ({ onSubmit, onBack }: Props) => (
     secondaryTitle="your unique IOV username"
     subtitle="Share your username with anyone to recieve payments. It’s simple and secure."
     formRender={FormComponent}
+    nextMsg="Continue"
   />
 );

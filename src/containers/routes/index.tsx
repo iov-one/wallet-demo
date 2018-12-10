@@ -6,6 +6,7 @@ import {
   BackupAccountPage,
   BalancePage,
   ConfirmTransactionPage,
+  HomePage,
   ImportAccountPage,
   InvitePage,
   LoginPage,
@@ -13,9 +14,11 @@ import {
   PaymentPage,
   SendPaymentPage,
 } from "~/containers";
-import SignUp from "~/routes/signup/container";
+// import LogIn from "~/routes/login/container";
+// import SignUp from "~/routes/signup/container";
 
 export const LOG_IN_ROUTE = "/login";
+export const SIGN_UP_ROUTE = "/";
 export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 
@@ -29,13 +32,17 @@ const Wrapper = styled.div`
 const MainRouter = () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={SignUp} />
+      {/*
+      <Route exact path={SIGN_UP_ROUTE} component={SignUp} />
+      <Route path={LOG_IN_ROUTE} component={LogIn} />
+      */}
       <Wrapper>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/login/" component={LoginPage} />
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path="/setPassword/" component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />
-        <Route path="/login/" component={LoginPage} />
         <Route path="/payment/" component={PaymentPage} />
         <Route path="/balance/" component={BalancePage} />
         <Route path="/invite/" component={InvitePage} />

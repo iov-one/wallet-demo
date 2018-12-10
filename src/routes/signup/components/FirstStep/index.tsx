@@ -31,5 +31,6 @@ export const CreateAccount = ({ onSubmit }: Props) => (
     subtitle="Sign up for your IOV wallet below"
     renderHeader={LoginSection}
     formRender={FormComponent}
+    nextMsg="Continue"
   />
 );
