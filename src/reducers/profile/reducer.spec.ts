@@ -1,7 +1,3 @@
-// tslint:disable:no-unused-expression
-import { expect } from "chai";
-import "mocha";
-
 import { UserProfile } from "@iov/core";
 
 import { createMemDb, loadOrCreateProfile } from "../../logic";
@@ -16,44 +12,44 @@ describe("profile async actions", () => {
     const profile = await loadOrCreateProfile(db, "my-secret-here");
 
     const action = getIdentityAction(profile);
-    expect(action.type).to.equal("GET_ACTIVE_IDENTITY");
-    expect(action.payload.walletId).not.to.be.undefined;
-    expect(action.payload.identity).not.to.be.undefined;
+    expect(action.type).toEqual("GET_ACTIVE_IDENTITY");
+    expect(action.payload.walletId).not.toBeUndefined();
+    expect(action.payload.identity).not.toBeUndefined();
 
     const init = store.getState();
-    expect(init.profile.activeIdentity).to.be.undefined;
+    expect(init.profile.activeIdentity).toBeUndefined();
     fixTypes(store.dispatch(action));
 
     const after = store.getState();
-    expect(after.profile.activeIdentity).not.to.be.undefined;
-    expect(after.profile.activeIdentity!.walletId).to.equal(action.payload.walletId);
+    expect(after.profile.activeIdentity).not.toBeUndefined();
+    expect(after.profile.activeIdentity!.walletId).toEqual(action.payload.walletId);
   });
 
   it("initializes a fresh redux store", async () => {
     const store = makeStore();
     const init = store.getState();
-    expect(init.profile.internal.profile).to.be.undefined;
-    expect(init.profile.internal.db).not.to.be.undefined;
+    expect(init.profile.internal.profile).toBeUndefined();
+    expect(init.profile.internal.db).not.toBeUndefined();
     //   const db = init.profile.internal.db;
     const db = createMemDb();
 
     // ensure the action is correct
     const create = createProfileAsyncAction.start(db, "my-secret-here", {});
-    expect(create.type).to.equal("CREATE_PROFILE");
-    expect(create.payload.then).not.to.be.undefined;
+    expect(create.type).toEqual("CREATE_PROFILE");
+    expect(create.payload.then).not.toBeUndefined();
 
     // dispatch and check out the return values
     // NOTE: this is not properly captured by the type-system!
 
     const { action, value } = await fixTypes(store.dispatch(create));
-    expect(action.type).to.equal("CREATE_PROFILE_FULFILLED");
+    expect(action.type).toEqual("CREATE_PROFILE_FULFILLED");
     const profile: UserProfile = value;
-    expect(profile).not.to.be.undefined;
+    expect(profile).not.toBeUndefined();
 
     // make sure the profile is set properly
     const after = store.getState();
     const storeProfile = after.profile.internal.profile;
-    expect(storeProfile).not.to.be.undefined;
-    expect(storeProfile!.wallets.value).to.equal(profile.wallets.value);
+    expect(storeProfile).not.toBeUndefined();
+    expect(storeProfile!.wallets.value).toEqual(profile.wallets.value);
   });
 });
