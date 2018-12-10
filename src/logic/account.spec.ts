@@ -53,9 +53,6 @@ describe("sendTransaction", () => {
       console.log("Skipping test");
       return;
     }
-    // default 2 seconds is not long enough when CI is under load
-    // TODO
-    // this.timeout(3500);
 
     const faucet = await faucetProfile();
     const empty = await createProfile();
@@ -90,7 +87,7 @@ describe("sendTransaction", () => {
     } finally {
       reader.disconnect();
     }
-  });
+  }, 3500); // default 2 seconds is not long enough when CI is under load
 });
 
 describe("setName", () => {
@@ -100,9 +97,6 @@ describe("setName", () => {
       console.log("Skipping test");
       return;
     }
-    // multiple transactions, so multiple blocks... let's give it some time
-    // TODO: how to set timeout in jest??
-    // this.timeout(4000);
 
     const faucet = await faucetProfile();
     const empty = await createProfile();
@@ -135,7 +129,7 @@ describe("setName", () => {
       reader.disconnect();
       rcptReader.disconnect();
     }
-  });
+  }, 4000); // multiple transactions, so multiple blocks... let's give it some time
 
   describe("watchAccount", () => {
     it("updates on all changes", async () => {
@@ -143,8 +137,6 @@ describe("setName", () => {
         console.log("Skipping test");
         return;
       }
-      // TODO
-      // this.timeout(5000);
 
       const faucet = await faucetProfile();
       const empty = await createProfile();
@@ -224,6 +216,6 @@ describe("setName", () => {
         reader.disconnect();
         rcptReader.disconnect();
       }
-    });
+    }, 5000);
   });
 });

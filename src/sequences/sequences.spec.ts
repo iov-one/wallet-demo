@@ -10,8 +10,6 @@ describe("boot sequence", () => {
       console.log("Skipping tests....");
       return;
     }
-    // TODO
-    // this.timeout(4000);
 
     const store = makeStore();
     const password = randomString(16);
@@ -38,5 +36,5 @@ describe("boot sequence", () => {
     for (const chainId of signer.chainIds()) {
       signer.connection(chainId).disconnect();
     }
-  });
+  }, 4000);
 });

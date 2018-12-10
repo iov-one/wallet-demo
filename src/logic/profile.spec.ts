@@ -39,7 +39,6 @@ describe("hasStoredProfile", () => {
 
     const db = createMemDb();
     expect(await hasStoredProfile(db)).toBe(false);
-    // TODO: not sure how to check error objects against strings
     await expect(UserProfile.loadFrom(db, password)).rejects.toThrow(/Key not found/);
 
     const profile = await createProfile();
