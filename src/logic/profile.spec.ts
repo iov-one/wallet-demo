@@ -1,4 +1,3 @@
-// tslint:disable:no-unused-expression
 import { UserProfile } from "@iov/keycontrol";
 
 import { createMemDb } from "./db";

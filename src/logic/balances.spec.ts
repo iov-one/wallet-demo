@@ -1,4 +1,3 @@
-// tslint:disable:no-unused-expression
 import { CoinInfo, coinToString, stringToCoin } from "./balances";
 
 const coinInfo = (info: Partial<CoinInfo>): CoinInfo => ({

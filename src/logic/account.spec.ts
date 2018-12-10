@@ -1,4 +1,3 @@
-// tslint:disable:no-unused-expression
 import { Amount, BcpAccount } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
@@ -12,7 +11,7 @@ import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./
 describe("getAccount", () => {
   it("random account should be empty", async () => {
     if (skipTests()) {
-      console.log('Skipping test');
+      console.log("Skipping test");
       return;
     }
     const profile = await createProfile();
@@ -28,7 +27,7 @@ describe("getAccount", () => {
 
   it("faucet account should have tokens", async () => {
     if (skipTests()) {
-      console.log('Skipping test');
+      console.log("Skipping test");
       return;
     }
     const profile = await faucetProfile();
@@ -51,7 +50,7 @@ describe("getAccount", () => {
 describe("sendTransaction", () => {
   it("moves token to new account", async () => {
     if (skipTests()) {
-      console.log('Skipping test');
+      console.log("Skipping test");
       return;
     }
     // default 2 seconds is not long enough when CI is under load
@@ -98,7 +97,7 @@ describe("setName", () => {
   it("sets a name on account with funds", async () => {
     if (skipTests()) {
       // TODO: better way to mark test as skipped???
-      console.log('Skipping test');
+      console.log("Skipping test");
       return;
     }
     // multiple transactions, so multiple blocks... let's give it some time
@@ -141,7 +140,7 @@ describe("setName", () => {
   describe("watchAccount", () => {
     it("updates on all changes", async () => {
       if (skipTests()) {
-        console.log('Skipping test');
+        console.log("Skipping test");
         return;
       }
       // TODO

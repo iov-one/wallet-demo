@@ -1,7 +1,3 @@
-// tslint:disable:no-unused-expression
-import { expect } from "chai";
-import "mocha";
-
 import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";
@@ -9,19 +5,20 @@ import { createProfile } from "./profile";
 import { skipTests, testSpec } from "./testhelpers";
 
 describe("addBlockchain", () => {
-  it("should connect to local testnet", async function(): Promise<void> {
+  it("should connect to local testnet", async () => {
     if (skipTests()) {
-      this.skip();
+      // TODO:
+      console.log("Skipping test...");
       return;
     }
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
-      expect(reader).to.be.ok;
+      expect(reader).toBeTruthy();
       // basic checks that we connected properly
-      expect(reader.chainId()).to.include("chain-");
-      expect(await reader.height()).to.be.greaterThan(1);
+      expect(reader.chainId()).toMatch(/chain-/);
+      expect(await reader.height()).toBeGreaterThan(1);
     } finally {
       reader.disconnect();
     }
