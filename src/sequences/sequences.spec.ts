@@ -1,16 +1,10 @@
-import { randomString, skipTests, testSpec } from "../logic/testhelpers";
+import { mayTest, randomString, testSpec } from "../logic/testhelpers";
 import { fixTypes } from "../reducers/helpers";
 import { makeStore } from "../store";
 import { BootResult, bootSequence } from "./index";
 
 describe("boot sequence", () => {
-  it("initializes the chain", async () => {
-    if (skipTests()) {
-      // TODO
-      console.log("Skipping tests....");
-      return;
-    }
-
+  mayTest("initializes the chain", async () => {
     const store = makeStore();
     const password = randomString(16);
 

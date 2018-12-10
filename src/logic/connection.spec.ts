@@ -2,15 +2,10 @@ import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";
 import { createProfile } from "./profile";
-import { skipTests, testSpec } from "./testhelpers";
+import { mayTest, testSpec } from "./testhelpers";
 
 describe("addBlockchain", () => {
-  it("should connect to local testnet", async () => {
-    if (skipTests()) {
-      // TODO:
-      console.log("Skipping test...");
-      return;
-    }
+  mayTest("should connect to local testnet", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);

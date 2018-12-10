@@ -12,6 +12,7 @@ export const testSpec: BlockchainSpec = {
 export const testTicker = "CASH" as TokenTicker;
 
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
+export const mayTest = skipTests() ? xit : it;
 
 const faucetMnemonic = "hidden ask fever furnace alter bridge rib ride banana bargain moon bacon";
 export const faucetProfile = () => createProfile(faucetMnemonic);

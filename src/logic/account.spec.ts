@@ -6,14 +6,10 @@ import { sleep } from "../utils/timer";
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./testhelpers";
+import { faucetProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
 
 describe("getAccount", () => {
-  it("random account should be empty", async () => {
-    if (skipTests()) {
-      console.log("Skipping test");
-      return;
-    }
+  mayTest("random account should be empty", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
@@ -25,11 +21,7 @@ describe("getAccount", () => {
     }
   });
 
-  it("faucet account should have tokens", async () => {
-    if (skipTests()) {
-      console.log("Skipping test");
-      return;
-    }
+  mayTest("faucet account should have tokens", async () => {
     const profile = await faucetProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
@@ -48,12 +40,7 @@ describe("getAccount", () => {
 });
 
 describe("sendTransaction", () => {
-  it("moves token to new account", async () => {
-    if (skipTests()) {
-      console.log("Skipping test");
-      return;
-    }
-
+  mayTest("moves token to new account", async () => {
     const faucet = await faucetProfile();
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
@@ -91,13 +78,7 @@ describe("sendTransaction", () => {
 });
 
 describe("setName", () => {
-  it("sets a name on account with funds", async () => {
-    if (skipTests()) {
-      // TODO: better way to mark test as skipped???
-      console.log("Skipping test");
-      return;
-    }
-
+  mayTest("sets a name on account with funds", async () => {
     const faucet = await faucetProfile();
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
@@ -132,12 +113,7 @@ describe("setName", () => {
   }, 4000); // multiple transactions, so multiple blocks... let's give it some time
 
   describe("watchAccount", () => {
-    it("updates on all changes", async () => {
-      if (skipTests()) {
-        console.log("Skipping test");
-        return;
-      }
-
+    mayTest("updates on all changes", async () => {
       const faucet = await faucetProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
