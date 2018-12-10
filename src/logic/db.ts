@@ -5,7 +5,10 @@ import MemDownConstructor from "memdown";
 export type DB<K, V> = LevelUp<AbstractLevelDOWN<K, V>>;
 export type StringDB = DB<string, string>;
 
-const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
+// This was reporting jest as a browser....
+// const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
+const isNode = () => typeof process === 'object';
+const isBrowser = () => !isNode();
 
 export function createMemDb(): StringDB {
   return levelup(MemDownConstructor<string, string>());
