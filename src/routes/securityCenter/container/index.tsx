@@ -12,10 +12,17 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
   public readonly onSetPassword = (): void => {
     this.props.history.push("/set-password/");
   };
+  public readonly onAdvancedSecurity = (): void => {
+    console.log("Advanced Security");
+  };
   render() {
     return (
       <PageStructure>
-        <Layout onBackupPhrase={this.onBackupPhrase} onSetPassword={this.onSetPassword} />
+        <Layout
+          onBackupPhrase={this.onBackupPhrase}
+          onSetPassword={this.onSetPassword}
+          onAdvancedSecurity={this.onAdvancedSecurity}
+        />
       </PageStructure>
     );
   }

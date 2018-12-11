@@ -22,7 +22,7 @@ const styles = createStyles({
     justifyContent: "space-between",
     width: "506px",
     height: "102px",
-    marginBottom: "16px",
+    marginTop: "16px",
   },
   leftPart: {
     display: "flex",
