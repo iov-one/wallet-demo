@@ -6,10 +6,11 @@
       "name": "Debug CRA",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:8080",
+      "url": "http://0.0.0.0:8080",
       "webRoot": "${workspaceRoot}/src",
+      "__coment__sourceMapPathOverrides": "See: https://stackoverflow.com/questions/50765353/visual-studio-code-breakpoint-appearing-in-wrong-place",
       "sourceMapPathOverrides": {
-        "webpack:///src/*": "${webRoot}/*"
+        "webpack:///./*": "${webRoot}/*"
       },
       "sourceMaps": true,
       "userDataDir": false
