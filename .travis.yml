@@ -40,7 +40,7 @@ before_script:
   if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     defaults write com.apple.Safari ApplePersistenceIgnoreState YES
   fi
-- source ./scripts/blockchain_start.sh
+- bash ./scripts/bnsd/start.sh
 
 script:
 - yarn test
@@ -54,7 +54,7 @@ after_success:
 - bash ./scripts/stagingDeploy.sh
 
 after_script:
-- source ./scripts/blockchain_stop.sh
+- bash ./scripts/bnsd/stop.sh
 - bash ./scripts/publish_docker.sh
 
 # whitelist long living branches to avoid testing feature branches twice (as branch and as pull request)
