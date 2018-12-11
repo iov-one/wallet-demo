@@ -41,6 +41,7 @@ before_script:
     defaults write com.apple.Safari ApplePersistenceIgnoreState YES
   fi
 - bash ./scripts/bnsd/start.sh
+- export BNS_ENABLED=1
 - bash ./scripts/faucet/iov_start.sh
 
 script:
