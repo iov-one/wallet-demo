@@ -15,6 +15,7 @@ import {
 import RequireLogin from "~/containers/RequireLogin";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
+import SecurityCenter from "~/routes/securityCenter/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 
@@ -46,6 +47,7 @@ export const MainRouter = () => (
         <Route path="/payment/" component={PaymentPage} />
         <Route path={BALANCE_ROUTE} component={BalancePage} />
         <Route path="/invite/" component={InvitePage} />
+        <Route path="/security-center/" component={SecurityCenter} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
           component={ConfirmTransactionPage}

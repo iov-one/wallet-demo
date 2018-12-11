@@ -38,6 +38,8 @@ interface HeaderProps {
   readonly onLogo: () => void;
   readonly toSecurityCenter: () => void;
   readonly toInviteScreen: () => void;
+  readonly toTermsAndConditions: () => void;
+  readonly toPrivacyPolicy: () => void;
   readonly logout: () => void;
 }
 

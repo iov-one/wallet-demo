@@ -10,10 +10,16 @@ import {
 } from "~/components/subComponents/headers";
 
 import HeartIcon from "../../../../resources/heart.svg";
+import LogoutIcon from "../../../../resources/logOut.svg";
+import PrivacyIcon from "../../../../resources/privacyPolicy.svg";
+import SecurityIcon from "../../../../resources/security.svg";
+import TermsIcon from "../../../../resources/termsAndConditions.svg";
 
 interface HeaderDropdownProps {
   readonly toSecurityCenter: () => void;
   readonly toInviteScreen: () => void;
+  readonly toTermsAndConditions: () => void;
+  readonly toPrivacyPolicy: () => void;
   readonly logout: () => void;
 }
 
@@ -61,18 +67,9 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
       });
     }
   };
-  public readonly goToSecurityCenter = () => {
-    console.log("to security center");
-  };
-  public readonly toInviteScreen = () => {
-    console.log("to invite screen");
-  };
-  public readonly logout = () => {
-    console.log("log out");
-  };
   public render(): any {
     const { show } = this.state;
-    const { toSecurityCenter, toInviteScreen, logout } = this.props;
+    const { toSecurityCenter, toInviteScreen, toTermsAndConditions, toPrivacyPolicy, logout } = this.props;
     return (
       <Wrapper innerRef={this.wrapperRef}>
         <Button
@@ -85,9 +82,19 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
         <FadeWrapper className={classNames({ show })}>
           <HeaderDropdownWrapper>
             <React.Fragment>
-              <HeaderDropdownMenuItem title="Security Center" icon={HeartIcon} onClick={toSecurityCenter} />
+              <HeaderDropdownMenuItem
+                title="Security Center"
+                icon={SecurityIcon}
+                onClick={toSecurityCenter}
+              />
               <HeaderDropdownMenuItem title="Invite friends" icon={HeartIcon} onClick={toInviteScreen} />
-              <HeaderDropdownMenuItem title="Log out" icon={HeartIcon} onClick={logout} />
+              <HeaderDropdownMenuItem
+                title="Terms & Conditions"
+                icon={TermsIcon}
+                onClick={toTermsAndConditions}
+              />
+              <HeaderDropdownMenuItem title="Privacy Policy" icon={PrivacyIcon} onClick={toPrivacyPolicy} />
+              <HeaderDropdownMenuItem title="Log out" icon={LogoutIcon} onClick={logout} />
             </React.Fragment>
           </HeaderDropdownWrapper>
         </FadeWrapper>
