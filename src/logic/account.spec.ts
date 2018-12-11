@@ -1,7 +1,3 @@
-// tslint:disable:no-unused-expression
-import { expect } from "chai";
-import "mocha";
-
 import { Amount, BcpAccount } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
@@ -10,41 +6,33 @@ import { sleep } from "../utils/timer";
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { faucetProfile, randomString, skipTests, testSpec, testTicker } from "./testhelpers";
+import { faucetProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
 
 describe("getAccount", () => {
-  it("random account should be empty", async function(): Promise<void> {
-    if (skipTests()) {
-      this.skip();
-      return;
-    }
+  mayTest("random account should be empty", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
-      expect(acct).to.equal(undefined);
+      expect(acct).toEqual(undefined);
     } finally {
       reader.disconnect();
     }
   });
 
-  it("faucet account should have tokens", async function(): Promise<void> {
-    if (skipTests()) {
-      this.skip();
-      return;
-    }
+  mayTest("faucet account should have tokens", async () => {
     const profile = await faucetProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
-      expect(acct).to.be.ok;
-      expect(acct!.name).to.equal("admin");
-      expect(acct!.balance.length).to.equal(1);
+      expect(acct).toBeTruthy();
+      expect(acct!.name).toEqual("admin");
+      expect(acct!.balance.length).toEqual(1);
       const token = acct!.balance[0];
-      expect(token.tokenTicker).to.equal("CASH");
-      expect(token.whole).to.be.greaterThan(1000000);
+      expect(token.tokenTicker).toEqual("CASH");
+      expect(token.whole).toBeGreaterThan(1000000);
     } finally {
       reader.disconnect();
     }
@@ -52,14 +40,7 @@ describe("getAccount", () => {
 });
 
 describe("sendTransaction", () => {
-  it("moves token to new account", async function(): Promise<void> {
-    if (skipTests()) {
-      this.skip();
-      return;
-    }
-    // default 2 seconds is not long enough when CI is under load
-    this.timeout(3500);
-
+  mayTest("moves token to new account", async () => {
     const faucet = await faucetProfile();
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
@@ -69,7 +50,7 @@ describe("sendTransaction", () => {
     try {
       // ensure rcpt is empty before
       const before = await getAccount(reader, rcpt);
-      expect(before).to.equal(undefined);
+      expect(before).toEqual(undefined);
 
       // send a token from the genesis account
       const amount: Amount = {
@@ -78,33 +59,26 @@ describe("sendTransaction", () => {
         tokenTicker: testTicker,
       };
       const res = await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount, "hello");
-      expect(res.metadata.height).to.be.greaterThan(2);
-      expect(res.data.txid).to.be.ok;
+      expect(res.metadata.height).toBeGreaterThan(2);
+      expect(res.data.txid).toBeTruthy();
 
       // ensure the recipient is properly rewarded
       const after = await getAccount(reader, rcpt);
-      expect(after).to.be.ok;
-      expect(after!.name).to.equal(undefined);
-      expect(after!.balance.length).to.equal(1);
+      expect(after).toBeTruthy();
+      expect(after!.name).toEqual(undefined);
+      expect(after!.balance.length).toEqual(1);
       const token = after!.balance[0];
-      expect(token.tokenTicker).to.equal(amount.tokenTicker);
-      expect(token.whole).to.equal(amount.whole);
-      expect(token.fractional).to.equal(amount.fractional);
+      expect(token.tokenTicker).toEqual(amount.tokenTicker);
+      expect(token.whole).toEqual(amount.whole);
+      expect(token.fractional).toEqual(amount.fractional);
     } finally {
       reader.disconnect();
     }
-  });
+  }, 3500); // default 2 seconds is not long enough when CI is under load
 });
 
 describe("setName", () => {
-  it("sets a name on account with funds", async function(): Promise<void> {
-    if (skipTests()) {
-      this.skip();
-      return;
-    }
-    // multiple transactions, so multiple blocks... let's give it some time
-    this.timeout(4000);
-
+  mayTest("sets a name on account with funds", async () => {
     const faucet = await faucetProfile();
     const empty = await createProfile();
     const rcpt = getMainIdentity(empty);
@@ -129,24 +103,17 @@ describe("setName", () => {
 
       // ensure the recipient is properly named
       const after = await getAccount(reader, rcpt);
-      expect(after).to.be.ok;
-      expect(after!.name).to.equal(name);
-      expect(after!.balance.length).to.equal(1);
+      expect(after).toBeTruthy();
+      expect(after!.name).toEqual(name);
+      expect(after!.balance.length).toEqual(1);
     } finally {
       reader.disconnect();
       rcptReader.disconnect();
     }
-  });
+  }, 4000); // multiple transactions, so multiple blocks... let's give it some time
 
   describe("watchAccount", () => {
-    it("updates on all changes", async function(): Promise<void> {
-      if (skipTests()) {
-        this.skip();
-        return;
-      }
-      // multiple transactions, so multiple blocks... let's give it some time
-      this.timeout(5000);
-
+    mayTest("updates on all changes", async () => {
       const faucet = await faucetProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
@@ -173,11 +140,11 @@ describe("setName", () => {
 
         // validate update messages came
         await sleep(50);
-        expect(updatesFaucet).to.equal(1);
-        expect(acctFaucet).to.be.ok;
-        expect(acctFaucet!.name).to.equal("admin");
-        expect(updatesRcpt).to.equal(1);
-        expect(acctRcpt).to.be.undefined;
+        expect(updatesFaucet).toEqual(1);
+        expect(acctFaucet).toBeTruthy();
+        expect(acctFaucet!.name).toEqual("admin");
+        expect(updatesRcpt).toEqual(1);
+        expect(acctRcpt).toBe(undefined);
 
         // send a token from the genesis account
         const amount: Amount = {
@@ -189,16 +156,16 @@ describe("setName", () => {
 
         // validate update messages came
         await sleep(50);
-        expect(updatesFaucet).to.equal(2);
-        expect(acctFaucet).to.be.ok;
-        expect(acctFaucet!.name).to.equal("admin");
-        expect(updatesRcpt).to.equal(2);
-        expect(acctRcpt).to.be.ok;
-        expect(acctRcpt!.name).to.be.undefined;
-        expect(acctRcpt!.balance.length).to.equal(1);
+        expect(updatesFaucet).toEqual(2);
+        expect(acctFaucet).toBeTruthy();
+        expect(acctFaucet!.name).toEqual("admin");
+        expect(updatesRcpt).toEqual(2);
+        expect(acctRcpt).toBeTruthy();
+        expect(acctRcpt!.name).toBe(undefined);
+        expect(acctRcpt!.balance.length).toEqual(1);
         const token = acctRcpt!.balance[0];
-        expect(token.tokenTicker).to.equal(amount.tokenTicker);
-        expect(token.whole).to.equal(amount.whole);
+        expect(token.tokenTicker).toEqual(amount.tokenTicker);
+        expect(token.whole).toEqual(amount.whole);
 
         // unsubscribe from one, only one update should come
         unsubscribeFaucet.unsubscribe();
@@ -207,17 +174,17 @@ describe("setName", () => {
 
         await sleep(50);
         // no more facuet updates should come
-        expect(updatesFaucet).to.equal(2);
-        expect(acctFaucet).to.be.ok;
-        expect(acctFaucet!.name).to.equal("admin");
+        expect(updatesFaucet).toEqual(2);
+        expect(acctFaucet).toBeTruthy();
+        expect(acctFaucet!.name).toEqual("admin");
         // rcpt should get one more callback
-        expect(updatesRcpt).to.equal(3);
-        expect(acctRcpt).to.be.ok;
-        expect(acctRcpt!.name).to.be.undefined;
-        expect(acctRcpt!.balance.length).to.equal(1);
+        expect(updatesRcpt).toEqual(3);
+        expect(acctRcpt).toBeTruthy();
+        expect(acctRcpt!.name).toBe(undefined);
+        expect(acctRcpt!.balance.length).toEqual(1);
         const token2 = acctRcpt!.balance[0];
-        expect(token2.tokenTicker).to.equal(amount.tokenTicker);
-        expect(token2.whole).to.equal(amount.whole * 2);
+        expect(token2.tokenTicker).toEqual(amount.tokenTicker);
+        expect(token2.whole).toEqual(amount.whole * 2);
 
         // end other subscription
         unsubscribeRcpt.unsubscribe();
@@ -225,6 +192,6 @@ describe("setName", () => {
         reader.disconnect();
         rcptReader.disconnect();
       }
-    });
+    }, 5000);
   });
 });
