@@ -6,7 +6,7 @@ import { sleep } from "../utils/timer";
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { faucetProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
+import { adminProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
 
 describe("getAccount", () => {
   mayTest("random account should be empty", async () => {
@@ -22,7 +22,7 @@ describe("getAccount", () => {
   });
 
   mayTest("faucet account should have tokens", async () => {
-    const profile = await faucetProfile();
+    const profile = await adminProfile();
     const writer = new MultiChainSigner(profile);
     const reader = await addBlockchain(writer, testSpec);
     try {
@@ -43,7 +43,7 @@ describe("sendTransaction", () => {
   mayTest(
     "moves token to new account",
     async () => {
-      const faucet = await faucetProfile();
+      const faucet = await adminProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
 
@@ -85,7 +85,7 @@ describe("setName", () => {
   mayTest(
     "sets a name on account with funds",
     async () => {
-      const faucet = await faucetProfile();
+      const faucet = await adminProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
 
@@ -124,7 +124,7 @@ describe("setName", () => {
     mayTest(
       "updates on all changes",
       async () => {
-        const faucet = await faucetProfile();
+        const faucet = await adminProfile();
         const empty = await createProfile();
         const rcpt = getMainIdentity(empty);
 
