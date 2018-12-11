@@ -1,15 +1,14 @@
+// tslint:disable:no-string-literal
+import config from "config";
 import PseudoRandom from "random-js";
 
 import { TokenTicker } from "@iov/core";
 
-import { BlockchainSpec, CodecType } from "./connection";
+import { BlockchainSpec } from "./connection";
 import { createProfile } from "./profile";
 
-export const testSpec: BlockchainSpec = {
-  codecType: CodecType.Bns,
-  bootstrapNodes: ["ws://localhost:23456"],
-};
-export const testTicker = "IOV" as TokenTicker;
+export const testSpec: BlockchainSpec = config["chainSpec"];
+export const testTicker = config["faucetToken"] as TokenTicker;
 
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
 export const mayTest = skipTests() ? xit : it;
