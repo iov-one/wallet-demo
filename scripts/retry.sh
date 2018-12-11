@@ -33,4 +33,3 @@ function retry {
   done
   return 0
 }
-a
