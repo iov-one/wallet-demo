@@ -1,5 +1,6 @@
 import { bnsCodec } from "@iov/bns";
 import { Bip39, Random } from "@iov/crypto";
+import { Bech32, Encoding } from "@iov/encoding";
 import { Ed25519HdWallet, HdPaths } from "@iov/keycontrol";
 
 async function genAccount(): Promise<void> {
@@ -12,7 +13,8 @@ async function genAccount(): Promise<void> {
   for (let idx = 0; idx < 10; idx++) {
     const ident = await keyring.createIdentity(HdPaths.simpleAddress(idx));
     const addr = bnsCodec.keyToAddress(ident.pubkey);
-    console.log(`${idx}:   ${addr}`);
+    const hex = Encoding.toHex(Bech32.decode(addr).data);
+    console.log(`${idx}:   ${addr} / ${hex}`);
   }
 }
 

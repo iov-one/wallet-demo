@@ -1,45 +1,40 @@
 {
   "wallets": [
     {
-      "address": "b1ca7e78f74423ae01da3b51e676934d9105f282",
+      "address": "9bea889f5061ab003b07c59f36f51cc2fa2592be",
       "name": "admin",
       "coins": [
         {
           "whole": 123456789,
-          "ticker": "CASH"
+          "ticker": "IOV"
         }
       ]
     },
     {
-      "address": "053e4ffbb040d4dc3b201dfe9264c00d918e087b",
+      "address": "cb5edfe8b1224b69508c0ecfeaeee8a8235311a2",
       "name": "faucet",
       "coins": [
         {
           "whole": 1000000,
-          "ticker": "CASH"
+          "ticker": "IOV"
         },
         {
           "whole": 2000000,
-          "ticker": "BASH"
+          "ticker": "CASH"
         }
       ]
     }
   ],
   "tokens": [
     {
+      "ticker": "IOV",
+      "name": "Internet of Values",
+      "sig_figs": 9
+    },
+    {
       "ticker": "CASH",
-      "name": "Main token of this chain",
-      "sig_figs": 6
-    },
-    {
-      "ticker": "BASH",
-      "name": "Another token of this chain",
-      "sig_figs": 6
-    },
-    {
-      "ticker": "ASH",
-      "name": "Let the Phoenix arise",
-      "sig_figs": 6
+      "name": "Quick trading token",
+      "sig_figs": 9
     }
   ]
 }

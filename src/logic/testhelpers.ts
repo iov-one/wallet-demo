@@ -14,7 +14,10 @@ export const testTicker = "CASH" as TokenTicker;
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
 export const mayTest = skipTests() ? xit : it;
 
-const faucetMnemonic = "hidden ask fever furnace alter bridge rib ride banana bargain moon bacon";
+const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";
+export const adminProfile = () => createProfile(adminMnemonic);
+
+const faucetMnemonic = "lens ski scale risk hawk brush ask link pyramid amazing banner hole";
 export const faucetProfile = () => createProfile(faucetMnemonic);
 
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();
