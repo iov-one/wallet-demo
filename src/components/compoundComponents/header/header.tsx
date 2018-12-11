@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import { HeaderDropdownMenu } from "../headerDropdown";
 import { Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+import { HeaderDropdownMenu } from "../headerDropdown";
 
 import {
   NotificationMenuItem,

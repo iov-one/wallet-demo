@@ -15,7 +15,7 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
   public readonly onAdvancedSecurity = (): void => {
     console.log("Advanced Security");
   };
-  render() {
+  public render(): JSX.Element {
     return (
       <PageStructure>
         <Layout
