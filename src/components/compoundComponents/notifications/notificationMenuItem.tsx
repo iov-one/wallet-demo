@@ -63,7 +63,7 @@ interface MenuItemProps {
   readonly icon: string;
   readonly type?: string;
   readonly spin?: boolean;
-  readonly onHidePopup?: () => any;
+  readonly onHidePopup?: () => void;
 }
 
 interface MenuItemState {

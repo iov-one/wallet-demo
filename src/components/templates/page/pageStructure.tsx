@@ -33,8 +33,8 @@ interface GeneratedProps {
 }
 
 interface GeneratedFunctionProps {
-  readonly pendingVisited: () => any;
-  readonly resetTransactions: () => any;
+  readonly pendingVisited: () => void;
+  readonly resetTransactions: () => void;
 }
 
 interface BaseProps extends OwnProps, GeneratedProps {}
