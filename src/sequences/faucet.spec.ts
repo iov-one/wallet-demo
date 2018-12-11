@@ -2,9 +2,11 @@ import { faucetUri, mayTest, randomString, testSpec, testTicker } from "../logic
 import { fixTypes } from "../reducers/helpers";
 import { getMyAccounts, requireSigner } from "../selectors";
 import { makeStore } from "../store";
+import { sleep } from "../utils/timer";
 
 import { bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
+
 
 describe("drinkFaucetSequence", () => {
   mayTest(
@@ -17,6 +19,8 @@ describe("drinkFaucetSequence", () => {
       const bootAction = bootSequence(password, [testSpec]);
       // TODO we should get rid of this `as any` for dispatch
       await fixTypes(store.dispatch(bootAction as any));
+      // after a dispatch resolves, we may have to wait a bit for the redux state to update.....
+      await sleep(20);
 
       try {
         // validate the current account is undefined
@@ -29,6 +33,9 @@ describe("drinkFaucetSequence", () => {
         const faucetAction = drinkFaucetSequence(faucetUri, testTicker);
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
+        // it seems the faucet dispatch takes a while to resolve....
+        // TODO: investigate
+        await sleep(1000);
 
         // validate the current account is defined and has some tokens
         const fullAccounts = getMyAccounts(store.getState());
