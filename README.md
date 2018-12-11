@@ -85,6 +85,33 @@ Please run `yarn prebuild` before committing code to ensure it is properly linte
 For testing the UI components using storybook, please run `yarn storybook`.
 Storybook page will open in http://localhost:6006/ in your browser.
 
+## Testing
+
+`yarn test` will run jest tests of the entire system. However, a number of tests do end-to-end integration and
+require a demo blockchain running locally to be completed. By default these are skipped, unless you set the
+`BNS_ENABLED` environmental variable to signal they should be run (which is done in the CI).
+
+If you want to run these locally, make sure you are on a system that supports docker and that your local
+user has rights to connect to docker (I often use a Linux Virtualbox just for this). In such a case,
+you can do:
+
+```shell
+# start a bns blockchain and a local faucet that serves iov tokens
+bash ./scripts/bns/start.sh
+bash ./scripts/facuet/iov_start.sh
+
+export BNS_ENABLED=1
+# you can run this a few times....
+yarn test
+
+# stop them afterwards
+# you may be able to run `yarn test` multiple times without restart, but if there odd failures, then
+# do a fresh restart to ensure no interference with old state
+bash ./scripts/facuet/iov_stop.sh
+bash ./scripts/bns/stop.sh
+```
+
+
 ## References:
 
 A very good introduction to using Typescript with React/Redux: https://github.com/piotrwitek/react-redux-typescript-guide
