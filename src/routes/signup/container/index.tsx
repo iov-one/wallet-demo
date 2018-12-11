@@ -15,15 +15,16 @@ class SignUp extends React.Component<HomeActions, State> {
   };
 
   public async componentDidMount(): Promise<void> {
-    const { boot } = this.props;
+    const { boot, drinkFaucet } = this.props;
     try {
       // tslint:disable-next-line:no-string-literal
-      // const { accounts } = await boot(config["defaultPassword"], [config["chainSpec"]]);
-      // tslint:disable-next-line:no-string-literal
       const { accounts } = await boot(config["defaultPassword"], [config["chainSpec"]]);
-      console.log(accounts);
+      const defaultAccount = accounts[0]
+      if (!defaultAccount) {
+        await drinkFaucet(config["defaultFaucetUri"], config["faucetToken"]);
+      }
     } catch (err) {
-      console.log("error during boot phase");
+      await this.props.reset(config["defaultPassword"]);
       console.log(err);
     }
   }
@@ -52,4 +53,3 @@ export default connect(
   undefined,
   actions,
 )(SignUp);
- 
