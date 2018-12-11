@@ -59,8 +59,6 @@ export const parseConfirmedTransaction = async (
   const recipientName = await getNameByAddress(conn, recipientAddr);
   const signerAddr = keyToAddress(trans.primarySignature);
   const signerName = await getNameByAddress(conn, signerAddr);
-  console.log(`rcpt: ${recipientAddr} = ${recipientName}`);
-  console.log(`signer: ${signerAddr} = ${signerName}`);
   return {
     ...(trans as ConfirmedTransaction<SendTx>),
     received,
