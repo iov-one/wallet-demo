@@ -43,7 +43,7 @@ before_script:
 - bash ./scripts/bnsd/start.sh
 
 script:
-- yarn test
+- TERM=dumb yarn test
 - yarn lint
 - yarn dist
 - yarn build-storybook
