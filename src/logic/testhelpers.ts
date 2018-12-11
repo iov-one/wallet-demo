@@ -15,13 +15,9 @@ export const faucetUri = config["defaultFaucetUri"] as string;
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
 export const mayTest = skipTests() ? xit : it;
 
-// this is a pre-loaded account we can play with
+// this is a pre-loaded account we can play with (separate from the faucet)
 const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";
 export const adminProfile = () => createProfile(adminMnemonic);
-
-// this too if needed, but we should usually let the faucet docker process do it's thing
-const faucetMnemonic = "lens ski scale risk hawk brush ask link pyramid amazing banner hole";
-export const faucetProfile = () => createProfile(faucetMnemonic);
 
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();
 const pool = "abcdefghijklmnopqrstuvwxyz0123456789";

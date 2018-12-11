@@ -17,7 +17,8 @@ echo "Connecting to $BLOCKCHAIN_URL"
 docker pull "iov1/iov-faucet:${FAUCET_VERSION}"
 docker run --read-only \
   --env "FAUCET_CONCURRENCY=3" \
-  --env "FAUCET_MNEMONIC=lens ski scale risk hawk brush ask link pyramid amazing banner hole"  \
+  --env "FAUCET_COIN_TYPE=1" \
+  --env "FAUCET_MNEMONIC=lazy luxury exit tail ethics guide voice ribbon denial seat reopen runway"  \
   -p 8000:8000 \
   --rm "iov1/iov-faucet:${FAUCET_VERSION}" \
   start bns "$BLOCKCHAIN_URL" \
