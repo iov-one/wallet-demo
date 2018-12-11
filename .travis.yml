@@ -41,6 +41,7 @@ before_script:
     defaults write com.apple.Safari ApplePersistenceIgnoreState YES
   fi
 - bash ./scripts/bnsd/start.sh
+- bash ./scripts/faucet/iov_start.sh
 
 script:
 - TERM=dumb yarn test
@@ -54,6 +55,7 @@ after_success:
 - bash ./scripts/stagingDeploy.sh
 
 after_script:
+- bash ./scripts/faucet/iov_stop.sh
 - bash ./scripts/bnsd/stop.sh
 - bash ./scripts/publish_docker.sh
 
