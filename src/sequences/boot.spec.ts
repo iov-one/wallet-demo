@@ -1,7 +1,7 @@
 import { mayTest, randomString, testSpec } from "../logic/testhelpers";
 import { fixTypes } from "../reducers/helpers";
 import { makeStore } from "../store";
-import { BootResult, bootSequence } from "./index";
+import { BootResult, bootSequence } from "./boot";
 
 describe("boot sequence", () => {
   mayTest(
