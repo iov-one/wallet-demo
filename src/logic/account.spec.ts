@@ -31,7 +31,7 @@ describe("getAccount", () => {
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
       const token = acct!.balance[0];
-      expect(token.tokenTicker).toEqual("CASH");
+      expect(token.tokenTicker).toEqual("IOV");
       expect(token.whole).toBeGreaterThan(1000000);
     } finally {
       reader.disconnect();
