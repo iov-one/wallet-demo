@@ -1,7 +1,7 @@
 import config from "config";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router";
+import { RouteComponentProps } from "react-router";
 import { CreateAccount } from "../components/FirstStep";
 import { FormAccount, PASSWORD_FIELD } from "../components/FirstStep/FormComponent";
 import { CreateUsername } from "../components/SecondStep";
@@ -78,12 +78,7 @@ class SignUp extends React.Component<Props, State> {
   }
 }
 
-const SignupContainer = connect<{}, {}, RouteComponentProps<{}>>(
-  undefined,
-  actions,
-)(SignUp);
-
 export default connect(
   undefined,
   actions,
-)(SignUp)
+)(SignUp);
