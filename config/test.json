@@ -1,9 +1,9 @@
 {
   "chainSpec": {
     "codecType": "bns",
-    "bootstrapNodes": ["wss://bns.yaknet.iov.one/"]
+    "bootstrapNodes": ["ws://localhost:23456/"]
   },
   "defaultPassword": "test-pass",
-  "defaultFaucetUri": "https://iov-faucet.yaknet.iov.one",
+  "defaultFaucetUri": "http://localhost:8000",
   "faucetToken": "IOV"
 }
