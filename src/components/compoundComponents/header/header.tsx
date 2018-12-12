@@ -36,10 +36,6 @@ interface HeaderProps {
   readonly visitedPending: boolean;
   readonly onGotIt: () => void;
   readonly onLogo: () => void;
-  readonly toSecurityCenter: () => void;
-  readonly toInviteScreen: () => void;
-  readonly toTermsAndConditions: () => void;
-  readonly toPrivacyPolicy: () => void;
   readonly logout: () => void;
 }
 
@@ -60,8 +56,6 @@ export class Header extends React.Component<HeaderProps> {
       onLogo,
       onGotIt,
       visitedPending,
-      toSecurityCenter,
-      toInviteScreen,
       logout,
     } = this.props;
     const type = getLastTransactionType(transactionInfo);
@@ -88,11 +82,7 @@ export class Header extends React.Component<HeaderProps> {
               icon="bell"
               notification={<TransactionNotification {...transactionInfo} />}
             />
-            <HeaderDropdownMenu
-              toSecurityCenter={toSecurityCenter}
-              toInviteScreen={toInviteScreen}
-              logout={logout}
-            />
+            <HeaderDropdownMenu logout={logout} />
           </RightNavigation>
         </HeaderContent>
       </NormalHeader>

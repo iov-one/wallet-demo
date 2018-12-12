@@ -1,4 +1,5 @@
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import classNames from "classnames";
@@ -15,11 +16,7 @@ import PrivacyIcon from "../../../../resources/privacyPolicy.svg";
 import SecurityIcon from "../../../../resources/security.svg";
 import TermsIcon from "../../../../resources/termsAndConditions.svg";
 
-interface HeaderDropdownProps {
-  readonly toSecurityCenter: () => void;
-  readonly toInviteScreen: () => void;
-  readonly toTermsAndConditions: () => void;
-  readonly toPrivacyPolicy: () => void;
+interface HeaderDropdownProps extends RouteComponentProps<{}> {
   readonly logout: () => void;
 }
 
@@ -49,7 +46,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
+class DropdownMenu extends React.Component<HeaderDropdownProps> {
   public readonly state = {
     show: false,
   };
@@ -70,9 +67,21 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
   public readonly showDropdown = (): void => {
     this.setState({ show: true });
   };
+  public readonly toSecurityCenter = (): void => {
+    this.props.history.push("/security-center/");
+  };
+  public readonly toInviteScreen = (): void => {
+    this.props.history.push("/invite/");
+  };
+  public readonly toTermsAndConditions = (): void => {
+    this.props.history.push("/terms-and-conditions/");
+  };
+  public readonly toPrivacyPolicy = (): void => {
+    this.props.history.push("/privacy-policy/");
+  };
   public render(): any {
     const { show } = this.state;
-    const { toSecurityCenter, toInviteScreen, toTermsAndConditions, toPrivacyPolicy, logout } = this.props;
+    const { logout } = this.props;
     return (
       <Wrapper innerRef={this.wrapperRef}>
         <Button onMouseEnter={this.showDropdown}>
@@ -84,15 +93,19 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
               <HeaderDropdownMenuItem
                 title="Security Center"
                 icon={SecurityIcon}
-                onClick={toSecurityCenter}
+                onClick={this.toSecurityCenter}
               />
-              <HeaderDropdownMenuItem title="Invite friends" icon={HeartIcon} onClick={toInviteScreen} />
+              <HeaderDropdownMenuItem title="Invite friends" icon={HeartIcon} onClick={this.toInviteScreen} />
               <HeaderDropdownMenuItem
                 title="Terms & Conditions"
                 icon={TermsIcon}
-                onClick={toTermsAndConditions}
+                onClick={this.toTermsAndConditions}
               />
-              <HeaderDropdownMenuItem title="Privacy Policy" icon={PrivacyIcon} onClick={toPrivacyPolicy} />
+              <HeaderDropdownMenuItem
+                title="Privacy Policy"
+                icon={PrivacyIcon}
+                onClick={this.toPrivacyPolicy}
+              />
               <HeaderDropdownMenuItem title="Log out" icon={LogoutIcon} onClick={logout} />
             </React.Fragment>
           </HeaderDropdownWrapper>
@@ -101,3 +114,5 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
     );
   }
 }
+
+export const HeaderDropdownMenu = withRouter(DropdownMenu);

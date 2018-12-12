@@ -125,10 +125,6 @@ class PageTemplate extends React.Component<PageProps, PageState> {
           visitedPending={visitedPending}
           onLogo={() => history.push("/balance")}
           onGotIt={pendingVisited}
-          toInviteScreen={() => history.push("/invite/")}
-          toTermsAndConditions={() => history.push("/terms-and-conditions/")}
-          toPrivacyPolicy={() => history.push("/privacy-policy/")}
-          toSecurityCenter={() => history.push("/security-center/")}
           logout={this.logout}
         />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
