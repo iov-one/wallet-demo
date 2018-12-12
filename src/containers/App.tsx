@@ -20,11 +20,11 @@ class App extends React.Component<{}, {}> {
   public render(): JSX.Element {
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
+          <ConnectedRouter history={history}>
             <Route />
-          </MuiThemeProvider>
-        </ConnectedRouter>
+          </ConnectedRouter>
+        </MuiThemeProvider>
       </Provider>
     );
   }

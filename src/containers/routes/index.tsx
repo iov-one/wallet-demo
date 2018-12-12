@@ -12,6 +12,7 @@ import {
   PaymentPage,
   SendPaymentPage,
 } from "~/containers";
+import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
 import SignUp from "~/routes/signup/container";
 
@@ -28,12 +29,12 @@ const Wrapper = styled.div`
 `;
 
 const MainRouter = () => (
-  <Router>
-    <Switch>
-      <Route exact path={HOME_ROUTE} component={Home} />
-      <Route exact path={SIGN_UP_ROUTE} component={SignUp} />
-      <Route exact path={SET_NAME_ROUTE} component={SetName} />
-      <Route path={LOG_IN_ROUTE} component={LogIn} />
+  <Switch>
+    <Route exact path={HOME_ROUTE} component={Home} />
+    <Route exact path={SIGN_UP_ROUTE} component={SignUp} />
+    {/*<Route exact path={SET_NAME_ROUTE} component={SetName} />*/}
+    <Route path={LOG_IN_ROUTE} component={LogIn} />
+    <Router>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path="/setPassword/" component={PasswordPage} />
@@ -47,8 +48,8 @@ const MainRouter = () => (
           component={ConfirmTransactionPage}
         />
       </Wrapper>
-    </Switch>
-  </Router>
+    </Router>
+  </Switch>
 );
 
 export default MainRouter;
