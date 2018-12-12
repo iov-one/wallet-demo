@@ -2,6 +2,7 @@ import React from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 
+import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 
@@ -18,7 +19,8 @@ const styles = createStyles({
 
 const PageTitle = ({ classes }: WithStyles<typeof styles>): JSX.Element => (
   <React.Fragment>
-    <Img className={classes.image} src={PageLogo} alt="Page Logo" />
+    <Block margin="xxl" />
+    <Img src={PageLogo} alt="Page Logo" />
     <Typography variant="h5" className={classes.title}>
       Security Center
     </Typography>

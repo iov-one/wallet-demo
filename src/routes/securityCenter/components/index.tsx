@@ -14,16 +14,11 @@ interface Props {
   readonly onAdvancedSecurity: () => void;
 }
 
-export default ({ onSetPassword, onBackupPhrase, onAdvancedSecurity }: Props): JSX.Element => (
+export default ({ onAdvancedSecurity }: Props): JSX.Element => (
   <React.Fragment>
     <PageTitle />
-    <SecurityCard title="Set a password" linkText="Change" onClickLink={onSetPassword} icon={PswIcon} />
-    <SecurityCard
-      title="Set a backup phrase"
-      linkText="Back up again"
-      onClickLink={onBackupPhrase}
-      icon={BPIcon}
-    />
+    <SecurityCard title="Set a password" linkText="Change" link="/" icon={PswIcon} />
+    <SecurityCard title="Set a backup phrase" linkText="Back up again" link="/" icon={BPIcon} />
     <SuggestionButton
       suggestionText="Extra security?"
       buttonText="See advanced security"

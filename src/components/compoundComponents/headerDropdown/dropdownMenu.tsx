@@ -67,16 +67,15 @@ export class HeaderDropdownMenu extends React.Component<HeaderDropdownProps> {
       });
     }
   };
+  public readonly showDropdown = (): void => {
+    this.setState({ show: true });
+  };
   public render(): any {
     const { show } = this.state;
     const { toSecurityCenter, toInviteScreen, toTermsAndConditions, toPrivacyPolicy, logout } = this.props;
     return (
       <Wrapper innerRef={this.wrapperRef}>
-        <Button
-          onClick={() => {
-            this.setState({ show: true });
-          }}
-        >
+        <Button onMouseEnter={this.showDropdown}>
           <HeaderDropdown title="Hi!" />
         </Button>
         <FadeWrapper className={classNames({ show })}>
