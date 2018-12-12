@@ -1,10 +1,11 @@
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import { ConnectedRouter } from "connected-react-router";
 import * as React from "react";
 import { Provider } from "react-redux";
 import WebFont from "webfontloader";
 import theme from "~/theme/mui";
 
-import { makeStore } from "../store";
+import { history, makeStore } from "../store";
 import Route from "./routes";
 
 const store = makeStore();
@@ -19,9 +20,11 @@ class App extends React.Component<{}, {}> {
   public render(): JSX.Element {
     return (
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-          <Route />
-        </MuiThemeProvider>
+        <ConnectedRouter history={history}>
+          <MuiThemeProvider theme={theme}>
+            <Route />
+          </MuiThemeProvider>
+        </ConnectedRouter>
       </Provider>
     );
   }

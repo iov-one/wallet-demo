@@ -83,4 +83,7 @@ const SignupContainer = connect<{}, {}, RouteComponentProps<{}>>(
   actions,
 )(SignUp);
 
-export default withRouter(SignupContainer);
+export default connect(
+  undefined,
+  actions,
+)(SignUp)
