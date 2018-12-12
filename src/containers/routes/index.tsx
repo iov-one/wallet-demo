@@ -15,13 +15,13 @@ import {
 import LogIn from "~/routes/login/container";
 import SignUp from "~/routes/signup/container";
 
+export const HOME_ROUTE = "/";
 export const LOG_IN_ROUTE = "/login";
-export const SIGN_UP_ROUTE = "/";
+export const SIGN_UP_ROUTE = "/signup";
+export const SET_NAME_ROUTE = "/name";
 export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 
-// TODO improve redux config using connected-react-router remove middle components
-// levaring the usage of WithRouter
 const Wrapper = styled.div`
   height: 100vh;
   width: 100%;
@@ -30,7 +30,9 @@ const Wrapper = styled.div`
 const MainRouter = () => (
   <Router>
     <Switch>
+      <Route exact path={HOME_ROUTE} component={Home} />
       <Route exact path={SIGN_UP_ROUTE} component={SignUp} />
+      <Route exact path={SET_NAME_ROUTE} component={SetName} />
       <Route path={LOG_IN_ROUTE} component={LogIn} />
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
