@@ -74,7 +74,9 @@ module.exports = {
   ],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    "~(.*)$": "<rootDir>/src/$1",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -155,14 +157,16 @@ module.exports = {
   // testRunner: "jasmine2",
 
   // This option sets the URL for the jsdom environment. It is reflected in properties such as location.href
-  // testURL: "http://localhost",
+  testURL: "http://localhost:8080",
 
   // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.(ts|tsx)?$": "ts-jest",
+    "^.+\\.(css|scss)$": "<rootDir>/config/jest/cssTransform.js",
+    "^(?!.*\\.(ts|tsx|css|scss|json)$)": "<rootDir>/config/jest/fileTransform.js"
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
