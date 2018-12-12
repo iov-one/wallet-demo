@@ -6,7 +6,7 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import PolicySection from "./PolicySection";
 
-export const PASSWORD_FIELD = "password"
+export const PASSWORD_FIELD = "password";
 export interface FormAccount {
   readonly [key: string]: string;
 }
