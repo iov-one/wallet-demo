@@ -10,6 +10,7 @@ import {
   InvitePage,
   PasswordPage,
   PaymentPage,
+  RequireLoginPage,
   SendPaymentPage,
 } from "~/containers";
 import Home from "~/routes/home/container";
@@ -54,4 +55,17 @@ const MainRouter = () => (
   </Switch>
 );
 
-export default MainRouter;
+console.log("hello");
+
+const DemoRouter = () => (
+  <Router>
+    <Switch>
+      <Wrapper>
+        <Route exact path="/" component={RequireLoginPage} />
+      </Wrapper>
+    </Switch>
+  </Router>
+);
+
+export default DemoRouter;
+// export default MainRouter;
