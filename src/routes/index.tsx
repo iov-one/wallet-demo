@@ -10,7 +10,7 @@ import {
   InvitePage,
   PasswordPage,
   PaymentPage,
-  RequireLoginPage,
+  RequireLogin,
   SendPaymentPage,
 } from "~/containers";
 import Home from "~/routes/home/container";
@@ -33,23 +33,27 @@ const Wrapper = styled.div`
 
 const MainRouter = () => (
   <Switch>
-    <Route exact path={HOME_ROUTE} component={Home} />
-    <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
-    <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-    <Route path={LOGIN_ROUTE} component={LogIn} />
+    <RequireLogin>
+      <Route exact path={HOME_ROUTE} component={Home} />
+      <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
+      <Route exact path={SET_NAME_ROUTE} component={SignupName} />
+      <Route path={LOGIN_ROUTE} component={LogIn} />
+    </RequireLogin>
     <Router>
       <Wrapper>
-        <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-        <Route path="/setPassword/" component={PasswordPage} />
-        <Route path="/account-backup/" component={BackupAccountPage} />
-        <Route path="/import-account/" component={ImportAccountPage} />
-        <Route path="/payment/" component={PaymentPage} />
-        <Route path={BALANCE_ROUTE} component={BalancePage} />
-        <Route path="/invite/" component={InvitePage} />
-        <Route
-          path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
-          component={ConfirmTransactionPage}
-        />
+        <RequireLogin>
+          <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
+          <Route path="/setPassword/" component={PasswordPage} />
+          <Route path="/account-backup/" component={BackupAccountPage} />
+          <Route path="/import-account/" component={ImportAccountPage} />
+          <Route path="/payment/" component={PaymentPage} />
+          <Route path={BALANCE_ROUTE} component={BalancePage} />
+          <Route path="/invite/" component={InvitePage} />
+          <Route
+            path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
+            component={ConfirmTransactionPage}
+          />
+        </RequireLogin>
       </Wrapper>
     </Router>
   </Switch>
@@ -57,15 +61,5 @@ const MainRouter = () => (
 
 console.log("hello");
 
-const DemoRouter = () => (
-  <Router>
-    <Switch>
-      <Wrapper>
-        <Route exact path="/" component={RequireLoginPage} />
-      </Wrapper>
-    </Switch>
-  </Router>
-);
-
-export default DemoRouter;
-// export default MainRouter;
+// export default DemoRouter;
+export default MainRouter;
