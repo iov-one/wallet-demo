@@ -7,14 +7,13 @@ import selector, { SelectorProps } from "./selector";
 class Home extends React.Component<SelectorProps, {}> {
   public async componentDidMount(): Promise<void> {
     const { hasIdentity, db } = this.props;
-    // this is the logged in
+
     if (hasIdentity) {
       history.push("/balance");
 
       return;
     }
 
-    // otherwise, redirect to login or signup
     if (hasStoredProfile(db)) {
       history.push("/login");
 
