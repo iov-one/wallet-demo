@@ -16,6 +16,22 @@ export const mustBeInteger = (value: string) => {
   return undefined;
 };
 
+export const lengthGreaterThan = (minCharacters: number) => (value: string) => {
+  if (value.length < minCharacters) {
+    return `Must be at least ${minCharacters} characters`;
+  }
+
+  return undefined;
+};
+
+export const lengthLowerThan = (maxCharacters: number) => (value: string) => {
+  if (value.length > maxCharacters) {
+    return `Can not be longer than ${maxCharacters} characters`;
+  }
+
+  return undefined;
+};
+
 export const required = (value: string) => (value ? undefined : "Required");
 
 export const validEmail = (email: string) => {
