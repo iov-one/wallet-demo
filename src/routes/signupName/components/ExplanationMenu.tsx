@@ -5,7 +5,7 @@ import RoundTextBox from "~/components/layout/RoundTextBox";
 import Typography from "~/components/layout/Typography";
 
 import Img from "~/components/layout/Image";
-import arrow from "~/routes/signup/assets/arrow.svg";
+import arrow from "~/routes/signupName/assets/arrow.svg";
 
 interface Props extends WithStyles<typeof styles> {}
 
