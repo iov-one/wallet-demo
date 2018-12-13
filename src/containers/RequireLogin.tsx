@@ -18,17 +18,7 @@ export class RequireLogin extends React.Component<RequireLoginProps, any> {
         : accounts[0].account.name === undefined
         ? "/" /*set name page*/
         : undefined;
-
-    // normalize to an array so we can run map
-    const components = Array.isArray(children) ? children : [children];
-    const filtered = components.map(comp => (redirect ? <Redirect to={redirect} /> : comp));
-
-    return (
-      <div>
-        {filtered.map((comp, i) => (
-          <div key={i}>{comp}</div>
-        ))}
-      </div>
-    );
+    // one redirect if needed, or all children
+    return (<div>{redirect ? (<Redirect to={redirect} />): children}</div>)
   }
 }
