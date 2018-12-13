@@ -31,8 +31,7 @@ const FadeWrapper = styled.div`
   opacity: 0;
   transition: opacity 0.5s;
   right: -32px;
-  margin-top: 22px;
-  &.show {
+  ${Wrapper}:hover & {
     display: block;
     opacity: 1;
   }
@@ -47,26 +46,6 @@ const Button = styled.button`
 `;
 
 class DropdownMenu extends React.Component<HeaderDropdownProps> {
-  public readonly state = {
-    show: false,
-  };
-  public readonly wrapperRef = React.createRef<HTMLElement>();
-  public componentDidMount(): any {
-    document.addEventListener("mousedown", this.handleClick);
-  }
-  public componentWillUnmount(): any {
-    document.removeEventListener("mousedown", this.handleClick);
-  }
-  public readonly handleClick = (event: any) => {
-    if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
-      this.setState({
-        show: false,
-      });
-    }
-  };
-  public readonly showDropdown = (): void => {
-    this.setState({ show: true });
-  };
   public readonly toSecurityCenter = (): void => {
     this.props.history.push("/security-center/");
   };
@@ -80,14 +59,13 @@ class DropdownMenu extends React.Component<HeaderDropdownProps> {
     this.props.history.push("/privacy-policy/");
   };
   public render(): any {
-    const { show } = this.state;
     const { logout } = this.props;
     return (
-      <Wrapper innerRef={this.wrapperRef}>
-        <Button onMouseEnter={this.showDropdown}>
+      <Wrapper>
+        <Button>
           <HeaderDropdown title="Hi!" />
         </Button>
-        <FadeWrapper className={classNames({ show })}>
+        <FadeWrapper>
           <HeaderDropdownWrapper>
             <React.Fragment>
               <HeaderDropdownMenuItem

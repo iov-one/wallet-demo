@@ -1,30 +1,17 @@
 import React from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 
 import PageLogo from "../assets/pageLogo.svg";
 
-const styles = createStyles({
-  image: {
-    marginTop: 34,
-  },
-  title: {
-    marginBottom: 24,
-  },
-});
-
-const PageTitle = ({ classes }: WithStyles<typeof styles>): JSX.Element => (
+export default (): JSX.Element => (
   <React.Fragment>
-    <Block margin="xxl" />
+    <Block margin="lg" />
+    <Block margin="sm" />
     <Img src={PageLogo} alt="Page Logo" />
-    <Typography variant="h5" className={classes.title}>
-      Security Center
-    </Typography>
+    <Typography variant="h5">Security Center</Typography>
+    <Block margin="lg" />
   </React.Fragment>
 );
-
-export default withStyles(styles)(PageTitle);
