@@ -20,7 +20,7 @@ class SignupName extends React.Component<Props> {
       await setName(name, chainId);
       history.push(BALANCE_ROUTE);
     } catch (err) {
-      // TODO check if name is already taken and show error
+      // TODO check if error and show something
     }
 
     history.push(SET_NAME_ROUTE);
