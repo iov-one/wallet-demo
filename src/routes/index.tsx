@@ -13,10 +13,12 @@ import {
   RequireLogin,
   SendPaymentPage,
 } from "~/containers";
+import { RootState } from "~/reducers";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
+import { getMyAccounts } from "~/selectors";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
@@ -31,9 +33,13 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const MainRouter = () => (
+interface RouterProps {
+  readonly state: RootState;
+}
+
+export const MainRouter = (props: RouterProps) => (
   <Switch>
-    <RequireLogin>
+    <RequireLogin  accounts={getMyAccounts(props.state)}>
       <Route exact path={HOME_ROUTE} component={Home} />
       <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
       <Route exact path={SET_NAME_ROUTE} component={SignupName} />
@@ -41,7 +47,7 @@ const MainRouter = () => (
     </RequireLogin>
     <Router>
       <Wrapper>
-        <RequireLogin>
+        <RequireLogin  accounts={getMyAccounts(props.state)}>
           <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
           <Route path="/setPassword/" component={PasswordPage} />
           <Route path="/account-backup/" component={BackupAccountPage} />
@@ -58,8 +64,4 @@ const MainRouter = () => (
     </Router>
   </Switch>
 );
-
-console.log("hello");
-
-// export default DemoRouter;
 export default MainRouter;
