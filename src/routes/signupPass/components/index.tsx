@@ -20,7 +20,7 @@ const validate = (values: any) => {
   return errors;
 };
 
-export const CreateAccount = ({ onSubmit }: Props) => (
+const CreateAccount = ({ onSubmit }: Props) => (
   <PageColumn
     icon="white"
     leftMenu={PeopleImg}
@@ -34,3 +34,5 @@ export const CreateAccount = ({ onSubmit }: Props) => (
     nextMsg="Continue"
   />
 );
+
+export default CreateAccount;

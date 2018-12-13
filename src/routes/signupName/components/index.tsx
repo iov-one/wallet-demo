@@ -17,7 +17,7 @@ const validate = (_: object) => {
   return errors;
 };
 
-export const CreateUsername = ({ onSubmit, onBack }: Props) => (
+const CreateUsername = ({ onSubmit, onBack }: Props) => (
   <PageColumn
     icon="black"
     leftMenu={ExplanationMenu}
@@ -31,3 +31,5 @@ export const CreateUsername = ({ onSubmit, onBack }: Props) => (
     nextMsg="Continue"
   />
 );
+
+export default CreateUsername

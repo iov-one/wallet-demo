@@ -7,7 +7,11 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { md } from "~/theme/variables";
 
-const USERNAME_FIELD = "username";
+export const USERNAME_FIELD = "username";
+
+export interface FormUsername {
+  readonly [key: string]: string;
+}
 
 interface Props extends WithStyles<typeof styles> {}
 
