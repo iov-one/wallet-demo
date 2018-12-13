@@ -11,8 +11,8 @@ const chainIdSelector = createSelector(
   getMyAccounts,
   (accounts: ReadonlyArray<ChainAccount>) => {
     return accounts[0].chainId;
-  }
-)
+  },
+);
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   chainId: chainIdSelector,

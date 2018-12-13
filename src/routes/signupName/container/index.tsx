@@ -8,7 +8,7 @@ import { history } from "~/store";
 import actions, { SignupNameActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
-interface Props extends SignupNameActions, SelectorProps {} 
+interface Props extends SignupNameActions, SelectorProps {}
 
 class SignupName extends React.Component<Props> {
   public readonly onCreateUsername = async (values: object) => {

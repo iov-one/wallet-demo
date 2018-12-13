@@ -14,7 +14,7 @@ class Home extends React.Component<SelectorProps, {}> {
       return;
     }
 
-    const hasProfile = await hasStoredProfile(db)
+    const hasProfile = await hasStoredProfile(db);
     if (hasProfile) {
       history.push("/login");
 

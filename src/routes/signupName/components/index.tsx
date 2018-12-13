@@ -32,4 +32,4 @@ const CreateUsername = ({ onSubmit, onBack }: Props) => (
   />
 );
 
-export default CreateUsername
+export default CreateUsername;
