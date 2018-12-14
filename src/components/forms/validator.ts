@@ -16,6 +16,14 @@ export const mustBeInteger = (value: string) => {
   return undefined;
 };
 
+export const fieldRegex = (regex: RegExp, error: string) => (value: string) => {
+  if (!regex.test(value)) {
+    return error;
+  }
+
+  return undefined;
+};
+
 export const lengthGreaterThan = (minCharacters: number) => (value: string) => {
   if (value.length < minCharacters) {
     return `Must be at least ${minCharacters} characters`;

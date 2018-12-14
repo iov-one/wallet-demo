@@ -4,6 +4,7 @@ import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
 import {
   composeValidators,
+  fieldRegex,
   lengthGreaterThan,
   lengthLowerThan,
   required,
@@ -34,6 +35,9 @@ const styles = createStyles({
   },
 });
 
+const account = /^[a-z0-9_]+$/;
+const error = "Allowed lowercase letters, numbers and _";
+
 const FormComponent = ({ classes }: Props) => (
   <React.Fragment>
     <Block padding="xxl" maxWidth={450} margin="xxl">
@@ -50,7 +54,12 @@ const FormComponent = ({ classes }: Props) => (
           name={USERNAME_FIELD}
           type="text"
           component={TextField}
-          validate={composeValidators(required, lengthGreaterThan(4), lengthLowerThan(20))}
+          validate={composeValidators(
+            required,
+            fieldRegex(account, error),
+            lengthGreaterThan(4),
+            lengthLowerThan(20),
+          )}
           align="right"
           placeholder="username"
         />
