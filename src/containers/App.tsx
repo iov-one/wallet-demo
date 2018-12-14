@@ -3,10 +3,10 @@ import { ConnectedRouter } from "connected-react-router";
 import * as React from "react";
 import { Provider } from "react-redux";
 import WebFont from "webfontloader";
+import Route from "~/routes";
 import theme from "~/theme/mui";
 
 import { history, makeStore } from "../store";
-import Route from "./routes";
 
 const store = makeStore();
 

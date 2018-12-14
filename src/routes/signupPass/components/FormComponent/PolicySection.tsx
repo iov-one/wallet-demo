@@ -7,7 +7,7 @@ import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
-import { PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/containers/routes";
+import { PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
 
 const PolicySection = () => (
   <Grid noshrink nowrap>

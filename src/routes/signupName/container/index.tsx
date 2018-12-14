@@ -30,11 +30,11 @@ class SignupName extends React.Component<Props> {
   };
 
   public readonly validate = async (values: object) => {
-    const { connection } = this.props
+    const { connection } = this.props;
     let errors: Errors = {};
 
     const name = (values as FormType)[USERNAME_FIELD];
-    const isTaken = await getAddressByName(connection, name) !== undefined;
+    const isTaken = (await getAddressByName(connection, name)) !== undefined;
     if (isTaken) {
       errors = { ...errors, [USERNAME_FIELD]: "Name is already taken" };
     }

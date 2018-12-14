@@ -6,7 +6,7 @@ import { getChainIds, getConnections } from "~/selectors";
 
 export interface SelectorProps {
   readonly chainId: ChainId;
-  readonly connection: BcpConnection,
+  readonly connection: BcpConnection;
 }
 
 const chainIdSelector = createSelector(
@@ -20,8 +20,8 @@ const connectionSelector = createSelector(
   chainIdSelector,
   getConnections,
   (chainId: ChainId, connections: { readonly [chainId: string]: BcpConnection }): BcpConnection =>
-    connections[chainId]
-)
+    connections[chainId],
+);
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   chainId: chainIdSelector,

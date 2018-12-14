@@ -3,7 +3,7 @@ import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import Route, { SIGN_UP_ROUTE } from "~/containers/routes";
+import Route, { SIGNUP_ROUTE } from "~/routes";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
@@ -17,7 +17,7 @@ const createDom = (store: Store): React.Component<any, any, any> =>
   ) as React.Component;
 
 export const travelToSignup = (store: Store): React.Component<{}> => {
-  history.push(SIGN_UP_ROUTE);
+  history.push(SIGNUP_ROUTE);
 
   return createDom(store);
 };

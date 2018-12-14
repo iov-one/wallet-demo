@@ -10,7 +10,7 @@ import { PASSWORD_FIELD } from "~/routes/signupPass/components/FormComponent";
 import { history } from "~/store";
 import actions, { HomeActions } from "./actions";
 import selectors, { SelectorProps } from "./selector";
- 
+
 interface Props extends HomeActions, SelectorProps {}
 
 class SignupPass extends React.Component<Props> {
