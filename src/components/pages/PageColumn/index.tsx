@@ -51,7 +51,7 @@ const subscription: FormSubscription = {
   valid: true,
   submitting: true,
   validating: true,
-} 
+};
 
 const Layout = ({
   classes,

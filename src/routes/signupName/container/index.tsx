@@ -2,7 +2,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { FormType } from "~/components/forms/Form";
-import { getAddressByName, hasStoredProfile } from "~/logic";
+import { hasStoredProfile } from "~/logic";
 import { BALANCE_ROUTE, LOGIN_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import CreateUsername from "~/routes/signupName/components";
 import { USERNAME_FIELD } from "~/routes/signupName/components/FormComponent";
@@ -54,20 +54,14 @@ class SignupName extends React.Component<Props> {
     history.push(SIGNUP_ROUTE);
   };
 
-  public readonly validate = async (values: object) => {
-    const { connection } = this.props;
-
-    const name = (values as FormType)[USERNAME_FIELD];
-    const isTaken = (await getAddressByName(connection, name)) !== undefined;
-    if (isTaken) {
-      return { [USERNAME_FIELD]: "Name is already taken" };
-    }
-
-    return {};
-  };
-
   public render(): JSX.Element {
-    return <CreateUsername validate={this.validate} onBack={this.onBack} onSubmit={this.onCreateUsername} />;
+    return (
+      <CreateUsername
+        connection={this.props.connection}
+        onBack={this.onBack}
+        onSubmit={this.onCreateUsername}
+      />
+    );
   }
 }
 
