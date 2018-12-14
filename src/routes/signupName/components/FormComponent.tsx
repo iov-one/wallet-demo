@@ -14,10 +14,6 @@ import { md } from "~/theme/variables";
 
 export const USERNAME_FIELD = "username";
 
-export interface FormUsername {
-  readonly [key: string]: string;
-}
-
 interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({

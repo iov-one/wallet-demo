@@ -18,8 +18,8 @@ import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 
 export const HOME_ROUTE = "/";
-export const LOG_IN_ROUTE = "/login";
-export const SIGN_UP_ROUTE = "/signup";
+export const LOGIN_ROUTE = "/login";
+export const SIGNUP_ROUTE = "/signup";
 export const SET_NAME_ROUTE = "/name";
 export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
@@ -33,9 +33,9 @@ const Wrapper = styled.div`
 const MainRouter = () => (
   <Switch>
     <Route exact path={HOME_ROUTE} component={Home} />
-    <Route exact path={SIGN_UP_ROUTE} component={SignupPass} />
+    <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-    <Route path={LOG_IN_ROUTE} component={LogIn} />
+    <Route path={LOGIN_ROUTE} component={LogIn} />
     <Router>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />

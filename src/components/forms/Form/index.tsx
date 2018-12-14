@@ -4,6 +4,10 @@ import { FormApi, FormState } from "final-form";
 import * as React from "react";
 import { Form } from "react-final-form";
 
+export interface FormType {
+  readonly [key: string]: string;
+}
+
 export interface Errors {
   readonly [key: string]: string;
 }
