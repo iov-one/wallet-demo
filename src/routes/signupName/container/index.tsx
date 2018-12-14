@@ -2,8 +2,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
-import { getAddressByName } from "~/logic";
-import { BALANCE_ROUTE, SIGNUP_ROUTE } from "~/routes";
+import { getAddressByName, hasStoredProfile } from "~/logic";
+import { BALANCE_ROUTE, LOGIN_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import CreateUsername from "~/routes/signupName/components";
 import { USERNAME_FIELD } from "~/routes/signupName/components/FormComponent";
 import { history } from "~/store";
@@ -13,6 +13,23 @@ import selector, { SelectorProps } from "./selector";
 interface Props extends SignupNameActions, SelectorProps {}
 
 class SignupName extends React.Component<Props> {
+  public async componentDidMount(): Promise<void> {
+    const { hasIdentity, db } = this.props;
+
+    if (hasIdentity) {
+      history.push(BALANCE_ROUTE);
+
+      return;
+    }
+
+    const hasProfile = await hasStoredProfile(db);
+    if (hasProfile) {
+      history.push(LOGIN_ROUTE);
+
+      return;
+    }
+  }
+
   public readonly onCreateUsername = async (values: object) => {
     const { chainId, setName } = this.props;
     const name = (values as FormType)[USERNAME_FIELD];
