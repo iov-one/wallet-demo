@@ -50,11 +50,11 @@ export const validEmail = (email: string) => {
 };
 
 type Result = string | undefined;
-type Validator = (value: string) => Result;
+type Validator = (value: string) => Result | Promise<Result>;
 
 // tslint:disable-next-line:readonly-array
 export const composeValidators = (...validators: Validator[]): FieldValidator => (value: string) =>
   validators.reduce(
-    (error: string | undefined, validator: Validator) => error || validator(value),
+    (error: Result | Promise<Result>, validator: Validator) => error || validator(value),
     undefined,
   );

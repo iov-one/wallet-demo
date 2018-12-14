@@ -1,6 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { FormState } from "final-form";
+import { FormState, FormSubscription } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Block from "~/components/layout/Block";
@@ -47,6 +47,12 @@ const styles = createStyles({
   },
 });
 
+const subscription: FormSubscription = {
+  valid: true,
+  submitting: true,
+  validating: true,
+} 
+
 const Layout = ({
   classes,
   formRender,
@@ -69,7 +75,7 @@ const Layout = ({
       </Block>
     </GridItem>
     <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
-      <Form onSubmit={onSubmit} validation={validation} grow>
+      <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
         {({ valid, submitting, validating }: FormState) => (
           <React.Fragment>
             <Block scroll grow>
