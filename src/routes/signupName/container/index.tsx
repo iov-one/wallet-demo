@@ -1,7 +1,7 @@
 // tslint:disable:no-string-literal
 import * as React from "react";
 import { connect } from "react-redux";
-import { Errors, FormType } from "~/components/forms/Form";
+import { FormType } from "~/components/forms/Form";
 import { getAddressByName, hasStoredProfile } from "~/logic";
 import { BALANCE_ROUTE, LOGIN_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import CreateUsername from "~/routes/signupName/components";
@@ -14,16 +14,24 @@ interface Props extends SignupNameActions, SelectorProps {}
 
 class SignupName extends React.Component<Props> {
   public async componentDidMount(): Promise<void> {
-    const { hasIdentity, db } = this.props;
+    const { hasIdentity, chainId, accountName, db } = this.props;
 
-    if (hasIdentity) {
+    if (!chainId) {
+      history.push(SIGNUP_ROUTE);
+
+      return;
+    }
+
+    const hasIdentityWithName = hasIdentity && accountName;
+    if (hasIdentityWithName) {
       history.push(BALANCE_ROUTE);
 
       return;
     }
 
     const hasProfile = await hasStoredProfile(db);
-    if (hasProfile) {
+    const hasProfileWithName = hasProfile && accountName;
+    if (hasProfileWithName) {
       history.push(LOGIN_ROUTE);
 
       return;
@@ -48,15 +56,14 @@ class SignupName extends React.Component<Props> {
 
   public readonly validate = async (values: object) => {
     const { connection } = this.props;
-    let errors: Errors = {};
 
     const name = (values as FormType)[USERNAME_FIELD];
     const isTaken = (await getAddressByName(connection, name)) !== undefined;
     if (isTaken) {
-      errors = { ...errors, [USERNAME_FIELD]: "Name is already taken" };
+      return { [USERNAME_FIELD]: "Name is already taken" };
     }
 
-    return errors;
+    return {};
   };
 
   public render(): JSX.Element {
