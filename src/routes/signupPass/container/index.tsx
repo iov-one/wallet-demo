@@ -31,7 +31,7 @@ class SignupPass extends React.Component<Props> {
     const { boot, drinkFaucet } = this.props;
     const password = (values as FormType)[PASSWORD_FIELD];
 
-    await loginAccount(boot, drinkFaucet, password);
+    return loginAccount(boot, drinkFaucet, password);
   };
 
   public render(): JSX.Element {

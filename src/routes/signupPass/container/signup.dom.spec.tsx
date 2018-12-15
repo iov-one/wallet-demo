@@ -3,7 +3,7 @@ import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import Route, { SIGNUP_ROUTE } from "~/routes";
+import Route, { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
@@ -26,7 +26,7 @@ describe("DOM > Feature > Signup", () => {
   it("creates account after filling form", async () => {
     const store = aNewStore();
     const SignUpDom = await travelToSignup(store);
-
+    
     // Let's fill the form
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SignUpDom, "input");
     expect(inputs.length).toBe(4);
@@ -50,7 +50,7 @@ describe("DOM > Feature > Signup", () => {
     }
     TestUtils.Simulate.submit(form);
 
-    await sleep(1200);
-    //TODO check account has been stored using store variable in top
+    await sleep(12000);
+    expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
   });
 });
