@@ -17,16 +17,13 @@ class SignupPass extends React.Component<Props> {
     const { hasIdentity, db } = this.props;
 
     if (hasIdentity) {
-      history.push(BALANCE_ROUTE);
-
-      return;
+      return history.push(BALANCE_ROUTE);
     }
 
+    // TODO if reported errors remove db (DB_PROFILE_NAME) and redirect to HOME_ROUTE
     const hasProfile = await hasStoredProfile(db);
     if (hasProfile) {
-      history.push(LOGIN_ROUTE);
-
-      return;
+      return history.push(LOGIN_ROUTE);
     }
   }
 
