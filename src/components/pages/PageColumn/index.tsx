@@ -1,5 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+
 import { FormState, FormSubscription } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
@@ -97,14 +97,14 @@ const Layout = ({
                     </Button>
                   )}
                   <Button
-                    variant="contained"
+                    variant="continue"
                     color="primary"
                     type="submit"
                     disabled={!valid || submitting || validating}
                     size="large"
+                    spinner={submitting || validating}
                   >
                     {`${nextMsg}\u00a0`}
-                    <ArrowForwardIcon fontSize="small" />
                   </Button>
                 </Block>
               </GridItem>
