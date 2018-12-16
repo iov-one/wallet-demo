@@ -1,6 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { FormState } from "final-form";
+
+import { FormState, FormSubscription } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Block from "~/components/layout/Block";
@@ -9,8 +9,8 @@ import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
-import logo from "~/routes/signup/assets/logo.svg";
-import logoBlack from "~/routes/signup/assets/logoBlack.svg";
+import logo from "~/components/pages/assets/logo.svg";
+import logoBlack from "~/components/pages/assets/logoBlack.svg";
 import { md } from "~/theme/variables";
 import EmptyHeader from "./EmptyHeader";
 import SubtitleSection from "./SubtitleSection";
@@ -47,6 +47,12 @@ const styles = createStyles({
   },
 });
 
+const subscription: FormSubscription = {
+  valid: true,
+  submitting: true,
+  validating: true,
+};
+
 const Layout = ({
   classes,
   formRender,
@@ -69,7 +75,7 @@ const Layout = ({
       </Block>
     </GridItem>
     <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
-      <Form onSubmit={onSubmit} validation={validation} grow>
+      <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
         {({ valid, submitting, validating }: FormState) => (
           <React.Fragment>
             <Block scroll grow>
@@ -91,14 +97,14 @@ const Layout = ({
                     </Button>
                   )}
                   <Button
-                    variant="contained"
+                    variant="continue"
                     color="primary"
                     type="submit"
                     disabled={!valid || submitting || validating}
                     size="large"
+                    spinner={submitting || validating}
                   >
                     {`${nextMsg}\u00a0`}
-                    <ArrowForwardIcon fontSize="small" />
                   </Button>
                 </Block>
               </GridItem>

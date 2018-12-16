@@ -6,6 +6,8 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import PolicySection from "./PolicySection";
 
+export const PASSWORD_FIELD = "password";
+
 const FormComponent = () => (
   <React.Fragment>
     <Block padding="xxl" maxWidth={450} margin="xl">
@@ -32,7 +34,7 @@ const FormComponent = () => (
       </Block>
       <Field
         variant="outlined"
-        name="password"
+        name={PASSWORD_FIELD}
         type="password"
         fullWidth
         component={TextField}

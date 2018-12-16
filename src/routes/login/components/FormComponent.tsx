@@ -5,6 +5,8 @@ import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 
+export const LOGIN_PASS_FIELD = "password";
+
 const FormComponent = () => (
   <React.Fragment>
     <Block padding="xxl" maxWidth={450} margin="xxl">
@@ -15,7 +17,7 @@ const FormComponent = () => (
       </Block>
       <Field
         variant="outlined"
-        name="password"
+        name={LOGIN_PASS_FIELD}
         type="password"
         fullWidth
         component={TextField}

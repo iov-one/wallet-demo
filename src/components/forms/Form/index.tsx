@@ -1,8 +1,12 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import classNames from "classnames";
-import { FormApi, FormState } from "final-form";
+import { FormApi, FormState, FormSubscription } from "final-form";
 import * as React from "react";
 import { Form } from "react-final-form";
+
+export interface FormType {
+  readonly [key: string]: string;
+}
 
 export interface Errors {
   readonly [key: string]: string;
@@ -28,6 +32,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly initialValues?: object;
   readonly className?: string;
   readonly grow?: boolean;
+  readonly subscription?: FormSubscription;
 }
 
 const IovForm = ({
@@ -37,6 +42,7 @@ const IovForm = ({
   validation,
   initialValues,
   children,
+  subscription,
   className,
   ...props
 }: Props) => {
@@ -46,6 +52,7 @@ const IovForm = ({
     <Form
       validate={validation}
       onSubmit={onSubmit}
+      subscription={subscription}
       initialValues={initialValues}
       render={({ handleSubmit, ...rest }) => (
         <form className={formClasses} onSubmit={handleSubmit}>

@@ -1,15 +1,23 @@
+import { BcpConnection } from "@iov/bcp-types";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
-import { required } from "~/components/forms/validator";
+import {
+  composeValidators,
+  fieldRegex,
+  lengthGreaterThan,
+  lengthLowerThan,
+  required,
+} from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
+import { getAddressByName } from "~/logic";
 import { md } from "~/theme/variables";
 
-const USERNAME_FIELD = "username";
+export const USERNAME_FIELD = "username";
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends ParentType, WithStyles<typeof styles> {}
 
 const styles = createStyles({
   container: {
@@ -29,7 +37,19 @@ const styles = createStyles({
   },
 });
 
-const FormComponent = ({ classes }: Props) => (
+const account = /^[a-z0-9_]+$/;
+const error = "Allowed lowercase letters, numbers and _";
+
+const takenName = (connection: BcpConnection) => async (name: string) => {
+  const isTaken = (await getAddressByName(connection, name)) !== undefined;
+  if (isTaken) {
+    return "Name is already taken";
+  }
+
+  return undefined;
+};
+
+const FormComponent = ({ connection, classes }: Props) => (
   <React.Fragment>
     <Block padding="xxl" maxWidth={450} margin="xxl">
       <Block margin="sm">
@@ -45,7 +65,13 @@ const FormComponent = ({ classes }: Props) => (
           name={USERNAME_FIELD}
           type="text"
           component={TextField}
-          validate={required}
+          validate={composeValidators(
+            required,
+            fieldRegex(account, error),
+            lengthGreaterThan(4),
+            lengthLowerThan(20),
+            takenName(connection),
+          )}
           align="right"
           placeholder="username"
         />
@@ -59,4 +85,8 @@ const FormComponent = ({ classes }: Props) => (
 
 const SecondStepForm = withStyles(styles)(FormComponent);
 
-export default () => <SecondStepForm />;
+interface ParentType {
+  readonly connection: BcpConnection;
+}
+
+export default ({ connection }: ParentType) => <SecondStepForm connection={connection} />;

@@ -16,6 +16,30 @@ export const mustBeInteger = (value: string) => {
   return undefined;
 };
 
+export const fieldRegex = (regex: RegExp, error: string) => (value: string) => {
+  if (!regex.test(value)) {
+    return error;
+  }
+
+  return undefined;
+};
+
+export const lengthGreaterThan = (minCharacters: number) => (value: string) => {
+  if (value.length < minCharacters) {
+    return `Must be at least ${minCharacters} characters`;
+  }
+
+  return undefined;
+};
+
+export const lengthLowerThan = (maxCharacters: number) => (value: string) => {
+  if (value.length > maxCharacters) {
+    return `Can not be longer than ${maxCharacters} characters`;
+  }
+
+  return undefined;
+};
+
 export const required = (value: string) => (value ? undefined : "Required");
 
 export const validEmail = (email: string) => {
@@ -26,11 +50,11 @@ export const validEmail = (email: string) => {
 };
 
 type Result = string | undefined;
-type Validator = (value: string) => Result;
+type Validator = (value: string) => Result | Promise<Result>;
 
 // tslint:disable-next-line:readonly-array
 export const composeValidators = (...validators: Validator[]): FieldValidator => (value: string) =>
   validators.reduce(
-    (error: string | undefined, validator: Validator) => error || validator(value),
+    (error: Result | Promise<Result>, validator: Validator) => error || validator(value),
     undefined,
   );
