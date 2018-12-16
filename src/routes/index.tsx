@@ -10,9 +10,9 @@ import {
   InvitePage,
   PasswordPage,
   PaymentPage,
-  RequireLogin,
   SendPaymentPage,
 } from "~/containers";
+import { RequireLogin } from "~/containers/RequireLogin";
 import { RootState } from "~/reducers";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
@@ -39,15 +39,13 @@ interface RouterProps {
 
 export const MainRouter = (props: RouterProps) => (
   <Switch>
-    <RequireLogin  accounts={getMyAccounts(props.state)}>
-      <Route exact path={HOME_ROUTE} component={Home} />
-      <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
-      <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-      <Route path={LOGIN_ROUTE} component={LogIn} />
-    </RequireLogin>
+    <Route exact path={HOME_ROUTE} component={Home} />
+    <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
+    <Route path={LOGIN_ROUTE} component={LogIn} />
+    <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <Router>
       <Wrapper>
-        <RequireLogin  accounts={getMyAccounts(props.state)}>
+        <RequireLogin accounts={getMyAccounts(props.state)}>
           <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
           <Route path="/setPassword/" component={PasswordPage} />
           <Route path="/account-backup/" component={BackupAccountPage} />

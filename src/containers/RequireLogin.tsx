@@ -19,6 +19,6 @@ export class RequireLogin extends React.Component<RequireLoginProps, any> {
         ? "/" /*set name page*/
         : undefined;
     // one redirect if needed, or all children
-    return (<div>{redirect ? (<Redirect to={redirect} />): children}</div>)
+    return <React.Fragment>{redirect ? <Redirect to={redirect} /> : children}</React.Fragment>;
   }
 }
