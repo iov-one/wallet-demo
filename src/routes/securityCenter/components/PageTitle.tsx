@@ -8,8 +8,7 @@ import PageLogo from "../assets/pageLogo.svg";
 
 export default (): JSX.Element => (
   <React.Fragment>
-    <Block margin="lg" />
-    <Block margin="sm" />
+    <Block margin="xl" />
     <Img src={PageLogo} alt="Page Logo" />
     <Typography variant="h5">Security Center</Typography>
     <Block margin="lg" />
