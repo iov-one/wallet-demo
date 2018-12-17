@@ -2,8 +2,6 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import classNames from "classnames";
-
 import {
   HeaderDropdown,
   HeaderDropdownMenuItem,
