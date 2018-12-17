@@ -7,16 +7,18 @@ import selector, { SelectorProps } from "./selector";
 
 class Home extends React.Component<SelectorProps, {}> {
   public async componentDidMount(): Promise<void> {
-    const { hasIdentity, db } = this.props;
+    const { hasIdentity, accountName, db } = this.props;
 
-    if (hasIdentity) {
+    const hasIdentityWithName = hasIdentity && accountName;
+    if (hasIdentityWithName) {
       history.push(BALANCE_ROUTE);
 
       return;
     }
 
     const hasProfile = await hasStoredProfile(db);
-    if (hasProfile) {
+    const hasProfileWithName = hasProfile && accountName;
+    if (hasProfileWithName) {
       history.push(LOGIN_ROUTE);
 
       return;
