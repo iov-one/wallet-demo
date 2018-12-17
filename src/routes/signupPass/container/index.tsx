@@ -24,8 +24,7 @@ class SignupPass extends React.Component<Props> {
     }
 
     const hasProfile = await hasStoredProfile(db);
-    const hasProfileWithName = hasProfile && accountName;
-    if (hasProfileWithName) {
+    if (hasProfile) {
       history.push(LOGIN_ROUTE);
 
       return;
