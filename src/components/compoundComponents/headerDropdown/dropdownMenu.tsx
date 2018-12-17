@@ -11,7 +11,7 @@ import {
 } from "~/components/subComponents/headers";
 
 import HeartIcon from "../../../../resources/heart.svg";
-import LogoutIcon from "../../../../resources/logOut.svg";
+import LogoutIcon from "../../../../resources/logout.svg";
 import PrivacyIcon from "../../../../resources/privacyPolicy.svg";
 import SecurityIcon from "../../../../resources/security.svg";
 import TermsIcon from "../../../../resources/termsAndConditions.svg";
