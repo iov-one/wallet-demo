@@ -51,7 +51,7 @@ class SignupName extends React.Component<Props> {
   };
 
   public readonly onBack = () => {
-    history.push(SIGNUP_ROUTE);
+    history.goBack();
   };
 
   public render(): JSX.Element {

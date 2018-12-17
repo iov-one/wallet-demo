@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import {
@@ -41,25 +41,23 @@ export const MainRouter = (props: RouterProps) => (
   <Switch>
     <Route exact path={HOME_ROUTE} component={Home} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
-    <Route path={LOGIN_ROUTE} component={LogIn} />
+    <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-    <Router>
+    <RequireLogin accounts={getMyAccounts(props.state)}>
       <Wrapper>
-        <RequireLogin accounts={getMyAccounts(props.state)}>
-          <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-          <Route path="/setPassword/" component={PasswordPage} />
-          <Route path="/account-backup/" component={BackupAccountPage} />
-          <Route path="/import-account/" component={ImportAccountPage} />
-          <Route path="/payment/" component={PaymentPage} />
-          <Route path={BALANCE_ROUTE} component={BalancePage} />
-          <Route path="/invite/" component={InvitePage} />
-          <Route
-            path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
-            component={ConfirmTransactionPage}
-          />
-        </RequireLogin>
+        <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
+        <Route path="/setPassword/" component={PasswordPage} />
+        <Route path="/account-backup/" component={BackupAccountPage} />
+        <Route path="/import-account/" component={ImportAccountPage} />
+        <Route path="/payment/" component={PaymentPage} />
+        <Route path={BALANCE_ROUTE} component={BalancePage} />
+        <Route path="/invite/" component={InvitePage} />
+        <Route
+          path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
+          component={ConfirmTransactionPage}
+        />
       </Wrapper>
-    </Router>
+    </RequireLogin>
   </Switch>
 );
 export default MainRouter;
