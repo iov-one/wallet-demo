@@ -1,6 +1,6 @@
 import React from "react";
 
-import Card from "@material-ui/core/Card";
+import { createStyles, Card, withStyles, WithStyles } from "@material-ui/core";
 
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
@@ -12,16 +12,22 @@ import IconGroup from "./IconGroup";
 
 import CheckIcon from "../assets/check.svg";
 
-interface Props {
+const styles = createStyles({
+  card: {
+    width: 504,
+  },
+});
+
+interface Props extends WithStyles<typeof styles> {
   readonly title: string;
   readonly linkText: string;
   readonly link: string;
   readonly icon: string;
 }
 
-export const SecurityCard = ({ title, icon, linkText, link }: Props): JSX.Element => (
+const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Element => (
   <Block margin="md">
-    <Card style={{ width: "504px" }}>
+    <Card className={classes.card}>
       <Block margin="xl" />
       <Block padding="xl">
         <Grid align="center">
@@ -48,3 +54,5 @@ export const SecurityCard = ({ title, icon, linkText, link }: Props): JSX.Elemen
     </Card>
   </Block>
 );
+
+export default withStyles(styles)(SecurityCard);

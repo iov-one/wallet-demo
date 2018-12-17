@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SecurityCard } from "./ItemCard";
+import SecurityCard from "./ItemCard";
 import PageTitle from "./PageTitle";
 
 import { SuggestionButton } from "~/components/subComponents/buttons";
