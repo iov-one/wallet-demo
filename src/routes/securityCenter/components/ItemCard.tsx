@@ -28,9 +28,11 @@ export const SecurityCard = ({ title, icon, linkText, link }: Props): JSX.Elemen
           <GridItem xs={8} md={9} lg={9}>
             <Grid align="center">
               <IconGroup icon={icon} badgeIcon={CheckIcon} />
-              <Typography component="h6" variant="h6">
-                {title}
-              </Typography>
+              <Block padding="lg">
+                <Typography component="h6" variant="h6">
+                  {title}
+                </Typography>
+              </Block>
             </Grid>
           </GridItem>
           <GridItem xs={4} md={3} lg={3}>
