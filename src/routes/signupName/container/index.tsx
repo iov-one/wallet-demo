@@ -44,11 +44,18 @@ class SignupName extends React.Component<Props> {
 
     try {
       await setName(name, chainId);
-      history.push(BALANCE_ROUTE);
     } catch (err) {
       // TODO check if error and show something
     }
   };
+
+  public componentDidUpdate(prevProps: Props): void {
+    const differentName = prevProps.accountName !== this.props.accountName
+    const updatedName = prevProps.accountName === undefined && differentName
+    if (updatedName) {
+      history.push(BALANCE_ROUTE)
+    }
+  }
 
   public readonly onBack = () => {
     history.goBack();
