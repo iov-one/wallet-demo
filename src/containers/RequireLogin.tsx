@@ -1,15 +1,16 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Redirect, RouteProps } from "react-router-dom";
 import { HOME_ROUTE } from "~/routes";
 
-import { ChainAccount } from "../selectors";
+import { ChainAccount, getMyAccounts } from "../selectors";
 
 interface RequireLoginProps extends RouteProps {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly children?: React.ReactNode | ReadonlyArray<React.ReactNode>;
 }
 
-export class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
+class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
   public render(): JSX.Element {
     const { accounts, children, location } = this.props;
     if (location && location.pathname === HOME_ROUTE) {
@@ -27,3 +28,10 @@ export class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
     return <React.Fragment>{redirect ? <Redirect push to={redirect} /> : children}</React.Fragment>;
   }
 }
+
+const mapStateToProps = (state: any, ownProps: RouteProps): RequireLoginProps => ({
+  ...ownProps,
+  accounts: getMyAccounts(state),
+});
+ 
+export default connect(mapStateToProps, undefined)(RequireLogin);

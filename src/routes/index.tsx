@@ -12,13 +12,11 @@ import {
   PaymentPage,
   SendPaymentPage,
 } from "~/containers";
-import { RequireLogin } from "~/containers/RequireLogin";
-import { RootState } from "~/reducers";
+import RequireLogin from "~/containers/RequireLogin";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
-import { getMyAccounts } from "~/selectors";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
@@ -33,17 +31,13 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-interface RouterProps {
-  readonly state: RootState;
-}
-
-export const MainRouter = (props: RouterProps) => (
+export const MainRouter = () => (
   <Switch>
     <Route exact path={HOME_ROUTE} component={Home} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-    <RequireLogin accounts={getMyAccounts(props.state)}>
+    <RequireLogin>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path="/setPassword/" component={PasswordPage} />
