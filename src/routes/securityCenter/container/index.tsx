@@ -2,15 +2,24 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 import { PageStructure } from "~/components/templates/page";
-import { 
-  SET_PASSWORD_ROUTE, 
-  BACKUP_PHRASE_ROUTE, 
-  ADVANCED_SECURITY_ROUTE
+import {
+  SET_PASSWORD_ROUTE,
+  BACKUP_PHRASE_ROUTE,
 } from "~/containers/routes/index";
 
 import Layout from "../components";
+import { IOVModal } from "~/components/templates/modal";
+import Block from "~/components/layout/Block";
 
-class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
+interface SecurityCenterState {
+  readonly showAdvancedSecModal: boolean;
+}
+
+class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCenterState> {
+  public readonly state = {
+    showAdvancedSecModal: false
+  };
+
   public readonly onBackupPhrase = (): void => {
     this.props.history.push(BACKUP_PHRASE_ROUTE);
   };
@@ -18,18 +27,39 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
     this.props.history.push(SET_PASSWORD_ROUTE);
   };
   public readonly onAdvancedSecurity = (): void => {
-    this.props.history.push(ADVANCED_SECURITY_ROUTE);
+    this.setState({
+      showAdvancedSecModal: true,
+    });
   };
 
   // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
+
+    const { showAdvancedSecModal, } = this.state;
     return (
       <PageStructure>
-        <Layout
-          onBackupPhrase={this.onBackupPhrase}
-          onSetPassword={this.onSetPassword}
-          onAdvancedSecurity={this.onAdvancedSecurity}
-        />
+        <React.Fragment>
+          <Layout
+            onBackupPhrase={this.onBackupPhrase}
+            onSetPassword={this.onSetPassword}
+            onAdvancedSecurity={this.onAdvancedSecurity}
+          />
+          <IOVModal
+            visible={showAdvancedSecModal}
+            onRequestClose={() => {
+              this.setState({
+                showAdvancedSecModal: false,
+              });
+            }}
+            suggestionText="Your friends not on IOV yet?"
+            buttonText="Invite someone to IOV now"
+            onSuggestion={() => {
+              console.log("Suggestion");
+            }}
+          >
+            <Block />
+          </IOVModal>
+        </React.Fragment>
       </PageStructure>
     );
   }
