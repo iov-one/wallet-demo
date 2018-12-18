@@ -2,18 +2,23 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 import { PageStructure } from "~/components/templates/page";
+import { 
+  SET_PASSWORD_ROUTE, 
+  BACKUP_PHRASE_ROUTE, 
+  ADVANCED_SECURITY_ROUTE
+} from "~/containers/routes/index";
 
 import Layout from "../components";
 
 class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
   public readonly onBackupPhrase = (): void => {
-    this.props.history.push("/backup-phrase/");
+    this.props.history.push(BACKUP_PHRASE_ROUTE);
   };
   public readonly onSetPassword = (): void => {
-    this.props.history.push("/set-password/");
+    this.props.history.push(SET_PASSWORD_ROUTE);
   };
   public readonly onAdvancedSecurity = (): void => {
-    console.log("Advanced Security");
+    this.props.history.push(ADVANCED_SECURITY_ROUTE);
   };
 
   // TODO refactor this removing pageStructure container and use the Grid once #172 is done
