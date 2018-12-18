@@ -8,7 +8,6 @@ import GridItem from "~/components/layout/GridItem";
 import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 
-import IconGroup from "./IconGroup";
 import ImgBg from "../assets/icon_bg.svg";
 
 import CheckIcon from "../assets/check.svg";
