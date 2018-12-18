@@ -3,8 +3,11 @@ import {
   Amount,
   BcpAccount,
   BcpConnection,
+  BcpQueryEnvelope,
+  BcpTicker,
   BcpTransactionResponse,
   ConfirmedTransaction,
+  dummyEnvelope,
   TransactionKind,
   TxCodec,
   UnsignedTransaction,
@@ -158,4 +161,17 @@ export async function setName(
     name,
   };
   return writer.signAndCommit(unsigned, walletId);
+}
+
+export async function getAllTickers(signer: MultiChainSigner): Promise<BcpQueryEnvelope<BcpTicker>> {
+  let tickers = new Array<BcpTicker>();
+  await Promise.all(
+    signer.chainIds().map(
+      async (chainId): Promise<void> => {
+        const tickersByConnection = await signer.connection(chainId).getAllTickers();
+        tickers = tickers.concat(tickersByConnection.data);
+      },
+    ),
+  );
+  return dummyEnvelope(tickers);
 }

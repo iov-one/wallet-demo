@@ -1,9 +1,10 @@
 import { Amount, BcpAccount } from "@iov/bcp-types";
-import { MultiChainSigner } from "@iov/core";
+import { bnsConnector, MultiChainSigner } from "@iov/core";
+import { liskConnector } from "@iov/lisk";
 
 import { sleep } from "../utils/timer";
 
-import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import { getAccount, getAllTickers, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
@@ -209,5 +210,17 @@ describe("setName", () => {
       },
       5000,
     );
+  });
+});
+
+describe("getAllTickers", () => {
+  it("should get ALX, CASH, IOV, PAJA and LSK token tickers", async () => {
+    const profile = await createProfile();
+    const signer = new MultiChainSigner(profile);
+    // replace links with config data based on environment
+    await signer.addChain(bnsConnector("wss://bns.yaknet.iov.one/"));
+    await signer.addChain(liskConnector("https://testnet.lisk.io"));
+    const acct = await getAllTickers(signer);
+    expect(acct.data.length).toEqual(5);
   });
 });
