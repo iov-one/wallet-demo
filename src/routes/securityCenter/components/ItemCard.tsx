@@ -9,8 +9,10 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 
 import IconGroup from "./IconGroup";
+import ImgBg from "../assets/icon_bg.svg";
 
 import CheckIcon from "../assets/check.svg";
+import BadgeIcon from "~/components/layout/BadgeIcon";
 
 const styles = createStyles({
   card: {
@@ -33,7 +35,12 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
         <Grid align="center">
           <GridItem xs={8} md={9} lg={9}>
             <Grid align="center">
-              <IconGroup icon={icon} badgeIcon={CheckIcon} />
+              <BadgeIcon 
+                icon={icon} 
+                badgeIcon={CheckIcon} 
+                width={42}
+                height={42}
+                background={`url(${ImgBg})`} />
               <Block padding="lg">
                 <Typography component="h6" variant="h6">
                   {title}
