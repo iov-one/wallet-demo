@@ -15,6 +15,8 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>> {
   public readonly onAdvancedSecurity = (): void => {
     console.log("Advanced Security");
   };
+
+  // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
     return (
       <PageStructure>
