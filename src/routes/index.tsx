@@ -29,7 +29,6 @@ export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
 export const SET_PASSWORD_ROUTE = "/set-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
-export const ADVANCED_SECURITY_ROUTE = "/advanced-security";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -52,7 +51,6 @@ export const MainRouter = () => (
         <Route path={BALANCE_ROUTE} component={BalancePage} />
         <Route path="/invite/" component={InvitePage} />
         <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
-        <Route path={ADVANCED_SECURITY_ROUTE} component={SecurityCenter} />
         <Route path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
