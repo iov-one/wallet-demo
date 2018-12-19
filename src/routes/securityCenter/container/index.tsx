@@ -10,6 +10,7 @@ import {
 import Layout from "../components";
 import { IOVModal } from "~/components/templates/modal";
 import Block from "~/components/layout/Block";
+import AlertDialog from "~/components/layout/AlertDialog";
 
 interface SecurityCenterState {
   readonly showAdvancedSecModal: boolean;
@@ -44,21 +45,7 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
             onSetPassword={this.onSetPassword}
             onAdvancedSecurity={this.onAdvancedSecurity}
           />
-          <IOVModal
-            visible={showAdvancedSecModal}
-            onRequestClose={() => {
-              this.setState({
-                showAdvancedSecModal: false,
-              });
-            }}
-            suggestionText="Your friends not on IOV yet?"
-            buttonText="Invite someone to IOV now"
-            onSuggestion={() => {
-              console.log("Suggestion");
-            }}
-          >
-            <Block />
-          </IOVModal>
+          <AlertDialog />
         </React.Fragment>
       </PageStructure>
     );
