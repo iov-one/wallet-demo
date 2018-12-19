@@ -5,6 +5,7 @@ import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import WebFont from "webfontloader";
+import MatchMedia from "./context/MatchMediaContext";
 import Route from "./routes";
 import { history, makeStore } from "./store";
 import theme from "./theme/mui";
@@ -22,9 +23,11 @@ WebFont.load({
 const Root = () => (
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <ConnectedRouter history={history}>
-        <Route />
-      </ConnectedRouter>
+      <MatchMedia>
+        <ConnectedRouter history={history}>
+          <Route />
+        </ConnectedRouter>
+      </MatchMedia>
     </MuiThemeProvider>
   </Provider>
 );
