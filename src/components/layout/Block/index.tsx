@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import React, { PureComponent } from "react";
+import * as React from "react";
 import { capitalize } from "~/theme/css";
 import { Size } from "~/theme/size";
 import styles from "./index.scss";
@@ -18,9 +18,10 @@ interface Props {
   readonly offsetXs?: 2 | 4 | 6 | 8;
   readonly offsetSm?: 2 | 4 | 6 | 8;
   readonly offsetMd?: 2 | 4 | 6 | 8;
+  readonly onClick?: React.MouseEventHandler<Element>;
 }
 
-class Block extends PureComponent<Props> {
+class Block extends React.PureComponent<Props> {
   public render(): JSX.Element {
     const {
       margin,

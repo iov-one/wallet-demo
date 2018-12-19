@@ -5,6 +5,7 @@ import loading from "~/components/Header/assets/loading.svg";
 import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
+import HiMenu from "./HiMenu";
 
 const styles = createStyles({
   root: {
@@ -45,6 +46,7 @@ const Header = ({ classes }: Props) => (
       {/* TODO refactor in #96 to include badge using IconGroup */}
       <Img src={loading} className={classes.spin} alt="Loading Transactions" />
       <Img src={bell} alt="Notifications" />
+      <HiMenu hello="hola" />
     </Block>
   </React.Fragment>
 );
