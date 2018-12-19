@@ -1,25 +1,34 @@
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { ConnectedRouter } from "connected-react-router";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
-import "react-hot-loader/patch";
+import { hot } from "react-hot-loader/root";
+import { Provider } from "react-redux";
+import WebFont from "webfontloader";
+import Route from "./routes";
+import { history, makeStore } from "./store";
+import theme from "./theme/mui";
 
 import "./index.scss";
 
-import App from "./containers/App";
+const store = makeStore();
 
-const render = Component => {
-  ReactDOM.render(
-    <AppContainer>
-      <Component />
-    </AppContainer>,
-    document.getElementById("app"),
-  );
-};
+WebFont.load({
+  google: {
+    families: ["Muli:200,300,400,600"],
+  },
+});
 
-render(App);
+const Root = () => (
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <ConnectedRouter history={history}>
+        <Route />
+      </ConnectedRouter>
+    </MuiThemeProvider>
+  </Provider>
+);
 
-if ((module as any).hot) {
-  (module as any).hot.accept("./containers/App", () => {
-    render(App);
-  });
-}
+const HotRoot = hot(Root);
+
+ReactDOM.render(<HotRoot />, document.getElementById("app"));
