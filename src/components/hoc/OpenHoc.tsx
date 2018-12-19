@@ -1,5 +1,6 @@
 import {
   InferableComponentEnhancerWithProps,
+  Omit,
   StateHandler,
   StateHandlerMap,
   withStateHandlers,
@@ -24,6 +25,7 @@ export default withStateHandlers<OpenType, OpenHandler>(
 );
 */
 
+/*
 export function openHoc<T extends {}>(): InferableComponentEnhancerWithProps<T & OpenType & OpenHandler, T> {
   return withStateHandlers<OpenType, OpenHandler, T>(
     { open: false },
@@ -32,4 +34,25 @@ export function openHoc<T extends {}>(): InferableComponentEnhancerWithProps<T &
       clickAway: () => () => ({ open: false }),
     },
   );
+}
+*/
+
+type OpenHoc<P, T> = React.ComponentType<Omit<P, keyof P> & T>;
+
+export function openHoc<T>(
+  comp: React.ComponentType<T & OpenType & OpenHandler>,
+): OpenHoc<T & OpenType & OpenHandler, T> {
+  const enhancer: InferableComponentEnhancerWithProps<T & OpenType & OpenHandler, T> = withStateHandlers<
+    OpenType,
+    OpenHandler,
+    T
+  >(
+    { open: false },
+    {
+      toggle: (state: OpenType) => () => ({ open: !state.open }),
+      clickAway: () => () => ({ open: false }),
+    },
+  );
+
+  return enhancer(comp);
 }

@@ -9,34 +9,32 @@ import HiMenu from "./HiMenu";
 
 const styles = createStyles({
   root: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    height: '70px',
-    backgroundColor: 'white',
+    display: "flex",
+    flexWrap: "nowrap",
+    height: "70px",
+    backgroundColor: "white",
   },
   spin: {
-    animation: 'spinKeyframe 5s infinite linear',
+    animation: "spinKeyframe 5s infinite linear",
   },
-  '@keyframes spinKeyframe': {
-    '0%': {
-      transform: 'rotate(0deg)',
+  "@keyframes spinKeyframe": {
+    "0%": {
+      transform: "rotate(0deg)",
     },
-    '50%': {
-      transform: 'rotate(180deg)',
+    "50%": {
+      transform: "rotate(180deg)",
     },
-    '100%': {
-      transform: 'rotate(360deg)',
+    "100%": {
+      transform: "rotate(360deg)",
     },
   },
   spacer: {
     flexGrow: 1,
   },
-  bell: {
-
-  },
+  bell: {},
 });
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {}
 
 const Header = ({ classes }: Props) => (
   <React.Fragment>
