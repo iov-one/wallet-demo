@@ -29,6 +29,7 @@ export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
 export const SET_PASSWORD_ROUTE = "/set-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
+export const PAYMENT_ROUTE = "/payment";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -52,6 +53,7 @@ export const MainRouter = () => (
         <Route path="/invite/" component={InvitePage} />
         <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
         <Route path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
+        <Route path={PAYMENT_ROUTE} component={InvitePage} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
           component={ConfirmTransactionPage}

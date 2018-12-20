@@ -88,8 +88,8 @@ export const themeObject: ThemeOptions = {
     },
     MuiIconButton: {
       root: {
-        '&:hover': {
-          backgroundColor: 'none',
+        "&:hover": {
+          backgroundColor: "none",
         },
       },
     },

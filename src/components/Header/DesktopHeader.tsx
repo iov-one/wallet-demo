@@ -6,10 +6,11 @@ import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import HiMenu from "./HiMenu";
+import Links from "./Links";
 
 const styles = createStyles({
   root: {
-    alignItems: 'center',
+    alignItems: "center",
     display: "flex",
     flexWrap: "nowrap",
     height: "70px",
@@ -41,6 +42,11 @@ const Header = ({ classes }: Props) => (
   <React.Fragment>
     <Block className={classes.root} padding="xxl">
       <Img src={logoBlack} alt="Logo" />
+      <Block className={classes.spacer} />
+      <Links />
+      <Block className={classes.spacer} />
+      <Block className={classes.spacer} />
+      <Block className={classes.spacer} />
       <Block className={classes.spacer} />
       {/* TODO refactor in #96 to include badge using IconGroup */}
       <Img src={loading} className={classes.spin} alt="Loading Transactions" />
