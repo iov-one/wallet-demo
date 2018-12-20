@@ -1,7 +1,7 @@
 // import Typography from "@material-ui/core/Typography";
 import React, { PureComponent } from "react";
 
-import BaseDialog from "../BaseDialog";
+import Dialog from "~/components/layout/Dialog";
 // import MainStyles from "./index.scss";
 
 interface Props {
@@ -24,9 +24,9 @@ class PromptDialog extends PureComponent<Props, State> {
     const { showDialog, onClose } = this.props;
 
     return (
-      <BaseDialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Continue">
+      <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Continue">
         <h1>Prompt dialog content should be here</h1>
-      </BaseDialog>
+      </Dialog>
     );
   }
 }
