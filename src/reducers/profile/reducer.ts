@@ -4,7 +4,7 @@ import { createDb } from "../../logic";
 import * as actions from "./actions";
 import { ProfileState } from "./state";
 
-export const DB_PROFILE_NAME = "profile"
+export const DB_PROFILE_NAME = "profile";
 export type ProfileActions = ActionType<typeof actions>;
 const initState: ProfileState = {
   internal: {

@@ -11,6 +11,7 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
+  getAccountSyncAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { addConfirmedTransaction } from "../reducers/notification";
@@ -47,10 +48,10 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   // --- get the active identity
   const {
     payload: { identity },
-  } = dispatch(getIdentityAction(profile));
+  } = await dispatch(getIdentityAction(profile));
 
   // --- initiate the signer
-  const { payload: signer } = fixTypes(dispatch(createSignerAction(profile)));
+  const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
   // --- connect all readers and query account balances
   let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
@@ -65,13 +66,15 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
   return { accounts, signer };
 };
 
-function watchAccountAndTransactions(
+async function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
   conn: BcpConnection,
   identity: PublicIdentity,
 ): Promise<BcpAccountWithChain | undefined> {
   // request the current account and return a promise resolved when it is loaded
-  const account = getAccountAsyncAction.start(conn, identity, undefined).payload;
+  const accountAction = getAccountSyncAction(conn, identity, undefined);
+  const account = accountAction.payload;
+  await dispatch(accountAction);
 
   // get a stream of all transactions
   const address = keyToAddress(identity);

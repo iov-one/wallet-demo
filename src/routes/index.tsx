@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import {
@@ -12,6 +12,7 @@ import {
   PaymentPage,
   SendPaymentPage,
 } from "~/containers";
+import RequireLogin from "~/containers/RequireLogin";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
 import SignupName from "~/routes/signupName/container";
@@ -30,13 +31,13 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const MainRouter = () => (
+export const MainRouter = () => (
   <Switch>
     <Route exact path={HOME_ROUTE} component={Home} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
+    <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
-    <Route path={LOGIN_ROUTE} component={LogIn} />
-    <Router>
+    <RequireLogin>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path="/setPassword/" component={PasswordPage} />
@@ -50,8 +51,7 @@ const MainRouter = () => (
           component={ConfirmTransactionPage}
         />
       </Wrapper>
-    </Router>
+    </RequireLogin>
   </Switch>
 );
-
 export default MainRouter;

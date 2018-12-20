@@ -4,6 +4,7 @@ export * from "./Home";
 export * from "./Invite";
 export * from "./Payment";
 export * from "./SendPayment";
+export * from "./RequireLogin";
 
 /* Will be replaced with New one*/
 export * from "./BackupAccount";

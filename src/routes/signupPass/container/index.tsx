@@ -14,16 +14,20 @@ interface Props extends HomeActions, SelectorProps {}
 
 class SignupPass extends React.Component<Props> {
   public async componentDidMount(): Promise<void> {
-    const { hasIdentity, db } = this.props;
+    const { hasIdentity, accountName, db } = this.props;
 
-    if (hasIdentity) {
-      return history.push(BALANCE_ROUTE);
+    const hasIdentityWithName = hasIdentity && accountName;
+    if (hasIdentityWithName) {
+      history.push(BALANCE_ROUTE);
+
+      return;
     }
 
-    // TODO if reported errors remove db (DB_PROFILE_NAME) and redirect to HOME_ROUTE
     const hasProfile = await hasStoredProfile(db);
     if (hasProfile) {
-      return history.push(LOGIN_ROUTE);
+      history.push(LOGIN_ROUTE);
+
+      return;
     }
   }
 

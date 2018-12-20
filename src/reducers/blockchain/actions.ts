@@ -33,6 +33,7 @@ const getAccountWithChain = async (
   return account === undefined ? undefined : { account, chainId };
 };
 
+export const getAccountSyncAction = createSyncAction("GET_ACCOUNT", getAccountWithChain);
 export const getAccountAsyncAction = createPromiseAction(
   "GET_ACCOUNT",
   "GET_ACCOUNT_PENDING",
