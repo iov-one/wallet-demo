@@ -1,0 +1,26 @@
+.alert-dialog {
+    .paper {
+        overflow: visible;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 0px;
+        top: -40px;
+    }
+
+    .button {
+        position: relative;
+        top: 65;
+        width: calc(100% - 60px);
+        margin: auto;
+    }
+
+    .icon-parent {
+        text-align: center;
+    }
+
+    .message {
+        font-size: 1.2em;
+    }
+}
