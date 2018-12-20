@@ -106,6 +106,19 @@ export const themeObject: ThemeOptions = {
         backgroundColor: "#fff1e1", // lighter version of temporaryError
       },
     },
+    MuiList: {
+      root: {
+        backgroundColor: "#ffffff",
+        boxSizing: "border-box",
+        border: `1px solid ${border}`,
+      },
+      padding: {
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: sm,
+        paddingRight: sm,
+      },
+    },
     MuiOutlinedInput: {
       input: {
         padding: "12px 15px 13px 12px",

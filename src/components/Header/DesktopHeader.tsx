@@ -53,7 +53,7 @@ const Header = ({ classes }: Props) => (
       <Block padding="xl">
         <Img src={bell} alt="Notifications" />
       </Block>
-      <HiMenu hello="hola" />
+      <HiMenu />
     </Block>
   </React.Fragment>
 );
