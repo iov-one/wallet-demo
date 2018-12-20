@@ -1,10 +1,9 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import Dialog from "./dialog";
+import { createStyles, WithStyles, withStyles } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import React, { PureComponent } from "react";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
-import React, { PureComponent } from "react";
-import Typography from "@material-ui/core/Typography";
-
+import Dialog from "./dialog";
 
 const styles = createStyles({
   message: {
@@ -13,7 +12,7 @@ const styles = createStyles({
 
   iconParent: {
     textAlign: "center",
-  }
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -29,14 +28,13 @@ interface State {
 }
 
 class AlertDialog extends PureComponent<Props, State> {
-
   public render(): JSX.Element {
     const { icon, title, showDialog, onClose, children, classes } = this.props;
 
     return (
       <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
         <Block className={classes.iconParent}>
-          <Img src={icon} alt="Alert icon"/>
+          <Img src={icon} alt="Alert icon" />
         </Block>
         <Typography gutterBottom variant="h4" align="center">
           {title}
@@ -48,6 +46,5 @@ class AlertDialog extends PureComponent<Props, State> {
     );
   }
 }
-
 
 export const Alert = withStyles(styles)(AlertDialog);

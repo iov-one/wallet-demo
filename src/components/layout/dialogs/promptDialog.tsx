@@ -16,7 +16,6 @@ interface State {
 }
 
 class PromptDialog extends PureComponent<Props, State> {
-
   public render(): JSX.Element {
     const { showDialog, onClose } = this.props;
 

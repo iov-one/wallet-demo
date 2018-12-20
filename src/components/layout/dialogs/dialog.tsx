@@ -1,7 +1,7 @@
 import { createStyles, DialogContent, Theme, withStyles, WithStyles } from "@material-ui/core";
-import Button from "~/components/layout/Button";
 import Dialog from "@material-ui/core/Dialog";
 import React, { PureComponent } from "react";
+import Button from "~/components/layout/Button";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -24,7 +24,7 @@ const styles = (theme: Theme) =>
       top: 65,
       width: "calc(100% - 60px)",
       margin: "auto",
-    }
+    },
   });
 
 interface Props extends WithStyles<typeof styles> {
