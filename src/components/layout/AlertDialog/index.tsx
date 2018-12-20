@@ -1,9 +1,8 @@
+import Typography from "@material-ui/core/Typography";
 import React, { PureComponent } from "react";
-import Typography from '@material-ui/core/Typography';
 
-import MainStyles from "./index.scss";
 import BaseDialog from "../BaseDialog";
-
+import MainStyles from "./index.scss";
 
 interface Props {
   readonly icon: string;
@@ -23,21 +22,10 @@ class AlertDialog extends PureComponent<Props, State> {
   };
 
   public render(): JSX.Element {
-    const {
-      icon,
-      title,
-      showDialog,
-      onClose,
-      children,
-    } = this.props;
+    const { icon, title, showDialog, onClose, children } = this.props;
 
     return (
-      <BaseDialog 
-        showDialog={showDialog} 
-        onClose={onClose} 
-        onSubmit={onClose} 
-        submitButton="Got it"
-      >
+      <BaseDialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
         <div className={MainStyles["alert-dialog"]}>
           <div className={MainStyles["icon-parent"]}>
             <img src={icon} />
@@ -49,7 +37,7 @@ class AlertDialog extends PureComponent<Props, State> {
             {children}
           </Typography>
         </div>
-      </BaseDialog >
+      </BaseDialog>
     );
   }
 }

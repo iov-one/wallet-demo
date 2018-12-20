@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
 import { Badge } from "@material-ui/core";
 import classNames from "classnames/bind";
+import React, { PureComponent } from "react";
 
 import styles from "./index.scss";
 
@@ -15,29 +15,21 @@ interface Props {
 }
 
 class BadgeIcon extends PureComponent<Props> {
-
   public render(): JSX.Element {
-    const {
-      icon,
-      badgeIcon,
-      width,
-      height,
-      background,
-    } = this.props;
+    const { icon, badgeIcon, width, height, background } = this.props;
 
     const style = {
-      width: (width ? width : undefined),
-      height: (height ? height : undefined),
-      background: (background ? background : undefined)
-    }
+      width: width ? width : undefined,
+      height: height ? height : undefined,
+      background: background ? background : undefined,
+    };
 
     return (
       <Badge
-        badgeContent={
-          <img className={cx('badge-icon')} src={badgeIcon} alt="Badge Icon" />
-        } color="primary" >
-
-        <div className={cx('badge-image')} style={style}>
+        badgeContent={<img className={cx("badge-icon")} src={badgeIcon} alt="Badge Icon" />}
+        color="primary"
+      >
+        <div className={cx("badge-image")} style={style}>
           <img src={icon} alt="Icon" />
         </div>
       </Badge>

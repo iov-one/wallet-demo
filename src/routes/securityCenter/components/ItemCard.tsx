@@ -1,15 +1,11 @@
+import { Card, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React from "react";
-
-import { createStyles, Card, withStyles, WithStyles } from "@material-ui/core";
-
+import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
 import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
-
-import ImgBg from "../assets/icon_bg.svg";
-
 import CheckIcon from "../assets/check.svg";
-import BadgeIcon from "~/components/layout/BadgeIcon";
+import ImgBg from "../assets/icon_bg.svg";
 
 const styles = createStyles({
   securityCard: {
@@ -24,14 +20,14 @@ const styles = createStyles({
   },
   title: {
     lineHeight: 2.1,
-    textOverflow: "ellipsis",    
-    overflow: "hidden"
+    textOverflow: "ellipsis",
+    overflow: "hidden",
   },
   link: {
     lineHeight: 2.7,
   },
   card: {
-    width: '100%'
+    width: "100%",
   },
 });
 
@@ -48,19 +44,23 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
       <Block margin="xl" />
       <Block padding="xl" className={classes.securityCard}>
         <Block>
-          <BadgeIcon
-            icon={icon}
-            badgeIcon={CheckIcon}
-            width={42}
-            height={42}
-            background={`url(${ImgBg})`} />
+          <BadgeIcon icon={icon} badgeIcon={CheckIcon} width={42} height={42} background={`url(${ImgBg})`} />
         </Block>
         <Block className={classes.titleBox} padding="lg">
-          <Typography className={classes.title} noWrap component="h6" variant="h6">{title}</Typography>
+          <Typography className={classes.title} noWrap component="h6" variant="h6">
+            {title}
+          </Typography>
         </Block>
         <Block>
           <Link to={link}>
-            <Typography noWrap underlined variant="body1" color="primary" align="right" className={classes.link}>
+            <Typography
+              noWrap
+              underlined
+              variant="body1"
+              color="primary"
+              align="right"
+              className={classes.link}
+            >
               {linkText}
             </Typography>
           </Link>

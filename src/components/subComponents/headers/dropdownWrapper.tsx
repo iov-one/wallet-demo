@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { border, background, xs, md} from '~/theme/variables';
+import { background, border, md, xs } from "~/theme/variables";
 
 export const HeaderDropdownWrapper = styled.div`
   width: 280px;
