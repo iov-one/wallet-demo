@@ -7,7 +7,7 @@ import Dialog from "./dialog";
 interface Props {
   readonly title: string;
   readonly showDialog: boolean;
-  readonly onClose: () => any;
+  readonly onClose: () => void;
   readonly children: React.ReactNode;
 }
 
