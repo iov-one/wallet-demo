@@ -14,6 +14,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles> {
   readonly showDialog: boolean;
+  readonly submitButton: string;
   readonly onClose: () => any;
   readonly onSubmit: () => any;
   readonly children: React.ReactNode;
@@ -32,6 +33,7 @@ class BaseDialog extends PureComponent<Props, State> {
     const {
       classes,
       showDialog,
+      submitButton,
       onClose,
       onSubmit,
       children,      
@@ -53,7 +55,7 @@ class BaseDialog extends PureComponent<Props, State> {
             {children}
           </DialogContent>
           <Button onClick={onSubmit} variant="contained" color="primary" className={MainStyles.button}>
-            Got it
+            {submitButton}
           </Button>
         </Dialog>
       </div>

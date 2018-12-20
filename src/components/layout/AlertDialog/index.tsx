@@ -32,7 +32,12 @@ class AlertDialog extends PureComponent<Props, State> {
     } = this.props;
 
     return (
-      <BaseDialog showDialog={showDialog} onClose={onClose} onSubmit={onClose}>
+      <BaseDialog 
+        showDialog={showDialog} 
+        onClose={onClose} 
+        onSubmit={onClose} 
+        submitButton="Got it"
+      >
         <div className={MainStyles["alert-dialog"]}>
           <div className={MainStyles["icon-parent"]}>
             <img src={icon} />
