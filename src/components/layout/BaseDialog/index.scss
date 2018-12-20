@@ -1,0 +1,17 @@
+.alert-dialog .paper {
+    overflow: visible;
+}
+
+.alert-dialog .close-button {
+    position: absolute;
+    right: 0;
+    top: -40px;
+}
+
+.alert-dialog .button {
+    position: relative;
+    top: 65px;
+    width: calc(100% - 60px);
+    margin: auto;
+}
+
