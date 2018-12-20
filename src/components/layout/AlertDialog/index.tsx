@@ -1,20 +1,11 @@
 import React, { PureComponent } from "react";
-import { withStyles, Theme, createStyles, WithStyles, DialogContent } from "@material-ui/core";
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 
 import MainStyles from "./index.scss";
 import BaseDialog from "../BaseDialog";
 
 
-const styles = (theme: Theme) => createStyles({
-  closeIcon: {
-    fill: theme.palette.primary.main,
-  },
-});
-
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   readonly icon: string;
   readonly title: string;
   readonly showDialog: boolean;
@@ -41,7 +32,7 @@ class AlertDialog extends PureComponent<Props, State> {
     } = this.props;
 
     return (
-      <BaseDialog showDialog={showDialog} onClose={onClose}>
+      <BaseDialog showDialog={showDialog} onClose={onClose} onSubmit={onClose}>
         <div className={MainStyles["alert-dialog"]}>
           <div className={MainStyles["icon-parent"]}>
             <img src={icon} />
@@ -58,4 +49,4 @@ class AlertDialog extends PureComponent<Props, State> {
   }
 }
 
-export default withStyles(styles)(AlertDialog);
+export default AlertDialog;

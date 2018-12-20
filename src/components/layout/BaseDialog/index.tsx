@@ -15,6 +15,7 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles> {
   readonly showDialog: boolean;
   readonly onClose: () => any;
+  readonly onSubmit: () => any;
   readonly children: React.ReactNode;
 }
 
@@ -32,6 +33,7 @@ class BaseDialog extends PureComponent<Props, State> {
       classes,
       showDialog,
       onClose,
+      onSubmit,
       children,      
     } = this.props;
 
@@ -50,7 +52,7 @@ class BaseDialog extends PureComponent<Props, State> {
           <DialogContent>
             {children}
           </DialogContent>
-          <Button onClick={onClose} variant="contained" color="primary" className={MainStyles.button}>
+          <Button onClick={onSubmit} variant="contained" color="primary" className={MainStyles.button}>
             Got it
           </Button>
         </Dialog>
