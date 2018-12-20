@@ -11,6 +11,7 @@ import * as React from "react";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
+import { xs } from "~/theme/variables";
 
 interface Outer extends WithStyles<typeof styles> {
   readonly hello: string;
@@ -19,8 +20,16 @@ interface Outer extends WithStyles<typeof styles> {
 type Props = OpenType & OpenHandler & Outer;
 
 const styles = createStyles({
-  root: {},
-  expand: {},
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
+  chevron: {
+    padding: xs,
+  },
 });
 
 class HiMenu extends React.Component<Props> {
@@ -34,7 +43,7 @@ class HiMenu extends React.Component<Props> {
       <React.Fragment>
         <Block className={classes.root} onClick={toggle}>
           <Typography variant="h6">Hi!</Typography>
-          <IconButton disableRipple>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
+          <IconButton className={classes.chevron} disableRipple>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
         </Block>
         <div ref={this.menuRef}>
           <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">

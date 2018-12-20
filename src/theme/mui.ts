@@ -86,6 +86,13 @@ export const themeObject: ThemeOptions = {
         margin: `${sm} 0 0 0`,
       },
     },
+    MuiIconButton: {
+      root: {
+        '&:hover': {
+          backgroundColor: 'none',
+        },
+      },
+    },
     MuiInputBase: {
       root: {
         fontSize: "1.25rem",

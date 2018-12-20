@@ -9,6 +9,7 @@ import HiMenu from "./HiMenu";
 
 const styles = createStyles({
   root: {
+    alignItems: 'center',
     display: "flex",
     flexWrap: "nowrap",
     height: "70px",
@@ -43,7 +44,9 @@ const Header = ({ classes }: Props) => (
       <Block className={classes.spacer} />
       {/* TODO refactor in #96 to include badge using IconGroup */}
       <Img src={loading} className={classes.spin} alt="Loading Transactions" />
-      <Img src={bell} alt="Notifications" />
+      <Block padding="xl">
+        <Img src={bell} alt="Notifications" />
+      </Block>
       <HiMenu hello="hola" />
     </Block>
   </React.Fragment>
