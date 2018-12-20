@@ -12,6 +12,8 @@ import { IOVModal } from "~/components/templates/modal";
 import Block from "~/components/layout/Block";
 import AlertDialog from "~/components/layout/AlertDialog";
 
+import ComingSoonIcon from "../assets/coming_soon.svg";
+
 interface SecurityCenterState {
   readonly showAdvancedSecModal: boolean;
 }
@@ -33,10 +35,15 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
     });
   };
 
+  public readonly onAdvancedSecurityClose = (): void => {
+    this.setState({
+      showAdvancedSecModal: false,
+    });
+  }
+
   // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
 
-    const { showAdvancedSecModal, } = this.state;
     return (
       <PageStructure>
         <React.Fragment>
@@ -45,7 +52,13 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
             onSetPassword={this.onSetPassword}
             onAdvancedSecurity={this.onAdvancedSecurity}
           />
-          <AlertDialog />
+          <AlertDialog 
+            icon={ComingSoonIcon} 
+            title="Coming soon..." 
+            showDialog={this.state.showAdvancedSecModal}
+            onClose={this.onAdvancedSecurityClose}>
+            Extra security is something we’re working on, stay tooned!
+          </AlertDialog>
         </React.Fragment>
       </PageStructure>
     );
