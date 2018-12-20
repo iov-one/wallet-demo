@@ -1,5 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import Dialog from "~/components/layout/Dialog";
+import Dialog from "./dialog";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import React, { PureComponent } from "react";
@@ -29,9 +29,6 @@ interface State {
 }
 
 class AlertDialog extends PureComponent<Props, State> {
-  public readonly state = {
-    open: false,
-  };
 
   public render(): JSX.Element {
     const { icon, title, showDialog, onClose, children, classes } = this.props;
@@ -52,4 +49,5 @@ class AlertDialog extends PureComponent<Props, State> {
   }
 }
 
-export default withStyles(styles)(AlertDialog);
+
+export const Alert = withStyles(styles)(AlertDialog);

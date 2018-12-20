@@ -1,5 +1,5 @@
 import { createStyles, DialogContent, Theme, withStyles, WithStyles } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import Button from "~/components/layout/Button";
 import Dialog from "@material-ui/core/Dialog";
 import React, { PureComponent } from "react";
 

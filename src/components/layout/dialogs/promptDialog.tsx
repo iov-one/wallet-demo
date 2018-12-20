@@ -1,7 +1,7 @@
 // import Typography from "@material-ui/core/Typography";
 import React, { PureComponent } from "react";
 
-import Dialog from "~/components/layout/Dialog";
+import Dialog from "./dialog";
 // import MainStyles from "./index.scss";
 
 interface Props {
@@ -16,9 +16,6 @@ interface State {
 }
 
 class PromptDialog extends PureComponent<Props, State> {
-  public readonly state = {
-    open: false,
-  };
 
   public render(): JSX.Element {
     const { showDialog, onClose } = this.props;

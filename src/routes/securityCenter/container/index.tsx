@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import AlertDialog from "~/components/layout/AlertDialog";
+import { Alert } from "~/components/layout/dialogs";
 import { PageStructure } from "~/components/templates/page";
 import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
 import ComingSoonIcon from "../assets/coming_soon.svg";
@@ -43,14 +43,14 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
             onSetPassword={this.onSetPassword}
             onAdvancedSecurity={this.onAdvancedSecurity}
           />
-          <AlertDialog
+          <Alert
             icon={ComingSoonIcon}
             title="Coming soon..."
             showDialog={this.state.showAdvancedSecModal}
             onClose={this.onAdvancedSecurityClose}
           >
             Extra security is something we’re working on, stay tooned!
-          </AlertDialog>
+          </Alert>
         </React.Fragment>
       </PageStructure>
     );
