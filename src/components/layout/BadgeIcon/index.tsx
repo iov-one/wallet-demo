@@ -1,12 +1,27 @@
-import { Badge } from "@material-ui/core";
-import classNames from "classnames/bind";
+import { Badge, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React, { PureComponent } from "react";
+import Block from "~/components/layout/Block";
+import Img from "~/components/layout/Image";
 
-import styles from "./index.scss";
 
-const cx: any = classNames.bind(styles);
+const styles = createStyles({
+  badgeIcon: {
+    maxWidth: 62,
+    width: 62,
+    height: 62,
+  },
 
-interface Props {
+  badgeImage: {
+    position: "relative",
+    padding: 0,
+    marginLeft: 0,
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center"
+  }
+});
+
+interface Props extends WithStyles<typeof styles> {
   readonly icon: string;
   readonly badgeIcon: string;
   readonly width?: number;
@@ -16,7 +31,7 @@ interface Props {
 
 class BadgeIcon extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { icon, badgeIcon, width, height, background } = this.props;
+    const { icon, badgeIcon, width, height, background, classes } = this.props;
 
     const style = {
       width: width ? width : undefined,
@@ -26,15 +41,15 @@ class BadgeIcon extends PureComponent<Props> {
 
     return (
       <Badge
-        badgeContent={<img className={cx("badge-icon")} src={badgeIcon} alt="Badge Icon" />}
+        badgeContent={<Img className={classes.badgeIcon} src={badgeIcon} alt="Badge Icon" />}
         color="primary"
       >
-        <div className={cx("badge-image")} style={style}>
-          <img src={icon} alt="Icon" />
-        </div>
+        <Block className={classes.badgeImage}>
+          <Img src={icon} alt="Icon" />
+        </Block>
       </Badge>
     );
   }
 }
 
-export default BadgeIcon;
+export default withStyles(styles)(BadgeIcon);
