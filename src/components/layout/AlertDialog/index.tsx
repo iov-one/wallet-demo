@@ -100,4 +100,4 @@ class AlertDialog extends PureComponent<AlertDialogProps> {
   }
 }
 
-export default withStyles(AlertDialogStyles)(AlertDialog);
+export default withStyles(styles)(AlertDialog);
