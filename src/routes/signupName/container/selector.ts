@@ -28,8 +28,6 @@ const connectionSelector = createSelector(
     connections[chainId],
 );
 
-
-
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   chainId: chainIdSelector,
   connection: connectionSelector,

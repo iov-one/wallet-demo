@@ -50,10 +50,10 @@ class SignupName extends React.Component<Props> {
   };
 
   public componentDidUpdate(prevProps: Props): void {
-    const differentName = prevProps.accountName !== this.props.accountName
-    const updatedName = prevProps.accountName === undefined && differentName
+    const differentName = prevProps.accountName !== this.props.accountName;
+    const updatedName = prevProps.accountName === undefined && differentName;
     if (updatedName) {
-      history.push(BALANCE_ROUTE)
+      history.push(BALANCE_ROUTE);
     }
   }
 

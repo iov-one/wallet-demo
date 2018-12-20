@@ -22,7 +22,7 @@ class App extends React.Component<{}, {}> {
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>
           <ConnectedRouter history={history}>
-            <Route state={store.getState()} />
+            <Route />
           </ConnectedRouter>
         </MuiThemeProvider>
       </Provider>

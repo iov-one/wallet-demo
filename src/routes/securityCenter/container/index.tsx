@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import AlertDialog from "~/components/layout/AlertDialog";
 import { PageStructure } from "~/components/templates/page";
-import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/containers/routes/index";
+import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
 import ComingSoonIcon from "../assets/coming_soon.svg";
 import Layout from "../components";
 

@@ -33,5 +33,8 @@ const mapStateToProps = (state: any, ownProps: RouteProps): RequireLoginProps =>
   ...ownProps,
   accounts: getMyAccounts(state),
 });
- 
-export default connect(mapStateToProps, undefined)(RequireLogin);
+
+export default connect(
+  mapStateToProps,
+  undefined,
+)(RequireLogin);
