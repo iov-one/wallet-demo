@@ -30,7 +30,8 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 // TODO for using openHoc
-class BaseDialog extends PureComponent<Props, {}> {
+class BaseDialog extends PureComponent<Props> {
+
   public render(): JSX.Element {
     const { classes, showDialog, submitButton, onClose, onSubmit, children } = this.props;
 
@@ -47,7 +48,7 @@ class BaseDialog extends PureComponent<Props, {}> {
         >
           {submitButton}
         </Button>
-      </Dialog>
+      </Dialog >
     );
   }
 }
