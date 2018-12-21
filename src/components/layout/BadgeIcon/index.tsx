@@ -2,7 +2,6 @@ import { Badge, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React, { PureComponent } from "react";
 import Img from "~/components/layout/Image";
 
-
 const styles = createStyles({
   badgeIcon: {
     maxWidth: 62,
@@ -16,8 +15,8 @@ const styles = createStyles({
     marginLeft: 0,
     display: "flex",
     alignContent: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -52,10 +51,7 @@ class BadgeIcon extends PureComponent<Props> {
     "height" and "background".
     */
     return (
-      <Badge
-        badgeContent={<Img src={badgeIcon} alt="Badge Icon" />}
-        color="primary"
-      >
+      <Badge badgeContent={<Img src={badgeIcon} alt="Badge Icon" />} color="primary">
         <div className={classes.badgeImage} style={style}>
           <Img src={icon} alt="Icon" />
         </div>

@@ -57,7 +57,7 @@ class BaseDialog extends PureComponent<Props, State> {
         aria-labelledby="customized-dialog-title"
         open={showDialog}
       >
-        <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton}/>
+        <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>
         <Button onClick={onSubmit} variant="contained" color="primary" className={classes.button}>
           {submitButton}

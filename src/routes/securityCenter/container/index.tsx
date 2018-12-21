@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Alert } from "~/components/layout/dialogs";
 import { PageStructure } from "~/components/templates/page";
 import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
@@ -58,4 +58,4 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
   }
 }
 
-export default withRouter(SecurityCenter);
+export default SecurityCenter;
