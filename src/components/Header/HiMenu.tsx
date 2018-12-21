@@ -12,6 +12,9 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import * as React from "react";
 import invite from "~/components/Header/assets/invite.svg";
 import logout from "~/components/Header/assets/logout.svg";
+import privacy from "~/components/Header/assets/privacyPolicy.svg";
+import securityCentre from "~/components/Header/assets/securityCentre.svg";
+import terms from "~/components/Header/assets/terms.svg";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
@@ -56,7 +59,7 @@ class HiMenu extends React.Component<Props> {
                 <List component="nav">
                   <ListItem button>
                     <ListItemIcon>
-                      <Img src={invite} alt="Security Center" />
+                      <Img src={securityCentre} alt="Security Center" />
                     </ListItemIcon>
                     <ListItemText primary="Security Center" />
                   </ListItem>
@@ -70,14 +73,14 @@ class HiMenu extends React.Component<Props> {
                   <Hairline color={border} />
                   <ListItem button>
                     <ListItemIcon>
-                      <Img src={invite} alt="Terms & Conditions" />
+                      <Img src={terms} alt="Terms & Conditions" />
                     </ListItemIcon>
                     <ListItemText primary="Terms & Conditions" />
                   </ListItem>
                   <Hairline color={border} />
                   <ListItem button>
                     <ListItemIcon>
-                      <Img src={invite} alt="Privacy Policy" />
+                      <Img src={privacy} alt="Privacy Policy" />
                     </ListItemIcon>
                     <ListItemText primary="Privacy Policy" />
                   </ListItem>

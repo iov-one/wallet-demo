@@ -113,8 +113,8 @@ export const themeObject: ThemeOptions = {
         border: `1px solid ${border}`,
       },
       padding: {
-        paddingTop: 0,
-        paddingBottom: 0,
+        paddingTop: sm,
+        paddingBottom: sm,
         paddingLeft: sm,
         paddingRight: sm,
       },
