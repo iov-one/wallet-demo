@@ -1,12 +1,8 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
 import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Popper from "@material-ui/core/Popper";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import * as React from "react";
@@ -15,90 +11,63 @@ import logout from "~/components/Header/assets/logout.svg";
 import privacy from "~/components/Header/assets/privacyPolicy.svg";
 import securityCentre from "~/components/Header/assets/securityCentre.svg";
 import terms from "~/components/Header/assets/terms.svg";
-import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
+import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
+import ListMenu from "~/components/templates/menu/ListMenu";
 import { border, xs } from "~/theme/variables";
 
-interface Outer extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {}
 
-type Props = OpenType & OpenHandler & Outer;
+interface HiElementProps {
+  readonly src: string;
+  readonly alt: string;
+  readonly msg: string;
+}
+
+const HiElement = ({ src, alt, msg }: HiElementProps) => (
+  <ListItem button>
+    <ListItemIcon>
+      <Img src={src} alt={alt} />
+    </ListItemIcon>
+    <ListItemText primary={msg} />
+  </ListItem>
+);
 
 const styles = createStyles({
   root: {
     display: "flex",
     alignItems: "center",
-    "&:hover": {
-      cursor: "pointer",
-    },
   },
   chevron: {
     padding: xs,
   },
 });
 
-class HiMenu extends React.Component<Props> {
-  private readonly menuRef = React.createRef<HTMLDivElement>();
+const HiMenu = ({ classes }: Props) => {
+  const starter = (open: boolean) => (
+    <Block className={classes.root}>
+      <Typography variant="h6">Hi!</Typography>
+      <IconButton className={classes.chevron} disableRipple>
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </IconButton>
+    </Block>
+  );
 
-  public render(): JSX.Element {
-    const { classes, open, clickAway, toggle } = this.props;
+  return (
+    <ListMenu starter={starter} listWidth={278}>
+      <HiElement src={securityCentre} msg="Security Center" alt="Security Center" />
+      <Hairline color={border} />
+      <HiElement src={invite} msg="Invite friends" alt="Invite friends" />
+      <Hairline color={border} />
+      <HiElement src={terms} msg="Terms & Conditions" alt="Terms & Conditions" />
+      <Hairline color={border} />
+      <HiElement src={privacy} msg="Privacy Policy" alt="Privacy Policy" />
+      <Hairline color={border} />
+      <HiElement src={logout} msg="Log out" alt="Log out" />
+    </ListMenu>
+  );
+};
 
-    return (
-      <React.Fragment>
-        <div ref={this.menuRef} className={classes.root} onClick={toggle}>
-          <Typography variant="h6">Hi!</Typography>
-          <IconButton className={classes.chevron} disableRipple>
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
-        </div>
-        <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
-          {({ TransitionProps }) => (
-            <Grow {...TransitionProps}>
-              <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent={false}>
-                <List component="nav">
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Img src={securityCentre} alt="Security Center" />
-                    </ListItemIcon>
-                    <ListItemText primary="Security Center" />
-                  </ListItem>
-                  <Hairline color={border} />
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Img src={invite} alt="Invite friends" />
-                    </ListItemIcon>
-                    <ListItemText primary="Invite friends" />
-                  </ListItem>
-                  <Hairline color={border} />
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Img src={terms} alt="Terms & Conditions" />
-                    </ListItemIcon>
-                    <ListItemText primary="Terms & Conditions" />
-                  </ListItem>
-                  <Hairline color={border} />
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Img src={privacy} alt="Privacy Policy" />
-                    </ListItemIcon>
-                    <ListItemText primary="Privacy Policy" />
-                  </ListItem>
-                  <Hairline color={border} />
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Img src={logout} alt="Log out" />
-                    </ListItemIcon>
-                    <ListItemText primary="Log out" />
-                  </ListItem>
-                </List>
-              </ClickAwayListener>
-            </Grow>
-          )}
-        </Popper>
-      </React.Fragment>
-    );
-  }
-}
-
-export default withStyles(styles)(openHoc<Outer>(HiMenu));
+export default withStyles(styles)(HiMenu);
