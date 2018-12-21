@@ -49,7 +49,7 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
             showDialog={this.state.showAdvancedSecModal}
             onClose={this.onAdvancedSecurityClose}
           >
-            Extra security is something we’re working on, stay tooned!
+            Extra security is something we’re working on, stay tuned!
           </Alert>
         </React.Fragment>
       </PageStructure>
