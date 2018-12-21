@@ -1,10 +1,10 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import bell from "~/components/Header/assets/bell.svg";
 import loading from "~/components/Header/assets/loading.svg";
 import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
+import BellMenu from "./BellMenu";
 import HiMenu from "./HiMenu";
 import Links from "./Links";
 
@@ -50,9 +50,7 @@ const Header = ({ classes }: Props) => (
       <Block className={classes.spacer} />
       {/* TODO refactor in #96 to include badge using IconGroup */}
       <Img src={loading} className={classes.spin} alt="Loading Transactions" />
-      <Block padding="xl">
-        <Img src={bell} alt="Notifications" />
-      </Block>
+      <BellMenu items={[]} />
       <HiMenu />
     </Block>
   </React.Fragment>
