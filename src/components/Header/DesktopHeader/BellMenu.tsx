@@ -28,7 +28,7 @@ const styles = createStyles({
 });
 
 const BellMenu = ({ classes }: Props) => {
-  const starter = () => (
+  const starter = (_: boolean) => (
     <Block padding="xl">
       <Img src={bell} alt="Notifications" />
     </Block>

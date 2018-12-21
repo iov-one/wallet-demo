@@ -8,7 +8,8 @@ import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 
 interface Outer extends WithStyles<typeof styles> {
   readonly starter: (open: boolean) => JSX.Element;
-  readonly listWidth?: number;
+  readonly listWidth: number;
+  readonly color?: string;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -21,16 +22,17 @@ const styles = createStyles({
   },
 });
 
-const buildListStyleFrom = (width: number): React.CSSProperties => ({
+const buildListStyleFrom = (width: number, color: string): React.CSSProperties => ({
   width: `${width}px`,
+  backgroundColor: color,
 });
 
 class ListMenu extends React.Component<Props> {
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
   public render(): JSX.Element {
-    const { classes, listWidth, starter, children, open, clickAway, toggle } = this.props;
-    const style = listWidth ? buildListStyleFrom(listWidth) : undefined;
+    const { classes, listWidth, starter, children, color = "white", open, clickAway, toggle } = this.props;
+    const style = buildListStyleFrom(listWidth, color);
 
     return (
       <React.Fragment>
@@ -40,7 +42,7 @@ class ListMenu extends React.Component<Props> {
         <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
           {({ TransitionProps }) => (
             <Grow {...TransitionProps}>
-              <ClickAwayListener onClickAway={clickAway} mouseEvent={false} touchEvent="onTouchStart">
+              <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
                 <List style={style} component="nav">
                   {children}
                 </List>

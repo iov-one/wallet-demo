@@ -1,6 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import loading from "~/components/Header/assets/loading.svg";
 import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
@@ -8,6 +7,7 @@ import Spacer from "~/components/layout/Spacer";
 import BellMenu from "./BellMenu";
 import HiMenu from "./HiMenu";
 import Links from "./Links";
+import TransactionsMenu from "./TransactionsMenu";
 
 const styles = createStyles({
   root: {
@@ -17,21 +17,6 @@ const styles = createStyles({
     height: "70px",
     backgroundColor: "white",
   },
-  spin: {
-    animation: "spinKeyframe 5s infinite linear",
-  },
-  "@keyframes spinKeyframe": {
-    "0%": {
-      transform: "rotate(0deg)",
-    },
-    "50%": {
-      transform: "rotate(180deg)",
-    },
-    "100%": {
-      transform: "rotate(360deg)",
-    },
-  },
-  bell: {},
 });
 
 interface Props extends WithStyles<typeof styles> {}
@@ -44,7 +29,7 @@ const Header = ({ classes }: Props) => (
       <Links />
       <Spacer order={4} />
       {/* TODO refactor in #96 to include badge using IconGroup */}
-      <Img src={loading} className={classes.spin} alt="Loading Transactions" />
+      <TransactionsMenu items={[]} />
       <BellMenu items={[]} />
       <HiMenu />
     </Block>
