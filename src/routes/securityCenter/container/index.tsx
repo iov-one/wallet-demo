@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Alert } from "~/components/layout/dialogs";
 import { PageStructure } from "~/components/templates/page";
 import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
+import { history } from "~/store";
 import ComingSoonIcon from "../assets/coming_soon.svg";
 import Layout from "../components";
 
@@ -16,10 +17,10 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
   };
 
   public readonly onBackupPhrase = (): void => {
-    this.props.history.push(BACKUP_PHRASE_ROUTE);
+    history.push(BACKUP_PHRASE_ROUTE);
   };
   public readonly onSetPassword = (): void => {
-    this.props.history.push(SET_PASSWORD_ROUTE);
+    history.push(SET_PASSWORD_ROUTE);
   };
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
