@@ -2,6 +2,9 @@ import { createStyles, DialogContent, Theme, withStyles, WithStyles } from "@mat
 import Dialog from "@material-ui/core/Dialog";
 import React, { PureComponent } from "react";
 import Button from "~/components/layout/Button";
+import Img from "~/components/layout/Image";
+
+import CloseIcon from "../../../../resources/close_type3.svg";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -54,21 +57,7 @@ class BaseDialog extends PureComponent<Props, State> {
         aria-labelledby="customized-dialog-title"
         open={showDialog}
       >
-        <svg
-          className={classes.closeButton}
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          fill="none"
-          viewBox="0 0 26 26"
-          onClick={onClose}
-        >
-          <path
-            className={classes.closeIcon}
-            fill="#D5D9DB"
-            d="M1.543 0L0 1.543l.776.767L11.457 13 0 24.457 1.543 26 13 14.543l10.681 10.69.776.767L26 24.457l-.767-.776L14.543 13 26 1.543 24.457 0 13 11.457 2.31.776 1.543 0z"
-          />
-        </svg>
+        <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton}/>
         <DialogContent>{children}</DialogContent>
         <Button onClick={onSubmit} variant="contained" color="primary" className={classes.button}>
           {submitButton}
