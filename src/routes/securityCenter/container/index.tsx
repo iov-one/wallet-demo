@@ -1,19 +1,18 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { Alert } from "~/components/layout/dialogs";
+
 import { PageStructure } from "~/components/templates/page";
 import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
 import { history } from "~/store";
-import ComingSoonIcon from "../assets/coming_soon.svg";
+
 import Layout from "../components";
 
 interface SecurityCenterState {
-  readonly showAdvancedSecModal: boolean;
+  readonly showAdvancedSecurity: boolean;
 }
 
-class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCenterState> {
+class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public readonly state = {
-    showAdvancedSecModal: false,
+    showAdvancedSecurity: false,
   };
 
   public readonly onBackupPhrase = (): void => {
@@ -22,15 +21,16 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
   public readonly onSetPassword = (): void => {
     history.push(SET_PASSWORD_ROUTE);
   };
+
+  
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
-      showAdvancedSecModal: true,
+      showAdvancedSecurity: true,
     });
   };
-
-  public readonly onAdvancedSecurityClose = (): void => {
+  public readonly closeAdvancedSecurity = (): void => {
     this.setState({
-      showAdvancedSecModal: false,
+      showAdvancedSecurity: false,
     });
   };
 
@@ -43,15 +43,9 @@ class SecurityCenter extends React.Component<RouteComponentProps<{}>, SecurityCe
             onBackupPhrase={this.onBackupPhrase}
             onSetPassword={this.onSetPassword}
             onAdvancedSecurity={this.onAdvancedSecurity}
+            showAdvancedSecurity={this.state.showAdvancedSecurity}
+            closeAdvancedSecurity={this.closeAdvancedSecurity}
           />
-          <Alert
-            icon={ComingSoonIcon}
-            title="Coming soon..."
-            showDialog={this.state.showAdvancedSecModal}
-            onClose={this.onAdvancedSecurityClose}
-          >
-            Extra security is something we’re working on, stay tuned!
-          </Alert>
         </React.Fragment>
       </PageStructure>
     );

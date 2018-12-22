@@ -38,15 +38,8 @@ interface Props extends WithStyles<typeof styles> {
   readonly children: React.ReactNode;
 }
 
-interface State {
-  readonly open: boolean;
-}
 // TODO for using openHoc
-class BaseDialog extends PureComponent<Props, State> {
-  public readonly state = {
-    open: false,
-  };
-
+class BaseDialog extends PureComponent<Props, {}> {
   public render(): JSX.Element {
     const { classes, showDialog, submitButton, onClose, onSubmit, children } = this.props;
 

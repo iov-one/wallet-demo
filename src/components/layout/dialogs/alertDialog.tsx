@@ -23,11 +23,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly children: React.ReactNode;
 }
 
-interface State {
-  readonly open: boolean;
-}
-
-class AlertDialog extends PureComponent<Props, State> {
+class AlertDialog extends PureComponent<Props, {}> {
   public render(): JSX.Element {
     const { icon, title, showDialog, onClose, children, classes } = this.props;
 

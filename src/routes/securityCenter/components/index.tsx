@@ -1,5 +1,6 @@
 import React from "react";
 
+import AdvancedSecurity from "./AdvancedSecurity";
 import SecurityCard from "./ItemCard";
 import PageTitle from "./PageTitle";
 
@@ -9,16 +10,23 @@ import BPIcon from "../assets/backupPhrase.svg";
 import PswIcon from "../assets/password.svg";
 
 interface Props {
+  readonly showAdvancedSecurity: boolean;
+
   readonly onSetPassword: () => void;
   readonly onBackupPhrase: () => void;
   readonly onAdvancedSecurity: () => void;
+  readonly closeAdvancedSecurity: () => void;
 }
 
-export default ({ onAdvancedSecurity }: Props): JSX.Element => (
+export default ({ onAdvancedSecurity, showAdvancedSecurity, closeAdvancedSecurity }: Props): JSX.Element => (
   <React.Fragment>
     <PageTitle />
     <SecurityCard title="Set a password" linkText="Change" link="/" icon={PswIcon} />
     <SecurityCard title="Set a backup phrase" linkText="Back up again" link="/" icon={BPIcon} />
+    <AdvancedSecurity
+      showAdvancedSecurity={showAdvancedSecurity}
+      closeAdvancedSecurity={closeAdvancedSecurity}
+    />
     <SuggestionButton
       suggestionText="Extra security?"
       buttonText="See advanced security"
