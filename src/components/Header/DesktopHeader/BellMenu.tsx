@@ -1,6 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import bell from "~/components/Header/assets/bell.svg";
@@ -8,6 +7,7 @@ import upToDate from "~/components/Header/assets/uptodate.svg";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
+import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu from "~/components/templates/menu/ListMenu";
 import { TransNotificationInfo } from "~/logic";
 import { border } from "~/theme/variables";
@@ -17,17 +17,10 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const styles = createStyles({
-  empty: {
-    height: "120px",
-  },
-  center: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
+  
 });
 
-const BellMenu = ({ classes }: Props) => {
+const BellMenu = ({ }: Props) => {
   const starter = (_: boolean) => (
     <Block padding="xl">
       <Img src={bell} alt="Notifications" />
@@ -40,12 +33,7 @@ const BellMenu = ({ classes }: Props) => {
         <ListItemText primary="Notifications" />
       </ListItem>
       <Hairline color={border} />
-      <ListItem className={classes.center}>
-        <ListItemIcon className={classes.empty}>
-          <Img src={upToDate} alt="Up to date Invite friends" />
-        </ListItemIcon>
-        <ListItemText primary="You are up to date!" />
-      </ListItem>
+      <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
     </ListMenu>
   );
 };
