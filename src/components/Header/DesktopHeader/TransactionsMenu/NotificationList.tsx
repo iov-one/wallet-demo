@@ -22,18 +22,24 @@ const Notifications = ({ items }: Props) => {
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: PendingNotificationItemProps) => (
-          <React.Fragment>
-            <ListItem>
-              <CircularProgress />
-              <ListItemText
-                primary={`${item.amount.whole}.${item.amount.fractional} to ${item.receiver}`}
-                secondary="... Sending"
-              />
-            </ListItem>
-            <Hairline />
-          </React.Fragment>
-        ))
+        items.map((item: PendingNotificationItemProps, index: number) => {
+          const lastOne = index + 1 === items.length;
+
+          return (
+            <React.Fragment>
+              <ListItem>
+                <CircularProgress size={30} />
+                <ListItemText
+                  primary={`${item.amount.whole}.${item.amount.fractional} ${item.amount.tokenTicker} to ${
+                    item.receiver
+                  }`}
+                  secondary="... Sending"
+                />
+              </ListItem>
+              {!lastOne && <Hairline />}
+            </React.Fragment>
+          );
+        })
       ) : (
         <EmptyListIcon src={noPendingTxs} alt="No Pending Transactions" text="You are up to date!" />
       )}

@@ -4,6 +4,7 @@ import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
+import { PendingNotificationItemProps } from "~/reducers/notification";
 import BellMenu from "./BellMenu";
 import HiMenu from "./HiMenu";
 import Links from "./Links";
@@ -19,9 +20,11 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  readonly pendingTxs: ReadonlyArray<PendingNotificationItemProps>;
+}
 
-const Header = ({ classes }: Props) => (
+const Header = ({ classes, pendingTxs }: Props) => (
   <React.Fragment>
     <Block className={classes.root} padding="xxl">
       <Img src={logoBlack} alt="Logo" />
@@ -29,7 +32,7 @@ const Header = ({ classes }: Props) => (
       <Links />
       <Spacer order={4} />
       {/* TODO refactor in #96 to include badge using IconGroup */}
-      <TransactionsMenu items={[]} />
+      <TransactionsMenu items={pendingTxs} />
       <BellMenu items={[]} />
       <HiMenu />
     </Block>

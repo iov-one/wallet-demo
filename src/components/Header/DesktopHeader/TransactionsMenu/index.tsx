@@ -1,4 +1,3 @@
-
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import loading from "~/components/Header/assets/loading.svg";
@@ -51,8 +50,10 @@ class TransactionsMenu extends React.Component<Props, State> {
     const { classes, items } = this.props;
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
+    // TODO update once I have the green icon
+    const logo = hasPendingTxs ? loading : loading;
     const starter = (_: boolean) => (
-      <Img src={loading} className={starterClasses} alt="Loading Transactions" />
+      <Img src={logo} className={starterClasses} alt="Loading Transactions" />
     );
 
     return (

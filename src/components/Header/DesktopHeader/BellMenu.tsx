@@ -16,11 +16,9 @@ interface Props extends WithStyles<typeof styles> {
   readonly items: ReadonlyArray<TransNotificationInfo>;
 }
 
-const styles = createStyles({
-  
-});
+const styles = createStyles({});
 
-const BellMenu = ({ }: Props) => {
+const BellMenu = ({  }: Props) => {
   const starter = (_: boolean) => (
     <Block padding="xl">
       <Img src={bell} alt="Notifications" />
