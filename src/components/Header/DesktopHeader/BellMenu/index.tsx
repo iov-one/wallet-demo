@@ -9,21 +9,23 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu from "~/components/templates/menu/ListMenu";
-import { TransNotificationInfo } from "~/logic";
 import { border } from "~/theme/variables";
+import TxItem, { TxNotificationProps } from "./TxItem";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<TransNotificationInfo>;
+  readonly items: ReadonlyArray<TxNotificationProps>;
 }
 
 const styles = createStyles({});
 
-const BellMenu = ({  }: Props) => {
+const BellMenu = ({ items }: Props) => {
   const starter = (_: boolean) => (
     <Block padding="xl">
       <Img src={bell} alt="Notifications" />
     </Block>
   );
+
+  const hasItems = items.length > 0;
 
   return (
     <ListMenu starter={starter} listWidth={324}>
@@ -31,7 +33,19 @@ const BellMenu = ({  }: Props) => {
         <ListItemText primary="Notifications" />
       </ListItem>
       <Hairline color={border} />
-      <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+      {hasItems ? (
+        items.map((item: TxNotificationProps, index: number) => {
+          const lastOne = index + 1 === items.length;
+          return (
+            <React.Fragment>
+              <TxItem item={item} />
+              {!lastOne && <Hairline />}
+            </React.Fragment>
+          );
+        })
+      ) : (
+        <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+      )}
     </ListMenu>
   );
 };
