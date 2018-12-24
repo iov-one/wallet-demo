@@ -35,11 +35,12 @@ interface Props extends WithStyles<typeof styles> {
   readonly title: string;
   readonly action: string;
   readonly icon: string;
+  readonly onClick: () => void;
 }
 
 const Badge = <Img src={CheckIcon} alt="Badge Icon" />
 
-const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
+const SecurityCard = ({ title, icon, action, classes, onClick }: Props): JSX.Element => (
   <Block className={classes.container} margin="md">
     <Spacer order={1} />
     <Block maxWidth={506} className={classes.card}>
@@ -51,7 +52,14 @@ const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
           </Typography>
         </Block>
         <Block>
-          <Typography underlined variant="body1" color="primary" align="right">
+          <Typography 
+            underlined 
+            variant="body1" 
+            color="primary" 
+            align="right" 
+            onClick={onClick}
+          >
+            
             {action}
           </Typography>
         </Block>
