@@ -52,11 +52,12 @@ const SecurityCard = ({ title, icon, action, classes, onClick }: Props): JSX.Ele
           </Typography>
         </Block>
         <Block>
-          <Typography 
-            underlined 
-            variant="body1" 
-            color="primary" 
-            align="right" 
+          <Typography
+            underlined
+            pointer
+            variant="body1"
+            color="primary"
+            align="right"
             onClick={onClick}
           >
             
