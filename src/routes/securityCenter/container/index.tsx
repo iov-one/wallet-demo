@@ -29,6 +29,10 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
       showSetPassword: false,
     });
   };
+  public readonly onSetPasswordSubmit = (values): void => {
+    console.log(values);
+    this.closeSetPassword();
+  }
 
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
@@ -41,6 +45,8 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
     });
   };
 
+  
+
   // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
     return (
@@ -49,6 +55,7 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
           onBackupPhrase={this.onBackupPhrase}
           onSetPassword={this.onSetPassword}
           showSetPassword={this.state.showSetPassword}
+          onSetPasswordSubmit={this.onSetPasswordSubmit}
           closeSetPassword={this.closeSetPassword}
           onAdvancedSecurity={this.onAdvancedSecurity}
           showAdvancedSecurity={this.state.showAdvancedSecurity}
