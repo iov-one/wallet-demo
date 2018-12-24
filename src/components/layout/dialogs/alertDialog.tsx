@@ -1,7 +1,7 @@
-import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
+import Typography from "~/components/layout/Typography";
 import Dialog from "./dialog";
 
 interface Props {
