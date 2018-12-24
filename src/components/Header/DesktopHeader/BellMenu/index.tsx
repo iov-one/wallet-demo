@@ -9,11 +9,12 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu from "~/components/templates/menu/ListMenu";
+import { TransNotificationInfo } from "~/logic";
 import { border } from "~/theme/variables";
-import TxItem, { TxNotificationProps } from "./TxItem";
+import TxItem from "./TxItem";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<TxNotificationProps>;
+  readonly items: ReadonlyArray<TransNotificationInfo>;
 }
 
 const styles = createStyles({});
@@ -34,7 +35,7 @@ const BellMenu = ({ items }: Props) => {
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: TxNotificationProps, index: number) => {
+        items.map((item: TransNotificationInfo, index: number) => {
           const lastOne = index + 1 === items.length;
           return (
             <React.Fragment>

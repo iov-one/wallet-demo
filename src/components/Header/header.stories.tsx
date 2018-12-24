@@ -5,11 +5,10 @@ import { ReadonlyDate } from "readonly-date";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
+import { TransNotificationInfo } from "~/logic";
 import { PendingNotificationItemProps } from "~/reducers/notification";
 import { RootMatchMedia } from "~/utils/storybook";
 import Header from "./index";
-
-import { TxNotificationProps } from "./DesktopHeader/BellMenu/TxItem";
 
 const Separator = () => (
   <Block margin="xl">
@@ -30,7 +29,7 @@ const pendingTxs: ReadonlyArray<PendingNotificationItemProps> = [
   },
 ];
 
-const txs: ReadonlyArray<TxNotificationProps> = [
+const txs: ReadonlyArray<TransNotificationInfo> = [
   {
     received: true,
     sender: "george*iov",

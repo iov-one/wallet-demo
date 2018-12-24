@@ -1,13 +1,13 @@
 import * as React from "react";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
+import { TransNotificationInfo } from "~/logic";
 import { PendingNotificationItemProps } from "~/reducers/notification";
 import DesktopHeader from "./DesktopHeader";
-import { TxNotificationProps } from "./DesktopHeader/BellMenu/TxItem";
 import PhoneHeader from "./PhoneHeader";
 
 interface Props {
   readonly pendingTxs: ReadonlyArray<PendingNotificationItemProps>;
-  readonly txs: ReadonlyArray<TxNotificationProps>;
+  readonly txs: ReadonlyArray<TransNotificationInfo>;
 }
 
 class Header extends React.Component<Props> {
