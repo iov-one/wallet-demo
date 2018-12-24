@@ -10,7 +10,6 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu from "~/components/templates/menu/ListMenu";
-import { TransNotificationInfo } from "~/logic";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 

@@ -1,13 +1,11 @@
-import { TokenTicker } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { ReadonlyDate } from "readonly-date";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
-import { TransNotificationInfo } from "~/logic";
-import { PendingNotificationItemProps } from "~/reducers/notification";
 import { RootMatchMedia } from "~/utils/storybook";
+import { HeaderPendingTxProps, HeaderTxProps } from "../selector";
 import Header from "./index";
 
 const Separator = () => (
@@ -16,40 +14,30 @@ const Separator = () => (
   </Block>
 );
 
-const pendingTxs: ReadonlyArray<PendingNotificationItemProps> = [
+const pendingTxs: ReadonlyArray<HeaderPendingTxProps> = [
   {
-    id: "foo",
     receiver: "alex*iov",
-    amount: { whole: 12, fractional: 5, tokenTicker: "IOV" as TokenTicker },
+    amount: "12.5 IOV",
   },
   {
-    id: "bar",
     receiver: "moe*iov",
-    amount: { whole: 0, fractional: 14, tokenTicker: "IOV" as TokenTicker },
+    amount: "0.14 IOV",
   },
 ];
 
-const txs: ReadonlyArray<TransNotificationInfo> = [
+const txs: ReadonlyArray<HeaderTxProps> = [
   {
     received: true,
-    sender: "george*iov",
-    receiver: "me",
-    amount: {
-      whole: 100,
-      fractional: 5,
-      tokenTicker: "LSK" as TokenTicker,
-    },
+    signer: "george*iov",
+    recipient: "me",
+    amount: "100.5 LSK",
     time: new ReadonlyDate("1h"),
   },
   {
     received: false,
-    sender: "me",
-    receiver: "alex*iov",
-    amount: {
-      whole: 100,
-      fractional: 5,
-      tokenTicker: "IOV" as TokenTicker,
-    },
+    signer: "me",
+    recipient: "alex*iov",
+    amount: "100.5 IOV",
     time: new ReadonlyDate("3d"),
   },
 ];

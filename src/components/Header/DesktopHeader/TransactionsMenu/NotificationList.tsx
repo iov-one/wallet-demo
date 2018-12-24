@@ -23,17 +23,14 @@ const Notifications = ({ items }: Props) => {
       <Hairline color={border} />
       {hasItems ? (
         items.map((item: HeaderPendingTxProps, index: number) => {
-          const { amount, receiver } = item
+          const { amount, receiver } = item;
           const lastOne = index + 1 === items.length;
 
           return (
             <React.Fragment>
               <ListItem>
                 <CircularProgress size={30} />
-                <ListItemText
-                  primary={`${amount} to ${receiver}`}
-                  secondary="... Sending"
-                />
+                <ListItemText primary={`${amount} to ${receiver}`} secondary="... Sending" />
               </ListItem>
               {!lastOne && <Hairline />}
             </React.Fragment>

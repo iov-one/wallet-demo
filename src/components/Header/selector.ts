@@ -11,18 +11,17 @@ export interface SelectorProps {
 }
 
 export interface HeaderTxProps {
-  readonly time: ReadonlyDate,
-  readonly received: boolean,
-  readonly amount: string,
-  readonly signer: string,
-  readonly recipient: string,
+  readonly time: ReadonlyDate;
+  readonly received: boolean;
+  readonly amount: string;
+  readonly signer: string;
+  readonly recipient: string;
 }
 
 export interface HeaderPendingTxProps {
-  readonly receiver: string,
-  readonly amount: string,
+  readonly receiver: string;
+  readonly amount: string;
 }
-
 
 const elipsify = (full: string, maxLength: number): string =>
   full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
@@ -31,7 +30,7 @@ const txsSelector = createSelector(
   getTransactions,
   (txs: ReadonlyArray<TransNotificationInfo>) => {
     if (!txs || txs.length === 0) {
-      return []
+      return [];
     }
     // tslint:disable-next-line:readonly-array
     const firstTxs = (txs as TransNotificationInfo[]).reverse().slice(0, 3);
@@ -52,9 +51,9 @@ const txsSelector = createSelector(
         received,
         amount,
         signer,
-        recipient, 
-      }
-    })
+        recipient,
+      };
+    });
 
     return headerTxs;
   },
@@ -64,11 +63,11 @@ const pendingTxsSelector = createSelector(
   getPendingTransactions,
   (pendingTxs: ReadonlyArray<PendingNotificationItemProps>) => {
     if (!pendingTxs || pendingTxs.length === 0) {
-      return []
+      return [];
     }
 
     const headerPendingTxs = pendingTxs.map((tx: PendingNotificationItemProps) => {
-      const { amount, receiver } = tx
+      const { amount, receiver } = tx;
       const { fractional, whole, tokenTicker } = amount;
 
       // TODO review sigFigs based on iov-core 0.10
@@ -78,11 +77,10 @@ const pendingTxsSelector = createSelector(
       return {
         receiver,
         amount: amountCoin,
-      }
-    })
+      };
+    });
 
     return headerPendingTxs;
-
   },
 );
 

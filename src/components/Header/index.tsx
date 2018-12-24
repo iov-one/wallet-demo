@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import DesktopHeader from "./DesktopHeader";
 import PhoneHeader from "./PhoneHeader";
-import selector, { SelectorProps } from "./selector"
+import selector, { SelectorProps } from "./selector";
 
 class Header extends React.Component<SelectorProps> {
   public render(): JSX.Element {
