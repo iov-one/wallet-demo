@@ -1,6 +1,7 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import loading from "~/components/Header/assets/loading.svg";
+import loadingSpin from "~/components/Header/assets/loadingSpin.svg";
 import { HeaderPendingTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
 import ListMenu from "~/components/templates/menu/ListMenu";
@@ -48,10 +49,10 @@ class TransactionsMenu extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { showGotIt } = this.state;
     const { classes, items } = this.props;
+
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
-    // TODO update once I have the green icon
-    const logo = hasPendingTxs ? loading : loading;
+    const logo = hasPendingTxs ? loadingSpin : loading;
     const starter = (_: boolean) => <Img src={logo} className={starterClasses} alt="Loading Transactions" />;
 
     return (
