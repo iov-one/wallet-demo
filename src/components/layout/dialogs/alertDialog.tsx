@@ -1,10 +1,18 @@
+import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React from "react";
 import Block from "~/components/layout/Block";
+import Button from "~/components/layout/Button";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import Dialog from "./dialog";
 
-interface Props {
+const styles = createStyles({
+  button: {
+    width: "100%",
+  },
+});
+
+interface Props extends WithStyles<typeof styles> {
   readonly icon: string;
   readonly title: string;
   readonly showDialog: boolean;
@@ -12,11 +20,17 @@ interface Props {
   readonly children: React.ReactNode;
 }
 
-export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JSX.Element => {
+const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Props): JSX.Element => {
+  const submitButtons = (
+    <React.Fragment>
+      <Button onClick={onClose} variant="contained" color="primary" className={classes.button}>
+        Got it
+      </Button>
+    </React.Fragment>
+  );
   return (
-    <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
-      <Block margin="xxl" />
-      <Block align="center" margin="md">
+    <Dialog showDialog={showDialog} onClose={onClose} dialogButtons={submitButtons}>
+      <Block align="center">
         <Img src={icon} alt="Alert icon" />
       </Block>
       <Block margin="md">
@@ -30,3 +44,5 @@ export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JS
     </Dialog>
   );
 };
+
+export const Alert = withStyles(styles)(AlertDialog);
