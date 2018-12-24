@@ -31,12 +31,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 // TODO for using openHoc
-<<<<<<< HEAD
 class BaseDialog extends PureComponent<Props> {
-=======
-class BaseDialog extends PureComponent<Props, {}> {
-  private readonly paperClass = { paper: this.props.classes.paper };
->>>>>>> form implementation
 
   public render(): JSX.Element {
     const { classes, showDialog, submitButton, onClose, onSubmit, children } = this.props;
