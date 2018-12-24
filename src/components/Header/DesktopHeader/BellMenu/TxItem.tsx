@@ -32,7 +32,7 @@ const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
       </Typography>
       <Typography inline>{" sent "}</Typography>
       <Typography weight={recipientWeight} inline>
-        {recipientMsg}
+        {`${recipientMsg} `}
       </Typography>
       <Typography weight="semibold" inline>
         {amount}

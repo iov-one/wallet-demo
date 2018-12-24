@@ -7,7 +7,7 @@ import Spacer from "~/components/layout/Spacer";
 import { HeaderPendingTxProps, HeaderTxProps } from "../selector";
 import BellMenu from "./BellMenu";
 import HiMenu from "./HiMenu";
-import Links from "./Links";
+import Links from "./LinksMenu";
 import TransactionsMenu from "./TransactionsMenu";
 
 const styles = createStyles({
