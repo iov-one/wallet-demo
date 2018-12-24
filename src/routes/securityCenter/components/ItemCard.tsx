@@ -25,11 +25,11 @@ const styles = createStyles({
 interface Props extends WithStyles<typeof styles> {
   readonly title: string;
   readonly linkText: string;
-  readonly link: string;
+  readonly onClick: () => void;
   readonly icon: string;
 }
 
-const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Element => (
+const SecurityCard = ({ title, icon, linkText, onClick, classes }: Props): JSX.Element => (
   <Block margin="md" maxWidth={506} className={classes.card}>
     <Card>
       <Block margin="xl" />
@@ -43,11 +43,16 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
           </Typography>
         </Block>
         <Block>
-          <Link to={link}>
-            <Typography noWrap underlined variant="body1" color="primary" align="right">
-              {linkText}
-            </Typography>
-          </Link>
+          <Typography
+            noWrap
+            underlined
+            variant="body1"
+            color="primary"
+            align="right"
+            onClick={onClick}
+          >
+            {linkText}
+          </Typography>
         </Block>
       </Block>
       <Block margin="xl" />
