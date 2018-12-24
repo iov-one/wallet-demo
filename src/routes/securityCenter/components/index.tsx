@@ -14,25 +14,24 @@ interface Props {
   readonly onSetPassword: () => void;
   readonly closeSetPassword: () => void;
 
-
   readonly onBackupPhrase: () => void;
   readonly onAdvancedSecurity: () => void;
   readonly closeAdvancedSecurity: () => void;
 }
 
-export default ({ 
-  onAdvancedSecurity, 
-  showAdvancedSecurity, 
+export default ({
+  onAdvancedSecurity,
+  showAdvancedSecurity,
   closeAdvancedSecurity,
 
-  onSetPassword, 
-  showSetPassword, 
-  closeSetPassword }: Props
-  ): JSX.Element => (
+  onSetPassword,
+  showSetPassword,
+  closeSetPassword,
+}: Props): JSX.Element => (
   <React.Fragment>
     <PageTitle />
     <SecurityCard title="Set a password" linkText="Change" onClick={onSetPassword} icon={PswIcon} />
-    <SecurityCard title="Set a backup phrase" linkText="Back up again" onClick={()=>(true)} icon={BPIcon} />
+    <SecurityCard title="Set a backup phrase" linkText="Back up again" onClick={() => true} icon={BPIcon} />
     <AdvancedSecurity
       showAdvancedSecurity={showAdvancedSecurity}
       closeAdvancedSecurity={closeAdvancedSecurity}
@@ -41,6 +40,7 @@ export default ({
     <SetPassword
       showSetPassword={showSetPassword}
       closeSetPassword={closeSetPassword}
+      onSubmit={() => true}
     />
   </React.Fragment>
 );

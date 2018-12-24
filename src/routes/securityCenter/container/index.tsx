@@ -1,6 +1,6 @@
 import React from "react";
 import { PageStructure } from "~/components/templates/page";
-import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
+import { BACKUP_PHRASE_ROUTE } from "~/routes";
 import { history } from "~/store";
 import Layout from "../components";
 
@@ -41,22 +41,19 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
     });
   };
 
-  
-
   // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
     return (
       <PageStructure>
-          <Layout
-            onBackupPhrase={this.onBackupPhrase}
-            onSetPassword={this.onSetPassword}
-            showSetPassword={this.state.showSetPassword}
-            closeSetPassword={this.closeSetPassword}
-
-            onAdvancedSecurity={this.onAdvancedSecurity}
-            showAdvancedSecurity={this.state.showAdvancedSecurity}
-            closeAdvancedSecurity={this.closeAdvancedSecurity}
-          />
+        <Layout
+          onBackupPhrase={this.onBackupPhrase}
+          onSetPassword={this.onSetPassword}
+          showSetPassword={this.state.showSetPassword}
+          closeSetPassword={this.closeSetPassword}
+          onAdvancedSecurity={this.onAdvancedSecurity}
+          showAdvancedSecurity={this.state.showAdvancedSecurity}
+          closeAdvancedSecurity={this.closeAdvancedSecurity}
+        />
       </PageStructure>
     );
   }
