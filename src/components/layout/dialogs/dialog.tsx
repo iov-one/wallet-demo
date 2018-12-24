@@ -9,6 +9,8 @@ import CloseIcon from "../../../../resources/close_type2.svg";
 const styles = createStyles({
   paper: {
     overflow: "visible",
+    boxShadow: "0 0 14px 0 #edeff4",
+    border: "1px solid #f3f3f3",
   },
 
   closeButton: {
