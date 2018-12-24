@@ -37,16 +37,8 @@ class BaseDialog extends PureComponent<Props> {
       <Dialog onClose={onClose} aria-labelledby="customized-dialog-title" open={showDialog}>
         <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>
-        <Button
-          onClick={onSubmit}
-          variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-        >
-          {submitButton}
-        </Button>
-      </Dialog >
+        <Block className={classes.button}>{dialogButtons}</Block>
+      </Dialog>
     );
   }
 }
