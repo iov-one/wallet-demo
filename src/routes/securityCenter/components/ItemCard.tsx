@@ -2,7 +2,6 @@ import { Card, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React from "react";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
-import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import CheckIcon from "../assets/check.svg";
 import ImgBg from "../assets/icon_bg.svg";
@@ -46,6 +45,7 @@ const SecurityCard = ({ title, icon, linkText, onClick, classes }: Props): JSX.E
           <Typography
             noWrap
             underlined
+            pointer
             variant="body1"
             color="primary"
             align="right"
