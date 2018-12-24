@@ -1,8 +1,9 @@
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
-import receiveTx from "~/components/Header/assets/receive_transaction.svg";
-import sendTx from "~/components/Header/assets/send_transaction.svg";
+import errorTx from "~/components/Header/assets/transactionError.svg";
+import receiveTx from "~/components/Header/assets/transactionReceive.svg";
+import sendTx from "~/components/Header/assets/transactionSend.svg";
 import { HeaderTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
@@ -16,6 +17,11 @@ interface MsgProps {
   readonly signer: string;
   readonly recipient: string;
   readonly amount: string;
+}
+
+interface MsgErrorProps {
+  readonly amount: string;
+  readonly recipient: string;
 }
 
 const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
@@ -41,18 +47,38 @@ const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
   );
 };
 
-const TxItem = ({ item }: ItemProps) => {
-  const { time, amount, received, signer, recipient } = item;
+const MsgError = ({ amount, recipient }: MsgErrorProps) => (
+  <React.Fragment>
+    <Typography inline>{"Your "}</Typography>
+    <Typography weight="semibold" inline>
+      {amount}
+    </Typography>
+    <Typography inline>{" payment to "}</Typography>
+    <Typography weight="semibold" inline>
+      {recipient}
+    </Typography>
+    <Typography inline>{" was "}</Typography>
+    <Typography weight="semibold" inline>
+      {"unsuccessful"}
+    </Typography>
+    <Typography inline>{", please try again later"}</Typography>
+  </React.Fragment>
+);
 
-  const icon = received ? receiveTx : sendTx;
+const TxItem = ({ item }: ItemProps) => {
+  const { time, amount, received, signer, recipient, success } = item;
+
+  const icon = success ? (received ? receiveTx : sendTx) : errorTx;
+  const msg = success ? (
+    <Msg received={received} amount={amount} signer={signer} recipient={recipient} />
+  ) : (
+    <MsgError amount={amount} recipient={recipient} />
+  );
 
   return (
     <ListItem>
       <Img src={icon} height={30} alt="Tx operation" />
-      <ListItemText
-        primary={<Msg received={received} amount={amount} signer={signer} recipient={recipient} />}
-        secondary={time.toLocaleString()}
-      />
+      <ListItemText primary={msg} secondary={time.toLocaleString()} />
     </ListItem>
   );
 };

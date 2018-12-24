@@ -31,14 +31,24 @@ const txs: ReadonlyArray<HeaderTxProps> = [
     signer: "george*iov",
     recipient: "me",
     amount: "100.5 LSK",
-    time: new ReadonlyDate("1h"),
+    time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
+    success: true,
   },
   {
     received: false,
     signer: "me",
     recipient: "alex*iov",
     amount: "100.5 IOV",
-    time: new ReadonlyDate("3d"),
+    time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
+    success: true,
+  },
+  {
+    received: false,
+    signer: "me",
+    recipient: "alex*iov",
+    amount: "100.5 IOV",
+    time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
+    success: false,
   },
 ];
 

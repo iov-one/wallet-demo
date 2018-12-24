@@ -16,6 +16,7 @@ export interface HeaderTxProps {
   readonly amount: string;
   readonly signer: string;
   readonly recipient: string;
+  readonly success: boolean;
 }
 
 export interface HeaderPendingTxProps {
@@ -36,7 +37,7 @@ const txsSelector = createSelector(
     const firstTxs = (txs as TransNotificationInfo[]).reverse().slice(0, 3);
 
     const headerTxs = firstTxs.map((tx: TransNotificationInfo) => {
-      const { time, transaction, received, signerAddr, signerName, recipientAddr, recipientName } = tx;
+      const { time, transaction, received, signerAddr, signerName, recipientAddr, recipientName, success } = tx;
       const { fractional, whole, tokenTicker } = transaction.amount;
 
       // TODO review sigFigs based on iov-core 0.10
@@ -52,6 +53,7 @@ const txsSelector = createSelector(
         amount,
         signer,
         recipient,
+        success,
       };
     });
 
