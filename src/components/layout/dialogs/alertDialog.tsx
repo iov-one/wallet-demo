@@ -29,9 +29,14 @@ const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Pr
     </React.Fragment>
   );
   return (
+<<<<<<< HEAD
     <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
       <Block margin="xxl" />
       <Block align="center" margin="md">
+=======
+    <Dialog showDialog={showDialog} onClose={onClose} dialogButtons={submitButtons}>
+      <Block align="center">
+>>>>>>> dialogs refactoring
         <Img src={icon} alt="Alert icon" />
       </Block>
       <Block margin="md">
