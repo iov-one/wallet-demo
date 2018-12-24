@@ -8,7 +8,7 @@ interface Props {
   readonly title: string;
   readonly showDialog: boolean;
   readonly onClose: () => void;
-  readonly children: React.ReactNode;
+  readonly children: JSX.Element;
 }
 
 interface State {

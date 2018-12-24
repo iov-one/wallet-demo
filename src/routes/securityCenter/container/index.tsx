@@ -22,7 +22,6 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
     history.push(SET_PASSWORD_ROUTE);
   };
 
-  
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
       showAdvancedSecurity: true,
