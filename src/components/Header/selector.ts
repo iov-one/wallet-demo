@@ -1,4 +1,3 @@
-import { ChainId } from "@iov/core";
 import { ReadonlyDate } from "readonly-date";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { coinToString, TransNotificationInfo } from "~/logic";
@@ -7,9 +6,8 @@ import { PendingNotificationItemProps } from "~/reducers/notification";
 import { getPendingTransactions, getTransactions } from "~/selectors";
 
 export interface SelectorProps {
-  readonly pendingTxs: ChainId;
+  readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
   readonly txs: ReadonlyArray<HeaderTxProps>;
-
 }
 
 export interface HeaderTxProps {
@@ -18,6 +16,11 @@ export interface HeaderTxProps {
   readonly amount: string,
   readonly signer: string,
   readonly recipient: string,
+}
+
+export interface HeaderPendingTxProps {
+  readonly receiver: string,
+  readonly amount: string,
 }
 
 
@@ -64,6 +67,21 @@ const pendingTxsSelector = createSelector(
       return []
     }
 
+    const headerPendingTxs = pendingTxs.map((tx: PendingNotificationItemProps) => {
+      const { amount, receiver } = tx
+      const { fractional, whole, tokenTicker } = amount;
+
+      // TODO review sigFigs based on iov-core 0.10
+      const coin = coinToString({ fractional, whole, sigFigs: 9 });
+      const amountCoin = `${coin} ${tokenTicker}`;
+
+      return {
+        receiver,
+        amount: amountCoin,
+      }
+    })
+
+    return headerPendingTxs;
 
   },
 );

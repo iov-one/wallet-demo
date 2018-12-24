@@ -3,13 +3,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import noPendingTxs from "~/components/Header/assets/noPendingTxs.svg";
+import { HeaderPendingTxProps } from "~/components/Header/selector";
 import Hairline from "~/components/layout/Hairline";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
-import { PendingNotificationItemProps } from "~/reducers/notification";
 import { border } from "~/theme/variables";
 
 interface Props {
-  readonly items: ReadonlyArray<PendingNotificationItemProps>;
+  readonly items: ReadonlyArray<HeaderPendingTxProps>;
 }
 
 const Notifications = ({ items }: Props) => {
@@ -22,7 +22,8 @@ const Notifications = ({ items }: Props) => {
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: PendingNotificationItemProps, index: number) => {
+        items.map((item: HeaderPendingTxProps, index: number) => {
+          const { amount, receiver } = item
           const lastOne = index + 1 === items.length;
 
           return (
@@ -30,9 +31,7 @@ const Notifications = ({ items }: Props) => {
               <ListItem>
                 <CircularProgress size={30} />
                 <ListItemText
-                  primary={`${item.amount.whole}.${item.amount.fractional} ${item.amount.tokenTicker} to ${
-                    item.receiver
-                  }`}
+                  primary={`${amount} to ${receiver}`}
                   secondary="... Sending"
                 />
               </ListItem>

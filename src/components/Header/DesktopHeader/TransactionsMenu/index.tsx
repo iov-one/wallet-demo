@@ -1,15 +1,15 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import loading from "~/components/Header/assets/loading.svg";
+import { HeaderPendingTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
 import ListMenu from "~/components/templates/menu/ListMenu";
-import { PendingNotificationItemProps } from "~/reducers/notification";
 import { primary } from "~/theme/variables";
 import GotIt from "./GotIt";
 import NotificationList from "./NotificationList";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<PendingNotificationItemProps>;
+  readonly items: ReadonlyArray<HeaderPendingTxProps>;
 }
 
 const styles = createStyles({

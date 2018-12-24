@@ -1,8 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { TransNotificationInfo } from "~/logic";
-import { PendingNotificationItemProps } from "~/reducers/notification";
 import DesktopHeader from "./DesktopHeader";
 import PhoneHeader from "./PhoneHeader";
 import selector, { SelectorProps } from "./selector"

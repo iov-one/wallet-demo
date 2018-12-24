@@ -4,8 +4,7 @@ import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
-import { PendingNotificationItemProps } from "~/reducers/notification";
-import { HeaderTxProps } from "../selector";
+import { HeaderPendingTxProps, HeaderTxProps } from "../selector";
 import BellMenu from "./BellMenu";
 import HiMenu from "./HiMenu";
 import Links from "./Links";
@@ -22,7 +21,7 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly pendingTxs: ReadonlyArray<PendingNotificationItemProps>;
+  readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
   readonly txs: ReadonlyArray<HeaderTxProps>;
 }
 
