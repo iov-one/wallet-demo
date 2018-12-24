@@ -3,31 +3,28 @@ import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import receiveTx from "~/components/Header/assets/receive_transaction.svg";
 import sendTx from "~/components/Header/assets/send_transaction.svg";
+import { HeaderTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import { coinToString, TransNotificationInfo } from "~/logic";
 
 interface ItemProps {
-  readonly item: TransNotificationInfo;
+  readonly item: HeaderTxProps;
 }
 
-interface MsgProps extends ItemProps {
+interface MsgProps {
+  readonly received: boolean;
+  readonly signer: string;
+  readonly recipient: string;
   readonly amount: string;
 }
 
-const elipsify = (full: string, maxLength: number): string =>
-  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
-
-const Msg = ({ item, amount }: MsgProps) => {
-  const { received, signerAddr, signerName, recipientAddr, recipientName } = item;
-  const signer = elipsify(signerName || signerAddr, 16);
-  const recipient = elipsify(recipientName || recipientAddr, 16);
-
+const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
   const signerWeight = received ? "semibold" : "regular";
   const signerMsg = received ? signer : "You";
 
   const recipientWeight = received ? "regular" : "semibold";
   const recipientMsg = received ? "you" : recipient;
+
   return (
     <React.Fragment>
       <Typography weight={signerWeight} inline>
@@ -45,18 +42,17 @@ const Msg = ({ item, amount }: MsgProps) => {
 };
 
 const TxItem = ({ item }: ItemProps) => {
-  const { time, transaction, received } = item;
-  const { fractional, whole, tokenTicker } = transaction.amount;
+  const { time, amount, received, signer, recipient } = item;
 
   const icon = received ? receiveTx : sendTx;
-  // TODO review sigFigs based on iov-core 0.10
-  const coin = coinToString({ fractional, whole, sigFigs: 9 });
-  const value = `${coin} ${tokenTicker}`;
 
   return (
     <ListItem>
       <Img src={icon} height={30} alt="Tx operation" />
-      <ListItemText primary={<Msg item={item} amount={value} />} secondary={time.toLocaleString()} />
+      <ListItemText
+        primary={<Msg received={received} amount={amount} signer={signer} recipient={recipient} />}
+        secondary={time.toLocaleString()}
+      />
     </ListItem>
   );
 };

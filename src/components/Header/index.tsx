@@ -1,16 +1,13 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { TransNotificationInfo } from "~/logic";
 import { PendingNotificationItemProps } from "~/reducers/notification";
 import DesktopHeader from "./DesktopHeader";
 import PhoneHeader from "./PhoneHeader";
+import selector, { SelectorProps } from "./selector"
 
-interface Props {
-  readonly pendingTxs: ReadonlyArray<PendingNotificationItemProps>;
-  readonly txs: ReadonlyArray<TransNotificationInfo>;
-}
-
-class Header extends React.Component<Props> {
+class Header extends React.Component<SelectorProps> {
   public render(): JSX.Element {
     const { pendingTxs, txs } = this.props;
 
@@ -22,4 +19,4 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default Header;
+export default connect(selector)(Header);

@@ -4,6 +4,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import bell from "~/components/Header/assets/bell.svg";
 import upToDate from "~/components/Header/assets/uptodate.svg";
+import { HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
@@ -14,7 +15,7 @@ import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<TransNotificationInfo>;
+  readonly items: ReadonlyArray<HeaderTxProps>;
 }
 
 const styles = createStyles({});
@@ -35,7 +36,7 @@ const BellMenu = ({ items }: Props) => {
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: TransNotificationInfo, index: number) => {
+        items.map((item: HeaderTxProps, index: number) => {
           const lastOne = index + 1 === items.length;
           return (
             <React.Fragment>
