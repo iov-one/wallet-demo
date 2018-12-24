@@ -55,9 +55,9 @@ const txs: ReadonlyArray<HeaderTxProps> = [
 storiesOf("Components /header", module).add("Header for desktop", () => {
   return (
     <React.Fragment>
-      <Typography variant="h5">Header without both: txs and pending txs</Typography>
+      <Typography variant="h5">Header with both txs and pending txs</Typography>
       <RootMatchMedia matchMedia={false}>
-        <Header pendingTxs={[]} txs={[]} />
+        <Header pendingTxs={pendingTxs} txs={txs} />
       </RootMatchMedia>
       <Separator />
       <Typography variant="h5">Header without txs but having pending txs</Typography>
@@ -65,9 +65,9 @@ storiesOf("Components /header", module).add("Header for desktop", () => {
         <Header pendingTxs={pendingTxs} txs={[]} />
       </RootMatchMedia>
       <Separator />
-      <Typography variant="h5">Header with both txs and pending txs</Typography>
+      <Typography variant="h5">Header without both: txs and pending txs</Typography>
       <RootMatchMedia matchMedia={false}>
-        <Header pendingTxs={pendingTxs} txs={txs} />
+        <Header pendingTxs={[]} txs={[]} />
       </RootMatchMedia>
       <Separator />
     </React.Fragment>

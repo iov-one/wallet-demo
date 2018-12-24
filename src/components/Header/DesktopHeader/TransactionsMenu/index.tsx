@@ -53,7 +53,7 @@ class TransactionsMenu extends React.Component<Props, State> {
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
     const logo = hasPendingTxs ? loadingSpin : loading;
-    const starter = (_: boolean) => <Img src={logo} className={starterClasses} alt="Loading Transactions" />;
+    const starter = () => <Img src={logo} className={starterClasses} alt="Loading Transactions" />;
 
     return (
       <ListMenu starter={starter} color={showGotIt ? primary : "white"} listWidth={320}>

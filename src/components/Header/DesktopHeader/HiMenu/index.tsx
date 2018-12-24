@@ -46,7 +46,7 @@ const styles = createStyles({
 });
 
 const HiMenu = ({ classes }: Props) => {
-  const starter = (open: boolean) => (
+  const starter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
       <IconButton className={classes.chevron} disableRipple>

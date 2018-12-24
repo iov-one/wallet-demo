@@ -7,7 +7,7 @@ import * as React from "react";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 
 interface Outer extends WithStyles<typeof styles> {
-  readonly starter: (open: boolean) => JSX.Element;
+  readonly starter: (visited: boolean, open: boolean) => JSX.Element;
   readonly listWidth: number;
   readonly color?: string;
 }
@@ -31,13 +31,23 @@ class ListMenu extends React.Component<Props> {
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
   public render(): JSX.Element {
-    const { classes, listWidth, starter, children, color = "white", open, clickAway, toggle } = this.props;
+    const {
+      classes,
+      listWidth,
+      starter,
+      children,
+      color = "white",
+      open,
+      clickAway,
+      visited,
+      toggle,
+    } = this.props;
     const style = buildListStyleFrom(listWidth, color);
 
     return (
       <React.Fragment>
         <div ref={this.menuRef} className={classes.root} onClick={toggle}>
-          {starter(open)}
+          {starter(visited, open)}
         </div>
         <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
           {({ TransitionProps }) => (

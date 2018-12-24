@@ -20,11 +20,15 @@ interface Props extends WithStyles<typeof styles> {
 const styles = createStyles({});
 
 const BellMenu = ({ items }: Props) => {
-  const starter = (_: boolean) => (
-    <Block padding="xl">
-      <Img src={bell} alt="Notifications" />
-    </Block>
-  );
+  const starter = (visited: boolean, _: boolean) => {
+    const logo = visited ? bell : bell;
+
+    return (
+      <Block padding="xl">
+        <Img src={logo} alt="Notifications" />
+      </Block>
+    );
+  };
 
   const hasItems = items.length > 0;
 
