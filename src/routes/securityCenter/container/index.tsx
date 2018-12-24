@@ -1,9 +1,7 @@
 import React from "react";
-
 import { PageStructure } from "~/components/templates/page";
 import { BACKUP_PHRASE_ROUTE, SET_PASSWORD_ROUTE } from "~/routes";
 import { history } from "~/store";
-
 import Layout from "../components";
 
 interface SecurityCenterState {
@@ -37,15 +35,13 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public render(): JSX.Element {
     return (
       <PageStructure>
-        <React.Fragment>
-          <Layout
-            onBackupPhrase={this.onBackupPhrase}
-            onSetPassword={this.onSetPassword}
-            onAdvancedSecurity={this.onAdvancedSecurity}
-            showAdvancedSecurity={this.state.showAdvancedSecurity}
-            closeAdvancedSecurity={this.closeAdvancedSecurity}
-          />
-        </React.Fragment>
+        <Layout
+          onBackupPhrase={this.onBackupPhrase}
+          onSetPassword={this.onSetPassword}
+          onAdvancedSecurity={this.onAdvancedSecurity}
+          showAdvancedSecurity={this.state.showAdvancedSecurity}
+          closeAdvancedSecurity={this.closeAdvancedSecurity}
+        />
       </PageStructure>
     );
   }

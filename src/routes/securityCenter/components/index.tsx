@@ -1,13 +1,10 @@
 import React from "react";
-
+import { SuggestionButton } from "~/components/subComponents/buttons";
+import BPIcon from "../assets/backupPhrase.svg";
+import PswIcon from "../assets/password.svg";
 import AdvancedSecurity from "./AdvancedSecurity";
 import SecurityCard from "./ItemCard";
 import PageTitle from "./PageTitle";
-
-import { SuggestionButton } from "~/components/subComponents/buttons";
-
-import BPIcon from "../assets/backupPhrase.svg";
-import PswIcon from "../assets/password.svg";
 
 interface Props {
   readonly showAdvancedSecurity: boolean;

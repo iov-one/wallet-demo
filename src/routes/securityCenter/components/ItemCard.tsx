@@ -10,21 +10,12 @@ import ImgBg from "../assets/icon_bg.svg";
 const styles = createStyles({
   securityCard: {
     display: "flex",
-    flexWrap: "wrap",
-    alignContent: "center",
+    alignItems: "center",
     flex: "1 0 auto",
   },
   titleBox: {
     flexGrow: 1,
-    minWidth: 0,
-  },
-  title: {
-    lineHeight: 2.1,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-  },
-  link: {
-    lineHeight: 2.7,
+    minWidth: "30px",
   },
   card: {
     width: "100%",
@@ -47,7 +38,7 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
           <BadgeIcon icon={icon} badgeIcon={CheckIcon} width={42} height={42} background={`url(${ImgBg})`} />
         </Block>
         <Block className={classes.titleBox} padding="lg">
-          <Typography className={classes.title} noWrap component="h6" variant="h6">
+          <Typography noWrap component="h6" variant="h6">
             {title}
           </Typography>
         </Block>
@@ -59,7 +50,6 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
               variant="body1"
               color="primary"
               align="right"
-              className={classes.link}
             >
               {linkText}
             </Typography>

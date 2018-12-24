@@ -1,9 +1,7 @@
 import React from "react";
-
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-
 import PageLogo from "../assets/pageLogo.svg";
 
 export default (): JSX.Element => (

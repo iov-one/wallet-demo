@@ -1,6 +1,5 @@
 // import Typography from "@material-ui/core/Typography";
 import React, { PureComponent } from "react";
-
 import Dialog from "./dialog";
 // import MainStyles from "./index.scss";
 
