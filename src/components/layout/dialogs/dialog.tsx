@@ -4,7 +4,7 @@ import React, { PureComponent } from "react";
 import Button from "~/components/layout/Button";
 import Img from "~/components/layout/Image";
 
-import CloseIcon from "../../../../resources/close_type3.svg";
+import CloseIcon from "../../../../resources/close_type2.svg";
 
 const styles = createStyles({
   paper: {
@@ -14,12 +14,12 @@ const styles = createStyles({
   closeButton: {
     position: "absolute",
     right: 0,
-    top: -40,
+    top: -66,
   },
 
   button: {
     position: "relative",
-    top: 65,
+    top: 68,
     width: "calc(100% - 60px)",
     margin: "auto",
   },
@@ -46,6 +46,7 @@ class BaseDialog extends PureComponent<Props, {}> {
         classes={this.paperClass}
         aria-labelledby="customized-dialog-title"
         open={showDialog}
+        hideBackdrop={true}
       >
         <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>
