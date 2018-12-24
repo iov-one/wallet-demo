@@ -44,13 +44,7 @@ const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Elem
         </Block>
         <Block>
           <Link to={link}>
-            <Typography
-              noWrap
-              underlined
-              variant="body1"
-              color="primary"
-              align="right"
-            >
+            <Typography noWrap underlined variant="body1" color="primary" align="right">
               {linkText}
             </Typography>
           </Link>
