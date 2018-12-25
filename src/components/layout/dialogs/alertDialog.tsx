@@ -21,32 +21,28 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Props): JSX.Element => {
-  const submitButtons = (
-    <React.Fragment>
-      <Button onClick={onClose} variant="contained" color="primary" className={classes.button}>
-        Got it
-      </Button>
-    </React.Fragment>
-  );
+
   return (
-<<<<<<< HEAD
-    <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
-      <Block margin="xxl" />
-      <Block align="center" margin="md">
-=======
-    <Dialog showDialog={showDialog} onClose={onClose} dialogButtons={submitButtons}>
-      <Block align="center">
->>>>>>> dialogs refactoring
-        <Img src={icon} alt="Alert icon" />
-      </Block>
-      <Block margin="md">
-        <Typography variant="h4" align="center">
-          {title}
-        </Typography>
-      </Block>
-      <Typography align="center" weight="light" variant="h6">
-        {children}
-      </Typography>
+    <Dialog onClose={onClose} open={showDialog}>
+      <DialogTitle onClose={onClose} />
+      <DialogContent>
+        <React.Fragment>
+          <Block align="center">
+            <Img src={icon} alt="Alert icon" />
+          </Block>
+          <Typography variant="h4" align="center">
+            {title}
+          </Typography>
+          <Typography align="center" weight="light" variant="h6">
+            {children}
+          </Typography>
+        </React.Fragment>
+      </DialogContent>
+      <MuiDialogActions>
+        <Button onClick={onClose} variant="contained" color="primary" size="large" className={classes.button}>
+          Got it
+        </Button>
+      </MuiDialogActions>
     </Dialog>
   );
 };
