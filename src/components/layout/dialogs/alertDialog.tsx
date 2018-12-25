@@ -15,7 +15,8 @@ interface Props {
 export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JSX.Element => {
   return (
     <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Got it">
-      <Block align="center">
+      <Block margin="xxl" />
+      <Block align="center" margin="md">
         <Img src={icon} alt="Alert icon" />
       </Block>
       <Block margin="md">
