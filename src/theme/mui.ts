@@ -74,7 +74,7 @@ export const themeObject: ThemeOptions = {
         margin: 0,
         overflowY: "visible",
         boxShadow: "0 0 14px 0 #edeff4",
-      }
+      },
     },
     MuiFormHelperText: {
       root: {
@@ -84,6 +84,13 @@ export const themeObject: ThemeOptions = {
       },
       contained: {
         margin: `${sm} 0 0 0`,
+      },
+    },
+    MuiIconButton: {
+      root: {
+        "&:hover": {
+          backgroundColor: "none",
+        },
       },
     },
     MuiInputBase: {
@@ -97,6 +104,19 @@ export const themeObject: ThemeOptions = {
       },
       error: {
         backgroundColor: "#fff1e1", // lighter version of temporaryError
+      },
+    },
+    MuiList: {
+      root: {
+        backgroundColor: "#ffffff",
+        boxSizing: "border-box",
+        border: `1px solid ${border}`,
+      },
+      padding: {
+        paddingTop: sm,
+        paddingBottom: sm,
+        paddingLeft: sm,
+        paddingRight: sm,
       },
     },
     MuiOutlinedInput: {
