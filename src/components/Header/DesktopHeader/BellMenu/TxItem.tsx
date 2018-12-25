@@ -1,3 +1,4 @@
+import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
@@ -8,7 +9,7 @@ import { HeaderTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 
-interface ItemProps {
+interface ItemProps extends WithStyles<typeof styles> {
   readonly item: HeaderTxProps;
 }
 
@@ -65,7 +66,15 @@ const MsgError = ({ amount, recipient }: MsgErrorProps) => (
   </React.Fragment>
 );
 
-const TxItem = ({ item }: ItemProps) => {
+const styles = createStyles({
+  msg: {
+    "& > span": {
+      lineHeight: 1,
+    },
+  },
+});
+
+const TxItem = ({ item, classes }: ItemProps) => {
   const { time, amount, received, signer, recipient, success } = item;
 
   const icon = success ? (received ? receiveTx : sendTx) : errorTx;
@@ -78,9 +87,9 @@ const TxItem = ({ item }: ItemProps) => {
   return (
     <ListItem>
       <Img src={icon} height={30} alt="Tx operation" />
-      <ListItemText primary={msg} secondary={time.toLocaleString()} />
+      <ListItemText className={classes.msg} primary={msg} secondary={time.toLocaleString()} />
     </ListItem>
   );
 };
 
-export default TxItem;
+export default withStyles(styles)(TxItem);

@@ -42,7 +42,7 @@ const BellMenu = ({ items }: Props) => {
         items.map((item: HeaderTxProps, index: number) => {
           const lastOne = index + 1 === items.length;
           return (
-            <React.Fragment>
+            <React.Fragment key={`${index}`}>
               <TxItem item={item} />
               {!lastOne && <Hairline />}
             </React.Fragment>

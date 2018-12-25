@@ -74,7 +74,7 @@ export const themeObject: ThemeOptions = {
         margin: 0,
         overflowY: "visible",
         boxShadow: "0 0 14px 0 #edeff4",
-      }
+      },
     },
     MuiFormHelperText: {
       root: {

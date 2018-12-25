@@ -7,7 +7,6 @@ import Img from "~/components/layout/Image";
 import CloseIcon from "../../../../resources/close_type2.svg";
 
 const styles = createStyles({
-
   closeButton: {
     position: "absolute",
     right: 0,
@@ -32,19 +31,20 @@ interface Props extends WithStyles<typeof styles> {
 
 // TODO for using openHoc
 class BaseDialog extends PureComponent<Props, {}> {
-
   public render(): JSX.Element {
     const { classes, showDialog, submitButton, onClose, onSubmit, children } = this.props;
 
     return (
-      <Dialog
-        onClose={onClose}
-        aria-labelledby="customized-dialog-title"
-        open={showDialog}
-      >
+      <Dialog onClose={onClose} aria-labelledby="customized-dialog-title" open={showDialog}>
         <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>
-        <Button onClick={onSubmit} variant="contained" color="primary" size="large" className={classes.button}>
+        <Button
+          onClick={onSubmit}
+          variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+        >
           {submitButton}
         </Button>
       </Dialog>
