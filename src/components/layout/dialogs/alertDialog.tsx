@@ -24,6 +24,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Props): JSX.Element => {
+<<<<<<< HEAD
   return (
     <Dialog onClose={onClose} open={showDialog}>
       <DialogTitle onClose={onClose} />
@@ -45,8 +46,32 @@ const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Pr
           Got it
         </Button>
       </MuiDialogActions>
+=======
+  const submitButtons = (
+    <React.Fragment>
+      <Button onClick={onClose} variant="contained" color="primary" className={classes.button}>
+        Got it
+      </Button>
+    </React.Fragment>
+  );
+  return (
+    <Dialog showDialog={showDialog} onClose={onClose} dialogButtons={submitButtons}>
+      <Block align="center">
+        <Img src={icon} alt="Alert icon" />
+      </Block>
+      <Typography gutterBottom variant="h4" align="center">
+        {title}
+      </Typography>
+      <Typography align="center" variant="h6">
+        {children}
+      </Typography>
+>>>>>>> 4d5db376cd2627ffad81fe9dc2a8da657d0656e0
     </Dialog>
   );
 };
 
+<<<<<<< HEAD
 export const Alert = withStyles(styles)(AlertDialog);
+=======
+export const Alert = withStyles(styles)(AlertDialog);
+>>>>>>> 4d5db376cd2627ffad81fe9dc2a8da657d0656e0

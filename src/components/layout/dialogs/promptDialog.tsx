@@ -1,10 +1,16 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
+<<<<<<< HEAD
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import React, { PureComponent } from "react";
 import Button from "~/components/layout/Button";
 import DialogContent from "./components/DialogContent";
 import DialogTitle from "./components/DialogTitle";
+=======
+import React, { PureComponent } from "react";
+import Button from "~/components/layout/Button";
+import Dialog from "./dialog";
+>>>>>>> 4d5db376cd2627ffad81fe9dc2a8da657d0656e0
 
 const styles = createStyles({
   button: {
