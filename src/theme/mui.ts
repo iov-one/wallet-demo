@@ -70,6 +70,12 @@ export const themeObject: ThemeOptions = {
       paperWidthSm: {
         maxWidth: "506px",
       },
+      paper: {
+        overflow: "visible",
+        boxShadow: "0 0 14px 0 #edeff4",
+        border: "1px solid #f3f3f3",
+        overflowY: "none",
+      }
     },
     MuiFormHelperText: {
       root: {

@@ -7,11 +7,6 @@ import Img from "~/components/layout/Image";
 import CloseIcon from "../../../../resources/close_type2.svg";
 
 const styles = createStyles({
-  paper: {
-    overflow: "visible",
-    boxShadow: "0 0 14px 0 #edeff4",
-    border: "1px solid #f3f3f3",
-  },
 
   closeButton: {
     position: "absolute",
@@ -37,7 +32,6 @@ interface Props extends WithStyles<typeof styles> {
 
 // TODO for using openHoc
 class BaseDialog extends PureComponent<Props, {}> {
-  private readonly paperClass = { paper: this.props.classes.paper };
 
   public render(): JSX.Element {
     const { classes, showDialog, submitButton, onClose, onSubmit, children } = this.props;
@@ -45,7 +39,6 @@ class BaseDialog extends PureComponent<Props, {}> {
     return (
       <Dialog
         onClose={onClose}
-        classes={this.paperClass}
         aria-labelledby="customized-dialog-title"
         open={showDialog}
       >
