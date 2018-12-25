@@ -44,7 +44,7 @@ class BaseDialog extends PureComponent<Props, {}> {
       >
         <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>
-        <Button onClick={onSubmit} variant="contained" color="primary" className={classes.button}>
+        <Button onClick={onSubmit} variant="contained" color="primary" size="large" className={classes.button}>
           {submitButton}
         </Button>
       </Dialog>
