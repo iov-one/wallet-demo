@@ -48,7 +48,6 @@ class BaseDialog extends PureComponent<Props, {}> {
         classes={this.paperClass}
         aria-labelledby="customized-dialog-title"
         open={showDialog}
-        hideBackdrop={true}
       >
         <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
         <DialogContent>{children}</DialogContent>

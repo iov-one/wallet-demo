@@ -40,6 +40,11 @@ export const themeObject: ThemeOptions = {
     fontWeightMedium: semiBoldFont,
   },
   overrides: {
+    MuiBackdrop: {
+      root: {
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
+      },
+    },
     MuiButton: {
       root: {
         textTransform: "capitalize",
@@ -59,6 +64,11 @@ export const themeObject: ThemeOptions = {
       root: {
         padding: `0 ${sm} 0 0`,
         color: secondaryDegraded,
+      },
+    },
+    MuiDialog: {
+      paperWidthSm: {
+        maxWidth: "506px",
       },
     },
     MuiFormHelperText: {

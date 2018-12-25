@@ -18,10 +18,12 @@ export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JS
       <Block align="center">
         <Img src={icon} alt="Alert icon" />
       </Block>
-      <Typography gutterBottom variant="h4" align="center">
-        {title}
-      </Typography>
-      <Typography align="center" variant="h6">
+      <Block margin="md">
+        <Typography variant="h4" align="center">
+          {title}
+        </Typography>
+      </Block>
+      <Typography align="center" weight="light" variant="h6">
         {children}
       </Typography>
     </Dialog>
