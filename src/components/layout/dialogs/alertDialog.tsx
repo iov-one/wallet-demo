@@ -1,10 +1,13 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogActions from "@material-ui/core/DialogActions";
 import React from "react";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import Dialog from "./dialog";
+import DialogContent from "./components/DialogContent";
+import DialogTitle from "./components/DialogTitle";
 
 const styles = createStyles({
   button: {
@@ -17,11 +20,10 @@ interface Props extends WithStyles<typeof styles> {
   readonly title: string;
   readonly showDialog: boolean;
   readonly onClose: () => void;
-  readonly children: React.ReactNode;
+  readonly children: JSX.Element;
 }
 
 const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Props): JSX.Element => {
-
   return (
     <Dialog onClose={onClose} open={showDialog}>
       <DialogTitle onClose={onClose} />
