@@ -11,6 +11,7 @@ export interface SelectorProps {
 }
 
 export interface HeaderTxProps {
+  readonly id: string;
   readonly time: ReadonlyDate;
   readonly received: boolean;
   readonly amount: string;
@@ -46,6 +47,7 @@ const txsSelector = createSelector(
         recipientAddr,
         recipientName,
         success,
+        txid,
       } = tx;
       const { fractional, whole, tokenTicker } = transaction.amount;
 
@@ -57,6 +59,7 @@ const txsSelector = createSelector(
       const recipient = elipsify(recipientName || recipientAddr, 16);
 
       return {
+        id: String(txid),
         time,
         received,
         amount,

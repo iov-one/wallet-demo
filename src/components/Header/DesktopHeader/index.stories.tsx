@@ -33,6 +33,7 @@ const txs: ReadonlyArray<HeaderTxProps> = [
     amount: "100.5 LSK",
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: true,
+    id: "tx1",
   },
   {
     received: false,
@@ -41,6 +42,7 @@ const txs: ReadonlyArray<HeaderTxProps> = [
     amount: "100.5 IOV",
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: true,
+    id: "tx2",
   },
   {
     received: false,
@@ -49,6 +51,7 @@ const txs: ReadonlyArray<HeaderTxProps> = [
     amount: "100.5 IOV",
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: false,
+    id: "tx3",
   },
 ];
 
