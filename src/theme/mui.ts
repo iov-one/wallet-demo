@@ -66,15 +66,31 @@ export const themeObject: ThemeOptions = {
         color: secondaryDegraded,
       },
     },
+    MuiDialogTitle: {
+      root: {
+        paddingTop: "45px",
+      },
+    },
+    MuiDialogContent: {
+      root: {
+        padding: "6px",
+      },
+    },
+    MuiDialogActions: {
+      root: {
+        paddingTop: "20px",
+        margin: "8px 40px",
+      },
+    },
     MuiDialog: {
       paperWidthSm: {
         maxWidth: "506px",
       },
       paper: {
         margin: 0,
-        overflowY: "visible",
-        boxShadow: "0 0 14px 0 #edeff4",
-      }
+        boxShadow: "none",
+        background: "transparent",
+      },
     },
     MuiFormHelperText: {
       root: {

@@ -22,3 +22,6 @@ tmp/
 
 # test coverage
 coverage
+
+#story book
+storybook-static/
