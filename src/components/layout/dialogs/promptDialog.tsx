@@ -1,7 +1,10 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogActions from "@material-ui/core/DialogActions";
 import React, { PureComponent } from "react";
 import Button from "~/components/layout/Button";
-import Dialog from "./dialog";
+import DialogContent from "./components/DialogContent";
+import DialogTitle from "./components/DialogTitle";
 
 const styles = createStyles({
   button: {
@@ -22,17 +25,18 @@ interface State {
 export class PromptDialog extends PureComponent<Props, State> {
   public render(): JSX.Element {
     const { showDialog, onClose, children, classes } = this.props;
-    const submitButtons = (
-      <React.Fragment>
-        <Button onClick={onClose} variant="contained" color="primary" className={classes.button}>
-          Continue
-        </Button>
-      </React.Fragment>
-    );
 
     return (
-      <Dialog showDialog={showDialog} onClose={onClose} dialogButtons={submitButtons}>
-        {children}
+      <Dialog onClose={onClose} open={showDialog}>
+        <DialogTitle onClose={onClose} />
+        <DialogContent>
+          {children}
+        </DialogContent>
+        <MuiDialogActions>
+        <Button onClick={onClose} variant="contained" color="primary" size="large" className={classes.button}>
+          Continue
+        </Button>
+        </MuiDialogActions>
       </Dialog>
     );
   }
