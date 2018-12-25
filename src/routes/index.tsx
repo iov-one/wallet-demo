@@ -15,6 +15,7 @@ import {
 import RequireLogin from "~/containers/RequireLogin";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
+import SecurityCenter from "~/routes/securityCenter/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 
@@ -25,6 +26,9 @@ export const SET_NAME_ROUTE = "/name";
 export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 export const BALANCE_ROUTE = "/balance";
+export const SECURITY_CENTER_ROUTE = "/security-center";
+export const SET_PASSWORD_ROUTE = "/set-password";
+export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -40,12 +44,14 @@ export const MainRouter = () => (
     <RequireLogin>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-        <Route path="/setPassword/" component={PasswordPage} />
+        <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />
         <Route path="/payment/" component={PaymentPage} />
         <Route path={BALANCE_ROUTE} component={BalancePage} />
         <Route path="/invite/" component={InvitePage} />
+        <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
+        <Route path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
           component={ConfirmTransactionPage}

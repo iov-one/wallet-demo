@@ -8,11 +8,12 @@ const cx: any = classNames.bind(styles);
 interface Props extends TypographyProps {
   readonly underlined?: boolean;
   readonly inline?: boolean;
+  readonly pointer?: boolean;
   readonly weight?: "extralight" | "light" | "regular" | "semibold";
 }
 
-const IovTypography = ({ underlined, inline, weight, className, ...rest }: Props) => {
-  const typographyClassnames = cx(className, { underlined, inline }, weight);
+const IovTypography = ({ underlined, inline, weight, pointer, className, ...rest }: Props) => {
+  const typographyClassnames = cx(className, { underlined, inline, pointer }, weight);
 
   return <Typography {...rest} className={typographyClassnames} />;
 };

@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import { HeaderDropdown, Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+import { Navigation, NavigationProps, NormalHeader } from "../../subComponents/headers";
+import { HeaderDropdownMenu } from "../headerDropdown";
 
 import {
   NotificationMenuItem,
@@ -33,8 +34,9 @@ interface HeaderProps {
   readonly transactionInfo: TransactionNotificationProps;
   readonly pendingTransactionInfo: PendingTransactionProps;
   readonly visitedPending: boolean;
-  readonly onGotIt: () => any;
-  readonly onLogo: () => any;
+  readonly onGotIt: () => void;
+  readonly onLogo: () => void;
+  readonly logout: () => void;
 }
 
 const getLastTransactionType = (transactionInfo: TransactionNotificationProps): string => {
@@ -54,6 +56,7 @@ export class Header extends React.Component<HeaderProps> {
       onLogo,
       onGotIt,
       visitedPending,
+      logout,
     } = this.props;
     const type = getLastTransactionType(transactionInfo);
     const hasPendingItems = pendingTransactionInfo.items.length > 0;
@@ -79,7 +82,7 @@ export class Header extends React.Component<HeaderProps> {
               icon="bell"
               notification={<TransactionNotification {...transactionInfo} />}
             />
-            <HeaderDropdown title="Hi!" />
+            <HeaderDropdownMenu logout={logout} />
           </RightNavigation>
         </HeaderContent>
       </NormalHeader>
