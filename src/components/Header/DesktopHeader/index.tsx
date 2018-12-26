@@ -18,7 +18,6 @@ const styles = createStyles({
     flexWrap: "nowrap",
     height: "70px",
     backgroundColor: "white",
-    flexGrow: 1,
   },
 });
 
