@@ -14,7 +14,7 @@ interface Props {
 
   readonly onSetPassword: () => void;
   readonly closeSetPassword: () => void;
-  readonly onSetPasswordSubmit: () => void;
+  readonly onSetPasswordSubmit: (values: FormValues) => void;
 
   readonly onBackupPhrase: () => void;
   readonly onAdvancedSecurity: () => void;
