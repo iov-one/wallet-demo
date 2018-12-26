@@ -75,7 +75,7 @@ const Layout = ({
     <MatchMediaContext.Consumer>
       {phone =>
         !phone && (
-          <GridItem xs={0} sm={4} ref={ref} maxwidth="sm">
+          <GridItem sm={4} ref={ref} maxwidth="sm">
             <Block overlap>
               {leftMenu()}
               <Img src={icon === "black" ? logoBlack : logo} alt="Logo" className={classes.logo} />
