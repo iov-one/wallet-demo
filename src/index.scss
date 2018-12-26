@@ -19,7 +19,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body>div {
+body>div:first-child {
   display: flex;
   height: 100%;
 }

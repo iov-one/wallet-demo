@@ -11,9 +11,9 @@ interface Props extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   root: {
-    backgroundColor: backgroundPrimary
-  }
-}) 
+    backgroundColor: backgroundPrimary,
+  },
+});
 
 const PageMenu = ({ children, classes }: Props) => (
   <Grid root className={classes.root}>
