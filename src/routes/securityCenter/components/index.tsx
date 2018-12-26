@@ -1,6 +1,7 @@
 import * as React from "react";
 import BPIcon from "../assets/backupPhrase.svg";
 import PswIcon from "../assets/password.svg";
+import { FormValues } from "../container/index";
 import AdvancedSecurity from "./AdvancedSecurity";
 import { ExtraSecurity } from "./ExtraSecurity";
 import SecurityCard from "./ItemCard";
@@ -13,6 +14,7 @@ interface Props {
 
   readonly onSetPassword: () => void;
   readonly closeSetPassword: () => void;
+  readonly setPasswordSubmit: (values: FormValues) => void;
 
   readonly onBackupPhrase: () => void;
   readonly onAdvancedSecurity: () => void;
@@ -23,6 +25,7 @@ export default ({
   onAdvancedSecurity,
   showAdvancedSecurity,
   closeAdvancedSecurity,
+  setPasswordSubmit,
 
   onSetPassword,
   showSetPassword,
@@ -40,7 +43,7 @@ export default ({
     <SetPassword
       showSetPassword={showSetPassword}
       closeSetPassword={closeSetPassword}
-      onSubmit={() => true}
+      onSubmit={setPasswordSubmit}
     />
   </React.Fragment>
 );
