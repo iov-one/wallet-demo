@@ -31,7 +31,7 @@ interface ListItemsProps {
 }
 
 const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
-  <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
+  <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent={false}>
     <React.Fragment>
       <List component="nav" style={style}>
         {items}
@@ -79,7 +79,7 @@ class ListMenu extends React.Component<Props> {
               <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
                 {({ TransitionProps }) => (
                   <Grow {...TransitionProps}>
-                    <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
+                    <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent={false}>
                       <React.Fragment>
                         <List component="nav" style={style}>
                           {children}

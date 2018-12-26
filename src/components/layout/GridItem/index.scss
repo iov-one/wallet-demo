@@ -42,8 +42,7 @@
 
 @define-mixin col $size {
   .$(size)0 {
-    flex-basis: 0%;
-    max-width: 0%;
+    display: none;
   }
 
   .$(size)1 {

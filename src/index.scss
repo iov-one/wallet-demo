@@ -21,6 +21,7 @@ body {
 
 body>div:first-child {
   display: flex;
+  min-height: 100%;
 }
 
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
