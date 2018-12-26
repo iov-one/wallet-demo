@@ -9,6 +9,12 @@ interface SecurityCenterState {
   readonly showSetPassword: boolean;
 }
 
+export interface FormValues {
+  readonly currentPassword?: string;
+  readonly newPassword?: string;
+  readonly confirmPassword?: string;
+}
+
 class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public readonly state = {
     showAdvancedSecurity: false,
@@ -29,6 +35,9 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
       showSetPassword: false,
     });
   };
+  public readonly setPasswordSubmit = (values: FormValues): void => {
+    console.log(values)
+  }
 
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
@@ -48,6 +57,7 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
         <Layout
           onBackupPhrase={this.onBackupPhrase}
           onSetPassword={this.onSetPassword}
+          setPasswordSubmit={this.setPasswordSubmit}
           showSetPassword={this.state.showSetPassword}
           closeSetPassword={this.closeSetPassword}
           onAdvancedSecurity={this.onAdvancedSecurity}
