@@ -8,7 +8,11 @@ interface SecurityCenterState {
   readonly showAdvancedSecurity: boolean;
   readonly showSetPassword: boolean;
 }
-
+export interface FormValues {
+  readonly currentPassword?: string;
+  readonly newPassword?: string;
+  readonly confirmPassword?: string;
+}
 class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public readonly state = {
     showAdvancedSecurity: false,
@@ -29,7 +33,7 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
       showSetPassword: false,
     });
   };
-  public readonly onSetPasswordSubmit = (values): void => {
+  public readonly onSetPasswordSubmit = (values: FormValues): void => {
     console.log(values);
     this.closeSetPassword();
   }
@@ -53,10 +57,7 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
           onBackupPhrase={this.onBackupPhrase}
           onSetPassword={this.onSetPassword}
           showSetPassword={this.state.showSetPassword}
-<<<<<<< HEAD
           onSetPasswordSubmit={this.onSetPasswordSubmit}
-=======
->>>>>>> refactoring fix
           closeSetPassword={this.closeSetPassword}
           onAdvancedSecurity={this.onAdvancedSecurity}
           showAdvancedSecurity={this.state.showAdvancedSecurity}

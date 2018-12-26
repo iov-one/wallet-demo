@@ -1,6 +1,7 @@
 import React from "react";
 import BPIcon from "../assets/backupPhrase.svg";
 import PswIcon from "../assets/password.svg";
+import { FormValues } from "../container/index";
 import AdvancedSecurity from "./AdvancedSecurity";
 import { ExtraSecurity } from "./ExtraSecurity";
 import SecurityCard from "./ItemCard";
@@ -24,6 +25,7 @@ export default ({
   onAdvancedSecurity,
   showAdvancedSecurity,
   closeAdvancedSecurity,
+  onSetPasswordSubmit,
 
   onSetPassword,
   showSetPassword,
@@ -41,7 +43,7 @@ export default ({
     <SetPassword
       showSetPassword={showSetPassword}
       closeSetPassword={closeSetPassword}
-      onSubmit={() => true}
+      onSubmit={onSetPasswordSubmit}
     />
   </React.Fragment>
 );
