@@ -17,7 +17,6 @@ const styles = createStyles({
     display: "flex",
     flexWrap: "wrap",
     minHeight: "70px",
-    lineHeight: "70px",
     backgroundColor: "white",
   },
 });

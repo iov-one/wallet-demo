@@ -36,7 +36,6 @@ const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
       <List component="nav" style={style}>
         {items}
       </List>
-      ,
     </React.Fragment>
   </ClickAwayListener>
 );
@@ -80,7 +79,13 @@ class ListMenu extends React.Component<Props> {
               <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
                 {({ TransitionProps }) => (
                   <Grow {...TransitionProps}>
-                    <ListItems clickAway={clickAway} items={children} style={style} />
+                    <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
+                      <React.Fragment>
+                        <List component="nav" style={style}>
+                          {children}
+                        </List>
+                      </React.Fragment>
+                    </ClickAwayListener>
                   </Grow>
                 )}
               </Popper>

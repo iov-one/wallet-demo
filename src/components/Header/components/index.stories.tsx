@@ -55,24 +55,46 @@ const txs: ReadonlyArray<HeaderTxProps> = [
   },
 ];
 
-storiesOf("Components /header", module).add("Header for desktop", () => {
-  return (
-    <React.Fragment>
-      <Typography variant="h5">Header with both txs and pending txs</Typography>
-      <RootMatchMedia matchMedia={false}>
-        <Header pendingTxs={pendingTxs} txs={txs} />
-      </RootMatchMedia>
-      <Separator />
-      <Typography variant="h5">Header without txs but having pending txs</Typography>
-      <RootMatchMedia matchMedia={false}>
-        <Header pendingTxs={pendingTxs} txs={[]} />
-      </RootMatchMedia>
-      <Separator />
-      <Typography variant="h5">Header without both: txs and pending txs</Typography>
-      <RootMatchMedia matchMedia={false}>
-        <Header pendingTxs={[]} txs={[]} />
-      </RootMatchMedia>
-      <Separator />
-    </React.Fragment>
-  );
-});
+storiesOf("Components /header", module)
+  .add("Header for desktop", () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Typography variant="h5">Header with both txs and pending txs</Typography>
+        <RootMatchMedia matchMedia={false}>
+          <Header pendingTxs={pendingTxs} txs={txs} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header without txs but having pending txs</Typography>
+        <RootMatchMedia matchMedia={false}>
+          <Header pendingTxs={pendingTxs} txs={[]} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header without both: txs and pending txs</Typography>
+        <RootMatchMedia matchMedia={false}>
+          <Header pendingTxs={[]} txs={[]} />
+        </RootMatchMedia>
+        <Separator />
+      </div>
+    );
+  })
+  .add("Header for phones", () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Typography variant="h5">Header with both txs and pending txs</Typography>
+        <RootMatchMedia matchMedia={true}>
+          <Header pendingTxs={pendingTxs} txs={txs} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header without txs but having pending txs</Typography>
+        <RootMatchMedia matchMedia={true}>
+          <Header pendingTxs={pendingTxs} txs={[]} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header without both: txs and pending txs</Typography>
+        <RootMatchMedia matchMedia={true}>
+          <Header pendingTxs={[]} txs={[]} />
+        </RootMatchMedia>
+        <Separator />
+      </div>
+    );
+  });
