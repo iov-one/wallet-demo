@@ -21,7 +21,7 @@ const validation = (values: FormValues): object => {
     errors.confirmPassword = "The passwords do not match";
   }
   return errors;
-}
+};
 
 export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Element => (
   <Prompt showDialog={showSetPassword} onClose={closeSetPassword} onSubmit={onSubmit} validation={validation}>

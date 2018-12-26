@@ -37,7 +37,7 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public readonly onSetPasswordSubmit = (values: FormValues): void => {
     console.log(values);
     this.closeSetPassword();
-  }
+  };
 
   public readonly onAdvancedSecurity = (): void => {
     this.setState({
