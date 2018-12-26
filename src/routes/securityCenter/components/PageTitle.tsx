@@ -8,7 +8,9 @@ export default (): JSX.Element => (
   <React.Fragment>
     <Block margin="xl" />
     <Img src={PageLogo} alt="Page Logo" />
-    <Typography variant="h5">Security Center</Typography>
+    <Typography variant="h5" align="center">
+      Security Center
+    </Typography>
     <Block margin="lg" />
   </React.Fragment>
 );

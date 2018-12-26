@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { ReadonlyDate } from "readonly-date";
+import { HeaderPendingTxProps, HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
 import { RootMatchMedia } from "~/utils/storybook";
-import { HeaderPendingTxProps, HeaderTxProps } from "../selector";
 import Header from "./index";
 
 const Separator = () => (

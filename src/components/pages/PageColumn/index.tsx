@@ -11,7 +11,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import logo from "~/components/pages/assets/logo.svg";
 import logoBlack from "~/components/pages/assets/logoBlack.svg";
-import { md } from "~/theme/variables";
+import { background, md } from "~/theme/variables";
 import EmptyHeader from "./EmptyHeader";
 import SubtitleSection from "./SubtitleSection";
 import TitleSection from "./TitleSection";
@@ -45,6 +45,9 @@ const styles = createStyles({
   back: {
     marginRight: md,
   },
+  content: {
+    backgroundColor: background,
+  },
 });
 
 const subscription: FormSubscription = {
@@ -74,7 +77,7 @@ const Layout = ({
         <Img src={icon === "black" ? logoBlack : logo} alt="Logo" className={classes.logo} />
       </Block>
     </GridItem>
-    <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
+    <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column" className={classes.content}>
       <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
         {({ valid, submitting, validating }: FormState) => (
           <React.Fragment>

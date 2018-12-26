@@ -4,7 +4,9 @@ import Grow from "@material-ui/core/Grow";
 import List from "@material-ui/core/List";
 import Popper from "@material-ui/core/Popper";
 import * as React from "react";
+import ReactDOM from "react-dom";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 
 interface Outer extends WithStyles<typeof styles> {
   readonly starter: (visited: boolean, open: boolean) => JSX.Element;
@@ -21,6 +23,23 @@ const styles = createStyles({
     },
   },
 });
+
+interface ListItemsProps {
+  readonly items: React.ReactNode;
+  readonly clickAway: () => void;
+  readonly style?: React.CSSProperties;
+}
+
+const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
+  <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
+    <React.Fragment>
+      <List component="nav" style={style}>
+        {items}
+      </List>
+      ,
+    </React.Fragment>
+  </ClickAwayListener>
+);
 
 const buildListStyleFrom = (width: number, color: string): React.CSSProperties => ({
   width: `${width}px`,
@@ -42,24 +61,32 @@ class ListMenu extends React.Component<Props> {
       visited,
       toggle,
     } = this.props;
-    const style = buildListStyleFrom(listWidth, color);
+    const root = document.getElementById("headerPhone");
 
     return (
       <React.Fragment>
         <div ref={this.menuRef} className={classes.root} onClick={toggle}>
           {starter(visited, open)}
         </div>
-        <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
-          {({ TransitionProps }) => (
-            <Grow {...TransitionProps}>
-              <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent="onTouchStart">
-                <List style={style} component="nav">
-                  {children}
-                </List>
-              </ClickAwayListener>
-            </Grow>
-          )}
-        </Popper>
+        <MatchMediaContext.Consumer>
+          {phone => {
+            const showPhone = phone && root !== null && open;
+            if (showPhone) {
+              return ReactDOM.createPortal(<ListItems clickAway={clickAway} items={children} />, root!);
+            }
+
+            const style = buildListStyleFrom(listWidth, color);
+            return (
+              <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
+                {({ TransitionProps }) => (
+                  <Grow {...TransitionProps}>
+                    <ListItems clickAway={clickAway} items={children} style={style} />
+                  </Grow>
+                )}
+              </Popper>
+            );
+          }}
+        </MatchMediaContext.Consumer>
       </React.Fragment>
     );
   }
