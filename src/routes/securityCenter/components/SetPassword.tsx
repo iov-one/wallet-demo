@@ -35,7 +35,6 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
           Current password
         </Typography>
       </Block>
-      <Block margin="lg">
       <Field
         variant="outlined"
         name="currentPassword"
@@ -45,7 +44,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
         validate={required}
         placeholder="Current password"
       />
-      </Block>
+      <Block margin="lg" />
       <Block margin="sm">
         <Typography variant="subtitle2" color="textPrimary">
           New password
