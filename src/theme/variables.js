@@ -3,6 +3,7 @@ const secondary = "#6F749A";
 const error = "#F05956";
 const fontColor = "#1C1C1C";
 const background = "#ffffff";
+const backgroundPrimary = "#f5f7f9";
 const border = "#f3f3f3";
 const placeholder = "#b8bccb";
 const temporaryError = "#ffb968";
@@ -40,6 +41,7 @@ module.exports = Object.assign(
     error,
     fontColor,
     background,
+    backgroundPrimary,
     border,
     xs,
     sm,
