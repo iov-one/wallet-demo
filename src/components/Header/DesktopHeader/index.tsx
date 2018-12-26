@@ -2,6 +2,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import logoBlack from "~/components/Header/assets/logoBlack.svg";
 import Block from "~/components/layout/Block";
+import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import { HeaderPendingTxProps, HeaderTxProps } from "../selector";
@@ -17,6 +18,7 @@ const styles = createStyles({
     flexWrap: "nowrap",
     height: "70px",
     backgroundColor: "white",
+    flexGrow: 1,
   },
 });
 
@@ -37,6 +39,7 @@ const Header = ({ classes, txs, pendingTxs }: Props) => (
       <BellMenu items={txs} />
       <HiMenu />
     </Block>
+    <Hairline />
   </React.Fragment>
 );
 
