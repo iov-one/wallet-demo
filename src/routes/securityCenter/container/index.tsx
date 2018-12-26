@@ -8,6 +8,7 @@ interface SecurityCenterState {
   readonly showAdvancedSecurity: boolean;
   readonly showSetPassword: boolean;
 }
+
 export interface FormValues {
   readonly currentPassword?: string;
   readonly newPassword?: string;
