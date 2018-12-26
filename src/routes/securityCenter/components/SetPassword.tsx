@@ -1,11 +1,8 @@
-import { FormState, FormSubscription } from "final-form";
 import React from "react";
 import Field from "~/components/forms/Field";
-import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
-import Button from "~/components/layout/Button";
 import { Prompt } from "~/components/layout/dialogs";
 import Typography from "~/components/layout/Typography";
 import { FormValues } from "../container/index";
@@ -38,6 +35,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
           Current password
         </Typography>
       </Block>
+      <Block margin="lg">
       <Field
         variant="outlined"
         name="currentPassword"
@@ -47,7 +45,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
         validate={required}
         placeholder="Current password"
       />
-      <Block margin="lg" />
+      </Block>
       <Block margin="sm">
         <Typography variant="subtitle2" color="textPrimary">
           New password

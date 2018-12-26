@@ -14,7 +14,7 @@ interface Props {
 
   readonly onSetPassword: () => void;
   readonly closeSetPassword: () => void;
-  readonly setPasswordSubmit: (values: FormValues) => void;
+  readonly onSetPasswordSubmit: (values: FormValues) => void;
 
   readonly onBackupPhrase: () => void;
   readonly onAdvancedSecurity: () => void;
@@ -25,7 +25,7 @@ export default ({
   onAdvancedSecurity,
   showAdvancedSecurity,
   closeAdvancedSecurity,
-  setPasswordSubmit,
+  onSetPasswordSubmit,
 
   onSetPassword,
   showSetPassword,
@@ -43,7 +43,7 @@ export default ({
     <SetPassword
       showSetPassword={showSetPassword}
       closeSetPassword={closeSetPassword}
-      onSubmit={setPasswordSubmit}
+      onSubmit={onSetPasswordSubmit}
     />
   </React.Fragment>
 );
