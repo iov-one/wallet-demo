@@ -12,6 +12,7 @@ const styles = createStyles({
     border: "1px solid #f3f3f3",
     overflowY: "auto",
     flexGrow: 1,
+    /*minHeight: 0,*/
   },
 });
 
