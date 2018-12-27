@@ -8,6 +8,8 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import * as React from "react";
 import invite from "~/components/Header/assets/invite.svg";
 import logout from "~/components/Header/assets/logout.svg";
+import phoneMenu from "~/components/Header/assets/PhoneMenu.svg";
+import phoneMenuGreen from "~/components/Header/assets/PhoneMenuGreen.svg";
 import privacy from "~/components/Header/assets/privacyPolicy.svg";
 import securityCentre from "~/components/Header/assets/securityCentre.svg";
 import terms from "~/components/Header/assets/terms.svg";
@@ -16,7 +18,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { border, xs } from "~/theme/variables";
+import { border, lg, xl, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
 interface Props extends PhoneHook, WithStyles<typeof styles> {}
@@ -44,10 +46,24 @@ const styles = createStyles({
   chevron: {
     padding: xs,
   },
+  separator: {
+    height: "30px",
+    paddingRight: lg,
+    borderLeft: `1px solid ${border}`,
+  },
 });
 
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
-  const starter = (_: boolean, open: boolean) => (
+  const phoneStarter = (_: boolean, open: boolean) => (
+    <React.Fragment>
+      <Block className={classes.separator} />
+      <Block>
+        {open ? <Img src={phoneMenuGreen} alt="Phone Menu" /> : <Img src={phoneMenu} alt="Phone Menu" />}
+      </Block>
+    </React.Fragment>
+  );
+
+  const desktopStarter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
       <IconButton className={classes.chevron} disableRipple>
@@ -57,8 +73,13 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   );
 
   return (
-    <ListMenu starter={starter} listWidth={278} phoneMode={phoneMode} {...rest}>
-      { phoneMode && <PhoneLinks /> }
+    <ListMenu
+      starter={phoneMode ? phoneStarter : desktopStarter}
+      listWidth={278}
+      phoneMode={phoneMode}
+      {...rest}
+    >
+      {phoneMode && <PhoneLinks />}
       <HiElement src={securityCentre} msg="Security Center" alt="Security Center" />
       <Hairline color={border} />
       <HiElement src={invite} msg="Invite friends" alt="Invite friends" />

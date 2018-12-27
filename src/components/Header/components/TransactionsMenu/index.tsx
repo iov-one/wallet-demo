@@ -3,6 +3,7 @@ import * as React from "react";
 import loading from "~/components/Header/assets/loading.svg";
 import loadingSpin from "~/components/Header/assets/loadingSpin.svg";
 import { HeaderPendingTxProps } from "~/components/Header/selector";
+import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { primary } from "~/theme/variables";
@@ -53,7 +54,7 @@ class TransactionsMenu extends React.Component<Props, State> {
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
     const logo = hasPendingTxs ? loadingSpin : loading;
-    const starter = () => <Img src={logo} className={starterClasses} alt="Loading Transactions" />;
+    const starter = () => <Block><Img src={logo} className={starterClasses} alt="Loading Transactions" /></Block>;
 
     return (
       <ListMenu starter={starter} color={showGotIt ? primary : "white"} listWidth={320} {...rest}>

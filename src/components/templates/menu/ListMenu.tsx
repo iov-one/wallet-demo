@@ -22,6 +22,8 @@ type Props = OpenType & OpenHandler & Outer;
 
 const styles = createStyles({
   root: {
+    display: 'flex',
+    alignItems: 'center',
     "&:hover": {
       cursor: "pointer",
     },
