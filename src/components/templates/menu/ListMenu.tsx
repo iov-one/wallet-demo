@@ -22,8 +22,8 @@ type Props = OpenType & OpenHandler & Outer;
 
 const styles = createStyles({
   root: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     "&:hover": {
       cursor: "pointer",
     },
@@ -48,10 +48,14 @@ const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
   </Grow>
 );
 
-const buildListStyleFrom = (width: number, color: string): React.CSSProperties => ({
-  width: `${width}px`,
-  backgroundColor: color,
-});
+const buildListStyleFrom = (phoneMode: boolean, width: number, color: string): React.CSSProperties => {
+  const pixels = phoneMode ? "inherit" : `${width}px`;
+
+  return {
+    width: pixels,
+    backgroundColor: color,
+  };
+};
 
 class ListMenu extends React.Component<Props> {
   private readonly menuRef = React.createRef<HTMLDivElement>();
@@ -71,7 +75,7 @@ class ListMenu extends React.Component<Props> {
       toggle,
     } = this.props;
     const showPhone = phoneMode && phoneHook !== null && open;
-    const style = buildListStyleFrom(listWidth, color);
+    const style = buildListStyleFrom(phoneMode, listWidth, color);
 
     return (
       <React.Fragment>
@@ -79,7 +83,10 @@ class ListMenu extends React.Component<Props> {
           {starter(visited, open)}
         </div>
         {showPhone ? (
-          ReactDOM.createPortal(<ListItems clickAway={clickAway} items={children} />, phoneHook!)
+          ReactDOM.createPortal(
+            <ListItems clickAway={clickAway} items={children} style={style} />,
+            phoneHook!,
+          )
         ) : (
           <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
             {() => <ListItems clickAway={clickAway} items={children} style={style} />}

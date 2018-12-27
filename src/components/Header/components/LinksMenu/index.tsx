@@ -57,7 +57,7 @@ export const PhoneLinks = () => (
     </ListItem>
     <Hairline color={border} />
   </React.Fragment>
-)
+);
 
 const DesktopLinksComponent = ({ classes }: Props) => (
   <Block className={classes.root}>

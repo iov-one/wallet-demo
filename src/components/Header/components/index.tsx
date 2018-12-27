@@ -36,7 +36,7 @@ class HeaderComponent extends React.Component<Props> {
         <Block className={classes.root} padding="xxl">
           <Img src={logoBlack} alt="Logo" />
           <Spacer order={1} />
-          { !phoneMode && <LinksDesktop /> }
+          {!phoneMode && <LinksDesktop />}
           <Spacer order={4} />
           <TransactionsMenu phoneHook={phoneHook} phoneMode={phoneMode} items={pendingTxs} />
           <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} />

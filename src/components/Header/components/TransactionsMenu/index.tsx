@@ -54,10 +54,15 @@ class TransactionsMenu extends React.Component<Props, State> {
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
     const logo = hasPendingTxs ? loadingSpin : loading;
-    const starter = () => <Block><Img src={logo} className={starterClasses} alt="Loading Transactions" /></Block>;
+    const starter = () => (
+      <Block>
+        <Img src={logo} className={starterClasses} alt="Loading Transactions" />
+      </Block>
+    );
+    const color = showGotIt ? primary : "white";
 
     return (
-      <ListMenu starter={starter} color={showGotIt ? primary : "white"} listWidth={320} {...rest}>
+      <ListMenu starter={starter} color={color} listWidth={320} {...rest}>
         {showGotIt ? <GotIt onGotIt={this.onGotIt} /> : <NotificationList items={items} />}
       </ListMenu>
     );
