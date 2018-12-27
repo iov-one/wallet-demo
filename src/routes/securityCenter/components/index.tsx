@@ -19,8 +19,8 @@ interface Props {
 export default ({ onAdvancedSecurity, showAdvancedSecurity, closeAdvancedSecurity }: Props): JSX.Element => (
   <React.Fragment>
     <PageTitle />
-    <SecurityCard title="Set a password" linkText="Change" link="/" icon={PswIcon} />
-    <SecurityCard title="Set a backup phrase" linkText="Back up again" link="/" icon={BPIcon} />
+    <SecurityCard title="Set a password" action="Change" icon={PswIcon} />
+    <SecurityCard title="Set a backup phrase" action="Back up again" icon={BPIcon} />
     <Block margin="md" />
     <AdvancedSecurity
       showAdvancedSecurity={showAdvancedSecurity}
