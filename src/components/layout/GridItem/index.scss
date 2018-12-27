@@ -8,7 +8,7 @@
 }
 
 .row {
-  flex-direction: column;
+  flex-direction: row;
 }
 .block {
   display: block;
@@ -160,11 +160,8 @@
   }
 }
 
-@media only screen and (max-width: $(screenXs)px) {
-  @mixin col xs;
-  @mixin autoWidth xs;
-}
-
+@mixin col xs;
+@mixin autoWidth xs;
 
 @media only screen and (min-width: $(screenSm)px) {
   @mixin col sm;

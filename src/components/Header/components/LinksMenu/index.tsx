@@ -1,10 +1,13 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
 import { BALANCE_ROUTE, PAYMENT_ROUTE } from "~/routes";
 import { history } from "~/store";
-import { lg, primary } from "~/theme/variables";
+import { border, lg, primary } from "~/theme/variables";
 
 const styles = createStyles({
   root: {
@@ -41,12 +44,27 @@ const onPayments = () => {
   history.push(PAYMENT_ROUTE);
 };
 
-const Links = ({ classes }: Props) => (
+const BALANCE_TEXT = "Balance";
+const PAYMENT_TEXT = "Payments";
+
+export const PhoneLinks = () => (
+  <React.Fragment>
+    <ListItem button onClick={onBalance}>
+      <ListItemText primary={BALANCE_TEXT} />
+    </ListItem>
+    <ListItem button onClick={onPayments}>
+      <ListItemText primary={PAYMENT_TEXT} />
+    </ListItem>
+    <Hairline color={border} />
+  </React.Fragment>
+);
+
+const DesktopLinksComponent = ({ classes }: Props) => (
   <Block className={classes.root}>
     <Block className={classes.item}>
       <Block className={classes.text}>
         <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onBalance}>
-          Balance
+          {BALANCE_TEXT}
         </Typography>
       </Block>
       <Block className={classes.line} />
@@ -54,7 +72,7 @@ const Links = ({ classes }: Props) => (
     <Block className={classes.item}>
       <Block className={classes.text}>
         <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onPayments}>
-          Payments
+          {PAYMENT_TEXT}
         </Typography>
       </Block>
       <Block className={classes.line} />
@@ -62,4 +80,4 @@ const Links = ({ classes }: Props) => (
   </Block>
 );
 
-export default withStyles(styles)(Links);
+export const LinksDesktop = withStyles(styles)(DesktopLinksComponent);

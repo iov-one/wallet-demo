@@ -1,8 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import DesktopHeader from "./DesktopHeader";
-import PhoneHeader from "./PhoneHeader";
+import Layout from "./components";
 import selector, { SelectorProps } from "./selector";
 
 class Header extends React.Component<SelectorProps> {
@@ -11,7 +10,7 @@ class Header extends React.Component<SelectorProps> {
 
     return (
       <MatchMediaContext.Consumer>
-        {phone => (phone ? <PhoneHeader /> : <DesktopHeader pendingTxs={pendingTxs} txs={txs} />)}
+        {phone => <Layout phoneMode={phone} pendingTxs={pendingTxs} txs={txs} />}
       </MatchMediaContext.Consumer>
     );
   }

@@ -1,23 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-
-import { RouteComponentProps, withRouter } from "react-router";
-
 import { isEmpty } from "lodash";
-
+import * as React from "react";
 import { connect } from "react-redux";
-
-import { Header } from "../../compoundComponents/header";
-import { Toasts } from "../../compoundComponents/toasts";
-
-import {
-  PendingTransactionProps,
-  TransactionNotificationProps,
-} from "../../compoundComponents/notifications";
-
-import { NavItemInfo } from "../../subComponents/headers";
-
-import { pendingTransactionVisited } from "../../../reducers/notification";
+import { RouteComponentProps, withRouter } from "react-router";
+import styled from "styled-components";
+import { PendingTransactionProps, TransactionNotificationProps } from "~/components/compoundComponents/notifications";
+import { Toasts } from "~/components/compoundComponents/toasts";
+import Header from "~/components/Header";
+import { pendingTransactionVisited } from "~/reducers/notification";
 
 interface OwnProps extends RouteComponentProps<{}> {
   readonly children: JSX.Element;
@@ -26,10 +15,10 @@ interface OwnProps extends RouteComponentProps<{}> {
 }
 
 interface GeneratedProps {
-  readonly pendingTransactionInfo: PendingTransactionProps;
-  readonly transactionInfo: TransactionNotificationProps;
-  readonly transactionError: string;
-  readonly visitedPending: boolean;
+  readonly pendingTransactionInfo?: PendingTransactionProps;
+  readonly transactionInfo?: TransactionNotificationProps;
+  readonly transactionError?: string;
+  readonly visitedPending?: boolean;
 }
 
 interface GeneratedFunctionProps {
@@ -89,44 +78,13 @@ class PageTemplate extends React.Component<PageProps, PageState> {
     const {
       whiteBg,
       children,
-      activeNavigation,
-      transactionInfo,
-      pendingTransactionInfo,
-      visitedPending,
       transactionError,
-      pendingVisited,
-      history,
     } = this.props;
     const { isOffline } = this.state;
-    const navigationItems = [
-      {
-        label: "Balance",
-        onClick: () => {
-          history.push("/balance");
-        },
-      },
-      {
-        label: "Payments",
-        onClick: () => {
-          history.push("/payment");
-        },
-      },
-    ] as ReadonlyArray<NavItemInfo>;
-    const navigationInfo = {
-      items: navigationItems,
-      activeItem: activeNavigation,
-    };
+        
     return (
       <Wrapper>
-        <Header
-          navigationInfo={navigationInfo}
-          transactionInfo={transactionInfo}
-          pendingTransactionInfo={pendingTransactionInfo}
-          visitedPending={visitedPending}
-          onLogo={() => history.push("/balance")}
-          onGotIt={pendingVisited}
-          logout={this.logout}
-        />
+        <Header />
         <PageContent className={whiteBg ? "whiteBg" : "darkBg"}>
           <Toasts type="network" show={isOffline} />
           <Toasts type="transaction" show={!isEmpty(transactionError)} />

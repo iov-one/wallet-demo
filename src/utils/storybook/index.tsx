@@ -7,6 +7,7 @@ import { history, makeStore } from "~/store";
 import theme from "~/theme/mui";
 
 import "~/index.scss";
+import "./index.scss";
 
 interface Props {
   readonly children: JSX.Element;

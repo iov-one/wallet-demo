@@ -9,12 +9,12 @@ interface Props {
 export const ExtraSecurity = ({ onClick }: Props): JSX.Element => (
   <React.Fragment>
     <Block margin="xs">
-      <Typography variant="subtitle1" color="textPrimary">
+      <Typography align="center" variant="subtitle1" color="textPrimary">
         Extra security?
       </Typography>
     </Block>
     <Block margin="lg">
-      <Typography variant="subtitle1" color="primary" underlined pointer onClick={onClick}>
+      <Typography align="center" variant="subtitle1" color="primary" underlined pointer onClick={onClick}>
         See advanced security
       </Typography>
     </Block>

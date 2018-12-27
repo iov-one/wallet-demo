@@ -1,57 +1,63 @@
-import { Card, createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import React from "react";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
-import Link from "~/components/layout/Link";
+import Img from "~/components/layout/Image";
+import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
+import { background, lg } from "~/theme/variables";
 import CheckIcon from "../assets/check.svg";
-import ImgBg from "../assets/icon_bg.svg";
 
 const styles = createStyles({
-  securityCard: {
+  container: {
     display: "flex",
+  },
+  card: {
+    backgroundColor: background,
+    display: "flex",
+    padding: lg,
     alignItems: "center",
-    flex: "1 0 auto",
+    width: "100%",
+    maxWidth: "506px",
+  },
+  info: {
+    flexGrow: 1,
+    display: "flex",
+    flexWrap: "wrap",
   },
   titleBox: {
     flexGrow: 1,
     minWidth: "30px",
   },
-  card: {
-    width: "100%",
-  },
 });
 
 interface Props extends WithStyles<typeof styles> {
   readonly title: string;
-  readonly linkText: string;
-  readonly link: string;
+  readonly action: string;
   readonly icon: string;
 }
 
-const SecurityCard = ({ title, icon, linkText, link, classes }: Props): JSX.Element => (
-  <Block margin="md" maxWidth={506} className={classes.card}>
-    <Card>
-      <Block margin="xl" />
-      <Block padding="xl" className={classes.securityCard}>
-        <Block>
-          <BadgeIcon icon={icon} badgeIcon={CheckIcon} width={42} height={42} background={`url(${ImgBg})`} />
-        </Block>
-        <Block className={classes.titleBox} padding="lg">
-          <Typography noWrap component="h6" variant="h6">
+const Badge = <Img src={CheckIcon} alt="Badge Icon" />
+
+const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
+  <Block className={classes.container} margin="md">
+    <Spacer order={1} />
+    <Block maxWidth={506} className={classes.card}>
+      <BadgeIcon icon={icon} badge={Badge} width={25} height={23} />
+      <Block className={classes.info} padding="lg">
+        <Block className={classes.titleBox}>
+          <Typography component="h6" variant="h6">
             {title}
           </Typography>
         </Block>
         <Block>
-          <Link to={link}>
-            <Typography noWrap underlined variant="body1" color="primary" align="right">
-              {linkText}
-            </Typography>
-          </Link>
+          <Typography underlined variant="body1" color="primary" align="right">
+            {action}
+          </Typography>
         </Block>
       </Block>
-      <Block margin="xl" />
-    </Card>
+    </Block>
+    <Spacer order={1} />
   </Block>
 );
 
