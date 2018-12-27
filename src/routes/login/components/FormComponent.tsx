@@ -7,7 +7,7 @@ import Typography from "~/components/layout/Typography";
 
 export const LOGIN_PASS_FIELD = "password";
 
-const FormComponent = () => (
+const FormComponent = (onRecoverPassword: () => void) => () => (
   <React.Fragment>
     <Block padding="xxl" maxWidth={450} margin="xxl">
       <Block margin="sm">
@@ -26,7 +26,7 @@ const FormComponent = () => (
       />
     </Block>
     <Block padding="xxl" maxWidth={450} margin="xl">
-      <Typography variant="subtitle1" color="primary" underlined>
+      <Typography variant="subtitle1" color="primary" underlined pointer onClick={onRecoverPassword}>
         Forgot your password?
       </Typography>
     </Block>
