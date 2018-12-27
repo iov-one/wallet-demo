@@ -74,6 +74,8 @@ export const themeObject: ThemeOptions = {
     MuiDialogContent: {
       root: {
         padding: "6px",
+        overflowY: "hidden",
+        display: "flex",
       },
     },
     MuiDialogActions: {
