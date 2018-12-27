@@ -10,6 +10,8 @@ const styles = createStyles({
     borderRadius: "5px",
     padding: "50px 30px",
     border: "1px solid #f3f3f3",
+    overflowY: "auto",
+    flexGrow: 1,
   },
 });
 
