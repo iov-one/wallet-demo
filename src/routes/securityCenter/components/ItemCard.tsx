@@ -38,7 +38,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly onClick: () => void;
 }
 
-const Badge = <Img src={CheckIcon} alt="Badge Icon" />
+const Badge = <Img src={CheckIcon} alt="Badge Icon" />;
 
 const SecurityCard = ({ title, icon, action, classes, onClick }: Props): JSX.Element => (
   <Block className={classes.container} margin="md">
@@ -52,15 +52,7 @@ const SecurityCard = ({ title, icon, action, classes, onClick }: Props): JSX.Ele
           </Typography>
         </Block>
         <Block>
-          <Typography
-            underlined
-            pointer
-            variant="body1"
-            color="primary"
-            align="right"
-            onClick={onClick}
-          >
-            
+          <Typography underlined pointer variant="body1" color="primary" align="right" onClick={onClick}>
             {action}
           </Typography>
         </Block>

@@ -34,7 +34,7 @@ export default ({
   <React.Fragment>
     <PageTitle />
     <SecurityCard title="Set a password" action="Change" onClick={onSetPassword} icon={PswIcon} />
-    <SecurityCard title="Set a backup phrase" action="Back up again" onClick={()=>(true)} icon={BPIcon} />
+    <SecurityCard title="Set a backup phrase" action="Back up again" onClick={() => true} icon={BPIcon} />
     <AdvancedSecurity
       showAdvancedSecurity={showAdvancedSecurity}
       closeAdvancedSecurity={closeAdvancedSecurity}

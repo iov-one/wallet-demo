@@ -9,9 +9,9 @@ interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({
   logo: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
-})
+});
 
 const PageTitle = ({ classes }: Props) => (
   <React.Fragment>
@@ -24,4 +24,4 @@ const PageTitle = ({ classes }: Props) => (
   </React.Fragment>
 );
 
-export default withStyles(styles)(PageTitle)
+export default withStyles(styles)(PageTitle);

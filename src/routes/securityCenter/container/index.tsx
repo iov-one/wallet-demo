@@ -52,17 +52,16 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
   public render(): JSX.Element {
     return (
       <PageMenu>
-          <Layout
-            onBackupPhrase={this.onBackupPhrase}
-            onSetPassword={this.onSetPassword}
-            showSetPassword={this.state.showSetPassword}
-            closeSetPassword={this.closeSetPassword}
-            onSetPasswordSubmit={this.onSetPasswordSubmit}
-
-            onAdvancedSecurity={this.onAdvancedSecurity}
-            showAdvancedSecurity={this.state.showAdvancedSecurity}
-            closeAdvancedSecurity={this.closeAdvancedSecurity}
-          />
+        <Layout
+          onBackupPhrase={this.onBackupPhrase}
+          onSetPassword={this.onSetPassword}
+          showSetPassword={this.state.showSetPassword}
+          closeSetPassword={this.closeSetPassword}
+          onSetPasswordSubmit={this.onSetPasswordSubmit}
+          onAdvancedSecurity={this.onAdvancedSecurity}
+          showAdvancedSecurity={this.state.showAdvancedSecurity}
+          closeAdvancedSecurity={this.closeAdvancedSecurity}
+        />
       </PageMenu>
     );
   }

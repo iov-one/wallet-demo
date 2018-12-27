@@ -92,7 +92,7 @@ export const themeObject: ThemeOptions = {
         margin: 0,
         boxShadow: "none",
         background: "transparent",
-        overflowY: "hidden",        
+        overflowY: "hidden",
       },
     },
     MuiFormHelperText: {

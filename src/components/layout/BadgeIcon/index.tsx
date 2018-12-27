@@ -10,25 +10,25 @@ interface Props extends React.ImgHTMLAttributes<HTMLImageElement>, WithStyles<ty
 
 const styles = createStyles({
   background: {
-    backgroundColor: '#d6faf4',
+    backgroundColor: "#d6faf4",
     height: xxl,
     width: xxl,
     borderRadius: xxl,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   badge: {
-    width: '29px',
-    top: '-8px',
-    right: '-8px',
+    width: "29px",
+    top: "-8px",
+    right: "-8px",
   },
 });
 
 class BadgeIcon extends PureComponent<Props> {
   public render(): JSX.Element {
     const { icon, badge, classes, ...rest } = this.props;
-    const badgeClasses = { badge: classes.badge }
+    const badgeClasses = { badge: classes.badge };
 
     return (
       <Badge badgeContent={badge} classes={badgeClasses} color="primary">
