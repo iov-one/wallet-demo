@@ -68,7 +68,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiDialogTitle: {
       root: {
-        paddingTop: "45px",
+        paddingTop: "22px",
       },
     },
     MuiDialogContent: {
