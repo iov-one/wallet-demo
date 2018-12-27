@@ -6,7 +6,19 @@ import { LOGIN_PASS_FIELD } from "~/routes/login/components/FormComponent";
 import { loginAccount } from "~/sequences/login";
 import actions, { HomeActions } from "./actions";
 
-class SignUp extends React.Component<HomeActions, {}> {
+interface State {
+  readonly showRecoverPassword: boolean;
+}
+
+class SignUp extends React.Component<HomeActions, State> {
+  public readonly state = {
+    showRecoverPassword: false,
+  };
+
+  public shouldComponentUpdate(): boolean {
+    return false;
+  }
+
   public readonly onLogin = async (values: object) => {
     const { boot, drinkFaucet } = this.props;
     const password = (values as FormType)[LOGIN_PASS_FIELD];
@@ -14,8 +26,31 @@ class SignUp extends React.Component<HomeActions, {}> {
     await loginAccount(boot, drinkFaucet, password);
   };
 
+  public readonly onRecoverPassword = (): void => {
+    this.setState({
+      showRecoverPassword: true,
+    });
+  };
+  public readonly closeRecoverPassword = (): void => {
+    this.setState({
+      showRecoverPassword: false,
+    });
+  };
+
+  public readonly submitRecoverPassword = (): void => {
+    this.closeRecoverPassword();
+  };
+
   public render(): JSX.Element {
-    return <Layout onSubmit={this.onLogin} />;
+    return (
+      <Layout
+        onSubmit={this.onLogin}
+        showRecoverPassword={this.state.showRecoverPassword}
+        onRecoverPassword={this.onRecoverPassword}
+        closeRecoverPassword={this.closeRecoverPassword}
+        submitRecoverPassword={this.submitRecoverPassword}
+      />
+    );
   }
 }
 
