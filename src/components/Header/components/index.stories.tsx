@@ -61,17 +61,17 @@ storiesOf("Components /header", module)
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Typography variant="h5">Header with both txs and pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header pendingTxs={pendingTxs} txs={txs} />
+          <Header phoneMode={false} pendingTxs={pendingTxs} txs={txs} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without txs but having pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header pendingTxs={pendingTxs} txs={[]} />
+          <Header phoneMode={false} pendingTxs={pendingTxs} txs={[]} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without both: txs and pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header pendingTxs={[]} txs={[]} />
+          <Header phoneMode={false} pendingTxs={[]} txs={[]} />
         </RootMatchMedia>
         <Separator />
       </div>
@@ -82,17 +82,17 @@ storiesOf("Components /header", module)
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Typography variant="h5">Header with both txs and pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header pendingTxs={pendingTxs} txs={txs} />
+          <Header phoneMode pendingTxs={pendingTxs} txs={txs} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without txs but having pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header pendingTxs={pendingTxs} txs={[]} />
+          <Header phoneMode pendingTxs={pendingTxs} txs={[]} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without both: txs and pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header pendingTxs={[]} txs={[]} />
+          <Header phoneMode pendingTxs={[]} txs={[]} />
         </RootMatchMedia>
         <Separator />
       </div>

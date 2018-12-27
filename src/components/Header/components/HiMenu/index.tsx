@@ -18,7 +18,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { border, lg, xl, xs } from "~/theme/variables";
+import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
 interface Props extends PhoneHook, WithStyles<typeof styles> {}

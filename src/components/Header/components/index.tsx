@@ -10,7 +10,6 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
-import { PhoneHook } from "~/components/templates/menu/ListMenu";
 
 const styles = createStyles({
   root: {
@@ -22,14 +21,18 @@ const styles = createStyles({
   },
 });
 
-interface Props extends PhoneHook, WithStyles<typeof styles> {
+interface Props extends WithStyles<typeof styles> {
+  readonly phoneMode: boolean;
   readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
   readonly txs: ReadonlyArray<HeaderTxProps>;
 }
 
 class HeaderComponent extends React.Component<Props> {
+  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+
   public render(): JSX.Element {
-    const { phoneHook, phoneMode, classes, pendingTxs, txs } = this.props;
+    const { phoneMode, classes, pendingTxs, txs } = this.props;
+    const phoneHook = this.phoneHookRef.current;
 
     return (
       <React.Fragment>
@@ -43,6 +46,7 @@ class HeaderComponent extends React.Component<Props> {
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
         <Hairline />
+        <div ref={this.phoneHookRef} />
       </React.Fragment>
     );
   }
