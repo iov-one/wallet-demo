@@ -31,7 +31,6 @@ class SecurityCenter extends React.Component<{}, SecurityCenterState> {
     });
   };
 
-  // TODO refactor this removing pageStructure container and use the Grid once #172 is done
   public render(): JSX.Element {
     return (
       <PageMenu>
