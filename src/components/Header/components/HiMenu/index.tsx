@@ -18,6 +18,8 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
+import { SECURITY_CENTER_ROUTE } from "~/routes";
+import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
@@ -27,10 +29,11 @@ interface HiElementProps {
   readonly src: string;
   readonly alt: string;
   readonly msg: string;
+  readonly action: () => void;
 }
 
-const HiElement = ({ src, alt, msg }: HiElementProps) => (
-  <ListItem button>
+const HiElement = ({ src, alt, action, msg }: HiElementProps) => (
+  <ListItem button onClick={action}>
     <ListItemIcon>
       <Img src={src} alt={alt} />
     </ListItemIcon>
@@ -53,6 +56,9 @@ const styles = createStyles({
   },
 });
 
+const onSecurityCenter = () => {
+  history.push(SECURITY_CENTER_ROUTE)
+}
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const phoneStarter = (_: boolean, open: boolean) => (
     <React.Fragment>
@@ -80,15 +86,15 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
       {...rest}
     >
       {phoneMode && <PhoneLinks />}
-      <HiElement src={securityCentre} msg="Security Center" alt="Security Center" />
+      <HiElement src={securityCentre} action={onSecurityCenter} msg="Security Center" alt="Security Center" />
       <Hairline color={border} />
-      <HiElement src={invite} msg="Invite friends" alt="Invite friends" />
+      <HiElement src={invite} action={onSecurityCenter} msg="Invite friends" alt="Invite friends" />
       <Hairline color={border} />
-      <HiElement src={terms} msg="Terms & Conditions" alt="Terms & Conditions" />
+      <HiElement src={terms} action={onSecurityCenter} msg="Terms & Conditions" alt="Terms & Conditions" />
       <Hairline color={border} />
-      <HiElement src={privacy} msg="Privacy Policy" alt="Privacy Policy" />
+      <HiElement src={privacy} action={onSecurityCenter} msg="Privacy Policy" alt="Privacy Policy" />
       <Hairline color={border} />
-      <HiElement src={logout} msg="Log out" alt="Log out" />
+      <HiElement src={logout} action={onSecurityCenter} msg="Log out" alt="Log out" />
     </ListMenu>
   );
 };
