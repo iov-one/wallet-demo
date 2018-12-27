@@ -8,7 +8,12 @@ import ReactDOM from "react-dom";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 
-interface Outer extends WithStyles<typeof styles> {
+export interface PhoneHook {
+  readonly phoneHook: HTMLDivElement | null;
+  readonly phoneMode: boolean;
+}
+
+interface Outer extends PhoneHook, WithStyles<typeof styles> {
   readonly starter: (visited: boolean, open: boolean) => JSX.Element;
   readonly listWidth: number;
   readonly color?: string;

@@ -4,12 +4,12 @@ import loading from "~/components/Header/assets/loading.svg";
 import loadingSpin from "~/components/Header/assets/loadingSpin.svg";
 import { HeaderPendingTxProps } from "~/components/Header/selector";
 import Img from "~/components/layout/Image";
-import ListMenu from "~/components/templates/menu/ListMenu";
+import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { primary } from "~/theme/variables";
 import GotIt from "./GotIt";
 import NotificationList from "./NotificationList";
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends PhoneHook, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<HeaderPendingTxProps>;
 }
 
@@ -48,7 +48,7 @@ class TransactionsMenu extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     const { showGotIt } = this.state;
-    const { classes, items } = this.props;
+    const { classes, items, ...rest } = this.props;
 
     const hasPendingTxs = items.length > 0;
     const starterClasses = hasPendingTxs ? classes.spin : undefined;
@@ -56,7 +56,7 @@ class TransactionsMenu extends React.Component<Props, State> {
     const starter = () => <Img src={logo} className={starterClasses} alt="Loading Transactions" />;
 
     return (
-      <ListMenu starter={starter} color={showGotIt ? primary : "white"} listWidth={320}>
+      <ListMenu starter={starter} color={showGotIt ? primary : "white"} listWidth={320} {...rest}>
         {showGotIt ? <GotIt onGotIt={this.onGotIt} /> : <NotificationList items={items} />}
       </ListMenu>
     );

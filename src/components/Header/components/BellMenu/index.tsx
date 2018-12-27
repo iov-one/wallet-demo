@@ -1,4 +1,3 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
@@ -9,17 +8,15 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
-import ListMenu from "~/components/templates/menu/ListMenu";
+import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends PhoneHook {
   readonly items: ReadonlyArray<HeaderTxProps>;
 }
 
-const styles = createStyles({});
-
-const BellMenu = ({ items }: Props) => {
+const BellMenu = ({ items, ...rest }: Props) => {
   const starter = (visited: boolean, _: boolean) => {
     const logo = visited ? bell : bell;
 
@@ -33,7 +30,7 @@ const BellMenu = ({ items }: Props) => {
   const hasItems = items.length > 0;
 
   return (
-    <ListMenu starter={starter} listWidth={324}>
+    <ListMenu starter={starter} listWidth={324} {...rest}>
       <ListItem>
         <ListItemText primary="Notifications" />
       </ListItem>
@@ -55,4 +52,4 @@ const BellMenu = ({ items }: Props) => {
   );
 };
 
-export default withStyles(styles)(BellMenu);
+export default BellMenu;

@@ -15,10 +15,11 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import ListMenu from "~/components/templates/menu/ListMenu";
+import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { border, xs } from "~/theme/variables";
+import { PhoneLinks } from "../LinksMenu";
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends PhoneHook, WithStyles<typeof styles> {}
 
 interface HiElementProps {
   readonly src: string;
@@ -45,7 +46,7 @@ const styles = createStyles({
   },
 });
 
-const HiMenu = ({ classes }: Props) => {
+const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const starter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
@@ -56,7 +57,8 @@ const HiMenu = ({ classes }: Props) => {
   );
 
   return (
-    <ListMenu starter={starter} listWidth={278}>
+    <ListMenu starter={starter} listWidth={278} phoneMode={phoneMode} {...rest}>
+      { phoneMode && <PhoneLinks /> }
       <HiElement src={securityCentre} msg="Security Center" alt="Security Center" />
       <Hairline color={border} />
       <HiElement src={invite} msg="Invite friends" alt="Invite friends" />
