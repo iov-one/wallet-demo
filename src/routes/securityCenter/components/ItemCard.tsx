@@ -46,12 +46,12 @@ const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
       <BadgeIcon icon={icon} badge={Badge} width={25} height={23} />
       <Block className={classes.info} padding="lg">
         <Block className={classes.titleBox}>
-          <Typography noWrap component="h6" variant="h6">
+          <Typography component="h6" variant="h6">
             {title}
           </Typography>
         </Block>
         <Block>
-          <Typography noWrap underlined variant="body1" color="primary" align="right">
+          <Typography underlined variant="body1" color="primary" align="right">
             {action}
           </Typography>
         </Block>
