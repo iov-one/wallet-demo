@@ -16,10 +16,12 @@ const Separator = () => (
 
 const pendingTxs: ReadonlyArray<HeaderPendingTxProps> = [
   {
+    id: "tx1",
     receiver: "alex*iov",
     amount: "12.5 IOV",
   },
   {
+    id: "tx2",
     receiver: "moe*iov",
     amount: "0.14 IOV",
   },
@@ -61,17 +63,22 @@ storiesOf("Components /header", module)
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Typography variant="h5">Header with both txs and pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header phoneMode={false} pendingTxs={pendingTxs} txs={txs} />
+          <Header phoneMode={false} pendingTxs={pendingTxs} txs={txs} lastTx={txs[0]} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header with both txs (last one faulty) and pending txs</Typography>
+        <RootMatchMedia matchMedia={true}>
+          <Header phoneMode pendingTxs={pendingTxs} txs={txs} lastTx={txs[2]} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without txs but having pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header phoneMode={false} pendingTxs={pendingTxs} txs={[]} />
+          <Header phoneMode={false} pendingTxs={pendingTxs} txs={[]} lastTx={undefined} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without both: txs and pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header phoneMode={false} pendingTxs={[]} txs={[]} />
+          <Header phoneMode={false} pendingTxs={[]} txs={[]} lastTx={undefined}/>
         </RootMatchMedia>
         <Separator />
       </div>
@@ -82,17 +89,22 @@ storiesOf("Components /header", module)
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Typography variant="h5">Header with both txs and pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header phoneMode pendingTxs={pendingTxs} txs={txs} />
+          <Header phoneMode pendingTxs={pendingTxs} txs={txs} lastTx={txs[0]} />
+        </RootMatchMedia>
+        <Separator />
+        <Typography variant="h5">Header with both txs (last one faulty) and pending txs</Typography>
+        <RootMatchMedia matchMedia={true}>
+          <Header phoneMode pendingTxs={pendingTxs} txs={txs} lastTx={txs[2]} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without txs but having pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header phoneMode pendingTxs={pendingTxs} txs={[]} />
+          <Header phoneMode pendingTxs={pendingTxs} txs={[]} lastTx={undefined} />
         </RootMatchMedia>
         <Separator />
         <Typography variant="h5">Header without both: txs and pending txs</Typography>
         <RootMatchMedia matchMedia={true}>
-          <Header phoneMode pendingTxs={[]} txs={[]} />
+          <Header phoneMode pendingTxs={[]} txs={[]} lastTx={undefined} />
         </RootMatchMedia>
         <Separator />
       </div>

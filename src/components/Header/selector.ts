@@ -8,6 +8,7 @@ import { getPendingTransactions, getTransactions } from "~/selectors";
 export interface SelectorProps {
   readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
   readonly txs: ReadonlyArray<HeaderTxProps>;
+  readonly lastTx: HeaderTxProps | undefined;
 }
 
 export interface HeaderTxProps {
@@ -21,6 +22,7 @@ export interface HeaderTxProps {
 }
 
 export interface HeaderPendingTxProps {
+  readonly id: string;
   readonly receiver: string;
   readonly amount: string;
 }
@@ -81,7 +83,7 @@ const pendingTxsSelector = createSelector(
     }
 
     const headerPendingTxs = pendingTxs.map((tx: PendingNotificationItemProps) => {
-      const { amount, receiver } = tx;
+      const { amount, receiver, id } = tx;
       const { fractional, whole, tokenTicker } = amount;
 
       // TODO review sigFigs based on iov-core 0.10
@@ -91,6 +93,7 @@ const pendingTxsSelector = createSelector(
       return {
         receiver,
         amount: amountCoin,
+        id,
       };
     });
 
@@ -98,9 +101,21 @@ const pendingTxsSelector = createSelector(
   },
 );
 
+const lastTxSelector = createSelector(
+  txsSelector,
+  (txs: ReadonlyArray<HeaderTxProps>) => {
+    if (txs.length === 0) {
+      return undefined;
+    }
+
+    return txs[0];
+  }
+)
+
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   pendingTxs: pendingTxsSelector,
   txs: txsSelector,
+  lastTx: lastTxSelector,
 });
 
 export default structuredSelector;
