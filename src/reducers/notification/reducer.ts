@@ -2,6 +2,8 @@ import { filter } from "lodash";
 import { ActionType } from "typesafe-actions";
 
 import { AnnotatedConfirmedTransaction, coinToString } from "~/logic";
+import { elipsify } from "~/utils/strings";
+
 import * as actions from "./actions";
 import { NotificationState, NotificationTx } from "./state";
 
@@ -12,9 +14,6 @@ const initState: NotificationState = {
   visitedPending: false,
   transactionError: "",
 };
-
-const elipsify = (full: string, maxLength: number): string =>
-  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
 
 // turns the full transaction information into a simple form as needed for display
 export function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationTx {
