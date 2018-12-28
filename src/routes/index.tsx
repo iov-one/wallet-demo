@@ -27,8 +27,8 @@ export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
-export const SET_PASSWORD_ROUTE = "/set-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
+export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
 export const PAYMENT_ROUTE = "/payment";
 
 const Wrapper = styled.div`
@@ -41,11 +41,11 @@ export const MainRouter = () => (
     <Route exact path={HOME_ROUTE} component={Home} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
+    <Route exact path={PASSWORD_RECOVERY_ROUTE} component={LogIn} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <RequireLogin>
       <Wrapper>
         <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-        <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />
         <Route path="/payment/" component={PaymentPage} />
