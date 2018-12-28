@@ -2,17 +2,12 @@ import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
 import FormComponent from "./FormComponent";
 import PeopleImg from "./LeftMenu";
-import RecoverPassword from "./RecoverPassword";
 import SignupComponent from "./SignupComponent";
 
 const SignupSection = () => <SignupComponent />;
 
 interface Props {
-  readonly showRecoverPassword: boolean;
   readonly onSubmit: (values: object) => void;
-  readonly onRecoverPassword: () => void;
-  readonly closeRecoverPassword: () => void;
-  readonly submitRecoverPassword: () => void;
 }
 
 export default class Layout extends React.Component<Props, {}> {
@@ -21,13 +16,7 @@ export default class Layout extends React.Component<Props, {}> {
   }
 
   public render(): JSX.Element {
-    const {
-      showRecoverPassword,
-      onSubmit,
-      onRecoverPassword,
-      closeRecoverPassword,
-      submitRecoverPassword,
-    } = this.props;
+    const { onSubmit } = this.props;
 
     return (
       <React.Fragment>
@@ -39,13 +28,8 @@ export default class Layout extends React.Component<Props, {}> {
           secondaryTitle="to your IOV wallet"
           subtitle="Log in to access your account"
           renderHeader={SignupSection}
-          formRender={FormComponent(onRecoverPassword)}
+          formRender={FormComponent}
           nextMsg="Continue"
-        />
-        <RecoverPassword
-          show={showRecoverPassword}
-          onClose={closeRecoverPassword}
-          onSubmit={submitRecoverPassword}
         />
       </React.Fragment>
     );
