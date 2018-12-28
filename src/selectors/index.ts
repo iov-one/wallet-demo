@@ -61,8 +61,8 @@ export const getMyAccounts: (state: RootState) => ReadonlyArray<ChainAccount> = 
     })),
 );
 
-export const getPendingTransactions = (state: RootState) => state.notification.pending;
-export const getTransactions = (state: RootState) => state.notification.transaction;
+export const getPendingTransactions = (state: RootState) => state.notification.pending || [];
+export const getTransactions = (state: RootState) => state.notification.transaction || [];
 
 /* TODO add some generic "require" helper? */
 export const requireActiveIdentity = (state: RootState) => {

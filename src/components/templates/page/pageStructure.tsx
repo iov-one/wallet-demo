@@ -95,6 +95,4 @@ const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
   transactionError: state.notification.transactionError,
 });
 
-export const PageStructure = withRouter(
-  connect(mapStateToProps)(PageTemplate),
-);
+export const PageStructure = withRouter(connect(mapStateToProps)(PageTemplate));

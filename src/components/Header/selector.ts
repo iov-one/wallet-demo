@@ -15,12 +15,22 @@ export interface SelectorProps {
 
 const confirmedTxSelector = createSelector(
   getTransactions,
-  (txs: ReadonlyArray<HeaderTxProps>) => txs.slice(0, 3),
+  (txs: ReadonlyArray<HeaderTxProps>) => {
+    const min = Math.min(txs.length, 3);
+
+    return txs.slice(0, min)
+  }
 );
 
 const lastTxSelector = createSelector(
-  getTransactions,
-  (txs: ReadonlyArray<HeaderTxProps>) => (txs.length === 0 ? undefined : txs[0]),
+  confirmedTxSelector,
+  (txs: ReadonlyArray<HeaderTxProps>) => {
+    if (txs.length === 0) {
+      return undefined;
+    }
+
+    return txs[0];
+  },
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
