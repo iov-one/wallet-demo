@@ -4,9 +4,12 @@ import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
-import { MatchMediaContext } from "~/context/MatchMediaContext";
 
 export const LOGIN_PASS_FIELD = "password";
+
+interface State {
+  readonly showRecoverPassword: boolean;
+}
 
 class FormComponent extends React.Component<{}, State> {
   public readonly state = {
@@ -31,8 +34,6 @@ class FormComponent extends React.Component<{}, State> {
 
   public render(): JSX.Element {
     return (
-      <MatchMediaContext.Consumer>
-    {phone => (
       <React.Fragment>
         <Block padding="xxl" maxWidth={450} margin="xxl">
           <Block margin="sm">
@@ -55,14 +56,7 @@ class FormComponent extends React.Component<{}, State> {
             Forgot your password?
           </Typography>
         </Block>
-        <RecoverPassword
-          show={this.state.showRecoverPassword}
-          onClose={this.closeRecoverPassword}
-          onSubmit={this.submitRecoverPassword}
-        />
       </React.Fragment>
-      )}
-      </MatchMediaContext.Consumer>
     );
   }
 }
