@@ -27,6 +27,9 @@ const styles = createStyles({
     "&:hover": {
       cursor: "pointer",
     },
+    "& > div": {
+      display: 'flex',
+    }
   },
 });
 

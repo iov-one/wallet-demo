@@ -3,7 +3,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
-import { PendingTransactionProps, TransactionNotificationProps } from "~/components/compoundComponents/notifications";
+import {
+  PendingTransactionProps,
+  TransactionNotificationProps,
+} from "~/components/compoundComponents/notifications";
 import { Toasts } from "~/components/compoundComponents/toasts";
 import Header from "~/components/Header";
 import { pendingTransactionVisited } from "~/reducers/notification";
@@ -75,13 +78,9 @@ class PageTemplate extends React.Component<PageProps, PageState> {
     console.log("logout");
   };
   public render(): JSX.Element {
-    const {
-      whiteBg,
-      children,
-      transactionError,
-    } = this.props;
+    const { whiteBg, children, transactionError } = this.props;
     const { isOffline } = this.state;
-        
+
     return (
       <Wrapper>
         <Header />
