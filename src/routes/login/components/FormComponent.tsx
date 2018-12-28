@@ -5,6 +5,9 @@ import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
+import { PASSWORD_RECOVERY_ROUTE } from "~/routes";
+import { history } from "~/store";
+import RecoverPassword from "./RecoverPassword";
 
 export const LOGIN_PASS_FIELD = "password";
 
@@ -25,7 +28,7 @@ class FormComponent extends React.Component<{}, State> {
   };
 
   public readonly submitRecoverPassword = (): void => {
-    console.log("Proceed with recovery");
+    history.push(PASSWORD_RECOVERY_ROUTE);
     this.closeRecoverPassword();
   };
 

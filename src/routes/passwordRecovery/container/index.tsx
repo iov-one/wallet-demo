@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../components";
 
-class SecurityCenter extends React.Component<{}, {}> {
+class PasswordRecovery extends React.Component<{}, {}> {
   public shouldComponentUpdate(): boolean {
     return false;
   }
@@ -11,4 +11,4 @@ class SecurityCenter extends React.Component<{}, {}> {
   }
 }
 
-export default SecurityCenter;
+export default PasswordRecovery;

@@ -2,10 +2,9 @@ import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
 import FormComponent from "./FormComponent";
 import PeopleImg from "./LeftMenu";
-import {StepsCount} from "./StepsCount";
+import StepsCount from "./StepsCount";
 
 const StepsSection = () => <StepsCount />;
-
 
 export default class Layout extends React.Component {
   public shouldComponentUpdate(): boolean {
@@ -13,7 +12,6 @@ export default class Layout extends React.Component {
   }
 
   public render(): JSX.Element {
-
     return (
       <React.Fragment>
         <PageColumn
