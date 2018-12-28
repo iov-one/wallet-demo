@@ -25,7 +25,7 @@ class FormComponent extends React.Component<{}, State> {
   };
 
   public readonly submitRecoverPassword = (): void => {
-    console.log('Proceed with recovery');
+    console.log("Proceed with recovery");
     this.closeRecoverPassword();
   };
 
