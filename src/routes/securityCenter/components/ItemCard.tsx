@@ -6,7 +6,6 @@ import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, lg } from "~/theme/variables";
 
-
 const styles = createStyles({
   container: {
     display: "flex",
@@ -35,8 +34,6 @@ interface Props extends WithStyles<typeof styles> {
   readonly action: string;
   readonly icon: string;
 }
-
-
 
 const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
   <Block className={classes.container} margin="md">

@@ -4,7 +4,6 @@ import loading from "~/components/Header/assets/loading.svg";
 import loadingSpin from "~/components/Header/assets/loadingSpin.svg";
 import { HeaderPendingTxProps } from "~/components/Header/selector";
 import BadgeIcon from "~/components/layout/BadgeIcon";
-import Block from "~/components/layout/Block";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { primary } from "~/theme/variables";
 import GotIt from "./GotIt";

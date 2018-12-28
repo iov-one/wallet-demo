@@ -78,7 +78,7 @@ storiesOf("Components /header", module)
         <Separator />
         <Typography variant="h5">Header without both: txs and pending txs</Typography>
         <RootMatchMedia matchMedia={false}>
-          <Header phoneMode={false} pendingTxs={[]} txs={[]} lastTx={undefined}/>
+          <Header phoneMode={false} pendingTxs={[]} txs={[]} lastTx={undefined} />
         </RootMatchMedia>
         <Separator />
       </div>

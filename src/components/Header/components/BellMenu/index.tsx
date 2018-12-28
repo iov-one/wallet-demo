@@ -2,6 +2,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import bell from "~/components/Header/assets/bell.svg";
+import bellGreen from "~/components/Header/assets/bellGreen.svg";
 import upToDate from "~/components/Header/assets/uptodate.svg";
 import { HeaderTxProps } from "~/components/Header/selector";
 import BadgeIcon from "~/components/layout/BadgeIcon";
@@ -20,20 +21,14 @@ interface Props extends PhoneHook {
 
 const BellMenu = ({ items, lastTx, ...rest }: Props) => {
   const starter = (visited: boolean, open: boolean) => {
-    const logo = open ? bell : bell;
+    const logo = open ? bellGreen : bell;
     const hasTx = lastTx !== undefined;
     const showBadge = hasTx && !visited;
-    const color = (hasTx && lastTx!.success) ? "primary" : "error"; 
-  
+    const color = hasTx && lastTx!.success ? "primary" : "error";
+
     return (
       <Block padding="xl">
-        <BadgeIcon
-          color={color}
-          invisible={!showBadge}
-          icon={logo}
-          alt="Transactions"
-          badge="dot"
-        />
+        <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
       </Block>
     );
   };

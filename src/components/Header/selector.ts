@@ -109,8 +109,8 @@ const lastTxSelector = createSelector(
     }
 
     return txs[0];
-  }
-)
+  },
+);
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   pendingTxs: pendingTxsSelector,

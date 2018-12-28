@@ -8,7 +8,7 @@ interface Props extends React.ImgHTMLAttributes<HTMLImageElement>, WithStyles<ty
   readonly icon: string;
   readonly badge: "dot" | "check";
   readonly invisible: boolean;
-  readonly color?: PropTypes.Color | 'error';
+  readonly color?: PropTypes.Color | "error";
 }
 
 const styles = createStyles({

@@ -28,8 +28,8 @@ const styles = createStyles({
       cursor: "pointer",
     },
     "& > div": {
-      display: 'flex',
-    }
+      display: "flex",
+    },
   },
 });
 
