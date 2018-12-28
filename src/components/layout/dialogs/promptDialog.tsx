@@ -43,9 +43,7 @@ export class PromptDialog extends PureComponent<Props, State> {
         <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
           {({ valid, submitting, validating }: FormState) => (
             <React.Fragment>
-              <DialogContent>
-                {children}
-              </DialogContent>
+              <DialogContent>{children}</DialogContent>
               <MuiDialogActions>
                 <Button
                   variant="contained"
