@@ -1,4 +1,4 @@
-import { Badge, createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { Badge, createStyles, PropTypes, withStyles, WithStyles } from "@material-ui/core";
 import React, { PureComponent } from "react";
 import Img from "~/components/layout/Image";
 import { xxl } from "~/theme/variables";
@@ -8,6 +8,7 @@ interface Props extends React.ImgHTMLAttributes<HTMLImageElement>, WithStyles<ty
   readonly icon: string;
   readonly badge: "dot" | "check";
   readonly invisible: boolean;
+  readonly color?: PropTypes.Color | 'error';
 }
 
 const styles = createStyles({
@@ -26,16 +27,16 @@ const styles = createStyles({
     right: "-8px",
   },
   dot: {
-    width: "8px",
-    height: "8px",
-    top: "-8px",
-    right: "-8px",
+    width: "7px",
+    height: "7px",
+    top: "-7px",
+    right: "-7px",
   },
 });
 
 class BadgeIcon extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { icon, badge, invisible, classes, ...rest } = this.props;
+    const { icon, badge, invisible, color = "primary", classes, ...rest } = this.props;
 
     const badgeClasses = { badge: badge === "check" ? classes.check : classes.dot };
     const badgeContent = badge === "check" ? <Img src={CheckIcon} alt="Badge Icon" /> : "";
@@ -49,7 +50,7 @@ class BadgeIcon extends PureComponent<Props> {
       );
 
     return (
-      <Badge badgeContent={badgeContent} classes={badgeClasses} invisible={invisible} color="primary">
+      <Badge badgeContent={badgeContent} classes={badgeClasses} invisible={invisible} color={color}>
         {content}
       </Badge>
     );
