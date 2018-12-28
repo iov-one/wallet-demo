@@ -1,4 +1,3 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import React from "react";
@@ -9,13 +8,7 @@ import Typography from "~/components/layout/Typography";
 import DialogContent from "./components/DialogContent";
 import DialogTitle from "./components/DialogTitle";
 
-const styles = createStyles({
-  button: {
-    width: "100%",
-  },
-});
-
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   readonly icon: string;
   readonly title: string;
   readonly showDialog: boolean;
@@ -23,7 +16,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly children: JSX.Element;
 }
 
-const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Props): JSX.Element => {
+export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JSX.Element => {
   return (
     <Dialog onClose={onClose} open={showDialog}>
       <DialogTitle onClose={onClose} />
@@ -41,12 +34,10 @@ const AlertDialog = ({ icon, title, showDialog, onClose, children, classes }: Pr
         </React.Fragment>
       </DialogContent>
       <MuiDialogActions>
-        <Button onClick={onClose} variant="contained" color="primary" size="large" className={classes.button}>
+        <Button onClick={onClose} variant="contained" color="primary" size="large" fullWidth>
           Got it
         </Button>
       </MuiDialogActions>
     </Dialog>
   );
 };
-
-export const Alert = withStyles(styles)(AlertDialog);

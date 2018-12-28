@@ -3,6 +3,7 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import {
   border,
   fontColor,
+  lg,
   lightFont,
   placeholder,
   primary,
@@ -12,6 +13,7 @@ import {
   sm,
   smallFontSize,
   temporaryError,
+  xxl,
 } from "~/theme/variables";
 
 const palette = {
@@ -68,20 +70,20 @@ export const themeObject: ThemeOptions = {
     },
     MuiDialogTitle: {
       root: {
-        paddingTop: "22px",
+        paddingTop: lg,
       },
     },
     MuiDialogContent: {
       root: {
-        padding: "6px",
+        padding: sm,
         overflowY: "hidden",
         display: "flex",
       },
     },
     MuiDialogActions: {
       root: {
-        paddingTop: "20px",
-        margin: "8px 40px",
+        paddingTop: lg,
+        margin: `${sm} ${xxl}`,
       },
     },
     MuiDialog: {

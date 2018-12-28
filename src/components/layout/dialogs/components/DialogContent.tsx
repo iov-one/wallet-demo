@@ -2,17 +2,17 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import React from "react";
 import Block from "~/components/layout/Block";
+import { background, border, xl, xxl } from "~/theme/variables";
 
 const styles = createStyles({
   dialogContent: {
-    background: "#fff",
+    background: background,
     boxShadow: "0 0 14px 0 #edeff4",
     borderRadius: "5px",
-    padding: "50px 30px",
-    border: "1px solid #f3f3f3",
+    padding: `${xxl} ${xl}`,
+    border: `1px solid ${border}`,
     overflowY: "auto",
     flexGrow: 1,
-    /*minHeight: 0,*/
   },
 });
 

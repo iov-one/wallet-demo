@@ -1,4 +1,3 @@
-import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import { FormState, FormSubscription } from "final-form";
@@ -8,13 +7,7 @@ import Button from "~/components/layout/Button";
 import DialogContent from "./components/DialogContent";
 import DialogTitle from "./components/DialogTitle";
 
-const styles = createStyles({
-  button: {
-    width: "100%",
-  },
-});
-
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   readonly showDialog: boolean;
   readonly onClose: () => void;
   readonly onSubmit: (values: object) => void;
@@ -32,9 +25,9 @@ const subscription: FormSubscription = {
   validating: true,
 };
 
-export class PromptDialog extends PureComponent<Props, State> {
+export class Prompt extends PureComponent<Props, State> {
   public render(): JSX.Element {
-    const { showDialog, onClose, onSubmit, validation, children, classes } = this.props;
+    const { showDialog, onClose, onSubmit, validation, children } = this.props;
 
     return (
       <Dialog onClose={onClose} open={showDialog}>
@@ -50,7 +43,7 @@ export class PromptDialog extends PureComponent<Props, State> {
                   size="large"
                   type="submit"
                   disabled={!valid || submitting || validating}
-                  className={classes.button}
+                  fullWidth
                 >
                   Continue
                 </Button>
@@ -62,5 +55,3 @@ export class PromptDialog extends PureComponent<Props, State> {
     );
   }
 }
-
-export const Prompt = withStyles(styles)(PromptDialog);

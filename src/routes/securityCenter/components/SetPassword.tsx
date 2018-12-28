@@ -7,6 +7,10 @@ import { Prompt } from "~/components/layout/dialogs";
 import Typography from "~/components/layout/Typography";
 import { FormValues } from "../container/index";
 
+const CURRENT_PASSWORD = "currentPassword";
+const NEW_PASSWORD = "newPassword";
+const CONFIRM_PASSWORD = "confirmPassword";
+
 interface Props {
   readonly showSetPassword: boolean;
   readonly closeSetPassword: () => void;
@@ -16,9 +20,9 @@ interface Props {
 
 const validation = (values: FormValues): object => {
   const errors: any = {};
-  if (values.newPassword !== values.confirmPassword) {
+  if (values[NEW_PASSWORD] !== values[CONFIRM_PASSWORD]) {
     //tslint:disable-next-line:no-object-mutation
-    errors.confirmPassword = "The passwords do not match";
+    errors[CONFIRM_PASSWORD] = "The passwords do not match";
   }
   return errors;
 };
@@ -37,7 +41,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
       </Block>
       <Field
         variant="outlined"
-        name="currentPassword"
+        name={CURRENT_PASSWORD}
         type="password"
         fullWidth
         component={TextField}
@@ -52,7 +56,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
       </Block>
       <Field
         variant="outlined"
-        name="newPassword"
+        name={NEW_PASSWORD}
         type="password"
         fullWidth
         component={TextField}
@@ -67,7 +71,7 @@ export default ({ showSetPassword, closeSetPassword, onSubmit }: Props): JSX.Ele
       </Block>
       <Field
         variant="outlined"
-        name="confirmPassword"
+        name={CONFIRM_PASSWORD}
         type="password"
         fullWidth
         component={TextField}
