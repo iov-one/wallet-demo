@@ -21,6 +21,7 @@ const styles = createStyles({
     alignItems: "center",
     justifyContent: "center",
   },
+<<<<<<< HEAD
   check: {
     width: "29px",
     top: "-8px",
@@ -31,12 +32,23 @@ const styles = createStyles({
     height: "7px",
     top: "-7px",
     right: "-7px",
+=======
+  badge: {
+    width: "29px",
+    top: "-8px",
+    right: "-8px",
+>>>>>>> all changes from old branch
   },
 });
 
 class BadgeIcon extends PureComponent<Props> {
   public render(): JSX.Element {
+<<<<<<< HEAD
     const { icon, badge, invisible, color = "primary", classes, ...rest } = this.props;
+=======
+    const { icon, badge, classes, ...rest } = this.props;
+    const badgeClasses = { badge: classes.badge };
+>>>>>>> all changes from old branch
 
     const badgeClasses = { badge: badge === "check" ? classes.check : classes.dot };
     const badgeContent = badge === "check" ? <Img src={CheckIcon} alt="Badge Icon" /> : "";

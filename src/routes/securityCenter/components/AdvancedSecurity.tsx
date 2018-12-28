@@ -14,6 +14,6 @@ export default ({ showAdvancedSecurity, closeAdvancedSecurity }: Props): JSX.Ele
     showDialog={showAdvancedSecurity}
     onClose={closeAdvancedSecurity}
   >
-    Extra security is something we’re working on, stay tuned!
+    <React.Fragment>Extra security is something we’re working on, stay tuned!</React.Fragment>
   </Alert>
 );
