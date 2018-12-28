@@ -1,5 +1,6 @@
+import { ReadonlyDate } from "readonly-date";
+
 import { Amount } from "@iov/bcp-types";
-import { TransNotificationInfo } from "../../logic";
 
 export interface PendingNotificationItemProps {
   readonly id: string;
@@ -7,9 +8,19 @@ export interface PendingNotificationItemProps {
   readonly amount: Amount;
 }
 
+export interface NotificationTx {
+  readonly id: string;
+  readonly time: ReadonlyDate;
+  readonly received: boolean;
+  readonly amount: string;
+  readonly signer: string;
+  readonly recipient: string;
+  readonly success: boolean;
+}
+
 export interface NotificationState {
   readonly pending: ReadonlyArray<PendingNotificationItemProps>;
-  readonly transaction: ReadonlyArray<TransNotificationInfo>;
+  readonly transaction: ReadonlyArray<NotificationTx>;
   readonly visitedPending: boolean;
   readonly transactionError?: string;
 }

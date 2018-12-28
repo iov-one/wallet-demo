@@ -4,8 +4,10 @@ import { combineReducers } from "redux";
 import { StateType } from "typesafe-actions";
 
 import { BlockchainActions, blockchainReducer } from "./blockchain";
-import { NotificationActions, notificationReducer } from "./notification";
+import { NotificationActions, notificationReducer, NotificationTx } from "./notification";
 import { ProfileActions, profileReducer } from "./profile";
+
+export type NotificationTx = NotificationTx;
 
 export const createRootReducer = (history: History) =>
   combineReducers({

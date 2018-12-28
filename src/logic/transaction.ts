@@ -12,7 +12,7 @@ import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
 
-export interface TransNotificationInfo<T extends UnsignedTransaction = SendTx>
+export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTx>
   extends ConfirmedTransaction<T> {
   readonly received: boolean;
   readonly time: ReadonlyDate;
@@ -44,7 +44,7 @@ export const parseConfirmedTransaction = async (
   conn: BcpConnection,
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
-): Promise<TransNotificationInfo | undefined> => {
+): Promise<AnnotatedConfirmedTransaction | undefined> => {
   const payload = trans.transaction;
   if (payload.kind !== TransactionKind.Send) {
     console.log(`Only handle SendTx for now, got ${payload.kind}`);

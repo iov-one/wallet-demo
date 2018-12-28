@@ -10,10 +10,10 @@ import {
   TransactionNotificationItem,
 } from "../../subComponents/notification";
 
-import { TransNotificationInfo } from "../../../logic";
+import { NotificationTx } from "~/reducers";
 
 export interface TransactionNotificationProps {
-  readonly items: ReadonlyArray<TransNotificationInfo>;
+  readonly items: ReadonlyArray<NotificationTx>;
 }
 
 const Content = styled.div`
@@ -28,7 +28,7 @@ const Content = styled.div`
 
 export const TransactionNotification = (props: TransactionNotificationProps) => {
   // tslint:disable-next-line:readonly-array
-  const items = (props.items as TransNotificationInfo[]).reverse().slice(0, 3);
+  const items = props.items.slice(0, 3);
   return (
     <NotificationWrapper>
       <NotificationTitle>Notifications</NotificationTitle>

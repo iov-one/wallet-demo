@@ -61,7 +61,7 @@ describe("drinkFaucetSequence", () => {
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(1);
         // and we should be the recipient (from the faucet)
-        expect(transactions[0].recipientAddr).toEqual(addr);
+        expect(transactions[0].recipient).toEqual(addr);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());

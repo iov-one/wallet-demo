@@ -1,9 +1,9 @@
+import { filter } from "lodash";
 import { ActionType } from "typesafe-actions";
 
-import { filter, takeRight } from "lodash";
-
+import { AnnotatedConfirmedTransaction, coinToString } from "~/logic";
 import * as actions from "./actions";
-import { NotificationState } from "./state";
+import { NotificationState, NotificationTx } from "./state";
 
 export type NotificationActions = ActionType<typeof actions>;
 const initState: NotificationState = {
@@ -12,6 +12,42 @@ const initState: NotificationState = {
   visitedPending: false,
   transactionError: "",
 };
+
+const elipsify = (full: string, maxLength: number): string =>
+  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
+
+// turns the full transaction information into a simple form as needed for display
+export function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationTx {
+  const {
+    time,
+    transaction,
+    received,
+    signerAddr,
+    signerName,
+    recipientAddr,
+    recipientName,
+    success,
+    txid,
+  } = full;
+  const { fractional, whole, tokenTicker } = transaction.amount;
+
+  // TODO review sigFigs based on iov-core 0.10
+  const coin = coinToString({ fractional, whole, sigFigs: 9 });
+  const amount = `${coin} ${tokenTicker}`;
+
+  const signer = elipsify(signerName || signerAddr, 16);
+  const recipient = elipsify(recipientName || recipientAddr, 16);
+
+  return {
+    id: String(txid),
+    time,
+    received,
+    amount,
+    signer,
+    recipient,
+    success,
+  };
+}
 
 export function notificationReducer(
   state: NotificationState = initState,
@@ -41,10 +77,10 @@ export function notificationReducer(
       };
     case "ADD_CONFIRMED_TRANSACTION":
       if (action.payload) {
-        const transaction: ReadonlyArray<any> = [...state.transaction, action.payload];
+        const transaction: ReadonlyArray<any> = [simplifyTransaction(action.payload), ...state.transaction];
         return {
           ...state,
-          transaction: takeRight(transaction, 5),
+          transaction,
         };
       }
       return {

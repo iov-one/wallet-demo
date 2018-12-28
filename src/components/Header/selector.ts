@@ -1,7 +1,7 @@
-import { ReadonlyDate } from "readonly-date";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
-import { coinToString, TransNotificationInfo } from "~/logic";
-import { RootState } from "~/reducers";
+
+import { coinToString } from "~/logic";
+import { NotificationTx, RootState } from "~/reducers";
 import { PendingNotificationItemProps } from "~/reducers/notification";
 import { getPendingTransactions, getTransactions } from "~/selectors";
 
@@ -11,15 +11,7 @@ export interface SelectorProps {
   readonly lastTx: HeaderTxProps | undefined;
 }
 
-export interface HeaderTxProps {
-  readonly id: string;
-  readonly time: ReadonlyDate;
-  readonly received: boolean;
-  readonly amount: string;
-  readonly signer: string;
-  readonly recipient: string;
-  readonly success: boolean;
-}
+export type HeaderTxProps = NotificationTx;
 
 export interface HeaderPendingTxProps {
   readonly id: string;
@@ -27,52 +19,14 @@ export interface HeaderPendingTxProps {
   readonly amount: string;
 }
 
-const elipsify = (full: string, maxLength: number): string =>
-  full.length <= maxLength ? full : full.slice(0, maxLength - 3) + "...";
-
-const txsSelector = createSelector(
+const confirmedTxSelector = createSelector(
   getTransactions,
-  (txs: ReadonlyArray<TransNotificationInfo>) => {
-    if (!txs || txs.length === 0) {
-      return [];
-    }
-    // tslint:disable-next-line:readonly-array
-    const firstTxs = (txs as TransNotificationInfo[]).reverse().slice(0, 3);
+  (txs: ReadonlyArray<HeaderTxProps>) => txs.slice(0, 3),
+);
 
-    const headerTxs = firstTxs.map((tx: TransNotificationInfo) => {
-      const {
-        time,
-        transaction,
-        received,
-        signerAddr,
-        signerName,
-        recipientAddr,
-        recipientName,
-        success,
-        txid,
-      } = tx;
-      const { fractional, whole, tokenTicker } = transaction.amount;
-
-      // TODO review sigFigs based on iov-core 0.10
-      const coin = coinToString({ fractional, whole, sigFigs: 9 });
-      const amount = `${coin} ${tokenTicker}`;
-
-      const signer = elipsify(signerName || signerAddr, 16);
-      const recipient = elipsify(recipientName || recipientAddr, 16);
-
-      return {
-        id: String(txid),
-        time,
-        received,
-        amount,
-        signer,
-        recipient,
-        success,
-      };
-    });
-
-    return headerTxs;
-  },
+const lastTxSelector = createSelector(
+  getTransactions,
+  (txs: ReadonlyArray<HeaderTxProps>) => (txs.length === 0 ? undefined : txs[0]),
 );
 
 const pendingTxsSelector = createSelector(
@@ -101,20 +55,9 @@ const pendingTxsSelector = createSelector(
   },
 );
 
-const lastTxSelector = createSelector(
-  txsSelector,
-  (txs: ReadonlyArray<HeaderTxProps>) => {
-    if (txs.length === 0) {
-      return undefined;
-    }
-
-    return txs[0];
-  },
-);
-
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   pendingTxs: pendingTxsSelector,
-  txs: txsSelector,
+  txs: confirmedTxSelector,
   lastTx: lastTxSelector,
 });
 

@@ -1,4 +1,4 @@
-import { TransNotificationInfo, watchTransaction } from "../../logic";
+import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
 import { createSyncAction } from "../helpers";
 import { PendingNotificationItemProps } from "./state";
 
@@ -14,7 +14,7 @@ export const removePendingTransactionAction = createSyncAction(
 
 export const addConfirmedTransaction = createSyncAction(
   "ADD_CONFIRMED_TRANSACTION",
-  (transaction?: TransNotificationInfo) => transaction,
+  (transaction?: AnnotatedConfirmedTransaction) => transaction,
 );
 
 export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
