@@ -27,7 +27,7 @@ const Notifications = ({ items }: Props) => {
           const lastOne = index + 1 === items.length;
 
           return (
-            <React.Fragment>
+            <React.Fragment key={item.id}>
               <ListItem>
                 <CircularProgress size={30} />
                 <ListItemText primary={`${amount} to ${receiver}`} secondary="... Sending" />
