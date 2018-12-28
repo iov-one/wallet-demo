@@ -1,5 +1,5 @@
 import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
-import { createSyncAction } from "../helpers";
+import { createSyncAction } from "~/reducers/helpers";
 import { PendingTxPayload } from "./state";
 
 export const addPendingTransactionAction = createSyncAction(

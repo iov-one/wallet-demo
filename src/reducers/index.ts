@@ -2,12 +2,9 @@ import { connectRouter } from "connected-react-router";
 import { History } from "history";
 import { combineReducers } from "redux";
 import { StateType } from "typesafe-actions";
-
+import { NotificationActions, notificationReducer } from "~/store/notifications/reducer";
 import { BlockchainActions, blockchainReducer } from "./blockchain";
-import { NotificationActions, notificationReducer, NotificationTx } from "./notification";
 import { ProfileActions, profileReducer } from "./profile";
-
-export type NotificationTx = NotificationTx;
 
 export const createRootReducer = (history: History) =>
   combineReducers({

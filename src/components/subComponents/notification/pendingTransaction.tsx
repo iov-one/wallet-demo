@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Spinner } from "../icons";
+import { PendingTx } from "~/store/notifications/state";
 
-import { PendingTx } from "../../../reducers/notification";
+import { Spinner } from "../icons";
 
 const Content = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { NotificationTx } from "~/reducers";
+import { NotificationTx } from "~/store/notifications/state";
 
 import ReceiveIcon from "../../../../resources/receive_transaction.svg";
 import SendIcon from "../../../../resources/send_transaction.svg";

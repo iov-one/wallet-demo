@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 import classNames from "classnames";
 
+import { NotificationTx } from "~/store/notifications/state";
+
 import {
   NotificationEmptyState,
   NotificationTitle,
   NotificationWrapper,
   TransactionNotificationItem,
 } from "../../subComponents/notification";
-
-import { NotificationTx } from "~/reducers";
 
 export interface TransactionNotificationProps {
   readonly items: ReadonlyArray<NotificationTx>;

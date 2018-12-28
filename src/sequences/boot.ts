@@ -4,6 +4,8 @@ import { BcpConnection, BcpTxQuery, ConfirmedTransaction } from "@iov/bcp-types"
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
+import { addConfirmedTransaction } from "~/store/notifications/actions";
+
 import { BlockchainSpec, keyToAddress, parseConfirmedTransaction, resetProfile } from "../logic";
 import { RootState } from "../reducers";
 import {
@@ -14,7 +16,6 @@ import {
   getAccountSyncAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
-import { addConfirmedTransaction } from "../reducers/notification";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
 import { getProfileDB } from "../selectors";
 

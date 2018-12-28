@@ -1,7 +1,8 @@
 import { faucetUri, mayTest, randomString, testSpec, testTicker } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
-import { getActiveChainAddresses, getMyAccounts, getTransactions, requireSigner } from "~/selectors";
+import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
+import { getTransactions } from "~/store/notifications/selectors";
 import { elipsify } from "~/utils/strings";
 import { sleep } from "~/utils/timer";
 

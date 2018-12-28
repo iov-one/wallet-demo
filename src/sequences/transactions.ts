@@ -1,13 +1,12 @@
 import { ChainId } from "@iov/base-types";
 import { Amount } from "@iov/bcp-types";
-
-import { resolveAddress, sendTransaction, setName } from "../logic";
-import { RootState } from "../reducers";
 import {
   addPendingTransactionAction,
   removePendingTransactionAction,
   setTransactionErrorAction,
-} from "../reducers/notification";
+} from "~/store/notifications/actions";
+import { resolveAddress, sendTransaction, setName } from "../logic";
+import { RootState } from "../reducers";
 import { requireConnection, requireSigner } from "../selectors";
 import { RootThunkDispatch } from "./types";
 

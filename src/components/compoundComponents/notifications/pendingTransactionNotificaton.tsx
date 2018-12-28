@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { PendingTx } from "~/store/notifications/state";
+
 import {
   NotificationEmptyState,
   NotificationTitle,
@@ -8,8 +10,6 @@ import {
   PendingNotificationItem,
   PendingTransactionNotification,
 } from "../../subComponents/notification";
-
-import { PendingTx } from "../../../reducers/notification";
 
 const Content = styled.div`
   padding: 0px 15px;
