@@ -9,7 +9,7 @@ import {
   PendingTransactionNotification,
 } from "../../subComponents/notification";
 
-import { PendingNotificationItemProps } from "../../../reducers/notification";
+import { PendingTx } from "../../../reducers/notification";
 
 const Content = styled.div`
   padding: 0px 15px;
@@ -18,7 +18,7 @@ const Content = styled.div`
 `;
 
 export interface PendingTransactionProps {
-  readonly items: ReadonlyArray<PendingNotificationItemProps>;
+  readonly items: ReadonlyArray<PendingTx>;
 }
 
 export interface PendingOnboardingProps {

@@ -5,7 +5,7 @@ import { AnnotatedConfirmedTransaction, coinToString } from "~/logic";
 import { elipsify } from "~/utils/strings";
 
 import * as actions from "./actions";
-import { NotificationState, NotificationTx } from "./state";
+import { NotificationState, NotificationTx, PendingTx, PendingTxPayload } from "./state";
 
 export type NotificationActions = ActionType<typeof actions>;
 const initState: NotificationState = {
@@ -16,7 +16,7 @@ const initState: NotificationState = {
 };
 
 // turns the full transaction information into a simple form as needed for display
-export function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationTx {
+function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationTx {
   const {
     time,
     transaction,
@@ -48,6 +48,22 @@ export function simplifyTransaction(full: AnnotatedConfirmedTransaction): Notifi
   };
 }
 
+// formats the pending tx info into a format for display
+function simplifyPending(tx: PendingTxPayload): PendingTx {
+  const { amount, receiver, id } = tx;
+  const { fractional, whole, tokenTicker } = amount;
+
+  // TODO review sigFigs based on iov-core 0.10
+  const coin = coinToString({ fractional, whole, sigFigs: 9 });
+  const amountCoin = `${coin} ${tokenTicker}`;
+
+  return {
+    receiver: elipsify(receiver, 16),
+    amount: amountCoin,
+    id,
+  };
+}
+
 export function notificationReducer(
   state: NotificationState = initState,
   action: NotificationActions,
@@ -56,7 +72,7 @@ export function notificationReducer(
     case "ADD_PENDING_TRANSACTION":
       return {
         ...state,
-        pending: [...state.pending, action.payload],
+        pending: [simplifyPending(action.payload), ...state.pending],
       };
     case "REMOVE_PENDING_TRANSACTION":
       const newPendings = filter(state.pending, pendingItem => pendingItem.id !== action.payload);

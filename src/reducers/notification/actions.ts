@@ -1,10 +1,10 @@
 import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
 import { createSyncAction } from "../helpers";
-import { PendingNotificationItemProps } from "./state";
+import { PendingTxPayload } from "./state";
 
 export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
-  (pendingItem: PendingNotificationItemProps) => pendingItem,
+  (pendingItem: PendingTxPayload) => pendingItem,
 );
 
 export const removePendingTransactionAction = createSyncAction(
