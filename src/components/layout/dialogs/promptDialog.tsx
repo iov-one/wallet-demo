@@ -4,6 +4,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import { FormState, FormSubscription } from "final-form";
 import React, { PureComponent } from "react";
 import Form from "~/components/forms/Form";
+import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import DialogContent from "./components/DialogContent";
 import DialogTitle from "./components/DialogTitle";
@@ -42,7 +43,9 @@ export class PromptDialog extends PureComponent<Props, State> {
         <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
           {({ valid, submitting, validating }: FormState) => (
             <React.Fragment>
-              <DialogContent>{children}</DialogContent>
+              <DialogContent>
+                {children}
+              </DialogContent>
               <MuiDialogActions>
                 <Button
                   variant="contained"
