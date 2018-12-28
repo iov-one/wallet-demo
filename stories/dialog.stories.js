@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { Prompt } from "../src/components/layout/dialogs";
+import { Prompt, Alert } from "../src/components/layout/dialogs";
 import ComingSoonIcon from "../src/routes/securityCenter/assets/coming_soon.svg";
 import Block from "~/components/layout/Block";
 import Field from "~/components/forms/Field";
