@@ -29,6 +29,5 @@ export interface NotificationTx {
 export interface NotificationState {
   readonly pending: ReadonlyArray<PendingTx>;
   readonly transaction: ReadonlyArray<NotificationTx>;
-  readonly visitedPending: boolean;
   readonly transactionError?: string;
 }

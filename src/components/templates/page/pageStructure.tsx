@@ -9,7 +9,6 @@ import {
 } from "~/components/compoundComponents/notifications";
 import { Toasts } from "~/components/compoundComponents/toasts";
 import Header from "~/components/Header";
-import { pendingTransactionVisited } from "~/reducers/notification";
 
 interface OwnProps extends RouteComponentProps<{}> {
   readonly children: JSX.Element;
@@ -21,16 +20,11 @@ interface GeneratedProps {
   readonly pendingTransactionInfo?: PendingTransactionProps;
   readonly transactionInfo?: TransactionNotificationProps;
   readonly transactionError?: string;
-  readonly visitedPending?: boolean;
-}
-
-interface GeneratedFunctionProps {
-  readonly pendingVisited: () => any;
 }
 
 interface BaseProps extends OwnProps, GeneratedProps {}
 
-interface PageProps extends OwnProps, GeneratedProps, GeneratedFunctionProps {}
+interface PageProps extends OwnProps, GeneratedProps {}
 
 interface PageState {
   readonly isOffline: boolean;
@@ -99,16 +93,8 @@ const mapStateToProps = (state: any, ownProps: OwnProps): BaseProps => ({
   transactionInfo: { items: state.notification.transaction },
   pendingTransactionInfo: { items: state.notification.pending },
   transactionError: state.notification.transactionError,
-  visitedPending: state.notification.visitedPending,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  pendingVisited: () => dispatch(pendingTransactionVisited()),
 });
 
 export const PageStructure = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(PageTemplate),
+  connect(mapStateToProps)(PageTemplate),
 );

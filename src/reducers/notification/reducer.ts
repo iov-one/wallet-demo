@@ -11,7 +11,6 @@ export type NotificationActions = ActionType<typeof actions>;
 const initState: NotificationState = {
   pending: [],
   transaction: [],
-  visitedPending: false,
   transactionError: "",
 };
 
@@ -84,11 +83,6 @@ export function notificationReducer(
       return {
         ...state,
         transactionError: action.payload,
-      };
-    case "PENDING_TRANSACTION_VISITED":
-      return {
-        ...state,
-        visitedPending: true,
       };
     case "ADD_CONFIRMED_TRANSACTION":
       if (action.payload) {

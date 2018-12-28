@@ -17,8 +17,6 @@ export const addConfirmedTransaction = createSyncAction(
   (transaction?: AnnotatedConfirmedTransaction) => transaction,
 );
 
-export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
-
 export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);
 
 export const watchTransactionAction = createSyncAction("WATCH_TRANSACTION", watchTransaction);
