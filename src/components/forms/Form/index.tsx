@@ -13,7 +13,9 @@ export interface Errors {
 }
 
 const styles = createStyles({
-  form: {},
+  form: {
+    minHeight: 0,
+  },
   grow: {
     display: "flex",
     flexDirection: "column",

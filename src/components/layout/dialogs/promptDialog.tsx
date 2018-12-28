@@ -1,12 +1,24 @@
-// import Typography from "@material-ui/core/Typography";
+import { createStyles, WithStyles, withStyles } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import { FormState, FormSubscription } from "final-form";
 import React, { PureComponent } from "react";
-import Dialog from "./dialog";
-// import MainStyles from "./index.scss";
+import Form from "~/components/forms/Form";
+import Button from "~/components/layout/Button";
+import DialogContent from "./components/DialogContent";
+import DialogTitle from "./components/DialogTitle";
 
-interface Props {
-  readonly title: string;
+const styles = createStyles({
+  button: {
+    width: "100%",
+  },
+});
+
+interface Props extends WithStyles<typeof styles> {
   readonly showDialog: boolean;
   readonly onClose: () => void;
+  readonly onSubmit: (values: object) => void;
+  readonly validation?: (values: object) => object | Promise<object>;
   readonly children: JSX.Element;
 }
 
@@ -14,16 +26,41 @@ interface State {
   readonly open: boolean;
 }
 
-class PromptDialog extends PureComponent<Props, State> {
+const subscription: FormSubscription = {
+  valid: true,
+  submitting: true,
+  validating: true,
+};
+
+export class PromptDialog extends PureComponent<Props, State> {
   public render(): JSX.Element {
-    const { showDialog, onClose } = this.props;
+    const { showDialog, onClose, onSubmit, validation, children, classes } = this.props;
 
     return (
-      <Dialog showDialog={showDialog} onClose={onClose} onSubmit={onClose} submitButton="Continue">
-        <h1>Prompt dialog content should be here</h1>
+      <Dialog onClose={onClose} open={showDialog}>
+        <DialogTitle onClose={onClose} />
+        <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
+          {({ valid, submitting, validating }: FormState) => (
+            <React.Fragment>
+              <DialogContent>{children}</DialogContent>
+              <MuiDialogActions>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  disabled={!valid || submitting || validating}
+                  className={classes.button}
+                >
+                  Continue
+                </Button>
+              </MuiDialogActions>
+            </React.Fragment>
+          )}
+        </Form>
       </Dialog>
     );
   }
 }
 
-export default PromptDialog;
+export const Prompt = withStyles(styles)(PromptDialog);
