@@ -18,7 +18,7 @@ export function openHoc<T>(
   return withStateHandlers<OpenType, OpenHandler, T>(
     { open: false, visited: false },
     {
-      toggle: (state: OpenType) => () => ({ open: !state.open, visited: state.open && !state.visited }),
+      toggle: (state: OpenType) => () => ({ open: !state.open, visited: true }),
       clickAway: () => () => ({ open: false, visited: true }),
     },
   )(comp);
