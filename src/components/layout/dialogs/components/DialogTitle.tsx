@@ -18,7 +18,7 @@ interface Props extends WithStyles<typeof styles> {
 
 const DialogTitle = ({ onClose, classes }: Props): JSX.Element => (
   <MuiDialogTitle disableTypography onClick={onClose}>
-    <Img src={CloseIcon} alt="Close" onClick={onClose} className={classes.closeButton} />
+    <Img src={CloseIcon} alt="Close" className={classes.closeButton} />
   </MuiDialogTitle>
 );
 

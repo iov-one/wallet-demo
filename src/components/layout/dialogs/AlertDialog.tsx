@@ -13,7 +13,7 @@ interface Props {
   readonly title: string;
   readonly showDialog: boolean;
   readonly onClose: () => void;
-  readonly children: JSX.Element;
+  readonly children: React.ReactNode;
 }
 
 export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JSX.Element => {
@@ -21,17 +21,15 @@ export const Alert = ({ icon, title, showDialog, onClose, children }: Props): JS
     <Dialog onClose={onClose} open={showDialog}>
       <DialogTitle onClose={onClose} />
       <DialogContent>
-        <React.Fragment>
-          <Block align="center">
-            <Img src={icon} alt="Alert icon" />
-          </Block>
-          <Typography variant="h4" align="center">
-            {title}
-          </Typography>
-          <Typography align="center" weight="light" variant="h6">
-            {children}
-          </Typography>
-        </React.Fragment>
+        <Block align="center">
+          <Img src={icon} alt="Alert icon" />
+        </Block>
+        <Typography variant="h4" align="center">
+          {title}
+        </Typography>
+        <Typography align="center" weight="light" variant="h6">
+          {children}
+        </Typography>
       </DialogContent>
       <MuiDialogActions>
         <Button onClick={onClose} variant="contained" color="primary" size="large" fullWidth>

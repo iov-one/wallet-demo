@@ -17,7 +17,7 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly children: JSX.Element;
+  readonly children: React.ReactNode;
 }
 
 const DialogContent = ({ children, classes }: Props): JSX.Element => (

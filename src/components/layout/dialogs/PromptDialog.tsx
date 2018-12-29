@@ -26,13 +26,18 @@ const subscription: FormSubscription = {
 };
 
 export class Prompt extends PureComponent<Props, State> {
+  public readonly onSubmit = (values: object): void => {
+    this.props.onSubmit(values);
+    this.props.onClose();
+  };
+
   public render(): JSX.Element {
-    const { showDialog, onClose, onSubmit, validation, children } = this.props;
+    const { showDialog, onClose, validation, children } = this.props;
 
     return (
       <Dialog onClose={onClose} open={showDialog}>
         <DialogTitle onClose={onClose} />
-        <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
+        <Form onSubmit={this.onSubmit} subscription={subscription} validation={validation} grow>
           {({ valid, submitting, validating }: FormState) => (
             <React.Fragment>
               <DialogContent>{children}</DialogContent>
