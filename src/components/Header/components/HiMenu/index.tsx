@@ -57,8 +57,9 @@ const styles = createStyles({
 });
 
 const onSecurityCenter = () => {
-  history.push(SECURITY_CENTER_ROUTE)
-}
+  history.push(SECURITY_CENTER_ROUTE);
+};
+
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const phoneStarter = (_: boolean, open: boolean) => (
     <React.Fragment>

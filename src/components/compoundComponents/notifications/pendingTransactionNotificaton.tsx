@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { PendingTx } from "~/store/notifications/state";
+
 import {
   NotificationEmptyState,
   NotificationTitle,
@@ -9,8 +11,6 @@ import {
   PendingTransactionNotification,
 } from "../../subComponents/notification";
 
-import { PendingNotificationItemProps } from "../../../reducers/notification";
-
 const Content = styled.div`
   padding: 0px 15px;
   border-bottom-left-radius: 5px;
@@ -18,7 +18,7 @@ const Content = styled.div`
 `;
 
 export interface PendingTransactionProps {
-  readonly items: ReadonlyArray<PendingNotificationItemProps>;
+  readonly items: ReadonlyArray<PendingTx>;
 }
 
 export interface PendingOnboardingProps {

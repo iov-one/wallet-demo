@@ -71,7 +71,7 @@ const Layout = ({
   leftMenu,
   validation,
 }: Props): JSX.Element => (
-  <Grid>
+  <Grid className={classes.content}>
     <MatchMediaContext.Consumer>
       {phone =>
         !phone && (
@@ -84,7 +84,7 @@ const Layout = ({
         )
       }
     </MatchMediaContext.Consumer>
-    <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column" className={classes.content}>
+    <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
       <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
         {({ valid, submitting, validating }: FormState) => (
           <React.Fragment>

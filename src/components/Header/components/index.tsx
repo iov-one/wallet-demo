@@ -25,13 +25,14 @@ interface Props extends WithStyles<typeof styles> {
   readonly phoneMode: boolean;
   readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
   readonly txs: ReadonlyArray<HeaderTxProps>;
+  readonly lastTx: HeaderTxProps | undefined;
 }
 
 class HeaderComponent extends React.Component<Props> {
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
 
   public render(): JSX.Element {
-    const { phoneMode, classes, pendingTxs, txs } = this.props;
+    const { phoneMode, classes, pendingTxs, lastTx, txs } = this.props;
     const phoneHook = this.phoneHookRef.current;
 
     return (
@@ -42,7 +43,7 @@ class HeaderComponent extends React.Component<Props> {
           {!phoneMode && <LinksDesktop />}
           <Spacer order={4} />
           <TransactionsMenu phoneHook={phoneHook} phoneMode={phoneMode} items={pendingTxs} />
-          <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} />
+          <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} lastTx={lastTx} />
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
         <Hairline />

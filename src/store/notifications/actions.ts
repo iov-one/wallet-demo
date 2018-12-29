@@ -1,10 +1,10 @@
-import { TransNotificationInfo, watchTransaction } from "../../logic";
-import { createSyncAction } from "../helpers";
-import { PendingNotificationItemProps } from "./state";
+import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
+import { createSyncAction } from "~/reducers/helpers";
+import { PendingTxPayload } from "./state";
 
 export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
-  (pendingItem: PendingNotificationItemProps) => pendingItem,
+  (pendingItem: PendingTxPayload) => pendingItem,
 );
 
 export const removePendingTransactionAction = createSyncAction(
@@ -14,10 +14,8 @@ export const removePendingTransactionAction = createSyncAction(
 
 export const addConfirmedTransaction = createSyncAction(
   "ADD_CONFIRMED_TRANSACTION",
-  (transaction?: TransNotificationInfo) => transaction,
+  (transaction?: AnnotatedConfirmedTransaction) => transaction,
 );
-
-export const pendingTransactionVisited = createSyncAction("PENDING_TRANSACTION_VISITED", () => true);
 
 export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);
 

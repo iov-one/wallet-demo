@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Spinner } from "../icons";
+import { PendingTx } from "~/store/notifications/state";
 
-import { PendingNotificationItemProps } from "../../../reducers/notification";
+import { Spinner } from "../icons";
 
 const Content = styled.div`
   display: flex;
@@ -57,16 +57,13 @@ const Grey = styled.div`
   color: #dadada;
 `;
 
-export const PendingNotificationItem = (props: PendingNotificationItemProps): JSX.Element => (
+export const PendingNotificationItem = (props: PendingTx): JSX.Element => (
   <Wrapper>
     <Content>
       <Spinner className="secondary" />
       <TransInfo>
         <Message>
-          <Bold>
-            {props.amount.whole}.{props.amount.fractional} {props.amount.tokenTicker}
-          </Bold>{" "}
-          to <Bold>{props.receiver}</Bold>
+          <Bold>{props.amount}</Bold> to <Bold>{props.receiver}</Bold>
         </Message>
         <Grey>Sending...</Grey>
       </TransInfo>

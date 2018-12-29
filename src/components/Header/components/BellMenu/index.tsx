@@ -2,27 +2,33 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import bell from "~/components/Header/assets/bell.svg";
+import bellGreen from "~/components/Header/assets/bellGreen.svg";
 import upToDate from "~/components/Header/assets/uptodate.svg";
 import { HeaderTxProps } from "~/components/Header/selector";
+import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
-import Img from "~/components/layout/Image";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
+type LastTxType = HeaderTxProps | undefined;
 interface Props extends PhoneHook {
   readonly items: ReadonlyArray<HeaderTxProps>;
+  readonly lastTx: LastTxType;
 }
 
-const BellMenu = ({ items, ...rest }: Props) => {
-  const starter = (visited: boolean, _: boolean) => {
-    const logo = visited ? bell : bell;
+const BellMenu = ({ items, lastTx, ...rest }: Props) => {
+  const starter = (visited: boolean, open: boolean) => {
+    const logo = open ? bellGreen : bell;
+    const hasTx = lastTx !== undefined;
+    const showBadge = hasTx && !visited;
+    const color = hasTx && lastTx!.success ? "primary" : "error";
 
     return (
       <Block padding="xl">
-        <Img src={logo} alt="Notifications" />
+        <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
       </Block>
     );
   };

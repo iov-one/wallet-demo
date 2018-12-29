@@ -1,8 +1,10 @@
-import { faucetUri, mayTest, randomString, testSpec, testTicker } from "../logic/testhelpers";
-import { fixTypes } from "../reducers/helpers";
-import { getActiveChainAddresses, getMyAccounts, getTransactions, requireSigner } from "../selectors";
-import { makeStore } from "../store";
-import { sleep } from "../utils/timer";
+import { faucetUri, mayTest, randomString, testSpec, testTicker } from "~/logic/testhelpers";
+import { fixTypes } from "~/reducers/helpers";
+import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
+import { makeStore } from "~/store";
+import { getTransactions } from "~/store/notifications/selectors";
+import { elipsify } from "~/utils/strings";
+import { sleep } from "~/utils/timer";
 
 import { bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
@@ -61,7 +63,7 @@ describe("drinkFaucetSequence", () => {
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(1);
         // and we should be the recipient (from the faucet)
-        expect(transactions[0].recipientAddr).toEqual(addr);
+        expect(transactions[0].recipient).toEqual(elipsify(addr, 16));
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
