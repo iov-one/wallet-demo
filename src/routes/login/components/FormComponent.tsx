@@ -2,6 +2,7 @@ import * as React from "react";
 import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
+import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
@@ -11,28 +12,23 @@ import RecoverPassword from "./RecoverPassword";
 
 export const LOGIN_PASS_FIELD = "password";
 
-class FormComponent extends React.Component<{}, State> {
-  public readonly state = {
-    showRecoverPassword: false,
-  };
+//Remove line this comment and line below in case if interface will get any memebers
+//tslint:disable-next-line:no-empty-interface
+interface OuterProps {}
 
-  public readonly onRecoverPassword = (): void => {
-    this.setState({
-      showRecoverPassword: true,
-    });
-  };
-  public readonly closeRecoverPassword = (): void => {
-    this.setState({
-      showRecoverPassword: false,
-    });
-  };
+type Props = OpenType & OpenHandler & OuterProps;
 
+interface State {
+  readonly showRecoverPassword: boolean;
+}
+
+class FormComponent extends React.Component<Props, State> {
   public readonly submitRecoverPassword = (): void => {
     history.push(PASSWORD_RECOVERY_ROUTE);
-    this.closeRecoverPassword();
   };
 
   public render(): JSX.Element {
+    const { open, toggle } = this.props;
     return (
       <MatchMediaContext.Consumer>
     {phone => (
@@ -54,15 +50,11 @@ class FormComponent extends React.Component<{}, State> {
           />
         </Block>
         <Block padding="xxl" maxWidth={450} margin="xl">
-          <Typography variant="subtitle1" color="primary" underlined pointer onClick={this.onRecoverPassword}>
+          <Typography variant="subtitle1" color="primary" underlined pointer onClick={toggle}>
             Forgot your password?
           </Typography>
         </Block>
-        <RecoverPassword
-          show={this.state.showRecoverPassword}
-          onClose={this.closeRecoverPassword}
-          onSubmit={this.submitRecoverPassword}
-        />
+        <RecoverPassword show={open} onClose={toggle} onSubmit={this.submitRecoverPassword} />
       </React.Fragment>
       )}
       </MatchMediaContext.Consumer>
@@ -70,4 +62,6 @@ class FormComponent extends React.Component<{}, State> {
   }
 }
 
-export default () => <FormComponent />;
+const FormWithWarning = openHoc<OuterProps>(FormComponent);
+
+export default () => <FormWithWarning />;

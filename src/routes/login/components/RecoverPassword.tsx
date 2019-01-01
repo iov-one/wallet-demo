@@ -15,10 +15,8 @@ export default ({ show, onClose, onSubmit }: Props): JSX.Element => (
     onSubmit={onSubmit}
     buttonName="Continue"
   >
-    <React.Fragment>
-      To recover the password, you must enter the twelve backup words in the correct order that you have
-      written down. Note if you have lost or forgotten your twelve backup words you will be unable to recover
-      your account.
-    </React.Fragment>
+    To recover the password, you must enter the twelve backup words in the correct order that you have written
+    down. Note if you have lost or forgotten your twelve backup words you will be unable to recover your
+    account.
   </Message>
 );
