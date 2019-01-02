@@ -31,7 +31,7 @@ const subscription: FormSubscription = {
   validating: true,
 };
 
-const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
+const PasswordForm = ({ onSubmit, validation }: Props) => (
   <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow fullWidth>
     {({ valid, submitting, validating }: FormState) => (
       <React.Fragment>
