@@ -8,7 +8,7 @@ import { calculateMaxWidthBasedOn, Magnitude } from "./magnitudeCalculator";
 
 const cx: any = classNames.bind(styles);
 
-interface Order {
+export interface Order {
   readonly xs?: number;
   readonly sm?: number;
   readonly md?: number;
