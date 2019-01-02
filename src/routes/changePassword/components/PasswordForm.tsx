@@ -1,32 +1,40 @@
+import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { FormState, FormSubscription } from "final-form";
 import React from "react";
 import Field from "~/components/forms/Field";
-import { FormType } from "~/components/forms/Form";
+import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
-import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
-import { Prompt } from "~/components/layout/dialogs";
+import Button from "~/components/layout/Button";
 import Typography from "~/components/layout/Typography";
+import { background } from "~/theme/variables";
 
 export const CURRENT_PASSWORD = "currentPassword";
 export const NEW_PASSWORD = "newPassword";
 export const CONFIRM_PASSWORD = "confirmPassword";
 
-interface OuterProps {
-  readonly validation: (values: FormType) => object | Promise<object>;
-  readonly onSubmit: (values: FormType) => Promise<boolean>;
+interface Props extends WithStyles<typeof styles> {
+  readonly onSubmit: (values: any) => Promise<boolean>;
+  readonly validation?: (values: any) => object | Promise<object>;
 }
 
-type Props = OpenType & OpenHandler & OuterProps;
+const styles = createStyles({
+  input: {
+    backgroundColor: background,
+  },
+});
 
-const SetPassword = ({ open, toggle, onSubmit, validation }: Props): JSX.Element => (
-  <React.Fragment>
-    <Prompt showDialog={open} onClose={toggle} onSubmit={onSubmit} validation={validation}>
+const subscription: FormSubscription = {
+  valid: true,
+  submitting: true,
+  validating: true,
+};
+
+const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
+  <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow fullWidth>
+    {({ valid, submitting, validating }: FormState) => (
       <React.Fragment>
-        <Typography variant="h4" color="textPrimary">
-          Change your password
-        </Typography>
-        <Block margin="xl" />
         <Block margin="sm">
           <Typography variant="subtitle2" color="textPrimary">
             Current password
@@ -71,9 +79,19 @@ const SetPassword = ({ open, toggle, onSubmit, validation }: Props): JSX.Element
           validate={required}
           placeholder="Confirm password"
         />
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          type="submit"
+          disabled={!valid || submitting || validating}
+          fullWidth
+        >
+          Continue
+        </Button>
       </React.Fragment>
-    </Prompt>
-  </React.Fragment>
+    )}
+  </Form>
 );
 
-export default openHoc<OuterProps>(SetPassword);
+export default withStyles(styles)(PasswordForm);

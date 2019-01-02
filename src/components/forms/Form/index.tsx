@@ -21,6 +21,9 @@ const styles = createStyles({
     flexDirection: "column",
     flexGrow: 1,
   },
+  fullWidth: {
+    width: "100%",
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -34,6 +37,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly initialValues?: object;
   readonly className?: string;
   readonly grow?: boolean;
+  readonly fullWidth?: boolean;
   readonly subscription?: FormSubscription;
 }
 
@@ -41,6 +45,7 @@ const IovForm = ({
   onSubmit,
   classes,
   grow,
+  fullWidth,
   validation,
   initialValues,
   children,
@@ -48,7 +53,12 @@ const IovForm = ({
   className,
   ...props
 }: Props) => {
-  const formClasses = classNames(classes.form, grow ? classes.grow : undefined, className);
+  const formClasses = classNames(
+    classes.form,
+    grow ? classes.grow : undefined,
+    fullWidth ? classes.fullWidth : undefined,
+    className,
+  );
 
   return (
     <Form
