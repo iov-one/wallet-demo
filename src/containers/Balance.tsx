@@ -155,18 +155,18 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
           <IOVModal
             visible={showReceiveModal}
             onRequestClose={this.closeIovModal}
-            suggestionText="Receiving from outside IOV?"
-            buttonText="View your address"
-            onSuggestion={this.toNonIovModal}
+            suggestionText="Receiving from an IOV user?"
+            buttonText="View your IOV address"
+            onSuggestion={this.toIovModal}
           >
             <ReceiveIOVForm iovAddress={name} />
           </IOVModal>
           <IOVModal
             visible={showReceiveNonIovModal}
             onRequestClose={this.closeNonIovModal}
-            suggestionText="Receiving from an IOV user?"
-            buttonText="View your IOV address"
-            onSuggestion={this.toIovModal}
+            suggestionText="Receiving from outside IOV?"
+            buttonText="View your address"
+            onSuggestion={this.toNonIovModal}
             secondaryComp={<InviteButton onInvite={this.onInvite} />}
           >
             <ReceiveNonIOVForm addressList={addressList} />
