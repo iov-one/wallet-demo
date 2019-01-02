@@ -1,5 +1,6 @@
 import React from "react";
 import Field from "~/components/forms/Field";
+import { FormType } from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
@@ -7,29 +8,20 @@ import Block from "~/components/layout/Block";
 import { Prompt } from "~/components/layout/dialogs";
 import Typography from "~/components/layout/Typography";
 import PswIcon from "../assets/password.svg";
-import { FormValues } from "../container/index";
 import SecurityCard from "./ItemCard";
 
-const CURRENT_PASSWORD = "currentPassword";
-const NEW_PASSWORD = "newPassword";
-const CONFIRM_PASSWORD = "confirmPassword";
+export const CURRENT_PASSWORD = "currentPassword";
+export const NEW_PASSWORD = "newPassword";
+export const CONFIRM_PASSWORD = "confirmPassword";
 
 interface OuterProps {
-  readonly onSubmit: (values: FormValues) => void;
+  readonly validation: (values: FormType) => object | Promise<object>;
+  readonly onSubmit: (values: FormType) => Promise<boolean>;
 }
 
 type Props = OpenType & OpenHandler & OuterProps;
 
-const validation = (values: FormValues): object => {
-  const errors: any = {};
-  if (values[NEW_PASSWORD] !== values[CONFIRM_PASSWORD]) {
-    //tslint:disable-next-line:no-object-mutation
-    errors[CONFIRM_PASSWORD] = "The passwords do not match";
-  }
-  return errors;
-};
-
-const SetPassword = ({ open, toggle, onSubmit }: Props): JSX.Element => (
+const SetPassword = ({ open, toggle, onSubmit, validation }: Props): JSX.Element => (
   <React.Fragment>
     <SecurityCard title="Set a password" action="Change" onClick={toggle} icon={PswIcon} />
 

@@ -10,8 +10,8 @@ import DialogTitle from "./components/DialogTitle";
 interface Props {
   readonly showDialog: boolean;
   readonly onClose: () => void;
-  readonly onSubmit: (values: object) => void;
-  readonly validation?: (values: object) => object | Promise<object>;
+  readonly onSubmit: (values: any) => Promise<boolean>;
+  readonly validation?: (values: any) => object | Promise<object>;
   readonly children: JSX.Element;
 }
 
@@ -26,9 +26,11 @@ const subscription: FormSubscription = {
 };
 
 export class Prompt extends PureComponent<Props, State> {
-  public readonly onSubmit = (values: object): void => {
-    this.props.onSubmit(values);
-    this.props.onClose();
+  public readonly onSubmit = async (values: object): Promise<void> => {
+    const submitResult = await this.props.onSubmit(values);
+    if (submitResult) {
+      this.props.onClose();
+    }
   };
 
   public render(): JSX.Element {
