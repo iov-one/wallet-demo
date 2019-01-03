@@ -25,14 +25,12 @@ export function blockchainReducer(
       const { connections } = internal;
       const conn = action.payload;
       return { ...state, internal: { ...internal, connections: { ...connections, [conn.chainId()]: conn } } };
-    case "GET_TICKERS_FULFILLED": // use block scope here so we can use same variable name in different cases
-    {
+    case "GET_TICKERS_FULFILLED": { // use block scope here so we can use same variable name in different cases
       const { chainId, tickers } = action.payload;
       const tickerState = { ...state.tickers, [chainId]: tickers };
       return { ...state, tickers: tickerState };
     }
-    case "GET_ACCOUNT_FULFILLED": // use block scope here so we can use same variable name in different cases
-    {
+    case "GET_ACCOUNT_FULFILLED": { // use block scope here so we can use same variable name in different cases
       if (!action.payload) {
         return state;
       }
