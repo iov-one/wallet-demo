@@ -116,9 +116,10 @@ async function watchAccountAndTransactions(
   return account; // resolved when first account is loaded
 }
 
+// the odd signature is to allow this to work as a thunk, so it can be used like:
+// dispatch(shutdownSequence)
+// we only have access to the state itself in tests
 export function shutdownSequence(_: any, getState: () => RootState): void {
   const connections = getConnections(getState());
-  for (const conn of Object.values(connections)) {
-    conn.disconnect();
-  }
+  Object.values(connections).forEach(conn => conn.disconnect());
 }
