@@ -9,6 +9,7 @@ const initState: BlockchainState = {
     connections: {},
   },
   accounts: {},
+  tickers: {},
 };
 
 export function blockchainReducer(
@@ -24,7 +25,14 @@ export function blockchainReducer(
       const { connections } = internal;
       const conn = action.payload;
       return { ...state, internal: { ...internal, connections: { ...connections, [conn.chainId()]: conn } } };
-    case "GET_ACCOUNT_FULFILLED":
+    case "GET_TICKERS_FULFILLED": // use block scope here so we can use same variable name in different cases
+    {
+      const { chainId, tickers } = action.payload;
+      const tickerState = { ...state.tickers, [chainId]: tickers };
+      return { ...state, tickers: tickerState };
+    }
+    case "GET_ACCOUNT_FULFILLED": // use block scope here so we can use same variable name in different cases
+    {
       if (!action.payload) {
         return state;
       }
@@ -36,6 +44,7 @@ export function blockchainReducer(
       const oldAccount = oldChain[address] || {};
       const newChain = { ...oldChain, [address]: { ...oldAccount, account } };
       return { ...state, accounts: { ...state.accounts, [chainId]: newChain } };
+    }
     default:
       return state;
   }

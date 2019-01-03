@@ -1,9 +1,14 @@
-import { Address, BcpAccount, BcpConnection } from "@iov/bcp-types";
+import { Address, BcpAccount, BcpConnection, BcpTicker } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
 
 export interface BlockchainState {
   readonly internal: InternalDetails;
   readonly accounts: AccountsByChainAndAddress;
+  readonly tickers: TickersByChain;
+}
+
+export interface TickersByChain {
+  readonly [chainId: string]: ReadonlyArray<BcpTicker>;
 }
 
 export interface AccountsByChainAndAddress {
