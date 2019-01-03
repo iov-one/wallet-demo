@@ -97,8 +97,8 @@ you can do:
 
 ```shell
 # start a bns blockchain and a local faucet that serves iov tokens
-bash ./scripts/bns/start.sh
-bash ./scripts/facuet/iov_start.sh
+bash ./scripts/bnsd/start.sh
+bash ./scripts/faucet/iov_start.sh
 
 export BNS_ENABLED=1
 # you can run this a few times....
