@@ -12,7 +12,7 @@ import send from "~/routes/balance/assets/transactionSend.svg";
 import { background, lg, md } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly name: string;
+  readonly name: string | undefined;
   readonly tokens: ReadonlyArray<BcpCoin>;
 }
 
@@ -73,7 +73,7 @@ const BalanceLayout = ({ classes, name, tokens }: Props) => {
       </GridItem>
       <GridItem order={info} variant="column" className={classes.info}>
         <Block margin="md" />
-        <Typography variant="h5" align="center" weight="light">{name}</Typography>
+        <Typography variant="h5" align="center" weight="light">{name ? name : "--"}</Typography>
         <Hairline margin="xl" />
         <Typography variant="subtitle2" align="center">Your currencies</Typography>
         <Block margin="lg" />

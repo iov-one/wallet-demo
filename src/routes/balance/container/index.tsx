@@ -1,15 +1,19 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import PageMenu from "~/components/pages/PageMenu";
-// import Layout from "~/routes/balance/components";
+import Layout from "~/routes/balance/components";
+import selector, { SelectorProps } from "./selector";
 
-class Balance extends React.Component {
+class Balance extends React.Component<SelectorProps> {
   public render(): JSX.Element {
+    const { name, tokens } = this.props;
+
     return (
       <PageMenu>
-        {/* <Layout /> */}
+        <Layout name={name} tokens={tokens} />
       </PageMenu>
     );
   }
 }
 
-export default Balance;
+export default connect(selector)(Balance);
