@@ -45,16 +45,14 @@ const styles = createStyles({
   },
 });
 
-
-
 interface Props extends WithStyles<typeof styles> {
   readonly className?: string;
-  readonly message: string,
-  readonly onClose: () => void,
-  readonly variant: ToastVariant,
+  readonly message: string;
+  readonly onClose: () => void;
+  readonly variant: ToastVariant;
 }
 
-const ToastContent = ({ classes, className, message, onClose, variant, ...other }: Props) => {
+const ToastContent = ({ classes, className, message, onClose, variant }: Props) => {
   const Icon = variantIcon[variant];
 
   return (
@@ -78,7 +76,6 @@ const ToastContent = ({ classes, className, message, onClose, variant, ...other 
           <CloseIcon className={classes.icon} />
         </IconButton>,
       ]}
-      {...other}
     />
   );
 }

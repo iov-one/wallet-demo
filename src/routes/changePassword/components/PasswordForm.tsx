@@ -8,20 +8,26 @@ import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Typography from "~/components/layout/Typography";
-import { background } from "~/theme/variables";
+import { background, border, xl, xxl } from "~/theme/variables";
 
 export const CURRENT_PASSWORD = "currentPassword";
 export const NEW_PASSWORD = "newPassword";
 export const CONFIRM_PASSWORD = "confirmPassword";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly onSubmit: (values: any) => Promise<boolean>;
+  readonly onSubmit: (values: any) => Promise<void>;
   readonly validation?: (values: any) => object | Promise<object>;
 }
 
 const styles = createStyles({
-  input: {
+  form: {
     backgroundColor: background,
+    padding: `${xxl} ${xl}`,
+    paddingBottom: xxl,
+    borderRadius: 5,
+    border: `1px solid ${border}`,
+    width: 450,
+    boxSizing: "border-box",   
   },
 });
 
@@ -31,8 +37,8 @@ const subscription: FormSubscription = {
   validating: true,
 };
 
-const PasswordForm = ({ onSubmit, validation }: Props) => (
-  <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow fullWidth>
+const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
+  <Form onSubmit={onSubmit} className={classes.form} subscription={subscription} validation={validation} grow fullWidth>
     {({ valid, submitting, validating }: FormState) => (
       <React.Fragment>
         <Block margin="sm">
@@ -79,13 +85,14 @@ const PasswordForm = ({ onSubmit, validation }: Props) => (
           validate={required}
           placeholder="Confirm password"
         />
+        <Block margin="lg" />
         <Button
           variant="contained"
           color="primary"
           size="large"
           type="submit"
           disabled={!valid || submitting || validating}
-          fullWidth
+          spinner={submitting || validating}
         >
           Continue
         </Button>

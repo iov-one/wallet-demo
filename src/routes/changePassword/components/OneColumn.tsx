@@ -25,7 +25,7 @@ const styles = createStyles({
 const OneColumn = ({ children, classes }: Props) => (
   <Block className={classes.container} margin="md">
     <Spacer order={1} />
-    <Block maxWidth={506} className={classes.column}>
+    <Block maxWidth={450} className={classes.column}>
       {children}
     </Block>
     <Spacer order={1} />
