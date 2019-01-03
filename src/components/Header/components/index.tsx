@@ -28,12 +28,25 @@ interface Props extends WithStyles<typeof styles> {
   readonly lastTx: HeaderTxProps | undefined;
 }
 
-class HeaderComponent extends React.Component<Props> {
+interface State {
+  readonly phoneHook: HTMLDivElement | null;
+}
+
+class HeaderComponent extends React.Component<Props, State> {
+  public readonly state = {
+    phoneHook: null,
+  };
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+
+  public componentDidMount(): void {
+    this.setState(() => ({
+      phoneHook: this.phoneHookRef.current,
+    }));
+  }
 
   public render(): JSX.Element {
     const { phoneMode, classes, pendingTxs, lastTx, txs } = this.props;
-    const phoneHook = this.phoneHookRef.current;
+    const { phoneHook } = this.state;
 
     return (
       <React.Fragment>
