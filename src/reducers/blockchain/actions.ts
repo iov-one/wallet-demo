@@ -1,4 +1,4 @@
-import { BcpAccount, BcpConnection, TxCodec } from "@iov/bcp-types";
+import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
@@ -16,6 +16,24 @@ export const addBlockchainAsyncAction = createPromiseAction(
   "ADD_BLOCKCHAIN_FULFILLED",
   "ADD_BLOCKCHAIN_REJECTED",
 )(addBlockchain);
+
+export const getTickersAsyncAction = createPromiseAction(
+  "GET_TICKERS",
+  "GET_TICKERS_PENDING",
+  "GET_TICKERS_FULFILLED",
+  "GET_TICKERS_REJECTED",
+)(getTickers);
+
+export interface TickerInfo {
+  readonly chainId: ChainId;
+  readonly tickers: ReadonlyArray<BcpTicker>;
+}
+
+async function getTickers(connection: BcpConnection): Promise<TickerInfo> {
+  const chainId = connection.chainId();
+  const tickers = (await connection.getAllTickers()).data;
+  return { chainId, tickers };
+}
 
 // How do we want to get account... need more info....
 export interface BcpAccountWithChain {

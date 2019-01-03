@@ -14,6 +14,7 @@ import {
   createSignerAction,
   getAccountAsyncAction,
   getAccountSyncAction,
+  getTickersAsyncAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
@@ -56,16 +57,24 @@ export const bootSequence = (password: string, blockchains: ReadonlyArray<Blockc
 
   // --- connect all readers and query account balances
   let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
+  let initTickers: ReadonlyArray<Promise<any>> = [];
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
     initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
+    initTickers = [...initTickers, getTickers(dispatch, conn)];
   }
 
-  // wait for all accounts to initialize
+  // wait for all accounts and tickers to initialize
+  await Promise.all(initTickers);
   const accounts = await Promise.all(initAccounts);
   // return initial account state as well as signer
   return { accounts, signer };
 };
+
+function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<any> {
+  const tickerAction = getTickersAsyncAction.start(conn, {}, {});
+  return fixTypes(dispatch(tickerAction));
+}
 
 async function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
