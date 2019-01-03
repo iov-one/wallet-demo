@@ -8,7 +8,8 @@ import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { backgroundPrimary } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
-  readonly children: React.ReactNode;
+  readonly renderProps?: (phone: boolean) => React.ReactNode;
+  readonly children?: React.ReactNode;
   readonly phoneFullWidth?: boolean;
 }
 
@@ -23,7 +24,7 @@ const styles = createStyles({
   },
 });
 
-const PageMenu = ({ children, classes, phoneFullWidth = false }: Props) => (
+const PageMenu = ({ children, renderProps, classes, phoneFullWidth = false }: Props) => (
   <MatchMediaContext.Consumer>
     {phone => {
       const padding = phone && phoneFullWidth ? undefined : "lg";
@@ -33,7 +34,7 @@ const PageMenu = ({ children, classes, phoneFullWidth = false }: Props) => (
           <GridItem xs={12} variant="column" grow>
             <Header />
             <Block padding={padding} className={classes.container}>
-              {typeof children === "function" ? children(phone) : children}
+              {renderProps !== undefined ? renderProps(phone) : children}
             </Block>
           </GridItem>
         </Grid>

@@ -16,6 +16,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly name: string | undefined;
   readonly tokens: ReadonlyArray<BcpCoin>;
   readonly phone: boolean;
+  readonly onSendPayment: () => void;
 }
 
 const styles = createStyles({
@@ -57,16 +58,17 @@ interface CardProps {
   readonly text: string;
   readonly logo: string;
   readonly className: string;
+  readonly onAction?: () => void;
 }
 
-const Card = ({ text, logo, className }: CardProps) => (
-  <Block className={className}>
+const Card = ({ text, logo, className, onAction }: CardProps) => (
+  <Block className={className} onClick={onAction}>
     <Img src={logo} height={36} width={36} alt={text} />
     <Typography>{text}</Typography>
   </Block>
 );
 
-const BalanceLayout = ({ classes, name, tokens, phone }: Props) => {
+const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) => {
   const spacer: Order = { xs: 1 };
   const actions: Order = { xs: 5 };
   const actionSpacer: Order = { xs: 4 };
@@ -79,7 +81,7 @@ const BalanceLayout = ({ classes, name, tokens, phone }: Props) => {
         <Block margin="xxl" />
       </GridItem>
       <GridItem order={actions} className={classes.actions}>
-        <Card text="Send payment" logo={send} className={classes.action} />
+        <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
         {!phone && <Block className={classes.separator} />}
         <Card text="Reeive Payment" logo={receive} className={classes.action} />
       </GridItem>
@@ -101,7 +103,7 @@ const BalanceLayout = ({ classes, name, tokens, phone }: Props) => {
             </Typography>
             <Block margin="xl" />
             {tokens.map((token: BcpCoin) => (
-              <Typography underlined variant="h6" weight="regular" color="primary" align="center">
+              <Typography underlined variant="h6" weight="regular" color="primary" align="center" onClick={onSendPayment}>
                 {`${coinToString(token)} ${token.tokenTicker}`}
               </Typography>
             ))}

@@ -24,20 +24,22 @@ const TOKENS: ReadonlyArray<BcpCoin> = [
 
 const ACCOUNT_NAME = "adolfo*iov";
 
+const renderProps = (phone: boolean) => (
+  <Layout name={ACCOUNT_NAME} tokens={TOKENS} phone={phone} onSendPayment={() => true} />
+)
 storiesOf("Routes /balance", module)
   .add("Balance view for desktop", () => (
     <RootMatchMedia matchMedia={false}>
-      <PageMenu phoneFullWidth>
-        {(phone: boolean) => <Layout name={ACCOUNT_NAME} tokens={TOKENS} phone={phone} />}
-      </PageMenu>
+      <PageMenu
+        phoneFullWidth
+        renderProps={renderProps}
+      />
     </RootMatchMedia>
   ))
   .add("Balance view for phones", () => (
     <RootMatchMedia matchMedia={true}>
       <div style={{ maxWidth: "360px" }}>
-        <PageMenu phoneFullWidth>
-          {(phone: boolean) => <Layout name={ACCOUNT_NAME} tokens={TOKENS} phone={phone} />}
-        </PageMenu>
+        <PageMenu phoneFullWidth renderProps={renderProps} />
       </div>
     </RootMatchMedia>
   ));

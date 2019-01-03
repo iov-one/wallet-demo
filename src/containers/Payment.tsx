@@ -3,13 +3,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
+import PageMenu from "~/components/pages/PageMenu";
 
 import queryString from "query-string";
 
 import { BcpConnection } from "@iov/bcp-types";
 
 import { AddressInputForm } from "../components/templates/forms";
-import { PageStructure } from "../components/templates/page";
 
 import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
 
@@ -57,11 +57,9 @@ class Payment extends React.Component<PaymentProps> {
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
     return (
-      <PageStructure activeNavigation="Payments">
-        <ContentWrapper>
-          <AddressInputForm connection={connection} onNext={this.onSend} />
-        </ContentWrapper>
-      </PageStructure>
+      <PageMenu>
+        <AddressInputForm connection={connection} onNext={this.onSend} />
+      </PageMenu>
     );
   }
 }
