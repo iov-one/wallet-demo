@@ -5,6 +5,7 @@ import Block from "~/components/layout/Block";
 import GridItem, { Order } from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
+import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { coinToString } from "~/logic";
 import receive from "~/routes/balance/assets/transactionReceive.svg";
@@ -25,10 +26,14 @@ const styles = createStyles({
     flexShrink: 1,
     flexBasis: md,
   },
-  info: {
-    padding: lg,
+  container: {
     backgroundColor: background,
     height: "unset",
+    flexBasis: "450px",
+  },
+  info: {
+    display: "flex",
+    flexDirection: "column",
   },
   actions: {
     flexBasis: "90px",
@@ -41,7 +46,7 @@ const styles = createStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "217px",
+    flexBasis: "217px",
     height: "90px",
     justifyContent: "center",
   },
@@ -65,26 +70,41 @@ const BalanceLayout = ({ classes, name, tokens }: Props) => {
   const info: Order = { xs: 0, sm: 1 };
 
   return (
-    <Block className={classes.root}>
-      <GridItem order={actions} className={classes.actions} margin="lg">
-        <Card text="Send payment" logo={send} className={classes.action} />
-        <Block className={classes.separator} />
-        <Card text="Reeive Payment" logo={receive} className={classes.action} />
-      </GridItem>
-      <GridItem order={info} variant="column" className={classes.info}>
-        <Block margin="md" />
-        <Typography variant="h5" align="center" weight="light">{name ? name : "--"}</Typography>
-        <Hairline margin="xl" />
-        <Typography variant="subtitle2" align="center">Your currencies</Typography>
-        <Block margin="lg" />
-        {tokens.map((token: BcpCoin) => (
-          <Typography underlined variant="h6" weight="regular" color="primary" align="center">
-            {`${coinToString(token)} ${token.tokenTicker}`}
-          </Typography>
-        ))}
-        <Block margin="lg" />
-      </GridItem>
-    </Block>
+    <React.Fragment>
+      <Block margin="xxl" />
+      <Block className={classes.root}>
+        <GridItem order={actions} className={classes.actions} margin="lg">
+          <Card text="Send payment" logo={send} className={classes.action} />
+          <Block className={classes.separator} />
+          <Card text="Reeive Payment" logo={receive} className={classes.action} />
+        </GridItem>
+        <GridItem order={info}>
+          <Spacer order={1} />
+          <Block className={classes.container}>
+            <Block padding="xl" className={classes.info}>
+              <Block margin="sm" />
+              <Block margin="xl" />
+              <Typography variant="h5" align="center" weight="light">
+                {name ? name : "--"}
+              </Typography>
+              <Hairline margin="xl" />
+              <Typography variant="subtitle2" align="center">
+                Your currencies
+              </Typography>
+              <Block margin="xl" />
+              {tokens.map((token: BcpCoin) => (
+                <Typography underlined variant="h6" weight="regular" color="primary" align="center">
+                  {`${coinToString(token)} ${token.tokenTicker}`}
+                </Typography>
+              ))}
+              <Block margin="xl" />
+              <Block margin="xl" />
+            </Block>
+          </Block>
+          <Spacer order={1} />
+        </GridItem>
+      </Block>
+    </React.Fragment>
   );
 };
 
