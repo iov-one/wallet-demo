@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BcpAccount } from "@iov/bcp-types";
+import { BcpAccount, BcpTicker } from "@iov/bcp-types";
 import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
@@ -19,6 +19,11 @@ export interface ChainAccount {
   readonly account?: BcpAccount;
 }
 
+export interface ChainTicker {
+  readonly chainId: ChainId;
+  readonly ticker: BcpTicker;
+}
+
 export const getProfileDB = (state: RootState) => state.profile.internal.db;
 export const getProfile = (state: RootState) => state.profile.internal.profile;
 
@@ -27,6 +32,16 @@ export const getConnections = (state: RootState) => state.blockchain.internal.co
 export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createSelector(
   getConnections,
   conns => Object.keys(conns).map(x => x as ChainId),
+);
+
+export const getTickers = (state: RootState) => state.blockchain.tickers;
+// getChainTickers unrolls the tickers from a map to a list of chain/ticker pairs
+export const getChainTickers: (state: RootState) => ReadonlyArray<ChainTicker> = createSelector(
+  getTickers,
+  sel =>
+    Object.entries(sel)
+      .map(([chainId, tickers]) => tickers.map(ticker => ({ chainId: chainId as ChainId, ticker })))
+      .reduce((acc, arr) => [...acc, ...arr], []),
 );
 
 export const getActiveWallet = (state: RootState) => state.profile.activeIdentity;

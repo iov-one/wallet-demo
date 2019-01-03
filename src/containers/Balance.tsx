@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
+import { BcpAccount, BcpCoin, BcpConnection, TokenTicker } from "@iov/bcp-types";
 
 import { InviteButton } from "../components/subComponents/buttons";
 import {
@@ -15,11 +15,12 @@ import {
 import { IOVModal } from "../components/templates/modal";
 import { PageStructure } from "../components/templates/page";
 
-import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
+import { ChainAccount, ChainTicker, getChainTickers, getConnections, getMyAccounts } from "../selectors";
 
 interface BalanceProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly connections: { readonly [chainId: string]: BcpConnection };
+  readonly tickers: ReadonlyArray<ChainTicker>;
   readonly identity: any;
 }
 
@@ -90,9 +91,9 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
   };
 
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
+    const { accounts, tickers } = this.props;
     const { showReceiveModal, showAddressModal, showReceiveNonIovModal } = this.state;
-    const account = get(accounts, "[0].account", false);
+    const account: BcpAccount | undefined = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
@@ -110,12 +111,15 @@ class Balance extends React.Component<BalanceProps, BalanceState> {
     const { connections } = this.props;
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
-    const addressList = [
-      {
-        token: "IOV" as TokenTicker,
-        address: account.address,
-      },
-    ] as ReadonlyArray<AddressInfo>;
+
+    // this is an ugly hack that only works for one chain (giving them all the same address),
+    // but let's do this now before larger multi-chain refactor
+    const addressList: ReadonlyArray<AddressInfo> = tickers.map(({ ticker }) => ({
+      token: ticker.tokenTicker,
+      address: account.address,
+    }));
+    console.log(addressList);
+
     return (
       <PageStructure activeNavigation="Balance">
         <div>
@@ -182,6 +186,7 @@ const mapStateToProps = (state: any, ownProps: BalanceProps): BalanceProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
   connections: getConnections(state),
+  tickers: getChainTickers(state),
 });
 
 export const BalancePage = withRouter(connect(mapStateToProps)(Balance));
