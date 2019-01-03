@@ -1,6 +1,6 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import React from "react";
+import * as React from "react";
 import Img from "~/components/layout/Image";
 import CloseIcon from "../assets/close_type2.svg";
 

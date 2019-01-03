@@ -1,7 +1,7 @@
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import { FormState, FormSubscription } from "final-form";
-import React, { PureComponent } from "react";
+import * as React from "react";
 import Form from "~/components/forms/Form";
 import Button from "~/components/layout/Button";
 import DialogContent from "./components/DialogContent";
@@ -25,7 +25,7 @@ const subscription: FormSubscription = {
   validating: true,
 };
 
-export class Prompt extends PureComponent<Props, State> {
+export class Prompt extends React.PureComponent<Props, State> {
   public readonly onSubmit = async (values: object): Promise<void> => {
     const submitResult = await this.props.onSubmit(values);
     if (submitResult) {

@@ -1,6 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import React from "react";
+import * as React from "react";
 import Block from "~/components/layout/Block";
 import { background, border, xl, xxl } from "~/theme/variables";
 

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Field from "~/components/forms/Field";
 import { FormType } from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";

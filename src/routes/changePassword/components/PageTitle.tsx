@@ -1,5 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import React from "react";
+import * as React from "react";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";

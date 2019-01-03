@@ -1,5 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import React from "react";
+import * as React from "react";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
 import Link from "~/components/layout/Link";

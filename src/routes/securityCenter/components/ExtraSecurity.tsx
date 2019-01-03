@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";

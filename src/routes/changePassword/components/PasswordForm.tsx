@@ -1,6 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState, FormSubscription } from "final-form";
-import React from "react";
+import * as React from "react";
 import Field from "~/components/forms/Field";
 import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";

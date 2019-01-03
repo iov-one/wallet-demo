@@ -1,6 +1,6 @@
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import React from "react";
+import * as React from "react";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
 import Img from "~/components/layout/Image";
