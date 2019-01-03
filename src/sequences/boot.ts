@@ -18,7 +18,7 @@ import {
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
-import { getProfileDB } from "../selectors";
+import { getConnections, getProfileDB } from "../selectors";
 
 import { RootThunkDispatch } from "./types";
 
@@ -114,4 +114,12 @@ async function watchAccountAndTransactions(
   stream.compose(debounce(200)).subscribe({ next: onChangeAccount });
 
   return account; // resolved when first account is loaded
+}
+
+// the odd signature is to allow this to work as a thunk, so it can be used like:
+// dispatch(shutdownSequence)
+// we only have access to the state itself in tests
+export function shutdownSequence(_: any, getState: () => RootState): void {
+  const connections = getConnections(getState());
+  Object.values(connections).forEach(conn => conn.disconnect());
 }
