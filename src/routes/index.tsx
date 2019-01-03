@@ -45,6 +45,7 @@ export const MainRouter = () => (
     <RequireLogin>
       <Route exact path={BALANCE_ROUTE} component={Balance} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
+      <Route path={PAYMENT_ROUTE} component={PaymentPage} />
     </RequireLogin>
     <RequireLogin>
       <Wrapper>
@@ -52,10 +53,8 @@ export const MainRouter = () => (
         <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />
-        <Route path="/payment/" component={PaymentPage} />
         <Route path="/invite/" component={InvitePage} />
         <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
-        <Route path={PAYMENT_ROUTE} component={InvitePage} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"
           component={ConfirmTransactionPage}
