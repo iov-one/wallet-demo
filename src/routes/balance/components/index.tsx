@@ -15,6 +15,7 @@ import { background, md } from "~/theme/variables";
 interface Props extends WithStyles<typeof styles> {
   readonly name: string | undefined;
   readonly tokens: ReadonlyArray<BcpCoin>;
+  readonly phone: boolean;
 }
 
 const styles = createStyles({
@@ -65,45 +66,52 @@ const Card = ({ text, logo, className }: CardProps) => (
   </Block>
 );
 
-const BalanceLayout = ({ classes, name, tokens }: Props) => {
-  const actions: Order = { xs: 1, sm: 0 };
-  const info: Order = { xs: 0, sm: 1 };
+const BalanceLayout = ({ classes, name, tokens, phone }: Props) => {
+  const spacer: Order = { xs: 1 };
+  const actions: Order = { xs: 5 };
+  const actionSpacer: Order = { xs: 4 };
+  const info: Order = { xs: 2 };
+  const grow: Order = { xs: 3 };
 
   return (
     <React.Fragment>
-      <Block margin="xxl" />
-      <Block className={classes.root}>
-        <GridItem order={actions} className={classes.actions} margin="lg">
-          <Card text="Send payment" logo={send} className={classes.action} />
-          <Block className={classes.separator} />
-          <Card text="Reeive Payment" logo={receive} className={classes.action} />
-        </GridItem>
-        <GridItem order={info}>
-          <Spacer order={1} />
-          <Block className={classes.container}>
-            <Block padding="xl" className={classes.info}>
-              <Block margin="sm" />
-              <Block margin="xl" />
-              <Typography variant="h5" align="center" weight="light">
-                {name ? name : "--"}
+      <GridItem order={spacer}>
+        <Block margin="xxl" />
+      </GridItem>
+      <GridItem order={actions} className={classes.actions}>
+        <Card text="Send payment" logo={send} className={classes.action} />
+        {!phone && <Block className={classes.separator} />}
+        <Card text="Reeive Payment" logo={receive} className={classes.action} />
+      </GridItem>
+      <GridItem order={actionSpacer}>
+        <Block margin="lg" />
+      </GridItem>
+      <GridItem order={info}>
+        <Spacer order={1} />
+        <Block className={classes.container}>
+          <Block padding="xl" className={classes.info}>
+            <Block margin="sm" />
+            <Block margin="xl" />
+            <Typography variant="h5" align="center" weight="light">
+              {name ? name : "--"}
+            </Typography>
+            <Hairline margin="xl" />
+            <Typography variant="subtitle2" align="center">
+              Your currencies
+            </Typography>
+            <Block margin="xl" />
+            {tokens.map((token: BcpCoin) => (
+              <Typography underlined variant="h6" weight="regular" color="primary" align="center">
+                {`${coinToString(token)} ${token.tokenTicker}`}
               </Typography>
-              <Hairline margin="xl" />
-              <Typography variant="subtitle2" align="center">
-                Your currencies
-              </Typography>
-              <Block margin="xl" />
-              {tokens.map((token: BcpCoin) => (
-                <Typography underlined variant="h6" weight="regular" color="primary" align="center">
-                  {`${coinToString(token)} ${token.tokenTicker}`}
-                </Typography>
-              ))}
-              <Block margin="xl" />
-              <Block margin="xl" />
-            </Block>
+            ))}
+            <Block margin="xl" />
+            <Block margin="xl" />
           </Block>
-          <Spacer order={1} />
-        </GridItem>
-      </Block>
+        </Block>
+        <Spacer order={1} />
+      </GridItem>
+      <GridItem grow order={grow} />
     </React.Fragment>
   );
 };

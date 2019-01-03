@@ -19,6 +19,7 @@ const styles = createStyles({
   container: {
     display: "flex",
     flexDirection: "column",
+    flexGrow: 1,
   },
 });
 
@@ -28,11 +29,11 @@ const PageMenu = ({ children, classes, phoneFullWidth = false }: Props) => (
       const padding = phone && phoneFullWidth ? undefined : "lg";
 
       return (
-        <Grid root className={classes.root}>
+        <Grid className={classes.root}>
           <GridItem xs={12} variant="column" grow>
             <Header />
             <Block padding={padding} className={classes.container}>
-              {children}
+              {typeof children === "function" ? children(phone) : children}
             </Block>
           </GridItem>
         </Grid>
