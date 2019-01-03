@@ -54,7 +54,7 @@ export const MainRouter = () => (
         <Route path="/import-account/" component={ImportAccountPage} />
         <Route path="/payment/" component={PaymentPage} />
         <Route path="/invite/" component={InvitePage} />
-        <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />        
+        <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
         <Route path={PAYMENT_ROUTE} component={InvitePage} />
         <Route
           path="/confirm-transaction/:iovAddress/:token/:tokenAmount/"

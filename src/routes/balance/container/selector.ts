@@ -35,7 +35,6 @@ export const tokensSelector = createSelector(
   },
 );
 
-
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   name: accountNameSelector,
   tokens: tokensSelector,

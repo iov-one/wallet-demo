@@ -23,9 +23,8 @@ const TOKENS: ReadonlyArray<BcpCoin> = [
 
 const ACCOUNT_NAME = "adolfo*iov";
 
-storiesOf("Routes /balance", module)
-  .add("Balance view", () => (
-    <RootMatchMedia matchMedia={false}>
-      <Layout name={ACCOUNT_NAME} tokens={TOKENS} />
-    </RootMatchMedia>
-  ));
+storiesOf("Routes /balance", module).add("Balance view", () => (
+  <RootMatchMedia matchMedia={false}>
+    <Layout name={ACCOUNT_NAME} tokens={TOKENS} />
+  </RootMatchMedia>
+));

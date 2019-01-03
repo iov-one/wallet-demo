@@ -4,10 +4,12 @@ import Header from "~/components/Header";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { backgroundPrimary } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
   readonly children: React.ReactNode;
+  readonly phoneFullWidth?: boolean;
 }
 
 const styles = createStyles({
@@ -20,17 +22,23 @@ const styles = createStyles({
   },
 });
 
-const PageMenu = ({ children, classes }: Props) => (
-  <React.Fragment>
-    <Grid root className={classes.root}>
-      <GridItem xs={12} variant="column" grow>
-        <Header />
-        <Block padding="lg" className={classes.container}>
-          {children}
-        </Block>
-      </GridItem>
-    </Grid>
-  </React.Fragment>
+const PageMenu = ({ children, classes, phoneFullWidth = false }: Props) => (
+  <MatchMediaContext.Consumer>
+    {phone => {
+      const padding = phone && phoneFullWidth ? undefined : "lg";
+
+      return (
+        <Grid root className={classes.root}>
+          <GridItem xs={12} variant="column" grow>
+            <Header />
+            <Block padding={padding} className={classes.container}>
+              {children}
+            </Block>
+          </GridItem>
+        </Grid>
+      );
+    }}
+  </MatchMediaContext.Consumer>
 );
 
 export default withStyles(styles)(PageMenu);

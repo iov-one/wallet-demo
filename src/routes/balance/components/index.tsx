@@ -10,7 +10,7 @@ import Typography from "~/components/layout/Typography";
 import { coinToString } from "~/logic";
 import receive from "~/routes/balance/assets/transactionReceive.svg";
 import send from "~/routes/balance/assets/transactionSend.svg";
-import { background, lg, md } from "~/theme/variables";
+import { background, md } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
   readonly name: string | undefined;

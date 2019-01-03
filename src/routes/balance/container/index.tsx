@@ -9,7 +9,7 @@ class Balance extends React.Component<SelectorProps> {
     const { name, tokens } = this.props;
 
     return (
-      <PageMenu>
+      <PageMenu phoneFullWidth>
         <Layout name={name} tokens={tokens} />
       </PageMenu>
     );
