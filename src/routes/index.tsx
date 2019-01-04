@@ -3,9 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import {
-  BackupAccountPage,
   ConfirmTransactionPage,
-  ImportAccountPage,
   InvitePage,
   PasswordPage,
   PaymentPage,
@@ -54,8 +52,6 @@ export const MainRouter = () => (
     <RequireLogin>
       <Wrapper>
         <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
-        <Route path="/account-backup/" component={BackupAccountPage} />
-        <Route path="/import-account/" component={ImportAccountPage} />
         <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
       </Wrapper>
     </RequireLogin>
