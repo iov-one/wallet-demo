@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Button } from "../../subComponents/buttons";
 
 const Wrapper = styled.div`
-  width: 450px;
+  flex-basis: 450px;
   padding: 30px 54px;
   box-sizing: border-box;
   display: flex;

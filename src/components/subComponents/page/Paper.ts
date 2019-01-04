@@ -5,6 +5,7 @@ export const Paper = styled.div`
   box-sizing: border-box;
   padding: 40px 30px;
   padding-bottom: 60px;
+  flex-basis: 450px;
   border-radius: 5px;
   background-color: #ffffff;
   border: 1px solid #f3f3f3;

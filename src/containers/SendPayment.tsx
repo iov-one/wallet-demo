@@ -5,15 +5,20 @@ import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-
+import styled from "styled-components";
+import PageMenu from "~/components/pages/PageMenu";
 import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
-import { PageStructure } from "../components/templates/page";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 
 interface SendTokenProps extends RouteComponentProps<{ readonly iovAddress: string }> {
   readonly accounts: ReadonlyArray<ChainAccount>;
   readonly chainIds: ReadonlyArray<ChainId>;
 }
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 class SendPayment extends React.Component<SendTokenProps> {
   public readonly onSend = (transInfo: SendTokenFormState): any => {
@@ -42,17 +47,20 @@ class SendPayment extends React.Component<SendTokenProps> {
     const { iovAddress } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const token = (query.token as string) || "IOV";
+
     return (
-      <PageStructure activeNavigation="Payments">
-        <SendTokenForm
-          name={name}
-          defaultToken={token as TokenTicker}
-          iovAddress={iovAddress}
-          balances={balances}
-          onBack={this.props.history.goBack}
-          onSend={this.onSend}
-        />
-      </PageStructure>
+      <PageMenu phoneFullWidth>
+        <Layout>
+          <SendTokenForm
+            name={name}
+            defaultToken={token as TokenTicker}
+            iovAddress={iovAddress}
+            balances={balances}
+            onBack={this.props.history.goBack}
+            onSend={this.onSend}
+          />
+        </Layout>
+      </PageMenu>
     );
   }
 }
