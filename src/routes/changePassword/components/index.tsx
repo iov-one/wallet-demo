@@ -6,32 +6,27 @@ import PageTitle from "./PageTitle";
 import PasswordForm from "./PasswordForm";
 
 interface Props {
-  readonly showToast: boolean,
-  readonly toastOnClose: () => void,
-  readonly toastVariant: ToastVariant,
-  readonly toastMessage: string
+  readonly showToast: boolean;
+  readonly toastOnClose: () => void;
+  readonly toastVariant: ToastVariant;
+  readonly toastMessage: string;
   readonly onPasswordValidation: (values: FormType) => object | Promise<object>;
   readonly onSetPasswordSubmit: (values: FormType) => Promise<void>;
 }
 
-export default ({ 
-  showToast, 
+export default ({
+  showToast,
   toastOnClose,
   toastVariant,
   toastMessage,
-  onSetPasswordSubmit, 
-  onPasswordValidation 
+  onSetPasswordSubmit,
+  onPasswordValidation,
 }: Props): JSX.Element => {
   return (
     <OneColumn>
       <PageTitle />
       <PasswordForm onSubmit={onSetPasswordSubmit} validation={onPasswordValidation} />
-      <Toast 
-        open={showToast} 
-        onClose={toastOnClose} 
-        variant={toastVariant} 
-        message={toastMessage} 
-      />
+      <Toast open={showToast} onClose={toastOnClose} variant={toastVariant} message={toastMessage} />
     </OneColumn>
   );
 };

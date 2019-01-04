@@ -27,7 +27,7 @@ const styles = createStyles({
     borderRadius: 5,
     border: `1px solid ${border}`,
     width: 450,
-    boxSizing: "border-box",   
+    boxSizing: "border-box",
   },
 });
 
@@ -38,7 +38,14 @@ const subscription: FormSubscription = {
 };
 
 const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
-  <Form onSubmit={onSubmit} className={classes.form} subscription={subscription} validation={validation} grow fullWidth>
+  <Form
+    onSubmit={onSubmit}
+    className={classes.form}
+    subscription={subscription}
+    validation={validation}
+    grow
+    fullWidth
+  >
     {({ valid, submitting, validating }: FormState) => (
       <React.Fragment>
         <Block margin="sm">

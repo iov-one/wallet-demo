@@ -6,30 +6,26 @@ export enum ToastVariant {
   SUCCESS = "success",
   WARNING = "warning",
   ERROR = "error",
-  INFO = "info"
-};
+  INFO = "info",
+}
 
 interface Props {
-  readonly open: boolean,
-  readonly onClose: () => void,
-  readonly message: string,
-  readonly variant: ToastVariant,
+  readonly open: boolean;
+  readonly onClose: () => void;
+  readonly message: string;
+  readonly variant: ToastVariant;
 }
 
 export const Toast = ({ open, onClose, message, variant }: Props) => (
   <Snackbar
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
+      vertical: "bottom",
+      horizontal: "right",
     }}
     open={open}
     autoHideDuration={6000}
     onClose={onClose}
   >
-    <ToastContent
-      onClose={onClose}
-      variant={variant}
-      message={message}
-    />
+    <ToastContent onClose={onClose} variant={variant} message={message} />
   </Snackbar>
 );

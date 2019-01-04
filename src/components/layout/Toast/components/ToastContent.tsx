@@ -1,9 +1,9 @@
 import { createStyles, IconButton, SnackbarContent, WithStyles, withStyles } from "@material-ui/core";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import WarningIcon from '@material-ui/icons/Warning';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CloseIcon from "@material-ui/icons/Close";
+import ErrorIcon from "@material-ui/icons/Error";
+import InfoIcon from "@material-ui/icons/Info";
+import WarningIcon from "@material-ui/icons/Warning";
 import classNames from "classnames";
 import * as React from "react";
 import { error, primary, secondary, temporaryError, xs } from "~/theme/variables";
@@ -37,8 +37,8 @@ const styles = createStyles({
     marginRight: xs,
   },
   message: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   close: {
     padding: xs,
@@ -78,7 +78,6 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
       ]}
     />
   );
-}
+};
 
 export default withStyles(styles)(ToastContent);
-
