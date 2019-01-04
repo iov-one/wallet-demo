@@ -51,6 +51,9 @@ const styles = createStyles({
     flexBasis: "217px",
     height: "90px",
     justifyContent: "center",
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
 });
 
@@ -103,7 +106,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) =
             </Typography>
             <Block margin="xl" />
             {tokens.map((token: BcpCoin) => (
-              <Typography key={token.tokenTicker} underlined variant="h6" weight="regular" color="primary" align="center" onClick={onSendPayment}>
+              <Typography key={token.tokenTicker} pointer underlined variant="h6" weight="regular" color="primary" align="center" onClick={onSendPayment}>
                 {`${coinToString(token)} ${token.tokenTicker}`}
               </Typography>
             ))}
