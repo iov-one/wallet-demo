@@ -30,6 +30,7 @@ export const SECURITY_CENTER_ROUTE = "/security-center";
 export const SET_PASSWORD_ROUTE = "/set-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
+export const INVITE_ROUTE = "/invite";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -51,13 +52,13 @@ export const MainRouter = () => (
         path="/confirm-transaction/:iovAddress/:token/:tokenAmount"
         component={ConfirmTransactionPage}
       />
+      <Route exact path={INVITE_ROUTE} component={InvitePage} />
     </RequireLogin>
     <RequireLogin>
       <Wrapper>
         <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />
-        <Route path="/invite/" component={InvitePage} />
         <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
       </Wrapper>
     </RequireLogin>

@@ -11,6 +11,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly renderProps?: (phone: boolean) => React.ReactNode;
   readonly children?: React.ReactNode;
   readonly phoneFullWidth?: boolean;
+  readonly padding?: boolean;
 }
 
 const styles = createStyles({
@@ -24,16 +25,16 @@ const styles = createStyles({
   },
 });
 
-const PageMenu = ({ children, renderProps, classes, phoneFullWidth = false }: Props) => (
+const PageMenu = ({ children, padding = true, renderProps, classes, phoneFullWidth = false }: Props) => (
   <MatchMediaContext.Consumer>
     {phone => {
-      const padding = phone && phoneFullWidth ? undefined : "lg";
+      const paddingSize = phone && phoneFullWidth ? undefined : padding ? "lg" : undefined;
 
       return (
         <Grid className={classes.root}>
           <GridItem xs={12} variant="column" grow>
             <Header />
-            <Block padding={padding} className={classes.container}>
+            <Block padding={paddingSize} className={classes.container}>
               {renderProps !== undefined ? renderProps(phone) : children}
             </Block>
           </GridItem>
