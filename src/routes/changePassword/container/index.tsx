@@ -2,24 +2,18 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
 import { ToastVariant } from "~/components/layout/Toast";
+import { ToastConsumer, ToastContextInterface } from "~/components/layout/ToastProvider";
 import PageMenu from "~/components/pages/PageMenu";
 import { loadProfile } from "~/logic/profile";
 import Layout from "../components";
 import { CONFIRM_PASSWORD, CURRENT_PASSWORD, NEW_PASSWORD } from "../components/PasswordForm";
 import selectors, { SelectorProps } from "./selector";
 
-interface State {
-  readonly showToast: boolean;
-  readonly toastVariant: ToastVariant;
-  readonly toastMessage: string;
+interface Props extends SelectorProps {
+  readonly showToast: (message: string, variant: ToastVariant) => void;
 }
 
-class ChangePassword extends React.Component<SelectorProps, State> {
-  public readonly state = {
-    showToast: false,
-    toastVariant: ToastVariant.SUCCESS,
-    toastMessage: "Password updated succefully",
-  };
+class ChangePassword extends React.Component<Props> {
 
   public readonly onSetPasswordSubmit = async (values: FormType): Promise<void> => {
     const checkCurrentPass = await this.checkUserPassword(values[CURRENT_PASSWORD]);
@@ -79,30 +73,26 @@ class ChangePassword extends React.Component<SelectorProps, State> {
         <Layout
           onSetPasswordSubmit={this.onSetPasswordSubmit}
           onPasswordValidation={this.onPasswordValidation}
-          showToast={this.state.showToast}
-          toastOnClose={this.toastOnClose}
-          toastVariant={this.state.toastVariant}
-          toastMessage={this.state.toastMessage}
         />
       </PageMenu>
     );
   }
 
   private readonly showSuccessToast = (message: string): void => {
-    this.setState({
-      showToast: true,
-      toastVariant: ToastVariant.SUCCESS,
-      toastMessage: message,
-    });
+    this.props.showToast(message, ToastVariant.SUCCESS);
   };
 
   private readonly showErrorToast = (message: string): void => {
-    this.setState({
-      showToast: true,
-      toastVariant: ToastVariant.ERROR,
-      toastMessage: message,
-    });
+    this.props.showToast(message, ToastVariant.ERROR);
   };
 }
 
-export default connect(selectors)(ChangePassword);
+const ChangePasswordWithToast = (props: SelectorProps): JSX.Element => (
+  <ToastConsumer>
+    {({ showToast }: ToastContextInterface) => (
+      <ChangePassword showToast={showToast} {...props} />
+    )}
+  </ToastConsumer>
+)
+
+export default connect(selectors)(ChangePasswordWithToast);
