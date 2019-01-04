@@ -7,7 +7,7 @@ import { Paper } from "../../subComponents/page";
 import { TransactionInfo } from "../../subComponents/typography";
 
 const Wrapper = styled.div`
-  width: 450px;
+  flex-basis: 450px;
   margin-top: 50px;
 `;
 

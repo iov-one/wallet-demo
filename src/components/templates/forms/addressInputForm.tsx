@@ -22,7 +22,8 @@ interface AddressInputState {
 }
 
 const Wrapper = styled.div`
-  width: 506px;
+  flex-basis: 506px;
+  margin-top: 48px;
 `;
 
 const ActionWrapper = styled.div`
@@ -73,7 +74,7 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     const { errorMessage, address } = this.state;
     return (
       <Wrapper>
-        <Paper style={{ width: "506px" }}>
+        <Paper>
           <FormInput
             title="Send Payment to"
             placeholder="IOV or wallet address"

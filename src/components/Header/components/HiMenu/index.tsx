@@ -18,7 +18,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { SECURITY_CENTER_ROUTE } from "~/routes";
+import { INVITE_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
@@ -60,6 +60,10 @@ const onSecurityCenter = () => {
   history.push(SECURITY_CENTER_ROUTE);
 };
 
+const onInvite = () => {
+  history.push(INVITE_ROUTE);
+};
+
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const phoneStarter = (_: boolean, open: boolean) => (
     <React.Fragment>
@@ -89,7 +93,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
       {phoneMode && <PhoneLinks />}
       <HiElement src={securityCentre} action={onSecurityCenter} msg="Security Center" alt="Security Center" />
       <Hairline color={border} />
-      <HiElement src={invite} action={onSecurityCenter} msg="Invite friends" alt="Invite friends" />
+      <HiElement src={invite} action={onInvite} msg="Invite friends" alt="Invite friends" />
       <Hairline color={border} />
       <HiElement src={terms} action={onSecurityCenter} msg="Terms & Conditions" alt="Terms & Conditions" />
       <Hairline color={border} />

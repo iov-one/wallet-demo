@@ -8,6 +8,7 @@ import { InviteInfoWrapper } from "../../subComponents/wrappers";
 
 interface InviteInfoProps {
   readonly referralLink: string;
+  readonly style?: React.CSSProperties;
 }
 
 const MainText = styled(H1)`
@@ -34,9 +35,9 @@ const ShareText = styled.div`
 
 export class InviteInfo extends React.Component<InviteInfoProps> {
   public render(): JSX.Element {
-    const { referralLink } = this.props;
+    const { referralLink, style } = this.props;
     return (
-      <InviteInfoWrapper>
+      <InviteInfoWrapper style={style}>
         <React.Fragment>
           <MainText className="center">Share the love of IOV</MainText>
           <Description className="center">

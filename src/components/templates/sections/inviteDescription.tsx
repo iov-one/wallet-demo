@@ -1,18 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-
-import { H1 } from "../../subComponents/typography";
-
-import LaptopMan from "../../../../resources/laptop_man.svg";
 import ArrowIcon from "../../../../resources/long_down_arrow.svg";
-
-const InviteDescriptionWrapper = styled.div`
-  margin-top: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 130px;
-`;
+import { H1 } from "../../subComponents/typography";
 
 const MainText = styled(H1)`
   margin-bottom: 50px;
@@ -41,18 +30,6 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const LaptopManImg = styled.div`
-  background-image: url(${LaptopMan});
-  background-size: 277.1px 378.8px;
-  background-repeat: no-repeat;
-  width: 277.1px;
-  height: 379.8px;
-  position: fixed;
-  top: calc(50vh - 150px);
-  right: 0px;
-  z-index: 1;
 `;
 
 const InviteDescriptionField = styled.div`
@@ -84,18 +61,19 @@ const ArrowImage = styled.img`
   margin: 30px 0px;
 `;
 
-export const InviteDescription = (): JSX.Element => (
-  <InviteDescriptionWrapper>
-    <LaptopManImg />
-    <ContentWrapper>
-      <MainText className="center">
-        Let’s make life <HighLight>simple.</HighLight>
-      </MainText>
-      <InviteDescriptionLabel>Instead of having an address like this</InviteDescriptionLabel>
-      <InviteDescriptionField>1DkyBEKt5S2G...AvnsRyHoYM</InviteDescriptionField>
-      <ArrowImage src={ArrowIcon} />
-      <InviteDescriptionLabel>IOV provides an address like this</InviteDescriptionLabel>
-      <InviteDescriptionField className="highlight">John*iov</InviteDescriptionField>
-    </ContentWrapper>
-  </InviteDescriptionWrapper>
+interface Props {
+  readonly style?: React.CSSProperties;
+}
+
+export const InviteDescription = ({ style }: Props): JSX.Element => (
+  <ContentWrapper style={style}>
+    <MainText className="center">
+      Let’s make life <HighLight>simple.</HighLight>
+    </MainText>
+    <InviteDescriptionLabel>Instead of having an address like this</InviteDescriptionLabel>
+    <InviteDescriptionField>1DkyBEKt5S2G...AvnsRyHoYM</InviteDescriptionField>
+    <ArrowImage src={ArrowIcon} />
+    <InviteDescriptionLabel>IOV provides an address like this</InviteDescriptionLabel>
+    <InviteDescriptionField className="highlight">John*iov</InviteDescriptionField>
+  </ContentWrapper>
 );
