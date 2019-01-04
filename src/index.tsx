@@ -5,6 +5,7 @@ import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import WebFont from "webfontloader";
+import { ToastProvider } from "./components/layout/ToastProvider";
 import MatchMedia from "./context/MatchMediaContext";
 import Route from "./routes";
 import { history, makeStore } from "./store";
@@ -24,9 +25,11 @@ const Root = () => (
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <MatchMedia>
-        <ConnectedRouter history={history}>
-          <Route />
-        </ConnectedRouter>
+        <ToastProvider>
+          <ConnectedRouter history={history}>
+            <Route />
+          </ConnectedRouter>
+        </ToastProvider>
       </MatchMedia>
     </MuiThemeProvider>
   </Provider>
