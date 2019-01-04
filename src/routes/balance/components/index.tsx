@@ -103,7 +103,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) =
             </Typography>
             <Block margin="xl" />
             {tokens.map((token: BcpCoin) => (
-              <Typography underlined variant="h6" weight="regular" color="primary" align="center" onClick={onSendPayment}>
+              <Typography key={token.tokenTicker} underlined variant="h6" weight="regular" color="primary" align="center" onClick={onSendPayment}>
                 {`${coinToString(token)} ${token.tokenTicker}`}
               </Typography>
             ))}

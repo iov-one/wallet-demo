@@ -5,12 +5,10 @@ import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-
+import styled from "styled-components";
 import uniquId from "uniqid";
-
+import PageMenu from "~/components/pages/PageMenu";
 import { ConfirmTransactionForm } from "../components/templates/forms";
-import { PageStructure } from "../components/templates/page";
-
 import { stringToCoin } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 import { sendTransactionSequence } from "../sequences";
@@ -34,6 +32,11 @@ interface SendTokenDispatchToProps {
     id: string,
   ) => Promise<any>;
 }
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
   const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
@@ -82,18 +85,20 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";
     return (
-      <PageStructure activeNavigation="Payments">
-        <ConfirmTransactionForm
-          iovAddress={iovAddress}
-          tokenAmount={tokenAmount}
-          token={token}
-          memo={memo as string}
-          onBack={() => {
-            history.back();
-          }}
-          onSend={this.onSend}
-        />
-      </PageStructure>
+      <PageMenu phoneFullWidth>
+        <Layout>
+          <ConfirmTransactionForm
+            iovAddress={iovAddress}
+            tokenAmount={tokenAmount}
+            token={token}
+            memo={memo as string}
+            onBack={() => {
+              history.back();
+            }}
+            onSend={this.onSend}
+          />
+        </Layout>
+      </PageMenu>
     );
   }
 }
