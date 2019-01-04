@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
 import { ToastVariant } from "~/components/layout/Toast";
 import PageMenu from "~/components/pages/PageMenu";
-import { loadProfile, resetProfile } from "~/logic/profile";
+import { loadProfile } from "~/logic/profile";
 import Layout from "../components";
 import { CONFIRM_PASSWORD, CURRENT_PASSWORD, NEW_PASSWORD } from "../components/PasswordForm";
 import selectors, { SelectorProps } from "./selector";
@@ -18,20 +18,28 @@ class ChangePassword extends React.Component<SelectorProps, State> {
   public readonly state = {
     showToast: false,
     toastVariant: ToastVariant.SUCCESS,
-    toastMessage: "Password updated succefully"
-  };  
+    toastMessage: "Password updated succefully",
+  };
 
-  public readonly onSetPasswordSubmit = async (values: FormType): Promise<void> => {   
+  public readonly onSetPasswordSubmit = async (values: FormType): Promise<void> => {
     const checkCurrentPass = await this.checkUserPassword(values[CURRENT_PASSWORD]);
-    if (checkCurrentPass) {
-      try {
-        await resetProfile(this.props.db, values[NEW_PASSWORD]);
-        this.showSuccessToast("Password updated succefully");
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
+
+    if (!checkCurrentPass) {
       this.showErrorToast("Wrong current password");
+      return;
+    }
+
+    const { profile, db } = this.props;
+    if (!profile) {
+      this.showErrorToast("Profile do not loaded correctly");
+      return;
+    }
+
+    try {
+      await profile.storeIn(db, values[NEW_PASSWORD]);
+      this.showSuccessToast("Password updated succefully");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -61,9 +69,9 @@ class ChangePassword extends React.Component<SelectorProps, State> {
 
   public readonly toastOnClose = (): void => {
     this.setState({
-      showToast: false
+      showToast: false,
     });
-  }
+  };
 
   public render(): JSX.Element {
     return (
@@ -84,17 +92,17 @@ class ChangePassword extends React.Component<SelectorProps, State> {
     this.setState({
       showToast: true,
       toastVariant: ToastVariant.SUCCESS,
-      toastMessage: message
+      toastMessage: message,
     });
-  }
+  };
 
   private readonly showErrorToast = (message: string): void => {
     this.setState({
       showToast: true,
       toastVariant: ToastVariant.ERROR,
-      toastMessage: message
+      toastMessage: message,
     });
-  }
+  };
 }
 
 export default connect(selectors)(ChangePassword);
