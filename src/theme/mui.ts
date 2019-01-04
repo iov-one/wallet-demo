@@ -1,6 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import {
+  background,
   border,
   fontColor,
   lg,
@@ -31,6 +32,8 @@ const palette = {
 };
 
 const secondaryDegraded = "rgba(111, 116, 154, 0.47)";
+
+const theme = createMuiTheme({});
 
 export const themeObject: ThemeOptions = {
   typography: {
@@ -97,6 +100,17 @@ export const themeObject: ThemeOptions = {
         overflowY: "hidden",
       },
     },
+    MuiSnackbarContent: {
+      root: {
+        [theme.breakpoints.up('xs')]: {
+          borderRadius: 2,
+          boxShadow: "0 0 6px 0 #f3f4fb",
+        },
+        maxWidth: 510,
+        height: 90,
+        backgroundColor: background,
+      },
+    },
     MuiFormHelperText: {
       root: {
         fontWeight: semiBoldFont,
@@ -129,7 +143,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiList: {
       root: {
-        backgroundColor: "#ffffff",
+        backgroundColor: background,
         boxSizing: "border-box",
         border: `1px solid ${border}`,
       },

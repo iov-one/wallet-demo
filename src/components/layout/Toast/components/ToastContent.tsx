@@ -6,6 +6,8 @@ import InfoIcon from "@material-ui/icons/Info";
 import WarningIcon from "@material-ui/icons/Warning";
 import classNames from "classnames";
 import * as React from "react";
+import Block from "~/components/layout/Block";
+import Typography from "~/components/layout/Typography";
 import { error, primary, secondary, temporaryError, xs } from "~/theme/variables";
 import { ToastVariant } from "../";
 
@@ -18,16 +20,20 @@ const variantIcon = {
 
 const styles = createStyles({
   success: {
-    backgroundColor: primary,
+    //backgroundColor: primary,
+    fontColor: primary,
   },
   error: {
-    backgroundColor: error,
+    //backgroundColor: error,
+    fontColor: error,
   },
   info: {
-    backgroundColor: secondary,
+    //backgroundColor: secondary,
+    fontColor: secondary,
   },
   warning: {
-    backgroundColor: temporaryError,
+    //backgroundColor: temporaryError,
+    fontColor: temporaryError,
   },
   icon: {
     fontSize: 20,
@@ -58,12 +64,13 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}
-      aria-describedby="client-snackbar"
       message={
-        <span id="client-snackbar" className={classes.message}>
+        <Block className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
-          {message}
-        </span>
+          <Typography variant="subtitle1">
+            {message}
+          </Typography>          
+        </Block>
       }
       action={[
         <IconButton
