@@ -1,6 +1,6 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import FormComponent from "./FormComponent";
+import { FormComponent } from "./FormComponent";
 import PeopleImg from "./LeftMenu";
 import SignupComponent from "./SignupComponent";
 
