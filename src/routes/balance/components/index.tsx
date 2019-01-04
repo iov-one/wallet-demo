@@ -86,7 +86,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) =
       <GridItem order={actions} className={classes.actions}>
         <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
         {!phone && <Block className={classes.separator} />}
-        <Card text="Reeive Payment" logo={receive} className={classes.action} />
+        <Card text="Receive Payment" logo={receive} className={classes.action} />
       </GridItem>
       <GridItem order={actionSpacer}>
         <Block margin="lg" />
