@@ -46,10 +46,10 @@ export const MainRouter = () => (
       <Route exact path={BALANCE_ROUTE} component={Balance} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={PaymentPage} />
+      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
     </RequireLogin>
     <RequireLogin>
       <Wrapper>
-        <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
         <Route path={SET_PASSWORD_ROUTE} component={PasswordPage} />
         <Route path="/account-backup/" component={BackupAccountPage} />
         <Route path="/import-account/" component={ImportAccountPage} />

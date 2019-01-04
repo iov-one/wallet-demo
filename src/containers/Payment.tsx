@@ -19,8 +19,9 @@ interface PaymentProps extends RouteComponentProps<{}> {
   readonly identity: any;
 }
 
-const ContentWrapper = styled.div`
-  margin-top: 50px;
+const Layout = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 class Payment extends React.Component<PaymentProps> {
@@ -57,8 +58,10 @@ class Payment extends React.Component<PaymentProps> {
     const chainIds = Object.keys(connections);
     const connection = connections[chainIds[0]];
     return (
-      <PageMenu>
-        <AddressInputForm connection={connection} onNext={this.onSend} />
+      <PageMenu phoneFullWidth>
+        <Layout>
+          <AddressInputForm connection={connection} onNext={this.onSend} />
+        </Layout>
       </PageMenu>
     );
   }
