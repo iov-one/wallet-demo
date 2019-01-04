@@ -26,14 +26,11 @@ const ACCOUNT_NAME = "adolfo*iov";
 
 const renderProps = (phone: boolean) => (
   <Layout name={ACCOUNT_NAME} tokens={TOKENS} phone={phone} onSendPayment={() => true} />
-)
+);
 storiesOf("Routes /balance", module)
   .add("Balance view for desktop", () => (
     <RootMatchMedia matchMedia={false}>
-      <PageMenu
-        phoneFullWidth
-        renderProps={renderProps}
-      />
+      <PageMenu phoneFullWidth renderProps={renderProps} />
     </RootMatchMedia>
   ))
   .add("Balance view for phones", () => (

@@ -48,10 +48,7 @@ export const MainRouter = () => (
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={PaymentPage} />
       <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-      <Route
-        path="/confirm-transaction/:iovAddress/:token/:tokenAmount"
-        component={ConfirmTransactionPage}
-      />
+      <Route path="/confirm-transaction/:iovAddress/:token/:tokenAmount" component={ConfirmTransactionPage} />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
     </RequireLogin>
     <RequireLogin>

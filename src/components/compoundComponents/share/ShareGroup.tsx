@@ -39,11 +39,12 @@ const platformInfo = {
   },
 };
 
+// see: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/15947692/
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-wrap: wrap;
 `;
 

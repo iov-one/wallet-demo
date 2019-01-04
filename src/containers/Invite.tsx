@@ -4,25 +4,30 @@ import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Spacer from "~/components/layout/Spacer";
 import PageMenu from "~/components/pages/PageMenu";
-import { xxl } from "~/theme/variables";
+import { lg, xxl } from "~/theme/variables";
 import LaptopMan from "../../resources/laptop_man.svg";
 import { InviteDescription, InviteInfo } from "../components/templates/sections";
 
 const LaptopManImg = styled.div`
   background-image: url(${LaptopMan});
-  background-size: 277.1px 378.8px;
+  background-size: 100%;
   background-repeat: no-repeat;
   width: 277.1px;
   right: 0px;
   z-index: 1;
   position: relative;
-  height: calc(100vh - 100px);
+  height: 700px;
   margin: auto 0 auto auto;
   background-position: 50%;
 `;
 
 export class InvitePage extends React.Component<{}> {
   public render(): JSX.Element {
+    const inviteStyle = {
+      marginLeft: lg,
+      marginRight: lg,
+      marginBottom: lg,
+    };
     const descriptionStyle = {
       marginLeft: xxl,
       marginTop: "140px",
@@ -36,7 +41,7 @@ export class InvitePage extends React.Component<{}> {
       <Grid>
         <GridItem xs={12} md={6}>
           <Spacer order={1} />
-          <InviteInfo referralLink="http://iov.one" />
+          <InviteInfo style={phone ? undefined : inviteStyle} referralLink="http://iov.one" />
           <Spacer order={1} />
         </GridItem>
         <GridItem xs={12} md={6} center="xs">

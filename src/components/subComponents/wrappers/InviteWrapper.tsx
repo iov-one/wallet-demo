@@ -18,7 +18,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const Icon = styled.img``;
+const Icon = styled.img`
+  align-self: center;
+`;
 
 interface WrapperProps {
   readonly children: JSX.Element;
@@ -27,7 +29,7 @@ interface WrapperProps {
 
 export const InviteInfoWrapper = (props: WrapperProps): JSX.Element => (
   <Wrapper style={props.style}>
-    <Icon src={HeartIcon} />
+    <Icon height={100} width={100} src={HeartIcon} />
     {props.children}
   </Wrapper>
 );
