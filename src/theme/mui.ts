@@ -107,16 +107,13 @@ export const themeObject: ThemeOptions = {
           borderRadius: 2,
           boxShadow: "0 0 6px 0 #f3f4fb",
         },
-        [theme.breakpoints.down(510)]: {
-          borderRadius: 2,
-          boxShadow: "0 0 6px 0 #f3f4fb",
-        },
         width: 460,
         backgroundColor: background,
         padding: `${md} ${lg}`,
+        flexWrap: "noWrap"
       },
       message: {
-        display: "flex", 
+        display: "flex",
         flexGrow: 1,
         padding: 0,
       },
@@ -125,7 +122,7 @@ export const themeObject: ThemeOptions = {
         margin: 0,
         padding: 0,
         marginRight: 0,
-      }
+      },
     },
     MuiFormHelperText: {
       root: {

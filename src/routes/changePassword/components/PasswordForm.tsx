@@ -51,7 +51,7 @@ const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Current password
-          </Typography>
+            </Typography>
           </Block>
           <Field
             variant="outlined"
@@ -67,7 +67,7 @@ const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               New password
-          </Typography>
+            </Typography>
           </Block>
           <Field
             variant="outlined"
@@ -83,7 +83,7 @@ const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Confirm password
-          </Typography>
+            </Typography>
           </Block>
           <Field
             variant="outlined"
@@ -95,7 +95,6 @@ const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
             placeholder="Confirm password"
           />
         </Block>
-        <Block margin="lg" />
         <Button
           variant="contained"
           color="primary"
