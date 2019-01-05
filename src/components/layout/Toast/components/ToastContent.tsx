@@ -1,53 +1,57 @@
 import { createStyles, IconButton, SnackbarContent, WithStyles, withStyles } from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import ErrorIcon from "@material-ui/icons/Error";
-import InfoIcon from "@material-ui/icons/Info";
-import WarningIcon from "@material-ui/icons/Warning";
 import classNames from "classnames";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import Image from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import { error, primary, secondary, temporaryError, xs } from "~/theme/variables";
-import { ToastVariant } from "../";
+import { error, lg, primary, secondary, temporaryError, xl, xs } from "~/theme/variables";
+import CheckIcon from "../../BadgeIcon/assets/check.svg";
+import { ToastVariant } from "../index";
 
 const variantIcon = {
-  success: CheckCircleIcon,
-  warning: WarningIcon,
-  error: ErrorIcon,
-  info: InfoIcon,
+  success: CheckIcon,
+  warning: CheckIcon,
+  error: CheckIcon,
+  info: CheckIcon,
 };
 
 const styles = createStyles({
   success: {
-    //backgroundColor: primary,
-    fontColor: primary,
+    color: primary,
   },
   error: {
-    //backgroundColor: error,
-    fontColor: error,
+    color: error,
   },
   info: {
-    //backgroundColor: secondary,
-    fontColor: secondary,
+    color: secondary,
   },
   warning: {
-    //backgroundColor: temporaryError,
-    fontColor: temporaryError,
+    color: temporaryError,
   },
   icon: {
     fontSize: 20,
   },
   iconVariant: {
-    opacity: 0.9,
-    marginRight: xs,
   },
   message: {
-    display: "flex",
     alignItems: "center",
+    display: "flex",
+    maxWidth: 400,
+    
   },
   close: {
     padding: xs,
+  },
+  iconBackground: {
+    backgroundColor: "#FCFCFC",
+    height: 60,
+    width: 60,
+    borderRadius: 60,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: lg
   },
 });
 
@@ -65,9 +69,12 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
     <SnackbarContent
       className={classNames(classes[variant], className)}
       message={
-        <Block className={classes.message}>
-          <Icon className={classNames(classes.icon, classes.iconVariant)} />
-          <Typography variant="subtitle1">
+        <Block className={classes.message} grow>
+          <div className={classes.iconBackground}>
+            <Image src={Icon} alt="Toast icon" width={xl} height={xl} />
+          </div>
+          
+          <Typography variant="subtitle1" className={classes[variant]}>
             {message}
           </Typography>          
         </Block>
@@ -80,7 +87,7 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
           className={classes.close}
           onClick={onClose}
         >
-          <CloseIcon className={classes.icon} />
+          <CloseIcon className={classes.icon} nativeColor="#d5d9db" />
         </IconButton>,
       ]}
     />
