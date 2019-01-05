@@ -23,7 +23,6 @@ export const Toast = ({ open, onClose, message, variant }: Props) => (
       horizontal: "right",
     }}
     open={open}
-    autoHideDuration={6000}
     onClose={onClose}
   >
     <ToastContent onClose={onClose} variant={variant} message={message} />

@@ -26,7 +26,6 @@ const styles = createStyles({
     paddingBottom: xxl,
     borderRadius: 5,
     border: `1px solid ${border}`,
-    width: 450,
     boxSizing: "border-box",
   },
 });
@@ -48,50 +47,54 @@ const PasswordForm = ({ onSubmit, validation, classes }: Props) => (
   >
     {({ valid, submitting, validating }: FormState) => (
       <React.Fragment>
-        <Block margin="sm">
-          <Typography variant="subtitle2" color="textPrimary">
-            Current password
+        <Block margin="lg" maxWidth={450}>
+          <Block margin="sm">
+            <Typography variant="subtitle2" color="textPrimary">
+              Current password
           </Typography>
+          </Block>
+          <Field
+            variant="outlined"
+            name={CURRENT_PASSWORD}
+            type="password"
+            fullWidth
+            component={TextField}
+            validate={required}
+            placeholder="Current password"
+          />
         </Block>
-        <Field
-          variant="outlined"
-          name={CURRENT_PASSWORD}
-          type="password"
-          fullWidth
-          component={TextField}
-          validate={required}
-          placeholder="Current password"
-        />
-        <Block margin="lg" />
-        <Block margin="sm">
-          <Typography variant="subtitle2" color="textPrimary">
-            New password
+        <Block margin="lg" maxWidth={450}>
+          <Block margin="sm">
+            <Typography variant="subtitle2" color="textPrimary">
+              New password
           </Typography>
+          </Block>
+          <Field
+            variant="outlined"
+            name={NEW_PASSWORD}
+            type="password"
+            fullWidth
+            component={TextField}
+            validate={required}
+            placeholder="New password"
+          />
         </Block>
-        <Field
-          variant="outlined"
-          name={NEW_PASSWORD}
-          type="password"
-          fullWidth
-          component={TextField}
-          validate={required}
-          placeholder="New password"
-        />
-        <Block margin="lg" />
-        <Block margin="sm">
-          <Typography variant="subtitle2" color="textPrimary">
-            Confirm password
+        <Block margin="lg" maxWidth={450}>
+          <Block margin="sm">
+            <Typography variant="subtitle2" color="textPrimary">
+              Confirm password
           </Typography>
+          </Block>
+          <Field
+            variant="outlined"
+            name={CONFIRM_PASSWORD}
+            type="password"
+            fullWidth
+            component={TextField}
+            validate={required}
+            placeholder="Confirm password"
+          />
         </Block>
-        <Field
-          variant="outlined"
-          name={CONFIRM_PASSWORD}
-          type="password"
-          fullWidth
-          component={TextField}
-          validate={required}
-          placeholder="Confirm password"
-        />
         <Block margin="lg" />
         <Button
           variant="contained"
