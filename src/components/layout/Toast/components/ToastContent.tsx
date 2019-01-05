@@ -32,13 +32,10 @@ const styles = createStyles({
   icon: {
     fontSize: 20,
   },
-  iconVariant: {
-  },
+  iconVariant: {},
   message: {
     alignItems: "center",
     display: "flex",
-    maxWidth: 400,
-    
   },
   close: {
     padding: xs,
@@ -51,7 +48,7 @@ const styles = createStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: lg
+    marginRight: lg,
   },
 });
 
@@ -73,10 +70,10 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
           <div className={classes.iconBackground}>
             <Image src={Icon} alt="Toast icon" width={xl} height={xl} />
           </div>
-          
+
           <Typography variant="subtitle1" className={classes[variant]}>
             {message}
-          </Typography>          
+          </Typography>
         </Block>
       }
       action={[
