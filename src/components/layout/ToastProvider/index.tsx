@@ -17,7 +17,7 @@ export interface ToastContextInterface {
 }
 
 const ToastContext = React.createContext<ToastContextInterface>({
-  showToast: (message: string, variant: ToastVariant) => null,
+  showToast: (message: string, variant: ToastVariant) => ({ message, variant }),
   onClose: () => null,
   open: false,
   message: "",

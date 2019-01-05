@@ -14,7 +14,6 @@ interface Props extends SelectorProps {
 }
 
 class ChangePassword extends React.Component<Props> {
-
   public readonly onSetPasswordSubmit = async (values: FormType): Promise<void> => {
     const checkCurrentPass = await this.checkUserPassword(values[CURRENT_PASSWORD]);
 
@@ -69,7 +68,7 @@ class ChangePassword extends React.Component<Props> {
 
   public render(): JSX.Element {
     return (
-      <PageMenu>
+      <PageMenu phoneFullWidth>
         <Layout
           onSetPasswordSubmit={this.onSetPasswordSubmit}
           onPasswordValidation={this.onPasswordValidation}
@@ -89,10 +88,8 @@ class ChangePassword extends React.Component<Props> {
 
 const ChangePasswordWithToast = (props: SelectorProps): JSX.Element => (
   <ToastConsumer>
-    {({ showToast }: ToastContextInterface) => (
-      <ChangePassword showToast={showToast} {...props} />
-    )}
+    {({ showToast }: ToastContextInterface) => <ChangePassword showToast={showToast} {...props} />}
   </ToastConsumer>
-)
+);
 
 export default connect(selectors)(ChangePasswordWithToast);

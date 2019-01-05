@@ -9,10 +9,7 @@ interface Props {
   readonly onSetPasswordSubmit: (values: FormType) => Promise<void>;
 }
 
-export default ({
-  onSetPasswordSubmit,
-  onPasswordValidation,
-}: Props): JSX.Element => {
+export default ({ onSetPasswordSubmit, onPasswordValidation }: Props): JSX.Element => {
   return (
     <OneColumn>
       <PageTitle />

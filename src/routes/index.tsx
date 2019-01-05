@@ -1,13 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import styled from "styled-components";
 
-import {
-  ConfirmTransactionPage,
-  InvitePage,
-  PaymentPage,
-  SendPaymentPage,
-} from "~/containers";
+import { ConfirmTransactionPage, InvitePage, PaymentPage, SendPaymentPage } from "~/containers";
 import RequireLogin from "~/containers/RequireLogin";
 import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
@@ -29,11 +23,6 @@ export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
-
-const Wrapper = styled.div`
-  height: 100vh;
-  width: 100%;
-`;
 
 export const MainRouter = () => (
   <Switch>
