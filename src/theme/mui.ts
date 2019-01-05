@@ -6,6 +6,7 @@ import {
   fontColor,
   lg,
   lightFont,
+  md,
   placeholder,
   primary,
   regularFont,
@@ -102,14 +103,29 @@ export const themeObject: ThemeOptions = {
     },
     MuiSnackbarContent: {
       root: {
-        [theme.breakpoints.up('xs')]: {
+        [theme.breakpoints.up("xs")]: {
           borderRadius: 2,
           boxShadow: "0 0 6px 0 #f3f4fb",
         },
-        maxWidth: 510,
-        height: 90,
+        [theme.breakpoints.down(510)]: {
+          borderRadius: 2,
+          boxShadow: "0 0 6px 0 #f3f4fb",
+        },
+        width: 460,
         backgroundColor: background,
+        padding: `${md} ${lg}`,
       },
+      message: {
+        display: "flex", 
+        flexGrow: 1,
+        padding: 0,
+      },
+      action: {
+        flexGrow: 0,
+        margin: 0,
+        padding: 0,
+        marginRight: 0,
+      }
     },
     MuiFormHelperText: {
       root: {
