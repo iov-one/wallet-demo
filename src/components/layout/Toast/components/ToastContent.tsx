@@ -5,15 +5,16 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import Image from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import { error, lg, primary, secondary, temporaryError, xl, xs } from "~/theme/variables";
-import CheckIcon from "../../BadgeIcon/assets/check.svg";
+import { error, lg, primary, secondary, temporaryError, xs } from "~/theme/variables";
+import ErrorIcon from "../assets/error.svg";
+import SuccessIcon from "../assets/success.svg";
 import { ToastVariant } from "../index";
 
 const variantIcon = {
-  success: CheckIcon,
-  warning: CheckIcon,
-  error: CheckIcon,
-  info: CheckIcon,
+  success: SuccessIcon,
+  warning: ErrorIcon,
+  error: ErrorIcon,
+  info: SuccessIcon,
 };
 
 const styles = createStyles({
@@ -68,7 +69,7 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
       message={
         <Block className={classes.message} grow>
           <div className={classes.iconBackground}>
-            <Image src={Icon} alt="Toast icon" width={xl} height={xl} />
+            <Image src={Icon} alt="Toast icon" width={lg} height={lg} />
           </div>
 
           <Typography variant="subtitle1" className={classes[variant]}>

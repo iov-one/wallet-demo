@@ -110,7 +110,7 @@ export const themeObject: ThemeOptions = {
         width: 460,
         backgroundColor: background,
         padding: `${md} ${lg}`,
-        flexWrap: "noWrap"
+        flexWrap: "nowrap",
       },
       message: {
         display: "flex",

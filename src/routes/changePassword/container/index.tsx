@@ -1,17 +1,15 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
+import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
 import { ToastVariant } from "~/components/layout/Toast";
-import { ToastConsumer, ToastContextInterface } from "~/components/layout/ToastProvider";
 import PageMenu from "~/components/pages/PageMenu";
 import { loadProfile } from "~/logic/profile";
 import Layout from "../components";
 import { CONFIRM_PASSWORD, CURRENT_PASSWORD, NEW_PASSWORD } from "../components/PasswordForm";
 import selectors, { SelectorProps } from "./selector";
 
-interface Props extends SelectorProps {
-  readonly showToast: (message: string, variant: ToastVariant) => void;
-}
+interface Props extends SelectorProps, ToastType {}
 
 class ChangePassword extends React.Component<Props> {
   public readonly onSetPasswordSubmit = async (values: FormType): Promise<void> => {
@@ -86,10 +84,4 @@ class ChangePassword extends React.Component<Props> {
   };
 }
 
-const ChangePasswordWithToast = (props: SelectorProps): JSX.Element => (
-  <ToastConsumer>
-    {({ showToast }: ToastContextInterface) => <ChangePassword showToast={showToast} {...props} />}
-  </ToastConsumer>
-);
-
-export default connect(selectors)(ChangePasswordWithToast);
+export default toastHoc(connect(selectors)(ChangePassword));
