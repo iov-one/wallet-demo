@@ -3,9 +3,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import * as React from "react";
+import chevronDown from "~/components/Header/assets/chevronDown.svg";
+import chevronUp from "~/components/Header/assets/chevronUp.svg";
 import invite from "~/components/Header/assets/invite.svg";
 import logout from "~/components/Header/assets/logout.svg";
 import phoneMenu from "~/components/Header/assets/PhoneMenu.svg";
@@ -87,8 +87,8 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const desktopStarter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
-      <IconButton className={classes.chevron} disableRipple>
-        {open ? <ExpandLess /> : <ExpandMore />}
+      <IconButton disableRipple>
+        <Img src={open ? chevronUp : chevronDown} alt="Open" />
       </IconButton>
     </Block>
   );
