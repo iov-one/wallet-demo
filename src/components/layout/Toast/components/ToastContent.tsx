@@ -5,7 +5,7 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import Image from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import { error, lg, primary, secondary, temporaryError, xl, xs } from "~/theme/variables";
+import { error, lg, primary, secondary, temporaryError } from "~/theme/variables";
 import CloseIcon from "../assets/close.svg";
 import ErrorIcon from "../assets/error.svg";
 import SuccessIcon from "../assets/success.svg";
@@ -76,12 +76,7 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
         </Block>
       }
       action={[
-        <IconButton
-          key="close"
-          aria-label="Close"
-          color="secondary"
-          onClick={onClose}
-        >
+        <IconButton key="close" aria-label="Close" color="secondary" onClick={onClose}>
           <Image src={CloseIcon} alt="Close" width={20} height={20} />
         </IconButton>,
       ]}
