@@ -9,11 +9,12 @@ import { error, lg, primary, secondary, temporaryError } from "~/theme/variables
 import CloseIcon from "../assets/close.svg";
 import ErrorIcon from "../assets/error.svg";
 import SuccessIcon from "../assets/success.svg";
+import WarningIcon from "../assets/warning.svg";
 import { ToastVariant } from "../index";
 
 const variantIcon = {
   success: SuccessIcon,
-  warning: ErrorIcon,
+  warning: WarningIcon,
   error: ErrorIcon,
   info: SuccessIcon,
 };
