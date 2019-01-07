@@ -41,7 +41,7 @@ const HiElement = ({ src, alt, action, phone, msg }: HiElementProps) => (
       </ListItemIcon>
     )}
     <ListItemText disableTypography>
-      <Typography variant={phone ? "body1": "body2"}>{msg}</Typography>
+      <Typography variant={phone ? "body1" : "body2"}>{msg}</Typography>
     </ListItemText>
     {phone && (
       <ListItemIcon>
@@ -100,7 +100,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
       phoneMode={phoneMode}
       {...rest}
     >
-      <Block padding={phoneMode ? 'lg' : 'md'}>
+      <Block padding={phoneMode ? "lg" : "md"}>
         {phoneMode && <PhoneLinks />}
         <HiElement
           src={securityCentre}
@@ -109,7 +109,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
           msg="Security Center"
           alt="Security Center"
         />
-        { !phoneMode && <Hairline color={border} /> }
+        {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={invite}
           action={onInvite}
@@ -117,7 +117,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
           msg="Invite friends"
           alt="Invite friends"
         />
-        { !phoneMode && <Hairline color={border} /> }
+        {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={terms}
           action={onSecurityCenter}
@@ -125,7 +125,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
           msg="Terms & Conditions"
           alt="Terms & Conditions"
         />
-        { !phoneMode && <Hairline color={border} /> }
+        {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={privacy}
           action={onSecurityCenter}
@@ -133,7 +133,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
           msg="Privacy Policy"
           alt="Privacy Policy"
         />
-        { !phoneMode && <Hairline color={border} /> }
+        {!phoneMode && <Hairline color={border} />}
         <HiElement src={logout} action={onSecurityCenter} phone={phoneMode} msg="Log out" alt="Log out" />
       </Block>
     </ListMenu>

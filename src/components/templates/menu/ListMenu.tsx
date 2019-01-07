@@ -6,6 +6,7 @@ import Popper from "@material-ui/core/Popper";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
+import { sm } from "~/theme/variables";
 
 export interface PhoneHook {
   readonly phoneHook: HTMLDivElement | null;
@@ -43,7 +44,7 @@ const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
   <Grow>
     <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent={false}>
       <React.Fragment>
-        <List component="nav"  style={style}>
+        <List component="nav" style={style}>
           {items}
         </List>
       </React.Fragment>
@@ -79,6 +80,9 @@ class ListMenu extends React.Component<Props> {
     } = this.props;
     const showPhone = phoneMode && phoneHook !== null && open;
     const style = buildListStyleFrom(phoneMode, listWidth, color);
+    const popperStyle = {
+      marginTop: sm,
+    };
 
     return (
       <React.Fragment>
@@ -91,7 +95,7 @@ class ListMenu extends React.Component<Props> {
             phoneHook!,
           )
         ) : (
-          <Popper open={open} anchorEl={this.menuRef.current} placement="bottom-end">
+          <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom-end">
             {() => <ListItems clickAway={clickAway} items={children} style={style} />}
           </Popper>
         )}
