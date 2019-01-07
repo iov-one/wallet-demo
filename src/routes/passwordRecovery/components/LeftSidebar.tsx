@@ -36,27 +36,18 @@ const styles = createStyles({
   }
 });
 
-const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
+interface Props extends WithStyles<typeof styles> {
+  readonly children: React.ReactNode;
+}
+
+const LeftSidebar = ({ children, classes }: Props) => {
   return (
     <Block className={classes.leftSide}>
       <Spacer order={1} />
-      <Block className={classes.noticeBox}>
-        <Block className={classes.header}>
-          <Block className={classes.bulbIcon}>
-            <CircleImg dia={50} icon={bulb} alt="sidebar bulb" circleColor="#ffe152"/>
-          </Block>
-          <Typography variant="h6" weight="light">
-            Important
-          </Typography>
-        </Block>
-        <Block margin="md" />
-        <Typography variant="subtitle1">
-          To recover the password, you must enter the twelve backup words in the correct order that you have written down. Note if you have lost or forgotten your twelve backup words you will be unable to recover your account.
-        </Typography>
-      </Block>
+        {children}
       <Spacer order={1} />
     </Block>
   );
 }
-const NoticeBoxWithStyles = withStyles(styles)(NoticeBox);
-export default () => <NoticeBoxWithStyles />
+//const LeftSidebarWithStyles = withStyles(styles)(LeftSidebar);
+export default withStyles(styles)(LeftSidebar);//() => <LeftSidebarWithStyles />

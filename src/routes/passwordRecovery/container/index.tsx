@@ -1,13 +1,23 @@
 import React from "react";
-import Layout from "../components";
+import RecoverProfile from "../components/recoverProfile";
+import UpdatePass from "../components/updatePass";
 
-class PasswordRecovery extends React.Component<{}, {}> {
-  public shouldComponentUpdate(): boolean {
-    return false;
+interface State {
+  readonly currentStep: number;
+}
+
+class PasswordRecovery extends React.Component<{}, State> {
+  public readonly state = {
+    currentStep: 2,
   }
 
   public render(): JSX.Element {
-    return <Layout />;
+    return (
+      this.state.currentStep === 1 ? 
+        <RecoverProfile />
+      :
+        <UpdatePass />
+    )
   }
 }
 

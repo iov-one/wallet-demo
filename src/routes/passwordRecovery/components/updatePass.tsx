@@ -1,10 +1,17 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import FormComponent from "./FormComponent";
-import PeopleImg from "./LeftMenu";
+import LeftSidebar from "./LeftSidebar";
+import ReadyMsg from "./ReadyMsg";
 import StepsCount from "./StepsCount";
+import { UpdatePassForm } from "./UpdatePassForm";
 
-const StepsSection = () => <StepsCount />;
+const StepsSection = () => <StepsCount stepNum={2}/>;
+
+const LeftSidebarSection = () => (
+  <LeftSidebar>
+    <ReadyMsg />
+  </LeftSidebar>
+);
 
 export default class Layout extends React.Component {
   public shouldComponentUpdate(): boolean {
@@ -16,13 +23,13 @@ export default class Layout extends React.Component {
       <React.Fragment>
         <PageColumn
           icon="black"
-          leftMenu={PeopleImg}
+          leftMenu={LeftSidebarSection}
           onSubmit={() => true}
-          primaryTitle="Your"
-          secondaryTitle="backup phrase"
-          subtitle="Enter your 12 word phrase, lowercase, to recover your funds &amp; transactions."
+          primaryTitle="Set up"
+          secondaryTitle="a new password"
+          subtitle="Set up a new password for your wallet."
           renderHeader={StepsSection}
-          formRender={FormComponent}
+          formRender={UpdatePassForm}
           nextMsg="Continue"
         />
       </React.Fragment>

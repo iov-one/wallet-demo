@@ -10,12 +10,14 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  readonly stepNum: number;
+}
 
-const StepsCount = ({ classes }: Props) => (
+const StepsCount = ({ classes, stepNum }: Props) => (
   <Block className={classes.container} padding="xxl" margin="md">
     <Typography variant="subtitle1" color="textPrimary">
-      Step 1/2
+      Step {stepNum}/2
     </Typography>
   </Block>
 );
