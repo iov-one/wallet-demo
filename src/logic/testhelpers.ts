@@ -1,11 +1,14 @@
 // tslint:disable:no-string-literal
-import config from "config";
 import PseudoRandom from "random-js";
 
 import { TokenTicker } from "@iov/core";
 
 import { BlockchainSpec } from "./connection";
 import { createProfile } from "./profile";
+
+import { loadConfig } from "../utils/conf";
+
+const config = loadConfig();
 
 // load some config options
 export const testSpec = config["chainSpec"] as BlockchainSpec;

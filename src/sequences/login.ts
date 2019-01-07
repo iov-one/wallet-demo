@@ -1,9 +1,11 @@
 // tslint:disable:no-string-literal
-import config from "config";
 import { BALANCE_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { BootType } from "~/routes/signupPass/store/actions/boot";
 import { DrinkFaucetType } from "~/routes/signupPass/store/actions/drinkFaucet";
 import { history } from "~/store";
+import { loadConfig } from "../utils/conf";
+
+const config = loadConfig();
 
 export const loginAccount = async (boot: BootType, drinkFaucet: DrinkFaucetType, pass: string) => {
   const { accounts } = await boot(pass, [config["chainSpec"]]);

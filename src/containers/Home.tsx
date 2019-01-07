@@ -1,5 +1,4 @@
 // tslint:disable:no-string-literal
-import config from "config";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -13,6 +12,9 @@ import { PageStructure } from "../components/templates/page";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
 import { BootResult, bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
+import { loadConfig } from "../utils/conf";
+
+const config = loadConfig();
 
 interface HomeState {
   readonly name: string;
