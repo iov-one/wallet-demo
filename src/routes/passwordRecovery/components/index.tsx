@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
     return (
       <React.Fragment>
         <PageColumn
-          icon="white"
+          icon="black"
           leftMenu={PeopleImg}
           onSubmit={() => true}
           primaryTitle="Your"
