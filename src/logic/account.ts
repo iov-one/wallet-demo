@@ -1,18 +1,19 @@
+import { ChainId } from "@iov/base-types";
 import {
   Address,
   Amount,
   BcpAccount,
   BcpConnection,
-  BcpTransactionResponse,
+  BcpTxQuery,
   ConfirmedTransaction,
-  TransactionKind,
+  PostTxResponse,
+  SendTransaction,
   TxCodec,
-  UnsignedTransaction,
 } from "@iov/bcp-types";
-import { bnsCodec } from "@iov/bns";
+
+import { bnsCodec, SetNameTx } from "@iov/bns";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
-import { ChainId, TxQuery } from "@iov/tendermint-types";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
@@ -113,7 +114,7 @@ export function watchTransaction(
   codec?: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
-  const query: TxQuery = { tags: [bnsFromOrToTag(address)] };
+  const query: BcpTxQuery = { tags: [bnsFromOrToTag(address)] };
   const stream = connection.liveTx(query);
   const subscription = stream.subscribe({
     next: x => cb(x),
@@ -129,33 +130,34 @@ export async function sendTransaction(
   recipient: Address,
   amount: Amount,
   memo?: string,
-): Promise<BcpTransactionResponse> {
+): Promise<PostTxResponse> {
   const walletId = getMainKeyring(writer.profile);
   const signer = getMainIdentity(writer.profile);
-  const unsigned: UnsignedTransaction = {
-    kind: TransactionKind.Send,
+  const unsigned: SendTransaction = {
+    kind: "bcp/send",
     chainId: chainId,
     signer: signer.pubkey,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
   };
-  return writer.signAndCommit(unsigned, walletId);
+  return writer.signAndPost(unsigned, walletId);
 }
 
+// @deprecated will be dropped in favour of RegisterUsernameTx
 // sets the name of the given account (old-style, pre-bns)
 export async function setName(
   writer: MultiChainSigner,
   chainId: ChainId,
   name: string,
-): Promise<BcpTransactionResponse> {
+): Promise<PostTxResponse> {
   const walletId = getMainKeyring(writer.profile);
   const signer = getMainIdentity(writer.profile);
-  const unsigned: UnsignedTransaction = {
-    kind: TransactionKind.SetName,
+  const unsigned: SetNameTx = {
+    kind: "bns/set_name",
     chainId: chainId,
     signer: signer.pubkey,
     name,
   };
-  return writer.signAndCommit(unsigned, walletId);
+  return writer.signAndPost(unsigned, walletId);
 }

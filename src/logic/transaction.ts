@@ -2,8 +2,7 @@ import { PublicKeyBundle } from "@iov/base-types";
 import {
   BcpConnection,
   ConfirmedTransaction,
-  SendTx,
-  TransactionKind,
+  SendTransaction,
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
@@ -12,7 +11,7 @@ import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
 
-export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTx>
+export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
   extends ConfirmedTransaction<T> {
   readonly received: boolean;
   readonly time: ReadonlyDate;
@@ -46,13 +45,13 @@ export const parseConfirmedTransaction = async (
   identity: PublicIdentity,
 ): Promise<AnnotatedConfirmedTransaction | undefined> => {
   const payload = trans.transaction;
-  if (payload.kind !== TransactionKind.Send) {
+  if (payload.kind !== "bcp/send") {
     console.log(`Only handle SendTx for now, got ${payload.kind}`);
     return undefined;
   }
   const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
   // TODO: fix this, we cannot always assume BnsConnection
-  const header = await (conn as BnsConnection).getHeader(trans.height);
+  const header = await (conn as BnsConnection).getBlockHeader(trans.height);
   const time = header.time;
   // set addresses and lookup value names
   const recipientAddr = payload.recipient;
@@ -60,7 +59,7 @@ export const parseConfirmedTransaction = async (
   const signerAddr = keyToAddress(trans.primarySignature);
   const signerName = await getNameByAddress(conn, signerAddr);
   return {
-    ...(trans as ConfirmedTransaction<SendTx>),
+    ...(trans as ConfirmedTransaction<SendTransaction>),
     received,
     time,
     success: true,
