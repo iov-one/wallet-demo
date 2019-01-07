@@ -159,12 +159,33 @@ export const themeObject: ThemeOptions = {
         backgroundColor: background,
         boxSizing: "border-box",
         border: `1px solid ${border}`,
+        boxShadow: '0 10px 7px 0 rgba(237, 239, 244, 0.14)',
       },
       padding: {
         paddingTop: sm,
         paddingBottom: sm,
-        paddingLeft: sm,
-        paddingRight: sm,
+        paddingLeft: md,
+        paddingRight: md,
+      },
+    },
+    MuiListItem: {
+      gutters: {
+        '@media (min-width: 600px)': {
+          paddingLeft: sm,
+          paddingRight: sm,
+        },
+      },
+    },
+    MuiListItemIcon: {
+      root: {
+        marginRight: 0,
+      },
+    },
+    MuiListItemText: {
+      primary: {
+        fontWeight: semiBoldFont,
+        fontSize: smallFontSize,
+        color: fontColor,
       },
     },
     MuiOutlinedInput: {

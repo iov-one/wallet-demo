@@ -29,15 +29,25 @@ interface HiElementProps {
   readonly src: string;
   readonly alt: string;
   readonly msg: string;
+  readonly phone: boolean;
   readonly action: () => void;
 }
 
-const HiElement = ({ src, alt, action, msg }: HiElementProps) => (
-  <ListItem button onClick={action}>
-    <ListItemIcon>
-      <Img src={src} alt={alt} />
-    </ListItemIcon>
-    <ListItemText primary={msg} />
+const HiElement = ({ src, alt, action, phone, msg }: HiElementProps) => (
+  <ListItem disableGutters button onClick={action}>
+    {!phone && (
+      <ListItemIcon>
+        <Img src={src} alt={alt} />
+      </ListItemIcon>
+    )}
+    <ListItemText disableTypography>
+      <Typography variant={phone ? "body1": "body2"}>{msg}</Typography>
+    </ListItemText>
+    {phone && (
+      <ListItemIcon>
+        <Img src={src} alt={alt} />
+      </ListItemIcon>
+    )}
   </ListItem>
 );
 
@@ -86,20 +96,46 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   return (
     <ListMenu
       starter={phoneMode ? phoneStarter : desktopStarter}
-      listWidth={278}
+      listWidth={280}
       phoneMode={phoneMode}
       {...rest}
     >
-      {phoneMode && <PhoneLinks />}
-      <HiElement src={securityCentre} action={onSecurityCenter} msg="Security Center" alt="Security Center" />
-      <Hairline color={border} />
-      <HiElement src={invite} action={onInvite} msg="Invite friends" alt="Invite friends" />
-      <Hairline color={border} />
-      <HiElement src={terms} action={onSecurityCenter} msg="Terms & Conditions" alt="Terms & Conditions" />
-      <Hairline color={border} />
-      <HiElement src={privacy} action={onSecurityCenter} msg="Privacy Policy" alt="Privacy Policy" />
-      <Hairline color={border} />
-      <HiElement src={logout} action={onSecurityCenter} msg="Log out" alt="Log out" />
+      <Block padding={phoneMode ? 'sm' : undefined}>
+        {phoneMode && <PhoneLinks />}
+        <HiElement
+          src={securityCentre}
+          phone={phoneMode}
+          action={onSecurityCenter}
+          msg="Security Center"
+          alt="Security Center"
+        />
+        { !phoneMode && <Hairline color={border} /> }
+        <HiElement
+          src={invite}
+          action={onInvite}
+          phone={phoneMode}
+          msg="Invite friends"
+          alt="Invite friends"
+        />
+        { !phoneMode && <Hairline color={border} /> }
+        <HiElement
+          src={terms}
+          action={onSecurityCenter}
+          phone={phoneMode}
+          msg="Terms & Conditions"
+          alt="Terms & Conditions"
+        />
+        { !phoneMode && <Hairline color={border} /> }
+        <HiElement
+          src={privacy}
+          action={onSecurityCenter}
+          phone={phoneMode}
+          msg="Privacy Policy"
+          alt="Privacy Policy"
+        />
+        { !phoneMode && <Hairline color={border} /> }
+        <HiElement src={logout} action={onSecurityCenter} phone={phoneMode} msg="Log out" alt="Log out" />
+      </Block>
     </ListMenu>
   );
 };

@@ -49,11 +49,15 @@ const PAYMENT_TEXT = "Payments";
 
 export const PhoneLinks = () => (
   <React.Fragment>
-    <ListItem button onClick={onBalance}>
-      <ListItemText primary={BALANCE_TEXT} />
+    <ListItem button disableGutters onClick={onBalance}>
+      <ListItemText disableTypography>
+        <Typography variant="body1">{BALANCE_TEXT}</Typography>
+      </ListItemText>
     </ListItem>
-    <ListItem button onClick={onPayments}>
-      <ListItemText primary={PAYMENT_TEXT} />
+    <ListItem button disableGutters onClick={onPayments}>
+      <ListItemText disableTypography>
+        <Typography variant="body1">{PAYMENT_TEXT}</Typography>
+      </ListItemText>
     </ListItem>
     <Hairline color={border} />
   </React.Fragment>

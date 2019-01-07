@@ -43,7 +43,7 @@ const ListItems = ({ items, clickAway, style }: ListItemsProps) => (
   <Grow>
     <ClickAwayListener onClickAway={clickAway} mouseEvent="onClick" touchEvent={false}>
       <React.Fragment>
-        <List component="nav" style={style}>
+        <List component="nav"  style={style}>
           {items}
         </List>
       </React.Fragment>
