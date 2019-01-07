@@ -58,7 +58,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
     try {
-      const { accounts } = await boot(config["defaultPassword"], [config["chainSpec"]]);
+      const { accounts } = await boot(config.defaultPassword, [config.bns.chainSpec as BlockchainSpec]);
       await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
       this.setState({ booted: false });
@@ -71,7 +71,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const acct = accounts[0];
     const account = acct ? acct.account : undefined;
     if (!account) {
-      await drinkFaucet(config["defaultFaucetUri"], config["faucetToken"]);
+      await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
       this.setState({
         booted: true,
       });

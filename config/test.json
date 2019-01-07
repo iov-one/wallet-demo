@@ -1,9 +1,14 @@
 {
-  "chainSpec": {
-    "codecType": "bns",
-    "bootstrapNodes": ["ws://localhost:23456/"]
+  "bns": {
+    "chainSpec": {
+      "codecType": "bns",
+      "bootstrapNodes": ["ws://localhost:23456/"]
+    },
+    "faucetSpec": {
+      "uri": "http://localhost:8000",
+      "token": "IOV"
+    },
+    "defaultPassword": "test-pass"
   },
-  "defaultPassword": "test-pass",
-  "defaultFaucetUri": "http://localhost:8000",
-  "faucetToken": "IOV"
+  "chains": []
 }
