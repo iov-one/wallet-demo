@@ -59,7 +59,7 @@ export const PhoneLinks = () => (
         <Typography variant="body1">{PAYMENT_TEXT}</Typography>
       </ListItemText>
     </ListItem>
-    <Hairline color={border} />
+    <Hairline color={border} margin="sm" />
   </React.Fragment>
 );
 

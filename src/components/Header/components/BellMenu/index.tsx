@@ -8,6 +8,7 @@ import { HeaderTxProps } from "~/components/Header/selector";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
+import Typography from "~/components/layout/Typography";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { border } from "~/theme/variables";
@@ -19,7 +20,7 @@ interface Props extends PhoneHook {
   readonly lastTx: LastTxType;
 }
 
-const BellMenu = ({ items, lastTx, ...rest }: Props) => {
+const BellMenu = ({ items, lastTx, phoneMode, ...rest }: Props) => {
   const starter = (visited: boolean, open: boolean) => {
     const logo = open ? bellGreen : bell;
     const hasTx = lastTx !== undefined;
@@ -36,24 +37,32 @@ const BellMenu = ({ items, lastTx, ...rest }: Props) => {
   const hasItems = items.length > 0;
 
   return (
-    <ListMenu starter={starter} listWidth={324} {...rest}>
-      <ListItem>
-        <ListItemText primary="Notifications" />
-      </ListItem>
+    <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} {...rest}>
+      <Block padding={phoneMode ? "sm" : "xs"}>
+        <ListItem>
+          <ListItemText disableTypography>
+            <Typography variant={phoneMode ? "body1" : "body2"} weight="semibold">
+              Notifications
+            </Typography>
+          </ListItemText>
+        </ListItem>
+      </Block>
       <Hairline color={border} />
-      {hasItems ? (
-        items.map((item: HeaderTxProps, index: number) => {
-          const lastOne = index + 1 === items.length;
-          return (
-            <React.Fragment key={item.id}>
-              <TxItem item={item} />
-              {!lastOne && <Hairline />}
-            </React.Fragment>
-          );
-        })
-      ) : (
-        <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
-      )}
+      
+        {hasItems ? (
+          items.map((item: HeaderTxProps, index: number) => {
+            const lastOne = index + 1 === items.length;
+            return (
+              <React.Fragment key={item.id}>
+                <TxItem phone={phoneMode} item={item} />
+                {!lastOne && <Hairline />}
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+        )}
+      
     </ListMenu>
   );
 };

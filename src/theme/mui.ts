@@ -160,19 +160,25 @@ export const themeObject: ThemeOptions = {
         boxSizing: "border-box",
         border: `1px solid ${border}`,
         boxShadow: '0 10px 7px 0 rgba(237, 239, 244, 0.14)',
+        paddingBottom: 0,
+        borderBottomLeftRadius: '5px',
+        borderBottomRightRadius: '5px',
       },
       padding: {
-        paddingTop: sm,
-        paddingBottom: sm,
-        paddingLeft: md,
-        paddingRight: md,
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
       },
     },
     MuiListItem: {
+      root: {
+        paddingTop: md,
+        paddingBottom: md,
+      },
       gutters: {
         '@media (min-width: 600px)': {
-          paddingLeft: sm,
-          paddingRight: sm,
+          paddingLeft: md,
+          paddingRight: md,
         },
       },
     },
@@ -187,6 +193,12 @@ export const themeObject: ThemeOptions = {
         fontSize: smallFontSize,
         color: fontColor,
       },
+      secondary: {
+        fontSize: '12px',
+        lineHeight: 'normal',
+        fontWeight: semiBoldFont,
+        color: "#dadada"
+      }
     },
     MuiOutlinedInput: {
       input: {
@@ -233,6 +245,10 @@ export const themeObject: ThemeOptions = {
       },
       body1: {
         fontSize: "1rem",
+        color: fontColor,
+      },
+      body2: {
+        lineHeight: "1.15rem",
         color: fontColor,
       },
       subtitle2: {

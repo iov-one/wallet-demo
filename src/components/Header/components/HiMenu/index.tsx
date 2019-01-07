@@ -100,7 +100,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
       phoneMode={phoneMode}
       {...rest}
     >
-      <Block padding={phoneMode ? 'sm' : undefined}>
+      <Block padding={phoneMode ? 'lg' : 'md'}>
         {phoneMode && <PhoneLinks />}
         <HiElement
           src={securityCentre}
