@@ -148,7 +148,7 @@ export class Toasts extends React.Component<ToatsProps, ToastsState> {
         </IconWrapper>
         <ToastsText style={{ color: textColor, margin: "0px 20px", flex: 1 }}>{text}</ToastsText>
         <CloseButton onClick={this.hideNotification}>
-          <CloseImg src={CloseIcon} />
+          <CloseImg src={CloseIcon}/>
         </CloseButton>
       </Wrapper>
     );

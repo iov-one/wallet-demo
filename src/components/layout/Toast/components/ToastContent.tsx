@@ -1,11 +1,12 @@
 import { createStyles, IconButton, SnackbarContent, WithStyles, withStyles } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+//import CloseIcon from "@material-ui/icons/Close";
 import classNames from "classnames";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import Image from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import { error, lg, primary, secondary, temporaryError, xs } from "~/theme/variables";
+import { error, lg, primary, secondary, temporaryError, xl, xs } from "~/theme/variables";
+import CloseIcon from "../assets/close.svg";
 import ErrorIcon from "../assets/error.svg";
 import SuccessIcon from "../assets/success.svg";
 import { ToastVariant } from "../index";
@@ -31,18 +32,15 @@ const styles = createStyles({
     color: temporaryError,
   },
   icon: {
-    fontSize: 20,
+    fontSize: 30,
   },
   iconVariant: {},
   message: {
     alignItems: "center",
     display: "flex",
   },
-  close: {
-    padding: xs,
-  },
   iconBackground: {
-    backgroundColor: "#FCFCFC",
+    backgroundColor: "#f5f7f9",
     height: 60,
     width: 60,
     borderRadius: 60,
@@ -81,11 +79,10 @@ const ToastContent = ({ classes, className, message, onClose, variant }: Props) 
         <IconButton
           key="close"
           aria-label="Close"
-          color="inherit"
-          className={classes.close}
+          color="secondary"
           onClick={onClose}
         >
-          <CloseIcon className={classes.icon} nativeColor="#d5d9db" />
+          <Image src={CloseIcon} alt="Close" width={20} height={20} />
         </IconButton>,
       ]}
     />
