@@ -48,21 +48,15 @@ const BellMenu = ({ items, lastTx, phoneMode, ...rest }: Props) => {
         </ListItem>
       </Block>
       <Hairline color={border} />
-      
-        {hasItems ? (
-          items.map((item: HeaderTxProps, index: number) => {
-            const lastOne = index + 1 === items.length;
-            return (
-              <React.Fragment key={item.id}>
-                <TxItem phone={phoneMode} item={item} />
-                {!lastOne && <Hairline />}
-              </React.Fragment>
-            );
-          })
-        ) : (
-          <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
-        )}
-      
+      {hasItems ? (
+        items.map((item: HeaderTxProps, index: number) => {
+          const lastOne = index + 1 === items.length;
+
+          return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
+        })
+      ) : (
+        <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+      )}
     </ListMenu>
   );
 };

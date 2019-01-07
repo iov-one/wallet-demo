@@ -7,6 +7,7 @@ import receiveTx from "~/components/Header/assets/transactionReceive.svg";
 import sendTx from "~/components/Header/assets/transactionSend.svg";
 import { HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
+import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import { itemBackground, xs } from "~/theme/variables";
@@ -14,6 +15,7 @@ import { itemBackground, xs } from "~/theme/variables";
 interface ItemProps extends WithStyles<typeof styles> {
   readonly item: HeaderTxProps;
   readonly phone: boolean;
+  readonly lastOne: boolean;
 }
 
 interface MsgProps {
@@ -81,7 +83,7 @@ const styles = createStyles({
   },
 });
 
-const TxItem = ({ item, phone, classes }: ItemProps) => {
+const TxItem = ({ item, phone, classes, lastOne }: ItemProps) => {
   const { time, amount, received, signer, recipient, success } = item;
 
   const icon = success ? (received ? receiveTx : sendTx) : errorTx;
@@ -95,8 +97,13 @@ const TxItem = ({ item, phone, classes }: ItemProps) => {
     <Block padding={phone ? "sm" : undefined} className={classes.item}>
       <ListItem>
         <Img src={icon} height={32} alt="Tx operation" />
-        <ListItemText  className={classes.msg} primary={msg} secondary={time.toLocaleString()} />
+        <ListItemText className={classes.msg} primary={msg} secondary={time.toLocaleString()} />
       </ListItem>
+      {!lastOne && (
+        <Block padding="md">
+          <Hairline />
+        </Block>
+      )}
     </Block>
   );
 };
