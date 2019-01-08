@@ -1,5 +1,4 @@
 // tslint:disable:no-string-literal
-import config from "config";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -13,6 +12,9 @@ import { PageStructure } from "../components/templates/page";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
 import { BootResult, bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
+import { loadConfig } from "../utils/conf";
+
+const config = loadConfig();
 
 interface HomeState {
   readonly name: string;
@@ -56,7 +58,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
     try {
-      const { accounts } = await boot(config["defaultPassword"], [config["chainSpec"]]);
+      const { accounts } = await boot(config.defaultPassword, [config.bns.chainSpec as BlockchainSpec]);
       await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
       this.setState({ booted: false });
@@ -69,7 +71,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const acct = accounts[0];
     const account = acct ? acct.account : undefined;
     if (!account) {
-      await drinkFaucet(config["defaultFaucetUri"], config["faucetToken"]);
+      await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
       this.setState({
         booted: true,
       });
