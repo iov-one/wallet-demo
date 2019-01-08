@@ -22,6 +22,9 @@ import { getConnections, getProfileDB } from "../selectors";
 
 import { RootThunkDispatch } from "./types";
 
+// resetSequence will create a new profile (from mnemonic or random) and save it to disk
+// it will NOT update the redux store.
+// Most likely you will want to call bootSequence(...) after it is done
 export const resetSequence = (password: string, mnemonic?: string) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
@@ -41,12 +44,15 @@ export interface BootResult {
 export const bootSequence = (
   password: string,
   blockchains: ReadonlyArray<BlockchainSpec>,
-  mnemonic?: string,
+  mnemonic?: string, 
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
 
   // TODO: clean up mnemonic whitespace
+
+  // QUESTION: do we always want to reset profile when mnemonic is provided? This may be more sensible than silently ignoring it when 
+  // a db already exists?
   const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, mnemonic)));
 
   // --- get the active identity
