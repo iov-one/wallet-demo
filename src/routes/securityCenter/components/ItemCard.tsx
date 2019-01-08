@@ -1,7 +1,8 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
-import React from "react";
+import * as React from "react";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
+import Link from "~/components/layout/Link";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, lg } from "~/theme/variables";
@@ -33,9 +34,10 @@ interface Props extends WithStyles<typeof styles> {
   readonly title: string;
   readonly action: string;
   readonly icon: string;
+  readonly link: string;
 }
 
-const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
+const SecurityCard = ({ title, icon, action, classes, link }: Props): JSX.Element => (
   <Block className={classes.container} margin="md">
     <Spacer order={1} />
     <Block maxWidth={506} className={classes.card}>
@@ -47,9 +49,11 @@ const SecurityCard = ({ title, icon, action, classes }: Props): JSX.Element => (
           </Typography>
         </Block>
         <Block>
-          <Typography underlined variant="body1" color="primary" align="right">
-            {action}
-          </Typography>
+          <Link to={link}>
+            <Typography underlined pointer variant="body1" color="primary" align="right">
+              {action}
+            </Typography>
+          </Link>
         </Block>
       </Block>
     </Block>

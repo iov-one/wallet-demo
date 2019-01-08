@@ -1,9 +1,12 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import {
+  background,
   border,
   fontColor,
+  lg,
   lightFont,
+  md,
   placeholder,
   primary,
   regularFont,
@@ -12,6 +15,7 @@ import {
   sm,
   smallFontSize,
   temporaryError,
+  xxl,
 } from "~/theme/variables";
 
 const palette = {
@@ -29,6 +33,8 @@ const palette = {
 };
 
 const secondaryDegraded = "rgba(111, 116, 154, 0.47)";
+
+const theme = createMuiTheme({});
 
 export const themeObject: ThemeOptions = {
   typography: {
@@ -66,14 +72,56 @@ export const themeObject: ThemeOptions = {
         color: secondaryDegraded,
       },
     },
+    MuiDialogTitle: {
+      root: {
+        paddingTop: lg,
+      },
+    },
+    MuiDialogContent: {
+      root: {
+        padding: sm,
+        overflowY: "hidden",
+        display: "flex",
+      },
+    },
+    MuiDialogActions: {
+      root: {
+        paddingTop: lg,
+        margin: `${sm} ${xxl}`,
+      },
+    },
     MuiDialog: {
       paperWidthSm: {
         maxWidth: "506px",
       },
       paper: {
         margin: 0,
-        overflowY: "visible",
-        boxShadow: "0 0 14px 0 #edeff4",
+        boxShadow: "none",
+        background: "transparent",
+        overflowY: "hidden",
+      },
+    },
+    MuiSnackbarContent: {
+      root: {
+        [theme.breakpoints.up("xs")]: {
+          borderRadius: 2,
+          boxShadow: "0 0 6px 0 #f3f4fb",
+        },
+        width: 460,
+        backgroundColor: background,
+        padding: `${md} ${lg}`,
+        flexWrap: "nowrap",
+      },
+      message: {
+        display: "flex",
+        flexGrow: 1,
+        padding: 0,
+      },
+      action: {
+        flexGrow: 0,
+        margin: 0,
+        padding: 0,
+        marginRight: 0,
       },
     },
     MuiFormHelperText: {
@@ -108,7 +156,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiList: {
       root: {
-        backgroundColor: "#ffffff",
+        backgroundColor: background,
         boxSizing: "border-box",
         border: `1px solid ${border}`,
       },

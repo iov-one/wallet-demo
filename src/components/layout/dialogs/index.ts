@@ -1,2 +1,2 @@
-export * from "./alertDialog";
-export * from "./promptDialog";
+export * from "./AlertDialog";
+export * from "./PromptDialog";

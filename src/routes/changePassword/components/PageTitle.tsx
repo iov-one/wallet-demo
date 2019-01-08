@@ -18,7 +18,7 @@ const PageTitle = ({ classes }: Props) => (
     <Block margin="xl" />
     <Img className={classes.logo} height="123" width="123" src={PageLogo} alt="Page Logo" />
     <Typography variant="h5" align="center">
-      Security Center
+      Change your password
     </Typography>
     <Block margin="lg" />
   </React.Fragment>
