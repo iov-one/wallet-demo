@@ -58,15 +58,23 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 
 // loads the profile if possible, otherwise creates a new one and saves it
 // throws an error on existing profile, but bad password
-export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
-  if (await hasStoredProfile(db)) {
+// if mnemonic is provided, it will create new one from that mnemonic, overwriting anything that exists
+export async function loadOrCreateProfile(
+  db: StringDB,
+  password: string,
+  mnemonic?: string,
+): Promise<UserProfile> {
+  // exisiting db with simple password will trigger load
+  if ((await hasStoredProfile(db)) && !mnemonic) {
     return loadProfile(db, password);
   }
-  return resetProfile(db, password);
+  // provided mnemonic or db missing will trigger reset
+  return resetProfile(db, password, mnemonic);
 }
 
-export async function resetProfile(db: StringDB, password: string): Promise<UserProfile> {
-  const profile = await createProfile();
+// creates new profile with random seed, or existing mnemonic if provided
+export async function resetProfile(db: StringDB, password: string, mnemonic?: string): Promise<UserProfile> {
+  const profile = await createProfile(mnemonic);
   await profile.storeIn(db, password);
   return profile;
 }
@@ -82,4 +90,12 @@ export async function loadProfile(db: StringDB, password: string): Promise<UserP
     console.log("If the password is correct, try resetProfile...");
     throw err;
   }
+}
+
+// this normalizes white-space and makes everything lower-case, so two mnemonics that look the same
+// to a human also look the same to a machine
+export function cleanMnemonic(mnemonic: string): string {
+  const base = mnemonic.toLowerCase().trim();
+  // collapse any whitespace between words into a simple space
+  return base.replace(/\s+/g, " ");
 }

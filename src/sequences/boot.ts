@@ -6,7 +6,13 @@ import { PublicIdentity } from "@iov/keycontrol";
 
 import { addConfirmedTransaction } from "~/store/notifications/actions";
 
-import { BlockchainSpec, keyToAddress, parseConfirmedTransaction, resetProfile } from "../logic";
+import {
+  BlockchainSpec,
+  cleanMnemonic,
+  keyToAddress,
+  parseConfirmedTransaction,
+  resetProfile,
+} from "../logic";
 import { RootState } from "../reducers";
 import {
   addBlockchainAsyncAction,
@@ -22,12 +28,15 @@ import { getConnections, getProfileDB } from "../selectors";
 
 import { RootThunkDispatch } from "./types";
 
-export const resetSequence = (password: string) => async (
+// resetSequence will create a new profile (from mnemonic or random) and save it to disk
+// it will NOT update the redux store.
+// Most likely you will want to call bootSequence(...) after it is done
+export const resetSequence = (password: string, mnemonic?: string) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const db = getProfileDB(getState());
-  return resetProfile(db, password);
+  return resetProfile(db, password, mnemonic);
 };
 
 export interface BootResult {
@@ -38,14 +47,19 @@ export interface BootResult {
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
 // tslint:disable-next-line:only-arrow-functions
-export const bootSequence = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
-  dispatch: RootThunkDispatch,
-  getState: () => RootState,
-): Promise<BootResult> => {
+export const bootSequence = (
+  password: string,
+  blockchains: ReadonlyArray<BlockchainSpec>,
+  mnemonic?: string,
+) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
-  // TODO: hmm... seems like I need to add empty args for start....
-  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, {})));
+
+  // clean up mnemonic whitespace to be more forgiving of user-entered data
+  const cleaned = mnemonic ? cleanMnemonic(mnemonic) : undefined;
+
+  // note, if mnemonic is provided, it will always create a profile, over-writing any existing profile
+  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, cleaned)));
 
   // --- get the active identity
   const {
