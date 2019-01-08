@@ -25,7 +25,7 @@ const PolicySection = () => (
       <Typography variant="body2" color="textSecondary" inline>
         {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
       </Typography>
-      <Block>
+      <Block margin="md">
         <Link to={TERMS_OF_SERVICE_ROUTE}>
           <Typography variant="body2" color="primary" underlined inline>
             Terms of Service
