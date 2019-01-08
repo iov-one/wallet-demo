@@ -58,8 +58,7 @@ export const bootSequence = (
   // clean up mnemonic whitespace to be more forgiving of user-entered data
   const cleaned = mnemonic ? cleanMnemonic(mnemonic) : undefined;
 
-  // QUESTION: do we always want to reset profile when mnemonic is provided? This may be more sensible than silently ignoring it when
-  // a db already exists?
+  // note, if mnemonic is provided, it will always create a profile, over-writing any existing profile
   const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, cleaned)));
 
   // --- get the active identity

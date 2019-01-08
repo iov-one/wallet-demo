@@ -76,6 +76,45 @@ describe("loadOrCreateProfile", () => {
     // second load fails if password doesn't match
     await expect(loadOrCreateProfile(db, "bad password")).rejects.toThrow("invalid usage");
   });
+
+  it("generates new profile from mnemonic", async () => {
+    const db = createMemDb();
+    const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
+    const password = "foobar";
+
+    // create matches mnemonic
+    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const walletId = profile1.wallets.value[0].id;
+    expect(walletId).toBeDefined();
+    expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
+
+    // reload with same mnemonic
+    const profile2 = await loadOrCreateProfile(db, password);
+    expect(getMainIdentity(profile2).id).toEqual(getMainIdentity(profile1).id);
+    expect(profile2.printableSecret(walletId)).toEqual(mnemonic);
+  });
+
+  it("overwrites existing profile when mnemonic provided", async () => {
+    const db = createMemDb();
+    const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
+    const password = "foobar";
+    const mnemonic2 = "beach young hobby distance confirm material coin endless buzz correct express they";
+    const password2 = "bazoom";
+
+    // create matches mnemonic
+    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const walletId = profile1.wallets.value[0].id;
+    expect(walletId).toBeDefined();
+    expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
+
+    // reload with different mnemonic and password works (overwrite)
+    const profile2 = await loadOrCreateProfile(db, password2, mnemonic2);
+    const walletId2 = profile2.wallets.value[0].id;
+    expect(walletId2).toBeDefined();
+    expect(walletId2).not.toEqual(walletId);
+    expect(getMainIdentity(profile2).id).not.toEqual(getMainIdentity(profile1).id);
+    expect(profile2.printableSecret(walletId2)).toEqual(mnemonic2);
+  });
 });
 
 describe("cleanMnemonic", () => {
