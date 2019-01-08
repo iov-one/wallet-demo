@@ -31,25 +31,26 @@ interface HiElementProps {
   readonly msg: string;
   readonly phone: boolean;
   readonly action: () => void;
+  readonly height?: string;
 }
 
-const HiElement = ({ src, alt, action, phone, msg }: HiElementProps) => (
-  <ListItem disableGutters button onClick={action}>
-    {!phone && (
-      <ListItemIcon>
-        <Img src={src} alt={alt} />
-      </ListItemIcon>
-    )}
-    <ListItemText disableTypography>
-      <Typography variant={phone ? "body1" : "body2"}>{msg}</Typography>
-    </ListItemText>
-    {phone && (
-      <ListItemIcon>
-        <Img src={src} alt={alt} />
-      </ListItemIcon>
-    )}
-  </ListItem>
-);
+const HiElement = ({ src, alt, action, phone, msg, height = "18" }: HiElementProps) => {
+  const ItemIcon = () => (
+    <ListItemIcon>
+      <Img src={src} alt={alt} height={height} />
+    </ListItemIcon>
+  );
+
+  return (
+    <ListItem disableGutters button onClick={action}>
+      {!phone && <ItemIcon />}
+      <ListItemText disableTypography>
+        <Typography variant={phone ? "body1" : "body2"}>{msg}</Typography>
+      </ListItemText>
+      {phone && <ItemIcon />}
+    </ListItem>
+  );
+};
 
 const styles = createStyles({
   root: {
@@ -74,6 +75,8 @@ const onInvite = () => {
   history.push(INVITE_ROUTE);
 };
 
+const noOp = () => true;
+
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const phoneStarter = (_: boolean, open: boolean) => (
     <React.Fragment>
@@ -87,7 +90,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const desktopStarter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
-      <IconButton disableRipple >
+      <IconButton disableRipple>
         <Img src={open ? chevronUp : chevronDown} alt="Open" />
       </IconButton>
     </Block>
@@ -103,6 +106,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
       <Block padding={phoneMode ? "lg" : "md"}>
         {phoneMode && <PhoneLinks />}
         <HiElement
+          height="20"
           src={securityCentre}
           phone={phoneMode}
           action={onSecurityCenter}
@@ -120,21 +124,15 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
         {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={terms}
-          action={onSecurityCenter}
+          action={noOp}
           phone={phoneMode}
           msg="Terms & Conditions"
           alt="Terms & Conditions"
         />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement
-          src={privacy}
-          action={onSecurityCenter}
-          phone={phoneMode}
-          msg="Privacy Policy"
-          alt="Privacy Policy"
-        />
+        <HiElement src={privacy} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement src={logout} action={onSecurityCenter} phone={phoneMode} msg="Log out" alt="Log out" />
+        <HiElement src={logout} action={noOp} phone={phoneMode} msg="Log out" alt="Log out" />
       </Block>
     </ListMenu>
   );

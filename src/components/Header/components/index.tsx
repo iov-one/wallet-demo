@@ -49,7 +49,7 @@ class HeaderComponent extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Block className={classes.root} padding={ phoneMode ? "lg" : "xxl"}>
+        <Block className={classes.root} padding={phoneMode ? "lg" : "xxl"}>
           <Img src={logoBlack} alt="Logo" />
           <Spacer order={1} />
           {!phoneMode && <LinksDesktop />}
