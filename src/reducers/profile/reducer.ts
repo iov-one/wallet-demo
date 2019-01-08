@@ -12,11 +12,11 @@ const initState = (): ProfileState => ({
   },
 });
 
-export function profileReducer(maybeState: ProfileState|undefined, action: ProfileActions): ProfileState {
+export function profileReducer(maybeState: ProfileState | undefined, action: ProfileActions): ProfileState {
   // we create it dynamically in the function rather than default argument
   // using a global initState object meant re-using the same database in all tests
   // this has same effect, but allow multiple initializations in one process
-  const state = maybeState ? maybeState : initState(); 
+  const state = maybeState ? maybeState : initState();
 
   switch (action.type) {
     // example of promise resolution

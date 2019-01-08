@@ -6,7 +6,13 @@ import { PublicIdentity } from "@iov/keycontrol";
 
 import { addConfirmedTransaction } from "~/store/notifications/actions";
 
-import { BlockchainSpec, keyToAddress, parseConfirmedTransaction, resetProfile } from "../logic";
+import {
+  BlockchainSpec,
+  cleanMnemonic,
+  keyToAddress,
+  parseConfirmedTransaction,
+  resetProfile,
+} from "../logic";
 import { RootState } from "../reducers";
 import {
   addBlockchainAsyncAction,
@@ -44,16 +50,17 @@ export interface BootResult {
 export const bootSequence = (
   password: string,
   blockchains: ReadonlyArray<BlockchainSpec>,
-  mnemonic?: string, 
+  mnemonic?: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
 
-  // TODO: clean up mnemonic whitespace
+  // clean up mnemonic whitespace to be more forgiving of user-entered data
+  const cleaned = mnemonic ? cleanMnemonic(mnemonic) : undefined;
 
-  // QUESTION: do we always want to reset profile when mnemonic is provided? This may be more sensible than silently ignoring it when 
+  // QUESTION: do we always want to reset profile when mnemonic is provided? This may be more sensible than silently ignoring it when
   // a db already exists?
-  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, mnemonic)));
+  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, cleaned)));
 
   // --- get the active identity
   const {

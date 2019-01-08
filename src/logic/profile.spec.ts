@@ -1,7 +1,13 @@
 import { UserProfile } from "@iov/keycontrol";
 
 import { createMemDb } from "./db";
-import { createProfile, getMainIdentity, hasStoredProfile, loadOrCreateProfile } from "./profile";
+import {
+  cleanMnemonic,
+  createProfile,
+  getMainIdentity,
+  hasStoredProfile,
+  loadOrCreateProfile,
+} from "./profile";
 
 describe("createProfile", () => {
   it("should return a profile with one keyring, and one identity", async () => {
@@ -69,5 +75,17 @@ describe("loadOrCreateProfile", () => {
     await loadOrCreateProfile(db, password);
     // second load fails if password doesn't match
     await expect(loadOrCreateProfile(db, "bad password")).rejects.toThrow("invalid usage");
+  });
+});
+
+describe("cleanMnemonic", () => {
+  it("should normalize many cases", () => {
+    expect(cleanMnemonic("foo")).toEqual("foo");
+    expect(cleanMnemonic("\tFoo \n")).toEqual("foo");
+    expect(cleanMnemonic(" One TWO three     ")).toEqual("one two three");
+    // clean up all whitespace
+    expect(cleanMnemonic("LINE ONE\nLINE TWO\nLINE\tTHREE")).toEqual("line one line two line three");
+    // don't fix punctuation of other such errors
+    expect(cleanMnemonic(" One. TWO three!")).toEqual("one. two three!");
   });
 });

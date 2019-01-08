@@ -89,3 +89,11 @@ export async function loadProfile(db: StringDB, password: string): Promise<UserP
     throw err;
   }
 }
+
+// this normalizes white-space and makes everything lower-case, so two mnemonics that look the same
+// to a human also look the same to a machine
+export function cleanMnemonic(mnemonic: string): string {
+  const base = mnemonic.toLowerCase().trim();
+  // collapse any whitespace between words into a simple space
+  return base.replace(/\s+/g, " ");
+}
