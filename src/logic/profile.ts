@@ -58,15 +58,21 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 
 // loads the profile if possible, otherwise creates a new one and saves it
 // throws an error on existing profile, but bad password
-export async function loadOrCreateProfile(db: StringDB, password: string): Promise<UserProfile> {
+// if mnemonic is provided, and now profile exists, will create new one from that mnemonic
+export async function loadOrCreateProfile(
+  db: StringDB,
+  password: string,
+  mnemonic?: string,
+): Promise<UserProfile> {
   if (await hasStoredProfile(db)) {
     return loadProfile(db, password);
   }
-  return resetProfile(db, password);
+  return resetProfile(db, password, mnemonic);
 }
 
-export async function resetProfile(db: StringDB, password: string): Promise<UserProfile> {
-  const profile = await createProfile();
+// creates new profile with random seed, or existing mnemonic if provided
+export async function resetProfile(db: StringDB, password: string, mnemonic?: string): Promise<UserProfile> {
+  const profile = await createProfile(mnemonic);
   await profile.storeIn(db, password);
   return profile;
 }

@@ -34,7 +34,7 @@ describe("profile async actions", () => {
     const db = createMemDb();
 
     // ensure the action is correct
-    const create = createProfileAsyncAction.start(db, "my-secret-here", {});
+    const create = createProfileAsyncAction.start(db, "my-secret-here", undefined);
     expect(create.type).toEqual("CREATE_PROFILE");
     expect(create.payload.then).not.toBeUndefined();
 

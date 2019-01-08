@@ -22,12 +22,12 @@ import { getConnections, getProfileDB } from "../selectors";
 
 import { RootThunkDispatch } from "./types";
 
-export const resetSequence = (password: string) => async (
+export const resetSequence = (password: string, mnemonic?: string) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const db = getProfileDB(getState());
-  return resetProfile(db, password);
+  return resetProfile(db, password, mnemonic);
 };
 
 export interface BootResult {
@@ -38,14 +38,15 @@ export interface BootResult {
 // boot sequence initializes all objects
 // this is a thunk-form of redux-saga
 // tslint:disable-next-line:only-arrow-functions
-export const bootSequence = (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => async (
-  dispatch: RootThunkDispatch,
-  getState: () => RootState,
-): Promise<BootResult> => {
+export const bootSequence = (
+  password: string,
+  blockchains: ReadonlyArray<BlockchainSpec>,
+  mnemonic?: string,
+) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
   // TODO: hmm... seems like I need to add empty args for start....
-  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, {})));
+  const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, mnemonic)));
 
   // --- get the active identity
   const {

@@ -8,8 +8,10 @@ import { createPromiseAction, createSyncAction } from "./actions";
 /****** sync demo **************/
 
 // "old" way to do this
-export const loadProfileAction = createAction("CREATE_PROFILE", resolve => (db: StringDB, password: string) =>
-  resolve(loadOrCreateProfile(db, password)),
+export const loadProfileAction = createAction(
+  "CREATE_PROFILE",
+  resolve => (db: StringDB, password: string, mnemonic?: string) =>
+    resolve(loadOrCreateProfile(db, password, mnemonic)),
 );
 type ExpectedAction = typeof loadProfileAction;
 // more automatic promise-wrapping with type-pass-through is equivalent
