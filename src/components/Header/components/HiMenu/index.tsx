@@ -87,7 +87,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const desktopStarter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
-      <IconButton disableRipple>
+      <IconButton disableRipple >
         <Img src={open ? chevronUp : chevronDown} alt="Open" />
       </IconButton>
     </Block>

@@ -136,6 +136,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiIconButton: {
       root: {
+        padding: `12px ${sm}`,
         "&:hover": {
           backgroundColor: "none",
         },
