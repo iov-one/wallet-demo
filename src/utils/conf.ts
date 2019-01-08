@@ -29,7 +29,12 @@ function isArrayOfStrings(array: ReadonlyArray<any>): array is ReadonlyArray<str
 }
 
 export function parseChainConfig(chainConf: any): void {
-  if (!chainConf.chainSpec || !chainConf.chainSpec.codecType || !chainConf.chainSpec.bootstrapNodes || !chainConf.defaultPassword) {
+  if (
+    !chainConf.chainSpec ||
+    !chainConf.chainSpec.codecType ||
+    !chainConf.chainSpec.bootstrapNodes ||
+    !chainConf.defaultPassword
+  ) {
     throw new Error("Missed required property in chain config");
   }
 
@@ -50,8 +55,8 @@ export function parseChainConfig(chainConf: any): void {
       throw new Error("Expected faucet uri to start with http:// or https://");
     }
 
-    if(!chainConf.faucetSpec.token) {
-      throw new Error("Expected faucet Token")
+    if (!chainConf.faucetSpec.token) {
+      throw new Error("Expected faucet Token");
     }
 
     if (typeof chainConf.faucetSpec.token !== "string") {
