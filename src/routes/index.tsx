@@ -10,6 +10,7 @@ import LogIn from "~/routes/login/container";
 import PasswordRecovery from "~/routes/passwordRecovery/container";
 import ReceiveIov from "~/routes/receiveIov/container";
 import ReceiveExternal from "~/routes/receiveNonIov/container";
+import RecoveryPhrase from "~/routes/recoveryPhrase/container";
 import SecurityCenter from "~/routes/securityCenter/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
@@ -24,7 +25,7 @@ export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
 export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
-export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
+export const RECOVERY_PHRASE_ROUTE = "/recovery-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
 export const SEND_PAYMENT = "/send-payment";
@@ -52,7 +53,7 @@ export const MainRouter = () => (
       />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
-      <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
+      <Route path={RECOVERY_PHRASE_ROUTE} component={RecoveryPhrase} />
     </RequireLogin>
   </Switch>
 );
