@@ -54,7 +54,7 @@ const FormComponent = ({ connection, classes }: Props) => (
   <MatchMediaContext.Consumer>
     {phone => (
       <React.Fragment>
-        <Block padding={ phone ? "lg" : "xxl"} maxWidth={450} margin="xxl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xxl">
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Username
