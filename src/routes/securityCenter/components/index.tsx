@@ -12,8 +12,8 @@ export default (): JSX.Element => {
       <PageTitle />
       <SecurityCard title="Set a password" action="Change" link={CHANGE_PASSWORD_ROUTE} icon={PswIcon} />
       <SecurityCard 
-        title="View a backup phrase" 
-        action="My backup phrase" 
+        title="Your recovery phrase" 
+        action="View phrase" 
         link={BACKUP_PHRASE_ROUTE} 
         icon={BPIcon} 
       />
