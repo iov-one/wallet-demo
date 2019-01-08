@@ -11,11 +11,11 @@ export default (): JSX.Element => {
     <React.Fragment>
       <PageTitle />
       <SecurityCard title="Set a password" action="Change" link={CHANGE_PASSWORD_ROUTE} icon={PswIcon} />
-      <SecurityCard
-        title="Set a backup phrase"
-        action="Back up again"
-        link={BACKUP_PHRASE_ROUTE}
-        icon={BPIcon}
+      <SecurityCard 
+        title="View a backup phrase" 
+        action="My backup phrase" 
+        link={BACKUP_PHRASE_ROUTE} 
+        icon={BPIcon} 
       />
       <ExtraSecurity />
     </React.Fragment>
