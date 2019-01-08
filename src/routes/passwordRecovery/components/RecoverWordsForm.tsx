@@ -8,7 +8,8 @@ const GenerateFields = (start: number, count: number): ReadonlyArray<JSX.Element
   // tslint:disable-next-line:readonly-array
   const elements: JSX.Element[] = [];
   for (let i = start; i <= start + count; i++) {
-    elements.push(<WordField title={`${i}th word`} fieldName={WORD_NUM + i} />);
+    const fieldName = WORD_NUM + i;
+    elements.push(<WordField key={fieldName} title={`${i}th word`} fieldName={fieldName} />);
   }
 
   return elements;
