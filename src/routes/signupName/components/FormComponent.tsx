@@ -24,7 +24,6 @@ const styles = createStyles({
   container: {
     display: "flex",
     flexWrap: "nowrap",
-    alignItems: "center",
     maxWidth: "450px",
   },
   field: {
@@ -35,6 +34,7 @@ const styles = createStyles({
   },
   domain: {
     marginLeft: md,
+    lineHeight: "50px",
   },
 });
 
