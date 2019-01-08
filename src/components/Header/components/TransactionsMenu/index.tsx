@@ -7,7 +7,7 @@ import BadgeIcon from "~/components/layout/BadgeIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { primary } from "~/theme/variables";
 import GotIt from "./GotIt";
-import NotificationList from "./NotificationList";
+import TransactionsList from "./TransactionsList";
 
 interface Props extends PhoneHook, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<HeaderPendingTxProps>;
@@ -67,7 +67,7 @@ class TransactionsMenu extends React.Component<Props, State> {
 
     return (
       <ListMenu starter={starter} color={color} listWidth={320} {...rest}>
-        {showGotIt ? <GotIt onGotIt={this.onGotIt} /> : <NotificationList items={items} />}
+        {showGotIt ? <GotIt onGotIt={this.onGotIt} /> : <TransactionsList items={items} />}
       </ListMenu>
     );
   }
