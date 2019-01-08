@@ -45,7 +45,8 @@ export const bootSequence = (
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
   // --- initialize the profile
   const db = getProfileDB(getState());
-  // TODO: hmm... seems like I need to add empty args for start....
+
+  // TODO: clean up mnemonic whitespace
   const { value: profile } = await fixTypes(dispatch(createProfileAsyncAction.start(db, password, mnemonic)));
 
   // --- get the active identity
