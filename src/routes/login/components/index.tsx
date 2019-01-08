@@ -8,9 +8,10 @@ const SignupSection = () => <SignupComponent />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
+  readonly validate: (values: object) => object | Promise<object>;
 }
 
-export default ({ onSubmit }: Props) => (
+export default ({ onSubmit, validate }: Props) => (
   <PageColumn
     icon="white"
     leftMenu={PeopleImg}
@@ -21,5 +22,6 @@ export default ({ onSubmit }: Props) => (
     renderHeader={SignupSection}
     formRender={FormComponent}
     nextMsg="Continue"
+    validation={validate}
   />
 );
