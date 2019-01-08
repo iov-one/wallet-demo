@@ -12,7 +12,7 @@ export const UpdatePassForm = () => (
     <Block padding="xxl" maxWidth={450} margin="xxl">
       <Block margin="sm">
         <Typography variant="subtitle2" color="textPrimary">
-        Enter your new password
+          Enter your new password
         </Typography>
       </Block>
       <Field
@@ -28,7 +28,7 @@ export const UpdatePassForm = () => (
     <Block padding="xxl" maxWidth={450} margin="xxl">
       <Block margin="sm">
         <Typography variant="subtitle2" color="textPrimary">
-        Confirm your new password
+          Confirm your new password
         </Typography>
       </Block>
       <Field
@@ -43,4 +43,3 @@ export const UpdatePassForm = () => (
     </Block>
   </React.Fragment>
 );
-

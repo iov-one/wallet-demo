@@ -12,7 +12,7 @@ const GenerateFields = (start: number, count: number): ReadonlyArray<JSX.Element
   }
 
   return elements;
-}
+};
 
 export default () => (
   <React.Fragment>

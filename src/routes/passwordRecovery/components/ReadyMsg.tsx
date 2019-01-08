@@ -20,5 +20,5 @@ const ReadyMsg = ({ classes }: WithStyles<typeof styles>) => {
       </Typography>
     </Block>
   );
-}
+};
 export default withStyles(styles)(ReadyMsg);

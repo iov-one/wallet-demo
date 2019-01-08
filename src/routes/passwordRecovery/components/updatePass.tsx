@@ -5,7 +5,7 @@ import ReadyMsg from "./ReadyMsg";
 import StepsCount from "./StepsCount";
 import { UpdatePassForm } from "./UpdatePassForm";
 
-const StepsSection = () => <StepsCount stepNum={2}/>;
+const StepsSection = () => <StepsCount stepNum={2} />;
 
 const LeftSidebarSection = () => (
   <LeftSidebar>

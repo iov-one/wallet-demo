@@ -4,8 +4,8 @@ import LeftSidebar from "./LeftSidebar";
 import NoticeBox from "./NoticeBox";
 import RecoverWordsForm from "./RecoverWordsForm";
 import StepsCount from "./StepsCount";
- 
-const StepsSection = () => <StepsCount stepNum={1}/>;
+
+const StepsSection = () => <StepsCount stepNum={1} />;
 
 const LeftSidebarSection = () => (
   <LeftSidebar>

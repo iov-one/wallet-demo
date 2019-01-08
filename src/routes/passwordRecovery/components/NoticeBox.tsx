@@ -6,8 +6,6 @@ import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
 import bulb from "../assets/bulb.svg";
 
-
-
 const styles = createStyles({
   noticeBox: {
     display: "flex",
@@ -25,7 +23,7 @@ const styles = createStyles({
   },
   bulbIcon: {
     marginRight: md,
-  }
+  },
 });
 
 const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
@@ -41,9 +39,11 @@ const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
       </Block>
       <Block margin="md" />
       <Typography variant="subtitle1">
-        To recover the password, you must enter the twelve backup words in the correct order that you have written down. Note if you have lost or forgotten your twelve backup words you will be unable to recover your account.
+        To recover the password, you must enter the twelve backup words in the correct order that you have
+        written down. Note if you have lost or forgotten your twelve backup words you will be unable to
+        recover your account.
       </Typography>
     </Block>
   );
-}
+};
 export default withStyles(styles)(NoticeBox);

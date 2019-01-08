@@ -25,9 +25,9 @@ class CircleImg extends React.PureComponent<Props> {
     const style = {
       height: dia,
       width: dia,
-      borderRadius: "50%",  
-      backgroundColor: circleColor ?  circleColor: "#f5f7f9",
-    }
+      borderRadius: "50%",
+      backgroundColor: circleColor ? circleColor : "#f5f7f9",
+    };
 
     return (
       <div className={classes.iconBackground} style={style}>

@@ -1,13 +1,8 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
-import CircleImg from "~/components/layout/CircleImage";
 import Spacer from "~/components/layout/Spacer";
-import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
-import bulb from "../assets/bulb.svg";
-
-
 
 const styles = createStyles({
   noticeBox: {
@@ -28,12 +23,12 @@ const styles = createStyles({
     backgroundImage: "linear-gradient(to top, #ecf4f3, #cdeae7)",
   },
   header: {
-    display: "flex",    
+    display: "flex",
     alignItems: "center",
   },
   bulbIcon: {
     marginRight: md,
-  }
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -44,10 +39,10 @@ const LeftSidebar = ({ children, classes }: Props) => {
   return (
     <Block className={classes.leftSide}>
       <Spacer order={1} />
-        {children}
+      {children}
       <Spacer order={1} />
     </Block>
   );
-}
+};
 //const LeftSidebarWithStyles = withStyles(styles)(LeftSidebar);
-export default withStyles(styles)(LeftSidebar);//() => <LeftSidebarWithStyles />
+export default withStyles(styles)(LeftSidebar); //() => <LeftSidebarWithStyles />

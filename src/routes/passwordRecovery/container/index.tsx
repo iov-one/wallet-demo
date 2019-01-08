@@ -9,15 +9,10 @@ interface State {
 class PasswordRecovery extends React.Component<{}, State> {
   public readonly state = {
     currentStep: 2,
-  }
+  };
 
   public render(): JSX.Element {
-    return (
-      this.state.currentStep === 1 ? 
-        <RecoverProfile />
-      :
-        <UpdatePass />
-    )
+    return this.state.currentStep === 1 ? <RecoverProfile /> : <UpdatePass />;
   }
 }
 
