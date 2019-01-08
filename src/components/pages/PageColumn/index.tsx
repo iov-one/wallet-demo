@@ -71,59 +71,59 @@ const Layout = ({
   leftMenu,
   validation,
 }: Props): JSX.Element => (
-  <Grid className={classes.content}>
-    <MatchMediaContext.Consumer>
-      {phone =>
-        !phone && (
+  <MatchMediaContext.Consumer>
+    {phone => (
+      <Grid className={classes.content}>
+        {!phone && (
           <GridItem sm={4} ref={ref} maxwidth="sm">
             <Block overlap>
               {leftMenu()}
               <Img src={icon === "black" ? logoBlack : logo} alt="Logo" className={classes.logo} />
             </Block>
           </GridItem>
-        )
-      }
-    </MatchMediaContext.Consumer>
-    <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
-      <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
-        {({ valid, submitting, validating }: FormState) => (
-          <React.Fragment>
-            <Block scroll grow>
-              <Block offsetSm={2}>
-                {renderHeader ? renderHeader() : <EmptyHeader />}
-                <TitleSection primaryTitle={primaryTitle} secondaryTitle={secondaryTitle} />
-                <SubtitleSection text={subtitle} />
-                {formRender()}
-              </Block>
-            </Block>
-            <Hairline />
-            <Block margin="md" />
-            <Grid nowrap noshrink nogrow>
-              <GridItem xs={12} sm={12} grow center="xs" end="xs">
-                <Block margin="md" offsetSm={2} padding="xxl">
-                  {onBack && (
-                    <Button color="primary" size="large" onClick={onBack} className={classes.back}>
-                      Back
-                    </Button>
-                  )}
-                  <Button
-                    variant="continue"
-                    color="primary"
-                    type="submit"
-                    disabled={!valid || submitting || validating}
-                    size="large"
-                    spinner={submitting || validating}
-                  >
-                    {`${nextMsg}\u00a0`}
-                  </Button>
-                </Block>
-              </GridItem>
-            </Grid>
-          </React.Fragment>
         )}
-      </Form>
-    </GridItem>
-  </Grid>
+        <GridItem xs={12} sm={8} growSm={4} growElem={ref} variant="column">
+          <Form onSubmit={onSubmit} subscription={subscription} validation={validation} grow>
+            {({ valid, submitting, validating }: FormState) => (
+              <React.Fragment>
+                <Block scroll grow>
+                  <Block offsetSm={2}>
+                    {renderHeader ? renderHeader() : <EmptyHeader />}
+                    <TitleSection primaryTitle={primaryTitle} secondaryTitle={secondaryTitle} phone={phone} />
+                    <SubtitleSection text={subtitle} phone={phone} />
+                    {formRender()}
+                  </Block>
+                </Block>
+                <Hairline />
+                <Block margin="md" />
+                <Grid nowrap noshrink nogrow>
+                  <GridItem xs={12} sm={12} grow center="xs" end="xs">
+                    <Block margin="md" offsetSm={2} padding={phone ? "lg" : "xxl"}>
+                      {onBack && (
+                        <Button color="primary" size="large" onClick={onBack} className={classes.back}>
+                          Back
+                        </Button>
+                      )}
+                      <Button
+                        variant="continue"
+                        color="primary"
+                        type="submit"
+                        disabled={!valid || submitting || validating}
+                        size="large"
+                        spinner={submitting || validating}
+                      >
+                        {`${nextMsg}\u00a0`}
+                      </Button>
+                    </Block>
+                  </GridItem>
+                </Grid>
+              </React.Fragment>
+            )}
+          </Form>
+        </GridItem>
+      </Grid>
+    )}
+  </MatchMediaContext.Consumer>
 );
 
 export default withStyles(styles)(Layout);

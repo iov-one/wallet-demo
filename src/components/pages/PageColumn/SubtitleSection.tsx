@@ -4,10 +4,11 @@ import Typography from "~/components/layout/Typography";
 
 interface Props {
   readonly text: string;
+  readonly phone: boolean;
 }
 
-const SubtitleSection = ({ text }: Props) => (
-  <Block padding="xxl" margin="xl">
+const SubtitleSection = ({ text, phone }: Props) => (
+  <Block padding={phone ? "lg" : "xxl"} margin="xl">
     <Typography variant="h6" weight="light" color="secondary">
       {text}
     </Typography>
