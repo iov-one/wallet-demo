@@ -1,6 +1,6 @@
 import { Snackbar } from "@material-ui/core";
 import * as React from "react";
-import ToastContent from "./components/ToastContent";
+import ToastContent from "./ToastContent";
 
 export enum ToastVariant {
   SUCCESS = "success",

@@ -13,4 +13,8 @@ storiesOf("Toasts", module)
     <RootMatchMedia matchMedia={false}>
       <Toast open={open} onClose={action("closed")} message="Error toast" variant={ToastVariant.ERROR} />
     </RootMatchMedia>
+  )).add("Warning", () => (
+    <RootMatchMedia matchMedia={false}>
+      <Toast open={open} onClose={action("closed")} message="Warning toast" variant={ToastVariant.WARNING} />
+    </RootMatchMedia>
   ))

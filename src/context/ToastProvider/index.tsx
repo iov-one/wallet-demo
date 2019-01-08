@@ -1,5 +1,5 @@
 import * as React from "react";
-import SharedToast from "./SharedToast";
+import { Toast } from "./Toast";
 
 export enum ToastVariant {
   SUCCESS = "success",
@@ -7,6 +7,14 @@ export enum ToastVariant {
   ERROR = "error",
   INFO = "info",
 }
+
+const SharedToast = () => (
+  <ToastConsumer>
+    {({ open, message, onClose, variant }: ToastContextInterface) => {
+      return <Toast open={open} onClose={onClose} message={message} variant={variant} />;
+    }}
+  </ToastConsumer>
+);
 
 export interface ToastContextInterface {
   readonly showToast: (message: string, variant: ToastVariant) => void;

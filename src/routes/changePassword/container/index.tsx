@@ -2,8 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
 import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
-import { ToastVariant } from "~/components/layout/Toast";
 import PageMenu from "~/components/pages/PageMenu";
+import { ToastVariant } from "~/context/ToastProvider/Toast";
 import { loadProfile } from "~/logic/profile";
 import Layout from "../components";
 import { CONFIRM_PASSWORD, CURRENT_PASSWORD, NEW_PASSWORD } from "../components/PasswordForm";
@@ -16,19 +16,19 @@ class ChangePassword extends React.Component<Props> {
     const checkCurrentPass = await this.checkUserPassword(values[CURRENT_PASSWORD]);
 
     if (!checkCurrentPass) {
-      this.showErrorToast("Wrong current password");
+      this.props.showToast("Wrong current password", ToastVariant.ERROR);
       return;
     }
 
     const { profile, db } = this.props;
     if (!profile) {
-      this.showErrorToast("Profile do not loaded correctly");
+      this.props.showToast("Profile do not loaded correctly", ToastVariant.ERROR);
       return;
     }
 
     try {
       await profile.storeIn(db, values[NEW_PASSWORD]);
-      this.showSuccessToast("Password updated succefully");
+      this.props.showToast("Password updated succefully", ToastVariant.SUCCESS);
     } catch (err) {
       console.log(err);
     }
@@ -58,12 +58,6 @@ class ChangePassword extends React.Component<Props> {
     return errors;
   };
 
-  public readonly toastOnClose = (): void => {
-    this.setState({
-      showToast: false,
-    });
-  };
-
   public render(): JSX.Element {
     return (
       <PageMenu phoneFullWidth>
@@ -74,14 +68,6 @@ class ChangePassword extends React.Component<Props> {
       </PageMenu>
     );
   }
-
-  private readonly showSuccessToast = (message: string): void => {
-    this.props.showToast(message, ToastVariant.SUCCESS);
-  };
-
-  private readonly showErrorToast = (message: string): void => {
-    this.props.showToast(message, ToastVariant.ERROR);
-  };
 }
 
 export default toastHoc(connect(selectors)(ChangePassword));
