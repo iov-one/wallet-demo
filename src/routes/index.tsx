@@ -23,6 +23,8 @@ export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
+export const SEND_PAYMENT = "/send-payment";
+export const CONFIRM_TRANSACTION = "/confirm-transaction";
 
 export const MainRouter = () => (
   <Switch>
@@ -34,8 +36,8 @@ export const MainRouter = () => (
       <Route exact path={BALANCE_ROUTE} component={Balance} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={PaymentPage} />
-      <Route path="/send-payment/:iovAddress" component={SendPaymentPage} />
-      <Route path="/confirm-transaction/:iovAddress/:token/:tokenAmount" component={ConfirmTransactionPage} />
+      <Route path={`${SEND_PAYMENT}/:iovAddress`} component={SendPaymentPage} />
+      <Route path={`${CONFIRM_TRANSACTION}/:iovAddress/:token/:tokenAmount`} component={ConfirmTransactionPage} />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
       <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
