@@ -13,7 +13,7 @@ const FormComponent = () => (
   <MatchMediaContext.Consumer>
     {phone => (
       <React.Fragment>
-        <Block padding={ phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Email
@@ -29,7 +29,7 @@ const FormComponent = () => (
             placeholder="Your Email"
           />
         </Block>
-        <Block padding={ phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Password
@@ -45,7 +45,7 @@ const FormComponent = () => (
             placeholder="Create a password"
           />
         </Block>
-        <Block padding={ phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Confirm Password
@@ -61,7 +61,7 @@ const FormComponent = () => (
             placeholder="Repeat your password"
           />
         </Block>
-        <Block padding={ phone ? "lg" : "xxl"} margin="xxl">
+        <Block padding={phone ? "lg" : "xxl"} margin="xxl">
           <PolicySection />
         </Block>
       </React.Fragment>
