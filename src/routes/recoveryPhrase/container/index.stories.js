@@ -2,16 +2,16 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { RootMatchMedia } from "~/utils/storybook";
-import ChangePassword from "./index";
+import RecoveryPhrase from "./index";
 
-storiesOf("Routes /change-password", module)
-  .add("Change password for desktop", () => (
+storiesOf("Routes /recovery-phrase", module)
+  .add("Recovery phrase for desktop", () => (
     <RootMatchMedia matchMedia={false}>
-      <ChangePassword showToast={action("show toast")} />
+      <RecoveryPhrase />
     </RootMatchMedia>
   ))
-  .add("Change password for phones", () => (
+  .add("Recovery phrase for phones", () => (
     <RootMatchMedia matchMedia={true}>
-      <ChangePassword showToast={action("show toast")} />
+      <RecoveryPhrase />
     </RootMatchMedia>
   ));

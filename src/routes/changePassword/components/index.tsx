@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormType } from "~/components/forms/Form";
-import OneColumn from "./OneColumn";
 import PageTitle from "./PageTitle";
 import PasswordForm from "./PasswordForm";
 
@@ -11,9 +10,9 @@ interface Props {
 
 export default ({ onSetPasswordSubmit, onPasswordValidation }: Props): JSX.Element => {
   return (
-    <OneColumn>
+    <React.Fragment>
       <PageTitle />
       <PasswordForm onSubmit={onSetPasswordSubmit} validation={onPasswordValidation} />
-    </OneColumn>
+    </React.Fragment>
   );
 };

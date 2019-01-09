@@ -19,7 +19,7 @@ const styles = createStyles({
   },
 });
 
-const RecoveryPhrase = ({ phrase, classes }: Props) => (
+const ShowMnemonic = ({ phrase, classes }: Props) => (
   <Block margin="lg" maxWidth={450} className={classes.phrase}>
     <Typography variant="subtitle2" color="textPrimary">
       {phrase}
@@ -27,4 +27,4 @@ const RecoveryPhrase = ({ phrase, classes }: Props) => (
   </Block>
 );
 
-export default withStyles(styles)(RecoveryPhrase);
+export default withStyles(styles)(ShowMnemonic);

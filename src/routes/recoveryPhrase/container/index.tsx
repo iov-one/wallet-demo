@@ -1,18 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import PageMenu from "~/components/pages/PageMenu";
-import Layout from "../components";
+import PageMenuColumn from "~/components/pages/PageMenuColumn";
+import PageTitle from "../components/PageTitle";
 import ProfileNotFound from "../components/ProfileNotFound";
+import ShowMnemonic from "../components/ShowMnemonic";
 import selectors, { SelectorProps } from "./selector";
 
 class RecoveryPhrase extends React.Component<SelectorProps> {
   public render(): JSX.Element {
-    const { profile } = this.props;
+    const { profile, wallet, mnemonic } = this.props;
 
     return (
-      <PageMenu phoneFullWidth>
-        {profile ? <Layout profile={profile} wallet={profile.wallets.value[0]} /> : <ProfileNotFound />}
-      </PageMenu>
+      <PageMenuColumn phoneFullWidth>
+        <PageTitle />
+        {profile && wallet && mnemonic ? <ShowMnemonic phrase={mnemonic} /> : <ProfileNotFound />}
+      </PageMenuColumn>
     );
   }
 }
