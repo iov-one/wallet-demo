@@ -122,7 +122,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
         ) : (
           <TriggerButton onClick={this.showMenu}>
             {label}
-            <ChevronIcon src={ChevronDownIcon} />
+            { items.length > 0 && <ChevronIcon src={ChevronDownIcon} /> }
           </TriggerButton>
         )}
         <DropdownMenu className={menuClassName}>
