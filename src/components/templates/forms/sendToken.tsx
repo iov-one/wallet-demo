@@ -129,7 +129,8 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
       this.setState({
         isValidAmount: true,
       });
-      return compareAmounts(amountInToken, balance) >= 0;
+      // amount must be less than current balance
+      return compareAmounts(amountInToken, balance) <= 0;
     } catch {
       this.setState({
         isValidAmount: false,

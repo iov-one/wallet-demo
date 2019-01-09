@@ -1,5 +1,12 @@
 import { PublicKeyBundle } from "@iov/base-types";
-import { BcpConnection, ConfirmedTransaction, SendTransaction, UnsignedTransaction } from "@iov/bcp-types";
+import {
+  BcpConnection,
+  BcpTransactionState,
+  ConfirmedTransaction,
+  PostTxResponse,
+  SendTransaction,
+  UnsignedTransaction,
+} from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
@@ -64,3 +71,10 @@ export const parseConfirmedTransaction = async (
     signerName,
   };
 };
+
+// this waits for one commit to be writen, then returns the response
+export async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
+  const res = await req;
+  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  return res;
+}

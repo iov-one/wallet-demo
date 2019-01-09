@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, PostTxResponse } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
@@ -7,6 +7,7 @@ import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
+import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTest("random account should be empty", async () => {
@@ -40,13 +41,6 @@ describe("getAccount", () => {
     }
   });
 });
-
-// this waits for one commit to be writen, then returns the response
-async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
-  const res = await req;
-  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
-  return res;
-}
 
 describe("sendTransaction", () => {
   mayTest(

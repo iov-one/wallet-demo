@@ -1,13 +1,15 @@
 import { ChainId } from "@iov/base-types";
 import { Amount } from "@iov/bcp-types";
+
+import { resolveAddress, sendTransaction, setName, waitForCommit } from "~/logic";
+import { RootState } from "~/reducers";
+import { requireConnection, requireSigner } from "~/selectors";
 import {
   addPendingTransactionAction,
   removePendingTransactionAction,
   setTransactionErrorAction,
 } from "~/store/notifications/actions";
-import { resolveAddress, sendTransaction, setName } from "../logic";
-import { RootState } from "../reducers";
-import { requireConnection, requireSigner } from "../selectors";
+
 import { RootThunkDispatch } from "./types";
 
 export const setNameSequence = (name: string, chainId: ChainId) => async (
@@ -15,7 +17,7 @@ export const setNameSequence = (name: string, chainId: ChainId) => async (
   getState: () => RootState,
 ) => {
   const signer = requireSigner(getState());
-  await setName(signer, chainId, name);
+  await waitForCommit(setName(signer, chainId, name));
 };
 
 export const sendTransactionSequence = (
@@ -36,7 +38,7 @@ export const sendTransactionSequence = (
         receiver: iovAddress,
       }),
     );
-    await sendTransaction(signer, chainId, address, amount, memo);
+    await waitForCommit(sendTransaction(signer, chainId, address, amount, memo));
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
     dispatch(setTransactionErrorAction(err));
