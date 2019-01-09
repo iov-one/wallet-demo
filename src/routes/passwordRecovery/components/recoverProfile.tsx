@@ -40,19 +40,17 @@ export default class Layout extends React.Component<Props> {
 
   public render(): JSX.Element {
     return (
-      <React.Fragment>
-        <PageColumn
-          icon="black"
-          leftMenu={LeftSidebarSection}
-          onSubmit={this.onSubmit}
-          primaryTitle="Your"
-          secondaryTitle="backup phrase"
-          subtitle="Enter your 12 word phrase, lowercase, to recover your funds &amp; transactions."
-          renderHeader={StepsSection}
-          formRender={RecoverWordsForm}
-          nextMsg="Continue"
-        />
-      </React.Fragment>
+      <PageColumn
+        icon="black"
+        leftMenu={LeftSidebarSection}
+        onSubmit={this.onSubmit}
+        primaryTitle="Your"
+        secondaryTitle="backup phrase"
+        subtitle="Enter your 12 word phrase, lowercase, to recover your funds &amp; transactions."
+        renderHeader={StepsSection}
+        formRender={RecoverWordsForm}
+        nextMsg="Continue"
+      />
     );
   }
 }

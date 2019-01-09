@@ -10,16 +10,19 @@ import { UpdatePass } from "../components/updatePass";
 import { CONFIRM_PASS_FIELD, LOGIN_PASS_FIELD } from "../components/UpdatePassForm";
 import actions, { ActionsInterface } from "./actions";
 
+const RECOVER_PROFILE = "recover_profile";
+const RECOVER_PASSWORD = "recover_password";
+
 interface Props extends ToastType, ActionsInterface {}
 
 interface State {
-  readonly currentStep: number;
+  readonly step: string;
   readonly mnemonic: string;
 }
 
 class PasswordRecovery extends React.Component<Props, State> {
   public readonly state = {
-    currentStep: 1,
+    step: RECOVER_PROFILE,
     mnemonic: "",
   };
 
@@ -28,8 +31,8 @@ class PasswordRecovery extends React.Component<Props, State> {
     try {
       Ed25519HdWallet.fromMnemonic(mnemonic);
       this.setState({
-        currentStep: 2,
-        mnemonic: mnemonic,
+        step: RECOVER_PASSWORD,
+        mnemonic,
       });
     } catch {
       this.props.showToast("The backup phrase you entered is invalid", ToastVariant.ERROR);
@@ -57,11 +60,13 @@ class PasswordRecovery extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    return this.state.currentStep === 1 ? (
-      <RecoverProfile onSubmit={this.createProfileFromMnemonic} />
-    ) : (
-      <UpdatePass onSubmit={this.onPasswordSubmit} validation={this.passwordValidation} />
-    );
+    const { step } = this.state;
+
+    if (step === RECOVER_PROFILE) {
+      return <RecoverProfile onSubmit={this.createProfileFromMnemonic} />;
+    }
+
+    return <UpdatePass onSubmit={this.onPasswordSubmit} validation={this.passwordValidation} />;
   }
 }
 

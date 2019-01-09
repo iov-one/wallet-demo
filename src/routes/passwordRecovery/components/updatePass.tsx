@@ -19,18 +19,16 @@ interface Props {
 }
 
 export const UpdatePass = ({ validation, onSubmit }: Props): JSX.Element => (
-  <React.Fragment>
-    <PageColumn
-      icon="black"
-      leftMenu={LeftSidebarSection}
-      onSubmit={onSubmit}
-      primaryTitle="Set up"
-      secondaryTitle="a new password"
-      subtitle="Set up a new password for your wallet."
-      renderHeader={StepsSection}
-      formRender={UpdatePassForm}
-      nextMsg="Continue"
-      validation={validation}
-    />
-  </React.Fragment>
+  <PageColumn
+    icon="black"
+    leftMenu={LeftSidebarSection}
+    onSubmit={onSubmit}
+    primaryTitle="Set up"
+    secondaryTitle="a new password"
+    subtitle="Set up a new password for your wallet."
+    renderHeader={StepsSection}
+    formRender={UpdatePassForm}
+    nextMsg="Continue"
+    validation={validation}
+  />
 );
