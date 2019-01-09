@@ -40,11 +40,12 @@ export function amountToString(amount: Amount): string {
 export function trimAmount(amount: Amount): Amount {
   const { quantity, fractionalDigits, tokenTicker } = amount;
   const zeros = quantity.match(/0*$/)![0].length;
-  if (zeros === 0) {
+  const cut = Math.min(zeros, fractionalDigits);
+  if (cut === 0) {
     return amount;
   }
-  const trimmedQuantity = quantity.slice(0, -zeros);
-  const trimmedDigits = fractionalDigits - zeros;
+  const trimmedQuantity = quantity.slice(0, -cut);
+  const trimmedDigits = fractionalDigits - cut;
   return {
     quantity: trimmedQuantity,
     fractionalDigits: trimmedDigits,

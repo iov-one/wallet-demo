@@ -1,6 +1,6 @@
 import { Amount, TokenTicker } from "@iov/bcp-types";
 
-import { amountToString, stringToAmount } from "./balances";
+import { amountToString, padAmount, stringToAmount, trimAmount } from "./balances";
 
 const makeInfo = (quantity: string, fractionalDigits: number, tokenTicker: TokenTicker): Amount => ({
   quantity,
@@ -50,5 +50,33 @@ describe("stringToAmount", () => {
     expect(() => stringToAmount("0x1234", eth)).toThrow(/Not a valid number/);
     expect(() => stringToAmount("-15.6", eth)).toThrow(/Not a valid number/);
     expect(() => stringToAmount("12.", eth)).toThrow(/Not a valid number/);
+  });
+});
+
+describe("trimAmount", () => {
+  const eth = "ETH" as TokenTicker;
+
+  it("should trim trailing zeros", () => {
+    expect(trimAmount(makeInfo("1200", 0, eth))).toEqual(makeInfo("1200", 0, eth));
+    expect(trimAmount(makeInfo("1200", 2, eth))).toEqual(makeInfo("12", 0, eth));
+    expect(trimAmount(makeInfo("120034000", 7, eth))).toEqual(makeInfo("120034", 4, eth));
+    expect(trimAmount(makeInfo("3400", 1, eth))).toEqual(makeInfo("340", 0, eth));
+  });
+});
+
+
+describe("padAmount", () => {
+  const foo = "FOO" as TokenTicker;
+
+  it("should expand the strings as needed", () => {
+    expect(padAmount(makeInfo("12", 0, foo), 4)).toEqual(makeInfo("120000", 4, foo));
+    expect(padAmount(makeInfo("1230", 2, foo), 4)).toEqual(makeInfo("123000", 4, foo));
+    expect(padAmount(makeInfo("123456", 3, foo), 6)).toEqual(makeInfo("123456000", 6, foo));
+    expect(padAmount(makeInfo("12003400", 6, foo), 6)).toEqual(makeInfo("12003400", 6, foo));
+  });
+
+  it("should error if not enough places", () => {
+    expect(() => padAmount(makeInfo("1234", 4, foo), 2)).toThrow(/Want to pad/);
+    expect(() => padAmount(makeInfo("120000", 4, foo), 3)).toThrow(/Want to pad/);
   });
 });
