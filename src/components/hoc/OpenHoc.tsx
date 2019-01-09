@@ -19,10 +19,7 @@ export function openHoc<T>(
     { open: false, visited: false },
     {
       toggle: (state: OpenType) => () => ({ open: !state.open, visited: true }),
-      clickAway: () => () => {
-        console.log("On clickaway");
-        return { open: false, visited: true };
-      },
+      clickAway: () => () => ({ open: false, visited: true }),
     },
   )(comp);
 }

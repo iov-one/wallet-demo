@@ -20,7 +20,7 @@ const SignupComponent = ({ classes }: Props) => (
     {phone => (
       <Block className={classes.container} padding={phone ? "lg" : "xxl"} margin="xxl" align="right">
         <Typography variant="subtitle1" inline>
-          {"Don't have an IOV wallet?\u00a0"}
+          Don't have an IOV wallet?&nbsp;
         </Typography>
         <Link to={SIGNUP_ROUTE}>
           <Typography variant="subtitle1" color="primary" underlined inline>
