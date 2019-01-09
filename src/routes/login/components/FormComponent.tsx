@@ -18,7 +18,7 @@ export const FormComponent = () => (
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Password
-        </Typography>
+            </Typography>
           </Block>
           <Field
             variant="outlined"
@@ -34,7 +34,7 @@ export const FormComponent = () => (
           <Link to={PASSWORD_RECOVERY_ROUTE}>
             <Typography variant="subtitle1" color="primary" underlined pointer>
               Forgot your password?
-        </Typography>
+            </Typography>
           </Link>
         </Block>
       </React.Fragment>
