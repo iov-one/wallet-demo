@@ -1,58 +1,54 @@
-import { CoinInfo, coinToString, stringToCoin } from "./balances";
+import { Amount, TokenTicker } from "@iov/bcp-types";
 
-const coinInfo = (info: Partial<CoinInfo>): CoinInfo => ({
-  whole: info.whole || 0,
-  fractional: info.fractional || 0,
-  sigFigs: info.sigFigs || 9,
+import { amountToString, stringToAmount } from "./balances";
+
+const makeInfo = (quantity: string, fractionalDigits: number, tokenTicker: TokenTicker): Amount => ({
+  quantity,
+  fractionalDigits,
+  tokenTicker,
 });
 
-const makeInfo = (whole: number, fractional: number, sigFigs: number): CoinInfo => ({
-  whole,
-  fractional,
-  sigFigs,
-});
+describe("amountToString", () => {
+  const iov = "IOV" as TokenTicker;
 
-describe("coinToString", () => {
-  it("should handle only whole", () => {
-    expect(coinToString(coinInfo({ whole: 123 }))).toEqual("123");
-    expect(coinToString(coinInfo({ whole: 100200300 }))).toEqual("100200300");
-  });
-
-  it("should handle only fractional", () => {
-    expect(coinToString(coinInfo({ fractional: 123, sigFigs: 3 }))).toEqual("0.123");
-    expect(coinToString(coinInfo({ fractional: 456, sigFigs: 6 }))).toEqual("0.000456");
-    // trimming off trailing 0's
-    expect(coinToString(coinInfo({ fractional: 100400, sigFigs: 8 }))).toEqual("0.001004");
-    expect(coinToString(coinInfo({ fractional: 4560000, sigFigs: 7 }))).toEqual("0.456");
-  });
-
-  it("should handle only whole and fractional", () => {
-    expect(coinToString(coinInfo({ whole: 678, fractional: 12, sigFigs: 3 }))).toEqual("678.012");
-  });
-});
-
-describe("stringToCoin", () => {
   it("should handle whole numbers", () => {
-    expect(stringToCoin("1200", 4)).toEqual(makeInfo(1200, 0, 4));
-    expect(stringToCoin("765", 20)).toEqual(makeInfo(765, 0, 20));
+    expect(amountToString(makeInfo("123", 0, iov))).toEqual("123 IOV");
+    expect(amountToString(makeInfo("123000", 0, iov))).toEqual("123000 IOV");
+  });
+
+  it("should handle fractional", () => {
+    expect(amountToString(makeInfo("123456", 2, iov))).toEqual("1234.56 IOV");
+    expect(amountToString(makeInfo("123456", 4, iov))).toEqual("12.3456 IOV");
+    expect(amountToString(makeInfo("123456", 6, iov))).toEqual("0.123456 IOV");
+    // TODO: less than sigfigs
+    // expect(amountToString(makeInfo("123456", 8, iov))).toEqual("0.00123456 IOV");
+  });
+});
+
+describe("stringToAmount", () => {
+  const eth = "ETH" as TokenTicker;
+
+  it("should handle whole numbers", () => {
+    expect(stringToAmount("1200", eth)).toEqual(makeInfo("1200", 0, eth));
+    expect(stringToAmount("765", eth)).toEqual(makeInfo("765", 0, eth));
   });
 
   it("should handle fractional numbers with or without leading 0", () => {
-    expect(stringToCoin("0.1234", 5)).toEqual(makeInfo(0, 12340, 5));
-    expect(stringToCoin(".1234", 5)).toEqual(makeInfo(0, 12340, 5));
-    expect(stringToCoin("0.23", 8)).toEqual(makeInfo(0, 23000000, 8));
+    expect(stringToAmount("0.1234", eth)).toEqual(makeInfo("1234", 4, eth));
+    expect(stringToAmount(".1234", eth)).toEqual(makeInfo("1234", 4, eth));
+    expect(stringToAmount("0.023", eth)).toEqual(makeInfo("023", 3, eth));
   });
 
   it("should support , as separator", () => {
-    expect(stringToCoin("0,1234", 5)).toEqual(makeInfo(0, 12340, 5));
-    expect(stringToCoin("13,67", 4)).toEqual(makeInfo(13, 6700, 4));
-    expect(stringToCoin(",42", 3)).toEqual(makeInfo(0, 420, 3));
+    expect(stringToAmount("0,1234", eth)).toEqual(makeInfo("1234", 4, eth));
+    expect(stringToAmount("13,67", eth)).toEqual(makeInfo("1367", 2, eth));
+    expect(stringToAmount(",00420", eth)).toEqual(makeInfo("00420", 5, eth));
   });
 
   it("should error on invalid strings", () => {
-    expect(() => stringToCoin("12a", 4)).toThrow(/Not a valid number/);
-    expect(() => stringToCoin("0x1234", 4)).toThrow(/Not a valid number/);
-    expect(() => stringToCoin("-15.6", 4)).toThrow(/Not a valid number/);
-    expect(() => stringToCoin("12.", 6)).toThrow(/Not a valid number/);
+    expect(() => stringToAmount("12a", eth)).toThrow(/Not a valid number/);
+    expect(() => stringToAmount("0x1234", eth)).toThrow(/Not a valid number/);
+    expect(() => stringToAmount("-15.6", eth)).toThrow(/Not a valid number/);
+    expect(() => stringToAmount("12.", eth)).toThrow(/Not a valid number/);
   });
 });

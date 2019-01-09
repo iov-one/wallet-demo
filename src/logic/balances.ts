@@ -2,13 +2,14 @@ import { Amount, TokenTicker } from "@iov/bcp-types";
 
 // This parses a decimal as string into the Amount format
 export function stringToAmount(amount: string, tokenTicker: TokenTicker): Amount {
-  const matched = amount.match(/^([0-9]+)?([\.\,]([0-9]+))?$/);
+  // we don't match leading zeros in whole quantity
+  const matched = amount.match(/^0*([0-9]+)?([\.\,]([0-9]+))?$/);
   if (!matched) {
     throw new Error(`Not a valid number: ${amount}`);
   }
   // elements 1 and 3...
-  const wholeString = matched[1];
-  const fractionString = matched[3];
+  const wholeString = matched[1] || "";
+  const fractionString = matched[3] || "";
   const quantity = `${wholeString}${fractionString}`;
   const fractionalDigits = fractionString.length;
   return { quantity, fractionalDigits, tokenTicker };
@@ -28,8 +29,10 @@ export function amountToString(amount: Amount): string {
     // TODO: left pad if length is shorter
     throw new Error("TODO");
   }
-  const wholeDigits = quantity.length - fractionalDigits;
-  const value = `${quantity.slice(0, wholeDigits)}.${quantity.slice(wholeDigits)} ${tokenTicker}`;
+  const cut = quantity.length - fractionalDigits;
+  const whole = cut === 0 ? "0" : quantity.slice(0, cut);
+  const decimal = fractionalDigits === 0 ? "" : `.${quantity.slice(cut)}`;
+  const value = `${whole}${decimal} ${tokenTicker}`;
   return value;
 }
 
