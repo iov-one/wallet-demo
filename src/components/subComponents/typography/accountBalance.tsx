@@ -1,4 +1,4 @@
-import { Amount } from "@iov/bcp-types";
+// import { Amount } from "@iov/bcp-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -15,13 +15,15 @@ const BalanceText = styled.div`
   width: 100%;
 `;
 
-interface PropType {
-  readonly balance: Amount;
-}
+// interface PropType {
+//   readonly balance: Amount;
+// }
 
-export const AccountBalance = (props: PropType): JSX.Element => {
-  const {
-    balance: { whole, fractional, tokenTicker },
-  } = props;
-  return <BalanceText>{`Balance ${whole}.${fractional} ${tokenTicker}`}</BalanceText>;
-};
+// export const AccountBalance = (props: PropType): JSX.Element => {
+//   const {
+//     balance: { whole, fractional, tokenTicker },
+//   } = props;
+//   return <BalanceText>{`Balance ${whole}.${fractional} ${tokenTicker}`}</BalanceText>;
+// };
+
+export const AccountBalance = (): JSX.Element => <BalanceText>Code Commented Out</BalanceText>;
