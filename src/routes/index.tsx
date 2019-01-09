@@ -23,8 +23,11 @@ export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
+
 export const SEND_PAYMENT = "/send-payment";
 export const CONFIRM_TRANSACTION = "/confirm-transaction";
+export const RECEIVE_FROM_IOV_USER = "/receive-from-iov"
+export const RECEIVE_FROM_NON_IOV_USER = "/receive-external"
 
 export const MainRouter = () => (
   <Switch>
@@ -34,6 +37,7 @@ export const MainRouter = () => (
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <RequireLogin>
       <Route exact path={BALANCE_ROUTE} component={Balance} />
+      <Route exact path={RECEIVE_FROM_IOV_USER} component={ReceiveIov} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={PaymentPage} />
       <Route path={`${SEND_PAYMENT}/:iovAddress`} component={SendPaymentPage} />
