@@ -14,7 +14,7 @@ export const FormComponent = () => (
   <MatchMediaContext.Consumer>
     {phone => (
       <React.Fragment>
-        <Block padding="xxl" maxWidth={450} margin="xxl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xxl">
           <Block margin="sm">
             <Typography variant="subtitle2" color="textPrimary">
               Password
@@ -30,7 +30,7 @@ export const FormComponent = () => (
             placeholder="Your password"
           />
         </Block>
-        <Block padding="xxl" maxWidth={450} margin="xl">
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
           <Link to={PASSWORD_RECOVERY_ROUTE}>
             <Typography variant="subtitle1" color="primary" underlined pointer>
               Forgot your password?
