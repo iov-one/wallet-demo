@@ -25,7 +25,13 @@ const TOKENS: ReadonlyArray<BcpCoin> = [
 const ACCOUNT_NAME = "adolfo*iov";
 
 const renderProps = (phone: boolean) => (
-  <Layout name={ACCOUNT_NAME} tokens={TOKENS} phone={phone} onSendPayment={() => true} />
+  <Layout
+    name={ACCOUNT_NAME}
+    tokens={TOKENS}
+    phone={phone}
+    onReceivePayment={() => true}
+    onSendPayment={() => true}
+  />
 );
 storiesOf("Routes /balance", module)
   .add("Balance view for desktop", () => (

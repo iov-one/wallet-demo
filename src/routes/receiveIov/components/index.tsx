@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import styled from "styled-components";
 
 import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
@@ -64,4 +64,4 @@ class ReceiveIOVForm extends React.Component<ReceiveIOVProps> {
   }
 }
 
-export default ReceiveIOVForm
+export default ReceiveIOVForm;

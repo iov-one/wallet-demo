@@ -81,7 +81,12 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
             Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
           </MainText>
           <DropdownWrapper>
-            <Dropdown items={tokenList} defaultValue={token} onSelect={this.onChangeAddress} placeholder="Loading tokens..." />
+            <Dropdown
+              items={tokenList}
+              defaultValue={token}
+              onSelect={this.onChangeAddress}
+              placeholder="Loading tokens..."
+            />
           </DropdownWrapper>
           <ConfirmInput
             title={`Your ${token} Address`}

@@ -25,11 +25,10 @@ export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
-
 export const SEND_PAYMENT = "/send-payment";
 export const CONFIRM_TRANSACTION = "/confirm-transaction";
-export const RECEIVE_FROM_IOV_USER = "/receive-from-iov"
-export const RECEIVE_FROM_NON_IOV_USER = "/receive-external"
+export const RECEIVE_FROM_IOV_USER = "/receive-from-iov";
+export const RECEIVE_FROM_NON_IOV_USER = "/receive-external";
 
 export const MainRouter = () => (
   <Switch>

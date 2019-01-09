@@ -22,11 +22,11 @@ export const availableTokensSelector = createSelector(
 
     // TODO modify this when we have multichain support
     const account = accounts[0];
-    console.log(account)
-    console.log(account.account)
+    console.log(account);
+    console.log(account.account);
     const tokenAddress = account.account ? account.account.address : undefined;
     if (!tokenAddress) {
-      return []
+      return [];
     }
 
     return tickers.map(({ ticker }) => ({

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import PageMenu from "~/components/pages/PageMenu";
 import ReceiveNonIovLayout from "~/routes/receiveNonIov/components";
-import selector, { SelectorProps } from "./selector"
+import selector, { SelectorProps } from "./selector";
 
 const Layout = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const Layout = styled.div`
 
 class RecieveNonIov extends React.Component<SelectorProps> {
   public render(): JSX.Element {
-    const { addressList } = this.props
+    const { addressList } = this.props;
 
     return (
       <PageMenu phoneFullWidth>
