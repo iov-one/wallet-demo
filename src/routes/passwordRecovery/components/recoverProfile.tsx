@@ -15,11 +15,10 @@ const LeftSidebarSection = () => (
 );
 
 interface Props {
-  readonly onSubmit: (mnemonic: string) => Promise<void>
+  readonly onSubmit: (mnemonic: string) => Promise<void>;
 }
 
 export default class Layout extends React.Component<Props> {
-
   /*
   Extracts field values by order of the field name and put them into array accordingly 
   then create mnemonic string from the array of words
@@ -32,12 +31,12 @@ export default class Layout extends React.Component<Props> {
       const valueIdx = parseInt(property.substring(keyPrefixLen), 10);
       if (!isNaN(valueIdx)) {
         // tslint:disable-next-line:no-object-mutation
-        words[valueIdx-1] = typedValues[property];
-      }      
+        words[valueIdx - 1] = typedValues[property];
+      }
     });
-    
+
     this.props.onSubmit(words.join(" "));
-  }
+  };
 
   public render(): JSX.Element {
     return (

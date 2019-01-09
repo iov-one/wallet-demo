@@ -6,6 +6,7 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 
 export const LOGIN_PASS_FIELD = "password";
+export const CONFIRM_PASS_FIELD = "confirm_password";
 
 export const UpdatePassForm = () => (
   <React.Fragment>
@@ -33,7 +34,7 @@ export const UpdatePassForm = () => (
       </Block>
       <Field
         variant="outlined"
-        name={LOGIN_PASS_FIELD + "_1"}
+        name={CONFIRM_PASS_FIELD}
         type="password"
         fullWidth
         component={TextField}

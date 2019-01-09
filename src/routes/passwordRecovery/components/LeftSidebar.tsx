@@ -44,5 +44,5 @@ const LeftSidebar = ({ children, classes }: Props) => {
     </Block>
   );
 };
-//const LeftSidebarWithStyles = withStyles(styles)(LeftSidebar);
-export default withStyles(styles)(LeftSidebar); //() => <LeftSidebarWithStyles />
+
+export default withStyles(styles)(LeftSidebar);

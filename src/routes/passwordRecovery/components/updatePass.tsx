@@ -13,26 +13,24 @@ const LeftSidebarSection = () => (
   </LeftSidebar>
 );
 
-export default class Layout extends React.Component {
-  public shouldComponentUpdate(): boolean {
-    return false;
-  }
-
-  public render(): JSX.Element {
-    return (
-      <React.Fragment>
-        <PageColumn
-          icon="black"
-          leftMenu={LeftSidebarSection}
-          onSubmit={() => true}
-          primaryTitle="Set up"
-          secondaryTitle="a new password"
-          subtitle="Set up a new password for your wallet."
-          renderHeader={StepsSection}
-          formRender={UpdatePassForm}
-          nextMsg="Continue"
-        />
-      </React.Fragment>
-    );
-  }
+interface Props {
+  readonly validation: (values: any) => object | Promise<object>;
+  readonly onSubmit: (values: any) => void;
 }
+
+export const UpdatePass = ({ validation, onSubmit }: Props): JSX.Element => (
+  <React.Fragment>
+    <PageColumn
+      icon="black"
+      leftMenu={LeftSidebarSection}
+      onSubmit={onSubmit}
+      primaryTitle="Set up"
+      secondaryTitle="a new password"
+      subtitle="Set up a new password for your wallet."
+      renderHeader={StepsSection}
+      formRender={UpdatePassForm}
+      nextMsg="Continue"
+      validation={validation}
+    />
+  </React.Fragment>
+);
