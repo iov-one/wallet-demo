@@ -3,9 +3,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import * as React from "react";
+import chevronDown from "~/components/Header/assets/chevronDown.svg";
+import chevronUp from "~/components/Header/assets/chevronUp.svg";
 import invite from "~/components/Header/assets/invite.svg";
 import logout from "~/components/Header/assets/logout.svg";
 import phoneMenu from "~/components/Header/assets/PhoneMenu.svg";
@@ -29,17 +29,28 @@ interface HiElementProps {
   readonly src: string;
   readonly alt: string;
   readonly msg: string;
+  readonly phone: boolean;
   readonly action: () => void;
+  readonly height?: string;
 }
 
-const HiElement = ({ src, alt, action, msg }: HiElementProps) => (
-  <ListItem button onClick={action}>
+const HiElement = ({ src, alt, action, phone, msg, height = "18" }: HiElementProps) => {
+  const ItemIcon = () => (
     <ListItemIcon>
-      <Img src={src} alt={alt} />
+      <Img src={src} alt={alt} height={height} />
     </ListItemIcon>
-    <ListItemText primary={msg} />
-  </ListItem>
-);
+  );
+
+  return (
+    <ListItem disableGutters button onClick={action}>
+      {!phone && <ItemIcon />}
+      <ListItemText disableTypography>
+        <Typography variant={phone ? "body1" : "body2"}>{msg}</Typography>
+      </ListItemText>
+      {phone && <ItemIcon />}
+    </ListItem>
+  );
+};
 
 const styles = createStyles({
   root: {
@@ -64,6 +75,8 @@ const onInvite = () => {
   history.push(INVITE_ROUTE);
 };
 
+const noOp = () => true;
+
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const phoneStarter = (_: boolean, open: boolean) => (
     <React.Fragment>
@@ -77,8 +90,8 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   const desktopStarter = (_: boolean, open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
-      <IconButton className={classes.chevron} disableRipple>
-        {open ? <ExpandLess /> : <ExpandMore />}
+      <IconButton disableRipple>
+        <Img src={open ? chevronUp : chevronDown} alt="Open" />
       </IconButton>
     </Block>
   );
@@ -86,20 +99,41 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
   return (
     <ListMenu
       starter={phoneMode ? phoneStarter : desktopStarter}
-      listWidth={278}
+      listWidth={280}
       phoneMode={phoneMode}
       {...rest}
     >
-      {phoneMode && <PhoneLinks />}
-      <HiElement src={securityCentre} action={onSecurityCenter} msg="Security Center" alt="Security Center" />
-      <Hairline color={border} />
-      <HiElement src={invite} action={onInvite} msg="Invite friends" alt="Invite friends" />
-      <Hairline color={border} />
-      <HiElement src={terms} action={onSecurityCenter} msg="Terms & Conditions" alt="Terms & Conditions" />
-      <Hairline color={border} />
-      <HiElement src={privacy} action={onSecurityCenter} msg="Privacy Policy" alt="Privacy Policy" />
-      <Hairline color={border} />
-      <HiElement src={logout} action={onSecurityCenter} msg="Log out" alt="Log out" />
+      <Block padding={phoneMode ? "lg" : "md"}>
+        {phoneMode && <PhoneLinks />}
+        <HiElement
+          height="20"
+          src={securityCentre}
+          phone={phoneMode}
+          action={onSecurityCenter}
+          msg="Security Center"
+          alt="Security Center"
+        />
+        {!phoneMode && <Hairline color={border} />}
+        <HiElement
+          src={invite}
+          action={onInvite}
+          phone={phoneMode}
+          msg="Invite friends"
+          alt="Invite friends"
+        />
+        {!phoneMode && <Hairline color={border} />}
+        <HiElement
+          src={terms}
+          action={noOp}
+          phone={phoneMode}
+          msg="Terms & Conditions"
+          alt="Terms & Conditions"
+        />
+        {!phoneMode && <Hairline color={border} />}
+        <HiElement src={privacy} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
+        {!phoneMode && <Hairline color={border} />}
+        <HiElement src={logout} action={noOp} phone={phoneMode} msg="Log out" alt="Log out" />
+      </Block>
     </ListMenu>
   );
 };

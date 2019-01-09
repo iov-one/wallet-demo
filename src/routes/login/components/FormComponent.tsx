@@ -4,33 +4,38 @@ import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 
 export const LOGIN_PASS_FIELD = "password";
 
 const FormComponent = () => (
-  <React.Fragment>
-    <Block padding="xxl" maxWidth={450} margin="xxl">
-      <Block margin="sm">
-        <Typography variant="subtitle2" color="textPrimary">
-          Password
-        </Typography>
-      </Block>
-      <Field
-        variant="outlined"
-        name={LOGIN_PASS_FIELD}
-        type="password"
-        fullWidth
-        component={TextField}
-        validate={required}
-        placeholder="Your password"
-      />
-    </Block>
-    <Block padding="xxl" maxWidth={450} margin="xl">
-      <Typography variant="subtitle1" color="primary" underlined>
-        Forgot your password?
-      </Typography>
-    </Block>
-  </React.Fragment>
+  <MatchMediaContext.Consumer>
+    {phone => (
+      <React.Fragment>
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xxl">
+          <Block margin="sm">
+            <Typography variant="subtitle2" color="textPrimary">
+              Password
+            </Typography>
+          </Block>
+          <Field
+            variant="outlined"
+            name={LOGIN_PASS_FIELD}
+            type="password"
+            fullWidth
+            component={TextField}
+            validate={required}
+            placeholder="Your password"
+          />
+        </Block>
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xl">
+          <Typography variant="subtitle1" color="primary" underlined>
+            Forgot your password?
+          </Typography>
+        </Block>
+      </React.Fragment>
+    )}
+  </MatchMediaContext.Consumer>
 );
 
 export default FormComponent;

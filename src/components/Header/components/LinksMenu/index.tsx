@@ -1,11 +1,13 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import classNames from "classnames";
 import * as React from "react";
+import { RouteComponentProps, withRouter } from "react-router";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
-import { BALANCE_ROUTE, PAYMENT_ROUTE } from "~/routes";
+import { BALANCE_ROUTE, CONFIRM_TRANSACTION, PAYMENT_ROUTE, SEND_PAYMENT } from "~/routes";
 import { history } from "~/store";
 import { border, lg, primary } from "~/theme/variables";
 
@@ -20,9 +22,11 @@ const styles = createStyles({
     margin: `0px ${lg}`,
     "&:hover": {
       cursor: "pointer",
-      "& $line": {
-        visibility: "visible",
-      },
+    },
+  },
+  activated: {
+    "& $line": {
+      visibility: "visible",
     },
   },
   line: {
@@ -33,8 +37,6 @@ const styles = createStyles({
     marginTop: "4px",
   },
 });
-
-interface Props extends WithStyles<typeof styles> {}
 
 const onBalance = () => {
   history.push(BALANCE_ROUTE);
@@ -49,35 +51,51 @@ const PAYMENT_TEXT = "Payments";
 
 export const PhoneLinks = () => (
   <React.Fragment>
-    <ListItem button onClick={onBalance}>
-      <ListItemText primary={BALANCE_TEXT} />
+    <ListItem button disableGutters onClick={onBalance}>
+      <ListItemText disableTypography>
+        <Typography variant="body1">{BALANCE_TEXT}</Typography>
+      </ListItemText>
     </ListItem>
-    <ListItem button onClick={onPayments}>
-      <ListItemText primary={PAYMENT_TEXT} />
+    <ListItem button disableGutters onClick={onPayments}>
+      <ListItemText disableTypography>
+        <Typography variant="body1">{PAYMENT_TEXT}</Typography>
+      </ListItemText>
     </ListItem>
-    <Hairline color={border} />
+    <Hairline color={border} margin="sm" />
   </React.Fragment>
 );
 
-const DesktopLinksComponent = ({ classes }: Props) => (
-  <Block className={classes.root}>
-    <Block className={classes.item}>
-      <Block className={classes.text}>
-        <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onBalance}>
-          {BALANCE_TEXT}
-        </Typography>
-      </Block>
-      <Block className={classes.line} />
-    </Block>
-    <Block className={classes.item}>
-      <Block className={classes.text}>
-        <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onPayments}>
-          {PAYMENT_TEXT}
-        </Typography>
-      </Block>
-      <Block className={classes.line} />
-    </Block>
-  </Block>
-);
+interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> {}
 
-export const LinksDesktop = withStyles(styles)(DesktopLinksComponent);
+const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
+  const { pathname: path } = location;
+  const showBalance = path === BALANCE_ROUTE;
+  const showPayment =
+    path === PAYMENT_ROUTE || path.startsWith(SEND_PAYMENT) || path.startsWith(CONFIRM_TRANSACTION);
+
+  const balanceClasses = classNames(classes.item, showBalance ? classes.activated : undefined);
+  const paymentClasses = classNames(classes.item, showPayment ? classes.activated : undefined);
+
+  return (
+    <Block className={classes.root}>
+      <Block className={balanceClasses}>
+        <Block className={classes.text}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onBalance}>
+            {BALANCE_TEXT}
+          </Typography>
+        </Block>
+        <Block className={classes.line} />
+      </Block>
+      <Block className={paymentClasses}>
+        <Block className={classes.text}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onPayments}>
+            {PAYMENT_TEXT}
+          </Typography>
+        </Block>
+        <Block className={classes.line} />
+      </Block>
+    </Block>
+  );
+};
+
+export const LinksDesktop = withStyles(styles)(withRouter(DesktopLinksComponent));

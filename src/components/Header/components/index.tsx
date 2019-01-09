@@ -7,7 +7,6 @@ import { LinksDesktop } from "~/components/Header/components/LinksMenu";
 import TransactionsMenu from "~/components/Header/components/TransactionsMenu";
 import { HeaderPendingTxProps, HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
-import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 
@@ -50,7 +49,7 @@ class HeaderComponent extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Block className={classes.root} padding="xxl">
+        <Block className={classes.root} padding={phoneMode ? "lg" : "xxl"}>
           <Img src={logoBlack} alt="Logo" />
           <Spacer order={1} />
           {!phoneMode && <LinksDesktop />}
@@ -59,7 +58,6 @@ class HeaderComponent extends React.Component<Props, State> {
           <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} lastTx={lastTx} />
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
-        <Hairline />
         <div ref={this.phoneHookRef} />
       </React.Fragment>
     );

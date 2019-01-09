@@ -12,13 +12,13 @@ interface Props {
   readonly items: ReadonlyArray<HeaderPendingTxProps>;
 }
 
-const Notifications = ({ items }: Props) => {
+const Transactions = ({ items }: Props) => {
   const hasItems = items.length > 0;
 
   return (
     <React.Fragment>
       <ListItem>
-        <ListItemText primary="Notifications" />
+        <ListItemText primary="Pending Transactions" />
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
@@ -43,4 +43,4 @@ const Notifications = ({ items }: Props) => {
   );
 };
 
-export default Notifications;
+export default Transactions;

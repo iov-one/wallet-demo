@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { FormType } from "~/components/forms/Form";
+import { Errors, FormType } from "~/components/forms/Form";
 import Layout from "~/routes/login/components";
 import { LOGIN_PASS_FIELD } from "~/routes/login/components/FormComponent";
 import { loginAccount } from "~/sequences/login";
@@ -14,8 +14,23 @@ class SignUp extends React.Component<HomeActions, {}> {
     await loginAccount(boot, drinkFaucet, password);
   };
 
+  public readonly validate = async (_: any) => {
+    // TODO use Toast for showing error when login. Too invasive right now.
+    const errors: Errors = {};
+    /*
+    const pass = (values as FormType)[LOGIN_PASS_FIELD];
+    try {
+      await this.props.boot(pass, [config["chainSpec"]]);
+    } catch (err) {
+      errors = { [LOGIN_PASS_FIELD]: "Wrong password, try again" };
+    }
+    */
+
+    return errors;
+  };
+
   public render(): JSX.Element {
-    return <Layout onSubmit={this.onLogin} />;
+    return <Layout onSubmit={this.onLogin} validate={this.validate} />;
   }
 }
 

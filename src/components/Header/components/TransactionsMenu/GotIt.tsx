@@ -20,13 +20,13 @@ const styles = createStyles({
 
 const GotIt = ({ classes, onGotIt }: Props) => (
   <React.Fragment>
-    <Block className={classes.root} padding="sm" onClick={onGotIt}>
+    <Block className={classes.root} padding="md" onClick={onGotIt}>
       <Block margin="md">
-        <Typography variant="body1" color="inherit">
+        <Typography variant="body1" color="inherit" align="justify">
           To be used as helper throughout the experience
         </Typography>
       </Block>
-      <Block align="right">
+      <Block align="right" margin="md" padding="md">
         <Typography variant="body1" color="inherit" underlined>
           Got it
         </Typography>

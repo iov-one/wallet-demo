@@ -12,6 +12,7 @@ import {
 } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { getAddressByName } from "~/logic";
 import { md } from "~/theme/variables";
 
@@ -23,7 +24,6 @@ const styles = createStyles({
   container: {
     display: "flex",
     flexWrap: "nowrap",
-    alignItems: "center",
     maxWidth: "450px",
   },
   field: {
@@ -34,6 +34,7 @@ const styles = createStyles({
   },
   domain: {
     marginLeft: md,
+    lineHeight: "50px",
   },
 });
 
@@ -50,37 +51,41 @@ const takenName = (connection: BcpConnection) => async (name: string) => {
 };
 
 const FormComponent = ({ connection, classes }: Props) => (
-  <React.Fragment>
-    <Block padding="xxl" maxWidth={450} margin="xxl">
-      <Block margin="sm">
-        <Typography variant="subtitle2" color="textPrimary">
-          Username
-        </Typography>
-      </Block>
-      <Block className={classes.container}>
-        <Field
-          className={classes.field}
-          variant="outlined"
-          fullWidth
-          name={USERNAME_FIELD}
-          type="text"
-          component={TextField}
-          validate={composeValidators(
-            required,
-            fieldRegex(account, error),
-            lengthGreaterThan(4),
-            lengthLowerThan(20),
-            takenName(connection),
-          )}
-          align="right"
-          placeholder="username"
-        />
-        <Typography inline variant="h6" className={classes.domain} weight="light">
-          *iov
-        </Typography>
-      </Block>
-    </Block>
-  </React.Fragment>
+  <MatchMediaContext.Consumer>
+    {phone => (
+      <React.Fragment>
+        <Block padding={phone ? "lg" : "xxl"} maxWidth={450} margin="xxl">
+          <Block margin="sm">
+            <Typography variant="subtitle2" color="textPrimary">
+              Username
+            </Typography>
+          </Block>
+          <Block className={classes.container} margin="md">
+            <Field
+              className={classes.field}
+              variant="outlined"
+              fullWidth
+              name={USERNAME_FIELD}
+              type="text"
+              component={TextField}
+              validate={composeValidators(
+                required,
+                fieldRegex(account, error),
+                lengthGreaterThan(4),
+                lengthLowerThan(20),
+                takenName(connection),
+              )}
+              align="right"
+              placeholder="username"
+            />
+            <Typography inline variant="h6" className={classes.domain} weight="light">
+              *iov
+            </Typography>
+          </Block>
+        </Block>
+      </React.Fragment>
+    )}
+  </MatchMediaContext.Consumer>
 );
 
 const SecondStepForm = withStyles(styles)(FormComponent);
