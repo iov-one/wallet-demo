@@ -1,37 +1,30 @@
 import { Address, BcpAccount, BcpConnection, BcpTicker } from "@iov/bcp-types";
+import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 
 export interface BlockchainState {
   readonly internal: InternalDetails;
-  readonly accounts: AccountsByChainAndAddress;
-  readonly tickers: TickersByChain;
+  readonly accountInfo: ReadonlyArray<AccountInfo>;
+  readonly tickers: TickersByChain;  // TODO: chainByTicker...
+}
+
+export interface AccountInfo {
+  readonly chainId: ChainId;
+  readonly address: Address;
+  readonly account?: BcpAccount;
+  readonly username?: BnsUsernameNft;
 }
 
 export interface TickersByChain {
   readonly [chainId: string]: ReadonlyArray<BcpTicker>;
 }
 
-export interface AccountsByChainAndAddress {
-  readonly [chainId: string]: AccountsByAddress;
-}
-
-export interface AccountsByAddress {
-  readonly [address: string]: Account;
-}
-
 export function getAccountByChainAndAddress(
-  accounts: AccountsByChainAndAddress,
+  accounts: ReadonlyArray<AccountInfo>,
   chainId: ChainId,
   address: Address,
-): Account {
-  const empty = {};
-  return !accounts || !accounts[chainId] ? empty : accounts[chainId][address] || empty;
-}
-
-export interface Account {
-  readonly account?: BcpAccount;
-  // readonly nonce: BcpNonce;
-  // TODO: transactions?
+): AccountInfo|undefined {
+  return accounts.find(acct => acct.chainId === chainId && acct.address === address);
 }
 
 export interface InternalDetails {
