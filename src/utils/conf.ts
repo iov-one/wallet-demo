@@ -1,7 +1,10 @@
 // tslint:disable:no-string-literal
+import axios from "axios";
 import config from "config";
 
 import { TokenTicker } from "@iov/core";
+
+let configFile: Config;
 
 export interface Config {
   readonly bns: ChainConfig;
@@ -75,6 +78,16 @@ export function parseConfig(conf: any): Config {
   return conf;
 }
 
-export function loadConfig(): Config {
-  return parseConfig(config);
+export async function loadConfig(): Promise<Config> {
+  if (configFile === undefined) {
+    let configData: any;
+    try {
+      const response = await axios.get("/config.json");
+      configData = response.data ? response.data : config;
+    } catch {
+      configData = config;
+    }
+    configFile = parseConfig(configData);
+  }
+  return configFile;
 }

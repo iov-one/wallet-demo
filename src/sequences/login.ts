@@ -6,9 +6,8 @@ import { history } from "~/store";
 import { BlockchainSpec } from "../logic/connection";
 import { loadConfig } from "../utils/conf";
 
-const config = loadConfig();
-
 export const loginAccount = async (boot: BootType, drinkFaucet: DrinkFaucetType, pass: string) => {
+  const config = await loadConfig();
   const { accounts } = await boot(pass, [config.bns.chainSpec as BlockchainSpec]);
   const mainAccount = accounts[0];
   const account = mainAccount ? mainAccount.account : undefined;

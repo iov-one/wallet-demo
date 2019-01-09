@@ -8,7 +8,8 @@ describe("addBlockchain", () => {
   mayTest("should connect to local testnet", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
-    const reader = await addBlockchain(writer, testSpec);
+    const testSpecData = await testSpec();
+    const reader = await addBlockchain(writer, testSpecData);
     try {
       expect(reader).toBeTruthy();
       // basic checks that we connected properly

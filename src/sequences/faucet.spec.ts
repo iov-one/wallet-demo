@@ -1,4 +1,4 @@
-import { faucetUri, mayTest, randomString, testSpec, testTicker } from "~/logic/testhelpers";
+import { faucetSpec, mayTest, randomString, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -17,7 +17,8 @@ describe("drinkFaucetSequence", () => {
       const password = randomString(16);
 
       // we must boot before any other actions
-      const bootAction = bootSequence(password, [testSpec]);
+      const testSpecData = await testSpec();
+      const bootAction = bootSequence(password, [testSpecData]);
       // TODO we should get rid of this `as any` for dispatch
       await fixTypes(store.dispatch(bootAction as any));
       // after a dispatch resolves, we may have to wait a bit for the redux state to update.....
@@ -39,6 +40,8 @@ describe("drinkFaucetSequence", () => {
         const addr = addresses[0].address;
 
         // now, drink from the faucet....
+        
+        const { token: testTicker, uri: faucetUri} = await faucetSpec();
         const faucetAction = drinkFaucetSequence(faucetUri, testTicker);
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
