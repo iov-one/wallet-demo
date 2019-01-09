@@ -1,10 +1,5 @@
 import { PublicKeyBundle } from "@iov/base-types";
-import {
-  BcpConnection,
-  ConfirmedTransaction,
-  SendTransaction,
-  UnsignedTransaction,
-} from "@iov/bcp-types";
+import { BcpConnection, ConfirmedTransaction, SendTransaction, UnsignedTransaction } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
@@ -44,11 +39,11 @@ export const parseConfirmedTransaction = async (
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
 ): Promise<AnnotatedConfirmedTransaction | undefined> => {
-  const payload = trans.transaction;
-  if (payload.kind !== "bcp/send") {
-    console.log(`Only handle SendTx for now, got ${payload.kind}`);
+  if (trans.transaction.kind !== "bcp/send") {
+    console.log(`Only handle SendTransaction for now, got ${trans.transaction.kind}`);
     return undefined;
   }
+  const payload = trans.transaction as SendTransaction;
   const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
   // TODO: fix this, we cannot always assume BnsConnection
   const header = await (conn as BnsConnection).getBlockHeader(trans.height);
