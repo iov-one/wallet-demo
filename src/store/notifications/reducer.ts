@@ -1,7 +1,7 @@
 import { filter } from "lodash";
 import { ActionType } from "typesafe-actions";
 
-import { AnnotatedConfirmedTransaction, coinToString } from "~/logic";
+import { AnnotatedConfirmedTransaction, prettyAmount } from "~/logic";
 import { elipsify } from "~/utils/strings";
 
 import * as actions from "./actions";
@@ -25,19 +25,15 @@ function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationT
     recipientAddr,
     recipientName,
     success,
-    txid,
+    transactionId,
   } = full;
-  const { fractional, whole, tokenTicker } = transaction.amount;
-
-  // TODO review sigFigs based on iov-core 0.10
-  const coin = coinToString({ fractional, whole, sigFigs: 9 });
-  const amount = `${coin} ${tokenTicker}`;
+  const amount = prettyAmount(transaction.amount);
 
   const signer = elipsify(signerName || signerAddr, 16);
   const recipient = elipsify(recipientName || recipientAddr, 16);
 
   return {
-    id: String(txid),
+    id: transactionId,
     time,
     received,
     amount,
@@ -50,11 +46,8 @@ function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationT
 // formats the pending tx info into a format for display
 function simplifyPending(tx: PendingTxPayload): PendingTx {
   const { amount, receiver, id } = tx;
-  const { fractional, whole, tokenTicker } = amount;
 
-  // TODO review sigFigs based on iov-core 0.10
-  const coin = coinToString({ fractional, whole, sigFigs: 9 });
-  const amountCoin = `${coin} ${tokenTicker}`;
+  const amountCoin = prettyAmount(amount);
 
   return {
     receiver: elipsify(receiver, 16),

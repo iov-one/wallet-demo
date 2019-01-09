@@ -11,7 +11,7 @@ import { SecondaryInput } from "../../subComponents/input";
 import { Paper } from "../../subComponents/page";
 import { H2, TextFieldLabel } from "../../subComponents/typography";
 
-import { amountToString, compareAmounts, stringToAmount, trimAmount } from "~/logic";
+import { compareAmounts, prettyAmount, stringToAmount } from "~/logic";
 
 const NameWrapper = styled.div`
   position: absolute;
@@ -201,7 +201,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             onChangeAmount={this.onChangeAmount}
             onChangeToken={this.onChangeToken}
           />
-          <TokenText>balance: {amountToString(trimAmount(selectedBalance))}</TokenText>
+          <TokenText>balance: {prettyAmount(selectedBalance)}</TokenText>
           <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
         </Paper>
         <VerticalButtonGroup buttons={buttons} />

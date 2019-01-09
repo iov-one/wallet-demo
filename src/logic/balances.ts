@@ -97,3 +97,7 @@ export function compareAmounts(a: Amount, b: Amount): number {
     return -1;
   }
 }
+
+export function prettyAmount(amount: Amount): string {
+  return amountToString(trimAmount(amount));
+}

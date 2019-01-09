@@ -58,7 +58,8 @@ describe("drinkFaucetSequence", () => {
         // we should have something here
         expect(account.balance.length).toEqual(1);
         expect(account.balance[0].tokenTicker).toEqual(testTicker);
-        expect(account.balance[0].whole).toBeGreaterThanOrEqual(1);
+        expect(account.balance[0].fractionalDigits).toEqual(9);
+        expect(account.balance[0].quantity > "1000000000").toBe(true);
         // at the address we expect
         expect(account.address).toEqual(addr);
 

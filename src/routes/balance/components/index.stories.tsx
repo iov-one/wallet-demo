@@ -7,16 +7,14 @@ import Layout from "./index";
 
 const TOKENS: ReadonlyArray<BcpCoin> = [
   {
-    whole: 8,
-    fractional: 25,
-    sigFigs: 4,
+    quantity: "82500",
+    fractionalDigits: 4,
     tokenTicker: "IOV" as TokenTicker,
     tokenName: "Main token",
   },
   {
-    whole: 12,
-    fractional: 26775,
-    sigFigs: 5,
+    quantity: "1226775",
+    fractionalDigits: 5,
     tokenTicker: "ETH" as TokenTicker,
     tokenName: "Ethereum token",
   },
