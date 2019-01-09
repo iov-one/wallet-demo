@@ -37,6 +37,7 @@ export function amountToString(amount: Amount): string {
 }
 
 // this takes an amount and trims off all trailing 0s
+// TODO: remove leading 0s also
 export function trimAmount(amount: Amount): Amount {
   const { quantity, fractionalDigits, tokenTicker } = amount;
   const zeros = quantity.match(/0*$/)![0].length;
@@ -68,5 +69,31 @@ export function padAmount(amount: Amount, desiredDigits: number): Amount {
       fractionalDigits: desiredDigits,
       tokenTicker,
     };
+  }
+}
+
+// compareAmount returns 1 is a is bigger, -1 if b is bigger, 0 is the same value
+// it throws an error if they have different tickers
+export function compareAmounts(a: Amount, b: Amount): number {
+  if (a.tokenTicker !== b.tokenTicker) {
+    throw new Error(`Cannot compare ${a.tokenTicker} with ${b.tokenTicker}`);
+  }
+  // same number of fractional digits
+  const maxDigits = Math.max(a.fractionalDigits, b.fractionalDigits);
+  const { quantity: first } = padAmount(trimAmount(a), maxDigits);
+  const { quantity: second } = padAmount(trimAmount(b), maxDigits);
+
+  // longer number is bigger
+  if (first.length > second.length) {
+    return 1;
+  } else if (first.length < second.length) {
+    return -1;
+  } else if (first === second) {
+    // string compare if same length
+    return 0;
+  } else if (first > second) {
+    return 1;
+  } else {
+    return -1;
   }
 }

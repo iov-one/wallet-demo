@@ -64,7 +64,6 @@ describe("trimAmount", () => {
   });
 });
 
-
 describe("padAmount", () => {
   const foo = "FOO" as TokenTicker;
 
