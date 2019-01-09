@@ -1,4 +1,6 @@
-import { CoinInfo, coinToString, stringToCoin } from "./balances";
+import { Amount, TokenTicker } from "@iov/bcp-types";
+
+import { buildAmount, CoinInfo, coinToString, stringifyAmount, stringToCoin } from "./balances";
 
 const coinInfo = (info: Partial<CoinInfo>): CoinInfo => ({
   whole: info.whole || 0,
@@ -12,10 +14,17 @@ const makeInfo = (whole: number, fractional: number, sigFigs: number): CoinInfo 
   sigFigs,
 });
 
+const makeAmount = (quantity: string, fractionalDigits: number, tokenTicker: TokenTicker): Amount => ({
+  quantity,
+  fractionalDigits,
+  tokenTicker,
+});
+
+
 describe("coinToString", () => {
   it("should handle only whole", () => {
-    expect(coinToString(coinInfo({ whole: 123 }))).toEqual("123");
-    expect(coinToString(coinInfo({ whole: 100200300 }))).toEqual("100200300");
+    expect(coinToString(coinInfo({ whole: 123, sigFigs: 5}))).toEqual("12300000");
+    expect(coinToString(coinInfo({ whole: 100200300, sigFigs: 2 }))).toEqual("10020030000");
   });
 
   it("should handle only fractional", () => {
@@ -28,6 +37,7 @@ describe("coinToString", () => {
 
   it("should handle only whole and fractional", () => {
     expect(coinToString(coinInfo({ whole: 678, fractional: 12, sigFigs: 3 }))).toEqual("678.012");
+    expect(coinToString(coinInfo({ whole: 12, fractional: 345600, sigFigs: 9 }))).toEqual("12.0003456");
   });
 });
 
@@ -54,5 +64,61 @@ describe("stringToCoin", () => {
     expect(() => stringToCoin("0x1234", 4)).toThrow(/Not a valid number/);
     expect(() => stringToCoin("-15.6", 4)).toThrow(/Not a valid number/);
     expect(() => stringToCoin("12.", 6)).toThrow(/Not a valid number/);
+  });
+});
+
+describe("buildAmount", () => {
+  it("can buildAmount amount from only whole", () => {
+    expect(buildAmount(makeInfo(1, 0, 3), "TST")).toEqual({
+      quantity: "1000",
+      fractionalDigits: 3,
+      tokenTicker: "TST" as TokenTicker,
+    });
+    expect(buildAmount(makeInfo(1234, 0, 9), "TST")).toEqual({
+      quantity: "1234000000000",
+      fractionalDigits: 9,
+      tokenTicker: "TST" as TokenTicker,
+    });
+  });
+  it("can buildAmount amount from only fractional", () => {
+    expect(buildAmount(makeInfo(0, 1, 3), "TST")).toEqual({
+      quantity: "1",
+      fractionalDigits: 3,
+      tokenTicker: "TST" as TokenTicker,
+    });
+    expect(buildAmount(makeInfo(0, 1234, 9), "TST")).toEqual({
+      quantity: "1234",
+      fractionalDigits: 9,
+      tokenTicker: "TST" as TokenTicker,
+    });
+  });
+  it("can buildAmount amount from whole and fractional", () => {
+    expect(buildAmount(makeInfo(1, 1, 9), "TST")).toEqual({
+      quantity: "1000000001",
+      fractionalDigits: 9,
+      tokenTicker: "TST" as TokenTicker,
+    });
+    expect(buildAmount(makeInfo(12, 3456, 9), "TST")).toEqual({
+      quantity: "12000003456",
+      fractionalDigits: 9,
+      tokenTicker: "TST" as TokenTicker,
+    });
+    expect(buildAmount(makeInfo(12, 345600, 9), "TST")).toEqual({
+      quantity: "12000345600",
+      fractionalDigits: 9,
+      tokenTicker: "TST" as TokenTicker,
+    });
+  });
+});
+
+describe("stringifyAmount", () => {
+  it("can stringifyAmount with only whole", () => {
+    expect(stringifyAmount(makeAmount("1234000000000", 9, "TST" as TokenTicker))).toEqual("1234 TST");
+  });
+  it("can stringifyAmount with only fractional", () => {
+    expect(stringifyAmount(makeAmount("123400000", 9, "TST" as TokenTicker))).toEqual("0.1234 TST");
+  });
+  it("can stringifyAmount with whole and fractional", () => {
+    expect(stringifyAmount(makeAmount("12340000000", 9, "TST" as TokenTicker))).toEqual("12.34 TST");
   });
 });

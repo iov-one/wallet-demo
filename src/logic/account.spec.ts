@@ -4,6 +4,7 @@ import { MultiChainSigner } from "@iov/core";
 import { sleep } from "../utils/timer";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import { buildAmount } from "./balances";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
@@ -55,11 +56,12 @@ describe("sendTransaction", () => {
         expect(before).toEqual(undefined);
 
         // send a token from the genesis account
-        const amount: Amount = {
-          quantity: "12345678000",
-          fractionalDigits: 9,
-          tokenTicker: testTicker,
+        const amountData = {
+          whole: 12345,
+          fractional: 678000,
+          sigFigs: 9,
         };
+        const amount = buildAmount(amountData, testTicker);
         const res = await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount, "hello");
         const blockInfo = await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
         const txHeight = (blockInfo as BcpBlockInfoInBlock).height;
