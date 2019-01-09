@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BcpCoin, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpCoin } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { get } from "lodash";
 import queryString from "query-string";
@@ -9,7 +9,7 @@ import styled from "styled-components";
 import uniquId from "uniqid";
 import PageMenu from "~/components/pages/PageMenu";
 import { ConfirmTransactionForm } from "../components/templates/forms";
-import { stringToCoin } from "../logic/balances";
+import { padAmount, stringToAmount } from "../logic/balances";
 import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
 import { sendTransactionSequence } from "../sequences";
 
@@ -38,11 +38,6 @@ const Layout = styled.div`
   justify-content: center;
 `;
 
-const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
-  const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
-  return { whole, fractional, tokenTicker };
-};
-
 class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispatchToProps, {}> {
   public readonly onSend = async (): Promise<void> => {
     const { chainIds, sendTransaction, history } = this.props;
@@ -58,9 +53,11 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       throw new Error("Cannot send without balance");
     }
 
-    const amount = convertStringToAmount(tokenAmount, 9, balance.tokenTicker);
+    const amount = stringToAmount(tokenAmount, balance.tokenTicker);
+    // currently (up to 0.11), iov-core requires specific number of places on the send transaction amount, so we extend it
+    const paddedAmount = padAmount(amount, 9);
     const transactionId = uniquId();
-    sendTransaction(chainIds[0], iovAddress, amount, memo, transactionId);
+    sendTransaction(chainIds[0], iovAddress, paddedAmount, memo, transactionId);
     history.push("/balance");
   };
 
