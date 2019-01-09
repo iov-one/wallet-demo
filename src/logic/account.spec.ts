@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, PostTxResponse } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
@@ -40,6 +40,13 @@ describe("getAccount", () => {
     }
   });
 });
+
+// this waits for one commit to be writen, then returns the response
+async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
+  const res = await req;
+  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  return res;
+}
 
 describe("sendTransaction", () => {
   mayTest(
@@ -107,11 +114,15 @@ describe("setName", () => {
           fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+        await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
+
+        // make sure some tokens were received
+        const withMoney = await getAccount(reader, rcpt);
+        expect(withMoney).toBeTruthy();
 
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
-        await setName(rcptWriter, rcptReader.chainId(), name);
+        await waitForCommit(setName(rcptWriter, rcptReader.chainId(), name));
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt);
@@ -174,7 +185,7 @@ describe("setName", () => {
             fractionalDigits: 9,
             tokenTicker: testTicker,
           };
-          await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
 
           // validate update messages came
           await sleep(50);
@@ -192,7 +203,7 @@ describe("setName", () => {
           // unsubscribe from one, only one update should come
           unsubscribeFaucet.unsubscribe();
           // send a second payment
-          await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
 
           await sleep(50);
           // no more facuet updates should come
