@@ -53,6 +53,12 @@ export function blockchainReducer(
     }
     case "SET_BNS_CHAIN_ID":
       return { ...state, bnsId: action.payload };
+    case "GET_USERNAME_FULFILLED":
+      if (action.payload === undefined) {
+        return state;
+      }
+      // TODO: apply the nft to all tokens....
+      return state;
     default:
       return state;
   }

@@ -1,4 +1,5 @@
-import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
+import { Address, BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
+import { BnsConnection, BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
@@ -74,3 +75,19 @@ function watchAccountWithChain(
 
 export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
 // TODO: add unwatch to stop it
+
+async function getUsername(
+  connection: BnsConnection,
+  chain: ChainId,
+  address: Address,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ chain, address });
+  return usernames[0];
+}
+
+export const getUsernameAction = createPromiseAction(
+  "GET_USERNAME",
+  "GET_USERNAME_PENDING",
+  "GET_USERNAME_FULFILLED",
+  "GET_USERNAME_REJECTED",
+)(getUsername);
