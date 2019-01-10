@@ -1,4 +1,4 @@
-import { mayTest, randomString, testSpec } from "~/logic/testhelpers";
+import { mayTest, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { makeStore } from "~/store";
 
@@ -12,7 +12,8 @@ describe("boot sequence", () => {
       const password = randomString(16);
 
       const testSpecData = await testSpec();
-      const action = bootSequence(password, [testSpecData]);
+      const testChainsData = await testChains();
+      const action = bootSequence(password, testSpecData, testChainsData);
       expect(action).toBeDefined();
       expect(action).toBeInstanceOf(Function);
 
@@ -36,6 +37,11 @@ describe("boot sequence", () => {
       // make sure all tickers have a chainId in the list (it may be repeated...)
       const chains = state.blockchain.tickers.map(t => t.chainId);
       chains.map(chainId => expect(signer.chainIds()).toContain(chainId));
+
+      // make sure the bns chain is listed
+      const bnsId = state.blockchain.bnsId;
+      expect(bnsId).toBeDefined();
+      expect(bnsId).toEqual(signer.chainIds()[0]);
 
       // make sure to close connections so test ends
       for (const chainId of signer.chainIds()) {

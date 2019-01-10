@@ -35,7 +35,11 @@ interface HomeProps extends RouteComponentProps<{}> {
 // Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
   readonly reset: (password: string) => Promise<any>;
-  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<BootResult>;
+  readonly boot: (
+    password: string,
+    bns: BlockchainSpec,
+    blockchains: ReadonlyArray<BlockchainSpec>,
+  ) => Promise<BootResult>;
   readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
   readonly setName: (name: string, chainId: ChainId) => Promise<any>;
 }
@@ -57,7 +61,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const { boot } = this.props;
     try {
       const config = await loadConfig();
-      const { accounts } = await boot(config.defaultPassword, [config.bns.chainSpec as BlockchainSpec]);
+      const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
+      const { accounts } = await boot(config.defaultPassword, config.bns.chainSpec as BlockchainSpec, chains);
       await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
       this.setState({ booted: false });
@@ -183,8 +188,8 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
 
 // This returns a types DispatchProps
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
-  boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
-    dispatch(bootSequence(password, blockchains)),
+  boot: (password: string, bns: BlockchainSpec, blockchains: ReadonlyArray<BlockchainSpec>) =>
+    dispatch(bootSequence(password, bns, blockchains)),
   drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
   reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),

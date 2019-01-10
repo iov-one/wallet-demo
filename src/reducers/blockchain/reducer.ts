@@ -17,14 +17,14 @@ export function blockchainReducer(
   action: BlockchainActions,
 ): BlockchainState {
   switch (action.type) {
-    // TODO: can we just auto-create upon profile creation?
     case "CREATE_SIGNER":
       return { ...state, internal: { ...state.internal, signer: action.payload } };
-    case "ADD_BLOCKCHAIN_FULFILLED":
+    case "ADD_BLOCKCHAIN_FULFILLED": {
       const { internal } = state;
       const { connections } = internal;
       const conn = action.payload;
       return { ...state, internal: { ...internal, connections: { ...connections, [conn.chainId()]: conn } } };
+    }
     case "GET_TICKERS_FULFILLED": {
       // use block scope here so we can use same variable name in different cases
       const { chainId, tickers } = action.payload;
@@ -51,7 +51,7 @@ export function blockchainReducer(
         accountInfo: [prepared, ...filterAccountByChainAndAddress(state.accountInfo, chainId, address)],
       };
     }
-    case "SET_BNS_ID":
+    case "SET_BNS_CHAIN_ID":
       return { ...state, bnsId: action.payload };
     default:
       return state;

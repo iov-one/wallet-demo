@@ -5,7 +5,7 @@ import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 import { addBlockchain, getAccount, Unsubscriber, watchAccount } from "../../logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
 
-export const setBnsId = createSyncAction("SET_BNS_ID", (bns: ChainId) => bns);
+export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
 
 export const createSignerAction = createSyncAction(
   "CREATE_SIGNER",

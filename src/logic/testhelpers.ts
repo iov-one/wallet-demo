@@ -15,6 +15,10 @@ export const faucetSpec = async () => {
   const config = await loadConfig();
   return config.bns.faucetSpec!;
 };
+export const testChains = async () => {
+  const config = await loadConfig();
+  return config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
+};
 
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
 export const mayTest = skipTests() ? xit : it;

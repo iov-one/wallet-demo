@@ -20,6 +20,7 @@ import {
   createSignerAction,
   getAccountAsyncAction,
   getTickersAsyncAction,
+  setBnsChainId,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
 import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
@@ -48,6 +49,7 @@ export interface BootResult {
 // tslint:disable-next-line:only-arrow-functions
 export const bootSequence = (
   password: string,
+  bns: BlockchainSpec,
   blockchains: ReadonlyArray<BlockchainSpec>,
   mnemonic?: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
@@ -71,8 +73,11 @@ export const bootSequence = (
   // --- connect all readers and query account balances
   let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
   let initTickers: ReadonlyArray<Promise<any>> = [];
-  for (const blockchain of blockchains) {
+  let connections: ReadonlyArray<BcpConnection> = [];
+  // bns chain is the first one we connect to, so we can pull out the chainId later
+  for (const blockchain of [bns, ...blockchains]) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
+    connections = [...connections, conn];
     initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
     initTickers = [...initTickers, getTickers(dispatch, conn)];
   }
@@ -80,6 +85,10 @@ export const bootSequence = (
   // wait for all accounts and tickers to initialize
   await Promise.all(initTickers);
   const accounts = await Promise.all(initAccounts);
+
+  // we know the bns chain is the first connection, grab the chainId
+  dispatch(setBnsChainId(connections[0].chainId()));
+
   // return initial account state as well as signer
   return { accounts, signer };
 };

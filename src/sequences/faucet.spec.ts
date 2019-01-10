@@ -1,5 +1,5 @@
 import { compareAmounts } from "~/logic";
-import { faucetSpec, mayTest, randomString, testSpec } from "~/logic/testhelpers";
+import { faucetSpec, mayTest, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -19,7 +19,8 @@ describe("drinkFaucetSequence", () => {
 
       // we must boot before any other actions
       const testSpecData = await testSpec();
-      const bootAction = bootSequence(password, [testSpecData]);
+      const testChainsData = await testChains();
+      const bootAction = bootSequence(password, testSpecData, testChainsData);
       // TODO we should get rid of this `as any` for dispatch
       await fixTypes(store.dispatch(bootAction as any));
       // after a dispatch resolves, we may have to wait a bit for the redux state to update.....
