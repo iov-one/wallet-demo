@@ -6,7 +6,7 @@ import styles from "./index.scss";
 
 const cx: any = classNames.bind(styles);
 
-interface Props {
+export interface BlockProps {
   readonly grow?: boolean;
   readonly overlap?: boolean;
   readonly scroll?: boolean;
@@ -21,7 +21,7 @@ interface Props {
   readonly onClick?: React.MouseEventHandler<Element>;
 }
 
-class Block extends React.PureComponent<Props> {
+class Block extends React.PureComponent<BlockProps> {
   public render(): JSX.Element {
     const {
       margin,

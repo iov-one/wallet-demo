@@ -1,6 +1,6 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import LeftSidebar from "../LeftSidebar";
+import LeftSidebarWrapper from "../LeftSidebarWrapper";
 import StepsCount from "../StepsCount";
 import ReadyMsg from "./ReadyMsg";
 import { UpdatePassForm } from "./UpdatePassForm";
@@ -8,9 +8,9 @@ import { UpdatePassForm } from "./UpdatePassForm";
 const StepsSection = () => <StepsCount stepNum={2} />;
 
 const LeftSidebarSection = () => (
-  <LeftSidebar>
+  <LeftSidebarWrapper>
     <ReadyMsg />
-  </LeftSidebar>
+  </LeftSidebarWrapper>
 );
 
 interface Props {

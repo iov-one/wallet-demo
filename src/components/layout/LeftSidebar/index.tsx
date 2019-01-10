@@ -1,28 +1,24 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
-import Block from "~/components/layout/Block";
-import Spacer from "~/components/layout/Spacer";
-import { pageColumn } from "~/theme/common";
+import Block, { BlockProps } from "~/components/layout/Block";
 
 const styles = createStyles({
-  leftSide: {
+  leftSidebar: {
     display: "flex",
     flexDirection: "column",
-    height: "100vh",
+    height: "100vh", // remember the left menu is under grid column for layouting the IOV icon
     backgroundImage: "linear-gradient(to top, #ecf4f3, #cdeae7)",
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends BlockProps, WithStyles<typeof styles> {
   readonly children: React.ReactNode;
 }
 
-const LeftSidebar = ({ children, classes }: Props) => {
+const LeftSidebar = ({ children, classes, ...props }: Props) => {
   return (
-    <Block className={classes.leftSide}>
-      <Spacer order={1} />
+    <Block {...props} className={classes.leftSidebar}>
       {children}
-      <Spacer order={1} />
     </Block>
   );
 };

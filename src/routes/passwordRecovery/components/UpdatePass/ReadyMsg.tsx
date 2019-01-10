@@ -5,7 +5,7 @@ import Typography from "~/components/layout/Typography";
 import { lg, xxl } from "~/theme/variables";
 
 const styles = createStyles({
-  noticeBox: {
+  message: {
     padding: lg,
     margin: xxl,
     textAlign: "center",
@@ -14,7 +14,7 @@ const styles = createStyles({
 
 const ReadyMsg = ({ classes }: WithStyles<typeof styles>) => {
   return (
-    <Block className={classes.noticeBox}>
+    <Block className={classes.message}>
       <Typography variant="h4" weight="extralight">
         You are ready to go.
       </Typography>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormType } from "~/components/forms/Form";
 import PageColumn from "~/components/pages/PageColumn";
-import LeftSidebar from "../LeftSidebar";
+import LeftSidebarWrapper from "../LeftSidebarWrapper";
 import StepsCount from "../StepsCount";
 import NoticeBox from "./NoticeBox";
 import RecoverWordsForm from "./RecoverWordsForm";
@@ -9,9 +9,9 @@ import RecoverWordsForm from "./RecoverWordsForm";
 const StepsSection = () => <StepsCount stepNum={1} />;
 
 const LeftSidebarSection = () => (
-  <LeftSidebar>
+  <LeftSidebarWrapper>
     <NoticeBox />
-  </LeftSidebar>
+  </LeftSidebarWrapper>
 );
 
 interface Props {

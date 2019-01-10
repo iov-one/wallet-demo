@@ -1,6 +1,7 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import LeftSidebar from "~/components/layout/LeftSidebar";
 import RoundTextBox from "~/components/layout/RoundTextBox";
 import Typography from "~/components/layout/Typography";
 
@@ -10,12 +11,6 @@ import arrow from "~/routes/signupName/assets/arrow.svg";
 interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({
-  background: {
-    height: "100vh", // remember the left menu is under grid column for layouting the IOV icon
-    display: "flex",
-    flexDirection: "column",
-    backgroundImage: "linear-gradient(to bottom, #ecf4f3, #cdeae7)",
-  },
   branding: {
     "& > h4": {
       lineHeight: "56px",
@@ -25,7 +20,7 @@ const styles = createStyles({
 });
 
 const ExplanationMenu = ({ classes }: Props) => (
-  <Block align="center" className={classes.background}>
+  <LeftSidebar align="center">
     <Block margin="xxl" />
     <Block margin="xl" />
     <Block margin="xxl" className={classes.branding}>
@@ -60,7 +55,7 @@ const ExplanationMenu = ({ classes }: Props) => (
       </Typography>
     </Block>
     <RoundTextBox text="John*iov" />
-  </Block>
+  </LeftSidebar>
 );
 
 export default withStyles(styles)(ExplanationMenu);
