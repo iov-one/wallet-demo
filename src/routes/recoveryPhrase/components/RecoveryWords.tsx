@@ -8,12 +8,11 @@ import ProfileNotFound from "./ProfileNotFound";
 const RecoveryWords = ({ mnemonic }: SelectorProps) => (
   <React.Fragment>
     <Grid>
-      {
-        mnemonic ? 
+      {mnemonic ? (
         mnemonic.split(" ").map((word: string) => <PhraseWord key={word} word={word} />)
-        :
+      ) : (
         <ProfileNotFound />
-      }
+      )}
     </Grid>
   </React.Fragment>
 );
