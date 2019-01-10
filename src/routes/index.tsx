@@ -7,6 +7,8 @@ import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
+import ReceiveIov from "~/routes/receiveIov/container";
+import ReceiveExternal from "~/routes/receiveNonIov/container";
 import SecurityCenter from "~/routes/securityCenter/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
@@ -25,6 +27,8 @@ export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
 export const SEND_PAYMENT = "/send-payment";
 export const CONFIRM_TRANSACTION = "/confirm-transaction";
+export const RECEIVE_FROM_IOV_USER = "/receive-from-iov";
+export const RECEIVE_FROM_NON_IOV_USER = "/receive-external";
 
 export const MainRouter = () => (
   <Switch>
@@ -34,6 +38,8 @@ export const MainRouter = () => (
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <RequireLogin>
       <Route exact path={BALANCE_ROUTE} component={Balance} />
+      <Route exact path={RECEIVE_FROM_IOV_USER} component={ReceiveIov} />
+      <Route exact path={RECEIVE_FROM_NON_IOV_USER} component={ReceiveExternal} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={PaymentPage} />
       <Route path={`${SEND_PAYMENT}/:iovAddress`} component={SendPaymentPage} />

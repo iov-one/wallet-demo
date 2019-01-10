@@ -12,6 +12,7 @@ export const DropdownMenu = styled.div`
   display: none;
   &.show {
     display: flex;
+    z-index: 1;
   }
   &.withCustomTrigger {
     top: 32px;

@@ -17,6 +17,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly tokens: ReadonlyArray<BcpCoin>;
   readonly phone: boolean;
   readonly onSendPayment: () => void;
+  readonly onReceivePayment: () => void;
 }
 
 const styles = createStyles({
@@ -71,7 +72,7 @@ const Card = ({ text, logo, className, onAction }: CardProps) => (
   </Block>
 );
 
-const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) => {
+const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceivePayment }: Props) => {
   const spacer: Order = { xs: 1 };
   const actions: Order = { xs: 5 };
   const actionSpacer: Order = { xs: 4 };
@@ -86,7 +87,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment }: Props) =
       <GridItem order={actions} className={classes.actions}>
         <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
         {!phone && <Block className={classes.separator} />}
-        <Card text="Receive Payment" logo={receive} className={classes.action} />
+        <Card text="Receive Payment" logo={receive} onAction={onReceivePayment} className={classes.action} />
       </GridItem>
       <GridItem order={actionSpacer}>
         <Block margin="lg" />
