@@ -5,9 +5,9 @@ import { Errors, FormType } from "~/components/forms/Form";
 import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
 import { ToastVariant } from "~/context/ToastProvider/Toast";
 import { loginAccount } from "~/sequences/login";
-import RecoverProfile from "../components/recoverProfile";
-import { UpdatePass } from "../components/updatePass";
-import { CONFIRM_PASS_FIELD, LOGIN_PASS_FIELD } from "../components/UpdatePassForm";
+import RecoverProfile from "../components/RecoverProfile";
+import { UpdatePass } from "../components/UpdatePass";
+import { CONFIRM_PASS_FIELD, LOGIN_PASS_FIELD } from "../components/UpdatePass/UpdatePassForm";
 import actions, { ActionsInterface } from "./actions";
 
 const RECOVER_PROFILE = "recover_profile";

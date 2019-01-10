@@ -1,8 +1,8 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import LeftSidebar from "./LeftSidebar";
+import LeftSidebar from "../LeftSidebar";
+import StepsCount from "../StepsCount";
 import ReadyMsg from "./ReadyMsg";
-import StepsCount from "./StepsCount";
 import { UpdatePassForm } from "./UpdatePassForm";
 
 const StepsSection = () => <StepsCount stepNum={2} />;

@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import CircleImg from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
-import bulb from "../assets/bulb.svg";
+import bulb from "../../assets/bulb.svg";
 
 const styles = createStyles({
   noticeBox: {
