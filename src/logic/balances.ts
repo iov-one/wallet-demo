@@ -3,7 +3,7 @@ import { Amount, TokenTicker } from "@iov/bcp-types";
 // This parses a decimal as string into the Amount format
 export function stringToAmount(amount: string, tokenTicker: TokenTicker): Amount {
   // trim off all leading zeros when parsing
-  const trimmed = amount.replace(/^0+/, '');
+  const trimmed = amount.replace(/^0+/, "");
   const matched = trimmed.match(/^([0-9]+)?([\.\,]([0-9]+))?$/);
   if (!matched) {
     throw new Error(`Not a valid number: ${amount}`);
@@ -26,10 +26,10 @@ export function amountToString(amount: Amount): string {
     throw new Error(`invalid fractional digits: ${fractionalDigits}`);
   }
   // let's remove those leading zeros...
-  const temp = quantity.replace(/^0+/, '');
+  const temp = quantity.replace(/^0+/, "");
   // unless we need them to reach a decimal point
-  const pad = fractionalDigits - temp.length
-  const trimmed = (pad > 0) ? "0".repeat(pad) + temp : temp;
+  const pad = fractionalDigits - temp.length;
+  const trimmed = pad > 0 ? "0".repeat(pad) + temp : temp;
 
   const cut = trimmed.length - fractionalDigits;
   const whole = cut === 0 ? "0" : trimmed.slice(0, cut);

@@ -26,8 +26,7 @@ describe("amountToString", () => {
     // leading zeros
     expect(amountToString(makeInfo("00123", 2, iov))).toEqual("1.23 IOV");
     expect(amountToString(makeInfo("123456", 8, iov))).toEqual("0.00123456 IOV");
-  })
-
+  });
 });
 
 describe("stringToAmount", () => {

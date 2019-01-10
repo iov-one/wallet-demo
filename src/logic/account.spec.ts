@@ -1,9 +1,10 @@
-import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import { compareAmounts } from "./balances";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
@@ -33,9 +34,10 @@ describe("getAccount", () => {
       expect(acct).toBeTruthy();
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
+      // make sure the initial balance is over 1 million IOV
       const token = acct!.balance[0];
-      expect(token.tokenTicker).toEqual("IOV");
-      expect(Number.parseInt(token.quantity, 10)).toBeGreaterThan(1000000);
+      const minBalance = { quantity: "1000000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker };
+      expect(compareAmounts(token, minBalance)).toBeGreaterThanOrEqual(1);
     } finally {
       reader.disconnect();
     }
