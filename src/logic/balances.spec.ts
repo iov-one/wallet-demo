@@ -20,9 +20,14 @@ describe("amountToString", () => {
     expect(amountToString(makeInfo("123456", 2, iov))).toEqual("1234.56 IOV");
     expect(amountToString(makeInfo("123456", 4, iov))).toEqual("12.3456 IOV");
     expect(amountToString(makeInfo("123456", 6, iov))).toEqual("0.123456 IOV");
-    // TODO: less than sigfigs
-    // expect(amountToString(makeInfo("123456", 8, iov))).toEqual("0.00123456 IOV");
   });
+
+  it("should handle odd formats", () => {
+    // leading zeros
+    expect(amountToString(makeInfo("00123", 2, iov))).toEqual("1.23 IOV");
+    expect(amountToString(makeInfo("123456", 8, iov))).toEqual("0.00123456 IOV");
+  })
+
 });
 
 describe("stringToAmount", () => {
