@@ -1,39 +1,23 @@
 import * as React from "react";
-import Block from "~/components/layout/Block";
+import { connect } from "react-redux";
 import Grid from "~/components/layout/Grid";
-import GridItem from "~/components/layout/GridItem";
-import Typography from "~/components/layout/Typography";
+import selectors, { SelectorProps } from "../container/selector";
+import PhraseWord from "./PhraseWord";
+import ProfileNotFound from "./ProfileNotFound";
 
-export default () => (
+const RecoveryWords = ({ mnemonic }: SelectorProps) => (
   <React.Fragment>
     <Grid>
-      <GridItem xs={6} lg={4}>
-        <Block padding="xxl" margin="xxl">
-          <Block margin="sm">
-            <Typography variant="subtitle2" color="textPrimary">
-              one
-            </Typography>
-          </Block>
-        </Block>
-      </GridItem>
-      <GridItem xs={6} lg={4}>
-        <Block padding="xxl" margin="xxl">
-          <Block margin="sm">
-            <Typography variant="subtitle2" color="textPrimary">
-              two
-            </Typography>
-          </Block>
-        </Block>
-      </GridItem>
-      <GridItem xs={6} lg={4}>
-        <Block padding="xxl" margin="xxl">
-          <Block margin="sm">
-            <Typography variant="subtitle2" color="textPrimary">
-              three
-            </Typography>
-          </Block>
-        </Block>
-      </GridItem>
+      {
+        mnemonic ? 
+        mnemonic.split(" ").map((word: string) => <PhraseWord key={word} word={word} />)
+        :
+        <ProfileNotFound />
+      }
     </Grid>
   </React.Fragment>
 );
+
+const RecoveryWordsConnected = connect(selectors)(RecoveryWords);
+
+export default () => <RecoveryWordsConnected />;
