@@ -76,7 +76,22 @@ function watchAccountWithChain(
 export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
 // TODO: add unwatch to stop it
 
-async function getUsername(
+async function getUsernameNftByUsername(
+  connection: BnsConnection,
+  username: string,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ username });
+  return usernames[0];
+}
+
+export const getUsernameNftByUsernameAsyncAction = createPromiseAction(
+  "GET_USERNAME",
+  "GET_USERNAME_PENDING",
+  "GET_USERNAME_FULFILLED",
+  "GET_USERNAME_REJECTED",
+)(getUsernameNftByUsername);
+
+async function getUsernameNftByChainAddress(
   connection: BnsConnection,
   chain: ChainId,
   address: Address,
@@ -85,9 +100,9 @@ async function getUsername(
   return usernames[0];
 }
 
-export const getUsernameAction = createPromiseAction(
-  "GET_USERNAME",
-  "GET_USERNAME_PENDING",
-  "GET_USERNAME_FULFILLED",
-  "GET_USERNAME_REJECTED",
-)(getUsername);
+export const getUsernameNftByChainAddressAsyncAction = createPromiseAction(
+  "GET_USERNAME_BY_ADDRESS",
+  "GET_USERNAME_BY_ADDRESS_PENDING",
+  "GET_USERNAME_BY_ADDRESS_FULFILLED",
+  "GET_USERNAME_BY_ADDRESS_REJECTED",
+)(getUsernameNftByChainAddress);

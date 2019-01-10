@@ -41,7 +41,7 @@ interface HomeDispatchProps {
     blockchains: ReadonlyArray<BlockchainSpec>,
   ) => Promise<BootResult>;
   readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
-  readonly setName: (name: string, chainId: ChainId) => Promise<any>;
+  readonly setName: (name: string) => Promise<any>;
 }
 
 // HomeProps & HomeDispatchProps means to use the (as if we hadn't just separated them)
@@ -93,14 +93,10 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public async createAccount(): Promise<void> {
     const { name, booted } = this.state;
     if (booted) {
-      const {
-        setName,
-        accounts: [{ chainId }],
-        history,
-      } = this.props;
+      const { setName, history } = this.props;
       this.setState({ loading: true });
       try {
-        await setName(name, chainId);
+        await setName(name);
         this.setState({ loading: false });
         history.push("/balance/");
       } catch (err) {
@@ -192,7 +188,7 @@ const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
     dispatch(bootSequence(password, bns, blockchains)),
   drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
   reset: (password: string) => dispatch(resetSequence(password)),
-  setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
+  setName: (name: string) => dispatch(setNameSequence(name)),
 });
 
 // With the above info, we can now properly combine this all and withRouter will be happy

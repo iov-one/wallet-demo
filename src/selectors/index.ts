@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
 
 import { BcpAccount, BcpTicker } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
@@ -34,6 +35,12 @@ export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createS
   conns => Object.keys(conns).map(x => x as ChainId),
 );
 
+export const getBnsChainId = (state: RootState) => state.blockchain.bnsId;
+export const getBnsConnection: (state: RootState) => BnsConnection | undefined = createSelector(
+  getConnections,
+  getBnsChainId,
+  (conns, bnsId) => (bnsId ? (conns[bnsId] as BnsConnection) : undefined),
+);
 // getChainTickers was a map, now the redux state
 export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
@@ -93,3 +100,9 @@ export const requireSigner = (state: RootState) => {
   }
   return signer;
 };
+export function ensure<T>(maybe: T | undefined): T {
+  if (maybe === undefined) {
+    throw new Error("missing required value");
+  }
+  return maybe;
+}

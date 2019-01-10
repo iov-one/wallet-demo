@@ -39,11 +39,11 @@ class SignupName extends React.Component<Props> {
   }
 
   public readonly onCreateUsername = async (values: object) => {
-    const { chainId, setName } = this.props;
+    const { setName } = this.props;
     const name = (values as FormType)[USERNAME_FIELD];
 
     try {
-      await setName(name, chainId);
+      await setName(name);
     } catch (err) {
       // TODO check if error and show something
     }

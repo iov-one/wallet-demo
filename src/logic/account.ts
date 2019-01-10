@@ -10,11 +10,11 @@ import {
   SendTransaction,
   TxCodec,
 } from "@iov/bcp-types";
-
-import { bnsCodec, SetNameTx } from "@iov/bns";
+import { bnsCodec, RegisterUsernameTx } from "@iov/bns";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
+import { ChainAddressPair } from "~/reducers/blockchain";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
@@ -144,20 +144,21 @@ export async function sendTransaction(
   return writer.signAndPost(unsigned, walletId);
 }
 
-// @deprecated will be dropped in favour of RegisterUsernameTx
-// sets the name of the given account (old-style, pre-bns)
+// registers a new username nft on the bns with the given list of chain-address pairs
 export async function setName(
   writer: MultiChainSigner,
-  chainId: ChainId,
-  name: string,
+  bnsId: ChainId,
+  username: string,
+  addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
   const walletId = getMainKeyring(writer.profile);
   const signer = getMainIdentity(writer.profile);
-  const unsigned: SetNameTx = {
-    kind: "bns/set_name",
-    chainId: chainId,
+  const unsigned: RegisterUsernameTx = {
+    kind: "bns/register_username",
+    chainId: bnsId,
     signer: signer.pubkey,
-    name,
+    username,
+    addresses,
   };
   return writer.signAndPost(unsigned, walletId);
 }
