@@ -25,7 +25,7 @@ export const travelToSignup = (store: Store): React.Component<{}> => {
   return createDom(store);
 };
 
-describe("DOM > Feature > Signup", () => {
+xdescribe("DOM > Feature > Signup", () => {
   let store: Store<RootState>;
   beforeEach(() => {
     store = aNewStore();

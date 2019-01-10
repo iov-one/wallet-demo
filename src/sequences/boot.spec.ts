@@ -5,7 +5,7 @@ import { fixTypes } from "../reducers/helpers";
 import { makeStore } from "../store";
 import { BootResult, bootSequence } from "./boot";
 
-describe("boot sequence", () => {
+xdescribe("boot sequence", () => {
   mayTest(
     "initializes the chain",
     async () => {
