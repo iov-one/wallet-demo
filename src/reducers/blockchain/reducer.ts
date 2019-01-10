@@ -1,7 +1,12 @@
 import { ActionType } from "typesafe-actions";
 
 import * as actions from "./actions";
-import { BlockchainState, filterAccountByChainAndAddress, getAccountByChainAndAddress } from "./state";
+import {
+  BlockchainState,
+  filterAccountByChainAndAddress,
+  getAccountByChainAndAddress,
+  updateUsernameNft,
+} from "./state";
 
 export type BlockchainActions = ActionType<typeof actions>;
 const initState: BlockchainState = {
@@ -57,8 +62,8 @@ export function blockchainReducer(
       if (action.payload === undefined) {
         return state;
       }
-      // TODO: apply the nft to all tokens....
-      return state;
+      // set the username on all matching chain-address pairs
+      return { ...state, accountInfo: updateUsernameNft(state.accountInfo, action.payload) };
     default:
       return state;
   }
