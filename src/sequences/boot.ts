@@ -19,7 +19,6 @@ import {
   BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
-  getAccountSyncAction,
   getTickersAsyncAction,
 } from "../reducers/blockchain";
 import { fixTypes } from "../reducers/helpers";
@@ -96,9 +95,10 @@ async function watchAccountAndTransactions(
   identity: PublicIdentity,
 ): Promise<BcpAccountWithChain | undefined> {
   // request the current account and return a promise resolved when it is loaded
-  const accountAction = getAccountSyncAction(conn, identity, undefined);
-  const account = accountAction.payload;
-  await dispatch(accountAction);
+  const accountAction = getAccountAsyncAction.start(conn, identity, undefined);
+  // don't wait on the dispatch here, we return the result of the dispatch to await on by client
+  dispatch(accountAction);
+  const fetchedAccount = accountAction.payload;
 
   // get a stream of all transactions
   const address = keyToAddress(identity);
@@ -127,7 +127,7 @@ async function watchAccountAndTransactions(
   // make sure we only query once per block or search return at max
   stream.compose(debounce(200)).subscribe({ next: onChangeAccount });
 
-  return account; // resolved when first account is loaded
+  return fetchedAccount; // resolved when first account is loaded
 }
 
 // the odd signature is to allow this to work as a thunk, so it can be used like:
