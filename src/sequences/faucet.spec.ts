@@ -10,7 +10,7 @@ import { sleep } from "~/utils/timer";
 import { bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
 
-xdescribe("drinkFaucetSequence", () => {
+describe("drinkFaucetSequence", () => {
   mayTest(
     "gives a new account some tokens",
     async () => {
