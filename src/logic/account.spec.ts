@@ -118,13 +118,24 @@ describe("setName", () => {
         const withMoney = await getAccount(reader, rcpt);
         expect(withMoney).toBeTruthy();
 
+        // TODO: big hack here - FIX THIS!!!
+        // we need to register the blockchain before we can register a name on it...
+        // how do we do that in the real app?
+
+        // on yaknet, i guess we pre-register the names ourselves.
+        // in test code, we update the startup???
+
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
+        console.log("E");
+        // TODO: right now this hangs forever as the transaction errors (issue #677 in iov-core)
         await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
+        console.log("F");
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt);
         expect(after).toBeTruthy();
+
         // TODO: this should fail... need to add username check
         expect(after!.name).toEqual(name);
         expect(after!.balance.length).toEqual(1);
@@ -136,7 +147,7 @@ describe("setName", () => {
     4000,
   ); // multiple transactions, so multiple blocks... let's give it some time
 
-  describe("watchAccount", () => {
+  xdescribe("watchAccount", () => {
     mayTest(
       "updates on all changes",
       async () => {
