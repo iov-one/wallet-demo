@@ -10,13 +10,12 @@ import Typography from "~/components/layout/Typography";
 export const WORD_NUM = "word_num_";
 
 const titleFor = (pos: number) =>
-  pos === 0 ? "1st word" : pos === 1 ? "2nd word" : pos === 2 ? "3rd word" : `${pos+1}th word`;
-
+  pos === 0 ? "1st word" : pos === 1 ? "2nd word" : pos === 2 ? "3rd word" : `${pos + 1}th word`;
 
 export default () => (
   <React.Fragment>
     <Grid>
-    {[...Array(12)].map((_: number, idx: number) => {
+      {[...Array(12)].map((_: number, idx: number) => {
         const title = titleFor(idx);
         const fieldName = WORD_NUM + idx;
 

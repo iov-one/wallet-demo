@@ -10,10 +10,10 @@ const StepsCount = ({ stepNum }: Props) => (
   <React.Fragment>
     <Block margin="xxl" />
     <Block padding="xxl" margin="md">
-    <Typography variant="subtitle1" color="textPrimary">
-      Step {stepNum}/2
-    </Typography>
-  </Block>
+      <Typography variant="subtitle1" color="textPrimary">
+        Step {stepNum}/2
+      </Typography>
+    </Block>
   </React.Fragment>
 );
 
