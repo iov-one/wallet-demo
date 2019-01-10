@@ -6,12 +6,15 @@ import { createProfile } from "./profile";
 
 import { loadConfig } from "../utils/conf";
 
-const config = loadConfig();
-
 // load some config options
-export const testSpec = config.bns.chainSpec as BlockchainSpec;
-export const testTicker = config.bns.faucetSpec!.token;
-export const faucetUri = config.bns.faucetSpec!.uri;
+export const testSpec = async () => {
+  const config = await loadConfig();
+  return config.bns.chainSpec as BlockchainSpec;
+};
+export const faucetSpec = async () => {
+  const config = await loadConfig();
+  return config.bns.faucetSpec!;
+};
 
 export const skipTests = (): boolean => !process.env.BNS_ENABLED;
 export const mayTest = skipTests() ? xit : it;

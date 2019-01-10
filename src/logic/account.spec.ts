@@ -6,13 +6,14 @@ import { sleep } from "../utils/timer";
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { adminProfile, mayTest, randomString, testSpec, testTicker } from "./testhelpers";
+import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
 
 describe("getAccount", () => {
   mayTest("random account should be empty", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
-    const reader = await addBlockchain(writer, testSpec);
+    const testSpecData = await testSpec();
+    const reader = await addBlockchain(writer, testSpecData);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
       expect(acct).toEqual(undefined);
@@ -24,7 +25,8 @@ describe("getAccount", () => {
   mayTest("faucet account should have tokens", async () => {
     const profile = await adminProfile();
     const writer = new MultiChainSigner(profile);
-    const reader = await addBlockchain(writer, testSpec);
+    const testSpecData = await testSpec();
+    const reader = await addBlockchain(writer, testSpecData);
     try {
       const acct = await getAccount(reader, getMainIdentity(profile));
       expect(acct).toBeTruthy();
@@ -48,12 +50,13 @@ describe("sendTransaction", () => {
       const rcpt = getMainIdentity(empty);
 
       const writer = new MultiChainSigner(faucet);
-      const reader = await addBlockchain(writer, testSpec);
+      const testSpecData = await testSpec();
+      const reader = await addBlockchain(writer, testSpecData);
       try {
         // ensure rcpt is empty before
         const before = await getAccount(reader, rcpt);
         expect(before).toEqual(undefined);
-
+        const { token: testTicker } = await faucetSpec();
         // send a token from the genesis account
         const amount: Amount = {
           whole: 12345,
@@ -90,11 +93,13 @@ describe("setName", () => {
       const rcpt = getMainIdentity(empty);
 
       const writer = new MultiChainSigner(faucet);
-      const reader = await addBlockchain(writer, testSpec);
+      const testSpecData = await testSpec();
+      const reader = await addBlockchain(writer, testSpecData);
 
       const rcptWriter = new MultiChainSigner(empty);
-      const rcptReader = await addBlockchain(rcptWriter, testSpec);
+      const rcptReader = await addBlockchain(rcptWriter, testSpecData);
       try {
+        const { token: testTicker } = await faucetSpec();
         // send a token from the genesis account
         const amount: Amount = {
           whole: 10,
@@ -129,10 +134,11 @@ describe("setName", () => {
         const rcpt = getMainIdentity(empty);
 
         const writer = new MultiChainSigner(faucet);
-        const reader = await addBlockchain(writer, testSpec);
+        const testSpecData = await testSpec();
+        const reader = await addBlockchain(writer, testSpecData);
 
         const rcptWriter = new MultiChainSigner(empty);
-        const rcptReader = await addBlockchain(rcptWriter, testSpec);
+        const rcptReader = await addBlockchain(rcptWriter, testSpecData);
         try {
           let updatesFaucet = 0;
           let acctFaucet: BcpAccount | undefined;
@@ -160,6 +166,7 @@ describe("setName", () => {
           expect(updatesRcpt).toEqual(1);
           expect(acctRcpt).toBe(undefined);
 
+          const { token: testTicker } = await faucetSpec();
           // send a token from the genesis account
           const amount: Amount = {
             whole: 10,

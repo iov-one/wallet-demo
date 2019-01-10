@@ -14,8 +14,6 @@ import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors
 import { BootResult, bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
 import { loadConfig } from "../utils/conf";
 
-const config = loadConfig();
-
 interface HomeState {
   readonly name: string;
   readonly profileCreated: boolean;
@@ -58,6 +56,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   public async componentDidMount(): Promise<void> {
     const { boot } = this.props;
     try {
+      const config = await loadConfig();
       const { accounts } = await boot(config.defaultPassword, [config.bns.chainSpec as BlockchainSpec]);
       await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
@@ -71,6 +70,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const acct = accounts[0];
     const account = acct ? acct.account : undefined;
     if (!account) {
+      const config = await loadConfig();
       await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
       this.setState({
         booted: true,
@@ -167,6 +167,7 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
   }
 
   private async resetProfile(): Promise<void> {
+    const config = await loadConfig();
     await this.props.reset(config["defaultPassword"]);
     await this.componentDidMount();
   }

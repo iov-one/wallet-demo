@@ -12,7 +12,8 @@ describe("boot sequence", () => {
       const store = makeStore();
       const password = randomString(16);
 
-      const action = bootSequence(password, [testSpec]);
+      const testSpecData = await testSpec();
+      const action = bootSequence(password, [testSpecData]);
       expect(action).toBeDefined();
       expect(action).toBeInstanceOf(Function);
 
