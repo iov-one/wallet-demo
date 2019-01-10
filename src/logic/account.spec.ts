@@ -1,12 +1,14 @@
-import { Amount, BcpAccount } from "@iov/bcp-types";
+import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import { compareAmounts } from "./balances";
 import { addBlockchain } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
+import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTest("random account should be empty", async () => {
@@ -32,9 +34,10 @@ describe("getAccount", () => {
       expect(acct).toBeTruthy();
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
+      // make sure the initial balance is over 1 million IOV
       const token = acct!.balance[0];
-      expect(token.tokenTicker).toEqual("IOV");
-      expect(token.whole).toBeGreaterThan(1000000);
+      const minBalance = { quantity: "1000000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker };
+      expect(compareAmounts(token, minBalance)).toBeGreaterThanOrEqual(1);
     } finally {
       reader.disconnect();
     }
@@ -59,13 +62,15 @@ describe("sendTransaction", () => {
         const { token: testTicker } = await faucetSpec();
         // send a token from the genesis account
         const amount: Amount = {
-          whole: 12345,
-          fractional: 678000,
+          quantity: "12345678000",
+          fractionalDigits: 9,
           tokenTicker: testTicker,
         };
         const res = await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount, "hello");
-        expect(res.metadata.height).toBeGreaterThan(2);
-        expect(res.data.txid).toBeTruthy();
+        const blockInfo = await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+        const txHeight = (blockInfo as BcpBlockInfoInBlock).height;
+        expect(txHeight).toBeGreaterThan(2);
+        expect(res.transactionId).toBeTruthy();
 
         // ensure the recipient is properly rewarded
         const after = await getAccount(reader, rcpt);
@@ -74,8 +79,7 @@ describe("sendTransaction", () => {
         expect(after!.balance.length).toEqual(1);
         const token = after!.balance[0];
         expect(token.tokenTicker).toEqual(amount.tokenTicker);
-        expect(token.whole).toEqual(amount.whole);
-        expect(token.fractional).toEqual(amount.fractional);
+        expect(token.quantity).toEqual(amount.quantity);
       } finally {
         reader.disconnect();
       }
@@ -102,15 +106,19 @@ describe("setName", () => {
         const { token: testTicker } = await faucetSpec();
         // send a token from the genesis account
         const amount: Amount = {
-          whole: 10,
-          fractional: 0,
+          quantity: "10000000000",
+          fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+        await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
+
+        // make sure some tokens were received
+        const withMoney = await getAccount(reader, rcpt);
+        expect(withMoney).toBeTruthy();
 
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
-        await setName(rcptWriter, rcptReader.chainId(), name);
+        await waitForCommit(setName(rcptWriter, rcptReader.chainId(), name));
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt);
@@ -169,11 +177,11 @@ describe("setName", () => {
           const { token: testTicker } = await faucetSpec();
           // send a token from the genesis account
           const amount: Amount = {
-            whole: 10,
-            fractional: 0,
+            quantity: "10000000000",
+            fractionalDigits: 9,
             tokenTicker: testTicker,
           };
-          await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
 
           // validate update messages came
           await sleep(50);
@@ -186,12 +194,12 @@ describe("setName", () => {
           expect(acctRcpt!.balance.length).toEqual(1);
           const token = acctRcpt!.balance[0];
           expect(token.tokenTicker).toEqual(amount.tokenTicker);
-          expect(token.whole).toEqual(amount.whole);
+          expect(token.quantity).toEqual(amount.quantity);
 
           // unsubscribe from one, only one update should come
           unsubscribeFaucet.unsubscribe();
           // send a second payment
-          await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount);
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
 
           await sleep(50);
           // no more facuet updates should come
@@ -205,7 +213,7 @@ describe("setName", () => {
           expect(acctRcpt!.balance.length).toEqual(1);
           const token2 = acctRcpt!.balance[0];
           expect(token2.tokenTicker).toEqual(amount.tokenTicker);
-          expect(token2.whole).toEqual(amount.whole * 2);
+          expect(token2.quantity).toEqual("20000000000");
 
           // end other subscription
           unsubscribeRcpt.unsubscribe();

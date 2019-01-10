@@ -1,47 +1,105 @@
-export function stringToFractional(fractionString: string, sigFigs: number): number {
-  // we ensure no more than sigFigs are parsed
-  const cleanFrac = fractionString.slice(0, sigFigs);
-  return parseInt(cleanFrac.padEnd(sigFigs, "0"), 10);
-}
+import { Amount, TokenTicker } from "@iov/bcp-types";
 
-export function fractionalToString(fractional: number, sigFigs: number): string {
-  const fraction = fractional.toString().padStart(sigFigs, "0");
-  if (fraction.length > sigFigs) {
-    throw new Error("Number too large for the given sigFigs");
-  }
-  const [, trailingZeros] = fraction.match(/(0*)$/)!;
-  if (trailingZeros !== "") {
-    return fraction.slice(0, -trailingZeros.length);
-  }
-  return fraction;
-}
-
-export interface CoinInfo {
-  readonly whole: number;
-  readonly fractional: number;
-  readonly sigFigs: number;
-}
-
-export function stringToCoin(amount: string, sigFigs: number): CoinInfo {
-  const matched = amount.match(/^([0-9]+)?([\.\,]([0-9]+))?$/);
+// This parses a decimal as string into the Amount format
+export function stringToAmount(amount: string, tokenTicker: TokenTicker): Amount {
+  // trim off all leading zeros when parsing
+  const trimmed = amount.replace(/^0+/, "");
+  const matched = trimmed.match(/^([0-9]+)?([\.\,]([0-9]+))?$/);
   if (!matched) {
     throw new Error(`Not a valid number: ${amount}`);
   }
   // elements 1 and 3...
-  const wholeString = matched[1];
-  const fractionString = matched[3];
-  const whole = wholeString ? parseInt(wholeString, 10) : 0;
-  const fractional = fractionString ? stringToFractional(fractionString, sigFigs) : 0;
-  return { whole, fractional, sigFigs };
+  const wholeString = matched[1] || "";
+  const fractionString = matched[3] || "";
+  const quantity = `${wholeString}${fractionString}`;
+  const fractionalDigits = fractionString.length;
+  return { quantity, fractionalDigits, tokenTicker };
 }
 
-export function coinToString(coin: CoinInfo): string {
-  if (coin.fractional < 0 || coin.whole < 0) {
-    throw new Error("Coin value must be non-negative");
+// This produces a human readable format of the amount, value and token ticker
+export function amountToString(amount: Amount): string {
+  const { quantity, fractionalDigits, tokenTicker } = amount;
+  if (!quantity.match(/^[0-9]+$/)) {
+    throw new Error(`quantity must be a number, got ${quantity}`);
   }
-  if (coin.fractional === 0) {
-    return `${coin.whole}`;
+  if (fractionalDigits < 0) {
+    throw new Error(`invalid fractional digits: ${fractionalDigits}`);
   }
-  const fractionString = fractionalToString(coin.fractional, coin.sigFigs);
-  return `${coin.whole}.${fractionString}`;
+  // let's remove those leading zeros...
+  const temp = quantity.replace(/^0+/, "");
+  // unless we need them to reach a decimal point
+  const pad = fractionalDigits - temp.length;
+  const trimmed = pad > 0 ? "0".repeat(pad) + temp : temp;
+
+  const cut = trimmed.length - fractionalDigits;
+  const whole = cut === 0 ? "0" : trimmed.slice(0, cut);
+  const decimal = fractionalDigits === 0 ? "" : `.${trimmed.slice(cut)}`;
+  const value = `${whole}${decimal} ${tokenTicker}`;
+  return value;
+}
+
+// this takes an amount and trims off all trailing 0s
+// TODO: remove leading 0s also
+export function trimAmount(amount: Amount): Amount {
+  const { quantity, fractionalDigits, tokenTicker } = amount;
+  const zeros = quantity.match(/0*$/)![0].length;
+  const cut = Math.min(zeros, fractionalDigits);
+  if (cut === 0) {
+    return amount;
+  }
+  const trimmedQuantity = quantity.slice(0, -cut);
+  const trimmedDigits = fractionalDigits - cut;
+  return {
+    quantity: trimmedQuantity,
+    fractionalDigits: trimmedDigits,
+    tokenTicker,
+  };
+}
+
+// this takes an amount and pad 0s to the desired fractionalDigits, or throws error if fractionalDigits is already larger
+export function padAmount(amount: Amount, desiredDigits: number): Amount {
+  const { quantity, fractionalDigits, tokenTicker } = amount;
+  const diff = desiredDigits - fractionalDigits;
+  if (diff < 0) {
+    throw new Error(`Want to pad to ${desiredDigits}, but already has ${fractionalDigits}`);
+  } else if (diff === 0) {
+    return amount;
+  } else {
+    const newQuantity = quantity + "0".repeat(diff);
+    return {
+      quantity: newQuantity,
+      fractionalDigits: desiredDigits,
+      tokenTicker,
+    };
+  }
+}
+
+// compareAmount returns 1 is a is bigger, -1 if b is bigger, 0 is the same value
+// it throws an error if they have different tickers
+export function compareAmounts(a: Amount, b: Amount): number {
+  if (a.tokenTicker !== b.tokenTicker) {
+    throw new Error(`Cannot compare ${a.tokenTicker} with ${b.tokenTicker}`);
+  }
+  // same number of fractional digits
+  const maxDigits = Math.max(a.fractionalDigits, b.fractionalDigits);
+  const { quantity: first } = padAmount(trimAmount(a), maxDigits);
+  const { quantity: second } = padAmount(trimAmount(b), maxDigits);
+
+  // longer number is bigger
+  if (first.length > second.length) {
+    return 1;
+  } else if (first.length < second.length) {
+    return -1;
+  } else if (first === second) {
+    // string compare if same length
+    return 0;
+  } else if (first > second) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+export function prettyAmount(amount: Amount): string {
+  return amountToString(trimAmount(amount));
 }

@@ -21,17 +21,8 @@ export const tokensSelector = createSelector(
       return [];
     }
 
-    return account.account.balance.map((balance: BcpCoin) => {
-      const { whole, fractional, tokenTicker, tokenName } = balance;
-
-      return {
-        whole,
-        fractional,
-        sigFigs: 9,
-        tokenTicker,
-        tokenName,
-      };
-    });
+    // copy balance from redux store
+    return [...account.account!.balance];
   },
 );
 

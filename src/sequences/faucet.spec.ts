@@ -1,3 +1,4 @@
+import { compareAmounts } from "~/logic";
 import { faucetSpec, mayTest, randomString, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
@@ -57,8 +58,9 @@ describe("drinkFaucetSequence", () => {
         const account = fullAccounts[0].account!;
         // we should have something here
         expect(account.balance.length).toEqual(1);
-        expect(account.balance[0].tokenTicker).toEqual(testTicker);
-        expect(account.balance[0].whole).toBeGreaterThanOrEqual(1);
+        // check that the returned balance is greater than 2
+        const minBalance = { quantity: "2", fractionalDigits: 0, tokenTicker: testTicker };
+        expect(compareAmounts(account.balance[0], minBalance)).toBeGreaterThanOrEqual(1);
         // at the address we expect
         expect(account.address).toEqual(addr);
 

@@ -1,18 +1,19 @@
 import { PublicKeyBundle } from "@iov/base-types";
 import {
   BcpConnection,
+  BcpTransactionState,
   ConfirmedTransaction,
-  SendTx,
-  TransactionKind,
+  isSendTransaction,
+  PostTxResponse,
+  SendTransaction,
   UnsignedTransaction,
 } from "@iov/bcp-types";
-import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
 
-export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTx>
+export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
   extends ConfirmedTransaction<T> {
   readonly received: boolean;
   readonly time: ReadonlyDate;
@@ -46,13 +47,12 @@ export const parseConfirmedTransaction = async (
   identity: PublicIdentity,
 ): Promise<AnnotatedConfirmedTransaction | undefined> => {
   const payload = trans.transaction;
-  if (payload.kind !== TransactionKind.Send) {
-    console.log(`Only handle SendTx for now, got ${payload.kind}`);
+  if (!isSendTransaction(payload)) {
+    console.log(`Only handle SendTransaction for now, got ${payload.kind}`);
     return undefined;
   }
   const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
-  // TODO: fix this, we cannot always assume BnsConnection
-  const header = await (conn as BnsConnection).getHeader(trans.height);
+  const header = await conn.getBlockHeader(trans.height);
   const time = header.time;
   // set addresses and lookup value names
   const recipientAddr = payload.recipient;
@@ -60,7 +60,7 @@ export const parseConfirmedTransaction = async (
   const signerAddr = keyToAddress(trans.primarySignature);
   const signerName = await getNameByAddress(conn, signerAddr);
   return {
-    ...(trans as ConfirmedTransaction<SendTx>),
+    ...(trans as ConfirmedTransaction<SendTransaction>),
     received,
     time,
     success: true,
@@ -70,3 +70,10 @@ export const parseConfirmedTransaction = async (
     signerName,
   };
 };
+
+// this waits for one commit to be writen, then returns the response
+export async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
+  const res = await req;
+  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  return res;
+}

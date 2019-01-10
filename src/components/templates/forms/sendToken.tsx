@@ -11,7 +11,7 @@ import { SecondaryInput } from "../../subComponents/input";
 import { Paper } from "../../subComponents/page";
 import { H2, TextFieldLabel } from "../../subComponents/typography";
 
-import { coinToString, stringToCoin } from "../../../logic/balances";
+import { compareAmounts, prettyAmount, stringToAmount } from "~/logic";
 
 const NameWrapper = styled.div`
   position: absolute;
@@ -89,11 +89,6 @@ interface SendTokenFormProps {
   readonly onBack: () => any;
 }
 
-const convertStringToAmount = (tokenAmount: string, sigFigs: number, tokenTicker: TokenTicker): Amount => {
-  const { whole, fractional } = stringToCoin(tokenAmount, sigFigs);
-  return { whole, fractional, tokenTicker };
-};
-
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
     tokenAmount: "0",
@@ -122,26 +117,20 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
           tokenName: balance.tokenTicker,
         } as BcpCoin)
       : ({
-          whole: 0,
-          fractional: 0,
-          sigFigs: 9,
+          quantity: "0",
+          fractionalDigits: 0,
           tokenTicker: token,
           tokenName: token,
         } as BcpCoin);
   };
   public readonly hasEnoughBalance = (balance: Amount, amount: string): boolean => {
     try {
-      const amountInToken = convertStringToAmount(amount, 9, balance.tokenTicker);
+      const amountInToken = stringToAmount(amount, balance.tokenTicker);
       this.setState({
         isValidAmount: true,
       });
-      if (amountInToken.whole < balance.whole) {
-        return true;
-      }
-      if (amountInToken.whole === balance.whole && amountInToken.fractional <= balance.fractional) {
-        return true;
-      }
-      return false;
+      // amount must be less than current balance
+      return compareAmounts(amountInToken, balance) <= 0;
     } catch {
       this.setState({
         isValidAmount: false,
@@ -213,9 +202,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
             onChangeAmount={this.onChangeAmount}
             onChangeToken={this.onChangeToken}
           />
-          <TokenText>
-            balance: {coinToString(selectedBalance)} {selectedBalance.tokenTicker}
-          </TokenText>
+          <TokenText>balance: {prettyAmount(selectedBalance)}</TokenText>
           <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
         </Paper>
         <VerticalButtonGroup buttons={buttons} />

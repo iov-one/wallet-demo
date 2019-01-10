@@ -7,7 +7,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { coinToString } from "~/logic";
+import { amountToString, trimAmount } from "~/logic";
 import receive from "~/routes/balance/assets/transactionReceive.svg";
 import send from "~/routes/balance/assets/transactionSend.svg";
 import { background, md } from "~/theme/variables";
@@ -117,7 +117,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceiveP
                 align="center"
                 onClick={onSendPayment}
               >
-                {`${coinToString(token)} ${token.tokenTicker}`}
+                {`${amountToString(trimAmount(token))}`}
               </Typography>
             ))}
             <Block margin="xl" />
