@@ -4,8 +4,8 @@ import { BcpAccount, BcpTicker } from "@iov/bcp-types";
 import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
-import { RootState } from "../reducers";
-import { AccountInfo } from "../reducers/blockchain";
+import { RootState } from "~/reducers";
+import { AccountInfo, getAccountByChainAndAddress } from "~/reducers/blockchain";
 
 /*** TODO: separate this out into multiple files ****/
 
@@ -59,13 +59,15 @@ export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainA
 
 export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 
+// getMyAccounts will return an entry for each activeChainAddress, possibly empty account/username
 export const getMyAccounts: (state: RootState) => ReadonlyArray<AccountInfo> = createSelector(
   getAllAccounts,
   getActiveChainAddresses,
   // only show those balances that are includes in the addresses list
   (balances: ReadonlyArray<AccountInfo>, addresses: ReadonlyArray<ChainAddress>) =>
-    balances.filter(({ chainId, address }) =>
-      addresses.find(addr => addr.chainId === chainId && addr.address === address),
+    addresses.map(
+      ({ chainId, address }) =>
+        getAccountByChainAndAddress(balances, chainId, address) || { chainId, address },
     ),
 );
 

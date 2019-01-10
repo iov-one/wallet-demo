@@ -1,5 +1,4 @@
 import { mayTest, randomString, testSpec } from "~/logic/testhelpers";
-import { TickerWithChain } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import { makeStore } from "~/store";
 
@@ -30,10 +29,13 @@ describe("boot sequence", () => {
       expect(state.profile.activeIdentity).toBeDefined();
       expect(state.blockchain.internal.signer).toBeDefined();
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(1);
-      expect(Object.keys(state.blockchain.tickers).length).toEqual(1);
-      expect(Object.keys(state.blockchain.tickers)).toEqual(signer.chainIds());
-      const tickers = state.blockchain.tickers.map((t: TickerWithChain) => t.ticker.tokenTicker);
+      expect(state.blockchain.tickers.length).toEqual(2);
+      const tickers = state.blockchain.tickers.map(t => t.ticker.tokenTicker);
       expect(tickers).toEqual(["CASH", "IOV"]);
+
+      // make sure all tickers have a chainId in the list (it may be repeated...)
+      const chains = state.blockchain.tickers.map(t => t.chainId);
+      chains.map(chainId => expect(signer.chainIds()).toContain(chainId));
 
       // make sure to close connections so test ends
       for (const chainId of signer.chainIds()) {
