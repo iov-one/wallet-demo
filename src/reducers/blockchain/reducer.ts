@@ -1,15 +1,15 @@
 import { ActionType } from "typesafe-actions";
 
 import * as actions from "./actions";
-import { BlockchainState } from "./state";
+import { BlockchainState, filterAccountByChainAndAddress, getAccountByChainAndAddress } from "./state";
 
 export type BlockchainActions = ActionType<typeof actions>;
 const initState: BlockchainState = {
   internal: {
     connections: {},
   },
-  accounts: {},
-  tickers: {},
+  tickers: [],
+  accountInfo: [],
 };
 
 export function blockchainReducer(
@@ -28,8 +28,8 @@ export function blockchainReducer(
     case "GET_TICKERS_FULFILLED": {
       // use block scope here so we can use same variable name in different cases
       const { chainId, tickers } = action.payload;
-      const tickerState = { ...state.tickers, [chainId]: tickers };
-      return { ...state, tickers: tickerState };
+      const add = tickers.map(ticker => ({ chainId, ticker }));
+      return { ...state, tickers: [...state.tickers, ...add] };
     }
     case "GET_ACCOUNT_FULFILLED": {
       // use block scope here so we can use same variable name in different cases
@@ -39,12 +39,20 @@ export function blockchainReducer(
       const { account, chainId } = action.payload;
       const { address } = account;
 
-      // hmmm... is there an easier way to immutibly update one element deep in the dict?
-      const oldChain = state.accounts[chainId] || {};
-      const oldAccount = oldChain[address] || {};
-      const newChain = { ...oldChain, [address]: { ...oldAccount, account } };
-      return { ...state, accounts: { ...state.accounts, [chainId]: newChain } };
+      // read existing username if it exists
+      const current = getAccountByChainAndAddress(state.accountInfo, chainId, address);
+      const username = current ? current.username : undefined;
+      // merge existing username with new data
+      const prepared = { chainId, address, account, username };
+
+      // new account at head of list, remove old copy if it existed
+      return {
+        ...state,
+        accountInfo: [prepared, ...filterAccountByChainAndAddress(state.accountInfo, chainId, address)],
+      };
     }
+    case "SET_BNS_ID":
+      return { ...state, bnsId: action.payload };
     default:
       return state;
   }

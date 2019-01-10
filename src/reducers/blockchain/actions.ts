@@ -5,6 +5,8 @@ import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 import { addBlockchain, getAccount, Unsubscriber, watchAccount } from "../../logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
 
+export const setBnsId = createSyncAction("SET_BNS_ID", (bns: ChainId) => bns);
+
 export const createSignerAction = createSyncAction(
   "CREATE_SIGNER",
   (profile: UserProfile) => new MultiChainSigner(profile),
@@ -35,11 +37,11 @@ async function getTickers(connection: BcpConnection): Promise<TickerInfo> {
   return { chainId, tickers };
 }
 
-// How do we want to get account... need more info....
 export interface BcpAccountWithChain {
   readonly account: BcpAccount;
   readonly chainId: ChainId;
 }
+
 // simple extension of logic function to return data more suited to redux
 const getAccountWithChain = async (
   connection: BcpConnection,
@@ -51,7 +53,6 @@ const getAccountWithChain = async (
   return account === undefined ? undefined : { account, chainId };
 };
 
-export const getAccountSyncAction = createSyncAction("GET_ACCOUNT", getAccountWithChain);
 export const getAccountAsyncAction = createPromiseAction(
   "GET_ACCOUNT",
   "GET_ACCOUNT_PENDING",
