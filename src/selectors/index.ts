@@ -5,7 +5,7 @@ import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
 import { RootState } from "../reducers";
-import { AccountsByChainAndAddress, getAccountByChainAndAddress } from "../reducers/blockchain";
+import { AccountInfo } from "../reducers/blockchain";
 
 /*** TODO: separate this out into multiple files ****/
 
@@ -34,15 +34,8 @@ export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createS
   conns => Object.keys(conns).map(x => x as ChainId),
 );
 
-export const getTickers = (state: RootState) => state.blockchain.tickers;
-// getChainTickers unrolls the tickers from a map to a list of chain/ticker pairs
-export const getChainTickers: (state: RootState) => ReadonlyArray<ChainTicker> = createSelector(
-  getTickers,
-  sel =>
-    Object.entries(sel)
-      .map(([chainId, tickers]) => tickers.map(ticker => ({ chainId: chainId as ChainId, ticker })))
-      .reduce((acc, arr) => [...acc, ...arr], []),
-);
+// getChainTickers was a map, now the redux state
+export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
 export const getActiveWallet = (state: RootState) => state.profile.activeIdentity;
 export const getActiveIdentity: (state: RootState) => LocalIdentity | undefined = createSelector(
@@ -64,16 +57,16 @@ export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainA
       : chainIds.map(chainId => ({ chainId, address: signer.keyToAddress(chainId, identity.pubkey) })),
 );
 
-export const getAllAccounts = (state: RootState) => state.blockchain.accounts;
+export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 
-export const getMyAccounts: (state: RootState) => ReadonlyArray<ChainAccount> = createSelector(
+export const getMyAccounts: (state: RootState) => ReadonlyArray<AccountInfo> = createSelector(
   getAllAccounts,
   getActiveChainAddresses,
-  (balances: AccountsByChainAndAddress, addresses: ReadonlyArray<ChainAddress>) =>
-    addresses.map(({ chainId, address }) => ({
-      chainId,
-      account: getAccountByChainAndAddress(balances, chainId, address).account,
-    })),
+  // only show those balances that are includes in the addresses list
+  (balances: ReadonlyArray<AccountInfo>, addresses: ReadonlyArray<ChainAddress>) =>
+    balances.filter(({ chainId, address }) =>
+      addresses.find(addr => addr.chainId === chainId && addr.address === address),
+    ),
 );
 
 /* TODO add some generic "require" helper? */

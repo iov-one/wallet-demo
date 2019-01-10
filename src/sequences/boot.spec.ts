@@ -1,8 +1,8 @@
-import { BcpTicker } from "@iov/bcp-types";
+import { mayTest, randomString, testSpec } from "~/logic/testhelpers";
+import { TickerWithChain } from "~/reducers/blockchain";
+import { fixTypes } from "~/reducers/helpers";
+import { makeStore } from "~/store";
 
-import { mayTest, randomString, testSpec } from "../logic/testhelpers";
-import { fixTypes } from "../reducers/helpers";
-import { makeStore } from "../store";
 import { BootResult, bootSequence } from "./boot";
 
 describe("boot sequence", () => {
@@ -32,7 +32,7 @@ describe("boot sequence", () => {
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(1);
       expect(Object.keys(state.blockchain.tickers).length).toEqual(1);
       expect(Object.keys(state.blockchain.tickers)).toEqual(signer.chainIds());
-      const tickers = Object.values(state.blockchain.tickers)[0].map((tick: BcpTicker) => tick.tokenTicker);
+      const tickers = state.blockchain.tickers.map((t: TickerWithChain) => t.ticker.tokenTicker);
       expect(tickers).toEqual(["CASH", "IOV"]);
 
       // make sure to close connections so test ends
