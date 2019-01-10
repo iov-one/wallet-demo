@@ -2,7 +2,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
-import { background, border, md, sm, xl, xxl } from "~/theme/variables";
+import { background, border, md, sm } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
   readonly word: string;
