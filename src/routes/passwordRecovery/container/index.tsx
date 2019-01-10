@@ -27,7 +27,6 @@ class PasswordRecovery extends React.Component<Props, State> {
   };
 
   public readonly createProfileFromMnemonic = async (mnemonic: string): Promise<void> => {
-    console.log(mnemonic);
     try {
       Ed25519HdWallet.fromMnemonic(mnemonic);
       this.setState({
