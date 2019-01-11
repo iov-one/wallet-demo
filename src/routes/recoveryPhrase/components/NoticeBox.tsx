@@ -5,6 +5,7 @@ import CircleImg from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
 import bulb from "../assets/bulb.svg";
+import NoticeSidebar from "./NoticeSidebar";
 
 const styles = createStyles({
   noticeBox: {
@@ -28,22 +29,24 @@ const styles = createStyles({
 
 const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
   return (
-    <Block className={classes.noticeBox}>
-      <Block className={classes.header}>
-        <Block className={classes.bulbIcon}>
-          <CircleImg dia={50} icon={bulb} alt="sidebar bulb" circleColor="#ffe152" />
-        </Block>
-        <Typography variant="h6" weight="light">
-          Important
+    <NoticeSidebar>
+      <Block className={classes.noticeBox}>
+        <Block className={classes.header}>
+          <Block className={classes.bulbIcon}>
+            <CircleImg dia={50} icon={bulb} alt="sidebar bulb" circleColor="#ffe152" />
+          </Block>
+          <Typography variant="h6" weight="light">
+            Important
         </Typography>
-      </Block>
-      <Block margin="md" />
-      <Typography variant="subtitle1">
-        Do not store your backup phrase on your computer or anywhere online. It is very important to keep your
-        backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can
-        access your funds.
+        </Block>
+        <Block margin="md" />
+        <Typography variant="subtitle1">
+          Do not store your backup phrase on your computer or anywhere online. It is very important to keep your
+          backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can
+          access your funds.
       </Typography>
-    </Block>
+      </Block>
+    </NoticeSidebar>
   );
 };
 export default withStyles(styles)(NoticeBox);

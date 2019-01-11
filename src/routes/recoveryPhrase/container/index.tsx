@@ -3,15 +3,10 @@ import PageColumn from "~/components/pages/PageColumn";
 import { SECURITY_CENTER_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { HeaderMessage } from "../components/HeaderMessage";
-import LeftSidebarWrapper from "../components/LeftSidebarWrapper";
 import NoticeBox from "../components/NoticeBox";
 import RecoveryWords from "../components/RecoveryWords";
 
-const LeftSidebarSection = () => (
-  <LeftSidebarWrapper>
-    <NoticeBox />
-  </LeftSidebarWrapper>
-);
+const LeftSidebarSection = () => <NoticeBox />;
 
 export default class RecoveryPhrase extends React.Component {
   public readonly onRedirect = () => {

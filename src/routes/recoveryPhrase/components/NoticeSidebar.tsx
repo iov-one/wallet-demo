@@ -6,7 +6,7 @@ interface Props {
   readonly children: React.ReactNode;
 }
 
-const LeftSidebarWrapper = ({ children }: Props) => {
+const NoticeSidebar = ({ children }: Props) => {
   return (
     <LeftSidebar>
       <Spacer order={1} />
@@ -16,4 +16,4 @@ const LeftSidebarWrapper = ({ children }: Props) => {
   );
 };
 
-export default LeftSidebarWrapper;
+export default NoticeSidebar;
