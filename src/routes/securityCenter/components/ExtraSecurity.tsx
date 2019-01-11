@@ -1,16 +1,11 @@
 import * as React from "react";
-import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
+import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
-import AdvancedSecurity from "./AdvancedSecurity";
+import { ADVANCED_SECURITY_ROUTE } from "~/routes";
 
-//Remove line this comment and line below in case if interface will get any memebers
-//tslint:disable-next-line:no-empty-interface
-interface OuterProps {}
 
-type Props = OpenType & OpenHandler & OuterProps;
-
-const ExtraSecurity = ({ open, toggle }: Props): JSX.Element => (
+const ExtraSecurity = (): JSX.Element => (
   <React.Fragment>
     <Block margin="xs">
       <Typography align="center" variant="subtitle1" color="textPrimary">
@@ -18,12 +13,13 @@ const ExtraSecurity = ({ open, toggle }: Props): JSX.Element => (
       </Typography>
     </Block>
     <Block margin="lg">
-      <Typography align="center" variant="subtitle1" color="primary" underlined pointer onClick={toggle}>
-        See advanced security
-      </Typography>
+      <Link to={ADVANCED_SECURITY_ROUTE}>
+        <Typography align="center" variant="subtitle1" color="primary" underlined>
+          See advanced security
+        </Typography>
+      </Link>
     </Block>
-    <AdvancedSecurity showAdvancedSecurity={open} closeAdvancedSecurity={toggle} />
   </React.Fragment>
 );
 
-export default openHoc<OuterProps>(ExtraSecurity);
+export default ExtraSecurity;

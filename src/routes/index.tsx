@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import { ConfirmTransactionPage, InvitePage, PaymentPage, SendPaymentPage } from "~/containers";
 import RequireLogin from "~/containers/RequireLogin";
+import AdvancedSecurity from "~/routes/advancedSecurity/container";
 import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
 import Home from "~/routes/home/container";
@@ -23,6 +24,7 @@ export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
+export const ADVANCED_SECURITY_ROUTE = "/advanced-security";
 export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
 export const RECOVERY_PHRASE_ROUTE = "/recovery-phrase";
@@ -54,6 +56,7 @@ export const MainRouter = () => (
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
       <Route path={RECOVERY_PHRASE_ROUTE} component={RecoveryPhrase} />
+      <Route path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
     </RequireLogin>
   </Switch>
 );
