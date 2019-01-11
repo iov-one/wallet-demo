@@ -25,7 +25,7 @@ export default class Layout extends React.Component<Props> {
    */
   public readonly onRecoverProfile = (values: object): void => {
     const typedValues = values as FormType;
-    const words = Object.getOwnPropertyNames(typedValues)
+    const words = Object.keys(typedValues)
       .sort()
       .map((fieldName: string) => typedValues[fieldName]);
 
