@@ -3,7 +3,6 @@ import { BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
-// import { UserProfile } from "@iov/keycontrol";
 
 /**** this may make it into iov-core *******/
 
@@ -46,16 +45,16 @@ export async function addBlockchain(
 }
 
 export async function checkBnsBlockchainNft(
+  connection: BnsConnection,
   writer: MultiChainSigner,
-  blockchain: BlockchainSpec,
   chainId: ChainId,
+  codecName: string,
 ): Promise<void> {
-  const connection = await BnsConnection.establish(blockchain.bootstrapNodes[0]);
-  const result = await connection.getBlockchains({ chainId: chainId });
+  const result = await connection.getBlockchains({ chainId });
   if (result.length === 0) {
     const registryChainId = await connection.chainId();
 
-    // Register blockchain
+    // TODO: is this the proper way? should we pass that in?
     const walletId = getMainKeyring(writer.profile);
     const signer = getMainIdentity(writer.profile);
 
@@ -70,12 +69,10 @@ export async function checkBnsBlockchainNft(
         name: "Wonderland",
         networkId: "7rg047g4h",
       },
-      codecName: "wonderland_rules",
-      codecConfig: `{ "any" : [ "json", "content" ] }`,
+      codecName,
+      codecConfig: `{ }`,
     };
-    {
-      const response = await writer.signAndPost(blockchainRegistration, walletId);
-      await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
-    }
+    const response = await writer.signAndPost(blockchainRegistration, walletId);
+    await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
   }
 }

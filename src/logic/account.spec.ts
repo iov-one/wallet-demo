@@ -1,4 +1,5 @@
 import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
@@ -101,7 +102,7 @@ describe("setName", () => {
       const testSpecData = await testSpec();
       const reader = await addBlockchain(writer, testSpecData);
       const chainId = reader.chainId();
-      await checkBnsBlockchainNft(writer, testSpecData, chainId);
+      await checkBnsBlockchainNft(reader as BnsConnection, writer, chainId, "bns");
 
       const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpecData);
