@@ -1,6 +1,6 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import FormComponent from "./FormComponent";
+import { FormComponent } from "./FormComponent";
 import PeopleImg from "./LeftMenu";
 import SignupComponent from "./SignupComponent";
 
@@ -8,10 +8,9 @@ const SignupSection = () => <SignupComponent />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
-  readonly validate: (values: object) => object | Promise<object>;
 }
 
-export default ({ onSubmit, validate }: Props) => (
+export default ({ onSubmit }: Props) => (
   <PageColumn
     icon="white"
     leftMenu={PeopleImg}
@@ -22,6 +21,5 @@ export default ({ onSubmit, validate }: Props) => (
     renderHeader={SignupSection}
     formRender={FormComponent}
     nextMsg="Continue"
-    validation={validate}
   />
 );

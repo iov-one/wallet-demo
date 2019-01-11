@@ -1,40 +1,33 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Errors, FormType } from "~/components/forms/Form";
+import { FormType } from "~/components/forms/Form";
+import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
+import { ToastVariant } from "~/context/ToastProvider/Toast";
 import Layout from "~/routes/login/components";
 import { LOGIN_PASS_FIELD } from "~/routes/login/components/FormComponent";
 import { loginAccount } from "~/sequences/login";
 import actions, { HomeActions } from "./actions";
 
-class SignUp extends React.Component<HomeActions, {}> {
+interface Props extends ToastType, HomeActions {}
+
+class SignUp extends React.Component<Props, {}> {
   public readonly onLogin = async (values: object) => {
     const { boot, drinkFaucet } = this.props;
     const password = (values as FormType)[LOGIN_PASS_FIELD];
 
-    await loginAccount(boot, drinkFaucet, password);
-  };
-
-  public readonly validate = async (_: any) => {
-    // TODO use Toast for showing error when login. Too invasive right now.
-    const errors: Errors = {};
-    /*
-    const pass = (values as FormType)[LOGIN_PASS_FIELD];
     try {
-      await this.props.boot(pass, [config["chainSpec"]]);
+      await loginAccount(boot, drinkFaucet, password);
     } catch (err) {
-      errors = { [LOGIN_PASS_FIELD]: "Wrong password, try again" };
+      this.props.showToast("Wrong password, try again.", ToastVariant.ERROR);
     }
-    */
-
-    return errors;
   };
 
   public render(): JSX.Element {
-    return <Layout onSubmit={this.onLogin} validate={this.validate} />;
+    return <Layout onSubmit={this.onLogin} />;
   }
 }
 
 export default connect(
   undefined,
   actions,
-)(SignUp);
+)(toastHoc(SignUp));

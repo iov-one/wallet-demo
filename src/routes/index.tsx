@@ -7,6 +7,7 @@ import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
 import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
+import PasswordRecovery from "~/routes/passwordRecovery/container";
 import ReceiveIov from "~/routes/receiveIov/container";
 import ReceiveExternal from "~/routes/receiveNonIov/container";
 import SecurityCenter from "~/routes/securityCenter/container";
@@ -22,6 +23,7 @@ export const PRIVACY_POLICY_ROUTE = "/privacy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
 export const CHANGE_PASSWORD_ROUTE = "/change-password";
+export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
 export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
@@ -35,6 +37,7 @@ export const MainRouter = () => (
     <Route exact path={HOME_ROUTE} component={Home} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
+    <Route exact path={PASSWORD_RECOVERY_ROUTE} component={PasswordRecovery} />
     <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <RequireLogin>
       <Route exact path={BALANCE_ROUTE} component={Balance} />

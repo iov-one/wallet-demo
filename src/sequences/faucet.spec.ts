@@ -41,8 +41,8 @@ describe("drinkFaucetSequence", () => {
         const addr = addresses[0].address;
 
         // now, drink from the faucet....
-        
-        const { token: testTicker, uri: faucetUri} = await faucetSpec();
+
+        const { token: testTicker, uri: faucetUri } = await faucetSpec();
         const faucetAction = drinkFaucetSequence(faucetUri, testTicker);
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));

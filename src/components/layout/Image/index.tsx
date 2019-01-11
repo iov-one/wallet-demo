@@ -5,7 +5,7 @@ import styles from "./index.scss";
 
 const cx: any = classNames.bind(styles);
 
-interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   readonly cover?: boolean;
   readonly alt: string;
   readonly fullwidth?: boolean;
@@ -14,7 +14,7 @@ interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
   readonly style?: React.CSSProperties;
 }
 
-class Img extends React.PureComponent<Props> {
+class Img extends React.PureComponent<ImgProps> {
   public render(): JSX.Element {
     const { fullwidth, alt, cover, bordered, className, style, ...props } = this.props;
 
