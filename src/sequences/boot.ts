@@ -1,6 +1,7 @@
 import debounce from "xstream/extra/debounce";
 
 import { BcpConnection, BcpTxQuery, ConfirmedTransaction } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
@@ -70,24 +71,27 @@ export const bootSequence = (
   // --- initiate the signer
   const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
-  // --- connect all readers and query account balances
-  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
-  let initTickers: ReadonlyArray<Promise<any>> = [];
-  let connections: ReadonlyArray<BcpConnection> = [];
+  // first we clarify the bns connection (which we need for later transaction resolution)
+  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {})));
+  const bnsConn = value as BnsConnection;
+  dispatch(setBnsChainId(bnsConn.chainId()));
+  // and set it as first account/tickers
+  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [
+    watchAccountAndTransactions(dispatch, bnsConn, bnsConn, identity),
+  ];
+  let initTickers: ReadonlyArray<Promise<any>> = [getTickers(dispatch, bnsConn)];
+
+  // then we connect all other chains, in parallel
   // bns chain is the first one we connect to, so we can pull out the chainId later
-  for (const blockchain of [bns, ...blockchains]) {
+  for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-    connections = [...connections, conn];
-    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
+    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, bnsConn, conn, identity)];
     initTickers = [...initTickers, getTickers(dispatch, conn)];
   }
 
   // wait for all accounts and tickers to initialize
   await Promise.all(initTickers);
   const accounts = await Promise.all(initAccounts);
-
-  // we know the bns chain is the first connection, grab the chainId
-  dispatch(setBnsChainId(connections[0].chainId()));
 
   // return initial account state as well as signer
   return { accounts, signer };
@@ -100,6 +104,7 @@ function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<a
 
 async function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
+  bnsConn: BnsConnection,
   conn: BcpConnection,
   identity: PublicIdentity,
 ): Promise<BcpAccountWithChain | undefined> {
@@ -117,7 +122,7 @@ async function watchAccountAndTransactions(
   // process incoming transactions and add to dispatched/redux store
   const handleTx = async (trans: ConfirmedTransaction) => {
     // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
-    const transInfo = await parseConfirmedTransaction(conn, trans, identity);
+    const transInfo = await parseConfirmedTransaction(bnsConn, conn, trans, identity);
     if (transInfo) {
       dispatch(addConfirmedTransaction(transInfo));
     }

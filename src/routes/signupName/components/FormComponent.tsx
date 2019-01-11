@@ -13,7 +13,7 @@ import {
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { getAddressByName } from "~/logic";
+import { getUsernameNftByUsername } from "~/reducers/blockchain";
 import { md } from "~/theme/variables";
 
 export const USERNAME_FIELD = "username";
@@ -46,7 +46,7 @@ const takenName = (connection: BnsConnection | undefined) => async (name: string
     return "BNS connection is not active";
   }
 
-  const isTaken = (await getAddressByName(connection, name)) !== undefined;
+  const isTaken = (await getUsernameNftByUsername(connection, name)) !== undefined;
   if (isTaken) {
     return "Name is already taken";
   }

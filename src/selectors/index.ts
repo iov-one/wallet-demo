@@ -78,41 +78,22 @@ export const getMyAccounts: (state: RootState) => ReadonlyArray<AccountInfo> = c
     ),
 );
 
-/* TODO add some generic "require" helper? */
-export const requireActiveIdentity = (state: RootState) => {
-  const ident = getActiveIdentity(state);
-  if (!ident) {
-    throw new Error("No identity active");
-  }
-  return ident;
-};
-
-const requireConnection = (state: RootState, chainId: ChainId) => {
-  const conn = getConnections(state)[chainId];
-  if (!conn) {
-    throw new Error(`No connection for chain: ${chainId}`);
-  }
-  return conn;
-};
-
-export const requireBnsConnection = (state: RootState, chainId: ChainId): BnsConnection => {
-  const conn = requireConnection(state, chainId);
-  if (!conn) {
-    throw new Error(`No BNS connection for chain: ${chainId}`);
-  }
-  return conn as BnsConnection;
-};
-
-export const requireSigner = (state: RootState) => {
-  const signer = getSigner(state);
-  if (!signer) {
-    throw new Error("Signer not yet initialized");
-  }
-  return signer;
-};
-export function ensure<T>(maybe: T | undefined): T {
+export function ensure<T>(maybe: T | undefined, msg: string = "missing required value"): T {
   if (maybe === undefined) {
-    throw new Error("missing required value");
+    throw new Error(msg);
   }
   return maybe;
 }
+
+export const requireActiveIdentity = (state: RootState) =>
+  ensure(getActiveIdentity(state), "No identity active");
+
+export const requireConnection = (state: RootState, chainId: ChainId) =>
+  ensure(getConnections(state)[chainId], `No connection for chain: ${chainId}`);
+
+export const requireBnsConnection = (state: RootState) =>
+  ensure(getBnsConnection(state), `No BNS connection set`);
+
+export const requireBnsChainId = (state: RootState) => ensure(getBnsChainId(state), `No BNS chain id set`);
+
+export const requireSigner = (state: RootState) => ensure(getSigner(state), "Signer not yet initialized");

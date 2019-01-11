@@ -1,3 +1,4 @@
+import { ChainId } from "@iov/base-types";
 import { Address, TxReadCodec } from "@iov/bcp-types";
 import { bnsCodec, BnsConnection } from "@iov/bns";
 
@@ -11,11 +12,12 @@ export function isIovAddress(address: string): boolean {
 export async function resolveAddress(
   connection: BnsConnection,
   maybeAddress: string,
+  chainId: ChainId,
   codec: TxReadCodec = bnsCodec,
 ): Promise<Address> {
   if (isIovAddress(maybeAddress)) {
     const username = maybeAddress.slice(0, -iovNamespace.length);
-    const address = await getAddressByName(connection, username);
+    const address = await getAddressByName(connection, username, chainId);
     if (address === undefined) {
       throw new Error(`Value name ${maybeAddress} not registered`);
     }

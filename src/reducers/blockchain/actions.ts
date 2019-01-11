@@ -91,7 +91,7 @@ export const getUsernameNftByUsernameAsyncAction = createPromiseAction(
   "GET_USERNAME_REJECTED",
 )(getUsernameNftByUsername);
 
-async function getUsernameNftByChainAddress(
+export async function getUsernameNftByChainAddress(
   connection: BnsConnection,
   chain: ChainId,
   address: Address,

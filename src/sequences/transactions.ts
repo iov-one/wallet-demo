@@ -46,8 +46,8 @@ export const sendTransactionSequence = (
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
   try {
     const signer = ensure(getSigner(getState()));
-    const conn = requireBnsConnection(getState(), chainId);
-    const address = await resolveAddress(conn, iovAddress);
+    const conn = requireBnsConnection(getState());
+    const address = await resolveAddress(conn, iovAddress, chainId);
     dispatch(
       addPendingTransactionAction({
         id: uniqId,

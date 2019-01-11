@@ -4,7 +4,14 @@ import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
-import { getAccount, getAddressByName, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import {
+  getAccount,
+  getAddressByName,
+  keyToAddress,
+  sendTransaction,
+  setName,
+  watchAccount,
+} from "./account";
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
@@ -100,7 +107,7 @@ describe("setName", () => {
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const reader = await addBlockchain(writer, testSpecData) as BnsConnection;
+      const reader = (await addBlockchain(writer, testSpecData)) as BnsConnection;
       const chainId = reader.chainId();
       await checkBnsBlockchainNft(reader, writer, chainId, "bns");
 
@@ -143,7 +150,7 @@ describe("setName", () => {
         expect(after!.balance.length).toEqual(1);
 
         // make sure we have properly registered on this chain
-        const addr = await getAddressByName(reader, name);
+        const addr = await getAddressByName(reader, name, chainId);
         expect(addr).toBeDefined();
         expect(addr).toEqual(rcptAddr);
       } finally {
@@ -154,7 +161,7 @@ describe("setName", () => {
     4000,
   ); // multiple transactions, so multiple blocks... let's give it some time
 
-  xdescribe("watchAccount", () => {
+  describe("watchAccount", () => {
     mayTest(
       "updates on all changes",
       async () => {

@@ -1,4 +1,4 @@
-import { PublicKeyBundle } from "@iov/base-types";
+import { ChainId, PublicKeyBundle } from "@iov/base-types";
 import {
   BcpConnection,
   BcpTransactionState,
@@ -8,6 +8,7 @@ import {
   SendTransaction,
   UnsignedTransaction,
 } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
 
@@ -24,6 +25,7 @@ export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = S
   // these are set for reverse lookup of valuename
   readonly signerName?: string;
   readonly recipientName?: string;
+  readonly chainId: ChainId;
 }
 
 const keysEqual = (a: PublicKeyBundle, b: PublicKeyBundle): boolean =>
@@ -42,6 +44,7 @@ const arraysEqual = (a: Uint8Array, b: Uint8Array): boolean => {
 };
 
 export const parseConfirmedTransaction = async (
+  bnsConn: BnsConnection,
   conn: BcpConnection,
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
@@ -52,13 +55,15 @@ export const parseConfirmedTransaction = async (
     return undefined;
   }
   const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
+  // we get header and time from the chain the tx comes from
   const header = await conn.getBlockHeader(trans.height);
   const time = header.time;
-  // set addresses and lookup value names
+  // we look up names from the bns chain
+  const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
-  const recipientName = await getNameByAddress(conn, recipientAddr);
+  const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
   const signerAddr = keyToAddress(trans.primarySignature);
-  const signerName = await getNameByAddress(conn, signerAddr);
+  const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),
     received,
@@ -68,6 +73,7 @@ export const parseConfirmedTransaction = async (
     recipientName,
     signerAddr,
     signerName,
+    chainId,
   };
 };
 
