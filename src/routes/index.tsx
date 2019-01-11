@@ -11,8 +11,8 @@ import LogIn from "~/routes/login/container";
 import PasswordRecovery from "~/routes/passwordRecovery/container";
 import ReceiveIov from "~/routes/receiveIov/container";
 import ReceiveExternal from "~/routes/receiveNonIov/container";
-import RecoveryPhrase from "~/routes/recoveryPhrase/container";
 import SecurityCenter from "~/routes/securityCenter/container";
+import SecurityPhrase from "~/routes/securityPhrase/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 
@@ -27,7 +27,7 @@ export const SECURITY_CENTER_ROUTE = "/security-center";
 export const ADVANCED_SECURITY_ROUTE = "/advanced-security";
 export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
-export const RECOVERY_PHRASE_ROUTE = "/recovery-phrase";
+export const SECURITY_PHRASE_ROUTE = "/security-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
 export const SEND_PAYMENT = "/send-payment";
@@ -55,7 +55,7 @@ export const MainRouter = () => (
       />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
-      <Route path={RECOVERY_PHRASE_ROUTE} component={RecoveryPhrase} />
+      <Route path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
       <Route path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
     </RequireLogin>
   </Switch>
