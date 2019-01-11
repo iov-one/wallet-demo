@@ -24,7 +24,7 @@ export const loginAccount = async (
     return;
   }
 
-  const hasName = account.name !== undefined;
+  const hasName = mainAccount && mainAccount.username !== undefined;
   if (hasName) {
     history.push(BALANCE_ROUTE);
 
