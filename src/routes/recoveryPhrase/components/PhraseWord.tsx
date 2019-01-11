@@ -16,12 +16,11 @@ const styles = createStyles({
     border: `1px solid ${border}`,
     boxShadow: "0 0 14px 0 #edeff4",
     boxSizing: "border-box",
-    marginLeft: md,
   },
 });
 
 const PhraseWord = ({ word, classes }: Props) => (
-  <Block padding="md" margin="lg">
+  <Block padding="lg" margin="lg">
     <Block className={classes.phrase}>
       <Typography variant="h6" color="textPrimary">
         {word}
