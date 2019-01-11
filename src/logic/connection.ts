@@ -1,6 +1,8 @@
-import { BcpConnection, ChainConnector } from "@iov/bcp-types";
-import { bnsConnector } from "@iov/bns";
+import { BcpConnection, BcpTransactionState, ChainConnector } from "@iov/bcp-types";
+import { BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
+
+import { getMainIdentity, getMainKeyring } from "./profile";
 // import { UserProfile } from "@iov/keycontrol";
 
 /**** this may make it into iov-core *******/
@@ -41,4 +43,39 @@ export async function addBlockchain(
   const connector = specToConnector(blockchain);
   const { connection } = await writer.addChain(connector);
   return connection;
+}
+
+export async function checkBnsBlockchainNft(
+  writer: MultiChainSigner,
+  blockchain: BlockchainSpec,
+  chainId: ChainId
+): Promise<void> {
+  const connection = await BnsConnection.establish(blockchain.bootstrapNodes[0]);
+  const result = await connection.getBlockchains({chainId: chainId});
+  if (result.length === 0) {
+    const registryChainId = await connection.chainId();
+
+    // Register blockchain
+    const walletId = getMainKeyring(writer.profile);
+    const signer = getMainIdentity(writer.profile);
+
+    const blockchainRegistration: RegisterBlockchainTx = {
+      kind: "bns/register_blockchain",
+      chainId: registryChainId,
+      signer: signer.pubkey,
+      chain: {
+        chainId: chainId,
+        production: false,
+        enabled: true,
+        name: "Wonderland",
+        networkId: "7rg047g4h",
+      },
+      codecName: "wonderland_rules",
+      codecConfig: `{ "any" : [ "json", "content" ] }`,
+    };
+    {
+      const response = await writer.signAndPost(blockchainRegistration, walletId);
+      await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+    } 
+  }
 }

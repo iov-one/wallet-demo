@@ -5,7 +5,7 @@ import { sleep } from "../utils/timer";
 
 import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { compareAmounts } from "./balances";
-import { addBlockchain } from "./connection";
+import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
@@ -101,6 +101,7 @@ describe("setName", () => {
       const testSpecData = await testSpec();
       const reader = await addBlockchain(writer, testSpecData);
       const chainId = reader.chainId();
+      await checkBnsBlockchainNft(writer, testSpecData, chainId);
 
       const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpecData);
