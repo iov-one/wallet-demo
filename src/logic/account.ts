@@ -15,7 +15,7 @@ import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
-import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "~/reducers/blockchain";
+import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {

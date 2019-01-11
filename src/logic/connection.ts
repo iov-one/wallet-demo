@@ -4,8 +4,6 @@ import { ChainId, MultiChainSigner } from "@iov/core";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
-/**** this may make it into iov-core *******/
-
 export enum CodecType {
   Bns = "bns",
   // Lisk = "lisk",
@@ -32,8 +30,6 @@ function specToConnector(spec: BlockchainSpec): ChainConnector {
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
 }
-
-/******* end iov-core proposal ********/
 
 export async function addBlockchain(
   writer: MultiChainSigner,

@@ -1,6 +1,6 @@
 import { ChainId } from "@iov/base-types";
 import { Address, TxReadCodec } from "@iov/bcp-types";
-import { bnsCodec, BnsConnection } from "@iov/bns";
+import { bnsCodec, BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";
 
@@ -30,4 +30,21 @@ export async function resolveAddress(
   }
 
   return maybeAddress as Address;
+}
+
+export async function getUsernameNftByChainAddress(
+  connection: BnsConnection,
+  chain: ChainId,
+  address: Address,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ chain, address });
+  return usernames[0];
+}
+
+export async function getUsernameNftByUsername(
+  connection: BnsConnection,
+  username: string,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ username });
+  return usernames[0];
 }

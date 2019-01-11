@@ -13,7 +13,7 @@ import {
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { getUsernameNftByUsername } from "~/reducers/blockchain";
+import { getUsernameNftByUsername } from "~/logic";
 import { md } from "~/theme/variables";
 
 export const USERNAME_FIELD = "username";

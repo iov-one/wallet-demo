@@ -1,9 +1,15 @@
-import { Address, BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
-import { BnsConnection, BnsUsernameNft } from "@iov/bns";
+import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
-import { addBlockchain, getAccount, Unsubscriber, watchAccount } from "../../logic";
+import {
+  addBlockchain,
+  getAccount,
+  getUsernameNftByChainAddress,
+  getUsernameNftByUsername,
+  Unsubscriber,
+  watchAccount,
+} from "~/logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
 
 export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
@@ -76,29 +82,12 @@ function watchAccountWithChain(
 export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
 // TODO: add unwatch to stop it
 
-export async function getUsernameNftByUsername(
-  connection: BnsConnection,
-  username: string,
-): Promise<BnsUsernameNft | undefined> {
-  const usernames = await connection.getUsernames({ username });
-  return usernames[0];
-}
-
 export const getUsernameNftByUsernameAsyncAction = createPromiseAction(
   "GET_USERNAME",
   "GET_USERNAME_PENDING",
   "GET_USERNAME_FULFILLED",
   "GET_USERNAME_REJECTED",
 )(getUsernameNftByUsername);
-
-export async function getUsernameNftByChainAddress(
-  connection: BnsConnection,
-  chain: ChainId,
-  address: Address,
-): Promise<BnsUsernameNft | undefined> {
-  const usernames = await connection.getUsernames({ chain, address });
-  return usernames[0];
-}
 
 export const getUsernameNftByChainAddressAsyncAction = createPromiseAction(
   "GET_USERNAME_BY_ADDRESS",
