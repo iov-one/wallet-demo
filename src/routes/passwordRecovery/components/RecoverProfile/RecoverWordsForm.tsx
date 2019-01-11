@@ -6,6 +6,7 @@ import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 
 export const WORD_NUM = "word_num_";
 
@@ -20,23 +21,27 @@ export default () => (
         const fieldName = WORD_NUM + (idx < 10 ? "0" + idx : idx);
 
         return (
-          <GridItem xs={6} lg={4} key={idx}>
-            <Block padding="xxl" margin="xxl">
-              <Block margin="sm">
-                <Typography variant="subtitle2" color="textPrimary">
-                  {title}
-                </Typography>
-              </Block>
-              <Field
-                variant="outlined"
-                name={fieldName}
-                fullWidth
-                component={TextField}
-                validate={required}
-                placeholder={title}
-              />
-            </Block>
-          </GridItem>
+          <MatchMediaContext.Consumer>
+            {phone => (
+              <GridItem xs={6} lg={4} key={idx}>
+                <Block padding={phone ? "lg" : "xxl"} margin="xxl">
+                  <Block margin="sm">
+                    <Typography variant="subtitle2" color="textPrimary">
+                      {title}
+                    </Typography>
+                  </Block>
+                  <Field
+                    variant="outlined"
+                    name={fieldName}
+                    fullWidth
+                    component={TextField}
+                    validate={required}
+                    placeholder={title}
+                  />
+                </Block>
+              </GridItem>
+            )}
+          </MatchMediaContext.Consumer>
         );
       })}
     </Grid>
