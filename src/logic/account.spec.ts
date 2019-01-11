@@ -4,7 +4,7 @@ import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
-import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import { getAccount, getAddressByName, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
@@ -100,9 +100,9 @@ describe("setName", () => {
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const reader = await addBlockchain(writer, testSpecData);
+      const reader = await addBlockchain(writer, testSpecData) as BnsConnection;
       const chainId = reader.chainId();
-      await checkBnsBlockchainNft(reader as BnsConnection, writer, chainId, "bns");
+      await checkBnsBlockchainNft(reader, writer, chainId, "bns");
 
       const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpecData);
@@ -138,9 +138,14 @@ describe("setName", () => {
         const after = await getAccount(reader, rcpt);
         expect(after).toBeTruthy();
 
-        // TODO: this should fail... need to add username check
-        expect(after!.name).toEqual(name);
+        // no more name, using username
+        expect(after!.name).toBeUndefined();
         expect(after!.balance.length).toEqual(1);
+
+        // make sure we have properly registered on this chain
+        const addr = await getAddressByName(reader, name);
+        expect(addr).toBeDefined();
+        expect(addr).toEqual(rcptAddr);
       } finally {
         reader.disconnect();
         rcptReader.disconnect();
