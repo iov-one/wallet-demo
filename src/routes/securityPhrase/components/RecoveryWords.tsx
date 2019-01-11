@@ -1,13 +1,15 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import selectors, { SelectorProps } from "../container/selector";
 import PhraseWord from "./PhraseWord";
 import ProfileNotFound from "./ProfileNotFound";
 
-const RecoveryWords = ({ mnemonic }: SelectorProps) => {
+interface Props {
+  readonly mnemonic: string | undefined;
+}
+
+export const RecoveryWords = ({ mnemonic }: Props) => {
   const words = mnemonic ? mnemonic.split(" ") : undefined;
 
   return (
@@ -22,7 +24,3 @@ const RecoveryWords = ({ mnemonic }: SelectorProps) => {
     </MatchMediaContext.Consumer>
   );
 };
-
-const RecoveryWordsConnected = connect(selectors)(RecoveryWords);
-
-export default () => <RecoveryWordsConnected />;

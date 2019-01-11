@@ -11,7 +11,6 @@ interface Props extends WithStyles<typeof styles> {
 const styles = createStyles({
   phrase: {
     backgroundColor: background,
-    padding: `${sm} ${md}`,
     borderRadius: 2,
     border: `1px solid ${border}`,
     boxShadow: "0 0 14px 0 #edeff4",
@@ -21,10 +20,12 @@ const styles = createStyles({
 
 const PhraseWord = ({ word, classes }: Props) => (
   <Block padding="lg" margin="lg">
-    <Block className={classes.phrase}>
-      <Typography variant="h6" color="textPrimary">
-        {word}
-      </Typography>
+    <Block padding="md" className={classes.phrase}>
+      <Block margin="sm" />
+        <Typography variant="h6" color="textPrimary">
+          {word}
+        </Typography>
+      <Block margin="sm" />
     </Block>
   </Block>
 );
