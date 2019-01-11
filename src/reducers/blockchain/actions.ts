@@ -76,7 +76,7 @@ function watchAccountWithChain(
 export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
 // TODO: add unwatch to stop it
 
-async function getUsernameNftByUsername(
+export async function getUsernameNftByUsername(
   connection: BnsConnection,
   username: string,
 ): Promise<BnsUsernameNft | undefined> {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BcpConnection } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 
 import { isEmpty } from "lodash";
 
@@ -12,7 +12,7 @@ import { Paper } from "../../subComponents/page";
 import { resolveAddress } from "../../../../src/logic";
 
 interface AddressInputProps {
-  readonly connection: BcpConnection;
+  readonly connection: BnsConnection | undefined;
   readonly onNext: (address: string) => any;
 }
 
@@ -53,7 +53,17 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     this.setState({
       address,
     });
+
+    if (!connection) {
+      this.setState({
+        errorMessage: "BNS connection not avaialble",
+      });
+
+      return;
+    }
+
     try {
+      console.log(`Calling resolve Address -> connection[${connection}] address[${address}]`)
       await resolveAddress(connection, address);
       this.setState({
         errorMessage: "",

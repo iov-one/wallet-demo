@@ -86,13 +86,23 @@ export const requireActiveIdentity = (state: RootState) => {
   }
   return ident;
 };
-export const requireConnection = (state: RootState, chainId: ChainId) => {
+
+const requireConnection = (state: RootState, chainId: ChainId) => {
   const conn = getConnections(state)[chainId];
   if (!conn) {
     throw new Error(`No connection for chain: ${chainId}`);
   }
   return conn;
 };
+
+export const requireBnsConnection = (state: RootState, chainId: ChainId): BnsConnection => {
+  const conn = requireConnection(state, chainId);
+  if (!conn) {
+    throw new Error(`No BNS connection for chain: ${chainId}`);
+  }
+  return conn as BnsConnection;
+};
+
 export const requireSigner = (state: RootState) => {
   const signer = getSigner(state);
   if (!signer) {

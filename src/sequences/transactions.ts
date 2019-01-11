@@ -11,7 +11,7 @@ import {
   getBnsChainId,
   getBnsConnection,
   getSigner,
-  requireConnection,
+  requireBnsConnection,
 } from "~/selectors";
 import {
   addPendingTransactionAction,
@@ -46,7 +46,7 @@ export const sendTransactionSequence = (
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
   try {
     const signer = ensure(getSigner(getState()));
-    const conn = requireConnection(getState(), chainId);
+    const conn = requireBnsConnection(getState(), chainId);
     const address = await resolveAddress(conn, iovAddress);
     dispatch(
       addPendingTransactionAction({

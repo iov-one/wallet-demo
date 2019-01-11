@@ -10,11 +10,12 @@ import {
   SendTransaction,
   TxCodec,
 } from "@iov/bcp-types";
-import { bnsCodec, RegisterUsernameTx } from "@iov/bns";
+import { bnsCodec, BnsConnection, RegisterUsernameTx } from "@iov/bns";
+import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
-import { ChainAddressPair } from "~/reducers/blockchain";
+import { getUsernameNftByUsername } from "~/reducers/blockchain";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
@@ -61,27 +62,19 @@ export async function getNameByAddress(
   return undefined;
 }
 
-// looks up account for a given name (or undefined)
-// the name should not have the "*iov" suffix
-export async function getAccountByName(
-  connection: BcpConnection,
-  name: string,
-): Promise<BcpAccount | undefined> {
-  const result = await connection.getAccount({ name });
-  if (result.data && result.data.length > 0) {
-    return result.data[0];
-  }
-  return undefined;
-}
-
 // getAddressByName returns the address associated with the name, or undefined if not registered
 // the name should not have the "*iov" suffix
 export async function getAddressByName(
-  connection: BcpConnection,
+  connection: BnsConnection,
   name: string,
 ): Promise<Address | undefined> {
-  const acct = await getAccountByName(connection, name);
-  return acct ? acct.address : undefined;
+  // For some reason next line breaks compilation
+  // const acct = await getUsernameNftByUsername(connection, name);
+  const usernames = await connection.getUsernames({ username: name });
+  const username = usernames[0]
+  const address = username ? username.addresses[0].address : undefined;
+
+  return address;
 }
 
 export interface Unsubscriber {

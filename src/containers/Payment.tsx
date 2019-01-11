@@ -7,15 +7,15 @@ import PageMenu from "~/components/pages/PageMenu";
 
 import queryString from "query-string";
 
-import { BcpConnection } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 
 import { AddressInputForm } from "../components/templates/forms";
 
-import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
+import { ChainAccount, getBnsConnection, getMyAccounts } from "../selectors";
 
 interface PaymentProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
-  readonly connections: { readonly [chainId: string]: BcpConnection };
+  readonly connection: BnsConnection | undefined;
   readonly identity: any;
 }
 
@@ -49,14 +49,12 @@ class Payment extends React.Component<PaymentProps> {
   };
 
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
+    const { accounts, connection } = this.props;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
-    const { connections } = this.props;
-    const chainIds = Object.keys(connections);
-    const connection = connections[chainIds[0]];
+
     return (
       <PageMenu phoneFullWidth>
         <Layout>
@@ -71,7 +69,7 @@ class Payment extends React.Component<PaymentProps> {
 const mapStateToProps = (state: any, ownProps: PaymentProps): PaymentProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
-  connections: getConnections(state),
+  connection: getBnsConnection(state),
 });
 
 export const PaymentPage = withRouter(connect(mapStateToProps)(Payment));
