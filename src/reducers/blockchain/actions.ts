@@ -1,4 +1,5 @@
 import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
+import { bnsCodec } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
@@ -11,6 +12,7 @@ import {
   watchAccount,
 } from "~/logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
+import { AccountInfo } from "./state";
 
 export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
 
@@ -53,11 +55,17 @@ export interface BcpAccountWithChain {
 const getAccountWithChain = async (
   connection: BcpConnection,
   ident: PublicIdentity,
-  codec?: TxCodec,
-): Promise<BcpAccountWithChain | undefined> => {
+  codec: TxCodec = bnsCodec,
+): Promise<AccountInfo> => {
   const account = await getAccount(connection, ident, codec);
   const chainId = connection.chainId();
-  return account === undefined ? undefined : { account, chainId };
+  const address = codec.keyToAddress(ident.pubkey);
+  return {
+    chainId,
+    address,
+    account,
+    // username always unset here... add later
+  };
 };
 
 export const getAccountAsyncAction = createPromiseAction(

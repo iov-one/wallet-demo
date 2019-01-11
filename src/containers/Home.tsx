@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { ChainId, MultiChainSigner, TokenTicker, UserProfile } from "@iov/core";
 
-import { BcpAccountWithChain } from "~/reducers/blockchain";
+import { AccountInfo } from "~/reducers/blockchain";
 import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
@@ -70,24 +70,21 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       console.log(err);
     }
   }
-  public async checkAndDrinkFaucet(accounts: ReadonlyArray<BcpAccountWithChain | undefined>): Promise<void> {
+  public async checkAndDrinkFaucet(accounts: ReadonlyArray<AccountInfo>): Promise<void> {
     const { drinkFaucet, history } = this.props;
     const acct = accounts[0];
-    const account = acct ? acct.account : undefined;
-    if (!account) {
+    if (!acct || !acct.account) {
       const config = await loadConfig();
       await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
       this.setState({
         booted: true,
       });
+    } else if (!acct.username) {
+      this.setState({
+        booted: true,
+      });
     } else {
-      if (!account.name) {
-        this.setState({
-          booted: true,
-        });
-      } else {
-        history.push("/balance/");
-      }
+      history.push("/balance/");
     }
   }
   public async createAccount(): Promise<void> {

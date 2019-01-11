@@ -5,27 +5,28 @@ import { BnsConnection } from "@iov/bns";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
-import { addConfirmedTransaction } from "~/store/notifications/actions";
-
 import {
   BlockchainSpec,
   cleanMnemonic,
   keyToAddress,
   parseConfirmedTransaction,
   resetProfile,
-} from "../logic";
-import { RootState } from "../reducers";
+} from "~/logic";
+import { RootState } from "~/reducers";
 import {
+  AccountInfo,
   addBlockchainAsyncAction,
-  BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
   getTickersAsyncAction,
+  getUsernameNftByChainAddressAsyncAction,
   setBnsChainId,
-} from "../reducers/blockchain";
-import { fixTypes } from "../reducers/helpers";
-import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
-import { getConnections, getProfileDB } from "../selectors";
+  updateUsernameNft,
+} from "~/reducers/blockchain";
+import { fixTypes } from "~/reducers/helpers";
+import { createProfileAsyncAction, getIdentityAction } from "~/reducers/profile";
+import { getConnections, getProfileDB } from "~/selectors";
+import { addConfirmedTransaction } from "~/store/notifications/actions";
 
 import { RootThunkDispatch } from "./types";
 
@@ -42,7 +43,7 @@ export const resetSequence = (password: string, mnemonic?: string) => async (
 
 export interface BootResult {
   readonly signer: MultiChainSigner;
-  readonly accounts: ReadonlyArray<BcpAccountWithChain | undefined>;
+  readonly accounts: ReadonlyArray<AccountInfo>;
 }
 
 // boot sequence initializes all objects
@@ -76,7 +77,7 @@ export const bootSequence = (
   const bnsConn = value as BnsConnection;
   dispatch(setBnsChainId(bnsConn.chainId()));
   // and set it as first account/tickers
-  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [
+  let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
     watchAccountAndTransactions(dispatch, bnsConn, bnsConn, identity),
   ];
   let initTickers: ReadonlyArray<Promise<any>> = [getTickers(dispatch, bnsConn)];
@@ -91,7 +92,20 @@ export const bootSequence = (
 
   // wait for all accounts and tickers to initialize
   await Promise.all(initTickers);
-  const accounts = await Promise.all(initAccounts);
+  let accounts: ReadonlyArray<AccountInfo> = await Promise.all(initAccounts);
+  const bnsAccount = accounts[0];
+
+  if (bnsAccount) {
+    // just lookup first bns account, that should match all....
+    const { value: usernameNft } = await fixTypes(
+      dispatch(
+        getUsernameNftByChainAddressAsyncAction.start(bnsConn, bnsAccount.chainId, bnsAccount.address),
+      ),
+    );
+    if (usernameNft) {
+      accounts = updateUsernameNft(accounts, usernameNft);
+    }
+  }
 
   // return initial account state as well as signer
   return { accounts, signer };
@@ -107,7 +121,7 @@ async function watchAccountAndTransactions(
   bnsConn: BnsConnection,
   conn: BcpConnection,
   identity: PublicIdentity,
-): Promise<BcpAccountWithChain | undefined> {
+): Promise<AccountInfo> {
   // request the current account and return a promise resolved when it is loaded
   const accountAction = getAccountAsyncAction.start(conn, identity, undefined);
   // don't wait on the dispatch here, we return the result of the dispatch to await on by client

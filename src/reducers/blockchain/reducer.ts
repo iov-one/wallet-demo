@@ -41,8 +41,7 @@ export function blockchainReducer(
       if (!action.payload) {
         return state;
       }
-      const { account, chainId } = action.payload;
-      const { address } = account;
+      const { account, address, chainId } = action.payload;
 
       // read existing username if it exists
       const current = getAccountByChainAndAddress(state.accountInfo, chainId, address);
