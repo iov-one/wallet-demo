@@ -4,7 +4,7 @@ import PageColumn from "~/components/pages/PageColumn";
 import LeftSidebar from "../LeftSidebar";
 import StepsCount from "../StepsCount";
 import NoticeBox from "./NoticeBox";
-import RecoverWordsForm, { WORD_NUM } from "./RecoverWordsForm";
+import RecoverWordsForm from "./RecoverWordsForm";
 
 const StepsSection = () => <StepsCount stepNum={1} />;
 
@@ -25,15 +25,9 @@ export default class Layout extends React.Component<Props> {
    */
   public readonly onRecoverProfile = (values: object): void => {
     const typedValues = values as FormType;
-    const words = new Array<string>(12);
-
-    Object.getOwnPropertyNames(typedValues).forEach((property: string) => {
-      const valueIdx = parseInt(property.substring(WORD_NUM.length), 10);
-      if (!isNaN(valueIdx)) {
-        // tslint:disable-next-line:no-object-mutation
-        words[valueIdx] = typedValues[property];
-      }
-    });
+    const words = Object.getOwnPropertyNames(typedValues)
+      .sort()
+      .map((fieldName: string) => typedValues[fieldName]);
 
     this.props.onSubmit(words.join(" "));
   };

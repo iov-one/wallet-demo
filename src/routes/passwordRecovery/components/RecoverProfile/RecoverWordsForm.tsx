@@ -17,10 +17,10 @@ export default () => (
     <Grid>
       {[...Array(12)].map((_: number, idx: number) => {
         const title = titleFor(idx);
-        const fieldName = WORD_NUM + idx;
+        const fieldName = WORD_NUM + (idx < 10 ? "0" + idx : idx);
 
         return (
-          <GridItem xs={6} lg={4}>
+          <GridItem xs={6} lg={4} key={idx}>
             <Block padding="xxl" margin="xxl">
               <Block margin="sm">
                 <Typography variant="subtitle2" color="textPrimary">
