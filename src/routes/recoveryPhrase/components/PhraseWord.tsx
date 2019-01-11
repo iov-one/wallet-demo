@@ -16,6 +16,7 @@ const styles = createStyles({
     border: `1px solid ${border}`,
     boxShadow: "0 0 14px 0 #edeff4",
     boxSizing: "border-box",
+    marginLeft: md,
   },
 });
 
