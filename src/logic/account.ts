@@ -15,6 +15,7 @@ import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
+import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "~/reducers/blockchain";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
@@ -51,14 +52,12 @@ export async function getAccountByAddress(
 // looks up name for a given address (or undefined)
 // this will need to use a much different algorithm when we update to BNS, which is why it is a separate function
 export async function getNameByAddress(
-  connection: BcpConnection,
+  connection: BnsConnection,
+  chainId: ChainId,
   address: Address,
 ): Promise<string | undefined> {
-  const account = await getAccountByAddress(connection, address);
-  if (account && account.name) {
-    return `${account.name}*iov`;
-  }
-  return undefined;
+  const nft = await getUsernameNftByChainAddress(connection, chainId, address);
+  return nft ? nft.id : undefined;
 }
 
 // getAddressByName returns the address associated with the name, or undefined if not registered
@@ -66,14 +65,11 @@ export async function getNameByAddress(
 export async function getAddressByName(
   connection: BnsConnection,
   name: string,
+  chainId: ChainId,
 ): Promise<Address | undefined> {
-  // For some reason next line breaks compilation
-  // const acct = await getUsernameNftByUsername(connection, name);
-  const usernames = await connection.getUsernames({ username: name });
-  const username = usernames[0];
-  const address = username ? username.addresses[0].address : undefined;
-
-  return address;
+  const nft = await getUsernameNftByUsername(connection, name);
+  const match = nft ? nft.addresses.find(addr => addr.chainId === chainId) : undefined;
+  return match ? match.address : undefined;
 }
 
 export interface Unsubscriber {
