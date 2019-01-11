@@ -1,7 +1,7 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
-import LeftSidebar from "~/components/layout/LeftSidebar";
+import Col from "~/components/layout/Col";
 import RoundTextBox from "~/components/layout/RoundTextBox";
 import Typography from "~/components/layout/Typography";
 
@@ -20,7 +20,7 @@ const styles = createStyles({
 });
 
 const ExplanationMenu = ({ classes }: Props) => (
-  <LeftSidebar align="center">
+  <Col align="center">
     <Block margin="xxl" />
     <Block margin="xl" />
     <Block margin="xxl" className={classes.branding}>
@@ -55,7 +55,7 @@ const ExplanationMenu = ({ classes }: Props) => (
       </Typography>
     </Block>
     <RoundTextBox text="John*iov" />
-  </LeftSidebar>
+  </Col>
 );
 
 export default withStyles(styles)(ExplanationMenu);

@@ -5,6 +5,7 @@ import CircleImg from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
 import bulb from "../../assets/bulb.svg";
+import LeftColumn from "../LeftColumn";
 
 const styles = createStyles({
   noticeBox: {
@@ -28,22 +29,24 @@ const styles = createStyles({
 
 const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
   return (
-    <Block className={classes.noticeBox}>
-      <Block className={classes.header}>
-        <Block className={classes.bulbIcon}>
-          <CircleImg dia={50} icon={bulb} alt="sidebar bulb" circleColor="#ffe152" />
+    <LeftColumn>
+      <Block className={classes.noticeBox}>
+        <Block className={classes.header}>
+          <Block className={classes.bulbIcon}>
+            <CircleImg dia={50} icon={bulb} alt="sidebar bulb" circleColor="#ffe152" />
+          </Block>
+          <Typography variant="h6" weight="light">
+            Important
+          </Typography>
         </Block>
-        <Typography variant="h6" weight="light">
-          Important
+        <Block margin="md" />
+        <Typography variant="subtitle1">
+          To recover the password, you must enter the twelve backup words in the correct order that you have
+          written down. Note if you have lost or forgotten your twelve backup words you will be unable to
+          recover your account.
         </Typography>
       </Block>
-      <Block margin="md" />
-      <Typography variant="subtitle1">
-        To recover the password, you must enter the twelve backup words in the correct order that you have
-        written down. Note if you have lost or forgotten your twelve backup words you will be unable to
-        recover your account.
-      </Typography>
-    </Block>
+    </LeftColumn>
   );
 };
 export default withStyles(styles)(NoticeBox);

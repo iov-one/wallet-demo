@@ -1,17 +1,12 @@
 import * as React from "react";
 import PageColumn from "~/components/pages/PageColumn";
-import LeftSidebarWrapper from "../LeftSidebarWrapper";
 import StepsCount from "../StepsCount";
 import ReadyMsg from "./ReadyMsg";
 import { UpdatePassForm } from "./UpdatePassForm";
 
 const StepsSection = () => <StepsCount stepNum={2} />;
 
-const LeftSidebarSection = () => (
-  <LeftSidebarWrapper>
-    <ReadyMsg />
-  </LeftSidebarWrapper>
-);
+const ReadyMsgSection = () => <ReadyMsg />;
 
 interface Props {
   readonly validation: (values: any) => object | Promise<object>;
@@ -21,7 +16,7 @@ interface Props {
 export const UpdatePass = ({ validation, onSubmit }: Props): JSX.Element => (
   <PageColumn
     icon="black"
-    leftMenu={LeftSidebarSection}
+    leftMenu={ReadyMsgSection}
     onSubmit={onSubmit}
     primaryTitle="Set up"
     secondaryTitle="a new password"

@@ -5,7 +5,7 @@ import CircleImg from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
 import bulb from "../assets/bulb.svg";
-import NoticeSidebar from "./NoticeSidebar";
+import NoticeColumn from "./NoticeColumn";
 
 const styles = createStyles({
   noticeBox: {
@@ -29,7 +29,7 @@ const styles = createStyles({
 
 const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
   return (
-    <NoticeSidebar>
+    <NoticeColumn>
       <Block className={classes.noticeBox}>
         <Block className={classes.header}>
           <Block className={classes.bulbIcon}>
@@ -46,7 +46,7 @@ const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
           phrase can access your funds.
         </Typography>
       </Block>
-    </NoticeSidebar>
+    </NoticeColumn>
   );
 };
 export default withStyles(styles)(NoticeBox);

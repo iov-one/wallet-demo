@@ -1,19 +1,19 @@
 import * as React from "react";
-import LeftSidebar from "~/components/layout/LeftSidebar";
+import Col from "~/components/layout/Col";
 import Spacer from "~/components/layout/Spacer";
 
 interface Props {
   readonly children: React.ReactNode;
 }
 
-const NoticeSidebar = ({ children }: Props) => {
+const LeftColumn = ({ children }: Props) => {
   return (
-    <LeftSidebar>
+    <Col>
       <Spacer order={1} />
       {children}
       <Spacer order={1} />
-    </LeftSidebar>
+    </Col>
   );
 };
 
-export default NoticeSidebar;
+export default LeftColumn;
