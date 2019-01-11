@@ -21,9 +21,10 @@ export default () => (
         const fieldName = WORD_NUM + (idx < 10 ? "0" + idx : idx);
 
         return (
-          <MatchMediaContext.Consumer>
-            {phone => (
-              <GridItem xs={6} lg={4} key={idx}>
+
+          <GridItem xs={6} lg={4} key={idx}>
+            <MatchMediaContext.Consumer>
+              {phone => (
                 <Block padding={phone ? "lg" : "xxl"} margin="xxl">
                   <Block margin="sm">
                     <Typography variant="subtitle2" color="textPrimary">
@@ -39,9 +40,9 @@ export default () => (
                     placeholder={title}
                   />
                 </Block>
-              </GridItem>
-            )}
-          </MatchMediaContext.Consumer>
+              )}
+            </MatchMediaContext.Consumer>
+          </GridItem>
         );
       })}
     </Grid>
