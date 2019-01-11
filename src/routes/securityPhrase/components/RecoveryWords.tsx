@@ -21,7 +21,7 @@ const RecoveryWords = ({ mnemonic }: SelectorProps) => {
       )}
     </MatchMediaContext.Consumer>
   );
-}
+};
 
 const RecoveryWordsConnected = connect(selectors)(RecoveryWords);
 

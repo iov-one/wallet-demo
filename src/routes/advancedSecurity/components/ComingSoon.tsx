@@ -14,7 +14,7 @@ const styles = createStyles({
     boxSizing: "border-box",
   },
 });
-const ComingSoon = ({classes}: WithStyles<typeof styles>) => (
+const ComingSoon = ({ classes }: WithStyles<typeof styles>) => (
   <React.Fragment>
     <Block margin="lg" maxWidth={450} className={classes.content}>
       <Typography align="center" weight="light" variant="h6">

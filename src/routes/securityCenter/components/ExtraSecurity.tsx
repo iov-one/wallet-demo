@@ -4,7 +4,6 @@ import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { ADVANCED_SECURITY_ROUTE } from "~/routes";
 
-
 const ExtraSecurity = (): JSX.Element => (
   <React.Fragment>
     <Block margin="xs">
