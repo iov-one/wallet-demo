@@ -23,7 +23,7 @@ describe("boot sequence", () => {
       const { signer, accounts } = (res as any) as BootResult;
       expect(signer.chainIds().length).toEqual(1);
       expect(accounts.length).toEqual(1);
-      expect(accounts[0]).toBeUndefined();
+      expect(accounts[0].account).toBeUndefined();
 
       // validate state properly initialized
       const state = store.getState();
