@@ -22,10 +22,10 @@ export async function resolveAddress(
 
     return address;
   }
-  
+
   if (!codec.isValidAddress(maybeAddress)) {
     throw new Error(`Invalid address for chain ${connection.chainId()}: ${maybeAddress}`);
   }
-  
+
   return maybeAddress as Address;
 }

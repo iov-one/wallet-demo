@@ -15,7 +15,6 @@ import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
-import { getUsernameNftByUsername } from "~/reducers/blockchain";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
@@ -71,7 +70,7 @@ export async function getAddressByName(
   // For some reason next line breaks compilation
   // const acct = await getUsernameNftByUsername(connection, name);
   const usernames = await connection.getUsernames({ username: name });
-  const username = usernames[0]
+  const username = usernames[0];
   const address = username ? username.addresses[0].address : undefined;
 
   return address;

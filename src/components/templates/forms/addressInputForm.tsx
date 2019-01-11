@@ -63,7 +63,6 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     }
 
     try {
-      console.log(`Calling resolve Address -> connection[${connection}] address[${address}]`)
       await resolveAddress(connection, address);
       this.setState({
         errorMessage: "",
