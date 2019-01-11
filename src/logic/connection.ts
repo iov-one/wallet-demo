@@ -48,10 +48,10 @@ export async function addBlockchain(
 export async function checkBnsBlockchainNft(
   writer: MultiChainSigner,
   blockchain: BlockchainSpec,
-  chainId: ChainId
+  chainId: ChainId,
 ): Promise<void> {
   const connection = await BnsConnection.establish(blockchain.bootstrapNodes[0]);
-  const result = await connection.getBlockchains({chainId: chainId});
+  const result = await connection.getBlockchains({ chainId: chainId });
   if (result.length === 0) {
     const registryChainId = await connection.chainId();
 
@@ -76,6 +76,6 @@ export async function checkBnsBlockchainNft(
     {
       const response = await writer.signAndPost(blockchainRegistration, walletId);
       await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
-    } 
+    }
   }
 }
