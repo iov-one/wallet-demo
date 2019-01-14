@@ -1,7 +1,7 @@
 import * as React from "react";
 import { CHANGE_PASSWORD_ROUTE, SECURITY_PHRASE_ROUTE } from "~/routes";
-import BPIcon from "../assets/backupPhrase.svg";
 import PswIcon from "../assets/password.svg";
+import BPIcon from "../assets/recoveryPhrase.svg";
 import ExtraSecurity from "./ExtraSecurity";
 import SecurityCard from "./ItemCard";
 import PageTitle from "./PageTitle";

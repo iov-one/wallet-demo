@@ -26,7 +26,7 @@ class RecoveryPhrase extends React.Component<SelectorProps> {
         onSubmit={this.onRedirect}
         primaryTitle="Write down"
         secondaryTitle="these words on a piece of paper"
-        subtitle="Do not store your backup phrase on your computer or anywhere online."
+        subtitle="Do not store your recovery phrase on your computer or anywhere online."
         renderHeader={HeaderMessage}
         formRender={RecoveryWordsRender}
         nextMsg="Done"

@@ -34,7 +34,7 @@ class PasswordRecovery extends React.Component<Props, State> {
         mnemonic,
       });
     } catch {
-      this.props.showToast("The backup phrase you entered is invalid", ToastVariant.ERROR);
+      this.props.showToast("The recovery phrase you entered is invalid", ToastVariant.ERROR);
     }
   };
 
