@@ -19,6 +19,7 @@ docker run --read-only \
   --env "FAUCET_CONCURRENCY=3" \
   --env "FAUCET_COIN_TYPE=1" \
   --env "FAUCET_MNEMONIC=degree tackle suggest window test behind mesh extra cover prepare oak script"  \
+  --env "FAUCET_PORT=8001" \
   -p 8001:8001 \
   --rm "iov1/iov-faucet:${FAUCET_VERSION}" \
   start bns "$BLOCKCHAIN_URL" \

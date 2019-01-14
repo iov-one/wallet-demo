@@ -19,6 +19,10 @@ export const testChains = async () => {
   const config = await loadConfig();
   return config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
 };
+export const testChainsFaucet = async () => {
+  const config = await loadConfig();
+  return config.chains.map(chain => chain.faucetSpec!);
+};
 
 export const skipTests = (envVar: string | undefined): boolean => !envVar;
 export const mayTestBns = skipTests(process.env.BNS_ENABLED) ? xit : it;
