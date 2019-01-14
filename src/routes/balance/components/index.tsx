@@ -78,6 +78,7 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceiveP
   const actionSpacer: Order = { xs: 4 };
   const info: Order = { xs: 2 };
   const grow: Order = { xs: 3 };
+  const hasTokens = tokens && tokens.length
 
   return (
     <React.Fragment>
@@ -102,15 +103,9 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceiveP
               {name ? name : "--"}
             </Typography>
             <Hairline margin="xl" />
-            {tokens && tokens.length ?
               <Typography variant="subtitle2" align="center">
-                Your currencies
+                {hasTokens ? "Your currencies" : "No funds available"}
               </Typography>
-              :
-              <Typography variant="subtitle2" align="center">
-                No funds available
-              </Typography>
-            }
             <Block margin="xl" />
             {tokens.map((token: BcpCoin) => (
               <Typography
