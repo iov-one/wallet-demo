@@ -15,11 +15,11 @@ import {
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
+import { adminProfile, faucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
-  mayTest("random account should be empty", async () => {
+  mayTestBns("random account should be empty", async () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
@@ -32,7 +32,7 @@ describe("getAccount", () => {
     }
   });
 
-  mayTest("faucet account should have tokens", async () => {
+  mayTestBns("faucet account should have tokens", async () => {
     const profile = await adminProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
@@ -53,7 +53,7 @@ describe("getAccount", () => {
 });
 
 describe("sendTransaction", () => {
-  mayTest(
+  mayTestBns(
     "moves token to new account",
     async () => {
       const faucet = await adminProfile();
@@ -97,7 +97,7 @@ describe("sendTransaction", () => {
 });
 
 describe("setName", () => {
-  mayTest(
+  mayTestBns(
     "sets a name on account with funds",
     async () => {
       const faucet = await adminProfile();
@@ -160,7 +160,7 @@ describe("setName", () => {
   ); // multiple transactions, so multiple blocks... let's give it some time
 
   describe("watchAccount", () => {
-    mayTest(
+    mayTestBns(
       "updates on all changes",
       async () => {
         const faucet = await adminProfile();

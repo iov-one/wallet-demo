@@ -74,7 +74,7 @@ export function parseConfig(conf: any): Config {
   }
 
   parseChainConfig(conf.bns);
-  // conf.chains.map((chain: any) => parseChainConfig(chain));
+  conf.chains.map((chain: any) => parseChainConfig(chain));
   return conf;
 }
 

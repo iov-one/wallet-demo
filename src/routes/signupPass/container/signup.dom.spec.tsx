@@ -3,7 +3,7 @@ import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import { mayTest } from "~/logic/testhelpers";
+import { mayTestBns } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import Route, { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { shutdownSequence } from "~/sequences";
@@ -33,7 +33,7 @@ describe("DOM > Feature > Signup", () => {
   afterEach(() => {
     shutdownSequence(null, store.getState);
   });
-  mayTest("creates account after filling form", async () => {
+  mayTestBns("creates account after filling form", async () => {
     const SignUpDom = await travelToSignup(store);
 
     // Let's fill the form

@@ -1,11 +1,11 @@
-import { mayTest, randomString, testChains, testSpec } from "~/logic/testhelpers";
+import { mayTestBns, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { makeStore } from "~/store";
 
 import { BootResult, bootSequence } from "./boot";
 
 describe("boot sequence", () => {
-  mayTest(
+  mayTestBns(
     "initializes the chain",
     async () => {
       const store = makeStore();

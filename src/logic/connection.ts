@@ -6,6 +6,7 @@ import { getMainIdentity, getMainKeyring } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
+  Bov = "bov",
   // Lisk = "lisk",
 }
 
@@ -25,6 +26,7 @@ function specToConnector(spec: BlockchainSpec): ChainConnector {
 
   switch (spec.codecType) {
     case CodecType.Bns:
+    case CodecType.Bov:
       return { ...bnsConnector(uri), expectedChainId: spec.chainId };
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);

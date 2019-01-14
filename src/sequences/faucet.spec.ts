@@ -1,5 +1,5 @@
 import { compareAmounts } from "~/logic";
-import { faucetSpec, mayTest, randomString, testChains, testSpec } from "~/logic/testhelpers";
+import { faucetSpec, mayTestBns, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -11,7 +11,7 @@ import { bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
 
 describe("drinkFaucetSequence", () => {
-  mayTest(
+  mayTestBns(
     "gives a new account some tokens",
     async () => {
       const store = makeStore();

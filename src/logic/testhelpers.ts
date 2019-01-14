@@ -20,8 +20,10 @@ export const testChains = async () => {
   return config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
 };
 
-export const skipTests = (): boolean => !process.env.BNS_ENABLED;
-export const mayTest = skipTests() ? xit : it;
+export const skipTests = (envVar: string | undefined): boolean => !envVar;
+export const mayTestBns = skipTests(process.env.BNS_ENABLED) ? xit : it;
+export const mayTestFull =
+  skipTests(process.env.BNS_ENABLED) && skipTests(process.env.CHAINS_ENABLED) ? xit : it;
 
 // this is a pre-loaded account we can play with (separate from the faucet)
 const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";
