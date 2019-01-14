@@ -16,8 +16,8 @@ class RecoveryPhrase extends React.Component<SelectorProps> {
   };
 
   public render(): JSX.Element {
-    const { mnemonic } = this.props
-    const RecoveryWordsRender = () => <RecoveryWords mnemonic={mnemonic} />
+    const { mnemonic } = this.props;
+    const RecoveryWordsRender = () => <RecoveryWords mnemonic={mnemonic} />;
 
     return (
       <PageColumn
