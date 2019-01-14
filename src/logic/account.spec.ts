@@ -136,10 +136,8 @@ describe("setName", () => {
 
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
-        console.log("E");
         // TODO: right now this hangs forever as the transaction errors (issue #677 in iov-core)
         await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
-        console.log("F");
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt);

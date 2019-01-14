@@ -9,7 +9,7 @@ const ExplanationMenu = () => <ExplanationMenuComponent />;
 interface Props {
   readonly onSubmit: (values: object) => void;
   readonly onBack: () => void;
-  readonly connection: BnsConnection | undefined;
+  readonly connection: BnsConnection;
 }
 
 const CreateUsername = ({ connection, onSubmit, onBack }: Props) => (
