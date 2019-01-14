@@ -102,9 +102,15 @@ const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceiveP
               {name ? name : "--"}
             </Typography>
             <Hairline margin="xl" />
-            <Typography variant="subtitle2" align="center">
-              Your currencies
-            </Typography>
+            {tokens && tokens.length ?
+              <Typography variant="subtitle2" align="center">
+                Your currencies
+              </Typography>
+              :
+              <Typography variant="subtitle2" align="center">
+                No funds available
+              </Typography>
+            }
             <Block margin="xl" />
             {tokens.map((token: BcpCoin) => (
               <Typography
