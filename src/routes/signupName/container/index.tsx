@@ -57,18 +57,8 @@ class SignupName extends React.Component<Props> {
     }
   }
 
-  public readonly onBack = () => {
-    history.goBack();
-  };
-
   public render(): JSX.Element {
-    return (
-      <CreateUsername
-        connection={this.props.connection}
-        onBack={this.onBack}
-        onSubmit={this.onCreateUsername}
-      />
-    );
+    return <CreateUsername connection={this.props.connection} onSubmit={this.onCreateUsername} />;
   }
 }
 
