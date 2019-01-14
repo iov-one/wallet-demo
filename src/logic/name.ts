@@ -1,34 +1,50 @@
-import { Address, BcpConnection, TxReadCodec } from "@iov/bcp-types";
-import { bnsCodec } from "@iov/bns";
+import { ChainId } from "@iov/base-types";
+import { Address, TxReadCodec } from "@iov/bcp-types";
+import { bnsCodec, BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";
 
-const valueNameSuffix = "*iov";
-
-// this just checks for valid ending on the string
-export function isValueName(address: string): boolean {
-  return address.endsWith(valueNameSuffix);
+const iovNamespace = "*iov";
+export function isIovAddress(address: string): boolean {
+  return address.endsWith(iovNamespace);
 }
 
-// you can call resolve address on the result from the ui to get a
 export async function resolveAddress(
-  connection: BcpConnection,
+  connection: BnsConnection,
   maybeAddress: string,
+  chainId: ChainId,
   codec: TxReadCodec = bnsCodec,
 ): Promise<Address> {
-  if (isValueName(maybeAddress)) {
-    // we trim off the "*iov" suffix at the end to get the name to query
-    const name = maybeAddress.slice(0, -valueNameSuffix.length);
-    const address = await getAddressByName(connection, name);
+  if (isIovAddress(maybeAddress)) {
+    const username = maybeAddress.slice(0, -iovNamespace.length);
+    const address = await getAddressByName(connection, username, chainId);
     if (address === undefined) {
       throw new Error(`Value name ${maybeAddress} not registered`);
-    } else {
-      return address;
     }
-  } else {
-    if (!codec.isValidAddress(maybeAddress)) {
-      throw new Error(`Invalid address for chain ${connection.chainId()}: ${maybeAddress}`);
-    }
-    return maybeAddress as Address;
+
+    return address;
   }
+
+  if (!codec.isValidAddress(maybeAddress)) {
+    throw new Error(`Invalid address for chain ${connection.chainId()}: ${maybeAddress}`);
+  }
+
+  return maybeAddress as Address;
+}
+
+export async function getUsernameNftByChainAddress(
+  connection: BnsConnection,
+  chain: ChainId,
+  address: Address,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ chain, address });
+  return usernames[0];
+}
+
+export async function getUsernameNftByUsername(
+  connection: BnsConnection,
+  username: string,
+): Promise<BnsUsernameNft | undefined> {
+  const usernames = await connection.getUsernames({ username });
+  return usernames[0];
 }

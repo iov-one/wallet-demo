@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BcpConnection } from "@iov/bcp-types";
+import { ChainId } from "@iov/base-types";
+import { BnsConnection } from "@iov/bns";
 
 import { isEmpty } from "lodash";
 
@@ -12,7 +13,8 @@ import { Paper } from "../../subComponents/page";
 import { resolveAddress } from "../../../../src/logic";
 
 interface AddressInputProps {
-  readonly connection: BcpConnection;
+  readonly bnsId: ChainId;
+  readonly connection: BnsConnection;
   readonly onNext: (address: string) => any;
 }
 
@@ -47,14 +49,17 @@ export class AddressInputForm extends React.Component<AddressInputProps, Address
     };
   }
   public readonly handleInputChange = async (evt: React.SyntheticEvent<EventTarget>): Promise<any> => {
-    const { connection } = this.props;
+    const { bnsId, connection } = this.props;
     const target = evt.target as HTMLInputElement;
     const address = target.value;
     this.setState({
       address,
     });
+
     try {
-      await resolveAddress(connection, address);
+      // TODO: this is a MAJOR design flaw. We cannot validate an address without knowing what chain it belongs to
+      // ugly hack: for now we hardcode bns chainid (as we do with the codec)
+      await resolveAddress(connection, address, bnsId);
       this.setState({
         errorMessage: "",
       });

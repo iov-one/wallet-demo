@@ -1,9 +1,8 @@
-import { BcpConnection, ChainConnector } from "@iov/bcp-types";
-import { bnsConnector } from "@iov/bns";
+import { BcpConnection, BcpTransactionState, ChainConnector } from "@iov/bcp-types";
+import { BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
-// import { UserProfile } from "@iov/keycontrol";
 
-/**** this may make it into iov-core *******/
+import { getMainIdentity, getMainKeyring } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
@@ -32,8 +31,6 @@ function specToConnector(spec: BlockchainSpec): ChainConnector {
   }
 }
 
-/******* end iov-core proposal ********/
-
 export async function addBlockchain(
   writer: MultiChainSigner,
   blockchain: BlockchainSpec,
@@ -41,4 +38,37 @@ export async function addBlockchain(
   const connector = specToConnector(blockchain);
   const { connection } = await writer.addChain(connector);
   return connection;
+}
+
+export async function checkBnsBlockchainNft(
+  connection: BnsConnection,
+  writer: MultiChainSigner,
+  chainId: ChainId,
+  codecName: string,
+): Promise<void> {
+  const result = await connection.getBlockchains({ chainId });
+  if (result.length === 0) {
+    const registryChainId = await connection.chainId();
+
+    // TODO: is this the proper way? should we pass that in?
+    const walletId = getMainKeyring(writer.profile);
+    const signer = getMainIdentity(writer.profile);
+
+    const blockchainRegistration: RegisterBlockchainTx = {
+      kind: "bns/register_blockchain",
+      chainId: registryChainId,
+      signer: signer.pubkey,
+      chain: {
+        chainId: chainId,
+        production: false,
+        enabled: true,
+        name: "Wonderland",
+        networkId: "7rg047g4h",
+      },
+      codecName,
+      codecConfig: `{ }`,
+    };
+    const response = await writer.signAndPost(blockchainRegistration, walletId);
+    await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  }
 }

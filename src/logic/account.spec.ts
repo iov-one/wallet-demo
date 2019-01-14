@@ -1,11 +1,19 @@
 import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
-import { getAccount, keyToAddress, sendTransaction, setName, watchAccount } from "./account";
+import {
+  getAccount,
+  getAddressByName,
+  keyToAddress,
+  sendTransaction,
+  setName,
+  watchAccount,
+} from "./account";
 import { compareAmounts } from "./balances";
-import { addBlockchain } from "./connection";
+import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
 import { adminProfile, faucetSpec, mayTest, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
@@ -95,10 +103,13 @@ describe("setName", () => {
       const faucet = await adminProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
+      const rcptAddr = keyToAddress(rcpt);
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const reader = await addBlockchain(writer, testSpecData);
+      const reader = (await addBlockchain(writer, testSpecData)) as BnsConnection;
+      const chainId = reader.chainId();
+      await checkBnsBlockchainNft(reader, writer, chainId, "bns");
 
       const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpecData);
@@ -110,21 +121,36 @@ describe("setName", () => {
           fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
+        await waitForCommit(sendTransaction(writer, chainId, rcptAddr, amount));
 
         // make sure some tokens were received
         const withMoney = await getAccount(reader, rcpt);
         expect(withMoney).toBeTruthy();
 
+        // TODO: big hack here - FIX THIS!!!
+        // we need to register the blockchain before we can register a name on it...
+        // how do we do that in the real app?
+
+        // on yaknet, i guess we pre-register the names ourselves.
+        // in test code, we update the startup???
+
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
-        await waitForCommit(setName(rcptWriter, rcptReader.chainId(), name));
+        // TODO: right now this hangs forever as the transaction errors (issue #677 in iov-core)
+        await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt);
         expect(after).toBeTruthy();
-        expect(after!.name).toEqual(name);
+
+        // no more name, using username
+        expect(after!.name).toBeUndefined();
         expect(after!.balance.length).toEqual(1);
+
+        // make sure we have properly registered on this chain
+        const addr = await getAddressByName(reader, name, chainId);
+        expect(addr).toBeDefined();
+        expect(addr).toEqual(rcptAddr);
       } finally {
         reader.disconnect();
         rcptReader.disconnect();

@@ -1,9 +1,20 @@
 import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
+import { bnsCodec } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
-import { addBlockchain, getAccount, Unsubscriber, watchAccount } from "../../logic";
+import {
+  addBlockchain,
+  getAccount,
+  getUsernameNftByChainAddress,
+  getUsernameNftByUsername,
+  Unsubscriber,
+  watchAccount,
+} from "~/logic";
 import { createPromiseAction, createSyncAction } from "../helpers";
+import { AccountInfo } from "./state";
+
+export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
 
 export const createSignerAction = createSyncAction(
   "CREATE_SIGNER",
@@ -35,23 +46,28 @@ async function getTickers(connection: BcpConnection): Promise<TickerInfo> {
   return { chainId, tickers };
 }
 
-// How do we want to get account... need more info....
 export interface BcpAccountWithChain {
   readonly account: BcpAccount;
   readonly chainId: ChainId;
 }
+
 // simple extension of logic function to return data more suited to redux
 const getAccountWithChain = async (
   connection: BcpConnection,
   ident: PublicIdentity,
-  codec?: TxCodec,
-): Promise<BcpAccountWithChain | undefined> => {
+  codec: TxCodec = bnsCodec,
+): Promise<AccountInfo> => {
   const account = await getAccount(connection, ident, codec);
   const chainId = connection.chainId();
-  return account === undefined ? undefined : { account, chainId };
+  const address = codec.keyToAddress(ident.pubkey);
+  return {
+    chainId,
+    address,
+    account,
+    // username always unset here... add later
+  };
 };
 
-export const getAccountSyncAction = createSyncAction("GET_ACCOUNT", getAccountWithChain);
 export const getAccountAsyncAction = createPromiseAction(
   "GET_ACCOUNT",
   "GET_ACCOUNT_PENDING",
@@ -73,3 +89,17 @@ function watchAccountWithChain(
 
 export const watchAccountAction = createSyncAction("WATCH_ACCOUNT", watchAccountWithChain);
 // TODO: add unwatch to stop it
+
+export const getUsernameNftByUsernameAsyncAction = createPromiseAction(
+  "GET_USERNAME",
+  "GET_USERNAME_PENDING",
+  "GET_USERNAME_FULFILLED",
+  "GET_USERNAME_REJECTED",
+)(getUsernameNftByUsername);
+
+export const getUsernameNftByChainAddressAsyncAction = createPromiseAction(
+  "GET_USERNAME_BY_ADDRESS",
+  "GET_USERNAME_BY_ADDRESS_PENDING",
+  "GET_USERNAME_BY_ADDRESS_FULFILLED",
+  "GET_USERNAME_BY_ADDRESS_REJECTED",
+)(getUsernameNftByChainAddress);

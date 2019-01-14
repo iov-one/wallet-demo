@@ -1,21 +1,21 @@
 import { get, isEmpty } from "lodash";
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
+
+import { ChainId } from "@iov/base-types";
+import { BnsConnection } from "@iov/bns";
+
 import PageMenu from "~/components/pages/PageMenu";
-
-import queryString from "query-string";
-
-import { BcpConnection } from "@iov/bcp-types";
-
-import { AddressInputForm } from "../components/templates/forms";
-
-import { ChainAccount, getConnections, getMyAccounts } from "../selectors";
+import { AddressInputForm } from "~/components/templates/forms";
+import { ChainAccount, getMyAccounts, requireBnsChainId, requireBnsConnection } from "~/selectors";
 
 interface PaymentProps extends RouteComponentProps<{}> {
   readonly accounts: ReadonlyArray<ChainAccount>;
-  readonly connections: { readonly [chainId: string]: BcpConnection };
+  readonly bnsId: ChainId;
+  readonly connection: BnsConnection;
   readonly identity: any;
 }
 
@@ -49,18 +49,16 @@ class Payment extends React.Component<PaymentProps> {
   };
 
   public render(): JSX.Element | boolean {
-    const { accounts } = this.props;
+    const { accounts, bnsId, connection } = this.props;
     const account = get(accounts, "[0].account", false);
     if (!account) {
       return false;
     }
-    const { connections } = this.props;
-    const chainIds = Object.keys(connections);
-    const connection = connections[chainIds[0]];
+
     return (
       <PageMenu phoneFullWidth>
         <Layout>
-          <AddressInputForm connection={connection} onNext={this.onSend} />
+          <AddressInputForm bnsId={bnsId} connection={connection} onNext={this.onSend} />
         </Layout>
       </PageMenu>
     );
@@ -71,7 +69,8 @@ class Payment extends React.Component<PaymentProps> {
 const mapStateToProps = (state: any, ownProps: PaymentProps): PaymentProps => ({
   ...ownProps,
   accounts: getMyAccounts(state),
-  connections: getConnections(state),
+  bnsId: requireBnsChainId(state),
+  connection: requireBnsConnection(state),
 });
 
 export const PaymentPage = withRouter(connect(mapStateToProps)(Payment));

@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { ChainId, MultiChainSigner, TokenTicker, UserProfile } from "@iov/core";
 
-import { BcpAccountWithChain } from "~/reducers/blockchain";
+import { AccountInfo } from "~/reducers/blockchain";
 import { Button } from "../components/subComponents/buttons";
 import { CreateWalletForm } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
@@ -35,9 +35,13 @@ interface HomeProps extends RouteComponentProps<{}> {
 // Separate Dispatch props here so we can properly type below in the mapState/Dispatch to props
 interface HomeDispatchProps {
   readonly reset: (password: string) => Promise<any>;
-  readonly boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) => Promise<BootResult>;
+  readonly boot: (
+    password: string,
+    bns: BlockchainSpec,
+    blockchains: ReadonlyArray<BlockchainSpec>,
+  ) => Promise<BootResult>;
   readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
-  readonly setName: (name: string, chainId: ChainId) => Promise<any>;
+  readonly setName: (name: string) => Promise<any>;
 }
 
 // HomeProps & HomeDispatchProps means to use the (as if we hadn't just separated them)
@@ -57,7 +61,8 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     const { boot } = this.props;
     try {
       const config = await loadConfig();
-      const { accounts } = await boot(config.defaultPassword, [config.bns.chainSpec as BlockchainSpec]);
+      const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
+      const { accounts } = await boot(config.defaultPassword, config.bns.chainSpec as BlockchainSpec, chains);
       await this.checkAndDrinkFaucet(accounts);
     } catch (err) {
       this.setState({ booted: false });
@@ -65,37 +70,30 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
       console.log(err);
     }
   }
-  public async checkAndDrinkFaucet(accounts: ReadonlyArray<BcpAccountWithChain | undefined>): Promise<void> {
+  public async checkAndDrinkFaucet(accounts: ReadonlyArray<AccountInfo>): Promise<void> {
     const { drinkFaucet, history } = this.props;
     const acct = accounts[0];
-    const account = acct ? acct.account : undefined;
-    if (!account) {
+    if (!acct || !acct.account) {
       const config = await loadConfig();
       await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
       this.setState({
         booted: true,
       });
+    } else if (!acct.username) {
+      this.setState({
+        booted: true,
+      });
     } else {
-      if (!account.name) {
-        this.setState({
-          booted: true,
-        });
-      } else {
-        history.push("/balance/");
-      }
+      history.push("/balance/");
     }
   }
   public async createAccount(): Promise<void> {
     const { name, booted } = this.state;
     if (booted) {
-      const {
-        setName,
-        accounts: [{ chainId }],
-        history,
-      } = this.props;
+      const { setName, history } = this.props;
       this.setState({ loading: true });
       try {
-        await setName(name, chainId);
+        await setName(name);
         this.setState({ loading: false });
         history.push("/balance/");
       } catch (err) {
@@ -183,11 +181,11 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
 
 // This returns a types DispatchProps
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
-  boot: (password: string, blockchains: ReadonlyArray<BlockchainSpec>) =>
-    dispatch(bootSequence(password, blockchains)),
+  boot: (password: string, bns: BlockchainSpec, blockchains: ReadonlyArray<BlockchainSpec>) =>
+    dispatch(bootSequence(password, bns, blockchains)),
   drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
   reset: (password: string) => dispatch(resetSequence(password)),
-  setName: (name: string, chainId: ChainId) => dispatch(setNameSequence(name, chainId)),
+  setName: (name: string) => dispatch(setNameSequence(name)),
 });
 
 // With the above info, we can now properly combine this all and withRouter will be happy

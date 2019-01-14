@@ -41,8 +41,7 @@ before_script:
     defaults write com.apple.Safari ApplePersistenceIgnoreState YES
   fi
 - bash ./scripts/bnsd/start.sh
-# TODO: re-enable when it works on travis again
-# - export BNS_ENABLED=1
+- export BNS_ENABLED=1
 - bash ./scripts/faucet/iov_start.sh
 
 script:

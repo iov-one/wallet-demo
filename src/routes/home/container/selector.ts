@@ -2,7 +2,8 @@ import { LocalIdentity } from "@iov/keycontrol";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { StringDB } from "~/logic";
 import { RootState } from "~/reducers";
-import { ChainAccount, getActiveIdentity, getMyAccounts, getProfileDB } from "~/selectors";
+import { AccountInfo } from "~/reducers/blockchain";
+import { getActiveIdentity, getMyAccounts, getProfileDB } from "~/selectors";
 
 export interface SelectorProps {
   readonly db: StringDB;
@@ -22,14 +23,11 @@ export const dbSelector = createSelector(
 
 export const accountNameSelector = createSelector(
   getMyAccounts,
-  (accounts: ReadonlyArray<ChainAccount>) => {
+  (accounts: ReadonlyArray<AccountInfo>) => {
     if (accounts.length === 0) {
       return undefined;
     }
-
-    const account = accounts[0];
-
-    return account.account ? account.account.name : undefined;
+    return accounts[0].username;
   },
 );
 

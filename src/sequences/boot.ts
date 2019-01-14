@@ -1,10 +1,9 @@
 import debounce from "xstream/extra/debounce";
 
 import { BcpConnection, BcpTxQuery, ConfirmedTransaction } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
-
-import { addConfirmedTransaction } from "~/store/notifications/actions";
 
 import {
   BlockchainSpec,
@@ -12,18 +11,22 @@ import {
   keyToAddress,
   parseConfirmedTransaction,
   resetProfile,
-} from "../logic";
-import { RootState } from "../reducers";
+} from "~/logic";
+import { RootState } from "~/reducers";
 import {
+  AccountInfo,
   addBlockchainAsyncAction,
-  BcpAccountWithChain,
   createSignerAction,
   getAccountAsyncAction,
   getTickersAsyncAction,
-} from "../reducers/blockchain";
-import { fixTypes } from "../reducers/helpers";
-import { createProfileAsyncAction, getIdentityAction } from "../reducers/profile";
-import { getConnections, getProfileDB } from "../selectors";
+  getUsernameNftByChainAddressAsyncAction,
+  setBnsChainId,
+  updateUsernameNft,
+} from "~/reducers/blockchain";
+import { fixTypes } from "~/reducers/helpers";
+import { createProfileAsyncAction, getIdentityAction } from "~/reducers/profile";
+import { getConnections, getProfileDB } from "~/selectors";
+import { addConfirmedTransaction } from "~/store/notifications/actions";
 
 import { RootThunkDispatch } from "./types";
 
@@ -40,7 +43,7 @@ export const resetSequence = (password: string, mnemonic?: string) => async (
 
 export interface BootResult {
   readonly signer: MultiChainSigner;
-  readonly accounts: ReadonlyArray<BcpAccountWithChain | undefined>;
+  readonly accounts: ReadonlyArray<AccountInfo>;
 }
 
 // boot sequence initializes all objects
@@ -48,6 +51,7 @@ export interface BootResult {
 // tslint:disable-next-line:only-arrow-functions
 export const bootSequence = (
   password: string,
+  bns: BlockchainSpec,
   blockchains: ReadonlyArray<BlockchainSpec>,
   mnemonic?: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState): Promise<BootResult> => {
@@ -68,18 +72,41 @@ export const bootSequence = (
   // --- initiate the signer
   const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
-  // --- connect all readers and query account balances
-  let initAccounts: ReadonlyArray<Promise<BcpAccountWithChain | undefined>> = [];
-  let initTickers: ReadonlyArray<Promise<any>> = [];
+  // first we clarify the bns connection (which we need for later transaction resolution)
+  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {})));
+  const bnsConn = value as BnsConnection;
+  dispatch(setBnsChainId(bnsConn.chainId()));
+  // and set it as first account/tickers
+  let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
+    watchAccountAndTransactions(dispatch, bnsConn, bnsConn, identity),
+  ];
+  let initTickers: ReadonlyArray<Promise<any>> = [getTickers(dispatch, bnsConn)];
+
+  // then we connect all other chains, in parallel
+  // bns chain is the first one we connect to, so we can pull out the chainId later
   for (const blockchain of blockchains) {
     const { value: conn } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, blockchain, {})));
-    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, conn, identity)];
+    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, bnsConn, conn, identity)];
     initTickers = [...initTickers, getTickers(dispatch, conn)];
   }
 
   // wait for all accounts and tickers to initialize
   await Promise.all(initTickers);
-  const accounts = await Promise.all(initAccounts);
+  let accounts: ReadonlyArray<AccountInfo> = await Promise.all(initAccounts);
+  const bnsAccount = accounts[0];
+
+  if (bnsAccount) {
+    // just lookup first bns account, that should match all....
+    const { value: usernameNft } = await fixTypes(
+      dispatch(
+        getUsernameNftByChainAddressAsyncAction.start(bnsConn, bnsAccount.chainId, bnsAccount.address),
+      ),
+    );
+    if (usernameNft) {
+      accounts = updateUsernameNft(accounts, usernameNft);
+    }
+  }
+
   // return initial account state as well as signer
   return { accounts, signer };
 };
@@ -91,9 +118,10 @@ function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<a
 
 async function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
+  bnsConn: BnsConnection,
   conn: BcpConnection,
   identity: PublicIdentity,
-): Promise<BcpAccountWithChain | undefined> {
+): Promise<AccountInfo> {
   // request the current account and return a promise resolved when it is loaded
   const accountAction = getAccountAsyncAction.start(conn, identity, undefined);
   // don't wait on the dispatch here, we return the result of the dispatch to await on by client
@@ -108,7 +136,7 @@ async function watchAccountAndTransactions(
   // process incoming transactions and add to dispatched/redux store
   const handleTx = async (trans: ConfirmedTransaction) => {
     // conn will change in multiple calls of the for loop, we need to cache the current one in this scope
-    const transInfo = await parseConfirmedTransaction(conn, trans, identity);
+    const transInfo = await parseConfirmedTransaction(bnsConn, conn, trans, identity);
     if (transInfo) {
       dispatch(addConfirmedTransaction(transInfo));
     }

@@ -1,12 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect, RouteProps } from "react-router-dom";
-import { HOME_ROUTE } from "~/routes";
 
-import { ChainAccount, getMyAccounts } from "../selectors";
+import { AccountInfo } from "~/reducers/blockchain";
+import { HOME_ROUTE } from "~/routes";
+import { getMyAccounts } from "~/selectors";
 
 interface RequireLoginProps extends RouteProps {
-  readonly accounts: ReadonlyArray<ChainAccount>;
+  readonly accounts: ReadonlyArray<AccountInfo>;
   readonly children?: React.ReactNode | ReadonlyArray<React.ReactNode>;
 }
 
@@ -21,7 +22,7 @@ class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
     const redirect =
       accounts.length === 0 || accounts[0].account === undefined
         ? "/" /*login/signup page*/
-        : accounts[0].account.name === undefined
+        : accounts[0].username === undefined
         ? "/" /*set name page*/
         : undefined;
     // one redirect if needed, or all children

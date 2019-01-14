@@ -13,7 +13,8 @@ export const loginAccount = async (
   mnemonic?: string,
 ) => {
   const config = await loadConfig();
-  const { accounts } = await boot(pass, [config.bns.chainSpec as BlockchainSpec], mnemonic);
+  const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
+  const { accounts } = await boot(pass, config.bns.chainSpec as BlockchainSpec, chains, mnemonic);
   const mainAccount = accounts[0];
   const account = mainAccount ? mainAccount.account : undefined;
   if (!account) {
@@ -23,7 +24,7 @@ export const loginAccount = async (
     return;
   }
 
-  const hasName = account.name !== undefined;
+  const hasName = mainAccount && mainAccount.username !== undefined;
   if (hasName) {
     history.push(BALANCE_ROUTE);
 

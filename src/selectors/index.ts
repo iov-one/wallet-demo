@@ -1,11 +1,12 @@
 import { createSelector } from "reselect";
 
 import { BcpAccount, BcpTicker } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { Address, ChainId, MultiChainSigner } from "@iov/core";
 import { LocalIdentity } from "@iov/keycontrol";
 
-import { RootState } from "../reducers";
-import { AccountsByChainAndAddress, getAccountByChainAndAddress } from "../reducers/blockchain";
+import { RootState } from "~/reducers";
+import { AccountInfo, getAccountByChainAndAddress } from "~/reducers/blockchain";
 
 /*** TODO: separate this out into multiple files ****/
 
@@ -34,15 +35,14 @@ export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createS
   conns => Object.keys(conns).map(x => x as ChainId),
 );
 
-export const getTickers = (state: RootState) => state.blockchain.tickers;
-// getChainTickers unrolls the tickers from a map to a list of chain/ticker pairs
-export const getChainTickers: (state: RootState) => ReadonlyArray<ChainTicker> = createSelector(
-  getTickers,
-  sel =>
-    Object.entries(sel)
-      .map(([chainId, tickers]) => tickers.map(ticker => ({ chainId: chainId as ChainId, ticker })))
-      .reduce((acc, arr) => [...acc, ...arr], []),
+export const getBnsChainId = (state: RootState) => state.blockchain.bnsId;
+export const getBnsConnection: (state: RootState) => BnsConnection | undefined = createSelector(
+  getConnections,
+  getBnsChainId,
+  (conns, bnsId) => (bnsId ? (conns[bnsId] as BnsConnection) : undefined),
 );
+// getChainTickers was a map, now the redux state
+export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
 export const getActiveWallet = (state: RootState) => state.profile.activeIdentity;
 export const getActiveIdentity: (state: RootState) => LocalIdentity | undefined = createSelector(
@@ -64,37 +64,36 @@ export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainA
       : chainIds.map(chainId => ({ chainId, address: signer.keyToAddress(chainId, identity.pubkey) })),
 );
 
-export const getAllAccounts = (state: RootState) => state.blockchain.accounts;
+export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 
-export const getMyAccounts: (state: RootState) => ReadonlyArray<ChainAccount> = createSelector(
+// getMyAccounts will return an entry for each activeChainAddress, possibly empty account/username
+export const getMyAccounts: (state: RootState) => ReadonlyArray<AccountInfo> = createSelector(
   getAllAccounts,
   getActiveChainAddresses,
-  (balances: AccountsByChainAndAddress, addresses: ReadonlyArray<ChainAddress>) =>
-    addresses.map(({ chainId, address }) => ({
-      chainId,
-      account: getAccountByChainAndAddress(balances, chainId, address).account,
-    })),
+  // only show those balances that are includes in the addresses list
+  (balances: ReadonlyArray<AccountInfo>, addresses: ReadonlyArray<ChainAddress>) =>
+    addresses.map(
+      ({ chainId, address }) =>
+        getAccountByChainAndAddress(balances, chainId, address) || { chainId, address },
+    ),
 );
 
-/* TODO add some generic "require" helper? */
-export const requireActiveIdentity = (state: RootState) => {
-  const ident = getActiveIdentity(state);
-  if (!ident) {
-    throw new Error("No identity active");
+export function ensure<T>(maybe: T | undefined, msg: string = "missing required value"): T {
+  if (maybe === undefined) {
+    throw new Error(msg);
   }
-  return ident;
-};
-export const requireConnection = (state: RootState, chainId: ChainId) => {
-  const conn = getConnections(state)[chainId];
-  if (!conn) {
-    throw new Error(`No connection for chain: ${chainId}`);
-  }
-  return conn;
-};
-export const requireSigner = (state: RootState) => {
-  const signer = getSigner(state);
-  if (!signer) {
-    throw new Error("Signer not yet initialized");
-  }
-  return signer;
-};
+  return maybe;
+}
+
+export const requireActiveIdentity = (state: RootState) =>
+  ensure(getActiveIdentity(state), "No identity active");
+
+export const requireConnection = (state: RootState, chainId: ChainId) =>
+  ensure(getConnections(state)[chainId], `No connection for chain: ${chainId}`);
+
+export const requireBnsConnection = (state: RootState) =>
+  ensure(getBnsConnection(state), `No BNS connection set`);
+
+export const requireBnsChainId = (state: RootState) => ensure(getBnsChainId(state), `No BNS chain id set`);
+
+export const requireSigner = (state: RootState) => ensure(getSigner(state), "Signer not yet initialized");

@@ -1,17 +1,19 @@
-import { BcpAccount, TokenTicker } from "@iov/bcp-types";
-import { ChainId } from "@iov/core";
-import { get } from "lodash";
 import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
+
+import { TokenTicker } from "@iov/bcp-types";
+import { ChainId } from "@iov/core";
+
 import PageMenu from "~/components/pages/PageMenu";
-import { SendTokenForm, SendTokenFormState } from "../components/templates/forms";
-import { ChainAccount, getChainIds, getMyAccounts } from "../selectors";
+import { SendTokenForm, SendTokenFormState } from "~/components/templates/forms";
+import { AccountInfo } from "~/reducers/blockchain";
+import { getChainIds, getMyAccounts } from "~/selectors";
 
 interface SendTokenProps extends RouteComponentProps<{ readonly iovAddress: string }> {
-  readonly accounts: ReadonlyArray<ChainAccount>;
+  readonly accounts: ReadonlyArray<AccountInfo>;
   readonly chainIds: ReadonlyArray<ChainId>;
 }
 
@@ -29,18 +31,14 @@ class SendPayment extends React.Component<SendTokenProps> {
     history.push(`/confirm-transaction/${iovAddress}/${token}/${tokenAmount}${memoString}`);
   };
 
-  public getFirstAccount(): BcpAccount | undefined {
-    return get(this.props.accounts, "[0].account", undefined);
-  }
-
   public render(): JSX.Element | boolean {
     // TODO: we should really iterate over all accounts... this is a work-around for demo
-    const account = this.getFirstAccount();
-    if (!account) {
+    const account = this.props.accounts[0];
+    if (!account || !account.account) {
       return false;
     }
-    const name = `${account.name}*iov`;
-    const balances = account.balance;
+    const name = `${account.username}*iov`;
+    const balances = account.account.balance;
     if (balances.length === 0) {
       return false;
     }

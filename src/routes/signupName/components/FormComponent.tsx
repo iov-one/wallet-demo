@@ -1,4 +1,4 @@
-import { BcpConnection } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
@@ -13,7 +13,7 @@ import {
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { getAddressByName } from "~/logic";
+import { getUsernameNftByUsername } from "~/logic";
 import { md } from "~/theme/variables";
 
 export const USERNAME_FIELD = "username";
@@ -41,8 +41,12 @@ const styles = createStyles({
 const account = /^[a-z0-9_]+$/;
 const error = "Allowed lowercase letters, numbers and _";
 
-const takenName = (connection: BcpConnection) => async (name: string) => {
-  const isTaken = (await getAddressByName(connection, name)) !== undefined;
+const takenName = (connection: BnsConnection | undefined) => async (name: string) => {
+  if (!connection) {
+    return "BNS connection is not active";
+  }
+
+  const isTaken = (await getUsernameNftByUsername(connection, name)) !== undefined;
   if (isTaken) {
     return "Name is already taken";
   }
@@ -91,7 +95,7 @@ const FormComponent = ({ connection, classes }: Props) => (
 const SecondStepForm = withStyles(styles)(FormComponent);
 
 interface ParentType {
-  readonly connection: BcpConnection;
+  readonly connection: BnsConnection | undefined;
 }
 
 export default ({ connection }: ParentType) => <SecondStepForm connection={connection} />;

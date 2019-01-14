@@ -10,11 +10,12 @@ import {
   SendTransaction,
   TxCodec,
 } from "@iov/bcp-types";
-
-import { bnsCodec, SetNameTx } from "@iov/bns";
+import { bnsCodec, BnsConnection, RegisterUsernameTx } from "@iov/bns";
+import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { PublicIdentity } from "@iov/keycontrol";
 
+import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
@@ -51,37 +52,24 @@ export async function getAccountByAddress(
 // looks up name for a given address (or undefined)
 // this will need to use a much different algorithm when we update to BNS, which is why it is a separate function
 export async function getNameByAddress(
-  connection: BcpConnection,
+  connection: BnsConnection,
+  chainId: ChainId,
   address: Address,
 ): Promise<string | undefined> {
-  const account = await getAccountByAddress(connection, address);
-  if (account && account.name) {
-    return `${account.name}*iov`;
-  }
-  return undefined;
-}
-
-// looks up account for a given name (or undefined)
-// the name should not have the "*iov" suffix
-export async function getAccountByName(
-  connection: BcpConnection,
-  name: string,
-): Promise<BcpAccount | undefined> {
-  const result = await connection.getAccount({ name });
-  if (result.data && result.data.length > 0) {
-    return result.data[0];
-  }
-  return undefined;
+  const nft = await getUsernameNftByChainAddress(connection, chainId, address);
+  return nft ? nft.id : undefined;
 }
 
 // getAddressByName returns the address associated with the name, or undefined if not registered
 // the name should not have the "*iov" suffix
 export async function getAddressByName(
-  connection: BcpConnection,
+  connection: BnsConnection,
   name: string,
+  chainId: ChainId,
 ): Promise<Address | undefined> {
-  const acct = await getAccountByName(connection, name);
-  return acct ? acct.address : undefined;
+  const nft = await getUsernameNftByUsername(connection, name);
+  const match = nft ? nft.addresses.find(addr => addr.chainId === chainId) : undefined;
+  return match ? match.address : undefined;
 }
 
 export interface Unsubscriber {
@@ -144,20 +132,21 @@ export async function sendTransaction(
   return writer.signAndPost(unsigned, walletId);
 }
 
-// @deprecated will be dropped in favour of RegisterUsernameTx
-// sets the name of the given account (old-style, pre-bns)
+// registers a new username nft on the bns with the given list of chain-address pairs
 export async function setName(
   writer: MultiChainSigner,
-  chainId: ChainId,
-  name: string,
+  bnsId: ChainId,
+  username: string,
+  addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
   const walletId = getMainKeyring(writer.profile);
   const signer = getMainIdentity(writer.profile);
-  const unsigned: SetNameTx = {
-    kind: "bns/set_name",
-    chainId: chainId,
+  const unsigned: RegisterUsernameTx = {
+    kind: "bns/register_username",
+    chainId: bnsId,
     signer: signer.pubkey,
-    name,
+    username,
+    addresses,
   };
   return writer.signAndPost(unsigned, walletId);
 }
