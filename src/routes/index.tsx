@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import { ConfirmTransactionPage, InvitePage, PaymentPage, SendPaymentPage } from "~/containers";
 import RequireLogin from "~/containers/RequireLogin";
+import AdvancedSecurity from "~/routes/advancedSecurity/container";
 import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
 import Home from "~/routes/home/container";
@@ -11,6 +12,7 @@ import PasswordRecovery from "~/routes/passwordRecovery/container";
 import ReceiveIov from "~/routes/receiveIov/container";
 import ReceiveExternal from "~/routes/receiveNonIov/container";
 import SecurityCenter from "~/routes/securityCenter/container";
+import SecurityPhrase from "~/routes/securityPhrase/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 
@@ -22,9 +24,10 @@ export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "/privacy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
+export const ADVANCED_SECURITY_ROUTE = "/advanced-security";
 export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
-export const BACKUP_PHRASE_ROUTE = "/backup-phrase";
+export const SECURITY_PHRASE_ROUTE = "/security-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const INVITE_ROUTE = "/invite";
 export const SEND_PAYMENT = "/send-payment";
@@ -52,7 +55,8 @@ export const MainRouter = () => (
       />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
-      <Route path={BACKUP_PHRASE_ROUTE} component={SecurityCenter} />
+      <Route path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
+      <Route path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
     </RequireLogin>
   </Switch>
 );

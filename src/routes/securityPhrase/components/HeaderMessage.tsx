@@ -3,23 +3,17 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 
-interface Props {
-  readonly stepNum: number;
-}
-
-const StepsCount = ({ stepNum }: Props) => (
+export const HeaderMessage = () => (
   <MatchMediaContext.Consumer>
     {phone => (
       <React.Fragment>
         <Block margin="xxl" />
         <Block padding={phone ? "lg" : "xxl"} margin="md">
           <Typography variant="subtitle1" color="textPrimary">
-            Step {stepNum}/2
+            Your backup phrase
           </Typography>
         </Block>
       </React.Fragment>
     )}
   </MatchMediaContext.Consumer>
 );
-
-export default StepsCount;

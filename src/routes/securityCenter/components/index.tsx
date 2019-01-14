@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BACKUP_PHRASE_ROUTE, CHANGE_PASSWORD_ROUTE } from "~/routes";
+import { CHANGE_PASSWORD_ROUTE, SECURITY_PHRASE_ROUTE } from "~/routes";
 import BPIcon from "../assets/backupPhrase.svg";
 import PswIcon from "../assets/password.svg";
 import ExtraSecurity from "./ExtraSecurity";
@@ -12,9 +12,9 @@ export default (): JSX.Element => {
       <PageTitle />
       <SecurityCard title="Set a password" action="Change" link={CHANGE_PASSWORD_ROUTE} icon={PswIcon} />
       <SecurityCard
-        title="Set a backup phrase"
-        action="Back up again"
-        link={BACKUP_PHRASE_ROUTE}
+        title="Your recovery phrase"
+        action="View phrase"
+        link={SECURITY_PHRASE_ROUTE}
         icon={BPIcon}
       />
       <ExtraSecurity />

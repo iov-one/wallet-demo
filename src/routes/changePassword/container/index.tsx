@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Errors, FormType } from "~/components/forms/Form";
 import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
-import PageMenu from "~/components/pages/PageMenu";
+import PageMenuColumn from "~/components/pages/PageMenuColumn";
 import { ToastVariant } from "~/context/ToastProvider/Toast";
 import { loadProfile } from "~/logic/profile";
 import Layout from "../components";
@@ -60,12 +60,12 @@ class ChangePassword extends React.Component<Props> {
 
   public render(): JSX.Element {
     return (
-      <PageMenu phoneFullWidth>
+      <PageMenuColumn phoneFullWidth>
         <Layout
           onSetPasswordSubmit={this.onSetPasswordSubmit}
           onPasswordValidation={this.onPasswordValidation}
         />
-      </PageMenu>
+      </PageMenuColumn>
     );
   }
 }

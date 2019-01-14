@@ -1,18 +1,13 @@
 import * as React from "react";
 import { FormType } from "~/components/forms/Form";
 import PageColumn from "~/components/pages/PageColumn";
-import LeftSidebar from "../LeftSidebar";
 import StepsCount from "../StepsCount";
 import NoticeBox from "./NoticeBox";
 import RecoverWordsForm from "./RecoverWordsForm";
 
 const StepsSection = () => <StepsCount stepNum={1} />;
 
-const LeftSidebarSection = () => (
-  <LeftSidebar>
-    <NoticeBox />
-  </LeftSidebar>
-);
+const NoticeBoxSection = () => <NoticeBox />;
 
 interface Props {
   readonly onSubmit: (mnemonic: string) => Promise<void>;
@@ -36,7 +31,7 @@ export default class Layout extends React.Component<Props> {
     return (
       <PageColumn
         icon="black"
-        leftMenu={LeftSidebarSection}
+        leftMenu={NoticeBoxSection}
         onSubmit={this.onRecoverProfile}
         primaryTitle="Your"
         secondaryTitle="backup phrase"

@@ -4,8 +4,8 @@ import Block from "~/components/layout/Block";
 import CircleImg from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, md, xl, xxl } from "~/theme/variables";
-import bulb from "../../assets/bulb.svg";
-import LeftColumn from "../LeftColumn";
+import bulb from "../assets/bulb.svg";
+import NoticeColumn from "./NoticeColumn";
 
 const styles = createStyles({
   noticeBox: {
@@ -29,7 +29,7 @@ const styles = createStyles({
 
 const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
   return (
-    <LeftColumn>
+    <NoticeColumn>
       <Block className={classes.noticeBox}>
         <Block className={classes.header}>
           <Block className={classes.bulbIcon}>
@@ -41,12 +41,12 @@ const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
         </Block>
         <Block margin="md" />
         <Typography variant="subtitle1">
-          To recover the password, you must enter the twelve backup words in the correct order that you have
-          written down. Note if you have lost or forgotten your twelve backup words you will be unable to
-          recover your account.
+          Do not store your backup phrase on your computer or anywhere online. It is very important to keep
+          your backup phrase offline in a private place. As a reminder: anyone with access to your backup
+          phrase can access your funds.
         </Typography>
       </Block>
-    </LeftColumn>
+    </NoticeColumn>
   );
 };
 export default withStyles(styles)(NoticeBox);

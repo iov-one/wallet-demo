@@ -7,12 +7,14 @@ import GridItem from "~/components/layout/GridItem";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { backgroundPrimary } from "~/theme/variables";
 
-interface Props extends WithStyles<typeof styles> {
+export interface PageMenuProps {
   readonly renderProps?: (phone: boolean) => React.ReactNode;
   readonly children?: React.ReactNode;
   readonly phoneFullWidth?: boolean;
   readonly padding?: boolean;
 }
+
+interface Props extends PageMenuProps, WithStyles<typeof styles> {}
 
 const styles = createStyles({
   root: {

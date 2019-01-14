@@ -21,7 +21,6 @@ export default () => (
         const fieldName = WORD_NUM + (idx < 10 ? "0" + idx : idx);
 
         return (
-
           <GridItem xs={6} lg={4} key={idx}>
             <MatchMediaContext.Consumer>
               {phone => (
