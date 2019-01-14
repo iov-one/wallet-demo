@@ -5,10 +5,12 @@ import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
-import Link from "~/components/layout/Link";
 import Typography from "~/components/layout/Typography";
 import { PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
 
+// Note that react-router-dom link cannot handle external URLS
+// I replaced it with a standard a for now
+// https://github.com/ReactTraining/react-router/issues/1147
 const PolicySection = () => (
   <Grid noshrink nowrap>
     <GridItem top="xs">
@@ -26,19 +28,19 @@ const PolicySection = () => (
         {"I certify that I am 18 years of age or older, and I agree to the\u00a0"}
       </Typography>
       <Block margin="md">
-        <Link to={TERMS_OF_SERVICE_ROUTE}>
+        <a href={TERMS_OF_SERVICE_ROUTE}>
           <Typography variant="body2" color="primary" underlined inline>
             Terms of Service
           </Typography>
-        </Link>
+        </a>
         <Typography variant="body2" color="textSecondary" inline>
           {"\u00a0&\u00a0"}
         </Typography>
-        <Link to={PRIVACY_POLICY_ROUTE}>
+        <a href={PRIVACY_POLICY_ROUTE}>
           <Typography variant="body2" color="primary" underlined inline>
             Privacy Policy
           </Typography>
-        </Link>
+        </a>
       </Block>
     </GridItem>
   </Grid>
