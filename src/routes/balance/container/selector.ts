@@ -11,19 +11,11 @@ export interface SelectorProps {
 
 export const tokensSelector = createSelector(
   getMyAccounts,
-  (accounts: ReadonlyArray<ChainAccount>) => {
-    if (accounts.length === 0) {
-      return [];
-    }
-
-    const account = accounts[0];
-    if (!account || !account.account) {
-      return [];
-    }
-
-    // copy balance from redux store
-    return [...account.account!.balance];
-  },
+  (accounts: ReadonlyArray<ChainAccount>) =>
+    accounts
+      .filter(acct => !!acct.account)
+      .map(acct => acct.account!.balance)
+      .reduce((acc, cur) => [...acc, ...cur], []),
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
