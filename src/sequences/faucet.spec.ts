@@ -1,12 +1,5 @@
 import { compareAmounts } from "~/logic";
-import {
-  faucetSpec,
-  mayTestBns,
-  randomString,
-  testChains,
-  testChainsFaucet,
-  testSpec,
-} from "~/logic/testhelpers";
+import { faucetSpecs, mayTestBns, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -49,22 +42,14 @@ describe("drinkFaucetSequence", () => {
         expect(addresses.length).toEqual(totalFaucetChains);
         const addr = addresses[0].address;
 
-        // now, drink from the BNS faucet....
-
-        const { token: testTicker, uri: faucetUri } = await faucetSpec();
-        const faucetAction = drinkFaucetSequence(faucetUri, testTicker);
+        // drink from all faucets
+        const faucets = await faucetSpecs();
+        const faucetAction = drinkFaucetSequence(faucets);
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
 
         // it seems the faucet dispatch takes a while to resolve....
         // TODO: investigate
-        await sleep(1000);
-
-        // now, drink for chains faucet
-        const chainsFaucet = await testChainsFaucet();
-        const faucetAct = drinkFaucetSequence(chainsFaucet[0].uri, chainsFaucet[0].token);
-        await fixTypes(store.dispatch(faucetAct as any));
-
         await sleep(1000);
 
         // validate the current account is defined and has some tokens

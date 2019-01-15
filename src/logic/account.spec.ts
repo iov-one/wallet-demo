@@ -15,7 +15,7 @@ import {
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { adminProfile, faucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
+import { adminProfile, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
@@ -67,7 +67,7 @@ describe("sendTransaction", () => {
         // ensure rcpt is empty before
         const before = await getAccount(reader, rcpt);
         expect(before).toEqual(undefined);
-        const { token: testTicker } = await faucetSpec();
+        const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
         const amount: Amount = {
           quantity: "12345678000",
@@ -114,7 +114,7 @@ describe("setName", () => {
       const rcptWriter = new MultiChainSigner(empty);
       const rcptReader = await addBlockchain(rcptWriter, testSpecData);
       try {
-        const { token: testTicker } = await faucetSpec();
+        const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
         const amount: Amount = {
           quantity: "10000000000",
@@ -200,7 +200,7 @@ describe("setName", () => {
           expect(updatesRcpt).toEqual(1);
           expect(acctRcpt).toBe(undefined);
 
-          const { token: testTicker } = await faucetSpec();
+          const { token: testTicker } = (await bnsFaucetSpec())!;
           // send a token from the genesis account
           const amount: Amount = {
             quantity: "10000000000",

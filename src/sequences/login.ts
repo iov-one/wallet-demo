@@ -4,7 +4,7 @@ import { BootType } from "~/routes/signupPass/store/actions/boot";
 import { DrinkFaucetType } from "~/routes/signupPass/store/actions/drinkFaucet";
 import { history } from "~/store";
 import { BlockchainSpec } from "../logic/connection";
-import { loadConfig } from "../utils/conf";
+import { allFaucetSpecs, loadConfig } from "../utils/conf";
 
 export const loginAccount = async (
   boot: BootType,
@@ -18,7 +18,8 @@ export const loginAccount = async (
   const mainAccount = accounts[0];
   const account = mainAccount ? mainAccount.account : undefined;
   if (!account) {
-    await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
+    const faucets = allFaucetSpecs(config);
+    await drinkFaucet(faucets);
     history.push(SET_NAME_ROUTE);
 
     return;

@@ -1,7 +1,7 @@
-import { TokenTicker } from "@iov/core";
 import { drinkFaucetSequence } from "~/sequences";
+import { FaucetSpec } from "~/utils/conf";
 
-export type DrinkFaucetType = (faucetUri: string, ticker: TokenTicker) => Promise<void>;
+export type DrinkFaucetType = (faucets: ReadonlyArray<FaucetSpec | undefined>) => Promise<void>;
 
-export default (faucetUri: string, ticker: TokenTicker) => (dispatch: any) =>
-  dispatch(drinkFaucetSequence(faucetUri, ticker));
+export default (faucets: ReadonlyArray<FaucetSpec | undefined>) => (dispatch: any) =>
+  dispatch(drinkFaucetSequence(faucets));
