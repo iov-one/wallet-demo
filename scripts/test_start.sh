@@ -1,20 +1,25 @@
 #!/bin/bash
+set -o errexit -o nounset -o pipefail
+command -v shellcheck > /dev/null && shellcheck "$0"
 
 # This runs all the scripts to set up for a local bns testing environment
 # (blockchains and faucets).
 # Intended as a convenience script for developers.
 
+# get this files directory regardless of pwd when we run it
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 echo
 echo ">>> Starting bns chain and faucet..."
 echo
-bash ./bnsd/start.sh
-bash ./faucet/bnsd_start.sh
+bash "${SCRIPT_DIR}"/bnsd/start.sh
+bash "${SCRIPT_DIR}"/faucet/bnsd_start.sh
 
 echo
 echo ">>> Starting bcpd (demo) chain and faucet..."
 echo
-bash ./bcpd/start.sh
-bash ./faucet/bcpd_start.sh
+bash "${SCRIPT_DIR}"/bcpd/start.sh
+bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
 
 echo
 echo ">>> Waiting for faucets to load tokens..."
