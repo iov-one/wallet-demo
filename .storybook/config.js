@@ -4,7 +4,7 @@ import { configure } from '@storybook/react';
 const reqRoutes = require.context('../src/routes', true, /\.stories\.((js|ts)x?)$/);
 const reqComponents = require.context('../src/components', true, /\.stories\.((js|ts)x?)$/);
 const ctxComponents = require.context('../src/context', true, /\.stories\.((js|ts)x?)$/);
-const req = require.context('../stories', true, /.stories.js$/);
+const req = require.context('../stories', true, /\.stories\.((js|ts)x?)$/);
 
 function loadStories() {
   reqRoutes.keys().forEach((filename) => reqRoutes(filename));
