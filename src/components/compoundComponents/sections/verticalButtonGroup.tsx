@@ -26,8 +26,8 @@ interface GroupProps {
 
 export const VerticalButtonGroup = (props: GroupProps) => (
   <Wrapper>
-    {props.buttons.map(({ title, type, onClick, icon }, idx) => (
-      <Button title={title} type={type} icon={icon} isVertical onClick={onClick} key={`button_${idx}`} />
+    {props.buttons.map(({ title, type, onClick, icon, disabled }, idx) => (
+      <Button title={title} type={type} icon={icon} disabled={disabled} isVertical onClick={onClick} key={`button_${idx}`} />
     ))}
   </Wrapper>
 );
