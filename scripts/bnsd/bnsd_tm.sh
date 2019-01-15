@@ -24,6 +24,7 @@ fi
 # tx indexing set in init
 exec docker run --user="$UID" \
   -p "${PORT}:26657" -v "${BNSD_DIR}:/tendermint" \
+  --name "bnsd_tm" \
   "iov1/tendermint:${BNSD_TM_VERSION}" node \
   --proxy_app="unix:///tendermint/app.sock" \
   --rpc.laddr=tcp://0.0.0.0:26657 \

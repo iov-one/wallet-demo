@@ -16,6 +16,7 @@ echo "Connecting to $BLOCKCHAIN_URL"
 
 docker pull "iov1/iov-faucet:${FAUCET_VERSION}"
 docker run --read-only \
+  --name "bnsd_faucet" \
   --env "FAUCET_CONCURRENCY=3" \
   --env "FAUCET_COIN_TYPE=1" \
   --env "FAUCET_MNEMONIC=lazy luxury exit tail ethics guide voice ribbon denial seat reopen runway"  \

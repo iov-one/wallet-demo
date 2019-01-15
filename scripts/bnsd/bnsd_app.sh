@@ -17,6 +17,7 @@ fi
 
 exec docker run --user="$UID" \
   -v "${BNSD_DIR}:/data" \
+  --name "bnsd_app" \
   "iov1/bnsd:${BNSD_VERSION}" \
   -home "/data" \
   start -bind="unix:///data/app.sock"
