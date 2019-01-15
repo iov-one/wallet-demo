@@ -10,7 +10,9 @@ type Props = LinkProps;
 const Link = ({ children, to, ...rest }: Props) => {
   // to is LocationDescriptor<any>, external link check only works for strings
   if (typeof to === "string") {
-    if (/^https?:\/\//.test(to)) {
+    // this matches for https://foo.bar/ http://foo.bar/ //foo.bar/
+    // update if we need more protocols
+    if (/^(https?:)?\/\//.test(to)) {
       return (
         <a href={to} {...rest}>
           {children}
