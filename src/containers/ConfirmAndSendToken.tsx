@@ -44,6 +44,8 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     const { iovAddress, tokenAmount } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo as string;
+    // TODO: we need to select account based on chainId, which depends on the tokens
+    // time to update and re-org selectors
     const account = this.getFirstAccount();
     if (!account) {
       throw new Error("Cannot send without account");
@@ -57,10 +59,12 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     // currently (up to 0.11), iov-core requires specific number of places on the send transaction amount, so we extend it
     const paddedAmount = padAmount(amount, 9);
     const transactionId = uniquId();
+    // TODO: we need to pass the chainId here... it depends on the selected token
     sendTransaction(chainIds[0], iovAddress, paddedAmount, memo, transactionId);
     history.push("/balance");
   };
 
+  // TODO: both of these should go away, we need to dynamically select
   public getFirstAccount(): BcpAccount | undefined {
     return get(this.props.accounts, "[0].account", undefined);
   }
@@ -74,10 +78,13 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
     if (!account) {
       return false;
     }
+    // TODO: generic "get all balances" selector from Balances route
     const balance = this.getFirstBalance(account);
     if (!balance) {
       return false;
     }
+
+
     const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";

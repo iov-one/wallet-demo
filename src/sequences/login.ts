@@ -15,6 +15,8 @@ export const loginAccount = async (
   const config = await loadConfig();
   const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
   const { accounts } = await boot(pass, config.bns.chainSpec as BlockchainSpec, chains, mnemonic);
+
+  // TODO: we should check each chain for which accounts are defined
   const mainAccount = accounts[0];
   const account = mainAccount ? mainAccount.account : undefined;
   if (!account) {
