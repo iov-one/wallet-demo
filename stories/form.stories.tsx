@@ -28,20 +28,19 @@ storiesOf("Forms", module)
     />);
   })
   .add("Send Token Form", () => {
-    const tokenTicker: TokenTicker = "IOV" as TokenTicker;
+    const defaultToken: TokenTicker = "IOV" as TokenTicker;
     const amount: Amount = {
       fractionalDigits: 9, 
       quantity: "1000000000", 
-      tokenTicker: tokenTicker
+      tokenTicker: defaultToken
     }
     const balances: ReadonlyArray<Amount> = new Array(amount);
-
 
 
     return (<SendTokenForm
       name="IOV"
       iovAddress="albert*iov"
-      defaultToken={tokenTicker}
+      defaultToken={defaultToken}
       balances={balances}
       onSend={(transactionInfo) => action(transactionInfo)
       }

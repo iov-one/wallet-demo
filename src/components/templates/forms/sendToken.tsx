@@ -1,17 +1,16 @@
+import { Amount, BcpCoin, TokenTicker } from "@iov/bcp-types";
+import { find, isEmpty } from "lodash";
 import React from "react";
 import styled from "styled-components";
-
-import { find, isEmpty } from "lodash";
-
-import { Amount, BcpCoin, TokenTicker } from "@iov/bcp-types";
-
+import Typography from "~/components/layout/Typography";
+import { compareAmounts, prettyAmount, stringToAmount } from "~/logic";
 import { TokenInput } from "../../compoundComponents/form";
 import { VerticalButtonGroup } from "../../compoundComponents/sections";
 import { SecondaryInput } from "../../subComponents/input";
 import { Paper } from "../../subComponents/page";
 import { H2, TextFieldLabel } from "../../subComponents/typography";
 
-import { compareAmounts, prettyAmount, stringToAmount } from "~/logic";
+const MAX_MEMO_LENGTH = 150;
 
 const NameWrapper = styled.div`
   position: absolute;
@@ -76,6 +75,7 @@ export interface SendTokenFormState {
   readonly tokenAmount: string;
   readonly token: TokenTicker;
   readonly isValidAmount: boolean;
+  readonly isValidMemo: boolean;
   readonly hasEnoughToken: boolean;
   readonly memo: string;
 }
@@ -91,22 +91,14 @@ interface SendTokenFormProps {
 
 export class SendTokenForm extends React.Component<SendTokenFormProps, SendTokenFormState> {
   public readonly state = {
-    tokenAmount: "0",
-    isValidAmount: false,
-    memo: "",
-    hasEnoughToken: false,
-    token: "" as TokenTicker,
-  };
-  constructor(props: SendTokenFormProps) {
-    super(props);
-    this.state = {
-      tokenAmount: "",
+    tokenAmount: "",
       isValidAmount: true,
       hasEnoughToken: true,
+      isValidMemo: true,
       memo: "",
-      token: props.defaultToken,
-    };
-  }
+      token: this.props.defaultToken,
+  };
+
   public readonly getSelectedToken = (token: TokenTicker): BcpCoin => {
     const { balances } = this.props;
     const balance = find(balances, item => item.tokenTicker === token);
@@ -154,8 +146,11 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
   };
   public readonly onChangeMemo = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.target as HTMLInputElement;
+    const memo = target.value;
+  
     this.setState({
-      memo: target.value,
+      memo,
+      isValidMemo: memo.length < MAX_MEMO_LENGTH
     });
   };
   public readonly onSend = () => {
@@ -165,13 +160,21 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
       });
       return;
     }
+
+    if (this.state.memo.length > MAX_MEMO_LENGTH) {
+      this.setState({
+        isValidMemo: false,
+      });
+      return;
+    }
+
     this.props.onSend({
       ...this.state,
     });
   };
   public render(): JSX.Element | boolean {
     const { balances, name, iovAddress } = this.props;
-    const { tokenAmount, token, isValidAmount, hasEnoughToken } = this.state;
+    const { memo, tokenAmount, token, isValidAmount, isValidMemo, hasEnoughToken } = this.state;
     const tokens = balances.map(balance => balance.tokenTicker);
     const selectedBalance = this.getSelectedToken(token);
     const buttons: ReadonlyArray<any> = [
@@ -179,7 +182,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
         title: "Continue",
         type: "primary",
         onClick: this.onSend,
-        disabled: !isValidAmount || !hasEnoughToken,
+        disabled: !isValidAmount || !isValidMemo || !hasEnoughToken,
       },
       {
         title: "Cancel",
@@ -187,6 +190,7 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
         onClick: this.props.onBack,
       },
     ];
+
     return (
       <Wrapper>
         <NameWrapper>{name.slice(0, 2)}</NameWrapper>
@@ -204,6 +208,9 @@ export class SendTokenForm extends React.Component<SendTokenFormProps, SendToken
           />
           <TokenText>balance: {prettyAmount(selectedBalance)}</TokenText>
           <SecondaryInput placeholder="add a note" onChange={this.onChangeMemo} />
+          <Typography variant="body2" align="left" weight="light" color={isValidMemo ? "textPrimary" : "error" }>
+              {memo.length}/{MAX_MEMO_LENGTH}
+            </Typography>
         </Paper>
         <VerticalButtonGroup buttons={buttons} />
       </Wrapper>
