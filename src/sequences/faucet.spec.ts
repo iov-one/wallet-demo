@@ -1,5 +1,12 @@
 import { compareAmounts } from "~/logic";
-import { faucetSpec, mayTestBns, randomString, testChains, testChainsFaucet, testSpec } from "~/logic/testhelpers";
+import {
+  faucetSpec,
+  mayTestBns,
+  randomString,
+  testChains,
+  testChainsFaucet,
+  testSpec,
+} from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -31,7 +38,7 @@ describe("drinkFaucetSequence", () => {
         // validate the current accounts are undefined
         const thirstyAccounts = getMyAccounts(store.getState());
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
-        thirstyAccounts.map(ac =>  expect(ac.account).toBeUndefined())
+        thirstyAccounts.map(ac => expect(ac.account).toBeUndefined());
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
 
         // no transactions yet
@@ -52,7 +59,7 @@ describe("drinkFaucetSequence", () => {
         // it seems the faucet dispatch takes a while to resolve....
         // TODO: investigate
         await sleep(1000);
-        
+
         // now, drink for chains faucet
         const chainsFaucet = await testChainsFaucet();
         const faucetAct = drinkFaucetSequence(chainsFaucet[0].uri, chainsFaucet[0].token);
@@ -71,7 +78,11 @@ describe("drinkFaucetSequence", () => {
           // we should have something here
           expect(account.balance.length).toEqual(1);
           // check that the returned balance is greater than 2
-          const minBalance = { quantity: "2", fractionalDigits: 0, tokenTicker: account.balance[0].tokenTicker };
+          const minBalance = {
+            quantity: "2",
+            fractionalDigits: 0,
+            tokenTicker: account.balance[0].tokenTicker,
+          };
           expect(compareAmounts(account.balance[0], minBalance)).toBeGreaterThanOrEqual(1);
           // at the address we expect
           expect(account.address).toEqual(addr);
