@@ -19,19 +19,23 @@ export const availableTokensSelector = createSelector(
     if (tickers.length === 0) {
       return [];
     }
-    const tickersByChainAndAddress = accounts.filter(acct => acct !== undefined).map(acct => {
-      return {
-        address: acct.account!.address,
-        tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker)
-      }
-    });
+    const tickersByChainAndAddress = accounts
+      .filter(acct => acct !== undefined)
+      .map(acct => {
+        return {
+          address: acct.account!.address,
+          tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
+        };
+      });
 
-    const tickersByAddress = tickersByChainAndAddress.map(acct => acct.tickers.map(t => ({
-      token: t.tokenTicker,
-      address: acct.address,
-    })));
+    const tickersByAddress = tickersByChainAndAddress.map(acct =>
+      acct.tickers.map(t => ({
+        token: t.tokenTicker,
+        address: acct.address,
+      })),
+    );
 
-    return tickersByAddress.reduce((acc,cur) => [...acc, ...cur], []);
+    return tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
   },
 );
 
