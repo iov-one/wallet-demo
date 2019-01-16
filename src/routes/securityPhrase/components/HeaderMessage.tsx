@@ -10,7 +10,7 @@ export const HeaderMessage = () => (
         <Block margin="xxl" />
         <Block padding={phone ? "lg" : "xxl"} margin="md">
           <Typography variant="subtitle1" color="textPrimary">
-            Your backup phrase
+            Your recovery phrase
           </Typography>
         </Block>
       </React.Fragment>

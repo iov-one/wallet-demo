@@ -23,7 +23,6 @@ interface Props extends WithStyles<typeof styles> {
   readonly icon: "white" | "black";
   readonly nextMsg: string;
   readonly onSubmit: (values: object) => void;
-  readonly onBack?: () => void;
   readonly formRender: () => JSX.Element;
   readonly validation?: (values: object) => object | Promise<object>;
 
@@ -61,7 +60,6 @@ const Layout = ({
   classes,
   formRender,
   onSubmit,
-  onBack,
   icon,
   primaryTitle,
   secondaryTitle,
@@ -99,11 +97,6 @@ const Layout = ({
                 <Grid nowrap noshrink nogrow>
                   <GridItem xs={12} sm={12} grow center="xs" end="xs">
                     <Block margin="md" offsetSm={2} padding={phone ? "lg" : "xxl"}>
-                      {onBack && (
-                        <Button color="primary" size="large" onClick={onBack} className={classes.back}>
-                          Back
-                        </Button>
-                      )}
                       <Button
                         variant="continue"
                         color="primary"
