@@ -802,6 +802,18 @@
     type-tagger "^1.0.0"
     unorm "^1.4.1"
 
+"@iov/dpos@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@iov/dpos/-/dpos-0.10.2.tgz#2ec61eef0a3f664b4d23437d6854a492e6b741b6"
+  integrity sha512-WlJ3bou2PaDSykPL2ENEwjsa3+CgDpGFBtQOU2SCVwqaWYGIhJRHr6d5BF7IqzHWOpFRPG38ixbYnod6XhUnOw==
+  dependencies:
+    "@iov/bcp-types" "^0.10.2"
+    "@iov/crypto" "^0.10.1"
+    "@iov/encoding" "^0.10.1"
+    "@types/long" "^4.0.0"
+    long "^4.0.0"
+    readonly-date "^1.0.0"
+
 "@iov/encoding@^0.10.1":
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/@iov/encoding/-/encoding-0.10.1.tgz#d30ebe23777ed70450af9483e53cbe9d64c7f793"
@@ -843,6 +855,25 @@
     readonly-date "^1.0.0"
     type-tagger "^1.0.0"
     xstream "^11.4.0"
+
+"@iov/lisk@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@iov/lisk/-/lisk-0.10.2.tgz#41d5a50b6db802e9b50d47cd9924aace7c31e99d"
+  integrity sha512-5GWia3czIYQ5RmqjiEibClt+3mcZ5fuYyLEHPa0KHxnIUAPu17N5eRINWv36+KHKPAlZKtxbRdpgVXuwQbz4Cw==
+  dependencies:
+    "@iov/base-types" "^0.10.0"
+    "@iov/bcp-types" "^0.10.2"
+    "@iov/crypto" "^0.10.1"
+    "@iov/dpos" "^0.10.2"
+    "@iov/encoding" "^0.10.1"
+    "@iov/keycontrol" "^0.10.2"
+    "@iov/stream" "^0.10.1"
+    "@types/long" "^4.0.0"
+    axios "^0.18.0"
+    fast-deep-equal "^2.0.1"
+    long "^4.0.0"
+    readonly-date "^1.0.0"
+    xstream "^11.7.0"
 
 "@iov/socket@^0.10.1":
   version "0.10.1"

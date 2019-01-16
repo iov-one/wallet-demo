@@ -1,13 +1,14 @@
 import { BcpConnection, BcpTransactionState, ChainConnector } from "@iov/bcp-types";
 import { BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
+import { liskConnector } from "@iov/lisk"
 
 import { getMainIdentity, getMainKeyring } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
   Bov = "bov",
-  // Lisk = "lisk",
+  Lsk = "lsk",
 }
 
 // BlockchainSpec is a config option, such as may be returned from bns in the future
@@ -28,6 +29,8 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
     case CodecType.Bns:
     case CodecType.Bov:
       return { ...bnsConnector(uri), expectedChainId: spec.chainId };
+    case CodecType.Lsk:
+      return { ...liskConnector(uri), expectedChainId: spec.chainId };
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }

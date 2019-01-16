@@ -20,5 +20,15 @@
       "token": "BOV"
     },
     "defaultPassword": "test-pass-bov"
+  },{
+    "chainSpec": {
+      "codecType": "lsk",
+      "bootstrapNodes": ["http://localhost:4000/"]
+    },
+    "faucetSpec": {
+      "uri": "http://localhost:8002",
+      "token": "LSK"
+    },
+    "defaultPassword": "test-pass-lsk"
   }]
 }

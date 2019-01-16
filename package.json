@@ -30,6 +30,7 @@
     "@iov/crypto": "^0.10.1",
     "@iov/faucets": "^0.10.1",
     "@iov/keycontrol": "^0.10.1",
+    "@iov/lisk": "^0.10.2",
     "@iov/stream": "^0.10.1",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
