@@ -22,6 +22,13 @@ bash "${SCRIPT_DIR}"/bcpd/start.sh
 bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
 
 echo
+echo ">>> Starting lisk (test) chain and faucet..."
+echo
+bash "${SCRIPT_DIR}"/lisk/start.sh
+#bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
+
+
+echo
 echo ">>> Waiting for faucets to load tokens..."
 echo
 sleep 3
