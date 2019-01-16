@@ -7,6 +7,7 @@ import {
   lg,
   lightFont,
   md,
+  mediumFontSize,
   placeholder,
   primary,
   regularFont,
@@ -54,6 +55,8 @@ export const themeObject: ThemeOptions = {
     MuiButton: {
       root: {
         textTransform: "capitalize",
+        minHeight: "42px",
+        fontSize: mediumFontSize,
       },
       contained: {
         boxShadow: "none",
@@ -101,6 +104,23 @@ export const themeObject: ThemeOptions = {
         overflowY: "hidden",
       },
     },
+    MuiInputBase: {
+      input: {
+        paddingLeft: sm,
+        paddingRight: sm,
+      },
+      root: {
+        fontSize: "1.25rem",
+        lineHeight: "1.6rem",
+        "& > input::placeholder": {
+          color: placeholder,
+          // opacity: "1 !important", Fixed in general css for avoid TS errors
+        },
+      },
+      error: {
+        backgroundColor: "#fff1e1", // lighter version of temporaryError
+      },
+    },
     MuiSnackbarContent: {
       root: {
         [theme.breakpoints.up("xs")]: {
@@ -140,19 +160,6 @@ export const themeObject: ThemeOptions = {
         "&:hover": {
           backgroundColor: "none",
         },
-      },
-    },
-    MuiInputBase: {
-      root: {
-        fontSize: "1.25rem",
-        lineHeight: "1.6rem",
-        "& > input::placeholder": {
-          color: placeholder,
-          // opacity: "1 !important", Fixed in general css for avoid TS errors
-        },
-      },
-      error: {
-        backgroundColor: "#fff1e1", // lighter version of temporaryError
       },
     },
     MuiList: {
