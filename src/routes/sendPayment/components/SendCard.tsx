@@ -88,6 +88,16 @@ class SendCard extends React.Component<Props, State> {
         <div ref={this.phoneHookRef} />
         <Block margin="md" />
         <Hairline margin="md" />
+        <Field
+          variant="outlined"
+          name="note"
+          type="text"
+          multiline
+          fullWidth
+          component={TextField}
+          validate={required}
+          placeholder="Optional note"
+        />
         <Block margin="xxl" />
       </React.Fragment>
     );
