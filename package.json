@@ -13,7 +13,7 @@
     "build": "shx rm -rf ./build && tsc --module commonjs",
     "test": "NODE_ENV=test jest",
     "test-dom": "NODE_ENV=test && node scripts/test.js --env=jsdom",
-    "start": "NODE_ENV=test webpack-dev-server --config webpack/development.config.js",
+    "start": "NODE_ENV=development webpack-dev-server --config webpack/development.config.js",
     "start-prod": "NODE_ENV=production webpack-dev-server --config webpack/production.config.js",
     "dist": "shx mkdir -p ./build && NODE_ENV=production webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
