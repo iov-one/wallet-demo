@@ -32,9 +32,10 @@ describe("DOM > Feature > Login", () => {
     shutdownSequence(null, store.getState);
   });
 
-  mayTest("should contain only one field for password", async () => {
+  mayTest("should contain only one field for password", async (done) => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
     expect(inputs.length).toBe(1);
+    done();
   });
 
   mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async (done) => {
@@ -42,7 +43,7 @@ describe("DOM > Feature > Login", () => {
 
     const password = inputs[0];
     TestUtils.Simulate.change(password, { target: { value: profilePass } } as any);
-    
+
     const form = TestUtils.findRenderedDOMComponentWithTag(walletDom, "form");
     TestUtils.Simulate.submit(form);
 
