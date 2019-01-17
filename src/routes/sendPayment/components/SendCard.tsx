@@ -90,7 +90,7 @@ class SendCard extends React.Component<Props, State> {
             items={tickersWithBalance}
             initial={defaultTicket}
             onChangeCallback={onUpdateBalanceToSend}
-            width={65}
+            width={67}
           />
         </Block>
         <Block margin="xs" />

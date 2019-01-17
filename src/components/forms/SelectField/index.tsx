@@ -110,7 +110,7 @@ class SelectInput extends React.PureComponent<Props, State> {
             readOnly
             role="button"
           />
-          <Img src={selectChevron} alt="Phone Menu" width={CHEVRON_WIDTH} height="5" />
+          <Img noShrink src={selectChevron} alt="Phone Menu" width={`${CHEVRON_WIDTH}`} height="5" />
         </div>
         {showPhone ? (
           ReactDOM.createPortal(
