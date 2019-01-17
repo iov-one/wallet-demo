@@ -11,7 +11,7 @@
     "format": "prettier --write --loglevel warn \"./src/**/*.{ts,tsx}\"",
     "prebuild": "yarn format && yarn lint",
     "build": "shx rm -rf ./build && tsc --module commonjs",
-    "test": "NODE_ENV=test jest --detectOpenHandles -i",
+    "test": "NODE_ENV=test jest -i",
     "test-dom": "NODE_ENV=test && node scripts/test.js --env=jsdom",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/development.config.js",
     "start-test": "NODE_ENV=test webpack-dev-server --config webpack/development.config.js",
