@@ -10,15 +10,5 @@
     },
     "defaultPassword": "test-pass"
   },
-  "chains": [{
-    "chainSpec": {
-      "codecType": "bov",
-      "bootstrapNodes": ["wss://bov.yaknet.iov.one/"]
-    },
-    "faucetSpec": {
-      "uri": "https://bov-faucet.yaknet.iov.one",
-      "token": "ALT"
-    },
-    "defaultPassword": "test-pass"
-  }]
+  "chains": []
 }
