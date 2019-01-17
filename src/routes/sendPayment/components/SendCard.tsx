@@ -4,12 +4,13 @@ import * as React from "react";
 import Field from "~/components/forms/Field";
 import SelectField from "~/components/forms/SelectField";
 import TextField from "~/components/forms/TextField";
-import { required } from "~/components/forms/validator";
+import { lengthLowerThan, required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import IovTypography from "~/components/layout/Typography";
 
 const RECIPIENT_FIELD = "recipient";
+const NOT_MAX_SIZE = 150;
 
 export interface SendBalance {
   readonly balance: BcpCoin;
@@ -106,7 +107,7 @@ class SendCard extends React.Component<Props, State> {
           multiline
           fullWidth
           component={TextField}
-          validate={required}
+          validate={lengthLowerThan(NOT_MAX_SIZE)}
           placeholder="Note"
         />
         <Block margin="xxl" />
