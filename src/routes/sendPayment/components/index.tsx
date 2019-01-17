@@ -1,3 +1,4 @@
+import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
@@ -11,6 +12,9 @@ import SendCard from "./SendCard"
 interface Props extends WithStyles<typeof styles>{
   readonly onSubmit: (values: object) => Promise<void>;
   readonly validation?: (values: object) => object | Promise<object>;
+  readonly balances: ReadonlyArray<BcpCoin>;
+  readonly balanceTickers: ReadonlyArray<string>;
+  readonly defaultTicker: string;
 }
 
 const subscription = {
