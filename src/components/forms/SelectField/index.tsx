@@ -38,6 +38,7 @@ const styles = createStyles({
     border: `1px solid ${border}`,
     borderRadius: "5px",
     padding: `0 ${sm}`,
+    cursor: "pointer",
   },
   root: {
     fontSize: mediumFontSize,
@@ -46,6 +47,8 @@ const styles = createStyles({
   input: {
     paddingLeft: 0,
     paddingRight: 0,
+    textAlign: "center",
+    cursor: "pointer",
   },
 });
 

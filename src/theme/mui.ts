@@ -109,10 +109,21 @@ export const themeObject: ThemeOptions = {
         paddingLeft: sm,
         paddingRight: sm,
       },
+      inputMultiline: {
+        color: "#b9bdcc",
+        fontWeight: semiBoldFont,
+      },
       root: {
         fontSize: "1.25rem",
         lineHeight: "1.6rem",
         "& > input::placeholder": {
+          color: placeholder,
+          // opacity: "1 !important", Fixed in general css for avoid TS errors
+        },
+        "& > div > textarea": { // Ugly hack to solve custom font sizes auto resize in multiline TextFields
+          fontSize: "14px",
+        },
+        "& > div > textarea::placeholder": {
           color: placeholder,
           // opacity: "1 !important", Fixed in general css for avoid TS errors
         },
