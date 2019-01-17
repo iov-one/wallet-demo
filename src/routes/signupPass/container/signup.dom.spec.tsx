@@ -25,6 +25,25 @@ export const travelToSignup = (store: Store): React.Component<{}> => {
   return createDom(store);
 };
 
+export const signUp = async (store: Store, userPassword: string): Promise<React.Component> => {
+  const signUpDom = await travelToSignup(store);
+  const inputs = TestUtils.scryRenderedDOMComponentsWithTag(signUpDom, "input");
+  const email = inputs[0];
+  TestUtils.Simulate.change(email, { target: { value: "foo@bar.com" } } as any);
+  const password = inputs[1];
+  TestUtils.Simulate.change(password, { target: { value: userPassword } } as any);
+  const repeatPassword = inputs[2];
+  TestUtils.Simulate.change(repeatPassword, { target: { value: userPassword } } as any);
+  const accept = inputs[3];
+  TestUtils.Simulate.change(accept, { target: { value: "true" } } as any);
+  const form = TestUtils.findRenderedDOMComponentWithTag(signUpDom, "form");
+  TestUtils.Simulate.submit(form);
+
+  await sleep(3000);  
+  return signUpDom;
+}
+
+
 describe("DOM > Feature > Signup", () => {
   let store: Store<RootState>;
   beforeEach(() => {
