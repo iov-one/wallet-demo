@@ -1,7 +1,7 @@
 import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { mayTestBns, randomString } from "~/logic/testhelpers";
+import { mayTestBns } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { signUp } from "~/routes/signupPass/container/signup.dom.spec";
@@ -24,7 +24,7 @@ describe("DOM > Feature > Login", () => {
   let walletDom: React.Component;
 
   beforeEach(async () => {
-    profilePass = randomString(16);
+    profilePass = "somepassword"//randomString(16);
     store = aNewStore();    
 
     walletDom = await travelToLogin(store, profilePass);
