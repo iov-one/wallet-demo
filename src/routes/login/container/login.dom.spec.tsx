@@ -8,7 +8,7 @@ import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { fixTypes } from "~/reducers/helpers";
 import { createProfileAsyncAction } from "~/reducers/profile";
-import Route, { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
+import Route, { HOME_ROUTE, LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { getProfileDB } from "~/selectors";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
@@ -35,20 +35,18 @@ export const travelToLogin = async (store: Store, profilePass: string): Promise<
   expect(profile.wallets.value.length).toBe(1);
 
   // now, go to login with existing profile
-  history.push(LOGIN_ROUTE);
+  history.push(HOME_ROUTE);
   return createDom(store);
 };
 
 describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let profilePass: string;
-  let walletDom: React.Component;
 
   beforeEach(async () => {
     profilePass = randomString(16);
     store = aNewStore();
 
-    walletDom = await travelToLogin(store, profilePass);
   });
 
   afterEach(() => {
@@ -58,6 +56,12 @@ describe("DOM > Feature > Login", () => {
   mayTestBns(
     `should redirect to ${SET_NAME_ROUTE} route after success login`,
     async () => {
+      const walletDom = await travelToLogin(store, profilePass);
+
+      // should be redirected to login page
+      await sleep(400)
+      expect(store.getState().router.location.pathname).toBe(LOGIN_ROUTE);
+
       const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
       const password = inputs[0];

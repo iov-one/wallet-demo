@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { Store } from "redux";
 import { mayTestBns } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
-import Route, { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
+import Route, { HOME_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
@@ -20,7 +20,7 @@ const createDom = (store: Store): React.Component<any, any, any> =>
   ) as React.Component;
 
 export const travelToSignup = (store: Store): React.Component<{}> => {
-  history.push(SIGNUP_ROUTE);
+  history.push(HOME_ROUTE);
 
   return createDom(store);
 };
@@ -37,6 +37,9 @@ describe("DOM > Feature > Signup", () => {
     "creates account after filling form",
     async () => {
       const SignUpDom = await travelToSignup(store);
+
+      await sleep(300);
+      expect(store.getState().router.location.pathname).toBe(SIGNUP_ROUTE);
 
       // Let's fill the form
       const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SignUpDom, "input");
