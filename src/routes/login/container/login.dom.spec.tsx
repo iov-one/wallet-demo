@@ -29,10 +29,11 @@ describe("DOM > Feature > Login", () => {
     shutdownSequence(null, store.getState);
   });
 
-  mayTest("should contain only one field for password", async () => {
+  mayTest("should contain only one field for password", async (done) => {
     const walletDom = await travelToLogin(store, profilePass);
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
     expect(inputs.length).toBe(1);
+    done();
   });
 
   mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
