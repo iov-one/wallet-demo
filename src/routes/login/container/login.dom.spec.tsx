@@ -9,6 +9,8 @@ import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
+jest.setTimeout(60000);
+
 export const travelToLogin = async (store: Store, password: string): Promise<React.Component> => {
   const signUpDom = await signUp(store, password);
   history.push(LOGIN_ROUTE);
