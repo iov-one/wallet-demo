@@ -46,9 +46,9 @@ describe("DOM > Feature > Login", () => {
     }
     TestUtils.Simulate.submit(form);
     
-    console.error("before sleep");
+    console.log("before sleep");
     await sleep(3000);
-    console.error("after sleep");
+    console.log("after sleep");
     expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
   });
 });
