@@ -16,29 +16,27 @@ export const travelToLogin = async (store: Store, password: string): Promise<Rea
   return signUpDom;
 };
 
-xdescribe("DOM > Feature > Login", () => {
+describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let walletDom: React.Component;
   let profilePass: string;
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     profilePass = randomString(16);
     store = aNewStore();
     walletDom = await travelToLogin(store, profilePass);
-    done();
   });
 
   afterEach(() => {
     shutdownSequence(null, store.getState);
   });
 
-  mayTest("should contain only one field for password", async (done) => {
+  mayTest("should contain only one field for password", async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
     expect(inputs.length).toBe(1);
-    done();
   });
 
-  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async (done) => {
+  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
     const password = inputs[0];
@@ -49,6 +47,5 @@ xdescribe("DOM > Feature > Login", () => {
 
     await sleep(3000);
     expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
-    done();
   });
 });
