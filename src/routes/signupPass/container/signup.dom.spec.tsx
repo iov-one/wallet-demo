@@ -44,7 +44,7 @@ export const signUp = async (store: Store, userPassword: string): Promise<React.
 }
 
 
-describe("DOM > Feature > Signup", () => {
+xdescribe("DOM > Feature > Signup", () => {
   let store: Store<RootState>;
   beforeEach(() => {
     store = aNewStore();

@@ -177,8 +177,5 @@ async function watchAccountAndTransactions(
 // we only have access to the state itself in tests
 export function shutdownSequence(_: any, getState: () => RootState): void {
   const connections = getConnections(getState());
-  Object.values(connections).forEach(conn => { 
-    console.log('closing connection', conn);
-    conn.disconnect()
-  });
+  Object.values(connections).forEach(conn => conn.disconnect());
 }
