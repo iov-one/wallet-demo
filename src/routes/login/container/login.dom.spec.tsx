@@ -39,7 +39,7 @@ describe("DOM > Feature > Login", () => {
     expect(inputs.length).toBe(1);
   });
 
-  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async (done) => {
+  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
     const password = inputs[0];
@@ -51,11 +51,7 @@ describe("DOM > Feature > Login", () => {
     }
     TestUtils.Simulate.submit(form);
 
-    return sleep(3000)
-      .then((_: any) => {
-        expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
-        //expect(true).toBe(true);
-        done();
-      });    
+    await sleep(3000);
+    expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
   });
 });
