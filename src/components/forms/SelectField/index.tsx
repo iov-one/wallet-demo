@@ -18,6 +18,7 @@ interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
   readonly initial: string;
   readonly width: number;
   readonly align?: "left" | "right";
+  readonly onChangeCallback?: (value: string) => void;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -45,7 +46,7 @@ const styles = createStyles({
   input: {
     paddingLeft: 0,
     paddingRight: 0,
-  }
+  },
 });
 
 const CHEVRON_WIDTH = 8;
@@ -60,10 +61,14 @@ class SelectInput extends React.PureComponent<Props, State> {
     const {
       input: { onChange },
       toggle,
+      onChangeCallback,
     } = this.props;
 
     this.setState({ value }, () => {
       onChange(value);
+      if (onChangeCallback) {
+        onChangeCallback(value);
+      }
       toggle();
     });
   };
