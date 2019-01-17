@@ -21,12 +21,10 @@ export const availableTokensSelector = createSelector(
     }
     const tickersByChainAndAddress = accounts
       .filter(acct => acct !== undefined)
-      .map(acct => {
-        return {
-          address: acct.account!.address,
-          tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
-        };
-      });
+      .map(acct => ({
+        address: acct.account!.address,
+        tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
+      }));
 
     const tickersByAddress = tickersByChainAndAddress.map(acct =>
       acct.tickers.map(t => ({
