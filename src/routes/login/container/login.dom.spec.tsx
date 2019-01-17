@@ -49,11 +49,11 @@ describe("DOM > Feature > Login", () => {
     if (!form) {
       throw new Error();
     }
-    //TestUtils.Simulate.submit(form);
+    TestUtils.Simulate.submit(form);
 
-    await sleep(3000);
-    //expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
-    expect(true).toBe(true);
+    await sleep(10000);
+    expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
+    //expect(true).toBe(true);
     done();
   });
 });
