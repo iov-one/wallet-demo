@@ -51,7 +51,7 @@ describe("DOM > Feature > Login", () => {
     }
     TestUtils.Simulate.submit(form);
 
-    sleep(3000)
+    return sleep(3000)
       .then((_: any) => {
         expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
         //expect(true).toBe(true);
