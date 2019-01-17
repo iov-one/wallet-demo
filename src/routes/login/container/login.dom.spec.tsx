@@ -36,7 +36,7 @@ xdescribe("DOM > Feature > Login", () => {
     done();
   });
 
-  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
+  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async (done) => {
     const walletDom = await travelToLogin(store, profilePass);
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
@@ -51,5 +51,6 @@ xdescribe("DOM > Feature > Login", () => {
 
     await sleep(3000);
     expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
+    done();
   });
 });
