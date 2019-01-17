@@ -6,7 +6,7 @@ import { tokensSelector } from "~/routes/balance/container/selector";
 export interface SelectorProps {
   readonly tickers: ReadonlyArray<string>;
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
-  readonly defaultToken: string;
+  readonly defaultBalance: BcpCoin;
 }
 
 const IOV = "IOV"
@@ -23,14 +23,14 @@ const balanceTickersSelector = createSelector(
   balanceTokens.map(balanceToken => balanceToken.tokenTicker as string)
 );
 
-const defaultTickerSelector = createSelector(
+const defaultBalanceSelector = createSelector(
+  balanceTokensSelector,
   balanceTickersSelector,
-  (tickers: ReadonlyArray<string>) => {
-    if (tickers.includes(IOV)) {
-      return IOV
-    }
-
-    return tickers[0]
+  (balances: ReadonlyArray<BcpCoin>, tickers: ReadonlyArray<string>): BcpCoin => {
+    const ticker = tickers.includes(IOV) ? IOV : tickers[0]
+    const defaultBalance = balances.find(balance => balance.tokenTicker === ticker)
+    
+    return defaultBalance!
   }
 
 )
@@ -38,7 +38,7 @@ const defaultTickerSelector = createSelector(
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   tickers: balanceTickersSelector,
   balanceTokens: balanceTokensSelector,
-  defaultToken: defaultTickerSelector,
+  defaultBalance: defaultBalanceSelector,
 });
 
 export default structuredSelector;

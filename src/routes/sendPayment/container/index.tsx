@@ -1,3 +1,4 @@
+import { BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Errors } from "~/components/forms/Form";
@@ -9,7 +10,15 @@ import selector, { SelectorProps } from "./selector";
 
 type Props = SelectorProps;
 
-class SendPayment extends React.Component<Props> {
+interface State {
+  readonly balanceToSend: BcpCoin;
+}
+
+class SendPayment extends React.Component<Props, State> {
+  public readonly state = {
+    balanceToSend: this.props.defaultBalance,
+  };
+
   public readonly onSendPayment = async (values: object): Promise<void> => {
     console.log(values);
     history.push(CONFIRM_TRANSACTION);
@@ -22,14 +31,25 @@ class SendPayment extends React.Component<Props> {
     return errors;
   };
 
+  public readonly onUpdateBalanceToSend = (ticker: string) => {
+    const balanceToken = this.props.balanceTokens.find(balance => balance.tokenTicker === ticker);
+    this.setState(() => ({ balanceToSend: balanceToken! }));
+  };
+
   public render(): JSX.Element {
-    const { balanceTokens, tickers, defaultToken } = this.props;
+    const {
+      tickers,
+      defaultBalance: { tokenTicker: defaultTokenTicker },
+    } = this.props;
+    const { balanceToSend } = this.state;
+
     return (
       <PageMenuColumn phoneFullWidth>
         <Layout
-          balances={balanceTokens}
-          balanceTickers={tickers}
-          defaultTicker={defaultToken}
+          balance={balanceToSend}
+          tickersWithBalance={tickers}
+          defaultTicket={defaultTokenTicker}
+          onUpdateBalanceToSend={this.onUpdateBalanceToSend}
           onSubmit={this.onSendPayment}
           validation={this.onSendPaymentValidation}
         />

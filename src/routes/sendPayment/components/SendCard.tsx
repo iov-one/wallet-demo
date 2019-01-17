@@ -1,3 +1,4 @@
+import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
@@ -10,11 +11,18 @@ import IovTypography from "~/components/layout/Typography";
 
 const RECIPIENT_FIELD = "recipient";
 
+export interface SendBalance {
+  readonly balance: BcpCoin;
+  readonly tickersWithBalance: ReadonlyArray<string>;
+  readonly defaultTicket: string;
+  readonly onUpdateBalanceToSend: (ticker: string) => void;
+}
+
 interface State {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-type Props = WithStyles<typeof styles>;
+interface Props extends SendBalance, WithStyles<typeof styles> { }
 
 const styles = createStyles({
   container: {
@@ -42,7 +50,7 @@ class SendCard extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { classes } = this.props;
+    const { classes, balance, tickersWithBalance, defaultTicket, onUpdateBalanceToSend } = this.props;
 
     return (
       <React.Fragment>
@@ -79,8 +87,9 @@ class SendCard extends React.Component<Props, State> {
             phoneHook={this.state.phoneHook}
             component={SelectField}
             align="right"
-            items={["IOV", "LSK", "ETH"]}
-            initial="IOV"
+            items={tickersWithBalance}
+            initial={defaultTicket}
+            onChangeCallback={onUpdateBalanceToSend}
             width={55}
           />
         </Block>
