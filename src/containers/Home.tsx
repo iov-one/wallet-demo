@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { ChainId, MultiChainSigner, TokenTicker, UserProfile } from "@iov/core";
+import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 
 import { AccountInfo } from "~/reducers/blockchain";
 import { Button } from "../components/subComponents/buttons";
@@ -11,7 +11,7 @@ import { CreateWalletForm } from "../components/templates/forms";
 import { PageStructure } from "../components/templates/page";
 import { BlockchainSpec } from "../logic/connection";
 import { ChainAccount, getMyAccounts, getProfile, getSigner } from "../selectors";
-import { BootResult, bootSequence, drinkFaucetSequence, resetSequence, setNameSequence } from "../sequences";
+import { BootResult, bootSequence, resetSequence, setNameSequence } from "../sequences";
 import { loadConfig } from "../utils/conf";
 
 interface HomeState {
@@ -40,7 +40,7 @@ interface HomeDispatchProps {
     bns: BlockchainSpec,
     blockchains: ReadonlyArray<BlockchainSpec>,
   ) => Promise<BootResult>;
-  readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
+  // readonly drinkFaucet: (facuetUri: string, ticker: TokenTicker) => Promise<any>;
   readonly setName: (name: string) => Promise<any>;
 }
 
@@ -71,21 +71,26 @@ class Home extends React.Component<HomeProps & HomeDispatchProps, HomeState> {
     }
   }
   public async checkAndDrinkFaucet(accounts: ReadonlyArray<AccountInfo>): Promise<void> {
-    const { drinkFaucet, history } = this.props;
     const acct = accounts[0];
     if (!acct || !acct.account) {
-      const config = await loadConfig();
-      await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
-      this.setState({
-        booted: true,
-      });
-    } else if (!acct.username) {
-      this.setState({
-        booted: true,
-      });
-    } else {
-      history.push("/balance/");
+      throw new Error("not implemented");
     }
+    throw new Error("not implemented either");
+    // const { drinkFaucet, history } = this.props;
+    // const acct = accounts[0];
+    // if (!acct || !acct.account) {
+    //   const config = await loadConfig();
+    //   await drinkFaucet(config.bns.faucetSpec!.uri, config.bns.faucetSpec!.token);
+    //   this.setState({
+    //     booted: true,
+    //   });
+    // } else if (!acct.username) {
+    //   this.setState({
+    //     booted: true,
+    //   });
+    // } else {
+    //   history.push("/balance/");
+    // }
   }
   public async createAccount(): Promise<void> {
     const { name, booted } = this.state;
@@ -183,7 +188,7 @@ const mapStateToProps = (state: any, ownProps: HomeProps): HomeProps => ({
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => ({
   boot: (password: string, bns: BlockchainSpec, blockchains: ReadonlyArray<BlockchainSpec>) =>
     dispatch(bootSequence(password, bns, blockchains)),
-  drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
+  // drinkFaucet: (facuetUri: string, ticker: TokenTicker) => dispatch(drinkFaucetSequence(facuetUri, ticker)),
   reset: (password: string) => dispatch(resetSequence(password)),
   setName: (name: string) => dispatch(setNameSequence(name)),
 });

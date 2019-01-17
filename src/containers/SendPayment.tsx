@@ -38,6 +38,8 @@ class SendPayment extends React.Component<SendTokenProps> {
       return false;
     }
     const name = `${account.username}*iov`;
+
+    // TODO: get all balances
     const balances = account.account.balance;
     if (balances.length === 0) {
       return false;

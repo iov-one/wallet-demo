@@ -19,18 +19,21 @@ export const availableTokensSelector = createSelector(
     if (tickers.length === 0) {
       return [];
     }
+    const tickersByChainAndAddress = accounts
+      .filter(acct => acct !== undefined)
+      .map(acct => ({
+        address: acct.account!.address,
+        tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
+      }));
 
-    // TODO modify this when we have multichain support
-    const account = accounts[0];
-    const tokenAddress = account.account ? account.account.address : undefined;
-    if (!tokenAddress) {
-      return [];
-    }
+    const tickersByAddress = tickersByChainAndAddress.map(acct =>
+      acct.tickers.map(t => ({
+        token: t.tokenTicker,
+        address: acct.address,
+      })),
+    );
 
-    return tickers.map(({ ticker }) => ({
-      token: ticker.tokenTicker,
-      address: tokenAddress,
-    }));
+    return tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
   },
 );
 

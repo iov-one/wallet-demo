@@ -4,24 +4,30 @@ import PseudoRandom from "random-js";
 import { BlockchainSpec } from "./connection";
 import { createProfile } from "./profile";
 
-import { loadConfig } from "../utils/conf";
+import { allFaucetSpecs, loadConfig } from "../utils/conf";
 
 // load some config options
 export const testSpec = async () => {
   const config = await loadConfig();
   return config.bns.chainSpec as BlockchainSpec;
 };
-export const faucetSpec = async () => {
-  const config = await loadConfig();
-  return config.bns.faucetSpec!;
-};
 export const testChains = async () => {
   const config = await loadConfig();
   return config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
 };
+export const bnsFaucetSpec = async () => {
+  const config = await loadConfig();
+  return config.bns.faucetSpec;
+};
+export const faucetSpecs = async () => {
+  const config = await loadConfig();
+  return allFaucetSpecs(config);
+};
 
-export const skipTests = (): boolean => !process.env.BNS_ENABLED;
-export const mayTest = skipTests() ? xit : it;
+export const skipTests = (envVar: string | undefined): boolean => !envVar;
+export const mayTestBns = skipTests(process.env.BNS_ENABLED) ? xit : it;
+export const mayTestFull =
+  skipTests(process.env.BNS_ENABLED) && skipTests(process.env.CHAINS_ENABLED) ? xit : it;
 
 // this is a pre-loaded account we can play with (separate from the faucet)
 const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";

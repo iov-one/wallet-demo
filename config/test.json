@@ -10,5 +10,15 @@
     },
     "defaultPassword": "test-pass"
   },
-  "chains": []
+  "chains": [{
+    "chainSpec": {
+      "codecType": "bov",
+      "bootstrapNodes": ["ws://localhost:23457/"]
+    },
+    "faucetSpec": {
+      "uri": "http://localhost:8001",
+      "token": "BOV"
+    },
+    "defaultPassword": "test-pass-bov"
+  }]
 }

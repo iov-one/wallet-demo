@@ -27,6 +27,11 @@ export interface FaucetSpec {
   readonly token: TokenTicker;
 }
 
+export const allFaucetSpecs = (cfg: Config): ReadonlyArray<FaucetSpec | undefined> => [
+  cfg.bns.faucetSpec,
+  ...cfg.chains.map(c => c.faucetSpec),
+];
+
 function isArrayOfStrings(array: ReadonlyArray<any>): array is ReadonlyArray<string> {
   return array.every(element => typeof element === "string");
 }
@@ -74,7 +79,7 @@ export function parseConfig(conf: any): Config {
   }
 
   parseChainConfig(conf.bns);
-  // conf.chains.map((chain: any) => parseChainConfig(chain));
+  conf.chains.map((chain: any) => parseChainConfig(chain));
   return conf;
 }
 
