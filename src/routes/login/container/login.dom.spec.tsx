@@ -14,7 +14,7 @@ import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
-// TODO: this is copied from signup.dom.spec.tsx 
+// TODO: this is copied from signup.dom.spec.tsx
 // this function should probably be pulled into a helper file somewhere, but I don't know proper location
 const createDom = (store: Store): React.Component<any, any, any> =>
   TestUtils.renderIntoDocument(
@@ -46,7 +46,6 @@ describe("DOM > Feature > Login", () => {
   beforeEach(async () => {
     profilePass = randomString(16);
     store = aNewStore();
-
   });
 
   afterEach(() => {
@@ -59,7 +58,7 @@ describe("DOM > Feature > Login", () => {
       const walletDom = await travelToLogin(store, profilePass);
 
       // should be redirected to login page
-      await sleep(400)
+      await sleep(400);
       expect(store.getState().router.location.pathname).toBe(LOGIN_ROUTE);
 
       const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
