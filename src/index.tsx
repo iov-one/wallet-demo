@@ -4,7 +4,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
-import WebFont from "webfontloader";
 import MatchMedia from "./context/MatchMediaContext";
 import { ToastProvider } from "./context/ToastProvider";
 import Route from "./routes";
@@ -14,12 +13,6 @@ import theme from "./theme/mui";
 import "./index.scss";
 
 const store = makeStore();
-
-WebFont.load({
-  google: {
-    families: ["Muli:200,300,400,600"],
-  },
-});
 
 const Root = () => (
   <Provider store={store}>

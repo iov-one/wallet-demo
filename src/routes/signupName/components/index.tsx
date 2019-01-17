@@ -8,16 +8,14 @@ const ExplanationMenu = () => <ExplanationMenuComponent />;
 
 interface Props {
   readonly onSubmit: (values: object) => void;
-  readonly onBack: () => void;
   readonly connection: BnsConnection;
 }
 
-const CreateUsername = ({ connection, onSubmit, onBack }: Props) => (
+const CreateUsername = ({ connection, onSubmit }: Props) => (
   <PageColumn
     icon="black"
     leftMenu={ExplanationMenu}
     onSubmit={onSubmit}
-    onBack={onBack}
     primaryTitle="Create"
     secondaryTitle="your unique IOV username"
     subtitle="Share your username with anyone to recieve payments. It’s simple and secure."

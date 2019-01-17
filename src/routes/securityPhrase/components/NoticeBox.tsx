@@ -41,8 +41,8 @@ const NoticeBox = ({ classes }: WithStyles<typeof styles>) => {
         </Block>
         <Block margin="md" />
         <Typography variant="subtitle1">
-          Do not store your backup phrase on your computer or anywhere online. It is very important to keep
-          your backup phrase offline in a private place. As a reminder: anyone with access to your backup
+          Do not store your recovery phrase on your computer or anywhere online. It is very important to keep
+          your recovery phrase offline in a private place. As a reminder: anyone with access to your recovery
           phrase can access your funds.
         </Typography>
       </Block>

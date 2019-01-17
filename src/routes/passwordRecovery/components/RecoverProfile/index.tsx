@@ -34,7 +34,7 @@ export default class Layout extends React.Component<Props> {
         leftMenu={NoticeBoxSection}
         onSubmit={this.onRecoverProfile}
         primaryTitle="Your"
-        secondaryTitle="backup phrase"
+        secondaryTitle="recovery phrase"
         subtitle="Enter your 12 word phrase, lowercase, to recover your funds &amp; transactions."
         renderHeader={StepsSection}
         formRender={RecoverWordsForm}
