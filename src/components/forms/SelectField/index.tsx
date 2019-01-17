@@ -7,6 +7,7 @@ import { FieldRenderProps } from "react-final-form";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { border, mediumFontSize, sm } from "~/theme/variables";
 import selectChevron from "./assets/selectChevron.svg";
 import SelectIems from "./SelecItems";
@@ -14,7 +15,6 @@ import SelectIems from "./SelecItems";
 interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<string>;
   readonly phoneHook: HTMLDivElement | null;
-  readonly phone: boolean;
   readonly initial: string;
   readonly width: number;
   readonly align?: "left" | "right";
@@ -83,13 +83,11 @@ class SelectInput extends React.PureComponent<Props, State> {
       classes,
       items,
       phoneHook,
-      phone,
       width,
       align = "left",
       input: { name, value, onChange, ...restInput },
     } = this.props;
 
-    const showPhone = phone && phoneHook !== null && open;
     const inputProps = { ...restInput, autoComplete: "off" };
 
     const maxWidth = width + CHEVRON_WIDTH;
@@ -100,29 +98,37 @@ class SelectInput extends React.PureComponent<Props, State> {
 
     const inputClasses = { root: classes.root, input: classes.input };
     return (
-      <Block maxWidth={maxWidth} className={classes.container}>
-        <div ref={this.menuRef} className={classes.dropdown} onClick={toggle}>
-          <InputBase
-            name={name}
-            classes={inputClasses}
-            inputProps={inputProps}
-            value={this.state.value}
-            readOnly
-            role="button"
-          />
-          <Img noShrink src={selectChevron} alt="Phone Menu" width={`${CHEVRON_WIDTH}`} height="5" />
-        </div>
-        {showPhone ? (
-          ReactDOM.createPortal(
-            <SelectIems align={align} phone={phone} items={items} action={this.onAction} />,
-            phoneHook!,
-          )
-        ) : (
-          <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
-            {() => <SelectIems align={align} items={items} action={this.onAction} phone={phone} />}
-          </Popper>
-        )}
-      </Block>
+      <MatchMediaContext.Consumer>
+        {phone => {
+          const showPhone = phone && phoneHook !== null && open;
+
+          return (
+            <Block maxWidth={maxWidth} className={classes.container}>
+              <div ref={this.menuRef} className={classes.dropdown} onClick={toggle}>
+                <InputBase
+                  name={name}
+                  classes={inputClasses}
+                  inputProps={inputProps}
+                  value={this.state.value}
+                  readOnly
+                  role="button"
+                />
+                <Img noShrink src={selectChevron} alt="Phone Menu" width={`${CHEVRON_WIDTH}`} height="5" />
+              </div>
+              {showPhone ? (
+                ReactDOM.createPortal(
+                  <SelectIems align={align} phone={phone} items={items} action={this.onAction} />,
+                  phoneHook!,
+                )
+              ) : (
+                <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
+                  {() => <SelectIems align={align} items={items} action={this.onAction} phone={phone} />}
+                </Popper>
+              )}
+            </Block>
+          );
+        }}
+      </MatchMediaContext.Consumer>
     );
   }
 }

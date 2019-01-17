@@ -44,6 +44,7 @@ const SendPaymentLayout = ({
         <Typography variant="body1" align="center">
           Payment Info
         </Typography>
+        <Block margin="md" />
         <Block padding="lg" margin="lg" className={classes.card}>
           <SendCard
             balance={balance}

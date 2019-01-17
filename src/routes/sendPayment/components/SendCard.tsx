@@ -22,7 +22,7 @@ interface State {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-interface Props extends SendBalance, WithStyles<typeof styles> { }
+interface Props extends SendBalance, WithStyles<typeof styles> {}
 
 const styles = createStyles({
   container: {
@@ -71,6 +71,7 @@ class SendCard extends React.Component<Props, State> {
         </Block>
         <Block className={classes.container}>
           <Field
+            variant="outlined"
             className={classes.amountField}
             name="amount"
             type="text"
@@ -83,7 +84,6 @@ class SendCard extends React.Component<Props, State> {
           <Block padding="sm" />
           <Field
             name="token"
-            phone={true}
             phoneHook={this.state.phoneHook}
             component={SelectField}
             align="right"
@@ -95,8 +95,10 @@ class SendCard extends React.Component<Props, State> {
         </Block>
         <Block margin="xs" />
         <div ref={this.phoneHookRef} />
-        <Block margin="md" />
         <Hairline margin="md" />
+        <Block margin="sm">
+          <IovTypography variant="body2">Optional note</IovTypography>
+        </Block>
         <Field
           variant="outlined"
           name="note"
@@ -105,7 +107,7 @@ class SendCard extends React.Component<Props, State> {
           fullWidth
           component={TextField}
           validate={required}
-          placeholder="Optional note"
+          placeholder="Note"
         />
         <Block margin="xxl" />
       </React.Fragment>
