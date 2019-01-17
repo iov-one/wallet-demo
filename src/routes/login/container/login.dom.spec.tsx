@@ -7,7 +7,7 @@ import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { signUp } from "~/routes/signupPass/container/signup.dom.spec";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
-//import { sleep } from "~/utils/timer";
+import { sleep } from "~/utils/timer";
 
 jest.setTimeout(60000);
 
@@ -21,25 +21,25 @@ export const travelToLogin = async (store: Store, password: string): Promise<Rea
 describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let profilePass: string;
+  let walletDom: React.Component;
 
   beforeEach(async () => {
     profilePass = randomString(16);
     store = aNewStore();    
+
+    walletDom = await travelToLogin(store, profilePass);
   });
 
   afterEach(() => {
     shutdownSequence(null, store.getState);
   });
 
-  mayTest("should contain only one field for password", async (done) => {
-    const walletDom = await travelToLogin(store, profilePass);
+  mayTest("should contain only one field for password", async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
     expect(inputs.length).toBe(1);
-    done();
   });
 
   mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async (done) => {
-    const walletDom = await travelToLogin(store, profilePass);
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
     const password = inputs[0];
@@ -51,9 +51,11 @@ describe("DOM > Feature > Login", () => {
     }
     TestUtils.Simulate.submit(form);
 
-    //await sleep(3000);
-    //expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
-    expect(true).toBe(true);
-    done();
+    sleep(3000)
+      .then((_: any) => {
+        expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
+        //expect(true).toBe(true);
+        done();
+      });    
   });
 });
