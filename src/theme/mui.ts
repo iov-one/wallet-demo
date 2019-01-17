@@ -120,7 +120,8 @@ export const themeObject: ThemeOptions = {
           color: placeholder,
           // opacity: "1 !important", Fixed in general css for avoid TS errors
         },
-        "& > div > textarea": { // Ugly hack to solve custom font sizes auto resize in multiline TextFields
+        "& > div > textarea": {
+          // Ugly hack to solve custom font sizes auto resize in multiline TextFields
           fontSize: "14px",
         },
         "& > div > textarea::placeholder": {

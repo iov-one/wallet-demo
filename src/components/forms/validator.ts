@@ -8,6 +8,14 @@ export const greaterThan = (min: number) => (value: string) => {
   return `Should be greater than ${min}`;
 };
 
+export const lowerThan = (min: number) => (value: string) => {
+  if (Number.isNaN(Number(value)) || Number.parseFloat(value) < Number(min)) {
+    return undefined;
+  }
+
+  return `Should be lower than ${min}`;
+};
+
 export const mustBeInteger = (value: string) => {
   if (!Number.isInteger(Number(value)) || value.includes(".")) {
     return "Must be an integer";
@@ -15,6 +23,8 @@ export const mustBeInteger = (value: string) => {
 
   return undefined;
 };
+
+export const mustBeFloat = (value: string) => (Number.isNaN(Number(value)) ? "Must be a number" : undefined);
 
 export const fieldRegex = (regex: RegExp, error: string) => (value: string) => {
   if (!regex.test(value)) {
