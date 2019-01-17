@@ -16,7 +16,7 @@ export const travelToLogin = async (store: Store, password: string): Promise<Rea
   return signUpDom;
 };
 
-describe("DOM > Feature > Login", () => {
+xdescribe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let walletDom: React.Component;
   let profilePass: string;
