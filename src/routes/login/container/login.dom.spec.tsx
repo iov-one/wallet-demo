@@ -34,11 +34,6 @@ describe("DOM > Feature > Login", () => {
     shutdownSequence(null, store.getState);
   });
 
-  it("should contain only one field for password", async () => {
-    const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
-    expect(inputs.length).toBe(1);
-  });
-
   mayTestBns(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
