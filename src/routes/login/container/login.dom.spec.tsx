@@ -1,7 +1,7 @@
 import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { mayTestBns } from "~/logic/testhelpers";
+import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { signUp } from "~/routes/signupPass/container/signup.dom.spec";
@@ -24,7 +24,7 @@ describe("DOM > Feature > Login", () => {
   let walletDom: React.Component;
 
   beforeEach(async () => {
-    profilePass = "somepassword"//randomString(16);
+    profilePass = randomString(16);
     store = aNewStore();    
 
     walletDom = await travelToLogin(store, profilePass);
@@ -45,8 +45,10 @@ describe("DOM > Feature > Login", () => {
       throw new Error();
     }
     TestUtils.Simulate.submit(form);
-
+    
+    console.error("before sleep");
     await sleep(3000);
+    console.error("after sleep");
     expect(store.getState().router.location.pathname).toBe(SET_NAME_ROUTE);
   });
 });
