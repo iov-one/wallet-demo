@@ -1,7 +1,7 @@
 import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { mayTest, randomString } from "~/logic/testhelpers";
+import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { signUp } from "~/routes/signupPass/container/signup.dom.spec";
@@ -34,12 +34,12 @@ describe("DOM > Feature > Login", () => {
     shutdownSequence(null, store.getState);
   });
 
-  mayTest("should contain only one field for password", async () => {
+  it("should contain only one field for password", async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
     expect(inputs.length).toBe(1);
   });
 
-  mayTest(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
+  mayTestBns(`should redirect to ${SET_NAME_ROUTE} route after success login`, async () => {
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
 
     const password = inputs[0];
