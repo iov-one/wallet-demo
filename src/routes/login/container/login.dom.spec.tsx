@@ -7,7 +7,7 @@ import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { signUp } from "~/routes/signupPass/container/signup.dom.spec";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
-import { sleep } from "~/utils/timer";
+//import { sleep } from "~/utils/timer";
 
 jest.setTimeout(60000);
 
