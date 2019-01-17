@@ -4,10 +4,18 @@ import * as React from "react";
 import Field from "~/components/forms/Field";
 import SelectField from "~/components/forms/SelectField";
 import TextField from "~/components/forms/TextField";
-import { lengthLowerThan, required } from "~/components/forms/validator";
+import {
+  composeValidators,
+  greaterThan,
+  lengthLowerThan,
+  lowerThan,
+  mustBeFloat,
+  required,
+} from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import IovTypography from "~/components/layout/Typography";
+import { amountToNumber, makeAmount } from "~/logic";
 
 const RECIPIENT_FIELD = "recipient";
 const NOT_MAX_SIZE = 150;
@@ -36,6 +44,9 @@ const styles = createStyles({
       textAlign: "right",
     },
   },
+  balance: {
+    marginRight: "100px",
+  },
 });
 
 class SendCard extends React.Component<Props, State> {
@@ -51,8 +62,15 @@ class SendCard extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { classes, balance, tickersWithBalance, defaultTicket, onUpdateBalanceToSend } = this.props;
+    const {
+      classes,
+      balance: { quantity, fractionalDigits, tokenTicker },
+      tickersWithBalance,
+      defaultTicket,
+      onUpdateBalanceToSend,
+    } = this.props;
 
+    const crypto = amountToNumber(makeAmount(quantity, fractionalDigits, tokenTicker));
     return (
       <React.Fragment>
         <Block margin="xxl" />
@@ -66,9 +84,17 @@ class SendCard extends React.Component<Props, State> {
           placeholder="Recipient address"
         />
         <Block margin="sm" />
-        <Hairline margin="md" />
-        <Block margin="sm">
+        <Hairline margin="lg" />
+        <Block margin="md">
           <IovTypography variant="body2">Amount of tokens to send</IovTypography>
+        </Block>
+        <Block margin="xs" className={classes.balance}>
+          <IovTypography
+            align="right"
+            variant="body2"
+            color="primary"
+            noWrap
+          >{`Actual balance ${crypto} ${tokenTicker}`}</IovTypography>
         </Block>
         <Block className={classes.container}>
           <Field
@@ -79,8 +105,8 @@ class SendCard extends React.Component<Props, State> {
             fullWidth
             InputProps={{ disableUnderline: true }}
             component={TextField}
-            validate={required}
-            placeholder="0,00"
+            validate={composeValidators(required, mustBeFloat, greaterThan(0.000000001), lowerThan(crypto))}
+            placeholder="0.00"
           />
           <Block padding="sm" />
           <Field
@@ -96,7 +122,7 @@ class SendCard extends React.Component<Props, State> {
         </Block>
         <Block margin="xs" />
         <div ref={this.phoneHookRef} />
-        <Hairline margin="md" />
+        <Hairline margin="lg" />
         <Block margin="sm">
           <IovTypography variant="body2">Optional note</IovTypography>
         </Block>
