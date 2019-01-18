@@ -104,6 +104,11 @@ export const themeObject: ThemeOptions = {
         overflowY: "hidden",
       },
     },
+    MuiFilledInput: {
+      input: {
+        padding: '12px 15px 13px 12px',
+      },      
+    },
     MuiInputBase: {
       input: {
         paddingLeft: sm,
