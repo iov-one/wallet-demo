@@ -1,25 +1,54 @@
 import { BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
-import { CONFIRM_TRANSACTION } from "~/routes";
-import Layout from "~/routes/sendPayment/components";
-import { history } from "~/store";
+import { FormType } from "~/components/forms/Form";
+import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
+import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
+import FillPayment from "~/routes/sendPayment/components/FillPayment";
+import {
+  AMOUNT_FIELD,
+  NOTE_FIELD,
+  RECIPIENT_FIELD,
+  TOKEN_FIELD,
+} from "~/routes/sendPayment/components/FillPayment/SendCard";
 import selector, { SelectorProps } from "./selector";
 
 type Props = SelectorProps;
 
 interface State {
   readonly balanceToSend: BcpCoin;
+  readonly page: number;
+  readonly payment: Payment | undefined;
 }
+
+const FILL_PAYMENT = 0;
+const CONFIRM_PAYMENT = 1;
 
 class SendPayment extends React.Component<Props, State> {
   public readonly state = {
     balanceToSend: this.props.defaultBalance,
+    page: FILL_PAYMENT,
+    payment: undefined,
   };
 
   public readonly onSendPayment = async (values: object): Promise<void> => {
-    console.log(values);
-    history.push(CONFIRM_TRANSACTION);
+    const { defaultBalance } = this.props;
+    const formValues = values as FormType;
+
+    const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
+    const recipient = formValues[RECIPIENT_FIELD];
+    const amount = formValues[AMOUNT_FIELD];
+    const note = formValues[NOTE_FIELD];
+
+    this.setState(() => ({
+      page: CONFIRM_PAYMENT,
+      payment: {
+        ticker,
+        amount,
+        note,
+        recipient,
+      },
+    }));
   };
 
   public readonly onSendPaymentValidation = async (_: object): Promise<object> => {
@@ -54,22 +83,22 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const {
-      tickers,
-      defaultBalance: { tokenTicker: defaultTokenTicker },
-    } = this.props;
-    const { balanceToSend } = this.state;
+    const { page } = this.state;
 
-    return (
-      <Layout
-        balance={balanceToSend}
-        tickersWithBalance={tickers}
-        defaultTicket={defaultTokenTicker}
-        onUpdateBalanceToSend={this.onUpdateBalanceToSend}
-        onSubmit={this.onSendPayment}
-        validation={this.onSendPaymentValidation}
-      />
-    );
+    if (page === FILL_PAYMENT) {
+      return (
+        <FillPayment
+          balance={this.state.balanceToSend}
+          tickersWithBalance={this.props.tickers}
+          defaultTicket={this.props.defaultBalance.tokenTicker}
+          onUpdateBalanceToSend={this.onUpdateBalanceToSend}
+          onSubmit={this.onSendPayment}
+          validation={this.onSendPaymentValidation}
+        />
+      );
+    }
+
+    return <ConfirmPayment payment={this.state.payment!} />;
   }
 }
 
