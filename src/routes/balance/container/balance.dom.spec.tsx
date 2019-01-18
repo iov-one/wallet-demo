@@ -13,6 +13,8 @@ import { loginSequence } from "~/sequences/login";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
+jest.setTimeout(30000);
+
 // Okay, this is getting stupid with cut and paste... sorry
 const createDom = (store: Store): React.Component<any, any, any> =>
   TestUtils.renderIntoDocument(
@@ -62,11 +64,6 @@ describe("DOM > Feature > Balance", () => {
     shutdownSequence(null, store.getState);
   });
 
-  // it("should contain only one field for password", async () => {
-  //   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
-  //   expect(inputs.length).toBe(1);
-  // });
-
   mayTestBns(
     `should redirect to ${BALANCE_ROUTE} route`,
     async done => {
@@ -77,6 +74,6 @@ describe("DOM > Feature > Balance", () => {
 
       done();
     },
-    20000,
+    40000,
   );
 });

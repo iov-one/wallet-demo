@@ -45,18 +45,26 @@ describe("DOM > Feature > Login", () => {
 
   beforeEach(async () => {
     profilePass = randomString(16);
-    store = aNewStore();
+    store = aNewStore();    
   });
 
   afterEach(() => {
     shutdownSequence(null, store.getState);
   });
 
+  mayTestBns("should contain only one field for password", async () => {
+    const walletDom = await travelToLogin(store, profilePass);
+    // should be redirected to login page
+    await sleep(400);
+
+    const inputs = TestUtils.scryRenderedDOMComponentsWithTag(walletDom, "input");
+    expect(inputs.length).toBe(1);
+  });
+
   mayTestBns(
     `should redirect to ${SET_NAME_ROUTE} route after success login`,
     async () => {
       const walletDom = await travelToLogin(store, profilePass);
-
       // should be redirected to login page
       await sleep(400);
       expect(store.getState().router.location.pathname).toBe(LOGIN_ROUTE);
