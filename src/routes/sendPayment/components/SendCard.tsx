@@ -17,7 +17,8 @@ import Hairline from "~/components/layout/Hairline";
 import IovTypography from "~/components/layout/Typography";
 import { amountToNumber, makeAmount } from "~/logic";
 
-const RECIPIENT_FIELD = "recipient";
+export const RECIPIENT_FIELD = "recipient";
+export const TOKEN_FIELD = "token";
 const NOT_MAX_SIZE = 150;
 
 export interface SendBalance {
@@ -110,7 +111,7 @@ class SendCard extends React.Component<Props, State> {
           />
           <Block padding="sm" />
           <Field
-            name="token"
+            name={TOKEN_FIELD}
             phoneHook={this.state.phoneHook}
             component={SelectField}
             align="right"

@@ -1,4 +1,4 @@
-import { Button, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { storiesOf } from "@storybook/react";
 import { FormState } from "final-form";
 import * as React from "react";

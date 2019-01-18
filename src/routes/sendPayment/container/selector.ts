@@ -1,9 +1,12 @@
 import { BcpCoin } from "@iov/bcp-types";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
+import { TickerWithChain } from "~/reducers/blockchain";
 import { tokensSelector } from "~/routes/balance/container/selector";
+import { getChainTickers } from "~/selectors";
 
 export interface SelectorProps {
+  readonly chainTickers: ReadonlyArray<TickerWithChain>;
   readonly tickers: ReadonlyArray<string>;
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
   readonly defaultBalance: BcpCoin;
@@ -34,6 +37,7 @@ const defaultBalanceSelector = createSelector(
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
+  chainTickers: getChainTickers,
   tickers: balanceTickersSelector,
   balanceTokens: balanceTokensSelector,
   defaultBalance: defaultBalanceSelector,

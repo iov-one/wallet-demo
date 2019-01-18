@@ -15,7 +15,7 @@ const Controls = ({ submitting, valid, validating }: Props) => (
         variant="contained"
         color="primary"
         type="submit"
-        disabled={submitting || validating}
+        disabled={!valid || submitting || validating}
         size="medium"
         spinner={submitting || validating}
         fullWidth
