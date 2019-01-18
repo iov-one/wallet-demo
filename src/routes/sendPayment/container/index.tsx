@@ -94,16 +94,19 @@ class SendPayment extends React.Component<Props, State> {
     this.setState(() => ({ balanceToSend: balanceToken! }));
   };
 
-  public readonly onConfirmPayment = () => {
+  public readonly onConfirmPayment = async () => {
     const { payment } = this.state;
     const { sendTransaction } = this.props;
 
     if (!payment) {
       throw new Error("Unable to process TX, info lost");
     }
+    console.log(payment)
 
     const { chainId, ticker, amount, note, recipient } = payment;
     const txAmount: Amount = stringToAmount(amount, ticker);
+    // not sure if next line is needed
+    // const paddedTxAmount = padAmount(txAmount, 9);
     const id = uniquId();
     sendTransaction(chainId, recipient, txAmount, note, id);
 
