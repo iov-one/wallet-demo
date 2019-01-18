@@ -14,6 +14,8 @@ import { shutdownSequence } from "~/sequences";
 import { aNewStore, history } from "~/store";
 import { sleep } from "~/utils/timer";
 
+jest.setTimeout(60000);
+
 // TODO: this is copied from signup.dom.spec.tsx
 // this function should probably be pulled into a helper file somewhere, but I don't know proper location
 const createDom = (store: Store): React.Component<any, any, any> =>
@@ -43,9 +45,9 @@ describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let profilePass: string;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     profilePass = randomString(16);
-    store = aNewStore();    
+    store = aNewStore();
   });
 
   afterEach(() => {
