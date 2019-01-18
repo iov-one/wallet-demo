@@ -25,19 +25,24 @@ class SendPayment extends React.Component<Props, State> {
   public readonly onSendPaymentValidation = async (_: object): Promise<object> => {
     /*
     TODO Waiting iov-core 0.11
-    const { chainTickers, defaultBalance } = this.props;
+
+    const { chainTickers, signer, connection, defaultBalance } = this.props;
     const formValues = values as FormType;
-
-    
     const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-    const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
-    const chainId = selectedTicker!.chainId
-
     const maybeAddress = formValues[RECIPIENT_FIELD];
-    if (!this.props.signer.isValidAddress(chainId, maybeAddress)) {
-      return {
-        [RECIPIENT_FIELD]: `Invalid address for chain ${chainId}: ${maybeAddress}`,
-      };
+    
+    if (!isIovAddress(maybeAddress)) {
+      const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
+      const chainId = selectedTicker!.chainId
+      const valid = signer.isValidAddress(chainId, maybeAddress)
+  
+      return valid ? {} : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`)
+    }
+
+    // check if name is registered in BNS
+    const exists = (await getUsernameNftByUsername(connection, maybeAddress)) !== undefined;
+    if (!exists) {
+      return generateError(RECIPIENT_FIELD, 'IOV address not registered');
     }
     */
     return {};
