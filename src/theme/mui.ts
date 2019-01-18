@@ -106,8 +106,8 @@ export const themeObject: ThemeOptions = {
     },
     MuiFilledInput: {
       input: {
-        padding: '12px 15px 13px 12px',
-      },      
+        padding: "12px 15px 13px 12px",
+      },
     },
     MuiInputBase: {
       input: {

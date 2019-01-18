@@ -1,7 +1,10 @@
-import { BcpCoin } from "@iov/bcp-types";
+import { Amount, BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
+import uniquId from "uniqid";
 import { FormType } from "~/components/forms/Form";
+import { stringToAmount } from "~/logic";
+import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
 import FillPayment from "~/routes/sendPayment/components/FillPayment";
@@ -11,9 +14,11 @@ import {
   RECIPIENT_FIELD,
   TOKEN_FIELD,
 } from "~/routes/sendPayment/components/FillPayment/SendCard";
+import { history } from "~/store";
+import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
-type Props = SelectorProps;
+interface Props extends SelectorProps, SendPaymentActions {}
 
 interface State {
   readonly balanceToSend: BcpCoin;
@@ -32,13 +37,16 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onSendPayment = async (values: object): Promise<void> => {
-    const { defaultBalance } = this.props;
+    const { defaultBalance, chainTickers } = this.props;
     const formValues = values as FormType;
 
     const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
     const recipient = formValues[RECIPIENT_FIELD];
     const amount = formValues[AMOUNT_FIELD];
     const note = formValues[NOTE_FIELD];
+
+    const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
+    const chainId = selectedTicker!.chainId;
 
     this.setState(() => ({
       page: CONFIRM_PAYMENT,
@@ -47,6 +55,7 @@ class SendPayment extends React.Component<Props, State> {
         amount,
         note,
         recipient,
+        chainId,
       },
     }));
   };
@@ -77,9 +86,28 @@ class SendPayment extends React.Component<Props, State> {
     return {};
   };
 
+  /**
+   * This method is called each time user changes ticker in the dropdown.
+   */
   public readonly onUpdateBalanceToSend = (ticker: string) => {
     const balanceToken = this.props.balanceTokens.find(balance => balance.tokenTicker === ticker);
     this.setState(() => ({ balanceToSend: balanceToken! }));
+  };
+
+  public readonly onConfirmPayment = () => {
+    const { payment } = this.state;
+    const { sendTransaction } = this.props;
+
+    if (!payment) {
+      throw new Error("Unable to process TX, info lost");
+    }
+
+    const { chainId, ticker, amount, note, recipient } = payment;
+    const txAmount: Amount = stringToAmount(amount, ticker);
+    const id = uniquId();
+    sendTransaction(chainId, recipient, txAmount, note, id);
+
+    history.push(BALANCE_ROUTE);
   };
 
   public render(): JSX.Element {
@@ -98,8 +126,11 @@ class SendPayment extends React.Component<Props, State> {
       );
     }
 
-    return <ConfirmPayment payment={this.state.payment!} />;
+    return <ConfirmPayment onContinue={this.onConfirmPayment} payment={this.state.payment!} />;
   }
 }
 
-export default connect(selector)(SendPayment);
+export default connect(
+  selector,
+  actions,
+)(SendPayment);

@@ -1,11 +1,12 @@
 import { BcpCoin, TokenTicker } from "@iov/bcp-types";
+import { ChainId } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { RootMatchMedia } from "~/utils/storybook";
 import ConfirmPayment from "../components/ConfirmPayment";
 import FillPayment from "../components/FillPayment";
 
-const noOp = (_: string) => true;
+const noOp = () => true;
 const noOpAsync = (_: object) => Promise.resolve();
 const balance: BcpCoin = {
   tokenTicker: "IOV" as TokenTicker,
@@ -48,7 +49,9 @@ storiesOf("Routes /send-payment", module)
           recipient: "adolfo*iov",
           amount: "1.45",
           ticker: "IOV",
+          chainId: "bns-yaknet" as ChainId,
         }}
+        onContinue={noOp}
       />
     </RootMatchMedia>
   ))
@@ -61,7 +64,9 @@ storiesOf("Routes /send-payment", module)
             amount: "1.45",
             ticker: "IOV",
             note: "Sending the best gift ever",
+            chainId: "bns-yaknet" as ChainId,
           }}
+          onContinue={noOp}
         />
       </RootMatchMedia>
     </div>

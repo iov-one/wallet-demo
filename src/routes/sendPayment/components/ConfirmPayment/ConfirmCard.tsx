@@ -1,3 +1,4 @@
+import { ChainId } from "@iov/core";
 import TextField from "@material-ui/core/TextField";
 import * as React from "react";
 import Block from "~/components/layout/Block";
@@ -9,6 +10,7 @@ export interface Payment {
   readonly amount: string;
   readonly recipient: string;
   readonly note?: string;
+  readonly chainId: ChainId;
 }
 
 interface Props {

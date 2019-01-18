@@ -9,11 +9,12 @@ import ConfirmCard, { Payment } from "./ConfirmCard";
 
 interface Props extends WithStyles<typeof styles> {
   readonly payment: Payment;
+  readonly onContinue: () => void;
 }
 
 const styles = createStyles({
   container: {
-    width: '100%',
+    width: "100%",
     minHeight: 0,
   },
   card: {
@@ -25,7 +26,7 @@ const styles = createStyles({
 
 class ConfirmPayment extends React.Component<Props> {
   public render(): JSX.Element {
-    const { payment, classes } = this.props;
+    const { payment, classes, onContinue } = this.props;
 
     return (
       <PageMenuColumn phoneFullWidth>
@@ -38,7 +39,7 @@ class ConfirmPayment extends React.Component<Props> {
           <Block padding="lg" margin="lg" className={classes.card}>
             <ConfirmCard payment={payment} />
           </Block>
-          <Controls valid submitting={false} validating={false} />
+          <Controls onContinue={onContinue} valid submitting={false} validating={false} />
         </Block>
       </PageMenuColumn>
     );
