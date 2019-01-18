@@ -84,7 +84,6 @@ class ConfirmAndSendForm extends React.Component<SendTokenProps & SendTokenDispa
       return false;
     }
 
-
     const { iovAddress, tokenAmount, token } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const memo = query.memo || "";

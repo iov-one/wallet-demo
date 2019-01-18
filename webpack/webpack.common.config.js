@@ -115,7 +115,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "style.css",
+      filename: "style.[contenthash].css",
       chunkFilename: "[id].css",
     }),
     // prints more readable module names in the browser console on HMR updates
