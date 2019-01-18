@@ -1,15 +1,16 @@
 import { BcpCoin } from "@iov/bcp-types";
+import { MultiChainSigner } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { TickerWithChain } from "~/reducers/blockchain";
 import { tokensSelector } from "~/routes/balance/container/selector";
-import { getChainTickers } from "~/selectors";
+import { ChainTicker, getChainTickers, requireSigner } from "~/selectors";
 
 export interface SelectorProps {
-  readonly chainTickers: ReadonlyArray<TickerWithChain>;
+  readonly chainTickers: ReadonlyArray<ChainTicker>;
   readonly tickers: ReadonlyArray<string>;
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
   readonly defaultBalance: BcpCoin;
+  readonly signer: MultiChainSigner;
 }
 
 const IOV = "IOV";
@@ -38,6 +39,7 @@ const defaultBalanceSelector = createSelector(
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   chainTickers: getChainTickers,
+  signer: requireSigner,
   tickers: balanceTickersSelector,
   balanceTokens: balanceTokensSelector,
   defaultBalance: defaultBalanceSelector,
