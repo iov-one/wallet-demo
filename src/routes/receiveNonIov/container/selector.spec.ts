@@ -88,22 +88,26 @@ describe("selector", () => {
 
     it("should return 2 chains : 4 tickers : 2 addresses relation", () => {
       const mockRootStore = JSON.parse(JSON.stringify(mockRootStoreBase));
-      mockRootStore.blockchain.tickers.push({
-        chainId: "chain-1",
-        ticker: {
-          tokenTicker: "T1B",
+      mockRootStore.blockchain.tickers.push(
+        {
+          chainId: "chain-1",
+          ticker: {
+            tokenTicker: "T1B",
+          },
         },
-      },{
-        chainId: "chain-2",
-        ticker: {
-          tokenTicker: "T2A",
+        {
+          chainId: "chain-2",
+          ticker: {
+            tokenTicker: "T2A",
+          },
         },
-      },{
-        chainId: "chain-2",
-        ticker: {
-          tokenTicker: "T2B",
+        {
+          chainId: "chain-2",
+          ticker: {
+            tokenTicker: "T2B",
+          },
         },
-      });
+      );
       mockRootStore.blockchain.accountInfo.push({
         chainId: "chain-2",
         address: "address-2",
