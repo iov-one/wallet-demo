@@ -17,8 +17,11 @@ import Hairline from "~/components/layout/Hairline";
 import IovTypography from "~/components/layout/Typography";
 import { amountToNumber, makeAmount } from "~/logic";
 
+export const AMOUNT_FIELD = "amount";
 export const RECIPIENT_FIELD = "recipient";
 export const TOKEN_FIELD = "token";
+export const NOTE_FIELD = "note";
+
 const NOT_MAX_SIZE = 150;
 
 export interface SendBalance {
@@ -101,7 +104,7 @@ class SendCard extends React.Component<Props, State> {
           <Field
             variant="outlined"
             className={classes.amountField}
-            name="amount"
+            name={AMOUNT_FIELD}
             type="text"
             fullWidth
             InputProps={{ disableUnderline: true }}
@@ -129,7 +132,7 @@ class SendCard extends React.Component<Props, State> {
         </Block>
         <Field
           variant="outlined"
-          name="note"
+          name={NOTE_FIELD}
           type="text"
           multiline
           fullWidth

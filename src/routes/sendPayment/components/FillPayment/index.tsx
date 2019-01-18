@@ -5,8 +5,8 @@ import Form from "~/components/forms/Form";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import PageMenuColumn from "~/components/pages/PageMenuColumn";
+import Controls from "~/routes/sendPayment/components/Controls";
 import { background } from "~/theme/variables";
-import Controls from "./Controls";
 import SendCard, { SendBalance } from "./SendCard";
 
 interface Props extends SendBalance, WithStyles<typeof styles> {

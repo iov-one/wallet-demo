@@ -28,7 +28,7 @@ const styles = createStyles({
 
 export const generateError = (key: string, error: string) => ({
   [key]: error,
-})
+});
 
 interface Props extends WithStyles<typeof styles> {
   readonly onSubmit: (
