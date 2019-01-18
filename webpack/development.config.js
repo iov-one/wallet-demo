@@ -19,7 +19,7 @@ module.exports = merge(common, {
   devtool: "eval-source-map",
   output: {
     pathinfo: true,
-    filename: "hotloader.js",
+    filename: "hotloader.[hash].js",
     // the output bundle
     path: resolve(baseDir, "dist"),
     publicPath: "/",

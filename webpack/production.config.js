@@ -19,7 +19,7 @@ module.exports = merge(common, {
     children: true,
   },
   output: {
-    filename: "wallet-demo.js",
+    filename: "wallet-demo.[contenthash].js",
     // the output bundle
     path: resolve(baseDir, "dist"),
     publicPath: "/",
