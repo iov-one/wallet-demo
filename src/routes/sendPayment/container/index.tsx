@@ -2,7 +2,6 @@ import { BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
 import { FormType } from "~/components/forms/Form";
-import PageMenuColumn from "~/components/pages/PageMenuColumn";
 import { BlockchainSpec, specToConnector } from "~/logic";
 import { CONFIRM_TRANSACTION } from "~/routes";
 import Layout from "~/routes/sendPayment/components";
@@ -78,16 +77,14 @@ class SendPayment extends React.Component<Props, State> {
     const { balanceToSend } = this.state;
 
     return (
-      <PageMenuColumn phoneFullWidth>
-        <Layout
-          balance={balanceToSend}
-          tickersWithBalance={tickers}
-          defaultTicket={defaultTokenTicker}
-          onUpdateBalanceToSend={this.onUpdateBalanceToSend}
-          onSubmit={this.onSendPayment}
-          validation={this.onSendPaymentValidation}
-        />
-      </PageMenuColumn>
+      <Layout
+        balance={balanceToSend}
+        tickersWithBalance={tickers}
+        defaultTicket={defaultTokenTicker}
+        onUpdateBalanceToSend={this.onUpdateBalanceToSend}
+        onSubmit={this.onSendPayment}
+        validation={this.onSendPaymentValidation}
+      />
     );
   }
 }
