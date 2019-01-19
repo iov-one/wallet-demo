@@ -78,7 +78,7 @@ const onInvite = () => {
 const noOp = () => true;
 
 const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
-  const phoneStarter = (_: boolean, open: boolean) => (
+  const phoneStarter = (open: boolean) => (
     <React.Fragment>
       <Block className={classes.separator} />
       <Block>
@@ -87,7 +87,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
     </React.Fragment>
   );
 
-  const desktopStarter = (_: boolean, open: boolean) => (
+  const desktopStarter = (open: boolean) => (
     <Block className={classes.root}>
       <Typography variant="h6">Hi!</Typography>
       <IconButton disableRipple>
