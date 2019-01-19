@@ -20,45 +20,105 @@ interface Props extends PhoneHook {
   readonly lastTx: LastTxType;
 }
 
-const BellMenu = ({ items, lastTx, phoneMode, ...rest }: Props) => {
-  const starter = (visited: boolean, open: boolean) => {
-    const logo = open ? bellGreen : bell;
-    const hasTx = lastTx !== undefined;
-    const showBadge = hasTx && !visited;
-    const color = hasTx && lastTx!.success ? "primary" : "error";
+const LAST_TX_ID = "LAST_TX_ID";
 
-    return (
-      <Block padding="xl">
-        <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
-      </Block>
-    );
+interface State {
+  readonly visitedNew: boolean;
+}
+
+class BellMenu extends React.Component<Props, State> {
+  public readonly state = {
+    visitedNew: false,
   };
 
-  const hasItems = items.length > 0;
+  public readonly componentDidMount = (): void => {
+    const lastTxId = localStorage.getItem(LAST_TX_ID);
+    if (!lastTxId || !this.props.lastTx) {
+      return;
+    }
 
-  return (
-    <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} {...rest}>
-      <Block padding={phoneMode ? "sm" : "xs"}>
-        <ListItem>
-          <ListItemText disableTypography>
-            <Typography variant={phoneMode ? "body1" : "body2"} weight="semibold">
-              Notifications
-            </Typography>
-          </ListItemText>
-        </ListItem>
-      </Block>
-      <Hairline color={border} />
-      {hasItems ? (
-        items.map((item: ProcessedTx, index: number) => {
-          const lastOne = index + 1 === items.length;
+    if (lastTxId === this.props.lastTx.id) {
+      this.setState({
+        visitedNew: true,
+      });
+    }
+  }
 
-          return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
-        })
-      ) : (
-        <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
-      )}
-    </ListMenu>
-  );
-};
+  public readonly componentDidUpdate = (prevProps: Props): void => {
+    if (!prevProps.lastTx || !this.props.lastTx) {
+      return;
+    }
+
+    if (prevProps.lastTx.id !== this.props.lastTx.id) {
+      this.setState({
+        visitedNew: false,
+      });
+    }
+  }
+
+  public readonly menuClicked = () => {
+    this.setState({
+      visitedNew: true,
+    });
+
+    if (this.props.lastTx) {
+      localStorage.setItem(LAST_TX_ID, this.props.lastTx.id); 
+    }
+  }
+
+  public render(): JSX.Element {
+    const {
+      items,
+      lastTx,
+      phoneMode,
+      ...rest } = this.props;
+
+    const starter = (open: boolean, visited?: boolean) => {
+      const logo = open ? bellGreen : bell;
+      const hasTx = lastTx !== undefined;
+      const showBadge = hasTx && !visited;
+      const color = hasTx && lastTx!.success ? "primary" : "error";
+
+      return (
+        <Block padding="xl">
+          <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
+        </Block>
+      );
+    };
+
+    const hasItems = items.length > 0;
+
+    return (
+      <ListMenu 
+        starter={starter} 
+        listWidth={324} 
+        phoneMode={phoneMode} 
+        visitedNew={this.state.visitedNew} 
+        onClick={this.menuClicked} 
+        {...rest}
+      >
+        <Block padding={phoneMode ? "sm" : "xs"}>
+          <ListItem>
+            <ListItemText disableTypography>
+              <Typography variant={phoneMode ? "body1" : "body2"} weight="semibold">
+                Notifications
+              </Typography>
+            </ListItemText>
+          </ListItem>
+        </Block>
+        <Hairline color={border} />
+        {hasItems ? (
+          items.map((item: ProcessedTx, index: number) => {
+            const lastOne = index + 1 === items.length;
+
+            return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
+          })
+        ) : (
+            <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+          )}
+      </ListMenu>
+    );
+  }
+}
 
 export default BellMenu;
