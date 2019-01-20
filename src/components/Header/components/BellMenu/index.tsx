@@ -23,12 +23,12 @@ interface Props extends PhoneHook {
 const LAST_TX_ID = "LAST_TX_ID";
 
 interface State {
-  readonly visitedNew: boolean;
+  readonly visited: boolean;
 }
 
 class BellMenu extends React.Component<Props, State> {
   public readonly state = {
-    visitedNew: false,
+    visited: false,
   };
 
   public readonly componentDidMount = (): void => {
@@ -39,39 +39,36 @@ class BellMenu extends React.Component<Props, State> {
 
     if (lastTxId === this.props.lastTx.id) {
       this.setState({
-        visitedNew: true,
+        visited: true,
       });
     }
-  }
+  };
 
   public readonly componentDidUpdate = (prevProps: Props): void => {
-    if (!prevProps.lastTx || !this.props.lastTx) {
+    if (!this.props.lastTx) {
       return;
     }
 
-    if (prevProps.lastTx.id !== this.props.lastTx.id) {
+    if (!prevProps.lastTx || prevProps.lastTx.id !== this.props.lastTx.id) {
       this.setState({
-        visitedNew: false,
+        visited: false,
       });
+      localStorage.removeItem(LAST_TX_ID);
     }
-  }
+  };
 
   public readonly menuClicked = () => {
     this.setState({
-      visitedNew: true,
+      visited: true,
     });
 
     if (this.props.lastTx) {
-      localStorage.setItem(LAST_TX_ID, this.props.lastTx.id); 
+      localStorage.setItem(LAST_TX_ID, this.props.lastTx.id);
     }
-  }
+  };
 
   public render(): JSX.Element {
-    const {
-      items,
-      lastTx,
-      phoneMode,
-      ...rest } = this.props;
+    const { items, lastTx, phoneMode, ...rest } = this.props;
 
     const starter = (open: boolean, visited?: boolean) => {
       const logo = open ? bellGreen : bell;
@@ -89,12 +86,12 @@ class BellMenu extends React.Component<Props, State> {
     const hasItems = items.length > 0;
 
     return (
-      <ListMenu 
-        starter={starter} 
-        listWidth={324} 
-        phoneMode={phoneMode} 
-        visitedNew={this.state.visitedNew} 
-        onClick={this.menuClicked} 
+      <ListMenu
+        starter={starter}
+        listWidth={324}
+        phoneMode={phoneMode}
+        visited={this.state.visited}
+        onClick={this.menuClicked}
         {...rest}
       >
         <Block padding={phoneMode ? "sm" : "xs"}>
@@ -114,8 +111,8 @@ class BellMenu extends React.Component<Props, State> {
             return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
           })
         ) : (
-            <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
-          )}
+          <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+        )}
       </ListMenu>
     );
   }
