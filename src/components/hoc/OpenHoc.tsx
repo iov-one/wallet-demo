@@ -2,7 +2,6 @@ import { Omit, StateHandler, StateHandlerMap, withStateHandlers } from "recompos
 
 export interface OpenType {
   readonly open: boolean;
-  readonly visited: boolean;
 }
 
 export interface OpenHandler extends StateHandlerMap<OpenType> {
@@ -16,10 +15,10 @@ export function openHoc<T>(
   comp: React.ComponentType<T & OpenType & OpenHandler>,
 ): OpenHoc<T & OpenType & OpenHandler, T> {
   return withStateHandlers<OpenType, OpenHandler, T>(
-    { open: false, visited: false },
+    { open: false },
     {
-      toggle: (state: OpenType) => () => ({ open: !state.open, visited: true }),
-      clickAway: () => () => ({ open: false, visited: true }),
+      toggle: (state: OpenType) => () => ({ open: !state.open }),
+      clickAway: () => () => ({ open: false }),
     },
   )(comp);
 }
