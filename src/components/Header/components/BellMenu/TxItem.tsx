@@ -11,6 +11,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import { PAYMENT_ROUTE } from "~/routes";
+import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/SendCard";
 import { history } from "~/store";
 import { itemBackground, xs } from "~/theme/variables";
 
@@ -36,7 +37,7 @@ const onVisitSendPayment = (address: string) => () => {
   history.push({
     pathname: PAYMENT_ROUTE,
     state: {
-      recipient: address,
+      [RECIPIENT_FIELD]: address,
     },
   });
 };
