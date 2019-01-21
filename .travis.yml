@@ -42,7 +42,7 @@ before_script:
   fi
 - bash ./scripts/test_start.sh
 - export BNS_ENABLED=1
-
+- export CHAINS_ENABLED=1
 script:
 - TERM=dumb yarn test
 - yarn lint

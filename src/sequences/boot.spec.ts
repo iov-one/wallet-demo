@@ -1,11 +1,11 @@
-import { mayTestBns, randomString, testChains, testSpec } from "~/logic/testhelpers";
+import { mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { makeStore } from "~/store";
 
 import { BootResult, bootSequence } from "./boot";
 
 describe("boot sequence", () => {
-  mayTestBns(
+  mayTestFull(
     "initializes the chain",
     async () => {
       const store = makeStore();
@@ -13,6 +13,7 @@ describe("boot sequence", () => {
 
       const testSpecData = await testSpec();
       const testChainsData = await testChains();
+      const totalChains = testChainsData.length + 1;
       const action = bootSequence(password, testSpecData, testChainsData);
       expect(action).toBeDefined();
       expect(action).toBeInstanceOf(Function);
@@ -21,14 +22,14 @@ describe("boot sequence", () => {
       const res = await fixTypes(store.dispatch(action as any));
       // and this ugly cast on return value
       const { signer, accounts } = (res as any) as BootResult;
-      expect(signer.chainIds().length).toEqual(2);
-      const [chain1, chain2] = signer.chainIds();
-      expect(accounts.length).toEqual(2);
+      expect(signer.chainIds().length).toEqual(totalChains);
+      const chainsLoaded = signer.chainIds();
+      expect(accounts.length).toEqual(3);
       // empty accounts with same chain
-      expect(accounts[0].chainId).toEqual(chain1);
-      expect(accounts[0].account).toBeUndefined();
-      expect(accounts[1].chainId).toEqual(chain2);
-      expect(accounts[1].account).toBeUndefined();
+      accounts.forEach((ac, index) => {
+        expect(ac.chainId).toEqual(chainsLoaded[index]);
+        expect(ac.account).toBeUndefined();
+      });
       // same address for now as we have same codec....
       expect(accounts[0].address.length).toBeGreaterThan(10);
       expect(accounts[0].address).toEqual(accounts[1].address);
@@ -37,10 +38,11 @@ describe("boot sequence", () => {
       const state = store.getState();
       expect(state.profile.activeIdentity).toBeDefined();
       expect(state.blockchain.internal.signer).toBeDefined();
-      expect(Object.keys(state.blockchain.internal.connections).length).toEqual(2);
+      expect(Object.keys(state.blockchain.internal.connections).length).toEqual(totalChains);
 
       // two tokens registered on each of the chains we connected to
-      expect(state.blockchain.tickers.length).toEqual(4);
+      expect(state.blockchain.tickers.length).toEqual(5);
+      const [chain1, chain2, chain3] = chainsLoaded;
       const tickers1 = state.blockchain.tickers
         .filter(t => t.chainId === chain1)
         .map(t => t.ticker.tokenTicker);
@@ -49,6 +51,10 @@ describe("boot sequence", () => {
         .filter(t => t.chainId === chain2)
         .map(t => t.ticker.tokenTicker);
       expect(tickers2).toEqual(["ASH", "BOV"]);
+      const tickers3 = state.blockchain.tickers
+        .filter(t => t.chainId === chain3)
+        .map(t => t.ticker.tokenTicker);
+      expect(tickers3).toEqual(["LSK"]);
 
       // make sure the bns chain is listed
       const bnsId = state.blockchain.bnsId;

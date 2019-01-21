@@ -101,7 +101,7 @@ Storybook page will open in http://localhost:6006/ in your browser.
 
 `yarn test` will run jest tests of the entire system. However, a number of tests do end-to-end integration and
 require a demo blockchain running locally to be completed. By default these are skipped, unless you set the
-`BNS_ENABLED` environmental variable to signal they should be run (which is done in the CI).
+`BNS_ENABLED` and `CHAINS_ENABLED=1` environmental variables to signal they should be run (which is done in the CI).
 
 If you want to run these locally, make sure you are on a system that supports docker and that your local
 user has rights to connect to docker (I often use a Linux Virtualbox just for this). In such a case,
@@ -110,7 +110,7 @@ you can do:
 ```shell
 # start a bns blockchain and a local faucet that serves iov tokens
 bash ./scripts/bnsd/start.sh
-bash ./scripts/faucet/iov_start.sh
+bash ./scripts/faucet/bnsd_start.sh
 
 export BNS_ENABLED=1
 # you can run this a few times....
@@ -119,8 +119,22 @@ yarn test
 # stop them afterwards
 # you may be able to run `yarn test` multiple times without restart, but if there odd failures, then
 # do a fresh restart to ensure no interference with old state
-bash ./scripts/facuet/iov_stop.sh
-bash ./scripts/bns/stop.sh
+bash ./scripts/faucet/bnsd_stop.sh
+bash ./scripts/bnsd/stop.sh
+```
+
+Or if you want to run the full chain test suite:
+```shell
+# start all blockchains and a local faucets that serves multiple tokens
+bash ./scripts/test_start.sh
+
+export BNS_ENABLED=1
+export CHAINS_ENABLED=1
+# you can run this a few times....
+yarn test
+
+# stop them afterwards
+bash ./scripts/test_stop.sh
 ```
 
 ## Clearing IndexedDB
