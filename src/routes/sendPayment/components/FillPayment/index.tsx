@@ -12,6 +12,7 @@ import SendCard, { SendBalance } from "./SendCard";
 interface Props extends SendBalance, WithStyles<typeof styles> {
   readonly onSubmit: (values: object) => Promise<void>;
   readonly validation?: (values: object) => object | Promise<object>;
+  readonly initialValues?: object;
 }
 
 const subscription = {
@@ -33,13 +34,14 @@ const SendPaymentLayout = ({
   classes,
   onSubmit,
   validation,
+  initialValues,
   balance,
   tickersWithBalance,
   defaultTicket,
   onUpdateBalanceToSend,
 }: Props) => (
   <PageMenuColumn phoneFullWidth>
-    <Form onSubmit={onSubmit} subscription={subscription} validation={validation} fullWidth>
+    <Form onSubmit={onSubmit} initialValues={initialValues} subscription={subscription} validation={validation} fullWidth>
       {({ valid, submitting, validating }: FormState) => (
         <React.Fragment>
           <Block margin="xxl" />
