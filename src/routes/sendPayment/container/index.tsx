@@ -101,7 +101,7 @@ class SendPayment extends React.Component<Props, State> {
     if (!payment) {
       throw new Error("Unable to process TX, info lost");
     }
-    
+
     const { chainId, ticker, amount, note, recipient } = payment;
     const txAmount: Amount = stringToAmount(amount, ticker);
     // not sure if next line is needed
