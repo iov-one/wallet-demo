@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { ConfirmTransactionPage, InvitePage, SendPaymentPage } from "~/containers";
+import { InvitePage } from "~/containers/Invite";
 import RequireLogin from "~/containers/RequireLogin";
 import AdvancedSecurity from "~/routes/advancedSecurity/container";
 import Balance from "~/routes/balance/container";
@@ -49,11 +49,6 @@ export const MainRouter = () => (
       <Route exact path={RECEIVE_FROM_NON_IOV_USER} component={ReceiveExternal} />
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={Payment} />
-      <Route path={`${SEND_PAYMENT}/:iovAddress`} component={SendPaymentPage} />
-      <Route
-        path={`${CONFIRM_TRANSACTION}/:iovAddress/:token/:tokenAmount`}
-        component={ConfirmTransactionPage}
-      />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
       <Route path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
