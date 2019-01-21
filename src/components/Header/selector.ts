@@ -33,7 +33,6 @@ const lastTxSelector = createSelector(
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   pendingTxs: getPendingTransactions,
   txs: confirmedTxSelector,
-  lastTx: lastTxSelector,
 });
 
 export default structuredSelector;
