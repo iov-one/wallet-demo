@@ -1,4 +1,5 @@
 import { filter } from "lodash";
+import { ReadonlyDate } from "readonly-date";
 import { ActionType } from "typesafe-actions";
 
 import { AnnotatedConfirmedTransaction, prettyAmount } from "~/logic";
@@ -72,10 +73,23 @@ export function notificationReducer(
         ...state,
         pending: newPendings,
       };
-    case "SET_TRANSACTION_ERROR":
+    case "ADD_FAILED_TRANSACTION":
+      const { amount, err } = action.payload;
+      if (err) {
+        // TODO: better reporting in the UI?
+        console.log(`Transaction Error: ${err}`);
+      }
+      const notification: NotificationTx = {
+        ...action.payload,
+        amount: prettyAmount(amount),
+        time: new ReadonlyDate(),
+        signer: "", // this is always us, should we put real data here???
+        received: false,
+        success: false,
+      };
       return {
         ...state,
-        transactionError: action.payload,
+        transaction: [notification, ...state.transaction],
       };
     case "ADD_CONFIRMED_TRANSACTION":
       if (action.payload) {

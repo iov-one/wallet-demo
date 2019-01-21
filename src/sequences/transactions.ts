@@ -7,9 +7,9 @@ import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, requireBnsChainId, requireBnsConnection, requireSigner } from "~/selectors";
 import {
+  addFailedTransactionAction,
   addPendingTransactionAction,
   removePendingTransactionAction,
-  setTransactionErrorAction,
 } from "~/store/notifications/actions";
 
 import { RootThunkDispatch } from "./types";
@@ -51,7 +51,6 @@ export const sendTransactionSequence = (
     const signer = requireSigner(getState());
     const conn = requireBnsConnection(getState());
     const address = await resolveAddress(conn, iovAddress, chainId);
-    console.log(`start sendTransactionSequence ${address}`);
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
@@ -60,11 +59,16 @@ export const sendTransactionSequence = (
       }),
     );
     await waitForCommit(sendTransaction(signer, chainId, address, amount, memo));
-    console.log("commitSuccess");
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
-    console.log(`commitError: ${err}`);
-    dispatch(setTransactionErrorAction(err));
+    dispatch(
+      addFailedTransactionAction({
+        id: uniqId,
+        amount,
+        recipient: iovAddress,
+        err,
+      }),
+    );
     dispatch(removePendingTransactionAction(uniqId));
   }
 };

@@ -1,6 +1,6 @@
 import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
 import { createSyncAction } from "~/reducers/helpers";
-import { PendingTxPayload } from "./state";
+import { FailedTxPayload, PendingTxPayload } from "./state";
 
 export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
@@ -17,6 +17,9 @@ export const addConfirmedTransaction = createSyncAction(
   (transaction?: AnnotatedConfirmedTransaction) => transaction,
 );
 
-export const setTransactionErrorAction = createSyncAction("SET_TRANSACTION_ERROR", (error: string) => error);
+export const addFailedTransactionAction = createSyncAction(
+  "ADD_FAILED_TRANSACTION",
+  (transaction: FailedTxPayload) => transaction,
+);
 
 export const watchTransactionAction = createSyncAction("WATCH_TRANSACTION", watchTransaction);

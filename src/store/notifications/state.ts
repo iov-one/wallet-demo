@@ -9,6 +9,13 @@ export interface PendingTxPayload {
   readonly amount: Amount;
 }
 
+export interface FailedTxPayload {
+  readonly id: string;
+  readonly recipient: string;
+  readonly amount: Amount;
+  readonly err?: any;
+}
+
 // this is formated and stored in the reducer
 export interface PendingTx {
   readonly id: string;
