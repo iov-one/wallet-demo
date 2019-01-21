@@ -14,67 +14,29 @@ import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
-type LastTxType = ProcessedTx | undefined;
-interface Props extends PhoneHook {
-  readonly items: ReadonlyArray<ProcessedTx>;
-  readonly lastTx: LastTxType;
+//type LastTxType = HeaderTxProps | undefined;
+export interface BellBadge {
+  readonly showBadge: boolean;
+  readonly color: "primary" | "error";
 }
 
-const LAST_TX_ID = "LAST_TX_ID";
-
-interface State {
-  readonly visited: boolean;
+interface Props extends PhoneHook, BellBadge {
+  readonly items: ReadonlyArray<HeaderTxProps>;
 }
 
-class BellMenu extends React.Component<Props, State> {
-  public readonly state = {
-    visited: false,
-  };
-
-  public readonly componentDidMount = (): void => {
-    const lastTxId = localStorage.getItem(LAST_TX_ID);
-    if (!lastTxId || !this.props.lastTx) {
-      return;
-    }
-
-    if (lastTxId === this.props.lastTx.id) {
-      this.setState({
-        visited: true,
-      });
-    }
-  };
-
-  public readonly componentDidUpdate = (prevProps: Props): void => {
-    if (!this.props.lastTx) {
-      return;
-    }
-
-    if (!prevProps.lastTx || prevProps.lastTx.id !== this.props.lastTx.id) {
-      this.setState({
-        visited: false,
-      });
-      localStorage.removeItem(LAST_TX_ID);
-    }
-  };
+class BellMenu extends React.Component<Props> {
 
   public readonly menuClicked = () => {
-    this.setState({
-      visited: true,
-    });
-
-    if (this.props.lastTx) {
+    /*if (this.props.lastTx) {
       localStorage.setItem(LAST_TX_ID, this.props.lastTx.id);
-    }
+    }*/
   };
 
   public render(): JSX.Element {
-    const { items, lastTx, phoneMode, ...rest } = this.props;
+    const { items, phoneMode, showBadge, color, ...rest } = this.props;
 
-    const starter = (open: boolean, visited?: boolean) => {
+    const starter = (open: boolean) => {
       const logo = open ? bellGreen : bell;
-      const hasTx = lastTx !== undefined;
-      const showBadge = hasTx && !visited;
-      const color = hasTx && lastTx!.success ? "primary" : "error";
 
       return (
         <Block padding="xl">
@@ -90,7 +52,6 @@ class BellMenu extends React.Component<Props, State> {
         starter={starter}
         listWidth={324}
         phoneMode={phoneMode}
-        visited={this.state.visited}
         onClick={this.menuClicked}
         {...rest}
       >
