@@ -4,7 +4,7 @@ import { bnsCodec, BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";
 
-const iovNamespace = "*iov";
+export const iovNamespace = "*iov";
 export function isIovAddress(address: string): boolean {
   return address.endsWith(iovNamespace);
 }
