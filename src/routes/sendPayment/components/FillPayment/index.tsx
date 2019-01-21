@@ -41,7 +41,13 @@ const SendPaymentLayout = ({
   onUpdateBalanceToSend,
 }: Props) => (
   <PageMenuColumn phoneFullWidth>
-    <Form onSubmit={onSubmit} initialValues={initialValues} subscription={subscription} validation={validation} fullWidth>
+    <Form
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      subscription={subscription}
+      validation={validation}
+      fullWidth
+    >
       {({ valid, submitting, validating }: FormState) => (
         <React.Fragment>
           <Block margin="xxl" />

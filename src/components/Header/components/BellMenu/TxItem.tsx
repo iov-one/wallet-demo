@@ -14,6 +14,7 @@ import { PAYMENT_ROUTE } from "~/routes";
 import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/SendCard";
 import { history } from "~/store";
 import { itemBackground, xs } from "~/theme/variables";
+import { elipsify } from "~/utils/strings";
 
 interface ItemProps extends WithStyles<typeof styles> {
   readonly item: HeaderTxProps;
@@ -46,11 +47,14 @@ const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
   const signerWeight = received ? "semibold" : "regular";
   const recipientWeight = received ? "regular" : "semibold";
 
+  const signerShort = elipsify(signer, 16);
+  const recipientShort = elipsify(recipient, 16);
+
   return (
     <React.Fragment>
       {received ? (
         <Typography weight={signerWeight} inline pointer onClick={onVisitSendPayment(signer)}>
-          {signer}
+          {signerShort}
         </Typography>
       ) : (
         <Typography weight={signerWeight} inline>
@@ -64,7 +68,7 @@ const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
         </Typography>
       ) : (
         <Typography weight={recipientWeight} inline pointer onClick={onVisitSendPayment(recipient)}>
-          {recipient}
+          {recipientShort}
         </Typography>
       )}
       <Typography weight="semibold" inline>
