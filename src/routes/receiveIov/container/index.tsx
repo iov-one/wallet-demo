@@ -13,6 +13,8 @@ const Layout = styled.div`
   justify-content: center;
 `;
 
+const IOV_NAMESPACE = "*iov"
+
 class RecieveIov extends React.Component<SelectorProps> {
   public readonly onReceiveExpernal = () => {
     history.push(RECEIVE_FROM_NON_IOV_USER);
@@ -20,11 +22,12 @@ class RecieveIov extends React.Component<SelectorProps> {
 
   public render(): JSX.Element {
     const { accountName } = this.props;
+    const iovAddress = accountName ? `${accountName}${IOV_NAMESPACE}` : "--"
 
     return (
       <PageMenu phoneFullWidth>
         <Layout>
-          <ReceiveIovLayout iovAddress={accountName || "--"} />
+          <ReceiveIovLayout iovAddress={iovAddress} />
         </Layout>
         <SuggestionButton
           suggestionText="Receiving from outside IOV?"
