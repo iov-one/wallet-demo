@@ -16,7 +16,6 @@ interface Props extends SendBalance, WithStyles<typeof styles> {
 }
 
 const subscription = {
-  valid: true,
   submitting: true,
   validating: true,
 };
@@ -48,7 +47,7 @@ const SendPaymentLayout = ({
       validation={validation}
       fullWidth
     >
-      {({ valid, submitting, validating }: FormState) => (
+      {({ submitting, validating }: FormState) => (
         <React.Fragment>
           <Block margin="xxl" />
           <Typography variant="body1" align="center">
@@ -63,7 +62,7 @@ const SendPaymentLayout = ({
               onUpdateBalanceToSend={onUpdateBalanceToSend}
             />
           </Block>
-          <Controls valid={valid} submitting={submitting} validating={validating} />
+          <Controls submitting={submitting} validating={validating} />
         </React.Fragment>
       )}
     </Form>

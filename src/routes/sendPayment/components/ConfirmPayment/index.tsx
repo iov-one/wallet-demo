@@ -39,7 +39,7 @@ class ConfirmPayment extends React.Component<Props> {
           <Block padding="lg" margin="lg" className={classes.card}>
             <ConfirmCard payment={payment} />
           </Block>
-          <Controls onContinue={onContinue} valid submitting={false} validating={false} />
+          <Controls onContinue={onContinue} submitting={false} validating={false} />
         </Block>
       </PageMenuColumn>
     );
