@@ -6,7 +6,7 @@ import Spacer from "~/components/layout/Spacer";
 import PageMenu from "~/components/pages/PageMenu";
 import { lg, xxl } from "~/theme/variables";
 import LaptopMan from "../../resources/laptop_man.svg";
-import { InviteDescription, InviteInfo } from "../components/templates/sections";
+import { InviteDescription, InviteInfo } from "./sections";
 
 const LaptopManImg = styled.div`
   background-image: url(${LaptopMan});
