@@ -25,7 +25,8 @@ echo
 echo ">>> Starting lisk (test) chain and faucet..."
 echo
 bash "${SCRIPT_DIR}"/lisk/start.sh
-#bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
+sleep 25
+bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 
 
 echo
