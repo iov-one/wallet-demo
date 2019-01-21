@@ -1,5 +1,4 @@
 import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
-import { bnsCodec } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { PublicIdentity, UserProfile } from "@iov/keycontrol";
 
@@ -55,7 +54,7 @@ export interface BcpAccountWithChain {
 const getAccountWithChain = async (
   connection: BcpConnection,
   ident: PublicIdentity,
-  codec: TxCodec = bnsCodec,
+  codec: TxCodec,
 ): Promise<AccountInfo> => {
   const account = await getAccount(connection, ident, codec);
   const chainId = connection.chainId();
@@ -79,7 +78,7 @@ function watchAccountWithChain(
   connection: BcpConnection,
   ident: PublicIdentity,
   cb: (acct?: BcpAccountWithChain, err?: any) => any,
-  codec?: TxCodec,
+  codec: TxCodec,
 ): Unsubscriber {
   const chainId = connection.chainId();
   const wrapped = (account?: BcpAccount, err?: any) =>

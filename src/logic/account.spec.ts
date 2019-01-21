@@ -1,5 +1,5 @@
 import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
-import { BnsConnection } from "@iov/bns";
+import { bnsCodec, BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
@@ -25,7 +25,7 @@ describe("getAccount", () => {
     const testSpecData = await testSpec();
     const reader = await addBlockchain(writer, testSpecData);
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile));
+      const acct = await getAccount(reader, getMainIdentity(profile), bnsCodec);
       expect(acct).toEqual(undefined);
     } finally {
       reader.disconnect();
@@ -38,7 +38,7 @@ describe("getAccount", () => {
     const testSpecData = await testSpec();
     const reader = await addBlockchain(writer, testSpecData);
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile));
+      const acct = await getAccount(reader, getMainIdentity(profile), bnsCodec);
       expect(acct).toBeTruthy();
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
@@ -65,7 +65,7 @@ describe("sendTransaction", () => {
       const reader = await addBlockchain(writer, testSpecData);
       try {
         // ensure rcpt is empty before
-        const before = await getAccount(reader, rcpt);
+        const before = await getAccount(reader, rcpt, bnsCodec);
         expect(before).toEqual(undefined);
         const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
@@ -81,7 +81,7 @@ describe("sendTransaction", () => {
         expect(res.transactionId).toBeTruthy();
 
         // ensure the recipient is properly rewarded
-        const after = await getAccount(reader, rcpt);
+        const after = await getAccount(reader, rcpt, bnsCodec);
         expect(after).toBeTruthy();
         expect(after!.name).toEqual(undefined);
         expect(after!.balance.length).toEqual(1);
@@ -124,7 +124,7 @@ describe("setName", () => {
         await waitForCommit(sendTransaction(writer, chainId, rcptAddr, amount));
 
         // make sure some tokens were received
-        const withMoney = await getAccount(reader, rcpt);
+        const withMoney = await getAccount(reader, rcpt, bnsCodec);
         expect(withMoney).toBeTruthy();
 
         // TODO: big hack here - FIX THIS!!!
@@ -140,7 +140,7 @@ describe("setName", () => {
         await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
 
         // ensure the recipient is properly named
-        const after = await getAccount(reader, rcpt);
+        const after = await getAccount(reader, rcpt, bnsCodec);
         expect(after).toBeTruthy();
 
         // no more name, using username
@@ -183,14 +183,20 @@ describe("setName", () => {
               updatesFaucet++;
               acctFaucet = acct;
             },
+            bnsCodec,
           );
 
           let updatesRcpt = 0;
           let acctRcpt: BcpAccount | undefined;
-          const unsubscribeRcpt = await watchAccount(reader, rcpt, (acct?: BcpAccount) => {
-            updatesRcpt++;
-            acctRcpt = acct;
-          });
+          const unsubscribeRcpt = await watchAccount(
+            reader,
+            rcpt,
+            (acct?: BcpAccount) => {
+              updatesRcpt++;
+              acctRcpt = acct;
+            },
+            bnsCodec,
+          );
 
           // validate update messages came
           await sleep(50);

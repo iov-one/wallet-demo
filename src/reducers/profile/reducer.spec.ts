@@ -38,7 +38,7 @@ describe("profile async actions", () => {
     expect(dirty).toEqual(false);
 
     // ensure the action is correct
-    const create = createProfileAsyncAction.start(db, "my-secret-here", undefined);
+    const create = createProfileAsyncAction.start(db, "my-secret-here", undefined, undefined);
     expect(create.type).toEqual("CREATE_PROFILE");
     expect(create.payload.then).not.toBeUndefined();
 
@@ -70,7 +70,7 @@ describe("profile async actions", () => {
 
     // ensure the action is correct
     const mnemonic = "verb reunion luggage nominee range can device shoe dial wealth palace seek";
-    const create = createProfileAsyncAction.start(db, "new-secret", mnemonic);
+    const create = createProfileAsyncAction.start(db, "new-secret", mnemonic, undefined);
     const { value } = await fixTypes(store.dispatch(create));
     const profile: UserProfile = value;
     expect(profile).not.toBeUndefined();

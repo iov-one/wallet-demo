@@ -37,7 +37,7 @@ export const setNameSequence = (username: string) => async (
   // since we are not watching the username (TODO in iov-core), we need to query it again one this is set
 
   // let's just query for any one that we registered...
-  return fixTypes(dispatch(getUsernameNftByUsernameAsyncAction.start(bnsConn, username, {})));
+  return fixTypes(dispatch(getUsernameNftByUsernameAsyncAction.start(bnsConn, username, {}, undefined)));
 };
 
 export const sendTransactionSequence = (

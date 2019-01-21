@@ -15,7 +15,7 @@ describe("drinkFaucetSequence", () => {
     async () => {
       const store = makeStore();
       const password = randomString(16);
-      const totalFaucetChains = 2;
+      const totalFaucetChains = 3;
 
       // we must boot before any other actions
       const testSpecData = await testSpec();

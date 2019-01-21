@@ -1,3 +1,6 @@
+import { bnsCodec } from "@iov/bns";
+import { liskCodec } from "@iov/lisk";
+
 import { keyToAddress, takeFaucetCredit } from "~/logic";
 import { RootState } from "~/reducers";
 import { requireActiveIdentity } from "~/selectors";
@@ -16,7 +19,8 @@ export const drinkFaucetSequence = (faucets: ReadonlyArray<FaucetSpec | undefine
     .filter(f => f !== undefined)
     .map(f => {
       // TODO: we will need codec info here for proper multichain
-      const address = keyToAddress(identity);
+      const codec = f!.token === "LSK" ? liskCodec : bnsCodec;
+      const address = keyToAddress(identity, codec);
       return takeFaucetCredit(f!.uri, address, f!.token);
     });
   await Promise.all(resolved);

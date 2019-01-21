@@ -6,6 +6,7 @@ import {
   isSendTransaction,
   PostTxResponse,
   SendTransaction,
+  TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
@@ -48,6 +49,7 @@ export const parseConfirmedTransaction = async (
   conn: BcpConnection,
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
+  codec: TxCodec,
 ): Promise<AnnotatedConfirmedTransaction | undefined> => {
   const payload = trans.transaction;
   if (!isSendTransaction(payload)) {
@@ -62,7 +64,7 @@ export const parseConfirmedTransaction = async (
   const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
   const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
-  const signerAddr = keyToAddress(trans.primarySignature);
+  const signerAddr = keyToAddress(trans.primarySignature, codec);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),

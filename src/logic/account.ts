@@ -13,6 +13,7 @@ import {
 import { bnsCodec, BnsConnection, RegisterUsernameTx } from "@iov/bns";
 import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
+import { dposFromOrToTag } from "@iov/dpos";
 import { PublicIdentity } from "@iov/keycontrol";
 
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
@@ -22,12 +23,22 @@ export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): 
   return codec.keyToAddress(ident.pubkey);
 }
 
+// TODO: codec should have fromOrToTag function
+export function fromOrToTag(address: Address): BcpTxQuery {
+  console.log("address -->", address);
+  const isBns = address.toString().indexOf("iov") !== -1;
+  const query: BcpTxQuery = isBns
+    ? { tags: [bnsFromOrToTag(address)] }
+    : { tags: [dposFromOrToTag(address)] };
+  return query;
+}
+
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
 export async function getAccount(
   connection: BcpConnection,
   ident: PublicIdentity,
-  codec?: TxCodec,
+  codec: TxCodec,
 ): Promise<BcpAccount | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
@@ -82,7 +93,7 @@ export function watchAccount(
   connection: BcpConnection,
   ident: PublicIdentity,
   cb: (acct?: BcpAccount, err?: any) => any,
-  codec?: TxCodec,
+  codec: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
   const stream = connection.watchAccount({ address });
@@ -99,10 +110,10 @@ export function watchTransaction(
   connection: BcpConnection,
   ident: PublicIdentity,
   cb: (transaction?: ConfirmedTransaction, err?: any) => any,
-  codec?: TxCodec,
+  codec: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
-  const query: BcpTxQuery = { tags: [bnsFromOrToTag(address)] };
+  const query = fromOrToTag(address);
   const stream = connection.liveTx(query);
   const subscription = stream.subscribe({
     next: x => cb(x),
