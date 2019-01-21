@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
 import { FormType } from "~/components/forms/Form";
-import { stringToAmount } from "~/logic";
+import { padAmount, stringToAmount } from "~/logic";
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
@@ -109,10 +109,11 @@ class SendPayment extends React.Component<Props, State> {
 
     const { chainId, ticker, amount, note, recipient } = payment;
     const txAmount: Amount = stringToAmount(amount, ticker);
-    // not sure if next line is needed
-    // const paddedTxAmount = padAmount(txAmount, 9);
+    // this line is essential
+    // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
+    const paddedTxAmount = padAmount(txAmount, 9);
     const id = uniquId();
-    sendTransaction(chainId, recipient, txAmount, note, id);
+    sendTransaction(chainId, recipient, paddedTxAmount, note, id);
 
     history.push(BALANCE_ROUTE);
   };

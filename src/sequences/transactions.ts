@@ -51,6 +51,7 @@ export const sendTransactionSequence = (
     const signer = requireSigner(getState());
     const conn = requireBnsConnection(getState());
     const address = await resolveAddress(conn, iovAddress, chainId);
+    console.log(`start sendTransactionSequence ${address}`);
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
@@ -59,8 +60,10 @@ export const sendTransactionSequence = (
       }),
     );
     await waitForCommit(sendTransaction(signer, chainId, address, amount, memo));
+    console.log("commitSuccess");
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
+    console.log(`commitError: ${err}`);
     dispatch(setTransactionErrorAction(err));
     dispatch(removePendingTransactionAction(uniqId));
   }
