@@ -46,6 +46,7 @@ class SignupName extends React.Component<Props> {
       await setName(name);
     } catch (err) {
       // TODO check if error and show something
+      console.log(`SetName failed: ${err}`);
     }
   };
 
