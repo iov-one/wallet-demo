@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import { ConfirmInput } from "~/components/compoundComponents/form";
-import { ShareGroup } from "~/components/compoundComponents/share";
 import { H1, H2 } from "~/components/subComponents/typography";
 import { InviteInfoWrapper } from "~/components/subComponents/wrappers";
+import { ShareGroup } from "./components/ShareGroup";
 
 interface InviteInfoProps {
   readonly referralLink: string;

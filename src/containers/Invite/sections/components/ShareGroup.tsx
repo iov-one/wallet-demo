@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { get } from "lodash";
 
-import { ShareButton } from "../../subComponents/share";
+import { ShareButton } from "~/components/subComponents/share";
 
 interface ShareGroupProps {
   readonly referralLink: string;
