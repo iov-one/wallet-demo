@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { H1 } from "~/components/subComponents/typography";
 import ArrowIcon from "../../../../resources/long_down_arrow.svg";
-import { H1 } from "../../subComponents/typography";
 
 const MainText = styled(H1)`
   margin-bottom: 50px;
