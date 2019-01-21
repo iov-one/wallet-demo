@@ -111,6 +111,29 @@ bash ./scripts/facuet/iov_stop.sh
 bash ./scripts/bns/stop.sh
 ```
 
+## Clearing IndexedDB
+
+If testing a lot, especially locally, you may want to clear your indexed db cache to create a new user account,
+and proceed through the signup process again. Here are how to do it in various browsers
+
+**Firefox (Ubuntu)**:
+* Go to Preferences > [Privacy](about:preferences#privacy)
+* Cookies and Site Data > "Manage Data..." 
+* Search for `0.0.0.0` and `localhost`
+* Storage should be around 40-100 KB
+* Click on "Remove Selected"
+
+**Chrome (Ubuntu)**
+* Go to [Settings](chrome://settings/)
+* Scroll down and click on "Advanced"
+* Under Privacy and Security, click on "Content Settings"
+* Click on "Cookies"
+* Click on "See all cookie and site data"
+* Search for `0.0.0.0` and `localhost`
+* Click on trash can icon next to their name
+
+After clearing IndexedDB, go to the [local devserver](http://0.0.0.0:8080) and go through signup again
+
 
 ## References:
 
