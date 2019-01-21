@@ -118,12 +118,12 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    console.log(this.props);
     const { page } = this.state;
 
     if (page === FILL_PAYMENT) {
+      const { state: routeState } = this.props.location;
       const initialValues = {
-        [RECIPIENT_FIELD]: this.props.location.state[RECIPIENT_FIELD],
+        [RECIPIENT_FIELD]: routeState ? routeState[RECIPIENT_FIELD] : undefined,
       };
 
       return (
