@@ -1,3 +1,4 @@
+import { InputProps as TsInputProps } from "@material-ui/core/Input";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import MuiTextField from "@material-ui/core/TextField";
 import classNames from "classnames";
@@ -17,7 +18,7 @@ const styles = createStyles({
 });
 
 interface Props extends FieldRenderProps, WithStyles<typeof styles> {
-  readonly inputAdornment?: { readonly endAdornment: React.ReactNode };
+  readonly InputProps?: Partial<TsInputProps>;
   readonly helperText?: string;
 }
 
@@ -27,7 +28,7 @@ class TextFieldElem extends React.PureComponent<Props> {
       input: { name, onChange, value, ...restInput },
       meta,
       helperText,
-      inputAdornment,
+      InputProps,
       classes,
       ...rest
     } = this.props;
@@ -36,7 +37,7 @@ class TextFieldElem extends React.PureComponent<Props> {
 
     const inputRoot = helper ? classNames(classes.root, classes.helper) : classes.root;
     const inputProps = { ...restInput, autoComplete: "off" };
-    const inputRootProps = { ...inputAdornment, className: inputRoot };
+    const inputRootProps = { ...InputProps, className: inputRoot };
 
     return (
       <MuiTextField

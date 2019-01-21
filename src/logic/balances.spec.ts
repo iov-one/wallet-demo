@@ -1,12 +1,6 @@
-import { Amount, TokenTicker } from "@iov/bcp-types";
+import { TokenTicker } from "@iov/bcp-types";
 
-import { amountToString, padAmount, stringToAmount, trimAmount } from "./balances";
-
-const makeInfo = (quantity: string, fractionalDigits: number, tokenTicker: TokenTicker): Amount => ({
-  quantity,
-  fractionalDigits,
-  tokenTicker,
-});
+import { amountToString, makeAmount as makeInfo, padAmount, stringToAmount, trimAmount } from "./balances";
 
 describe("amountToString", () => {
   const iov = "IOV" as TokenTicker;

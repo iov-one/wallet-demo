@@ -17,7 +17,7 @@ export interface BlockchainSpec {
   readonly bootstrapNodes: ReadonlyArray<string>;
 }
 
-function specToConnector(spec: BlockchainSpec): ChainConnector {
+export function specToConnector(spec: BlockchainSpec): ChainConnector {
   if (spec.bootstrapNodes.length < 1) {
     throw new Error("No bootstrap nodes defined");
   }

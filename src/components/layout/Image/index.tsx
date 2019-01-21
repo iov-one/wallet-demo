@@ -10,20 +10,21 @@ export interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   readonly alt: string;
   readonly fullwidth?: boolean;
   readonly bordered?: boolean;
+  readonly noShrink?: boolean;
   readonly className?: string;
   readonly style?: React.CSSProperties;
 }
 
 class Img extends React.PureComponent<ImgProps> {
   public render(): JSX.Element {
-    const { fullwidth, alt, cover, bordered, className, style, ...props } = this.props;
+    const { fullwidth, alt, cover, bordered, noShrink, className, style, ...props } = this.props;
 
     return (
       <img
         alt={alt}
         style={style}
         {...props}
-        className={cx(styles.img, { fullwidth, bordered, cover }, className)}
+        className={cx(styles.img, { fullwidth, bordered, cover, noShrink }, className)}
       />
     );
   }

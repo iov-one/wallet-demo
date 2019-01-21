@@ -1,4 +1,4 @@
-import { Button, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { storiesOf } from "@storybook/react";
 import { FormState } from "final-form";
 import * as React from "react";
@@ -52,10 +52,13 @@ storiesOf("Components /forms", module).add("Add react-final-form form", () => (
           />
           {errors && errors.terms && <div style={{ color: "red" }}>{errors.terms}</div>}
           <Field name="terms" type="checkbox" component={Checkbox} />
-          <Field name="fruits" component={SelectField} label="Favourite fruits" validate={required}>
-            <MenuItem value="1">Banana</MenuItem>
-            <MenuItem value="2">Kiwi</MenuItem>
-          </Field>
+          <Field
+            name="fruits"
+            component={SelectField}
+            items={["Banana", "Kiwi"]}
+            initial="Banana"
+            validate={required}
+          />
           <Button style={buttonStyle} color="primary" type="submit" variant="contained" disabled={submitting}>
             Continue
           </Button>

@@ -16,9 +16,8 @@ export function stringToAmount(amount: string, tokenTicker: TokenTicker): Amount
   return { quantity, fractionalDigits, tokenTicker };
 }
 
-// This produces a human readable format of the amount, value and token ticker
-export function amountToString(amount: Amount): string {
-  const { quantity, fractionalDigits, tokenTicker } = amount;
+export function amountToNumber(amount: Amount): number {
+  const { quantity, fractionalDigits } = amount;
   if (!quantity.match(/^[0-9]+$/)) {
     throw new Error(`quantity must be a number, got ${quantity}`);
   }
@@ -34,8 +33,17 @@ export function amountToString(amount: Amount): string {
   const cut = trimmed.length - fractionalDigits;
   const whole = cut === 0 ? "0" : trimmed.slice(0, cut);
   const decimal = fractionalDigits === 0 ? "" : `.${trimmed.slice(cut)}`;
-  const value = `${whole}${decimal} ${tokenTicker}`;
-  return value;
+  const value = `${whole}${decimal}`;
+
+  return Number(value);
+}
+
+// This produces a human readable format of the amount, value and token ticker
+export function amountToString(amount: Amount): string {
+  const { tokenTicker } = amount;
+  const value = amountToNumber(amount);
+
+  return `${value} ${tokenTicker}`;
 }
 
 // this takes an amount and trims off all trailing 0s
@@ -103,3 +111,9 @@ export function compareAmounts(a: Amount, b: Amount): number {
 export function prettyAmount(amount: Amount): string {
   return amountToString(trimAmount(amount));
 }
+
+export const makeAmount = (quantity: string, fractionalDigits: number, tokenTicker: TokenTicker): Amount => ({
+  quantity,
+  fractionalDigits,
+  tokenTicker,
+});

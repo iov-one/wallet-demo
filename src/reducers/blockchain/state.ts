@@ -1,13 +1,14 @@
 import { Address, BcpAccount, BcpConnection, BcpTicker, TokenTicker } from "@iov/bcp-types";
 import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
+import { ChainTicker } from "~/selectors";
 
 export interface BlockchainState {
   readonly internal: InternalDetails;
   // this is the main chain use for lookups, we must know which is which
   readonly bnsId?: ChainId;
   readonly accountInfo: ReadonlyArray<AccountInfo>;
-  readonly tickers: ReadonlyArray<TickerWithChain>;
+  readonly tickers: ReadonlyArray<ChainTicker>;
 }
 
 export interface AccountInfo {
@@ -15,11 +16,6 @@ export interface AccountInfo {
   readonly address: Address;
   readonly account?: BcpAccount;
   readonly username?: string;
-}
-
-export interface TickerWithChain {
-  readonly ticker: BcpTicker;
-  readonly chainId: ChainId;
 }
 
 // copied from @iov/bns as not exported
@@ -72,14 +68,14 @@ export function updateUsernameNft(
 }
 
 export function getTickerByChain(
-  tickers: ReadonlyArray<TickerWithChain>,
+  tickers: ReadonlyArray<ChainTicker>,
   chainId: ChainId,
 ): ReadonlyArray<BcpTicker> {
   return tickers.filter(t => t.chainId === chainId).map(t => t.ticker);
 }
 
 export function getChainByTicker(
-  tickers: ReadonlyArray<TickerWithChain>,
+  tickers: ReadonlyArray<ChainTicker>,
   ticker: TokenTicker,
 ): ChainId | undefined {
   const result = tickers.find(t => t.ticker.tokenTicker === ticker);
