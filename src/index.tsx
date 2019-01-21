@@ -1,4 +1,5 @@
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import * as Sentry from '@sentry/browser';
 import { ConnectedRouter } from "connected-react-router";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -11,6 +12,10 @@ import { history, makeStore } from "./store";
 import theme from "./theme/mui";
 
 import "./index.scss";
+
+Sentry.init({
+  dsn: "https://6f1aa71313e14f81b9b663d831705ff6@sentry.io/1374813"
+});
 
 const store = makeStore();
 
