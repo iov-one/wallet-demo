@@ -71,6 +71,10 @@ class SendPayment extends React.Component<Props, State> {
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
+    if (!maybeAddress) {
+      return {};
+    }
+
     if (!isIovAddress(maybeAddress)) {
       /*
     // TODO Waiting iov-core 0.11
