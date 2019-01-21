@@ -11,6 +11,11 @@ export enum CodecType {
   Lsk = "lsk",
 }
 
+export interface BcpBlockchain {
+  readonly connection: BcpConnection;
+  readonly codec: TxCodec;
+}
+
 // BlockchainSpec is a config option, such as may be returned from bns in the future
 export interface BlockchainSpec {
   readonly chainId?: ChainId; // if non-empty, enforce this
@@ -60,10 +65,11 @@ export function addressToCodec(address: string): TxCodec {
 export async function addBlockchain(
   writer: MultiChainSigner,
   blockchain: BlockchainSpec,
-): Promise<BcpConnection> {
+): Promise<BcpBlockchain> {
   const connector = specToConnector(blockchain);
+  const codec = specToCodec(blockchain);
   const { connection } = await writer.addChain(connector);
-  return connection;
+  return { connection, codec };
 }
 
 export async function checkBnsBlockchainNft(

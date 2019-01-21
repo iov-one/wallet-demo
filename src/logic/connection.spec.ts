@@ -10,7 +10,7 @@ describe("addBlockchain", () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const reader = await addBlockchain(writer, testSpecData);
+    const { connection: reader } = await addBlockchain(writer, testSpecData);
     try {
       expect(reader).toBeTruthy();
       // basic checks that we connected properly

@@ -10,7 +10,7 @@ import {
   SendTransaction,
   TxCodec,
 } from "@iov/bcp-types";
-import { bnsCodec, BnsConnection, RegisterUsernameTx } from "@iov/bns";
+import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
 import { ChainAddressPair } from "@iov/bns/types/types";
 import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
 import { dposFromOrToTag } from "@iov/dpos";
@@ -19,13 +19,12 @@ import { PublicIdentity } from "@iov/keycontrol";
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
 import { getMainIdentity, getMainKeyring } from "./profile";
 
-export function keyToAddress(ident: PublicIdentity, codec: TxCodec = bnsCodec): Address {
+export function keyToAddress(ident: PublicIdentity, codec: TxCodec): Address {
   return codec.keyToAddress(ident.pubkey);
 }
 
 // TODO: codec should have fromOrToTag function
 export function fromOrToTag(address: Address): BcpTxQuery {
-  console.log("address -->", address);
   const isBns = address.toString().indexOf("iov") !== -1;
   const query: BcpTxQuery = isBns
     ? { tags: [bnsFromOrToTag(address)] }

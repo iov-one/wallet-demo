@@ -1,4 +1,4 @@
-import { Address, BcpAccount, BcpConnection, BcpTicker, TokenTicker } from "@iov/bcp-types";
+import { Address, BcpAccount, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp-types";
 import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { ChainTicker } from "~/selectors";
@@ -86,5 +86,8 @@ export interface InternalDetails {
   readonly signer?: MultiChainSigner;
   readonly connections: {
     readonly [chainId: string]: BcpConnection;
+  };
+  readonly codecs: {
+    readonly [chainId: string]: TxCodec;
   };
 }

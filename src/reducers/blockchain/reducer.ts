@@ -12,6 +12,7 @@ export type BlockchainActions = ActionType<typeof actions>;
 const initState: BlockchainState = {
   internal: {
     connections: {},
+    codecs: {},
   },
   tickers: [],
   accountInfo: [],
@@ -26,9 +27,16 @@ export function blockchainReducer(
       return { ...state, internal: { ...state.internal, signer: action.payload } };
     case "ADD_BLOCKCHAIN_FULFILLED": {
       const { internal } = state;
-      const { connections } = internal;
-      const conn = action.payload;
-      return { ...state, internal: { ...internal, connections: { ...connections, [conn.chainId()]: conn } } };
+      const { connections, codecs } = internal;
+      const { connection: conn, codec: codec } = action.payload;
+      return {
+        ...state,
+        internal: {
+          ...internal,
+          connections: { ...connections, [conn.chainId()]: conn },
+          codecs: { ...codecs, [conn.chainId()]: codec },
+        },
+      };
     }
     case "GET_TICKERS_FULFILLED": {
       // use block scope here so we can use same variable name in different cases

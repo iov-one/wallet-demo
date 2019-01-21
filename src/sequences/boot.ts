@@ -12,7 +12,6 @@ import {
   keyToAddress,
   parseConfirmedTransaction,
   resetProfile,
-  specToCodec,
 } from "~/logic";
 import { RootState } from "~/reducers";
 import {
@@ -78,7 +77,7 @@ export const bootSequence = (
 
   // first we clarify the bns connection (which we need for later transaction resolution)
   const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {}, undefined)));
-  const bnsConn = value as BnsConnection;
+  const bnsConn = value.connection as BnsConnection;
   dispatch(setBnsChainId(bnsConn.chainId()));
   // and set it as first account/tickers
   let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
@@ -89,12 +88,14 @@ export const bootSequence = (
   // then we connect all other chains, in parallel
   // bns chain is the first one we connect to, so we can pull out the chainId later
   for (const blockchain of blockchains) {
-    const codec = specToCodec(blockchain);
-    const { value: conn } = await fixTypes(
+    const { value: chain } = await fixTypes(
       dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}, undefined)),
     );
-    initAccounts = [...initAccounts, watchAccountAndTransactions(dispatch, bnsConn, conn, identity, codec)];
-    initTickers = [...initTickers, getTickers(dispatch, conn)];
+    initAccounts = [
+      ...initAccounts,
+      watchAccountAndTransactions(dispatch, bnsConn, chain.connection, identity, chain.codec),
+    ];
+    initTickers = [...initTickers, getTickers(dispatch, chain.connection)];
   }
 
   // wait for all accounts and tickers to initialize
