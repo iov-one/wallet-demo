@@ -1,7 +1,14 @@
 import { ChainId } from "@iov/base-types";
 import { Amount } from "@iov/bcp-types";
 
-import { checkBnsBlockchainNft, resolveAddress, sendTransaction, setName, waitForCommit } from "~/logic";
+import {
+  addressToCodec,
+  checkBnsBlockchainNft,
+  resolveAddress,
+  sendTransaction,
+  setName,
+  waitForCommit,
+} from "~/logic";
 import { RootState } from "~/reducers";
 import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
@@ -51,7 +58,7 @@ export const sendTransactionSequence = (
   try {
     const signer = requireSigner(getState());
     const conn = requireBnsConnection(getState());
-    const address = await resolveAddress(conn, iovAddress, chainId);
+    const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
     dispatch(
       addPendingTransactionAction({
         id: uniqId,

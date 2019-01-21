@@ -20,5 +20,11 @@
       "token": "ALT"
     },
     "defaultPassword": "test-pass"
+  },{
+    "chainSpec": {
+      "codecType": "lsk",
+      "bootstrapNodes": ["https://testnet.lisk.io"]
+    },
+    "defaultPassword": "test-pass-lsk"
   }]
 }

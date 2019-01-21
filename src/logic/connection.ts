@@ -47,6 +47,16 @@ export function specToCodec(spec: BlockchainSpec): TxCodec {
   }
 }
 
+export function addressToCodec(address: string): TxCodec {
+  if (address.indexOf("iov") !== -1) {
+    return bnsCodec;
+  } else if (address.endsWith("L")) {
+    return liskCodec;
+  } else {
+    throw new Error(`Unsupported Address Type: ${address}`);
+  }
+}
+
 export async function addBlockchain(
   writer: MultiChainSigner,
   blockchain: BlockchainSpec,
