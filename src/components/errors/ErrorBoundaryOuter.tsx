@@ -1,11 +1,16 @@
 import * as Sentry from "@sentry/browser";
 import * as React from "react";
+import { SentryWidget } from "./SentryWidget";
 
 interface State {
   readonly error: Error | null;
 }
 
-export default class ErrorBoundary extends React.Component<{}, State> {
+const style = {
+
+};
+
+export class ErrorBoundaryOuter extends React.Component<{}, State> {
   public readonly state = {
     error: null,
   };
@@ -26,8 +31,11 @@ export default class ErrorBoundary extends React.Component<{}, State> {
 
   public render(): JSX.Element {
     if (this.state.error) {
-      //render fallback UI
-      return <a href="#" onClick={this.showReportDialog}>Report feedback</a>;
+      return (
+        <div style={style}>
+          <SentryWidget />
+        </div>
+      );
     } else {
       //when there's not an error, render children untouched
       return <React.Fragment>{this.props.children}</React.Fragment>;

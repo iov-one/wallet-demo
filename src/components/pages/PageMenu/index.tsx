@@ -1,5 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
+import { ErrorBoundaryInner } from "~/components/errors";
 import Header from "~/components/Header";
 import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
@@ -14,7 +15,7 @@ export interface PageMenuProps {
   readonly padding?: boolean;
 }
 
-interface Props extends PageMenuProps, WithStyles<typeof styles> {}
+interface Props extends PageMenuProps, WithStyles<typeof styles> { }
 
 const styles = createStyles({
   root: {
@@ -36,9 +37,11 @@ const PageMenu = ({ children, padding = true, renderProps, classes, phoneFullWid
         <Grid className={classes.root}>
           <GridItem xs={12} variant="column" grow>
             <Header />
-            <Block padding={paddingSize} className={classes.container}>
-              {renderProps !== undefined ? renderProps(phone) : children}
-            </Block>
+            <ErrorBoundaryInner>
+              <Block padding={paddingSize} className={classes.container}>
+                {renderProps !== undefined ? renderProps(phone) : children}
+              </Block>
+            </ErrorBoundaryInner>
           </GridItem>
         </Grid>
       );
