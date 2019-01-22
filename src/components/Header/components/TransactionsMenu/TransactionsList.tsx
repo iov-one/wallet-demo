@@ -3,13 +3,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import noPendingTxs from "~/components/Header/assets/noPendingTxs.svg";
-import { HeaderPendingTxProps } from "~/components/Header/selector";
 import Hairline from "~/components/layout/Hairline";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
+import { prettyAmount } from "~/logic";
+import { Tx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
+import { elipsify } from "~/utils/strings";
 
 interface Props {
-  readonly items: ReadonlyArray<HeaderPendingTxProps>;
+  readonly items: ReadonlyArray<Tx>;
 }
 
 const Transactions = ({ items }: Props) => {
@@ -22,15 +24,18 @@ const Transactions = ({ items }: Props) => {
       </ListItem>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: HeaderPendingTxProps, index: number) => {
-          const { amount, receiver } = item;
+        items.map((item: Tx, index: number) => {
+          const { amount, recipient } = item;
           const lastOne = index + 1 === items.length;
+
+          const beautifulAmount = prettyAmount(amount);
+          const prettyReceiver = elipsify(recipient, 16);
 
           return (
             <React.Fragment key={item.id}>
               <ListItem>
                 <CircularProgress size={30} />
-                <ListItemText primary={`${amount} to ${receiver}`} secondary="... Sending" />
+                <ListItemText primary={`${beautifulAmount} to ${prettyReceiver}`} secondary="... Sending" />
               </ListItem>
               {!lastOne && <Hairline />}
             </React.Fragment>
