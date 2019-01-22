@@ -30,32 +30,51 @@ export interface Props extends WithStyles<typeof styles> {
 
 interface State {
   readonly phoneHook: HTMLDivElement | null;
+  readonly showBadge: boolean;
 }
 
 export class HeaderComponent extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
+    showBadge: true,
   };
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
 
-  public readonly calcBellBadgeState = (txs: ReadonlyArray<HeaderTxProps>, lastTxId: string | null): BellBadge => {
-    if (!txs.length) {
+  public readonly calcBellBadgeState = (
+    lastTx: HeaderTxProps | undefined,
+    txIdStorage: string | null,
+  ): BellBadge => {
+    if (!lastTx) {
+      this.setState({
+        showBadge: false,
+      });
       return { showBadge: false, color: "error" };
     }
 
-    if (!lastTxId) {
+    if (!txIdStorage) {
+      this.setState({
+        showBadge: true,
+      });
       return { showBadge: true, color: "primary" };
     }
 
-    // tslint:disable-next-line:readonly-array
-    const lastTx = (txs as HeaderTxProps[])
-      .sort((a: HeaderTxProps, b: HeaderTxProps) => b.time.getTime() - a.time.getTime())[0];
-
-    if (lastTx.id === lastTxId) {
+    if (lastTx.id === txIdStorage) {
+      this.setState({
+        showBadge: false,
+      });
       return { showBadge: false, color: "error" };
     }
 
+    this.setState({
+      showBadge: true,
+    });
     return { showBadge: true, color: "primary" };
+  };
+
+  public readonly onSetBellMenuVisited = (): void => {
+    this.setState({
+      showBadge: false,
+    });
   };
 
   public componentDidMount(): void {
@@ -65,9 +84,9 @@ export class HeaderComponent extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { phoneMode, classes, pendingTxs, txs } = this.props;
+    const { phoneMode, classes, pendingTxs, txs, lastTx } = this.props;
     const { phoneHook } = this.state;
-    const bellBadgeState = this.calcBellBadgeState(txs, getLastTx());
+    const bellBadgeState = this.calcBellBadgeState(lastTx, getLastTx());
 
     return (
       <React.Fragment>
@@ -77,7 +96,14 @@ export class HeaderComponent extends React.Component<Props, State> {
           {!phoneMode && <LinksDesktop />}
           <Spacer order={4} />
           <TransactionsMenu phoneHook={phoneHook} phoneMode={phoneMode} items={pendingTxs} />
-          <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} {...bellBadgeState} />
+          <BellMenu
+            phoneHook={phoneHook}
+            phoneMode={phoneMode}
+            items={txs}
+            onMenuClicked={this.onSetBellMenuVisited}
+            showBadge={!this.state.showBadge}
+            color={bellBadgeState.color}
+          />
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
         <div ref={this.phoneHookRef} />

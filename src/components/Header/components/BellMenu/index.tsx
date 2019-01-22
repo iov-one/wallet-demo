@@ -14,7 +14,6 @@ import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
-//type LastTxType = HeaderTxProps | undefined;
 export interface BellBadge {
   readonly showBadge: boolean;
   readonly color: "primary" | "error";
@@ -22,14 +21,28 @@ export interface BellBadge {
 
 interface Props extends PhoneHook, BellBadge {
   readonly items: ReadonlyArray<HeaderTxProps>;
+  readonly onMenuClicked: () => void;
 }
 
-class BellMenu extends React.Component<Props> {
+interface State {
+  readonly visited: boolean;
+}
+
+class BellMenu extends React.Component<Props, State> {
+  public readonly state = {
+    visited: false,
+  };
+
+  public readonly componentDidMount = (): void => {
+    if (!this.props.showBadge) {
+      this.setState({
+        visited: true,
+      });
+    }
+  };
 
   public readonly menuClicked = () => {
-    /*if (this.props.lastTx) {
-      localStorage.setItem(LAST_TX_ID, this.props.lastTx.id);
-    }*/
+    this.props.onMenuClicked();
   };
 
   public render(): JSX.Element {
@@ -48,13 +61,7 @@ class BellMenu extends React.Component<Props> {
     const hasItems = items.length > 0;
 
     return (
-      <ListMenu
-        starter={starter}
-        listWidth={324}
-        phoneMode={phoneMode}
-        onClick={this.menuClicked}
-        {...rest}
-      >
+      <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} onClick={this.menuClicked} {...rest}>
         <Block padding={phoneMode ? "sm" : "xs"}>
           <ListItem>
             <ListItemText disableTypography>

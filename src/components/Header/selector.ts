@@ -26,13 +26,19 @@ const lastTxSelector = createSelector(
       return undefined;
     }
 
-    return txs[0];
+    // tslint:disable-next-line:readonly-array
+    const lastTx = (txs as ProcessedTx[]).sort(
+      (a: ProcessedTx, b: ProcessedTx) => b.time.getTime() - a.time.getTime(),
+    )[0];
+
+    return lastTx;
   },
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
   pendingTxs: getPendingTransactions,
   txs: confirmedTxSelector,
+  lastTx: lastTxSelector,
 });
 
 export default structuredSelector;
