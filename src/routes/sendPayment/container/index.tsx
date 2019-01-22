@@ -101,7 +101,7 @@ class SendPayment extends React.Component<Props, State> {
 
   public readonly onConfirmPayment = async () => {
     const { payment } = this.state;
-    const { sendTransaction } = this.props;
+    const { sendTransaction, accountName } = this.props;
 
     if (!payment) {
       throw new Error("Unable to process TX, info lost");
@@ -113,7 +113,10 @@ class SendPayment extends React.Component<Props, State> {
     // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
     const paddedTxAmount = padAmount(txAmount, 9);
     const id = uniquId();
-    sendTransaction(chainId, recipient, paddedTxAmount, note, id);
+    if (!accountName) {
+      throw new Error("Not possible to send a transaction without an account");
+    }
+    sendTransaction(chainId, recipient, paddedTxAmount, note, id, accountName);
 
     history.push(BALANCE_ROUTE);
   };

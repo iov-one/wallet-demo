@@ -1,12 +1,14 @@
+import { TokenTicker } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { ReadonlyDate } from "readonly-date";
 import { DeepPartial } from "redux";
-import { HeaderPendingTxProps, HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
+import { stringToAmount } from "~/logic";
 import { RootState } from "~/reducers";
+import { ProcessedTx, Tx } from "~/store/notifications/state";
 import { RootMatchMedia } from "~/utils/storybook";
 import Header from "./index";
 
@@ -16,25 +18,27 @@ const Separator = () => (
   </Block>
 );
 
-const pendingTxs: ReadonlyArray<HeaderPendingTxProps> = [
+const pendingTxs: ReadonlyArray<Tx> = [
   {
     id: "tx1",
-    receiver: "alex*iov",
-    amount: "12.5 IOV",
+    recipient: "alex*iov",
+    amount: stringToAmount("12.5", "IOV" as TokenTicker),
+    signer: "adolfo*iov",
   },
   {
     id: "tx2",
-    receiver: "moe*iov",
-    amount: "0.14 IOV",
+    recipient: "moe*iov",
+    amount: stringToAmount("0.14", "IOV" as TokenTicker),
+    signer: "adolfo*iov",
   },
 ];
 
-const txs: ReadonlyArray<HeaderTxProps> = [
+const txs: ReadonlyArray<ProcessedTx> = [
   {
     received: true,
     signer: "george*iov",
     recipient: "me",
-    amount: "10.5 LSK",
+    amount: stringToAmount("10.5", "LSK" as TokenTicker),
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: true,
     id: "tx1",
@@ -43,18 +47,18 @@ const txs: ReadonlyArray<HeaderTxProps> = [
     received: false,
     signer: "me",
     recipient: "alex*iov",
-    amount: "25.5 IOV",
+    amount: stringToAmount("25.5", "IOV" as TokenTicker),
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: true,
     id: "tx2",
   },
 ];
 
-const faultTx: HeaderTxProps = {
+const faultTx: ProcessedTx = {
   received: false,
   signer: "me",
   recipient: "alex*iov",
-  amount: "100.5 IOV",
+  amount: stringToAmount("100.5", "IOV" as TokenTicker),
   time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
   success: false,
   id: "tx3",

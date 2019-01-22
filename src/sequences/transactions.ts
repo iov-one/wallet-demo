@@ -7,9 +7,9 @@ import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, requireBnsChainId, requireBnsConnection, requireSigner } from "~/selectors";
 import {
+  addFailedTransactionAction,
   addPendingTransactionAction,
   removePendingTransactionAction,
-  setTransactionErrorAction,
 } from "~/store/notifications/actions";
 
 import { RootThunkDispatch } from "./types";
@@ -46,25 +46,34 @@ export const sendTransactionSequence = (
   amount: Amount,
   memo: string,
   uniqId: string,
+  signerName: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
   try {
     const signer = requireSigner(getState());
     const conn = requireBnsConnection(getState());
     const address = await resolveAddress(conn, iovAddress, chainId);
-    console.log(`start sendTransactionSequence ${address}`);
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
         amount,
-        receiver: iovAddress,
+        recipient: iovAddress,
+        signer: signerName,
       }),
     );
     await waitForCommit(sendTransaction(signer, chainId, address, amount, memo));
-    console.log("commitSuccess");
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
-    console.log(`commitError: ${err}`);
-    dispatch(setTransactionErrorAction(err));
+    dispatch(
+      addFailedTransactionAction(
+        {
+          id: uniqId,
+          amount,
+          recipient: iovAddress,
+          signer: signerName,
+        },
+        err,
+      ),
+    );
     dispatch(removePendingTransactionAction(uniqId));
   }
 };

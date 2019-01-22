@@ -4,19 +4,19 @@ import * as React from "react";
 import bell from "~/components/Header/assets/bell.svg";
 import bellGreen from "~/components/Header/assets/bellGreen.svg";
 import upToDate from "~/components/Header/assets/uptodate.svg";
-import { HeaderTxProps } from "~/components/Header/selector";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
 import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
+import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
 import TxItem from "./TxItem";
 
-type LastTxType = HeaderTxProps | undefined;
+type LastTxType = ProcessedTx | undefined;
 interface Props extends PhoneHook {
-  readonly items: ReadonlyArray<HeaderTxProps>;
+  readonly items: ReadonlyArray<ProcessedTx>;
   readonly lastTx: LastTxType;
 }
 
@@ -49,7 +49,7 @@ const BellMenu = ({ items, lastTx, phoneMode, ...rest }: Props) => {
       </Block>
       <Hairline color={border} />
       {hasItems ? (
-        items.map((item: HeaderTxProps, index: number) => {
+        items.map((item: ProcessedTx, index: number) => {
           const lastOne = index + 1 === items.length;
 
           return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;

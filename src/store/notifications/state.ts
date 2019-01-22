@@ -2,32 +2,21 @@ import { ReadonlyDate } from "readonly-date";
 
 import { Amount } from "@iov/bcp-types";
 
-// this comes in the action
-export interface PendingTxPayload {
+export interface Tx {
   readonly id: string;
-  readonly receiver: string;
+  readonly recipient: string;
+  readonly signer: string;
   readonly amount: Amount;
 }
 
-// this is formated and stored in the reducer
-export interface PendingTx {
-  readonly id: string;
-  readonly receiver: string;
-  readonly amount: string;
-}
-
-export interface NotificationTx {
-  readonly id: string;
+export interface ProcessedTx extends Tx {
   readonly time: ReadonlyDate;
   readonly received: boolean;
-  readonly amount: string;
-  readonly signer: string;
-  readonly recipient: string;
   readonly success: boolean;
+  readonly err?: any;
 }
 
 export interface NotificationState {
-  readonly pending: ReadonlyArray<PendingTx>;
-  readonly transaction: ReadonlyArray<NotificationTx>;
-  readonly transactionError?: string;
+  readonly pending: ReadonlyArray<Tx>;
+  readonly transaction: ReadonlyArray<ProcessedTx>;
 }

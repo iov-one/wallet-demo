@@ -4,6 +4,7 @@ import { MultiChainSigner } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
 import { tokensSelector } from "~/routes/balance/container/selector";
+import { accountNameSelector } from "~/routes/home/container/selector";
 import { ChainTicker, getChainTickers, requireBnsConnection, requireSigner } from "~/selectors";
 
 export interface SelectorProps {
@@ -13,6 +14,7 @@ export interface SelectorProps {
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
   readonly defaultBalance: BcpCoin;
   readonly signer: MultiChainSigner;
+  readonly accountName: string | undefined;
 }
 
 const IOV = "IOV";
@@ -46,6 +48,7 @@ const structuredSelector: Selector<RootState, SelectorProps> = createStructuredS
   tickers: balanceTickersSelector,
   balanceTokens: balanceTokensSelector,
   defaultBalance: defaultBalanceSelector,
+  accountName: accountNameSelector,
 });
 
 export default structuredSelector;

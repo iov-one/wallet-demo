@@ -2,15 +2,15 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import loading from "~/components/Header/assets/loading.svg";
 import loadingSpin from "~/components/Header/assets/loadingSpin.svg";
-import { HeaderPendingTxProps } from "~/components/Header/selector";
 import BadgeIcon from "~/components/layout/BadgeIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
+import { Tx } from "~/store/notifications/state";
 import { primary } from "~/theme/variables";
 import GotIt from "./GotIt";
 import TransactionsList from "./TransactionsList";
 
 interface Props extends PhoneHook, WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<HeaderPendingTxProps>;
+  readonly items: ReadonlyArray<Tx>;
 }
 
 const styles = createStyles({
