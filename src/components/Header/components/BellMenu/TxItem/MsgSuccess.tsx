@@ -35,7 +35,7 @@ const Msg = ({ amount, received, signer, recipient, onVisitSendPayment }: MsgPro
         </Typography>
       ) : (
         <Typography weight={recipientWeight} inline pointer onClick={onVisitSendPayment(recipient)}>
-          {recipientShort}
+          {`${recipientShort} `}
         </Typography>
       )}
       <Typography weight="semibold" inline>
