@@ -7,8 +7,7 @@
     "faucetSpec": {
       "uri": "https://iov-faucet.yaknet.iov.one",
       "token": "IOV"
-    },
-    "defaultPassword": "test-pass"
+    }
   },
   "chains": [{
     "chainSpec": {
@@ -18,13 +17,11 @@
     "faucetSpec": {
       "uri": "https://bov-faucet.yaknet.iov.one",
       "token": "ALT"
-    },
-    "defaultPassword": "test-pass"
+    }
   },{
     "chainSpec": {
       "codecType": "lsk",
       "bootstrapNodes": ["https://testnet.lisk.io"]
-    },
-    "defaultPassword": "test-pass-lsk"
+    }
   }]
 }
