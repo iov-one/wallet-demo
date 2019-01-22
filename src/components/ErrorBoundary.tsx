@@ -20,10 +20,14 @@ export default class ErrorBoundary extends React.Component<{}, State> {
     });
   };
 
+  public readonly showReportDialog = () => {
+    Sentry.showReportDialog();
+  }
+
   public render(): JSX.Element {
     if (this.state.error) {
       //render fallback UI
-      return <a onClick={() => Sentry.showReportDialog()}>Report feedback</a>;
+      return <a href="#" onClick={this.showReportDialog}>Report feedback</a>;
     } else {
       //when there's not an error, render children untouched
       return <React.Fragment>{this.props.children}</React.Fragment>;
