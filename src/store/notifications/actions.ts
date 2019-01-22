@@ -1,10 +1,10 @@
 import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
 import { createSyncAction } from "~/reducers/helpers";
-import { FailedTxPayload, PendingTxPayload } from "./state";
+import { Tx } from "./state";
 
 export const addPendingTransactionAction = createSyncAction(
   "ADD_PENDING_TRANSACTION",
-  (pendingItem: PendingTxPayload) => pendingItem,
+  (pendingItem: Tx) => pendingItem,
 );
 
 export const removePendingTransactionAction = createSyncAction(
@@ -19,7 +19,7 @@ export const addConfirmedTransaction = createSyncAction(
 
 export const addFailedTransactionAction = createSyncAction(
   "ADD_FAILED_TRANSACTION",
-  (transaction: FailedTxPayload) => transaction,
+  (transaction: Tx, err: any) => ({ transaction, err }),
 );
 
 export const watchTransactionAction = createSyncAction("WATCH_TRANSACTION", watchTransaction);
