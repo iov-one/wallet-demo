@@ -10,7 +10,11 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
+import { PAYMENT_ROUTE } from "~/routes";
+import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/SendCard";
+import { history } from "~/store";
 import { itemBackground, xs } from "~/theme/variables";
+import { elipsify } from "~/utils/strings";
 
 interface ItemProps extends WithStyles<typeof styles> {
   readonly item: HeaderTxProps;
@@ -30,22 +34,43 @@ interface MsgErrorProps {
   readonly recipient: string;
 }
 
+const onVisitSendPayment = (address: string) => () => {
+  history.push({
+    pathname: PAYMENT_ROUTE,
+    state: {
+      [RECIPIENT_FIELD]: address,
+    },
+  });
+};
+
 const Msg = ({ amount, received, signer, recipient }: MsgProps) => {
   const signerWeight = received ? "semibold" : "regular";
-  const signerMsg = received ? signer : "You";
-
   const recipientWeight = received ? "regular" : "semibold";
-  const recipientMsg = received ? "you" : recipient;
+
+  const signerShort = elipsify(signer, 16);
+  const recipientShort = elipsify(recipient, 16);
 
   return (
     <React.Fragment>
-      <Typography weight={signerWeight} inline>
-        {signerMsg}
-      </Typography>
+      {received ? (
+        <Typography weight={signerWeight} inline pointer onClick={onVisitSendPayment(signer)}>
+          {signerShort}
+        </Typography>
+      ) : (
+        <Typography weight={signerWeight} inline>
+          You
+        </Typography>
+      )}
       <Typography inline>{" sent "}</Typography>
-      <Typography weight={recipientWeight} inline>
-        {`${recipientMsg} `}
-      </Typography>
+      {received ? (
+        <Typography weight={recipientWeight} inline>
+          {"you "}
+        </Typography>
+      ) : (
+        <Typography weight={recipientWeight} inline pointer onClick={onVisitSendPayment(recipient)}>
+          {recipientShort}
+        </Typography>
+      )}
       <Typography weight="semibold" inline>
         {amount}
       </Typography>
@@ -60,8 +85,8 @@ const MsgError = ({ amount, recipient }: MsgErrorProps) => (
       {amount}
     </Typography>
     <Typography inline>{" payment to "}</Typography>
-    <Typography weight="semibold" inline>
-      {recipient}
+    <Typography weight="semibold" inline pointer onClick={onVisitSendPayment(recipient)}>
+      >{recipient}
     </Typography>
     <Typography inline>{" was "}</Typography>
     <Typography weight="semibold" inline>

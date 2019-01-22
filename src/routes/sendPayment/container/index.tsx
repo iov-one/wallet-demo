@@ -1,6 +1,7 @@
 import { Amount, BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
 import { FormType } from "~/components/forms/Form";
 import { stringToAmount } from "~/logic";
@@ -18,7 +19,11 @@ import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
-interface Props extends SelectorProps, SendPaymentActions {}
+interface RouteLocation {
+  readonly [RECIPIENT_FIELD]: string | undefined;
+}
+
+interface Props extends RouteComponentProps<RouteLocation>, SelectorProps, SendPaymentActions {}
 
 interface State {
   readonly balanceToSend: BcpCoin;
@@ -116,8 +121,14 @@ class SendPayment extends React.Component<Props, State> {
     const { page } = this.state;
 
     if (page === FILL_PAYMENT) {
+      const { state: routeState } = this.props.location;
+      const initialValues = {
+        [RECIPIENT_FIELD]: routeState ? routeState[RECIPIENT_FIELD] : undefined,
+      };
+
       return (
         <FillPayment
+          initialValues={initialValues}
           balance={this.state.balanceToSend}
           tickersWithBalance={this.props.tickers}
           defaultTicket={this.props.defaultBalance.tokenTicker}

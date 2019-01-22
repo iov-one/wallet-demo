@@ -29,8 +29,8 @@ function simplifyTransaction(full: AnnotatedConfirmedTransaction): NotificationT
   } = full;
   const amount = prettyAmount(transaction.amount);
 
-  const signer = elipsify(signerName || signerAddr, 16);
-  const recipient = elipsify(recipientName || recipientAddr, 16);
+  const signer = signerName || signerAddr;
+  const recipient = recipientName || recipientAddr;
 
   return {
     id: transactionId,

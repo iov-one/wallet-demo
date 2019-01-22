@@ -4,7 +4,6 @@ import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
 import { getTransactions } from "~/store/notifications/selectors";
-import { elipsify } from "~/utils/strings";
 import { sleep } from "~/utils/timer";
 
 import { bootSequence } from "./boot";
@@ -77,8 +76,8 @@ describe("drinkFaucetSequence", () => {
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(totalFaucetChains);
         // and we should be the recipient (from the faucet)
-        expect(transactions[0].recipient).toEqual(elipsify(addr, 16));
-        expect(transactions[1].recipient).toEqual(elipsify(addr, 16));
+        expect(transactions[0].recipient).toEqual(addr);
+        expect(transactions[1].recipient).toEqual(addr);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
