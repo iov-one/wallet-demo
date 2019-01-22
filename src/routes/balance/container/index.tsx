@@ -1,12 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import PageMenu from "~/components/pages/PageMenu";
+import { IOV_NAMESPACE } from "~/logic";
 import { PAYMENT_ROUTE, RECEIVE_FROM_IOV_USER } from "~/routes";
 import Layout from "~/routes/balance/components";
 import { history } from "~/store";
 import selector, { SelectorProps } from "./selector";
-
-export const IOV_NAMESPACE = "*iov";
 
 class Balance extends React.Component<SelectorProps> {
   public readonly onSendPayment = () => {

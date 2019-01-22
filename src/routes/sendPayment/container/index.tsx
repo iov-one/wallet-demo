@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
 import { FormType, generateError } from "~/components/forms/Form";
-import { getUsernameNftByUsername, iovNamespace, isIovAddress, padAmount, stringToAmount } from "~/logic";
+import { getUsernameNftByUsername, IOV_NAMESPACE, isIovAddress, padAmount, stringToAmount } from "~/logic";
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
@@ -89,7 +89,7 @@ class SendPayment extends React.Component<Props, State> {
     }
 
     // check if name is registered in BNS (remember to remove namespace component)
-    const username = maybeAddress.slice(0, -iovNamespace.length);
+    const username = maybeAddress.slice(0, -IOV_NAMESPACE.length);
     const nft = await getUsernameNftByUsername(connection, username);
     if (nft === undefined) {
       return generateError(RECIPIENT_FIELD, "IOV address not registered");
