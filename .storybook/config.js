@@ -8,7 +8,7 @@ const ctxComponents = require.context('../src/context', true, /\.stories\.((js|t
 function loadStories() {
   reqRoutes.keys().forEach((filename) => reqRoutes(filename));
   reqComponents.keys().forEach((filename) => reqComponents(filename));
-  ctxComponents.keys().forEach(filename => req(filename));
+  ctxComponents.keys().forEach(filename => ctxComponents(filename));
 }
 
 configure(loadStories, module);
