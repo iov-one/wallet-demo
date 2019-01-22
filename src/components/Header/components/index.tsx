@@ -5,10 +5,10 @@ import BellMenu from "~/components/Header/components/BellMenu";
 import HiMenu from "~/components/Header/components/HiMenu";
 import { LinksDesktop } from "~/components/Header/components/LinksMenu";
 import TransactionsMenu from "~/components/Header/components/TransactionsMenu";
-import { HeaderPendingTxProps, HeaderTxProps } from "~/components/Header/selector";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
+import { ProcessedTx, Tx } from "~/store/notifications/state";
 
 const styles = createStyles({
   root: {
@@ -22,9 +22,9 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {
   readonly phoneMode: boolean;
-  readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
-  readonly txs: ReadonlyArray<HeaderTxProps>;
-  readonly lastTx: HeaderTxProps | undefined;
+  readonly pendingTxs: ReadonlyArray<Tx>;
+  readonly txs: ReadonlyArray<ProcessedTx>;
+  readonly lastTx: ProcessedTx | undefined;
 }
 
 interface State {

@@ -2,20 +2,17 @@ import { createSelector, createStructuredSelector, Selector } from "reselect";
 
 import { RootState } from "~/reducers";
 import { getPendingTransactions, getTransactions } from "~/store/notifications/selectors";
-import { NotificationTx, PendingTx } from "~/store/notifications/state";
-
-export type HeaderTxProps = NotificationTx;
-export type HeaderPendingTxProps = PendingTx;
+import { ProcessedTx, Tx } from "~/store/notifications/state";
 
 export interface SelectorProps {
-  readonly pendingTxs: ReadonlyArray<HeaderPendingTxProps>;
-  readonly txs: ReadonlyArray<HeaderTxProps>;
-  readonly lastTx: HeaderTxProps | undefined;
+  readonly pendingTxs: ReadonlyArray<Tx>;
+  readonly txs: ReadonlyArray<ProcessedTx>;
+  readonly lastTx: ProcessedTx | undefined;
 }
 
 const confirmedTxSelector = createSelector(
   getTransactions,
-  (txs: ReadonlyArray<HeaderTxProps>) => {
+  (txs: ReadonlyArray<ProcessedTx>) => {
     const min = Math.min(txs.length, 3);
 
     return txs.slice(0, min);
@@ -24,7 +21,7 @@ const confirmedTxSelector = createSelector(
 
 const lastTxSelector = createSelector(
   confirmedTxSelector,
-  (txs: ReadonlyArray<HeaderTxProps>) => {
+  (txs: ReadonlyArray<ProcessedTx>) => {
     if (txs.length === 0) {
       return undefined;
     }
