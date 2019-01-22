@@ -46,6 +46,7 @@ export const sendTransactionSequence = (
   amount: Amount,
   memo: string,
   uniqId: string,
+  signerName: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
   try {
     const signer = requireSigner(getState());
@@ -55,19 +56,23 @@ export const sendTransactionSequence = (
       addPendingTransactionAction({
         id: uniqId,
         amount,
-        receiver: iovAddress,
+        recipient: iovAddress,
+        signer: signerName,
       }),
     );
     await waitForCommit(sendTransaction(signer, chainId, address, amount, memo));
     dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
     dispatch(
-      addFailedTransactionAction({
-        id: uniqId,
-        amount,
-        recipient: iovAddress,
+      addFailedTransactionAction(
+        {
+          id: uniqId,
+          amount,
+          recipient: iovAddress,
+          signer: signerName,
+        },
         err,
-      }),
+      ),
     );
     dispatch(removePendingTransactionAction(uniqId));
   }
