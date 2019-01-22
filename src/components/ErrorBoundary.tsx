@@ -1,11 +1,11 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from "@sentry/browser";
 import * as React from "react";
 
 interface State {
   readonly error: Error | null;
 }
 
-class ErrorBoundary extends React.Component<{}, State> {
+export default class ErrorBoundary extends React.Component<{}, State> {
   public readonly state = {
     error: null,
   };
@@ -18,23 +18,15 @@ class ErrorBoundary extends React.Component<{}, State> {
       });
       Sentry.captureException(error);
     });
-  }
+  };
 
   public render(): JSX.Element {
     if (this.state.error) {
       //render fallback UI
-      return (
-        <a onClick={() => Sentry.showReportDialog()}>Report feedback</a>
-      );
+      return <a onClick={() => Sentry.showReportDialog()}>Report feedback</a>;
     } else {
       //when there's not an error, render children untouched
-      return (
-        <React.Fragment>
-          {this.props.children}
-        </React.Fragment>
-      );
+      return <React.Fragment>{this.props.children}</React.Fragment>;
     }
   }
 }
-
-export default ErrorBoundary;
