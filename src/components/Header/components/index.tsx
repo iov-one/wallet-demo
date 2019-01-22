@@ -41,7 +41,7 @@ export class HeaderComponent extends React.Component<Props, State> {
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
 
   public readonly calcBellBadgeState = (
-    lastTx: HeaderTxProps | undefined,
+    lastTx: ProcessedTx | undefined,
     txIdStorage: string | null,
   ): BellBadge => {
     if (!lastTx) {
