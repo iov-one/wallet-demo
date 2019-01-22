@@ -17,11 +17,12 @@ import TxItem from "./TxItem";
 export interface BellBadge {
   readonly showBadge: boolean;
   readonly color: "primary" | "error";
+  readonly lastTx?: HeaderTxProps;
 }
 
 interface Props extends PhoneHook, BellBadge {
   readonly items: ReadonlyArray<HeaderTxProps>;
-  readonly onMenuClicked: () => void;
+  readonly onMenuClicked: (lastTxId: string) => void;
 }
 
 interface State {
@@ -42,7 +43,9 @@ class BellMenu extends React.Component<Props, State> {
   };
 
   public readonly menuClicked = () => {
-    this.props.onMenuClicked();
+    if(this.props.lastTx) {
+      this.props.onMenuClicked(this.props.lastTx.id);
+    }    
   };
 
   public render(): JSX.Element {

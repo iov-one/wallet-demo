@@ -9,7 +9,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import { ProcessedTx, Tx } from "~/store/notifications/state";
-import { getLastTx } from "~/utils/localstorage/transactions";
+import { getLastTx, setLastTx } from "~/utils/localstorage/transactions";
 
 const styles = createStyles({
   root: {
@@ -45,36 +45,23 @@ export class HeaderComponent extends React.Component<Props, State> {
     txIdStorage: string | null,
   ): BellBadge => {
     if (!lastTx) {
-      this.setState({
-        showBadge: false,
-      });
       return { showBadge: false, color: "error" };
     }
 
     if (!txIdStorage) {
-      this.setState({
-        showBadge: true,
-      });
-      return { showBadge: true, color: "primary" };
+      return { lastTx, showBadge: true, color: "primary" };
     }
 
     if (lastTx.id === txIdStorage) {
-      this.setState({
-        showBadge: false,
-      });
-      return { showBadge: false, color: "error" };
+      return { lastTx, showBadge: false, color: "error" };
     }
 
-    this.setState({
-      showBadge: true,
-    });
-    return { showBadge: true, color: "primary" };
+    return { lastTx, showBadge: true, color: "primary" };
   };
 
-  public readonly onSetBellMenuVisited = (): void => {
-    this.setState({
-      showBadge: false,
-    });
+  public readonly onSetBellMenuVisited = (lastTxId: string): void => {
+    setLastTx(lastTxId);
+    this.forceUpdate();
   };
 
   public componentDidMount(): void {
@@ -100,9 +87,9 @@ export class HeaderComponent extends React.Component<Props, State> {
             phoneHook={phoneHook}
             phoneMode={phoneMode}
             items={txs}
+            lastTx={lastTx}
             onMenuClicked={this.onSetBellMenuVisited}
-            showBadge={!this.state.showBadge}
-            color={bellBadgeState.color}
+            {...bellBadgeState}
           />
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
