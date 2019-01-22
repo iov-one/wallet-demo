@@ -107,7 +107,6 @@ class SendCard extends React.Component<Props, State> {
             name={AMOUNT_FIELD}
             type="text"
             fullWidth
-            InputProps={{ disableUnderline: true }}
             component={TextField}
             validate={composeValidators(required, mustBeFloat, greaterThan(0.000000001), lowerThan(crypto))}
             placeholder="0.00"

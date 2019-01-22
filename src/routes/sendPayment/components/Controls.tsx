@@ -5,7 +5,6 @@ import { BALANCE_ROUTE } from "~/routes";
 import { history } from "~/store";
 
 interface Props {
-  readonly valid: boolean;
   readonly submitting: boolean;
   readonly validating: boolean;
   readonly onContinue?: () => void;
@@ -15,14 +14,14 @@ const onCancel = () => {
   history.push(BALANCE_ROUTE);
 };
 
-const Controls = ({ submitting, valid, validating, onContinue }: Props) => (
+const Controls = ({ submitting, validating, onContinue }: Props) => (
   <React.Fragment>
     <Block padding="lg" margin="lg">
       <Button
         variant="contained"
         color="primary"
         type={onContinue ? undefined : "submit"}
-        disabled={!valid || submitting || validating}
+        disabled={submitting || validating}
         size="medium"
         spinner={submitting || validating}
         fullWidth

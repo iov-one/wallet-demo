@@ -3,8 +3,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
-import { FormType } from "~/components/forms/Form";
-import { padAmount, stringToAmount } from "~/logic";
+import { FormType, generateError } from "~/components/forms/Form";
+import { getUsernameNftByUsername, IOV_NAMESPACE, isIovAddress, padAmount, stringToAmount } from "~/logic";
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
@@ -65,29 +65,35 @@ class SendPayment extends React.Component<Props, State> {
     }));
   };
 
-  public readonly onSendPaymentValidation = async (_: object): Promise<object> => {
-    /*
-    TODO Waiting iov-core 0.11
-
-    const { chainTickers, signer, connection, defaultBalance } = this.props;
+  public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
+    // const { chainTickers, signer, connection, defaultBalance } = this.props;
+    const { connection } = this.props;
     const formValues = values as FormType;
-    const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
     const maybeAddress = formValues[RECIPIENT_FIELD];
-    
+
+    if (!maybeAddress) {
+      return {};
+    }
+
     if (!isIovAddress(maybeAddress)) {
+      /*
+    // TODO Waiting iov-core 0.11
+      const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
       const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
       const chainId = selectedTicker!.chainId
       const valid = signer.isValidAddress(chainId, maybeAddress)
   
       return valid ? {} : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`)
+      */
+      return {};
     }
 
-    // check if name is registered in BNS
-    const exists = (await getUsernameNftByUsername(connection, maybeAddress)) !== undefined;
-    if (!exists) {
-      return generateError(RECIPIENT_FIELD, 'IOV address not registered');
+    // check if name is registered in BNS (remember to remove namespace component)
+    const username = maybeAddress.slice(0, -IOV_NAMESPACE.length);
+    const nft = await getUsernameNftByUsername(connection, username);
+    if (nft === undefined) {
+      return generateError(RECIPIENT_FIELD, "IOV address not registered");
     }
-    */
     return {};
   };
 

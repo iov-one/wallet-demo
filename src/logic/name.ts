@@ -4,9 +4,9 @@ import { bnsCodec, BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";
 
-const iovNamespace = "*iov";
+export const IOV_NAMESPACE = "*iov";
 export function isIovAddress(address: string): boolean {
-  return address.endsWith(iovNamespace);
+  return address.endsWith(IOV_NAMESPACE);
 }
 
 export async function resolveAddress(
@@ -16,7 +16,7 @@ export async function resolveAddress(
   codec: TxReadCodec = bnsCodec,
 ): Promise<Address> {
   if (isIovAddress(maybeAddress)) {
-    const username = maybeAddress.slice(0, -iovNamespace.length);
+    const username = maybeAddress.slice(0, -IOV_NAMESPACE.length);
     const address = await getAddressByName(connection, username, chainId);
     if (address === undefined) {
       throw new Error(`Value name ${maybeAddress} not registered`);
