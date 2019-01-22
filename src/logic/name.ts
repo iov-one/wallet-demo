@@ -1,6 +1,6 @@
 import { ChainId } from "@iov/base-types";
 import { Address, TxReadCodec } from "@iov/bcp-types";
-import { bnsCodec, BnsConnection, BnsUsernameNft } from "@iov/bns";
+import { BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";
 
@@ -13,7 +13,7 @@ export async function resolveAddress(
   connection: BnsConnection,
   maybeAddress: string,
   chainId: ChainId,
-  codec: TxReadCodec = bnsCodec,
+  codec: TxReadCodec,
 ): Promise<Address> {
   if (isIovAddress(maybeAddress)) {
     const username = maybeAddress.slice(0, -IOV_NAMESPACE.length);

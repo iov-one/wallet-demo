@@ -27,7 +27,7 @@ export const faucetSpecs = async () => {
 export const skipTests = (envVar: string | undefined): boolean => !envVar;
 export const mayTestBns = skipTests(process.env.BNS_ENABLED) ? xit : it;
 export const mayTestFull =
-  skipTests(process.env.BNS_ENABLED) && skipTests(process.env.CHAINS_ENABLED) ? xit : it;
+  !skipTests(process.env.BNS_ENABLED) && !skipTests(process.env.CHAINS_ENABLED) ? it : xit;
 
 // this is a pre-loaded account we can play with (separate from the faucet)
 const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";

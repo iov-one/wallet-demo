@@ -19,4 +19,10 @@ echo
 bash "${SCRIPT_DIR}"/faucet/bnsd_stop.sh
 bash "${SCRIPT_DIR}"/bnsd/stop.sh
 
+echo
+echo ">>> Stopping lisk chain and faucet..."
+echo
+bash "${SCRIPT_DIR}"/faucet/lisk_stop.sh
+bash "${SCRIPT_DIR}"/lisk/stop.sh
+
 echo "Done!"

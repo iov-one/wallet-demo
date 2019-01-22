@@ -1,7 +1,14 @@
 import { ChainId } from "@iov/base-types";
 import { Amount } from "@iov/bcp-types";
 
-import { checkBnsBlockchainNft, resolveAddress, sendTransaction, setName, waitForCommit } from "~/logic";
+import {
+  addressToCodec,
+  checkBnsBlockchainNft,
+  resolveAddress,
+  sendTransaction,
+  setName,
+  waitForCommit,
+} from "~/logic";
 import { RootState } from "~/reducers";
 import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
@@ -37,7 +44,7 @@ export const setNameSequence = (username: string) => async (
   // since we are not watching the username (TODO in iov-core), we need to query it again one this is set
 
   // let's just query for any one that we registered...
-  return fixTypes(dispatch(getUsernameNftByUsernameAsyncAction.start(bnsConn, username, {})));
+  return fixTypes(dispatch(getUsernameNftByUsernameAsyncAction.start(bnsConn, username, {}, undefined)));
 };
 
 export const sendTransactionSequence = (
@@ -51,7 +58,7 @@ export const sendTransactionSequence = (
   try {
     const signer = requireSigner(getState());
     const conn = requireBnsConnection(getState());
-    const address = await resolveAddress(conn, iovAddress, chainId);
+    const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
     dispatch(
       addPendingTransactionAction({
         id: uniqId,

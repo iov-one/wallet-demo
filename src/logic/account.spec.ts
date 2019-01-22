@@ -23,9 +23,9 @@ describe("getAccount", () => {
     const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const reader = await addBlockchain(writer, testSpecData);
+    const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile));
+      const acct = await getAccount(reader, getMainIdentity(profile), codec);
       expect(acct).toEqual(undefined);
     } finally {
       reader.disconnect();
@@ -36,9 +36,9 @@ describe("getAccount", () => {
     const profile = await adminProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const reader = await addBlockchain(writer, testSpecData);
+    const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile));
+      const acct = await getAccount(reader, getMainIdentity(profile), codec);
       expect(acct).toBeTruthy();
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
@@ -62,10 +62,10 @@ describe("sendTransaction", () => {
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const reader = await addBlockchain(writer, testSpecData);
+      const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
       try {
         // ensure rcpt is empty before
-        const before = await getAccount(reader, rcpt);
+        const before = await getAccount(reader, rcpt, codec);
         expect(before).toEqual(undefined);
         const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
@@ -74,14 +74,20 @@ describe("sendTransaction", () => {
           fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        const res = await sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount, "hello");
+        const res = await sendTransaction(
+          writer,
+          reader.chainId(),
+          keyToAddress(rcpt, codec),
+          amount,
+          "hello",
+        );
         const blockInfo = await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
         const txHeight = (blockInfo as BcpBlockInfoInBlock).height;
         expect(txHeight).toBeGreaterThan(2);
         expect(res.transactionId).toBeTruthy();
 
         // ensure the recipient is properly rewarded
-        const after = await getAccount(reader, rcpt);
+        const after = await getAccount(reader, rcpt, codec);
         expect(after).toBeTruthy();
         expect(after!.name).toEqual(undefined);
         expect(after!.balance.length).toEqual(1);
@@ -103,16 +109,17 @@ describe("setName", () => {
       const faucet = await adminProfile();
       const empty = await createProfile();
       const rcpt = getMainIdentity(empty);
-      const rcptAddr = keyToAddress(rcpt);
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const reader = (await addBlockchain(writer, testSpecData)) as BnsConnection;
+      const { connection, codec } = await addBlockchain(writer, testSpecData);
+      const reader = connection as BnsConnection;
+      const rcptAddr = keyToAddress(rcpt, codec);
       const chainId = reader.chainId();
       await checkBnsBlockchainNft(reader, writer, chainId, "bns");
 
       const rcptWriter = new MultiChainSigner(empty);
-      const rcptReader = await addBlockchain(rcptWriter, testSpecData);
+      const { connection: rcptReader } = await addBlockchain(rcptWriter, testSpecData);
       try {
         const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
@@ -124,7 +131,7 @@ describe("setName", () => {
         await waitForCommit(sendTransaction(writer, chainId, rcptAddr, amount));
 
         // make sure some tokens were received
-        const withMoney = await getAccount(reader, rcpt);
+        const withMoney = await getAccount(reader, rcpt, codec);
         expect(withMoney).toBeTruthy();
 
         // TODO: big hack here - FIX THIS!!!
@@ -140,7 +147,7 @@ describe("setName", () => {
         await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
 
         // ensure the recipient is properly named
-        const after = await getAccount(reader, rcpt);
+        const after = await getAccount(reader, rcpt, codec);
         expect(after).toBeTruthy();
 
         // no more name, using username
@@ -169,10 +176,10 @@ describe("setName", () => {
 
         const writer = new MultiChainSigner(faucet);
         const testSpecData = await testSpec();
-        const reader = await addBlockchain(writer, testSpecData);
+        const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
 
         const rcptWriter = new MultiChainSigner(empty);
-        const rcptReader = await addBlockchain(rcptWriter, testSpecData);
+        const { connection: rcptReader } = await addBlockchain(rcptWriter, testSpecData);
         try {
           let updatesFaucet = 0;
           let acctFaucet: BcpAccount | undefined;
@@ -183,14 +190,20 @@ describe("setName", () => {
               updatesFaucet++;
               acctFaucet = acct;
             },
+            codec,
           );
 
           let updatesRcpt = 0;
           let acctRcpt: BcpAccount | undefined;
-          const unsubscribeRcpt = await watchAccount(reader, rcpt, (acct?: BcpAccount) => {
-            updatesRcpt++;
-            acctRcpt = acct;
-          });
+          const unsubscribeRcpt = await watchAccount(
+            reader,
+            rcpt,
+            (acct?: BcpAccount) => {
+              updatesRcpt++;
+              acctRcpt = acct;
+            },
+            codec,
+          );
 
           // validate update messages came
           await sleep(50);
@@ -207,7 +220,7 @@ describe("setName", () => {
             fractionalDigits: 9,
             tokenTicker: testTicker,
           };
-          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt, codec), amount));
 
           // validate update messages came
           await sleep(50);
@@ -225,7 +238,7 @@ describe("setName", () => {
           // unsubscribe from one, only one update should come
           unsubscribeFaucet.unsubscribe();
           // send a second payment
-          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt), amount));
+          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt, codec), amount));
 
           await sleep(50);
           // no more facuet updates should come

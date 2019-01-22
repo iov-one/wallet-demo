@@ -1,5 +1,5 @@
 import { compareAmounts } from "~/logic";
-import { faucetSpecs, mayTestBns, randomString, testChains, testSpec } from "~/logic/testhelpers";
+import { faucetSpecs, mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
 import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
@@ -10,12 +10,12 @@ import { bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
 
 describe("drinkFaucetSequence", () => {
-  mayTestBns(
+  mayTestFull(
     "gives a new account some tokens",
     async () => {
       const store = makeStore();
       const password = randomString(16);
-      const totalFaucetChains = 2;
+      const totalFaucetChains = 3;
 
       // we must boot before any other actions
       const testSpecData = await testSpec();
@@ -49,7 +49,7 @@ describe("drinkFaucetSequence", () => {
 
         // it seems the faucet dispatch takes a while to resolve....
         // TODO: investigate
-        await sleep(1000);
+        await sleep(15000);
 
         // validate the current account is defined and has some tokens
         const fullAccounts = getMyAccounts(store.getState());
@@ -69,15 +69,16 @@ describe("drinkFaucetSequence", () => {
           };
           expect(compareAmounts(account.balance[0], minBalance)).toBeGreaterThanOrEqual(1);
           // at the address we expect
-          expect(account.address).toEqual(addr);
+          expect(account.address).toEqual(addresses[index].address);
         });
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(totalFaucetChains);
         // and we should be the recipient (from the faucet)
-        expect(transactions[0].recipient).toEqual(addr);
+        expect(transactions[0].recipient).toEqual(addresses[2].address);
         expect(transactions[1].recipient).toEqual(addr);
+        expect(transactions[2].recipient).toEqual(addr);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
@@ -86,6 +87,6 @@ describe("drinkFaucetSequence", () => {
         }
       }
     },
-    10000,
+    20000,
   );
 });

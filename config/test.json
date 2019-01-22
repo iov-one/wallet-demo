@@ -7,8 +7,7 @@
     "faucetSpec": {
       "uri": "http://localhost:8000",
       "token": "IOV"
-    },
-    "defaultPassword": "test-pass"
+    }
   },
   "chains": [{
     "chainSpec": {
@@ -18,7 +17,15 @@
     "faucetSpec": {
       "uri": "http://localhost:8001",
       "token": "BOV"
+    }
+  },{
+    "chainSpec": {
+      "codecType": "lsk",
+      "bootstrapNodes": ["http://localhost:4000/"]
     },
-    "defaultPassword": "test-pass-bov"
+    "faucetSpec": {
+      "uri": "http://localhost:8002",
+      "token": "LSK"
+    }
   }]
 }

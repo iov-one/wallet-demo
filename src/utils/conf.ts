@@ -9,7 +9,6 @@ let configFile: Config;
 export interface Config {
   readonly bns: ChainConfig;
   readonly chains: ReadonlyArray<ChainConfig>;
-  readonly defaultPassword: string;
 }
 
 export interface ChainConfig {
@@ -40,8 +39,7 @@ export function parseChainConfig(chainConf: any): void {
   if (
     !chainConf.chainSpec ||
     !chainConf.chainSpec.codecType ||
-    !chainConf.chainSpec.bootstrapNodes ||
-    !chainConf.defaultPassword
+    !chainConf.chainSpec.bootstrapNodes
   ) {
     throw new Error("Missed required property in chain config");
   }
