@@ -2,6 +2,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { FormType } from "~/components/forms/Form";
+import { toastHoc, ToastType } from "~/components/hoc/ToastHoc";
+import { ToastVariant } from "~/context/ToastProvider";
 import { hasStoredProfile } from "~/logic";
 import { BALANCE_ROUTE, LOGIN_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import CreateUsername from "~/routes/signupName/components";
@@ -10,7 +12,7 @@ import { history } from "~/store";
 import actions, { SignupNameActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
-interface Props extends SignupNameActions, SelectorProps {}
+interface Props extends SignupNameActions, SelectorProps, ToastType {}
 
 class SignupName extends React.Component<Props> {
   public async componentDidMount(): Promise<void> {
@@ -39,13 +41,14 @@ class SignupName extends React.Component<Props> {
   }
 
   public readonly onCreateUsername = async (values: object) => {
-    const { setName } = this.props;
+    const { setName, showToast } = this.props;
     const name = (values as FormType)[USERNAME_FIELD];
 
     try {
       await setName(name);
     } catch (err) {
-      // TODO check if error and show something
+      showToast("SetName failed. Try again later, please", ToastVariant.ERROR);
+      console.log(`SetName failed: ${err}`);
     }
   };
 
@@ -62,7 +65,9 @@ class SignupName extends React.Component<Props> {
   }
 }
 
-export default connect(
-  selector,
-  actions,
-)(SignupName);
+export default toastHoc(
+  connect(
+    selector,
+    actions,
+  )(SignupName),
+);

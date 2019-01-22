@@ -51,16 +51,28 @@ babel, which is unnecessary overhead for a typescript project.
       "url": "http://localhost:8080",
       "webRoot": "${workspaceRoot}/src",
       "sourceMapPathOverrides": {
-        "webpack:///src/*": "${webRoot}/*"
+        "webpack:///./*": "${webRoot}/*"
       },
       "sourceMaps": true,
       "userDataDir": false,
     },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug JEST TEST",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "__coment__changeFile": "You should update the file you want to debug",
+      "args": ["${workspaceRoot}/src/logic/account.spec.ts", "--detectOpenHandles"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
   ]
 }
 ```
 3. Launch debugger session
 4. If you do not want to mess with Chrome profiles and open ports ([see some related info here](https://github.com/Microsoft/vscode-chrome-debug#chrome-user-profile-note-cannot-connect-to-the-target-connect-econnrefused)), I recommend use Canary version of chrome for daily basis and leave regular chrome for developing (if you do not use your own profile, you will have access problems running IndexedDB).
+
+The second configuration is for introducing breakpoints in JEST test run inside VSCode.
 
 ## Design process
 
@@ -110,6 +122,29 @@ yarn test
 bash ./scripts/facuet/iov_stop.sh
 bash ./scripts/bns/stop.sh
 ```
+
+## Clearing IndexedDB
+
+If testing a lot, especially locally, you may want to clear your indexed db cache to create a new user account,
+and proceed through the signup process again. Here are how to do it in various browsers
+
+**Firefox (Ubuntu)**:
+* Go to Preferences > [Privacy](about:preferences#privacy)
+* Cookies and Site Data > "Manage Data..." 
+* Search for `0.0.0.0` and `localhost`
+* Storage should be around 40-100 KB
+* Click on "Remove Selected"
+
+**Chrome (Ubuntu)**
+* Go to [Settings](chrome://settings/)
+* Scroll down and click on "Advanced"
+* Under Privacy and Security, click on "Content Settings"
+* Click on "Cookies"
+* Click on "See all cookie and site data"
+* Search for `0.0.0.0` and `localhost`
+* Click on trash can icon next to their name
+
+After clearing IndexedDB, go to the [local devserver](http://0.0.0.0:8080) and go through signup again
 
 
 ## References:
