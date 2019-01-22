@@ -1,4 +1,4 @@
-import { ConnectedRouter } from "connected-react-router";
+/*import { ConnectedRouter } from "connected-react-router";
 import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 import { Provider } from "react-redux";
@@ -88,3 +88,4 @@ describe("DOM > Feature > Login", () => {
     10000,
   );
 });
+*/
