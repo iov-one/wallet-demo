@@ -51,16 +51,28 @@ babel, which is unnecessary overhead for a typescript project.
       "url": "http://localhost:8080",
       "webRoot": "${workspaceRoot}/src",
       "sourceMapPathOverrides": {
-        "webpack:///src/*": "${webRoot}/*"
+        "webpack:///./*": "${webRoot}/*"
       },
       "sourceMaps": true,
       "userDataDir": false,
     },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug JEST TEST",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "__coment__changeFile": "You should update the file you want to debug",
+      "args": ["${workspaceRoot}/src/logic/account.spec.ts", "--detectOpenHandles"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
   ]
 }
 ```
 3. Launch debugger session
 4. If you do not want to mess with Chrome profiles and open ports ([see some related info here](https://github.com/Microsoft/vscode-chrome-debug#chrome-user-profile-note-cannot-connect-to-the-target-connect-econnrefused)), I recommend use Canary version of chrome for daily basis and leave regular chrome for developing (if you do not use your own profile, you will have access problems running IndexedDB).
+
+The second configuration is for introducing breakpoints in JEST test run inside VSCode.
 
 ## Design process
 
