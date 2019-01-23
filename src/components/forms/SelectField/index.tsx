@@ -10,7 +10,7 @@ import Img from "~/components/layout/Image";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { border, mediumFontSize, sm } from "~/theme/variables";
 import selectChevron from "./assets/selectChevron.svg";
-import SelectIems from "./SelecItems";
+import SelectItems from "./SelectItems";
 
 interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<string>;
@@ -117,12 +117,12 @@ class SelectInput extends React.PureComponent<Props, State> {
               </div>
               {showPhone ? (
                 ReactDOM.createPortal(
-                  <SelectIems align={align} phone={phone} items={items} action={this.onAction} />,
+                  <SelectItems align={align} phone={phone} items={items} action={this.onAction} />,
                   phoneHook!,
                 )
               ) : (
                 <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
-                  {() => <SelectIems align={align} items={items} action={this.onAction} phone={phone} />}
+                  {() => <SelectItems align={align} items={items} action={this.onAction} phone={phone} />}
                 </Popper>
               )}
             </Block>
