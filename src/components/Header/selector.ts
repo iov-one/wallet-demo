@@ -19,7 +19,7 @@ const confirmedTxSelector = createSelector(
   },
 );
 
-const lastTxSelector = createSelector(
+export const lastTxSelector = createSelector(
   confirmedTxSelector,
   (txs: ReadonlyArray<ProcessedTx>) => {
     if (txs.length === 0) {
@@ -27,7 +27,7 @@ const lastTxSelector = createSelector(
     }
 
     // tslint:disable-next-line:readonly-array
-    const lastTx = (txs as ProcessedTx[]).sort(
+    const lastTx = (txs as ProcessedTx[]).concat().sort(
       (a: ProcessedTx, b: ProcessedTx) => b.time.getTime() - a.time.getTime(),
     )[0];
 
