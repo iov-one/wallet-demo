@@ -104,8 +104,8 @@ require a demo blockchain running locally to be completed. By default these are 
 `BNS_ENABLED` and `CHAINS_ENABLED=1` environmental variables to signal they should be run (which is done in the CI).
 
 If you want to run these locally, make sure you are on a system that supports docker and that your local
-user has rights to connect to docker (I often use a Linux Virtualbox just for this). In such a case,
-you can do:
+user has rights to connect to docker (I often use a Linux Virtualbox just for this). You must have `docker`
+and `docker-compose` installed. In such a case, you can do:
 
 ```shell
 # start a bns blockchain and a local faucet that serves iov tokens
