@@ -1,9 +1,10 @@
 import { findIndex } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { ConfirmInput, Dropdown, TooltipDescription } from "~/components/compoundComponents/form";
+import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
 import Field from "~/components/forms/Field";
 import SelectField from "~/components/forms/SelectField";
+import Block from "~/components/layout/Block";
 import { Paper } from "~/components/subComponents/page";
 import { H2 } from "~/components/subComponents/typography";
 import { AddressInfo } from "../container/selector";
@@ -34,10 +35,6 @@ const MainText = styled(H2)`
 
 const Highlight = styled.span`
   color: #31e6c9;
-`;
-
-const DropdownWrapper = styled.div`
-  margin-bottom: 30px;
 `;
 
 export const TOKEN_FIELD = "token";
@@ -99,22 +96,16 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
           <MainText>
             Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
           </MainText>
-          <DropdownWrapper>
-            <Dropdown
-              items={tokenList}
-              defaultValue={token}
-              onSelect={this.onChangeAddress}
-              placeholder="Loading tokens..."
-            />
-          </DropdownWrapper>
+          <Block margin="xl" />
           <Field
             name={TOKEN_FIELD}
             phoneHook={this.state.phoneHook}
             component={SelectField}
             align="right"
             items={tokenList}
+            initial="IOV"
             onChangeCallback={this.onUpdateBalanceToSend}
-            width={67}
+            width={100}
           />
           <div ref={this.phoneHookRef} />
           <ConfirmInput

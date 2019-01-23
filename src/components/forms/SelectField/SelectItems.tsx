@@ -4,6 +4,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
+import { SelectFieldItem } from "./index";
 
 const style = {
   minWidth: "100%",
@@ -11,20 +12,20 @@ const style = {
 };
 
 interface ListItemProps {
-  readonly action: (value: string) => () => void;
+  readonly action: (value: SelectFieldItem) => () => void;
   readonly phone: boolean;
-  readonly items: ReadonlyArray<string>;
+  readonly items: ReadonlyArray<SelectFieldItem>;
   readonly align: "left" | "right";
 }
 const ListItems = ({ phone, action, items, align }: ListItemProps) => {
   return (
     <List disablePadding component="nav" style={style}>
       {items.map(item => (
-        <ListItem key={item} disableGutters button onClick={action(item)}>
+        <ListItem key={item.label} disableGutters button onClick={action(item)}>
           <ListItemText disableTypography>
             <Block padding="sm">
               <Typography align={align} variant={phone ? "body1" : "body2"}>
-                {item}
+                {item.label} | {item.description}
               </Typography>
             </Block>
           </ListItemText>

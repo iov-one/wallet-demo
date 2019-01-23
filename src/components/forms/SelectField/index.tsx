@@ -12,13 +12,19 @@ import { border, mediumFontSize, sm } from "~/theme/variables";
 import selectChevron from "./assets/selectChevron.svg";
 import SelectItems from "./SelectItems";
 
+export interface SelectFieldItem {
+  readonly value?: string;
+  readonly label: string;
+  readonly description: string;
+}
+
 interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<string>;
+  readonly items: ReadonlyArray<SelectFieldItem>;
   readonly phoneHook: HTMLDivElement | null;
   readonly initial: string;
   readonly width: number;
   readonly align?: "left" | "right";
-  readonly onChangeCallback?: (value: string) => void;
+  readonly onChangeCallback?: (value: SelectFieldItem) => void;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -60,14 +66,14 @@ class SelectInput extends React.PureComponent<Props, State> {
   };
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
-  public readonly onAction = (value: string) => () => {
+  public readonly onAction = (value: SelectFieldItem) => () => {
     const {
       input: { onChange },
       toggle,
       onChangeCallback,
     } = this.props;
 
-    this.setState({ value }, () => {
+    this.setState({ value: value.label }, () => {
       onChange(value);
       if (onChangeCallback) {
         onChangeCallback(value);
