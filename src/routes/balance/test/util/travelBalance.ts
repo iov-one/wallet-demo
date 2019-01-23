@@ -25,5 +25,6 @@ export const travelToBalance = async (store: Store): Promise<React.Component> =>
 
   const dom = createDom(store);
   await sleep(500);
+
   return dom;
 };
