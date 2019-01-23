@@ -18,6 +18,6 @@ describe("DOM > Feature > Travel to Balance", () => {
   });
 
   mayTestBns(`should redirect to ${BALANCE_ROUTE} route`, async () => {
-    processBalance(store)
+    await processBalance(store)
   }, 16000);
 });
