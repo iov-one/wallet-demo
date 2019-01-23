@@ -20,7 +20,7 @@ describe("DOM > Feature > Signup", () => {
     async () => {
       const SignUpDom = await travelToSignup(store);
       expectRoute(store, SIGNUP_ROUTE)
-      processSignup(SignUpDom);
+      await processSignup(SignUpDom);
       expectRoute(store, SET_NAME_ROUTE)
     },
     10000,
