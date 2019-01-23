@@ -5,6 +5,8 @@ import { history } from "~/store";
 import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
+export const TEST_PASS_PHRASE = "your secret password"
+
 export const processSignup = async (SignUpDom: React.Component): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SignUpDom, "input");
   expect(inputs.length).toBe(4);
@@ -13,10 +15,10 @@ export const processSignup = async (SignUpDom: React.Component): Promise<void> =
   TestUtils.Simulate.change(email, { target: { value: "foo@bar.com" } } as any);
 
   const password = inputs[1];
-  TestUtils.Simulate.change(password, { target: { value: "pass phrase here" } } as any);
+  TestUtils.Simulate.change(password, { target: { value: TEST_PASS_PHRASE } } as any);
 
   const repeatPassword = inputs[2];
-  TestUtils.Simulate.change(repeatPassword, { target: { value: "pass phrase here" } } as any);
+  TestUtils.Simulate.change(repeatPassword, { target: { value: TEST_PASS_PHRASE } } as any);
 
   const accept = inputs[3];
   TestUtils.Simulate.change(accept, { target: { value: "true" } } as any);
