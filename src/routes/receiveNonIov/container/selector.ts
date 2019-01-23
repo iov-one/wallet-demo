@@ -1,7 +1,8 @@
 import { TokenTicker } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { ChainAccount, ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
+import { AccountInfo } from "~/reducers/blockchain";
+import { ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
 
 export interface AddressInfo {
   readonly token: TokenTicker;
@@ -15,22 +16,17 @@ export interface SelectorProps {
 export const availableTokensSelector = createSelector(
   getMyAccounts,
   getChainTickers,
-  (accounts: ReadonlyArray<ChainAccount>, tickers: ReadonlyArray<ChainTicker>) => {
+  (accounts: ReadonlyArray<AccountInfo>, tickers: ReadonlyArray<ChainTicker>) => {
     if (tickers.length === 0) {
       return [];
     }
-    const tickersByChainAndAddress = accounts
-      .filter(acct => acct !== undefined)
-      .map(acct => ({
-        address: acct.account!.address,
-        tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
-      }));
-
-    const tickersByAddress = tickersByChainAndAddress.map(acct =>
-      acct.tickers.map(t => ({
-        token: t.tokenTicker,
-        address: acct.address,
-      })),
+    const tickersByAddress = accounts.map(acct =>
+      tickers
+        .filter(t => t.chainId === acct.chainId)
+        .map(t => ({
+          address: acct.address,
+          token: t.ticker.tokenTicker,
+        })),
     );
 
     return tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
