@@ -46,6 +46,7 @@ describe("DOM > Feature > Login", () => {
 
   afterAll(() => {
     shutdownSequence(null, store.getState);
+    shutdownSequence(null, paralelStore.getState);
   });
 
   mayTestBns(
