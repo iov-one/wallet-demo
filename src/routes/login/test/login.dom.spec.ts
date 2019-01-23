@@ -27,7 +27,7 @@ describe("DOM > Feature > Login", () => {
     resetHistory();
     store= aNewStore();
     await processBalance(store);
-  }, 15000);
+  }, 35000);
 
   beforeEach(() => {
     resetHistory();
