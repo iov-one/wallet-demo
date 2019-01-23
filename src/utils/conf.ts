@@ -36,11 +36,7 @@ function isArrayOfStrings(array: ReadonlyArray<any>): array is ReadonlyArray<str
 }
 
 export function parseChainConfig(chainConf: any): void {
-  if (
-    !chainConf.chainSpec ||
-    !chainConf.chainSpec.codecType ||
-    !chainConf.chainSpec.bootstrapNodes
-  ) {
+  if (!chainConf.chainSpec || !chainConf.chainSpec.codecType || !chainConf.chainSpec.bootstrapNodes) {
     throw new Error("Missed required property in chain config");
   }
 

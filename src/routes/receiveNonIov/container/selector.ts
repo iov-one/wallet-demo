@@ -20,17 +20,13 @@ export const availableTokensSelector = createSelector(
     if (tickers.length === 0) {
       return [];
     }
-    const tickersByChainAndAddress = accounts
-      .map(acct => ({
-        address: acct.address,
-        tickers: tickers.filter(t => t.chainId === acct.chainId).map(t => t.ticker),
-      }));
-
-    const tickersByAddress = tickersByChainAndAddress.map(acct =>
-      acct.tickers.map(t => ({
-        token: t.tokenTicker,
-        address: acct.address,
-      })),
+    const tickersByAddress = accounts.map(acct =>
+      tickers
+        .filter(t => t.chainId === acct.chainId)
+        .map(t => ({
+          address: acct.address,
+          token: t.ticker.tokenTicker,
+        })),
     );
 
     return tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
