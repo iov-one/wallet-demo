@@ -27,7 +27,7 @@ const NOT_MAX_SIZE = 150;
 export interface SendBalance {
   readonly balance: BcpCoin;
   readonly tickersWithBalance: ReadonlyArray<string>;
-  readonly defaultTicket: string;
+  readonly defaultTicker: string;
   readonly onUpdateBalanceToSend: (ticker: string) => void;
 }
 
@@ -70,7 +70,7 @@ class SendCard extends React.Component<Props, State> {
       classes,
       balance: { quantity, fractionalDigits, tokenTicker },
       tickersWithBalance,
-      defaultTicket,
+      defaultTicker,
       onUpdateBalanceToSend,
     } = this.props;
 
@@ -118,7 +118,7 @@ class SendCard extends React.Component<Props, State> {
             component={SelectField}
             align="right"
             items={tickersWithBalance}
-            initial={defaultTicket}
+            initial={defaultTicker}
             onChangeCallback={onUpdateBalanceToSend}
             width={67}
           />

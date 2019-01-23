@@ -36,7 +36,7 @@ const SendPaymentLayout = ({
   initialValues,
   balance,
   tickersWithBalance,
-  defaultTicket,
+  defaultTicker,
   onUpdateBalanceToSend,
 }: Props) => (
   <PageMenuColumn phoneFullWidth>
@@ -58,7 +58,7 @@ const SendPaymentLayout = ({
             <SendCard
               balance={balance}
               tickersWithBalance={tickersWithBalance}
-              defaultTicket={defaultTicket}
+              defaultTicker={defaultTicker}
               onUpdateBalanceToSend={onUpdateBalanceToSend}
             />
           </Block>

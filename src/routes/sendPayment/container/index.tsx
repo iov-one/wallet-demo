@@ -144,7 +144,7 @@ class SendPayment extends React.Component<Props, State> {
           initialValues={initialValues}
           balance={this.state.balanceToSend}
           tickersWithBalance={this.props.tickers}
-          defaultTicket={this.props.defaultBalance.tokenTicker}
+          defaultTicker={this.props.defaultBalance.tokenTicker}
           onUpdateBalanceToSend={this.onUpdateBalanceToSend}
           onSubmit={this.onSendPayment}
           validation={this.onSendPaymentValidation}
