@@ -1,6 +1,6 @@
 import { TokenTicker } from "@iov/core";
 import { randomString } from "~/logic/testhelpers";
-import { HeaderComponent, Props } from "./index";
+import { HeaderComponent, Props } from "../index";
 
 describe("Component -> Header -> HeaderComponent", () => {
   let component: HeaderComponent;
@@ -8,8 +8,6 @@ describe("Component -> Header -> HeaderComponent", () => {
   let txIdStorage: string;
 
   beforeEach(() => {
-    const dateNow = new Date(Date.now());
-
     txIdStorage = randomString(16);
 
     props = {
@@ -20,7 +18,7 @@ describe("Component -> Header -> HeaderComponent", () => {
       txs: [],
       lastTx: {
         id: txIdStorage,
-        time: new Date(dateNow.setMinutes(dateNow.getMinutes() + 10)),
+        time: new Date(Date.now()),
         received: true,
         amount: { quantity: "100000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker },
         signer: randomString(16),
