@@ -1,16 +1,11 @@
-import { TokenTicker } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
+import { SelectFieldItem } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
 import { ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
 
-export interface AddressInfo {
-  readonly token: TokenTicker;
-  readonly address: string;
-}
-
 export interface SelectorProps {
-  readonly addressList: ReadonlyArray<AddressInfo>;
+  readonly addressList: ReadonlyArray<SelectFieldItem>;
 }
 
 export const availableTokensSelector = createSelector(
@@ -24,8 +19,9 @@ export const availableTokensSelector = createSelector(
       tickers
         .filter(t => t.chainId === acct.chainId)
         .map(t => ({
-          address: acct.address,
-          token: t.ticker.tokenTicker,
+          value: acct.address,
+          label: t.ticker.tokenTicker,
+          description: t.ticker.tokenName
         })),
     );
 

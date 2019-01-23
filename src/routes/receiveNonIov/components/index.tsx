@@ -1,13 +1,11 @@
-import { findIndex } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
 import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
 import Field from "~/components/forms/Field";
-import SelectField from "~/components/forms/SelectField";
+import SelectField, { SelectFieldItem } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import { Paper } from "~/components/subComponents/page";
 import { H2 } from "~/components/subComponents/typography";
-import { AddressInfo } from "../container/selector";
 
 const Wrapper = styled.div`
   flex-basis: 506px;
@@ -38,57 +36,46 @@ const Highlight = styled.span`
 `;
 
 export const TOKEN_FIELD = "token";
+const INITIAL_TOKEN = "IOV";
 
 interface ReceiveNonIOVProps {
-  readonly addressList: ReadonlyArray<AddressInfo>;
+  readonly addressList: ReadonlyArray<SelectFieldItem>;
 }
 
 interface RecieveNonIOVState {
-  readonly token: string;
+  readonly ticker: SelectFieldItem;
   readonly phoneHook: HTMLDivElement | null;
 }
 
 class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVState> {
-  public readonly state = {
-    token: "IOV",
-    phoneHook: null,
-  };
-
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+  constructor(props: ReceiveNonIOVProps) {
+    super(props);
+
+    const defaultTicker = this.props.addressList.find(item => item.label === INITIAL_TOKEN);
+
+    this.state = {
+      ticker: defaultTicker ? defaultTicker : this.props.addressList[0],
+      phoneHook: null,
+    };
+  }
+  
   public componentDidMount(): void {
     this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
     }));
   }
 
-  public readonly onChangeAddress = (token: string): void => {
+  public readonly onChangeAddress = (ticker: SelectFieldItem): void => {
     this.setState({
-      token,
+      ticker,
     });
   };
 
-  public readonly getTokenAddress = (): string => {
-    const { token } = this.state;
-    const { addressList } = this.props;
-    const idx = findIndex(addressList, addressInfo => addressInfo.token === token);
-    return addressList[idx] ? addressList[idx].address : "--";
-  };
-
-  public readonly onUpdateBalanceToSend = (ticker: string) => {
-    /*const balanceToken = this.props.balanceTokens.find(balance => balance.tokenTicker === ticker);
-    this.setState(() => ({ balanceToSend: balanceToken! }));*/
-    console.log(`Selected ticker: ${ticker}`);
-  };
 
   public render(): JSX.Element {
     const { addressList } = this.props;
-    const { token } = this.state;
-    const tokenList = addressList.map((addressInfo: AddressInfo) => ({
-      value: addressInfo.token as string,
-      label: addressInfo.token as string,
-      description: addressInfo.token as string,
-    }));
-    const address = this.getTokenAddress();
+    const { ticker } = this.state;
 
     return (
       <Wrapper>
@@ -102,16 +89,16 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
             phoneHook={this.state.phoneHook}
             component={SelectField}
             align="right"
-            items={tokenList}
-            initial="IOV"
-            onChangeCallback={this.onUpdateBalanceToSend}
+            items={addressList}
+            initial={INITIAL_TOKEN}
+            onChangeCallback={this.onChangeAddress}
             width={100}
           />
           <div ref={this.phoneHookRef} />
           <ConfirmInput
-            title={`Your ${token} Address`}
-            value={address}
-            notification={`${token} Address copied to clipboard`}
+            title={`Your ${ticker.label} Address`}
+            value={ticker.value}
+            notification={`${ticker.label} Address copied to clipboard`}
           />
           <ActionWrapper>
             <TooltipDescription
