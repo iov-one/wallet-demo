@@ -55,7 +55,10 @@ storiesOf("Components /forms", module).add("Add react-final-form form", () => (
           <Field
             name="fruits"
             component={SelectField}
-            items={["Banana", "Kiwi"]}
+            items={[
+              { value: "Banana", description: "N/A"}, 
+              { value: "Kiwi", description: "N/A"}
+            ]}
             initial="Banana"
             validate={required}
           />
