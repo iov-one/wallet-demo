@@ -25,12 +25,11 @@ echo
 echo ">>> Starting lisk (test) chain and faucet..."
 echo
 bash "${SCRIPT_DIR}"/lisk/start.sh
-sleep 25
 bash "${SCRIPT_DIR}"/lisk/load_faucet.sh
 bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 
 echo
 echo ">>> Waiting for faucets to load tokens..."
 echo
-sleep 10
+sleep 5
 echo "Done!"

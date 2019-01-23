@@ -16,9 +16,6 @@ echo "Connecting to $BLOCKCHAIN_URL"
 
 docker pull "iov1/iov-faucet:${FAUCET_VERSION}"
 
-# Wait lisk node to be ready
-sleep 5
-
 docker run --read-only \
   --name "lisk_faucet" \
   --env "FAUCET_CONCURRENCY=3" \
