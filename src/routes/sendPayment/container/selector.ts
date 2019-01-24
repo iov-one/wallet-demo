@@ -13,9 +13,9 @@ export interface SelectorProps {
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
   readonly defaultBalance: BcpCoin;
   readonly accountName: string | undefined;
-  readonly codecs: { 
+  readonly codecs: {
     readonly [chainId: string]: TxCodec;
-  },
+  };
 }
 
 const IOV = "IOV";
