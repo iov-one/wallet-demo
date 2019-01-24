@@ -21,7 +21,7 @@ export const availableTokensSelector = createSelector(
         .map(t => ({
           value: acct.address,
           label: t.ticker.tokenTicker,
-          description: t.ticker.tokenName
+          description: t.ticker.tokenName,
         })),
     );
 
