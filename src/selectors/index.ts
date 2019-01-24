@@ -30,6 +30,7 @@ export const getProfile = (state: RootState) => state.profile.internal.profile;
 
 export const getSigner = (state: RootState) => state.blockchain.internal.signer;
 export const getConnections = (state: RootState) => state.blockchain.internal.connections;
+export const getCodecs = (state: RootState) => state.blockchain.internal.codecs;
 export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createSelector(
   getConnections,
   conns => Object.keys(conns).map(x => x as ChainId),
