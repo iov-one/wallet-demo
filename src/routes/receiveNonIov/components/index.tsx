@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
 import Field from "~/components/forms/Field";
+import Form from "~/components/forms/Form";
 import SelectField, { SelectFieldItem } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import { Paper } from "~/components/subComponents/page";
@@ -59,7 +60,7 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
       phoneHook: null,
     };
   }
-  
+
   public componentDidMount(): void {
     this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
@@ -72,6 +73,9 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
     });
   };
 
+  public readonly onSubmit = async (_: object): Promise<void> => {
+    return;
+  };
 
   public render(): JSX.Element {
     const { addressList } = this.props;
@@ -79,35 +83,41 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
 
     return (
       <Wrapper>
-        <ModalPaper>
-          <MainText>
-            Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
-          </MainText>
-          <Block margin="xl" />
-          <Field
-            name={TOKEN_FIELD}
-            phoneHook={this.state.phoneHook}
-            component={SelectField}
-            align="right"
-            items={addressList}
-            initial={INITIAL_TOKEN}
-            onChangeCallback={this.onChangeAddress}
-            width={100}
-          />
-          <div ref={this.phoneHookRef} />
-          <ConfirmInput
-            title={`Your ${ticker.label} Address`}
-            value={ticker.value}
-            notification={`${ticker.label} Address copied to clipboard`}
-          />
-          <ActionWrapper>
-            <TooltipDescription
-              reversed
-              label="How it works"
-              info="Have a non IOV user send you Lisk to this address and it will show up on your account"
-            />
-          </ActionWrapper>
-        </ModalPaper>
+        <Form onSubmit={this.onSubmit} fullWidth>
+          {() => (
+            <ModalPaper>
+              <MainText>
+                Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
+              </MainText>
+              <Block margin="xl" />
+              <Field
+                name={TOKEN_FIELD}
+                phoneHook={this.state.phoneHook}
+                component={SelectField}
+                align="left"
+                items={addressList}
+                initial={INITIAL_TOKEN}
+                variant="non-iov"
+                onChangeCallback={this.onChangeAddress}
+                width={100}
+              />
+              <Block margin="xl" />
+              <div ref={this.phoneHookRef} />
+              <ConfirmInput
+                title={`Your ${ticker.label} Address`}
+                value={ticker.value}
+                notification={`${ticker.label} Address copied to clipboard`}
+              />
+              <ActionWrapper>
+                <TooltipDescription
+                  reversed
+                  label="How it works"
+                  info="Have a non IOV user send you Lisk to this address and it will show up on your account"
+                />
+              </ActionWrapper>
+            </ModalPaper>
+          )}
+        </Form>
       </Wrapper>
     );
   }
