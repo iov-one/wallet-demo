@@ -23,9 +23,7 @@ export class ErrorBoundaryInner extends React.Component<{}, State> {
 
   public render(): JSX.Element {
     if (this.state.error) {
-      return (
-        <SentryWidget />
-      );
+      return <SentryWidget />;
     } else {
       //when there's not an error, render children untouched
       return <React.Fragment>{this.props.children}</React.Fragment>;

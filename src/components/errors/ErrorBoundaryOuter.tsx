@@ -6,9 +6,7 @@ interface State {
   readonly error: Error | null;
 }
 
-const style = {
-
-};
+const style = {};
 
 export class ErrorBoundaryOuter extends React.Component<{}, State> {
   public readonly state = {
@@ -27,7 +25,7 @@ export class ErrorBoundaryOuter extends React.Component<{}, State> {
 
   public readonly showReportDialog = () => {
     Sentry.showReportDialog();
-  }
+  };
 
   public render(): JSX.Element {
     if (this.state.error) {

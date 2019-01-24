@@ -15,7 +15,7 @@ export interface PageMenuProps {
   readonly padding?: boolean;
 }
 
-interface Props extends PageMenuProps, WithStyles<typeof styles> { }
+interface Props extends PageMenuProps, WithStyles<typeof styles> {}
 
 const styles = createStyles({
   root: {
