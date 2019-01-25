@@ -1,10 +1,13 @@
-import { findIndex } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { ConfirmInput, Dropdown, TooltipDescription } from "~/components/compoundComponents/form";
+import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
+import Field from "~/components/forms/Field";
+import Form from "~/components/forms/Form";
+import SelectField from "~/components/forms/SelectField";
+import Block from "~/components/layout/Block";
 import { Paper } from "~/components/subComponents/page";
 import { H2 } from "~/components/subComponents/typography";
-import { AddressInfo } from "../container/selector";
+import { TickerWithAddress } from "../container/index";
 
 const Wrapper = styled.div`
   flex-basis: 506px;
@@ -34,73 +37,87 @@ const Highlight = styled.span`
   color: #31e6c9;
 `;
 
-const DropdownWrapper = styled.div`
-  margin-bottom: 30px;
-`;
+export const TOKEN_FIELD = "token";
+const INITIAL_TOKEN = "IOV";
 
 interface ReceiveNonIOVProps {
-  readonly addressList: ReadonlyArray<AddressInfo>;
+  readonly tickersList: ReadonlyArray<TickerWithAddress>;
 }
 
 interface RecieveNonIOVState {
-  readonly token: string;
+  readonly ticker: TickerWithAddress;
+  readonly phoneHook: HTMLDivElement | null;
 }
 
 class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVState> {
-  public readonly state = {
-    token: "IOV",
-  };
+  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+  constructor(props: ReceiveNonIOVProps) {
+    super(props);
 
-  public readonly onChangeAddress = (token: string): void => {
+    const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
+
+    this.state = {
+      ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
+      phoneHook: null,
+    };
+  }
+
+  public componentDidMount(): void {
+    this.setState(() => ({
+      phoneHook: this.phoneHookRef.current,
+    }));
+  }
+
+  public readonly onChangeAddress = (ticker: TickerWithAddress): void => {
     this.setState({
-      token,
+      ticker,
     });
   };
 
-  public readonly getTokenAddress = (): string => {
-    const { token } = this.state;
-    const { addressList } = this.props;
-    const idx = findIndex(addressList, addressInfo => addressInfo.token === token);
-    return addressList[idx] ? addressList[idx].address : "--";
+  public readonly onSubmit = async (_: object): Promise<void> => {
+    return;
   };
 
   public render(): JSX.Element {
-    const { addressList } = this.props;
-    const { token } = this.state;
-    const tokenList = addressList.map((addressInfo: AddressInfo) => ({
-      value: addressInfo.token as string,
-      label: addressInfo.token as string,
-      description: addressInfo.token as string,
-    }));
-    const address = this.getTokenAddress();
+    const { tickersList } = this.props;
+    const { ticker } = this.state;
 
     return (
       <Wrapper>
-        <ModalPaper>
-          <MainText>
-            Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
-          </MainText>
-          <DropdownWrapper>
-            <Dropdown
-              items={tokenList}
-              defaultValue={token}
-              onSelect={this.onChangeAddress}
-              placeholder="Loading tokens..."
-            />
-          </DropdownWrapper>
-          <ConfirmInput
-            title={`Your ${token} Address`}
-            value={address}
-            notification={`${token} Address copied to clipboard`}
-          />
-          <ActionWrapper>
-            <TooltipDescription
-              reversed
-              label="How it works"
-              info="Have a non IOV user send you Lisk to this address and it will show up on your account"
-            />
-          </ActionWrapper>
-        </ModalPaper>
+        <Form onSubmit={this.onSubmit} fullWidth>
+          {() => (
+            <ModalPaper>
+              <MainText>
+                Receive payment from <Highlight>non-IOV users</Highlight> by giving them this address
+              </MainText>
+              <Block margin="xl" />
+              <Field
+                name={TOKEN_FIELD}
+                phoneHook={this.state.phoneHook}
+                component={SelectField}
+                items={tickersList}
+                initial={INITIAL_TOKEN}
+                onChangeCallback={this.onChangeAddress}
+                width={100}
+              />
+              <Block margin="sm" />
+              <div ref={this.phoneHookRef} />
+              <Block margin="md" />
+              <ConfirmInput
+                title={`Your ${ticker.name} Address`}
+                value={ticker.address}
+                notification={`${ticker.name} Address copied to clipboard`}
+              />
+              <ActionWrapper>
+                <TooltipDescription
+                  reversed
+                  label="How it works"
+                  info="Have a non IOV user send you Lisk to this address and it will show up on your account"
+                />
+              </ActionWrapper>
+            </ModalPaper>
+          )}
+        </Form>
       </Wrapper>
     );
   }

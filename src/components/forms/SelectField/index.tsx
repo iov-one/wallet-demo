@@ -10,15 +10,20 @@ import Img from "~/components/layout/Image";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { border, mediumFontSize, sm } from "~/theme/variables";
 import selectChevron from "./assets/selectChevron.svg";
-import SelectIems from "./SelecItems";
+import SelectItems from "./SelectItems";
+
+export interface Item {
+  readonly name: string;
+  readonly additionalText?: string;
+}
 
 interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<string>;
+  readonly items: ReadonlyArray<Item>;
   readonly phoneHook: HTMLDivElement | null;
   readonly initial: string;
   readonly width: number;
   readonly align?: "left" | "right";
-  readonly onChangeCallback?: (value: string) => void;
+  readonly onChangeCallback?: (value: Item) => void;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -60,14 +65,14 @@ class SelectInput extends React.PureComponent<Props, State> {
   };
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
-  public readonly onAction = (value: string) => () => {
+  public readonly onAction = (value: Item) => () => {
     const {
       input: { onChange },
       toggle,
       onChangeCallback,
     } = this.props;
 
-    this.setState({ value }, () => {
+    this.setState({ value: value.name }, () => {
       onChange(value);
       if (onChangeCallback) {
         onChangeCallback(value);
@@ -117,12 +122,17 @@ class SelectInput extends React.PureComponent<Props, State> {
               </div>
               {showPhone ? (
                 ReactDOM.createPortal(
-                  <SelectIems align={align} phone={phone} items={items} action={this.onAction} />,
+                  <SelectItems align={align} phone={phone} items={items} action={this.onAction} />,
                   phoneHook!,
                 )
               ) : (
-                <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
-                  {() => <SelectIems align={align} items={items} action={this.onAction} phone={phone} />}
+                <Popper
+                  open={open}
+                  style={popperStyle}
+                  anchorEl={this.menuRef.current}
+                  placement="bottom-start"
+                >
+                  {() => <SelectItems align={align} items={items} action={this.onAction} phone={phone} />}
                 </Popper>
               )}
             </Block>

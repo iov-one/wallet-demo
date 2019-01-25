@@ -27,12 +27,14 @@ describe("selector", () => {
             chainId: "chain-1",
             ticker: {
               tokenTicker: "T1A",
+              tokenName: "T1A name",
             },
           },
           {
             chainId: "chain-NA",
             ticker: {
               tokenTicker: "NA",
+              tokenName: "NA name",
             },
           },
         ],
@@ -43,7 +45,7 @@ describe("selector", () => {
       const mockRootStore = JSON.parse(JSON.stringify(mockRootStoreBase));
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
-      expect(selected).toEqual([{ token: "T1A", address: "address-1" }]);
+      expect(selected).toEqual([{ name: "T1A", address: "address-1", additionalText: "T1A name" }]);
     });
 
     it("should return 1 chain : 2 tickers : 1 address relation", () => {
@@ -52,13 +54,14 @@ describe("selector", () => {
         chainId: "chain-1",
         ticker: {
           tokenTicker: "T2A",
+          tokenName: "T2A name",
         },
       });
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { token: "T1A", address: "address-1" },
-        { token: "T2A", address: "address-1" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T2A", address: "address-1", additionalText: "T2A name" },
       ]);
     });
 
@@ -68,6 +71,7 @@ describe("selector", () => {
         chainId: "chain-2",
         ticker: {
           tokenTicker: "T2A",
+          tokenName: "T2A name",
         },
       });
       mockRootStore.blockchain.accountInfo.push({
@@ -81,8 +85,8 @@ describe("selector", () => {
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { token: "T1A", address: "address-1" },
-        { token: "T2A", address: "address-2" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T2A", address: "address-2", additionalText: "T2A name" },
       ]);
     });
 
@@ -93,18 +97,21 @@ describe("selector", () => {
           chainId: "chain-1",
           ticker: {
             tokenTicker: "T1B",
+            tokenName: "T1B name",
           },
         },
         {
           chainId: "chain-2",
           ticker: {
             tokenTicker: "T2A",
+            tokenName: "T2A name",
           },
         },
         {
           chainId: "chain-2",
           ticker: {
             tokenTicker: "T2B",
+            tokenName: "T2B name",
           },
         },
       );
@@ -119,10 +126,10 @@ describe("selector", () => {
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { token: "T1A", address: "address-1" },
-        { token: "T1B", address: "address-1" },
-        { token: "T2A", address: "address-2" },
-        { token: "T2B", address: "address-2" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T1B", address: "address-1", additionalText: "T1B name" },
+        { name: "T2A", address: "address-2", additionalText: "T2A name" },
+        { name: "T2B", address: "address-2", additionalText: "T2B name" },
       ]);
     });
   });

@@ -5,7 +5,7 @@ import { history } from "~/store";
 import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-export const TEST_PASS_PHRASE = "your secret password"
+export const TEST_PASS_PHRASE = "your secret password";
 
 export const processSignup = async (SignUpDom: React.Component): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SignUpDom, "input");
@@ -30,7 +30,7 @@ export const processSignup = async (SignUpDom: React.Component): Promise<void> =
   TestUtils.Simulate.submit(form);
 
   await sleep(3000);
-}
+};
 
 export const travelToSignup = (store: Store): React.Component => {
   history.push(SIGNUP_ROUTE);

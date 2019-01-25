@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
 import { FormType, generateError } from "~/components/forms/Form";
+import { Item } from "~/components/forms/SelectField";
 import { getUsernameNftByUsername, IOV_NAMESPACE, isIovAddress, padAmount, stringToAmount } from "~/logic";
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
@@ -103,8 +104,8 @@ class SendPayment extends React.Component<Props, State> {
   /**
    * This method is called each time user changes ticker in the dropdown.
    */
-  public readonly onUpdateBalanceToSend = (ticker: string) => {
-    const balanceToken = this.props.balanceTokens.find(balance => balance.tokenTicker === ticker);
+  public readonly onUpdateBalanceToSend = (ticker: Item) => {
+    const balanceToken = this.props.balanceTokens.find(balance => balance.tokenTicker === ticker.name);
     this.setState(() => ({ balanceToSend: balanceToken! }));
   };
 
@@ -144,7 +145,7 @@ class SendPayment extends React.Component<Props, State> {
           initialValues={initialValues}
           balance={this.state.balanceToSend}
           tickersWithBalance={this.props.tickers}
-          defaultTicket={this.props.defaultBalance.tokenTicker}
+          defaultTicker={this.props.defaultBalance.tokenTicker}
           onUpdateBalanceToSend={this.onUpdateBalanceToSend}
           onSubmit={this.onSendPayment}
           validation={this.onSendPaymentValidation}

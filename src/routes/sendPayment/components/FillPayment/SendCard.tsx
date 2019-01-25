@@ -2,7 +2,7 @@ import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
-import SelectField from "~/components/forms/SelectField";
+import SelectField, { Item } from "~/components/forms/SelectField";
 import TextField from "~/components/forms/TextField";
 import {
   composeValidators,
@@ -26,9 +26,9 @@ const NOT_MAX_SIZE = 150;
 
 export interface SendBalance {
   readonly balance: BcpCoin;
-  readonly tickersWithBalance: ReadonlyArray<string>;
-  readonly defaultTicket: string;
-  readonly onUpdateBalanceToSend: (ticker: string) => void;
+  readonly tickersWithBalance: ReadonlyArray<Item>;
+  readonly defaultTicker: string;
+  readonly onUpdateBalanceToSend: (ticker: Item) => void;
 }
 
 interface State {
@@ -70,7 +70,7 @@ class SendCard extends React.Component<Props, State> {
       classes,
       balance: { quantity, fractionalDigits, tokenTicker },
       tickersWithBalance,
-      defaultTicket,
+      defaultTicker,
       onUpdateBalanceToSend,
     } = this.props;
 
@@ -118,7 +118,7 @@ class SendCard extends React.Component<Props, State> {
             component={SelectField}
             align="right"
             items={tickersWithBalance}
-            initial={defaultTicket}
+            initial={defaultTicker}
             onChangeCallback={onUpdateBalanceToSend}
             width={67}
           />

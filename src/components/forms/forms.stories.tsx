@@ -53,9 +53,9 @@ storiesOf("Components /forms", module).add("Add react-final-form form", () => (
           {errors && errors.terms && <div style={{ color: "red" }}>{errors.terms}</div>}
           <Field name="terms" type="checkbox" component={Checkbox} />
           <Field
-            name="fruits"
+            name="fruits-non-iov"
             component={SelectField}
-            items={["Banana", "Kiwi"]}
+            items={[{ value: "Banana", description: "N/A" }, { value: "Kiwi", description: "N/A" }]}
             initial="Banana"
             validate={required}
           />

@@ -1,16 +1,11 @@
-import { TokenTicker } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
 import { ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
-
-export interface AddressInfo {
-  readonly token: TokenTicker;
-  readonly address: string;
-}
+import { TickerWithAddress } from "./index";
 
 export interface SelectorProps {
-  readonly addressList: ReadonlyArray<AddressInfo>;
+  readonly tickersList: ReadonlyArray<TickerWithAddress>;
 }
 
 export const availableTokensSelector = createSelector(
@@ -25,7 +20,8 @@ export const availableTokensSelector = createSelector(
         .filter(t => t.chainId === acct.chainId)
         .map(t => ({
           address: acct.address,
-          token: t.ticker.tokenTicker,
+          name: t.ticker.tokenTicker,
+          additionalText: t.ticker.tokenName,
         })),
     );
 
@@ -34,7 +30,7 @@ export const availableTokensSelector = createSelector(
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
-  addressList: availableTokensSelector,
+  tickersList: availableTokensSelector,
 });
 
 export default structuredSelector;

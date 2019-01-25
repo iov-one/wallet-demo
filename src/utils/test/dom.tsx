@@ -15,7 +15,6 @@ export const createDom = (store: Store): React.Component =>
     </Provider>,
   ) as React.Component;
 
-
 export const expectRoute = (store: Store, route: string) => {
   expect(store.getState().router.location.pathname).toBe(route);
-}
+};

@@ -19,9 +19,9 @@ describe("DOM > Feature > Signup", () => {
     "creates account after filling form",
     async () => {
       const SignUpDom = await travelToSignup(store);
-      expectRoute(store, SIGNUP_ROUTE)
+      expectRoute(store, SIGNUP_ROUTE);
       await processSignup(SignUpDom);
-      expectRoute(store, SET_NAME_ROUTE)
+      expectRoute(store, SET_NAME_ROUTE);
     },
     10000,
   );

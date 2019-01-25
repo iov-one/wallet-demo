@@ -9,7 +9,6 @@ interface State {
   readonly openSentry: boolean;
 }
 
-
 export default class ErrorBoundary extends React.Component<Props, State> {
   public readonly state = {
     openSentry: false,
@@ -27,9 +26,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     return this.state.openSentry ? (
-      <React.Fragment>
-        {Sentry.showReportDialog() as React.ReactNode}
-      </React.Fragment>
+      <React.Fragment>{Sentry.showReportDialog() as React.ReactNode}</React.Fragment>
     ) : (
       this.props.children
     );

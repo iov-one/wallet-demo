@@ -2,6 +2,7 @@ import { BcpCoin, TokenTicker } from "@iov/bcp-types";
 import { ChainId } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
+import { Item } from "~/components/forms/SelectField";
 import { RootMatchMedia } from "~/utils/storybook";
 import ConfirmPayment from "../components/ConfirmPayment";
 import FillPayment from "../components/FillPayment";
@@ -15,7 +16,11 @@ const balance: BcpCoin = {
   fractionalDigits: 0,
 };
 
-const tickersWithBalance: ReadonlyArray<string> = ["IOV", "LSK", "MMM"];
+const tickersWithBalance: ReadonlyArray<Item> = [
+  { name: "IOV", additionalText: "IOV description" },
+  { name: "LSK", additionalText: "LSK description" },
+  { name: "CASH", additionalText: "CASH description" },
+];
 
 storiesOf("Routes /send-payment", module)
   .add("Send payment for desktop", () => (
@@ -24,7 +29,7 @@ storiesOf("Routes /send-payment", module)
         tickersWithBalance={tickersWithBalance}
         onSubmit={noOpAsync}
         balance={balance}
-        defaultTicket="IOV"
+        defaultTicker="IOV"
         onUpdateBalanceToSend={noOp}
       />
     </RootMatchMedia>
@@ -36,7 +41,7 @@ storiesOf("Routes /send-payment", module)
           tickersWithBalance={tickersWithBalance}
           onSubmit={noOpAsync}
           balance={balance}
-          defaultTicket="IOV"
+          defaultTicker="IOV"
           onUpdateBalanceToSend={noOp}
         />
       </RootMatchMedia>
