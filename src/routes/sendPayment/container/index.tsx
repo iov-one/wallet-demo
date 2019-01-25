@@ -121,7 +121,7 @@ class SendPayment extends React.Component<Props, State> {
     const txAmount: Amount = stringToAmount(amount, ticker);
     // this line is essential
     // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-    const paddedTxAmount = padAmount(txAmount, 9);
+    const paddedTxAmount = padAmount(txAmount, txAmount.fractionalDigits);
     const id = uniquId();
     if (!accountName) {
       throw new Error("Not possible to send a transaction without an account");
