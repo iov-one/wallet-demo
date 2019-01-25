@@ -13,28 +13,31 @@ export const hiddenBadge: BadgeProps = {
 const buildBadgeFrom = (lastTxSucceded: boolean): BadgeProps => ({
   invisible: false,
   color: lastTxSucceded ? "primary" : "error",
-})
+});
 
 const lastTxNewer = (lastTx: ProcessedTx, lastStoredTx: ProcessedTx) => {
   return lastTx.time.getTime() > lastStoredTx.time.getTime();
-}
+};
 
-export const calcBadgeProps = (lastTx: ProcessedTx | undefined, lastStoredTx: ProcessedTx | undefined ): BadgeProps => {
+export const calcBadgeProps = (
+  lastTx: ProcessedTx | undefined,
+  lastStoredTx: ProcessedTx | undefined,
+): BadgeProps => {
   if (!lastTx) {
     return hiddenBadge;
   }
 
   if (!lastStoredTx) {
-    return buildBadgeFrom(lastTx.success);  
+    return buildBadgeFrom(lastTx.success);
   }
 
-  const isLastTxNewer = lastTxNewer(lastTx, lastStoredTx)
+  const isLastTxNewer = lastTxNewer(lastTx, lastStoredTx);
   if (isLastTxNewer) {
-    return buildBadgeFrom(lastTx.success)
+    return buildBadgeFrom(lastTx.success);
   }
 
   if (lastTx.id !== lastStoredTx.id) {
-    return buildBadgeFrom(lastTx.success)
+    return buildBadgeFrom(lastTx.success);
   }
 
   return hiddenBadge;

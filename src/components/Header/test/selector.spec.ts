@@ -17,8 +17,7 @@ describe("selector", () => {
     beforeEach(() => {
       mockRootStoreBase = {
         notification: {
-          transaction: [
-          ],
+          transaction: [],
         },
       };
     });
@@ -31,7 +30,7 @@ describe("selector", () => {
 
     it("should return newest transaction in list", () => {
       const dateNow = new Date(Date.now());
-      const amount: Amount = { quantity: "100000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker }
+      const amount: Amount = { quantity: "100000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker };
       const transactions: ReadonlyArray<ProcessedTx> = [
         {
           id: randomString(16),
@@ -59,9 +58,9 @@ describe("selector", () => {
           signer: randomString(16),
           recipient: randomString(16),
           success: true,
-        }
+        },
       ];
-      // tslint:disable-next-line:no-object-mutation   
+      // tslint:disable-next-line:no-object-mutation
       mockRootStoreBase.notification.transaction = transactions;
       const store = aNewStore(mockRootStoreBase);
       const lastTx = callSelector(store);

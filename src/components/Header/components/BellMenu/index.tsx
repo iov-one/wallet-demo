@@ -16,18 +16,15 @@ import { getLastTx, storeLastTx } from "~/utils/localstorage/transactions";
 import { BadgeProps, calcBadgeProps } from "./badgeCalculator";
 import TxItem from "./TxItem";
 
-
-
 interface Props extends PhoneHook {
   readonly items: ReadonlyArray<ProcessedTx>;
   readonly lastTx?: ProcessedTx;
 }
 
 class BellMenu extends React.Component<Props> {
-
   public readonly toogleCallback = () => {
     if (!this.props.lastTx) {
-      return;      
+      return;
     }
 
     storeLastTx(this.props.lastTx);
@@ -42,7 +39,13 @@ class BellMenu extends React.Component<Props> {
 
       return (
         <Block padding="xl">
-          <BadgeIcon color={badgeProps.color} invisible={badgeProps.invisible} icon={logo} alt="Transactions" badge="dot" />
+          <BadgeIcon
+            color={badgeProps.color}
+            invisible={badgeProps.invisible}
+            icon={logo}
+            alt="Transactions"
+            badge="dot"
+          />
         </Block>
       );
     };
@@ -50,7 +53,13 @@ class BellMenu extends React.Component<Props> {
     const hasItems = items.length > 0;
 
     return (
-      <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} onClick={this.toogleCallback} {...rest}>
+      <ListMenu
+        starter={starter}
+        listWidth={324}
+        phoneMode={phoneMode}
+        onClick={this.toogleCallback}
+        {...rest}
+      >
         <Block padding={phoneMode ? "sm" : "xs"}>
           <ListItem>
             <ListItemText disableTypography>
