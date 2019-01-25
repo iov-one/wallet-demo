@@ -1,9 +1,16 @@
-export const LAST_TX_ID = "LAST_TX_ID";
+import { ProcessedTx } from "~/store/notifications/state";
 
-export function getLastTx(): string | null {
-  return localStorage.getItem(LAST_TX_ID);
+export const LAST_TX = "LAST_TX";
+
+export function getLastTx(): ProcessedTx | null {
+  const lastTxJson = localStorage.getItem(LAST_TX);
+  if (lastTxJson) {
+    return JSON.parse(lastTxJson);
+  }
+
+  return null;
 }
 
-export function setLastTx(lastTxId: string): void {
-  localStorage.setItem(LAST_TX_ID, lastTxId);
+export function storeLastTx(lastTx: ProcessedTx): void {
+  localStorage.setItem(LAST_TX, JSON.stringify(lastTx));
 }
