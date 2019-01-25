@@ -12,51 +12,38 @@ import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
+import { storeLastTx } from "~/utils/localstorage/transactions";
+import { BadgeProps, calcBadgeProps } from "./badgeCalculator";
 import TxItem from "./TxItem";
 
-export interface BellBadge {
-  readonly showBadge: boolean;
-  readonly color: "primary" | "error";
-  readonly lastTx?: ProcessedTx;
-}
 
-interface Props extends PhoneHook, BellBadge {
+
+interface Props extends PhoneHook {
   readonly items: ReadonlyArray<ProcessedTx>;
-  readonly onMenuClicked: (lastTxId: string) => void;
+  readonly lastTx?: ProcessedTx;
+  //readonly onMenuClicked: (lastTxId: ProcessedTx) => void;
 }
 
-interface State {
-  readonly visited: boolean;
-}
+class BellMenu extends React.Component<Props> {
 
-class BellMenu extends React.Component<Props, State> {
-  public readonly state = {
-    visited: false,
-  };
-
-  public readonly componentDidMount = (): void => {
-    if (!this.props.showBadge) {
-      this.setState({
-        visited: true,
-      });
+  public readonly toogleCallback = () => {
+    if (!this.props.lastTx) {
+      return;      
     }
-  };
 
-  public readonly menuClicked = () => {
-    if (this.props.lastTx) {
-      this.props.onMenuClicked(this.props.lastTx.id);
-    }
+    storeLastTx(this.props.lastTx);
   };
 
   public render(): JSX.Element {
-    const { items, phoneMode, showBadge, color, ...rest } = this.props;
+    const { items, phoneMode, lastTx, ...rest } = this.props;
 
     const starter = (open: boolean) => {
       const logo = open ? bellGreen : bell;
+      const badgeProps: BadgeProps = calcBadgeProps(lastTx);
 
       return (
         <Block padding="xl">
-          <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
+          <BadgeIcon color={badgeProps.color} invisible={badgeProps.invisible} icon={logo} alt="Transactions" badge="dot" />
         </Block>
       );
     };
@@ -64,7 +51,7 @@ class BellMenu extends React.Component<Props, State> {
     const hasItems = items.length > 0;
 
     return (
-      <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} onClick={this.menuClicked} {...rest}>
+      <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} onClick={this.toogleCallback} {...rest}>
         <Block padding={phoneMode ? "sm" : "xs"}>
           <ListItem>
             <ListItemText disableTypography>
