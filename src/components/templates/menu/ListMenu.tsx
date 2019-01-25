@@ -66,11 +66,7 @@ class ListMenu extends React.Component<Props> {
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
   public readonly menuClicked = () => {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
-
-    this.props.toggle();
+    this.props.toggle(this.props.onClick);
   };
 
   public render(): JSX.Element {

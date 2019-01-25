@@ -18,7 +18,12 @@ export function openHoc<T>(
   return withStateHandlers<OpenType, OpenHandler, T>(
     { open: false, visited: false },
     {
-      toggle: (state: OpenType) => () => ({ open: !state.open, visited: true }),
+      toggle: (state: OpenType) => (callBack?: () => void) => {
+        if (callBack) {
+          callBack();
+        }
+        return { open: !state.open, visited: true };
+      },
       clickAway: () => () => ({ open: false, visited: true }),
     },
   )(comp);

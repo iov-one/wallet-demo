@@ -21,7 +21,7 @@ const styles = createStyles({
   },
 });
 
-export interface Props extends WithStyles<typeof styles> {
+interface Props extends WithStyles<typeof styles> {
   readonly phoneMode: boolean;
   readonly pendingTxs: ReadonlyArray<Tx>;
   readonly txs: ReadonlyArray<ProcessedTx>;
@@ -30,20 +30,13 @@ export interface Props extends WithStyles<typeof styles> {
 
 interface State {
   readonly phoneHook: HTMLDivElement | null;
-  readonly showBadge: boolean;
 }
 
-export class HeaderComponent extends React.Component<Props, State> {
+class HeaderComponent extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
-    showBadge: true,
   };
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
-
-  /*public readonly onSetBellMenuVisited = (lastTx: ProcessedTx): void => {
-    setLastTx(lastTxId);
-    this.forceUpdate();
-  };*/
 
   public componentDidMount(): void {
     this.setState(() => ({
@@ -54,7 +47,6 @@ export class HeaderComponent extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { phoneMode, classes, pendingTxs, txs, lastTx } = this.props;
     const { phoneHook } = this.state;
-    //const bellBadgeState = this.calcBellBadgeState(lastTx, getLastTx());
 
     return (
       <React.Fragment>
@@ -64,13 +56,7 @@ export class HeaderComponent extends React.Component<Props, State> {
           {!phoneMode && <LinksDesktop />}
           <Spacer order={4} />
           <TransactionsMenu phoneHook={phoneHook} phoneMode={phoneMode} items={pendingTxs} />
-          <BellMenu
-            phoneHook={phoneHook}
-            phoneMode={phoneMode}
-            items={txs}
-            lastTx={lastTx}
-            //onMenuClicked={this.onSetBellMenuVisited}
-          />
+          <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} lastTx={lastTx} />
           <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
         </Block>
         <div ref={this.phoneHookRef} />
