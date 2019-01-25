@@ -17,10 +17,10 @@ BCPD_DIR=$(mktemp -d "${TMPDIR:-/tmp}/bcpd.XXXXXXXXX")
 export BCPD_DIR
 echo "BCPD_DIR = $BCPD_DIR"
 bash "${SCRIPT_DIR}"/bcpd_init.sh
-bash "${SCRIPT_DIR}"/bcpd_tm.sh > /tmp/bcpd_tm.log &
-bash "${SCRIPT_DIR}"/bcpd_app.sh > /tmp/bcpd_app.log &
+bash "${SCRIPT_DIR}"/bcpd_tm.sh > "${TMPDIR:-/tmp}/bcpd_tm.log" &
+bash "${SCRIPT_DIR}"/bcpd_app.sh > "${TMPDIR:-/tmp}/bcpd_app.log" &
 
 sleep 3
 # for debug output
-cat /tmp/bcpd_tm.log
-cat /tmp/bcpd_app.log
+cat "${TMPDIR:-/tmp}/bcpd_tm.log"
+cat "${TMPDIR:-/tmp}/bcpd_app.log"
