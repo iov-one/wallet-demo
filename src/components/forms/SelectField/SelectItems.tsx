@@ -32,11 +32,13 @@ const ListItems = ({ phone, action, items, align }: ListItemProps) => {
                     {item.name}
                   </Typography>
                 </GridItem>
-                { item.additionalText && <GridItem xs={12} sm={9}>
-                  <Typography align={align} inline variant="body2">
-                    {item.additionalText}
-                  </Typography>
-                </GridItem> }
+                {item.additionalText && (
+                  <GridItem xs={12} sm={9}>
+                    <Typography align={align} inline variant="body2">
+                      {item.additionalText}
+                    </Typography>
+                  </GridItem>
+                )}
               </Grid>
             </Block>
           </ListItemText>
