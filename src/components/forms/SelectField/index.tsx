@@ -1,41 +1,29 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import InputBase from "@material-ui/core/InputBase";
+import Popper from "@material-ui/core/Popper";
 import * as React from "react";
+import ReactDOM from "react-dom";
 import { FieldRenderProps } from "react-final-form";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
-import { mediumFontSize, xxlFontSize } from "~/theme/variables";
-import nonIovChevron from "./assets/nonIovChevron.svg";
+import Block from "~/components/layout/Block";
+import Img from "~/components/layout/Image";
+import { MatchMediaContext } from "~/context/MatchMediaContext";
+import { border, mediumFontSize, sm } from "~/theme/variables";
 import selectChevron from "./assets/selectChevron.svg";
-import SelectInputBody, { SelectInputBodyInterface, VariantType } from "./SelectInputBody";
-import SelectInputField from "./SelectInputField";
+import SelectItems from "./SelectItems";
 
-const CHEVRON_WIDTH = 8;
-const NON_IOV_CHEVRON_WIDTH = 16;
-
-export interface SelectFieldItem {
-  readonly value?: string;
-  readonly label: string;
-  readonly description: string;
+export interface Item {
+  readonly name: string;
+  readonly additionalText?: string;
 }
 
-const styles = createStyles({
-  rootSendPayment: {
-    fontSize: mediumFontSize,
-  },
-  inputSendPayment: {
-    textAlign: "center",
-  },
-  rootNonIov: {
-    fontSize: xxlFontSize,
-  },
-  inputNonIov: {
-    textAlign: "left",
-  },
-});
-
-interface Outer extends FieldRenderProps, SelectInputBodyInterface, WithStyles<typeof styles> {
+interface Outer extends FieldRenderProps, WithStyles<typeof styles> {
+  readonly items: ReadonlyArray<Item>;
+  readonly phoneHook: HTMLDivElement | null;
   readonly initial: string;
   readonly width: number;
-  readonly onChangeCallback?: (value: SelectFieldItem) => void;
+  readonly align?: "left" | "right";
+  readonly onChangeCallback?: (value: Item) => void;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -44,19 +32,47 @@ interface State {
   readonly value: string;
 }
 
+const styles = createStyles({
+  container: {
+    flexShrink: 0,
+  },
+  dropdown: {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#f7f7f7",
+    border: `1px solid ${border}`,
+    borderRadius: "5px",
+    padding: `0 ${sm}`,
+    cursor: "pointer",
+  },
+  root: {
+    fontSize: mediumFontSize,
+    height: "32px",
+  },
+  input: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    textAlign: "center",
+    cursor: "pointer",
+  },
+});
+
+const CHEVRON_WIDTH = 8;
+
 class SelectInput extends React.PureComponent<Props, State> {
   public readonly state = {
     value: this.props.initial,
   };
+  private readonly menuRef = React.createRef<HTMLDivElement>();
 
-  public readonly onAction = (value: SelectFieldItem) => () => {
+  public readonly onAction = (value: Item) => () => {
     const {
       input: { onChange },
       toggle,
       onChangeCallback,
     } = this.props;
 
-    this.setState({ value: value.label }, () => {
+    this.setState({ value: value.name }, () => {
       onChange(value);
       if (onChangeCallback) {
         onChangeCallback(value);
@@ -65,45 +81,59 @@ class SelectInput extends React.PureComponent<Props, State> {
     });
   };
 
-  public readonly calcMaxWidth = (width: number, variant: VariantType) => {
-    return width + (variant === "send-payment" ? CHEVRON_WIDTH : NON_IOV_CHEVRON_WIDTH);
-  };
-
   public render(): JSX.Element {
     const {
+      open,
+      toggle,
       classes,
+      items,
+      phoneHook,
       width,
-      variant = "send-payment",
+      align = "left",
       input: { name, value, onChange, ...restInput },
-      ...otherProps
     } = this.props;
 
     const inputProps = { ...restInput, autoComplete: "off" };
 
+    const maxWidth = width + CHEVRON_WIDTH;
+
+    const popperStyle = {
+      marginTop: sm,
+    };
+
+    const inputClasses = { root: classes.root, input: classes.input };
     return (
-      <SelectInputBody action={this.onAction} maxWidth={this.calcMaxWidth(width, variant)} {...otherProps}>
-        {variant === "send-payment" ? (
-          <SelectInputField
-            chevronWidth={CHEVRON_WIDTH}
-            chevronHeight={8}
-            rootClassNames={classes.rootSendPayment}
-            inputClassNames={classes.inputSendPayment}
-            selectChevron={selectChevron}
-            inputProps={inputProps}
-            value={this.state.value}
-          />
-        ) : (
-          <SelectInputField
-            chevronWidth={NON_IOV_CHEVRON_WIDTH}
-            chevronHeight={10}
-            rootClassNames={classes.rootNonIov}
-            inputClassNames={classes.inputNonIov}
-            selectChevron={nonIovChevron}
-            inputProps={inputProps}
-            value={this.state.value}
-          />
-        )}
-      </SelectInputBody>
+      <MatchMediaContext.Consumer>
+        {phone => {
+          const showPhone = phone && phoneHook !== null && open;
+
+          return (
+            <Block maxWidth={maxWidth} className={classes.container}>
+              <div ref={this.menuRef} className={classes.dropdown} onClick={toggle}>
+                <InputBase
+                  name={name}
+                  classes={inputClasses}
+                  inputProps={inputProps}
+                  value={this.state.value}
+                  readOnly
+                  role="button"
+                />
+                <Img noShrink src={selectChevron} alt="Phone Menu" width={`${CHEVRON_WIDTH}`} height="5" />
+              </div>
+              {showPhone ? (
+                ReactDOM.createPortal(
+                  <SelectItems align={align} phone={phone} items={items} action={this.onAction} />,
+                  phoneHook!,
+                )
+              ) : (
+                <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
+                  {() => <SelectItems align={align} items={items} action={this.onAction} phone={phone} />}
+                </Popper>
+              )}
+            </Block>
+          );
+        }}
+      </MatchMediaContext.Consumer>
     );
   }
 }

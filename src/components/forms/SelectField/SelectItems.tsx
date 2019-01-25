@@ -6,7 +6,7 @@ import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
-import { SelectFieldItem } from "./index";
+import { Item } from "./index";
 
 const style = {
   minWidth: "100%",
@@ -14,29 +14,29 @@ const style = {
 };
 
 interface ListItemProps {
-  readonly action: (value: SelectFieldItem) => () => void;
+  readonly action: (value: Item) => () => void;
   readonly phone: boolean;
-  readonly items: ReadonlyArray<SelectFieldItem>;
+  readonly items: ReadonlyArray<Item>;
   readonly align: "left" | "right";
 }
 const ListItems = ({ phone, action, items, align }: ListItemProps) => {
   return (
     <List disablePadding component="nav" style={style}>
       {items.map(item => (
-        <ListItem key={item.label} disableGutters button onClick={action(item)}>
+        <ListItem key={item.name} disableGutters button onClick={action(item)}>
           <ListItemText disableTypography>
-            <Block padding="sm">
+            <Block padding={!phone ? "sm" : undefined}>
               <Grid>
-                <GridItem xs={4} md={2}>
-                  <Typography align={align} variant={phone ? "body1" : "body2"}>
-                    {item.label}
+                <GridItem xs={12} sm={3}>
+                  <Typography align={align} inline variant={phone ? "body1" : "body2"}>
+                    {item.name}
                   </Typography>
                 </GridItem>
-                <GridItem xs={8} md={10}>
-                  <Typography align={align} variant={phone ? "body1" : "body2"}>
-                    {item.description}
+                { item.additionalText && <GridItem xs={12} sm={9}>
+                  <Typography align={align} inline variant="body2">
+                    {item.additionalText}
                   </Typography>
-                </GridItem>
+                </GridItem> }
               </Grid>
             </Block>
           </ListItemText>

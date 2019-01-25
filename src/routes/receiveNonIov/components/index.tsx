@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
 import Field from "~/components/forms/Field";
 import Form from "~/components/forms/Form";
-import SelectField, { SelectFieldItem } from "~/components/forms/SelectField";
+import SelectField from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import { Paper } from "~/components/subComponents/page";
 import { H2 } from "~/components/subComponents/typography";
+import { TickerWithAddress } from "../container/index";
 
 const Wrapper = styled.div`
   flex-basis: 506px;
@@ -40,11 +41,11 @@ export const TOKEN_FIELD = "token";
 const INITIAL_TOKEN = "IOV";
 
 interface ReceiveNonIOVProps {
-  readonly addressList: ReadonlyArray<SelectFieldItem>;
+  readonly tickersList: ReadonlyArray<TickerWithAddress>;
 }
 
 interface RecieveNonIOVState {
-  readonly ticker: SelectFieldItem;
+  readonly ticker: TickerWithAddress;
   readonly phoneHook: HTMLDivElement | null;
 }
 
@@ -53,10 +54,10 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
   constructor(props: ReceiveNonIOVProps) {
     super(props);
 
-    const defaultTicker = this.props.addressList.find(item => item.label === INITIAL_TOKEN);
+    const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
 
     this.state = {
-      ticker: defaultTicker ? defaultTicker : this.props.addressList[0],
+      ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
       phoneHook: null,
     };
   }
@@ -67,7 +68,7 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
     }));
   }
 
-  public readonly onChangeAddress = (ticker: SelectFieldItem): void => {
+  public readonly onChangeAddress = (ticker: TickerWithAddress): void => {
     this.setState({
       ticker,
     });
@@ -78,7 +79,7 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
   };
 
   public render(): JSX.Element {
-    const { addressList } = this.props;
+    const { tickersList } = this.props;
     const { ticker } = this.state;
 
     return (
@@ -95,18 +96,17 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
                 phoneHook={this.state.phoneHook}
                 component={SelectField}
                 align="left"
-                items={addressList}
+                items={tickersList}
                 initial={INITIAL_TOKEN}
-                variant="non-iov"
                 onChangeCallback={this.onChangeAddress}
                 width={100}
               />
               <Block margin="xl" />
               <div ref={this.phoneHookRef} />
               <ConfirmInput
-                title={`Your ${ticker.label} Address`}
-                value={ticker.value}
-                notification={`${ticker.label} Address copied to clipboard`}
+                title={`Your ${ticker.name} Address`}
+                value={ticker.address}
+                notification={`${ticker.name} Address copied to clipboard`}
               />
               <ActionWrapper>
                 <TooltipDescription

@@ -1,11 +1,11 @@
 import { createSelector, createStructuredSelector, Selector } from "reselect";
-import { SelectFieldItem } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
 import { ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
+import { TickerWithAddress } from "./index";
 
 export interface SelectorProps {
-  readonly addressList: ReadonlyArray<SelectFieldItem>;
+  readonly tickersList: ReadonlyArray<TickerWithAddress>;
 }
 
 export const availableTokensSelector = createSelector(
@@ -19,9 +19,9 @@ export const availableTokensSelector = createSelector(
       tickers
         .filter(t => t.chainId === acct.chainId)
         .map(t => ({
-          value: acct.address,
-          label: t.ticker.tokenTicker,
-          description: t.ticker.tokenName,
+          address: acct.address,
+          name: t.ticker.tokenTicker,
+          additionalText: t.ticker.tokenName,
         })),
     );
 
@@ -30,7 +30,7 @@ export const availableTokensSelector = createSelector(
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
-  addressList: availableTokensSelector,
+  tickersList: availableTokensSelector,
 });
 
 export default structuredSelector;

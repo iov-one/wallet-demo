@@ -2,7 +2,7 @@ import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
-import SelectField, { SelectFieldItem } from "~/components/forms/SelectField";
+import SelectField, { Item } from "~/components/forms/SelectField";
 import TextField from "~/components/forms/TextField";
 import {
   composeValidators,
@@ -26,9 +26,9 @@ const NOT_MAX_SIZE = 150;
 
 export interface SendBalance {
   readonly balance: BcpCoin;
-  readonly tickersWithBalance: ReadonlyArray<SelectFieldItem>;
+  readonly tickersWithBalance: ReadonlyArray<Item>;
   readonly defaultTicker: string;
-  readonly onUpdateBalanceToSend: (ticker: SelectFieldItem) => void;
+  readonly onUpdateBalanceToSend: (ticker: Item) => void;
 }
 
 interface State {

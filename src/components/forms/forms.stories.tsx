@@ -57,15 +57,6 @@ storiesOf("Components /forms", module).add("Add react-final-form form", () => (
             component={SelectField}
             items={[{ value: "Banana", description: "N/A" }, { value: "Kiwi", description: "N/A" }]}
             initial="Banana"
-            variant="non-iov"
-            validate={required}
-          />
-          <Field
-            name="fruits-send-payment"
-            component={SelectField}
-            items={[{ value: "Banana", description: "N/A" }, { value: "Kiwi", description: "N/A" }]}
-            initial="Banana"
-            variant="send-payment"
             validate={required}
           />
           <Button style={buttonStyle} color="primary" type="submit" variant="contained" disabled={submitting}>

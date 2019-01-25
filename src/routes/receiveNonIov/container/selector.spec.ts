@@ -45,7 +45,7 @@ describe("selector", () => {
       const mockRootStore = JSON.parse(JSON.stringify(mockRootStoreBase));
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
-      expect(selected).toEqual([{ label: "T1A", value: "address-1", description: "T1A name" }]);
+      expect(selected).toEqual([{ name: "T1A", address: "address-1", additionalText: "T1A name" }]);
     });
 
     it("should return 1 chain : 2 tickers : 1 address relation", () => {
@@ -60,8 +60,8 @@ describe("selector", () => {
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { label: "T1A", value: "address-1", description: "T1A name" },
-        { label: "T2A", value: "address-1", description: "T2A name" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T2A", address: "address-1", additionalText: "T2A name" },
       ]);
     });
 
@@ -85,8 +85,8 @@ describe("selector", () => {
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { label: "T1A", value: "address-1", description: "T1A name" },
-        { label: "T2A", value: "address-2", description: "T2A name" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T2A", address: "address-2", additionalText: "T2A name" },
       ]);
     });
 
@@ -126,10 +126,10 @@ describe("selector", () => {
       const store = aNewStore(mockRootStore);
       const selected = callSelector(store);
       expect(selected).toEqual([
-        { label: "T1A", value: "address-1", description: "T1A name" },
-        { label: "T1B", value: "address-1", description: "T1B name" },
-        { label: "T2A", value: "address-2", description: "T2A name" },
-        { label: "T2B", value: "address-2", description: "T2B name" },
+        { name: "T1A", address: "address-1", additionalText: "T1A name" },
+        { name: "T1B", address: "address-1", additionalText: "T1B name" },
+        { name: "T2A", address: "address-2", additionalText: "T2A name" },
+        { name: "T2B", address: "address-2", additionalText: "T2B name" },
       ]);
     });
   });
