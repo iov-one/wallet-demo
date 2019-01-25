@@ -5,7 +5,7 @@ import promiseMiddleware from "redux-promise-middleware";
 import thunk from "redux-thunk";
 import { createRootReducer, RootState } from "~/reducers";
 
-export const history = createBrowserHistory();
+export let history = createBrowserHistory();
 
 const middlewares: ReadonlyArray<Middleware> = [
   /* scopeTie, */ thunk,
@@ -19,6 +19,16 @@ const composeEnhancers =
 export const makeStore = () =>
   createStore(createRootReducer(history), composeEnhancers(applyMiddleware(...middlewares)));
 
-// used only in tests
+/**
+ * This method can only be used in test enviromnets
+ * @param localState Initial redux object
+ */
 export const aNewStore = (localState?: object): Store<RootState> =>
   createStore(createRootReducer(history), localState, composeEnhancers(applyMiddleware(...middlewares)));
+
+/**
+ * This method can only be used in test enviromnets
+ */
+export const resetHistory = () => {
+  history = createBrowserHistory();
+};
