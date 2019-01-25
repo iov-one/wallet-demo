@@ -9,6 +9,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import { ProcessedTx, Tx } from "~/store/notifications/state";
+//import { getLastTx, setLastTx } from "~/utils/localstorage/transactions";
 
 const styles = createStyles({
   root: {
@@ -44,7 +45,7 @@ class HeaderComponent extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { phoneMode, classes, pendingTxs, lastTx, txs } = this.props;
+    const { phoneMode, classes, pendingTxs, txs, lastTx } = this.props;
     const { phoneHook } = this.state;
 
     return (

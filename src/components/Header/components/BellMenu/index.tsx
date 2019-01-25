@@ -12,53 +12,76 @@ import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
+import { getLastTx, storeLastTx } from "~/utils/localstorage/transactions";
+import { BadgeProps, calcBadgeProps } from "./badgeCalculator";
 import TxItem from "./TxItem";
 
-type LastTxType = ProcessedTx | undefined;
 interface Props extends PhoneHook {
   readonly items: ReadonlyArray<ProcessedTx>;
-  readonly lastTx: LastTxType;
+  readonly lastTx?: ProcessedTx;
 }
 
-const BellMenu = ({ items, lastTx, phoneMode, ...rest }: Props) => {
-  const starter = (visited: boolean, open: boolean) => {
-    const logo = open ? bellGreen : bell;
-    const hasTx = lastTx !== undefined;
-    const showBadge = hasTx && !visited;
-    const color = hasTx && lastTx!.success ? "primary" : "error";
+class BellMenu extends React.Component<Props> {
+  public readonly toogleCallback = () => {
+    if (!this.props.lastTx) {
+      return;
+    }
 
-    return (
-      <Block padding="xl">
-        <BadgeIcon color={color} invisible={!showBadge} icon={logo} alt="Transactions" badge="dot" />
-      </Block>
-    );
+    storeLastTx(this.props.lastTx);
   };
 
-  const hasItems = items.length > 0;
+  public render(): JSX.Element {
+    const { items, phoneMode, lastTx, ...rest } = this.props;
 
-  return (
-    <ListMenu starter={starter} listWidth={324} phoneMode={phoneMode} {...rest}>
-      <Block padding={phoneMode ? "sm" : "xs"}>
-        <ListItem>
-          <ListItemText disableTypography>
-            <Typography variant={phoneMode ? "body1" : "body2"} weight="semibold">
-              Notifications
-            </Typography>
-          </ListItemText>
-        </ListItem>
-      </Block>
-      <Hairline color={border} />
-      {hasItems ? (
-        items.map((item: ProcessedTx, index: number) => {
-          const lastOne = index + 1 === items.length;
+    const starter = (open: boolean) => {
+      const logo = open ? bellGreen : bell;
+      const badgeProps: BadgeProps = calcBadgeProps(lastTx, getLastTx());
 
-          return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
-        })
-      ) : (
-        <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
-      )}
-    </ListMenu>
-  );
-};
+      return (
+        <Block padding="xl">
+          <BadgeIcon
+            color={badgeProps.color}
+            invisible={badgeProps.invisible}
+            icon={logo}
+            alt="Transactions"
+            badge="dot"
+          />
+        </Block>
+      );
+    };
+
+    const hasItems = items.length > 0;
+
+    return (
+      <ListMenu
+        starter={starter}
+        listWidth={324}
+        phoneMode={phoneMode}
+        onClick={this.toogleCallback}
+        {...rest}
+      >
+        <Block padding={phoneMode ? "sm" : "xs"}>
+          <ListItem>
+            <ListItemText disableTypography>
+              <Typography variant={phoneMode ? "body1" : "body2"} weight="semibold">
+                Notifications
+              </Typography>
+            </ListItemText>
+          </ListItem>
+        </Block>
+        <Hairline color={border} />
+        {hasItems ? (
+          items.map((item: ProcessedTx, index: number) => {
+            const lastOne = index + 1 === items.length;
+
+            return <TxItem key={item.id} phone={phoneMode} item={item} lastOne={lastOne} />;
+          })
+        ) : (
+          <EmptyListIcon src={upToDate} alt="Up to date Invite friends" text="Up to date Invite friends" />
+        )}
+      </ListMenu>
+    );
+  }
+}
 
 export default BellMenu;

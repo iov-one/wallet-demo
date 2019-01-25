@@ -14,9 +14,10 @@ export interface PhoneHook {
 }
 
 interface Outer extends PhoneHook, WithStyles<typeof styles> {
-  readonly starter: (visited: boolean, open: boolean) => JSX.Element;
+  readonly starter: (open: boolean, visited?: boolean) => JSX.Element;
   readonly listWidth: number;
   readonly color?: string;
+  readonly onClick?: () => void;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -64,6 +65,10 @@ const buildListStyleFrom = (phoneMode: boolean, width: number, color: string): R
 class ListMenu extends React.Component<Props> {
   private readonly menuRef = React.createRef<HTMLDivElement>();
 
+  public readonly menuClicked = () => {
+    this.props.toggle(this.props.onClick);
+  };
+
   public render(): JSX.Element {
     const {
       classes,
@@ -75,8 +80,6 @@ class ListMenu extends React.Component<Props> {
       phoneMode,
       open,
       clickAway,
-      visited,
-      toggle,
     } = this.props;
     const showPhone = phoneMode && phoneHook !== null && open;
     const style = buildListStyleFrom(phoneMode, listWidth, color);
@@ -86,8 +89,8 @@ class ListMenu extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <div ref={this.menuRef} className={classes.root} onClick={toggle}>
-          {starter(visited, open)}
+        <div ref={this.menuRef} className={classes.root} onClick={this.menuClicked}>
+          {starter(open)}
         </div>
         {showPhone ? (
           ReactDOM.createPortal(

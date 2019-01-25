@@ -19,7 +19,7 @@ const confirmedTxSelector = createSelector(
   },
 );
 
-const lastTxSelector = createSelector(
+export const lastTxSelector = createSelector(
   confirmedTxSelector,
   (txs: ReadonlyArray<ProcessedTx>) => {
     if (txs.length === 0) {
