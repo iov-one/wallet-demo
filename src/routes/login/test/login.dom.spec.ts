@@ -25,7 +25,7 @@ describe("DOM > Feature > Login", () => {
 
     console.log("login.dom.spec done setName. Continue beforeAll");
     resetHistory();
-    store= aNewStore();
+    store = aNewStore();
     await processBalance(store);
   }, 35000);
 
