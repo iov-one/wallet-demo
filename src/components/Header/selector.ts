@@ -26,12 +26,7 @@ export const lastTxSelector = createSelector(
       return undefined;
     }
 
-    // tslint:disable-next-line:readonly-array
-    const lastTx = (txs as ProcessedTx[])
-      .concat()
-      .sort((a: ProcessedTx, b: ProcessedTx) => b.time.getTime() - a.time.getTime())[0];
-
-    return lastTx;
+    return txs[0];
   },
 );
 

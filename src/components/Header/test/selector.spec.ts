@@ -64,7 +64,7 @@ describe("selector", () => {
       mockRootStoreBase.notification.transaction = transactions;
       const store = aNewStore(mockRootStoreBase);
       const lastTx = callSelector(store);
-      expect(lastTx).toEqual(transactions[2]);
+      expect(lastTx).toEqual(transactions[0]);
     });
   });
 });
