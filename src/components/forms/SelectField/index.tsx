@@ -126,7 +126,12 @@ class SelectInput extends React.PureComponent<Props, State> {
                   phoneHook!,
                 )
               ) : (
-                <Popper open={open} style={popperStyle} anchorEl={this.menuRef.current} placement="bottom">
+                <Popper
+                  open={open}
+                  style={popperStyle}
+                  anchorEl={this.menuRef.current}
+                  placement="bottom-start"
+                >
                   {() => <SelectItems align={align} items={items} action={this.onAction} phone={phone} />}
                 </Popper>
               )}
