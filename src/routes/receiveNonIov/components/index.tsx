@@ -95,14 +95,14 @@ class ReceiveIOVForm extends React.Component<ReceiveNonIOVProps, RecieveNonIOVSt
                 name={TOKEN_FIELD}
                 phoneHook={this.state.phoneHook}
                 component={SelectField}
-                align="left"
                 items={tickersList}
                 initial={INITIAL_TOKEN}
                 onChangeCallback={this.onChangeAddress}
                 width={100}
               />
-              <Block margin="xl" />
+              <Block margin="sm" />
               <div ref={this.phoneHookRef} />
+              <Block margin="md" />
               <ConfirmInput
                 title={`Your ${ticker.name} Address`}
                 value={ticker.address}
