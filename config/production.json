@@ -9,5 +9,19 @@
       "token": "IOV"
     }
   },
-  "chains": []
+  "chains": [{
+    "chainSpec": {
+      "codecType": "bov",
+      "bootstrapNodes": ["wss://bov.yaknet.iov.one/"]
+    },
+    "faucetSpec": {
+      "uri": "https://bov-faucet.yaknet.iov.one",
+      "token": "ALT"
+    }
+  },{
+    "chainSpec": {
+      "codecType": "lsk",
+      "bootstrapNodes": ["https://testnet.lisk.io"]
+    }
+  }]
 }

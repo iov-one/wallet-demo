@@ -105,7 +105,21 @@ require a demo blockchain running locally to be completed. By default these are 
 
 If you want to run these locally, make sure you are on a system that supports docker and that your local
 user has rights to connect to docker (I often use a Linux Virtualbox just for this). You must have `docker`
-and `docker-compose` installed. In such a case, you can do:
+and `docker-compose` installed. 
+
+In case you are running MAC_OS you should do:
+```shell
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+
+brew install jq
+brew install coreutils
+alias timeout=gtimeout
+
+# Add TMPDIR=/private/var/tmp before any bash script 
+# TMPDIR=/private/var/tmp bash ./scripts/test_start.sh
+```
+
+In such a case, you can do:
 
 ```shell
 # start a bns blockchain and a local faucet that serves iov tokens
