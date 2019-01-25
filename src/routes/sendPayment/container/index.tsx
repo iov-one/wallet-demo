@@ -1,4 +1,4 @@
-import { Amount, BcpCoin } from "@iov/bcp-types";
+import { Amount, BcpCoin, TxCodec } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -66,26 +66,28 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
-    // const { chainTickers, signer, connection, defaultBalance } = this.props;
-    const { connection } = this.props;
+    const { codecs, connection, chainTickers, defaultBalance } = this.props;
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
+    // Fix infinity loop when changing page
     if (!maybeAddress) {
       return {};
     }
 
     if (!isIovAddress(maybeAddress)) {
-      /*
-    // TODO Waiting iov-core 0.11
       const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
       const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
-      const chainId = selectedTicker!.chainId
-      const valid = signer.isValidAddress(chainId, maybeAddress)
-  
-      return valid ? {} : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`)
-      */
-      return {};
+      const chainId = selectedTicker!.chainId;
+      const codec: TxCodec = codecs[chainId];
+      if (!codec) {
+        return generateError(RECIPIENT_FIELD, `Not chain codec found for ${chainId}, try again later`);
+      }
+      const valid = codec.isValidAddress(maybeAddress);
+
+      return valid
+        ? {}
+        : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`);
     }
 
     // check if name is registered in BNS (remember to remove namespace component)
@@ -94,6 +96,7 @@ class SendPayment extends React.Component<Props, State> {
     if (nft === undefined) {
       return generateError(RECIPIENT_FIELD, "IOV address not registered");
     }
+
     return {};
   };
 
