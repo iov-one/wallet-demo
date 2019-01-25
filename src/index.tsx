@@ -5,7 +5,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
-import { ErrorBoundaryInner, ErrorBoundaryOuter } from "./components/errors";
+import ErrorBoundary from "./components/errors/ErrorBoundary";
 import MatchMedia from "./context/MatchMediaContext";
 import { ToastProvider } from "./context/ToastProvider";
 import Route from "./routes";
@@ -21,7 +21,7 @@ Sentry.init({
 const store = makeStore();
 
 const Root = () => (
-  <ErrorBoundaryOuter>
+  <ErrorBoundary type="outer">
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <MatchMedia>
@@ -33,7 +33,7 @@ const Root = () => (
         </MatchMedia>
       </MuiThemeProvider>
     </Provider>
-  </ErrorBoundaryOuter>
+  </ErrorBoundary>
 );
 
 const HotRoot = hot(Root);
