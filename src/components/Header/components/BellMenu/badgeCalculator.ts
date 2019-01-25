@@ -1,12 +1,11 @@
 import { ProcessedTx } from "~/store/notifications/state";
-import { getLastTx } from "~/utils/localstorage/transactions";
 
 export interface BadgeProps {
   readonly invisible: boolean;
   readonly color: "default" | "primary" | "error";
 }
 
-const hiddenBadge: BadgeProps = {
+export const hiddenBadge: BadgeProps = {
   invisible: true,
   color: "default",
 };
@@ -20,17 +19,21 @@ const lastTxNewer = (lastTx: ProcessedTx, lastStoredTx: ProcessedTx) => {
   return lastTx.time.getTime() > lastStoredTx.time.getTime();
 }
 
-export const calcBadgeProps = (lastTx: ProcessedTx | undefined): BadgeProps => {
+export const calcBadgeProps = (lastTx: ProcessedTx | undefined, lastStoredTx: ProcessedTx | undefined ): BadgeProps => {
   if (!lastTx) {
     return hiddenBadge;
   }
 
-  const lastStoredTx: ProcessedTx | null = getLastTx(); 
   if (!lastStoredTx) {
     return buildBadgeFrom(lastTx.success);  
   }
+
   const isLastTxNewer = lastTxNewer(lastTx, lastStoredTx)
   if (isLastTxNewer) {
+    return buildBadgeFrom(lastTx.success)
+  }
+
+  if (lastTx.id !== lastStoredTx.id) {
     return buildBadgeFrom(lastTx.success)
   }
 

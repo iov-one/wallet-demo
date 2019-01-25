@@ -70,7 +70,7 @@ class ListMenu extends React.Component<Props> {
       this.props.onClick();
     }
 
-    this.props.toggle(this.props.toggleCallback);
+    this.props.toggle();
   };
 
   public render(): JSX.Element {

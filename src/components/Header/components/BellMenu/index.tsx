@@ -12,7 +12,7 @@ import EmptyListIcon from "~/components/templates/menu/EmptyListIcon";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { ProcessedTx } from "~/store/notifications/state";
 import { border } from "~/theme/variables";
-import { storeLastTx } from "~/utils/localstorage/transactions";
+import { getLastTx, storeLastTx } from "~/utils/localstorage/transactions";
 import { BadgeProps, calcBadgeProps } from "./badgeCalculator";
 import TxItem from "./TxItem";
 
@@ -21,7 +21,6 @@ import TxItem from "./TxItem";
 interface Props extends PhoneHook {
   readonly items: ReadonlyArray<ProcessedTx>;
   readonly lastTx?: ProcessedTx;
-  //readonly onMenuClicked: (lastTxId: ProcessedTx) => void;
 }
 
 class BellMenu extends React.Component<Props> {
@@ -39,7 +38,7 @@ class BellMenu extends React.Component<Props> {
 
     const starter = (open: boolean) => {
       const logo = open ? bellGreen : bell;
-      const badgeProps: BadgeProps = calcBadgeProps(lastTx);
+      const badgeProps: BadgeProps = calcBadgeProps(lastTx, getLastTx());
 
       return (
         <Block padding="xl">
