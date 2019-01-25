@@ -46,7 +46,7 @@ before_script:
 script:
 - TERM=dumb yarn test
 - yarn lint
-- yarn dist-testnets
+- yarn dist
 - yarn build-storybook
 
 after_success:

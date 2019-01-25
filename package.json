@@ -17,7 +17,6 @@
     "start-test": "NODE_ENV=test webpack-dev-server --config webpack/development.config.js",
     "start-prod": "NODE_ENV=production webpack-dev-server --config webpack/production.config.js",
     "dist": "shx mkdir -p ./build && NODE_ENV=production webpack -p --config webpack/production.config.js --progress",
-    "dist-testnets": "shx mkdir -p ./build && NODE_ENV=development webpack -p --config webpack/production.config.js --progress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "genRandomAccount": "yarn build && node ./build/scripts/genRandomAccount.js",
