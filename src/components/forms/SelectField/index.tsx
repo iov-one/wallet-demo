@@ -73,7 +73,8 @@ class SelectInput extends React.PureComponent<Props, State> {
     } = this.props;
 
     this.setState({ value: value.name }, () => {
-      onChange(value);
+      const tsOnChange: (value: string) => void = onChange
+      tsOnChange(value.name);
       if (onChangeCallback) {
         onChangeCallback(value);
       }
