@@ -66,8 +66,7 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
-    const { codecs, chainTickers, defaultBalance } = this.props;
-    const { connection } = this.props;
+    const { codecs, connection, chainTickers, defaultBalance } = this.props;
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
