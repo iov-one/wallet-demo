@@ -19,7 +19,8 @@ export function openHoc<T>(
     { open: false, visited: false },
     {
       toggle: (state: OpenType) => (callBack?: () => void) => {
-        if (callBack) {
+        // Check for avoid default pass event in the click handler 
+        if (callBack && typeof callBack === "function") {
           callBack();
         }
         return { open: !state.open, visited: true };

@@ -6,9 +6,9 @@ import SelectField, { Item } from "~/components/forms/SelectField";
 import TextField from "~/components/forms/TextField";
 import {
   composeValidators,
-  greaterThan,
+  greaterThanOrEqual,
   lengthLowerThan,
-  lowerThan,
+  lowerThanOrEqual,
   mustBeFloat,
   required,
 } from "~/components/forms/validator";
@@ -108,7 +108,12 @@ class SendCard extends React.Component<Props, State> {
             type="text"
             fullWidth
             component={TextField}
-            validate={composeValidators(required, mustBeFloat, greaterThan(0.000000001), lowerThan(crypto))}
+            validate={composeValidators(
+              required,
+              mustBeFloat,
+              greaterThanOrEqual(0.000000001),
+              lowerThanOrEqual(crypto),
+            )}
             placeholder="0.00"
           />
           <Block padding="sm" />

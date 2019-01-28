@@ -1,19 +1,39 @@
 import { FieldValidator } from "final-form";
 
 export const greaterThan = (min: number) => (value: string) => {
-  if (Number.isNaN(Number(value)) || Number.parseFloat(value) > Number(min)) {
+  const parsedNumber = toValidFloat(value);
+  if (Number.isNaN(parsedNumber) || parsedNumber > Number(min)) {
     return undefined;
   }
 
   return `Should be greater than ${min}`;
 };
 
+export const greaterThanOrEqual = (min: number) => (value: string) => {
+  const parsedNumber = toValidFloat(value);
+  if (Number.isNaN(parsedNumber) || parsedNumber >= Number(min)) {
+    return undefined;
+  }
+
+  return `Should be greater or equal than ${min}`;
+};
+
 export const lowerThan = (min: number) => (value: string) => {
-  if (Number.isNaN(Number(value)) || Number.parseFloat(value) < Number(min)) {
+  const parsedNumber = toValidFloat(value);
+  if (Number.isNaN(parsedNumber) || parsedNumber < Number(min)) {
     return undefined;
   }
 
   return `Should be lower than ${min}`;
+};
+
+export const lowerThanOrEqual = (min: number) => (value: string) => {
+  const parsedNumber = toValidFloat(value);
+  if (Number.isNaN(parsedNumber) || parsedNumber <= Number(min)) {
+    return undefined;
+  }
+
+  return `Should be lower or equal than ${min}`;
 };
 
 export const mustBeInteger = (value: string) => {
@@ -24,7 +44,12 @@ export const mustBeInteger = (value: string) => {
   return undefined;
 };
 
-export const mustBeFloat = (value: string) => (Number.isNaN(Number(value)) ? "Must be a number" : undefined);
+export const toValidFloat = (value: string) => {
+  return Number(value.replace(",", "."));
+};
+
+export const mustBeFloat = (value: string) =>
+  Number.isNaN(toValidFloat(value)) ? "Must be a number" : undefined;
 
 export const fieldRegex = (regex: RegExp, error: string) => (value: string) => {
   if (!regex.test(value)) {

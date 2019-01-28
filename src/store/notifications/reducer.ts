@@ -75,8 +75,9 @@ export function notificationReducer(
         return state;
       }
 
-      const orderedNotifications = [simplifyTransaction(action.payload), ...state.transaction]
-        .sort((a: ProcessedTx, b: ProcessedTx) => b.time.getTime() - a.time.getTime())
+      const orderedNotifications = [simplifyTransaction(action.payload), ...state.transaction].sort(
+        (a: ProcessedTx, b: ProcessedTx) => b.time.getTime() - a.time.getTime(),
+      );
       return {
         ...state,
         transaction: orderedNotifications,
