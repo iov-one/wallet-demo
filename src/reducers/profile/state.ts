@@ -1,4 +1,5 @@
-import { LocalIdentity, UserProfile, WalletId } from "@iov/keycontrol";
+import { PublicIdentity } from "@iov/bcp-types";
+import { UserProfile, WalletId } from "@iov/keycontrol";
 
 import { StringDB } from "../../logic";
 
@@ -9,7 +10,7 @@ export interface ProfileState {
 
 export interface ActiveIdentity {
   readonly walletId: WalletId;
-  readonly identity: LocalIdentity;
+  readonly identity: PublicIdentity;
 }
 
 // Note: components should not use this directly, just pass to logic functions

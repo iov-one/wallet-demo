@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BcpBlockInfoInBlock, BcpTransactionState, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpAccount, BlockInfoSucceeded, isBlockInfoPending, TokenTicker } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
@@ -15,12 +15,13 @@ import {
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
 import { createProfile, getMainIdentity } from "./profile";
-import { adminProfile, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
+import { adminProfile, bnsChainId, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTestBns("random account should be empty", async () => {
-    const profile = await createProfile();
+    const chainIdBns = await bnsChainId();
+    const profile = await createProfile(chainIdBns);
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
     const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
@@ -33,7 +34,8 @@ describe("getAccount", () => {
   });
 
   mayTestBns("faucet account should have tokens", async () => {
-    const profile = await adminProfile();
+    const chainIdBns = await bnsChainId();
+    const profile = await adminProfile(chainIdBns);
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
     const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
@@ -56,8 +58,9 @@ describe("sendTransaction", () => {
   mayTestBns(
     "moves token to new account",
     async () => {
-      const faucet = await adminProfile();
-      const empty = await createProfile();
+      const chainIdBns = await bnsChainId();
+      const faucet = await adminProfile(chainIdBns);
+      const empty = await createProfile(chainIdBns);
       const rcpt = getMainIdentity(empty);
 
       const writer = new MultiChainSigner(faucet);
@@ -75,14 +78,15 @@ describe("sendTransaction", () => {
           tokenTicker: testTicker,
         };
         const res = await sendTransaction(
+          faucet,
           writer,
           reader.chainId(),
           keyToAddress(rcpt, codec),
           amount,
           "hello",
         );
-        const blockInfo = await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
-        const txHeight = (blockInfo as BcpBlockInfoInBlock).height;
+        const blockInfo = await res.blockInfo.waitFor(info => !isBlockInfoPending(info));
+        const txHeight = (blockInfo as BlockInfoSucceeded).height;
         expect(txHeight).toBeGreaterThan(2);
         expect(res.transactionId).toBeTruthy();
 
@@ -106,8 +110,9 @@ describe("setName", () => {
   mayTestBns(
     "sets a name on account with funds",
     async () => {
-      const faucet = await adminProfile();
-      const empty = await createProfile();
+      const chainIdBns = await bnsChainId();
+      const faucet = await adminProfile(chainIdBns);
+      const empty = await createProfile(chainIdBns);
       const rcpt = getMainIdentity(empty);
 
       const writer = new MultiChainSigner(faucet);
@@ -116,7 +121,7 @@ describe("setName", () => {
       const reader = connection as BnsConnection;
       const rcptAddr = keyToAddress(rcpt, codec);
       const chainId = reader.chainId();
-      await checkBnsBlockchainNft(reader, writer, chainId, "bns");
+      await checkBnsBlockchainNft(faucet, reader, writer, chainId, "bns");
 
       const rcptWriter = new MultiChainSigner(empty);
       const { connection: rcptReader } = await addBlockchain(rcptWriter, testSpecData);
@@ -128,7 +133,7 @@ describe("setName", () => {
           fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        await waitForCommit(sendTransaction(writer, chainId, rcptAddr, amount));
+        await waitForCommit(sendTransaction(faucet, writer, chainId, rcptAddr, amount));
 
         // make sure some tokens were received
         const withMoney = await getAccount(reader, rcpt, codec);
@@ -143,8 +148,7 @@ describe("setName", () => {
 
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
-        // TODO: right now this hangs forever as the transaction errors (issue #677 in iov-core)
-        await waitForCommit(setName(rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
+        await waitForCommit(setName(empty, rcptWriter, chainId, name, [{ address: rcptAddr, chainId }]));
 
         // ensure the recipient is properly named
         const after = await getAccount(reader, rcpt, codec);
@@ -170,8 +174,9 @@ describe("setName", () => {
     mayTestBns(
       "updates on all changes",
       async () => {
-        const faucet = await adminProfile();
-        const empty = await createProfile();
+        const chainIdBns = await bnsChainId();
+        const faucet = await adminProfile(chainIdBns);
+        const empty = await createProfile(chainIdBns);
         const rcpt = getMainIdentity(empty);
 
         const writer = new MultiChainSigner(faucet);
@@ -220,7 +225,9 @@ describe("setName", () => {
             fractionalDigits: 9,
             tokenTicker: testTicker,
           };
-          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt, codec), amount));
+          await waitForCommit(
+            sendTransaction(faucet, writer, reader.chainId(), keyToAddress(rcpt, codec), amount),
+          );
 
           // validate update messages came
           await sleep(50);
@@ -238,7 +245,9 @@ describe("setName", () => {
           // unsubscribe from one, only one update should come
           unsubscribeFaucet.unsubscribe();
           // send a second payment
-          await waitForCommit(sendTransaction(writer, reader.chainId(), keyToAddress(rcpt, codec), amount));
+          await waitForCommit(
+            sendTransaction(faucet, writer, reader.chainId(), keyToAddress(rcpt, codec), amount),
+          );
 
           await sleep(50);
           // no more facuet updates should come

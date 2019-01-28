@@ -1,5 +1,6 @@
+import { ChainId, PublicIdentity } from "@iov/bcp-types";
 import { Bip39, Random } from "@iov/crypto";
-import { Ed25519HdWallet, HdPaths, LocalIdentity, UserProfile, WalletId } from "@iov/keycontrol";
+import { Ed25519HdWallet, HdPaths, UserProfile, WalletId } from "@iov/keycontrol";
 
 import { hasDbKey, StringDB } from "./db";
 
@@ -7,12 +8,12 @@ const EntropyBytes = 16;
 
 // initializes a UserProfile with one keyring and one identity
 // you can pass in a mnemonic or it will generate a random one
-export async function createProfile(fixedMnemonic?: string): Promise<UserProfile> {
+export async function createProfile(chainId: ChainId, fixedMnemonic?: string): Promise<UserProfile> {
   const mnemonic = fixedMnemonic || Bip39.encode(await Random.getBytes(EntropyBytes)).asString();
   const keyring = Ed25519HdWallet.fromMnemonic(mnemonic);
   const profile = new UserProfile();
   profile.addWallet(keyring);
-  await profile.createIdentity(keyring.id, HdPaths.simpleAddress(0));
+  await profile.createIdentity(keyring.id, chainId, HdPaths.simpleAddress(0));
   return profile;
 }
 
@@ -27,7 +28,7 @@ export function getMainKeyring(profile: UserProfile): WalletId {
 
 export interface WalletAndIdentity {
   readonly walletId: WalletId;
-  readonly identity: LocalIdentity;
+  readonly identity: PublicIdentity;
 }
 
 // returns the first identity on the first keyring.
@@ -44,7 +45,7 @@ export function getMainWalletAndIdentity(profile: UserProfile): WalletAndIdentit
   };
 }
 
-export function getMainIdentity(profile: UserProfile): LocalIdentity {
+export function getMainIdentity(profile: UserProfile): PublicIdentity {
   return getMainWalletAndIdentity(profile).identity;
 }
 
@@ -60,6 +61,7 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 // throws an error on existing profile, but bad password
 // if mnemonic is provided, it will create new one from that mnemonic, overwriting anything that exists
 export async function loadOrCreateProfile(
+  chainId: ChainId,
   db: StringDB,
   password: string,
   mnemonic?: string,
@@ -69,12 +71,17 @@ export async function loadOrCreateProfile(
     return loadProfile(db, password);
   }
   // provided mnemonic or db missing will trigger reset
-  return resetProfile(db, password, mnemonic);
+  return resetProfile(chainId, db, password, mnemonic);
 }
 
 // creates new profile with random seed, or existing mnemonic if provided
-export async function resetProfile(db: StringDB, password: string, mnemonic?: string): Promise<UserProfile> {
-  const profile = await createProfile(mnemonic);
+export async function resetProfile(
+  chainId: ChainId,
+  db: StringDB,
+  password: string,
+  mnemonic?: string,
+): Promise<UserProfile> {
+  const profile = await createProfile(chainId, mnemonic);
   await profile.storeIn(db, password);
   return profile;
 }

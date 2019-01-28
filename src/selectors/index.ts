@@ -1,9 +1,8 @@
 import { createSelector } from "reselect";
 
-import { BcpAccount, BcpTicker } from "@iov/bcp-types";
+import { BcpAccount, BcpTicker, PublicIdentity } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { Address, ChainId, MultiChainSigner } from "@iov/core";
-import { LocalIdentity } from "@iov/keycontrol";
 
 import { RootState } from "~/reducers";
 import { AccountInfo, getAccountByChainAndAddress } from "~/reducers/blockchain";
@@ -46,7 +45,7 @@ export const getBnsConnection: (state: RootState) => BnsConnection | undefined =
 export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
 export const getActiveWallet = (state: RootState) => state.profile.activeIdentity;
-export const getActiveIdentity: (state: RootState) => LocalIdentity | undefined = createSelector(
+export const getActiveIdentity: (state: RootState) => PublicIdentity | undefined = createSelector(
   getActiveWallet,
   wallet => wallet && wallet.identity,
 );
@@ -57,12 +56,12 @@ export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainA
   getChainIds,
   (
     signer: MultiChainSigner | undefined,
-    identity: LocalIdentity | undefined,
+    identity: PublicIdentity | undefined,
     chainIds: ReadonlyArray<ChainId>,
   ) =>
     identity === undefined || signer === undefined
       ? []
-      : chainIds.map(chainId => ({ chainId, address: signer.keyToAddress(chainId, identity.pubkey) })),
+      : chainIds.map(chainId => ({ chainId, address: signer.identityToAddress(identity) })),
 );
 
 export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;

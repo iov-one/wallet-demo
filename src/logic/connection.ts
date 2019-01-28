@@ -1,10 +1,9 @@
-import { BcpConnection, ChainConnector, TxCodec } from "@iov/bcp-types";
+import { BcpConnection, ChainConnector, isBlockInfoPending, TxCodec } from "@iov/bcp-types";
 import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
-import { ChainId, MultiChainSigner } from "@iov/core";
+import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
-import { waitForCommit } from "./transaction";
 
 export enum CodecType {
   Bns = "bns",
@@ -74,6 +73,7 @@ export async function addBlockchain(
 }
 
 export async function checkBnsBlockchainNft(
+  profile: UserProfile,
   connection: BnsConnection,
   writer: MultiChainSigner,
   chainId: ChainId,
@@ -84,13 +84,15 @@ export async function checkBnsBlockchainNft(
     const registryChainId = await connection.chainId();
 
     // TODO: is this the proper way? should we pass that in?
-    const walletId = getMainKeyring(writer.profile);
-    const signer = getMainIdentity(writer.profile);
+    const walletId = getMainKeyring(profile);
+    const signer = getMainIdentity(profile);
 
     const blockchainRegistration: RegisterBlockchainTx = {
       kind: "bns/register_blockchain",
-      chainId: registryChainId,
-      signer: signer.pubkey,
+      creator: {
+        chainId: registryChainId,
+        pubkey: signer.pubkey,
+      },
       chain: {
         chainId: chainId,
         production: false,
@@ -101,6 +103,7 @@ export async function checkBnsBlockchainNft(
       codecName,
       codecConfig: `{ }`,
     };
-    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
+    const response = await writer.signAndPost(blockchainRegistration, walletId);
+    await response.blockInfo.waitFor(info => !isBlockInfoPending(info));
   }
 }

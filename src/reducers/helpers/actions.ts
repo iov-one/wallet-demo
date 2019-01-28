@@ -41,7 +41,7 @@ export function createSyncAction<T extends string, R, A1, A2, A3, A4>(
 // tslint:disable-next-line:no-empty
 function voidFunc(): void {}
 
-export type PromiseFn<P, A1, A2, A3> = Fn<Promise<P>, A1, A2, A3>;
+export type PromiseFn<P, A1, A2, A3, A4> = Fn<Promise<P>, A1, A2, A3, A4>;
 export const createPromiseAction = <
   T0 extends string,
   T1 extends string,
@@ -52,7 +52,7 @@ export const createPromiseAction = <
   pend: T1,
   suc: T2,
   err: T3,
-) => <P, A1, A2, A3>(fn: PromiseFn<P, A1, A2, A3>) => ({
+) => <P, A1, A2, A3, A4>(fn: PromiseFn<P, A1, A2, A3, A4>) => ({
   start: createSyncAction(send, fn),
   request: createSyncAction(pend, voidFunc),
   success: createSyncAction(suc, (p: P) => p),

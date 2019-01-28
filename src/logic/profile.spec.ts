@@ -9,9 +9,12 @@ import {
   loadOrCreateProfile,
 } from "./profile";
 
+import { bnsChainId } from "./testhelpers";
+
 describe("createProfile", () => {
   it("should return a profile with one keyring, and one identity", async () => {
-    const profile = await createProfile();
+    const chainIdBns = await bnsChainId();
+    const profile = await createProfile(chainIdBns);
     expect(profile.wallets.value.length).toEqual(1);
     const { id } = profile.wallets.value[0];
     const idents = profile.getIdentities(id);
@@ -19,16 +22,17 @@ describe("createProfile", () => {
   });
 
   it("should return unique identities each time", async () => {
-    const profile1 = await createProfile();
+    const chainIdBns = await bnsChainId();
+    const profile1 = await createProfile(chainIdBns);
     const ident1 = getMainIdentity(profile1);
     expect(ident1).toBeTruthy();
 
-    const profile2 = await createProfile();
+    const profile2 = await createProfile(chainIdBns);
     const ident2 = getMainIdentity(profile2);
     expect(ident2).toBeTruthy();
 
     expect(ident1).not.toEqual(ident2);
-    expect(ident1.id).not.toEqual(ident2.id);
+    expect(ident1.pubkey).not.toEqual(ident2.pubkey);
   });
 });
 
@@ -47,13 +51,14 @@ describe("hasStoredProfile", () => {
     expect(await hasStoredProfile(db)).toBe(false);
     await expect(UserProfile.loadFrom(db, password)).rejects.toThrow(/Key not found/);
 
-    const profile = await createProfile();
+    const chainIdBns = await bnsChainId();
+    const profile = await createProfile(chainIdBns);
     await profile.storeIn(db, password);
     expect(await hasStoredProfile(db)).toBe(true);
 
     const loaded = await UserProfile.loadFrom(db, password);
     // compare the identities based on unique identifier (id)
-    expect(getMainIdentity(loaded).id).toEqual(getMainIdentity(profile).id);
+    expect(getMainIdentity(loaded).pubkey).toEqual(getMainIdentity(profile).pubkey);
   });
 });
 
@@ -62,9 +67,10 @@ describe("loadOrCreateProfile", () => {
     const db = createMemDb();
     const password = "foobar";
 
-    const profile1 = await loadOrCreateProfile(db, password);
-    const profile2 = await loadOrCreateProfile(db, password);
-    expect(getMainIdentity(profile2).id).toEqual(getMainIdentity(profile1).id);
+    const chainIdBns = await bnsChainId();
+    const profile1 = await loadOrCreateProfile(chainIdBns, db, password);
+    const profile2 = await loadOrCreateProfile(chainIdBns, db, password);
+    expect(getMainIdentity(profile2).pubkey).toEqual(getMainIdentity(profile1).pubkey);
   });
 
   it("should error loading with invalid password", async () => {
@@ -72,9 +78,10 @@ describe("loadOrCreateProfile", () => {
     const password = "can't guess this!";
 
     // first time should work with any password
-    await loadOrCreateProfile(db, password);
+    const chainIdBns = await bnsChainId();
+    await loadOrCreateProfile(chainIdBns, db, password);
     // second load fails if password doesn't match
-    await expect(loadOrCreateProfile(db, "bad password")).rejects.toThrow("invalid usage");
+    await expect(loadOrCreateProfile(chainIdBns, db, "bad password")).rejects.toThrow("invalid usage");
   });
 
   it("generates new profile from mnemonic", async () => {
@@ -83,14 +90,15 @@ describe("loadOrCreateProfile", () => {
     const password = "foobar";
 
     // create matches mnemonic
-    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const chainIdBns = await bnsChainId();
+    const profile1 = await loadOrCreateProfile(chainIdBns, db, password, mnemonic);
     const walletId = profile1.wallets.value[0].id;
     expect(walletId).toBeDefined();
     expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
 
     // reload with same mnemonic
-    const profile2 = await loadOrCreateProfile(db, password);
-    expect(getMainIdentity(profile2).id).toEqual(getMainIdentity(profile1).id);
+    const profile2 = await loadOrCreateProfile(chainIdBns, db, password);
+    expect(getMainIdentity(profile2).pubkey).toEqual(getMainIdentity(profile1).pubkey);
     expect(profile2.printableSecret(walletId)).toEqual(mnemonic);
   });
 
@@ -102,17 +110,18 @@ describe("loadOrCreateProfile", () => {
     const password2 = "bazoom";
 
     // create matches mnemonic
-    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const chainIdBns = await bnsChainId();
+    const profile1 = await loadOrCreateProfile(chainIdBns, db, password, mnemonic);
     const walletId = profile1.wallets.value[0].id;
     expect(walletId).toBeDefined();
     expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
 
     // reload with different mnemonic and password works (overwrite)
-    const profile2 = await loadOrCreateProfile(db, password2, mnemonic2);
+    const profile2 = await loadOrCreateProfile(chainIdBns, db, password2, mnemonic2);
     const walletId2 = profile2.wallets.value[0].id;
     expect(walletId2).toBeDefined();
     expect(walletId2).not.toEqual(walletId);
-    expect(getMainIdentity(profile2).id).not.toEqual(getMainIdentity(profile1).id);
+    expect(getMainIdentity(profile2).pubkey).not.toEqual(getMainIdentity(profile1).pubkey);
     expect(profile2.printableSecret(walletId2)).toEqual(mnemonic2);
   });
 });

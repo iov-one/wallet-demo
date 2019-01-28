@@ -1,4 +1,4 @@
-import { LocalIdentity } from "@iov/keycontrol";
+import { PublicIdentity } from "@iov/bcp-types";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { StringDB } from "~/logic";
 import { RootState } from "~/reducers";
@@ -13,7 +13,7 @@ export interface SelectorProps {
 
 export const identitySelector = createSelector(
   getActiveIdentity,
-  (localIdentity: LocalIdentity | undefined) => !!localIdentity,
+  (localIdentity: PublicIdentity | undefined) => !!localIdentity,
 );
 
 export const dbSelector = createSelector(

@@ -1,16 +1,17 @@
-import { ChainId, PublicKeyBundle } from "@iov/base-types";
 import {
   BcpConnection,
-  BcpTransactionState,
+  ChainId,
   ConfirmedTransaction,
+  isBlockInfoPending,
   isSendTransaction,
   PostTxResponse,
+  PublicIdentity,
+  PublicKeyBundle,
   SendTransaction,
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
-import { PublicIdentity } from "@iov/keycontrol";
 import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
@@ -64,7 +65,11 @@ export const parseConfirmedTransaction = async (
   const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
   const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
-  const signerAddr = keyToAddress(trans.primarySignature, codec);
+  const ident: PublicIdentity = {
+    chainId: chainId,
+    pubkey: trans.primarySignature.pubkey as PublicKeyBundle,
+  };
+  const signerAddr = keyToAddress(ident, codec);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),
@@ -82,6 +87,6 @@ export const parseConfirmedTransaction = async (
 // this waits for one commit to be writen, then returns the response
 export async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
   const res = await req;
-  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  await res.blockInfo.waitFor(info => !isBlockInfoPending(info));
   return res;
 }

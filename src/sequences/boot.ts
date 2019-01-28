@@ -1,18 +1,23 @@
 import debounce from "xstream/extra/debounce";
 
-import { BcpConnection, ConfirmedTransaction, TxCodec } from "@iov/bcp-types";
+import {
+  BcpConnection,
+  ConfirmedTransaction,
+  isConfirmedTransaction,
+  PublicIdentity,
+  TxCodec,
+} from "@iov/bcp-types";
 import { bnsCodec, BnsConnection } from "@iov/bns";
-import { MultiChainSigner } from "@iov/core";
-import { PublicIdentity } from "@iov/keycontrol";
+import { ChainId, MultiChainSigner } from "@iov/core";
 
 import {
   BlockchainSpec,
   cleanMnemonic,
-  fromOrToTag,
   keyToAddress,
   parseConfirmedTransaction,
   resetProfile,
 } from "~/logic";
+import { bnsChainId } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import {
   AccountInfo,
@@ -34,12 +39,12 @@ import { RootThunkDispatch } from "./types";
 // resetSequence will create a new profile (from mnemonic or random) and save it to disk
 // it will NOT update the redux store.
 // Most likely you will want to call bootSequence(...) after it is done
-export const resetSequence = (password: string, mnemonic?: string) => async (
+export const resetSequence = (chainId: ChainId, password: string, mnemonic?: string) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const db = getProfileDB(getState());
-  return resetProfile(db, password, mnemonic);
+  return resetProfile(chainId, db, password, mnemonic);
 };
 
 export interface BootResult {
@@ -61,10 +66,11 @@ export const bootSequence = (
 
   // clean up mnemonic whitespace to be more forgiving of user-entered data
   const cleaned = mnemonic ? cleanMnemonic(mnemonic) : undefined;
-
+  // TODO 0.11: check if this is the right chain Id
+  const chainId = await bnsChainId();
   // note, if mnemonic is provided, it will always create a profile, over-writing any existing profile
   const { value: profile } = await fixTypes(
-    dispatch(createProfileAsyncAction.start(db, password, cleaned, undefined)),
+    dispatch(createProfileAsyncAction.start(chainId, db, password, cleaned)),
   );
 
   // --- get the active identity
@@ -76,7 +82,7 @@ export const bootSequence = (
   const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
   // first we clarify the bns connection (which we need for later transaction resolution)
-  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {}, undefined)));
+  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {}, {})));
   const bnsConn = value.connection as BnsConnection;
   dispatch(setBnsChainId(bnsConn.chainId()));
   // and set it as first account/tickers
@@ -89,7 +95,7 @@ export const bootSequence = (
   // bns chain is the first one we connect to, so we can pull out the chainId later
   for (const blockchain of blockchains) {
     const { value: chain } = await fixTypes(
-      dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}, undefined)),
+      dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}, {})),
     );
     initAccounts = [
       ...initAccounts,
@@ -107,12 +113,7 @@ export const bootSequence = (
     // just lookup first bns account, that should match all....
     const { value: usernameNft } = await fixTypes(
       dispatch(
-        getUsernameNftByChainAddressAsyncAction.start(
-          bnsConn,
-          bnsAccount.chainId,
-          bnsAccount.address,
-          undefined,
-        ),
+        getUsernameNftByChainAddressAsyncAction.start(bnsConn, bnsAccount.chainId, bnsAccount.address, {}),
       ),
     );
     if (usernameNft) {
@@ -125,7 +126,7 @@ export const bootSequence = (
 };
 
 function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<any> {
-  const tickerAction = getTickersAsyncAction.start(conn, {}, {}, undefined);
+  const tickerAction = getTickersAsyncAction.start(conn, {}, {}, {});
   return fixTypes(dispatch(tickerAction));
 }
 
@@ -137,15 +138,14 @@ async function watchAccountAndTransactions(
   codec: TxCodec,
 ): Promise<AccountInfo> {
   // request the current account and return a promise resolved when it is loaded
-  const accountAction = getAccountAsyncAction.start(conn, identity, codec, undefined);
+  const accountAction = getAccountAsyncAction.start(conn, identity, codec, {});
   // don't wait on the dispatch here, we return the result of the dispatch to await on by client
   dispatch(accountAction);
   const fetchedAccount = accountAction.payload;
 
   // get a stream of all transactions
   const address = keyToAddress(identity, codec);
-  const query = fromOrToTag(address);
-  const stream = conn.liveTx(query);
+  const stream = conn.liveTx({ sentFromOrTo: address });
 
   // process incoming transactions and add to dispatched/redux store
   const handleTx = async (trans: ConfirmedTransaction) => {
@@ -156,7 +156,12 @@ async function watchAccountAndTransactions(
     }
   };
   stream.subscribe({
-    next: handleTx,
+    next: x => {
+      if (!isConfirmedTransaction(x)) {
+        throw new Error("Confirmed transaction expected");
+      }
+      handleTx(x);
+    },
     error: err => {
       throw err;
     },
@@ -164,7 +169,7 @@ async function watchAccountAndTransactions(
 
   // update accounts on new transactions (with debounce)
   const onChangeAccount = async () => {
-    dispatch(getAccountAsyncAction.start(conn, identity, codec, undefined));
+    dispatch(getAccountAsyncAction.start(conn, identity, codec, {}));
   };
   // make sure we only query once per block or search return at max
   stream.compose(debounce(200)).subscribe({ next: onChangeAccount });
