@@ -1,6 +1,6 @@
+import { TokenTicker } from "@iov/core";
 import { FieldValidator } from "final-form";
 import { stringToAmount } from "~/logic/balances";
-import { TokenTicker } from "@iov/core";
 
 export const greaterThan = (min: number) => (value: string) => {
   const parsedNumber = toValidFloat(value);
@@ -57,7 +57,7 @@ export const maxDecimals = (decimals: number) => (value: string) => {
   }
 
   return undefined;
-}
+};
 
 export const toValidFloat = (value: string) => {
   return Number(value.replace(",", "."));
