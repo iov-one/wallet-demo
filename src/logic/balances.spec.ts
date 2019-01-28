@@ -40,7 +40,14 @@ describe("stringToAmount", () => {
   it("should support , as separator", () => {
     expect(stringToAmount("0,1234", eth)).toEqual(makeInfo("1234", 4, eth));
     expect(stringToAmount("13,67", eth)).toEqual(makeInfo("1367", 2, eth));
-    expect(stringToAmount(",00420", eth)).toEqual(makeInfo("00420", 5, eth));
+    expect(stringToAmount(",00420", eth)).toEqual(makeInfo("0042", 4, eth));
+  });
+
+  it("should remove trailing zeros from fraction", () => {
+    expect(stringToAmount("0,1230", eth)).toEqual(makeInfo("123", 3, eth));
+    expect(stringToAmount("13.670", eth)).toEqual(makeInfo("1367", 2, eth));
+    expect(stringToAmount("8,675", eth)).toEqual(makeInfo("8675", 3, eth));
+    expect(stringToAmount(".00420", eth)).toEqual(makeInfo("0042", 4, eth));
   });
 
   it("should error on invalid strings", () => {

@@ -10,7 +10,7 @@ export function stringToAmount(amount: string, tokenTicker: TokenTicker): Amount
   }
   // elements 1 and 3...
   const wholeString = matched[1] || "";
-  const fractionString = matched[3] || "";
+  const fractionString = (matched[3] || "").replace(/0+$/, "");
   const quantity = `${wholeString}${fractionString}`;
   const fractionalDigits = fractionString.length;
   return { quantity, fractionalDigits, tokenTicker };
