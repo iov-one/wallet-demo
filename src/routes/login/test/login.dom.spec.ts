@@ -3,9 +3,7 @@ import { mayTestBns } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { BALANCE_ROUTE, LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
-import { travelToHome } from "~/routes/home/test/utils/travelHome";
-import { processSetName } from "~/routes/signupName/test/utils/travelSetName";
-import { processSignup, TEST_PASS_PHRASE } from "~/routes/signupPass/test/utils/travelSignup";
+import { TEST_PASS_PHRASE } from "~/routes/signupPass/test/utils/travelSignup";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
@@ -14,19 +12,11 @@ import { processLogin } from "./utils/travelLogin";
 describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
   let refreshStore: Store<RootState>;
-  let paralelStore: Store<RootState>;
 
   beforeAll(async () => {
-    paralelStore = aNewStore();
-    const SignupDom = await travelToHome(paralelStore);
-    await processSignup(SignupDom);
-    const SetNameDom = SignupDom;
-    await processSetName(SetNameDom);
-
-    console.log("login.dom.spec done setName. Continue beforeAll");
-    resetHistory();
     store = aNewStore();
     await processBalance(store);
+    console.log("login.dom.spec done setName. Continue beforeAll");
   }, 35000);
 
   beforeEach(() => {
@@ -46,7 +36,6 @@ describe("DOM > Feature > Login", () => {
 
   afterAll(() => {
     shutdownSequence(null, store.getState);
-    shutdownSequence(null, paralelStore.getState);
   });
 
   mayTestBns(
