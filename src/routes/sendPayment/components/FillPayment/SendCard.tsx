@@ -9,6 +9,7 @@ import {
   greaterThanOrEqual,
   lengthLowerThan,
   lowerThanOrEqual,
+  maxDecimals,
   mustBeFloat,
   required,
 } from "~/components/forms/validator";
@@ -16,6 +17,7 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import IovTypography from "~/components/layout/Typography";
 import { amountToNumber, makeAmount } from "~/logic";
+import { FRACTIONAL_DIGITS } from "../../container/index";
 
 export const AMOUNT_FIELD = "amount";
 export const RECIPIENT_FIELD = "recipient";
@@ -113,6 +115,7 @@ class SendCard extends React.Component<Props, State> {
               mustBeFloat,
               greaterThanOrEqual(0.000000001),
               lowerThanOrEqual(crypto),
+              maxDecimals(FRACTIONAL_DIGITS),
             )}
             placeholder="0.00"
           />

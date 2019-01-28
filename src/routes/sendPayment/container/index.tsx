@@ -20,6 +20,9 @@ import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
+// TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
+export const FRACTIONAL_DIGITS = 9;
+
 interface RouteLocation {
   readonly [RECIPIENT_FIELD]: string | undefined;
 }
@@ -121,7 +124,7 @@ class SendPayment extends React.Component<Props, State> {
     const txAmount: Amount = stringToAmount(amount, ticker);
     // this line is essential
     // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-    const paddedTxAmount = padAmount(txAmount, 9);
+    const paddedTxAmount = padAmount(txAmount, FRACTIONAL_DIGITS);
     const id = uniquId();
     if (!accountName) {
       throw new Error("Not possible to send a transaction without an account");
