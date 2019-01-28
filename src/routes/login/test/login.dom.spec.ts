@@ -16,7 +16,6 @@ describe("DOM > Feature > Login", () => {
   beforeAll(async () => {
     store = aNewStore();
     await processBalance(store);
-    console.log("login.dom.spec done setName. Continue beforeAll");
   }, 35000);
 
   beforeEach(() => {

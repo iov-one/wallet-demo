@@ -33,8 +33,8 @@ export const setNameSequence = (username: string) => async (
   // make sure all chains are registered and register if not their
   // TODO mid-term we need a better way than auto-registering... eg. actually using bns better
   // but for now this will work
-  for (const {chainId} of addresses) {
-    // TODO: this should not be "bns", but rather the codec name... 
+  for (const { chainId } of addresses) {
+    // TODO: this should not be "bns", but rather the codec name...
     await checkBnsBlockchainNft(bnsConn, signer, chainId, "bns");
   }
 
