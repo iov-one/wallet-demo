@@ -1,9 +1,10 @@
-import { BcpConnection, BcpTransactionState, ChainConnector, TxCodec } from "@iov/bcp-types";
+import { BcpConnection, ChainConnector, TxCodec } from "@iov/bcp-types";
 import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
 import { getMainIdentity, getMainKeyring } from "./profile";
+import { waitForCommit } from "./transaction";
 
 export enum CodecType {
   Bns = "bns",
@@ -100,7 +101,6 @@ export async function checkBnsBlockchainNft(
       codecName,
       codecConfig: `{ }`,
     };
-    const response = await writer.signAndPost(blockchainRegistration, walletId);
-    await response.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
   }
 }

@@ -4,7 +4,6 @@ import { sleep } from "~/utils/timer";
 
 export const processSetName = async (SetNameDom: React.Component): Promise<void> => {
   const addressName = randomString(6);
-  console.log(`processSetName name to register -> ${addressName}`);
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SetNameDom, "input");
   expect(inputs.length).toBe(1);
 
