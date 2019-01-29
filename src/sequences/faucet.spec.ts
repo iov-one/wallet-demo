@@ -15,11 +15,12 @@ describe("drinkFaucetSequence", () => {
     async () => {
       const store = makeStore();
       const password = randomString(16);
-      const totalFaucetChains = 3;
 
       // we must boot before any other actions
       const testSpecData = await testSpec();
       const testChainsData = await testChains();
+      const faucets = await faucetSpecs();
+      const totalFaucetChains = faucets ? faucets.length : 0;
       const bootAction = bootSequence(password, testSpecData, testChainsData);
       // TODO we should get rid of this `as any` for dispatch
       await fixTypes(store.dispatch(bootAction as any));
@@ -42,7 +43,6 @@ describe("drinkFaucetSequence", () => {
         const addr = addresses[0].address;
 
         // drink from all faucets
-        const faucets = await faucetSpecs();
         const faucetAction = drinkFaucetSequence(faucets);
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
