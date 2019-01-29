@@ -30,6 +30,7 @@ describe("getAccount", () => {
       expect(acct).toEqual(undefined);
     } finally {
       reader.disconnect();
+      writer.shutdown();
     }
   });
 
@@ -50,6 +51,7 @@ describe("getAccount", () => {
       expect(compareAmounts(token, minBalance)).toBeGreaterThanOrEqual(1);
     } finally {
       reader.disconnect();
+      writer.shutdown();
     }
   });
 });
@@ -100,6 +102,7 @@ describe("sendTransaction", () => {
         expect(token.quantity).toEqual(amount.quantity);
       } finally {
         reader.disconnect();
+        writer.shutdown();
       }
     },
     3500,
@@ -165,6 +168,8 @@ describe("setName", () => {
       } finally {
         reader.disconnect();
         rcptReader.disconnect();
+        writer.shutdown();
+        rcptWriter.shutdown();
       }
     },
     4000,
@@ -268,6 +273,8 @@ describe("setName", () => {
         } finally {
           reader.disconnect();
           rcptReader.disconnect();
+          writer.shutdown();
+          rcptWriter.shutdown();
         }
       },
       5000,

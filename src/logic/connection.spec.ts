@@ -27,6 +27,7 @@ describe("addBlockchain", () => {
       expect(tokens).toEqual(["CASH", "IOV"]);
     } finally {
       reader.disconnect();
+      writer.shutdown();
     }
   });
 });
