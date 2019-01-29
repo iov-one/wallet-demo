@@ -9,7 +9,8 @@
       "token": "IOV"
     }
   },
-  "chains": [{
+  "chains": [],
+  "// chains": [{
     "chainSpec": {
       "codecType": "bov",
       "bootstrapNodes": ["ws://localhost:23457/"]

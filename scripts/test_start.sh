@@ -15,18 +15,18 @@ echo
 bash "${SCRIPT_DIR}"/bnsd/start.sh
 bash "${SCRIPT_DIR}"/faucet/bnsd_start.sh
 
-echo
-echo ">>> Starting bcpd (demo) chain and faucet..."
-echo
-bash "${SCRIPT_DIR}"/bcpd/start.sh
-bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
+# echo
+# echo ">>> Starting bcpd (demo) chain and faucet..."
+# echo
+# bash "${SCRIPT_DIR}"/bcpd/start.sh
+# bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
 
-echo
-echo ">>> Starting lisk (test) chain and faucet..."
-echo
-bash "${SCRIPT_DIR}"/lisk/start.sh
-bash "${SCRIPT_DIR}"/lisk/load_faucet.sh
-bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
+# echo
+# echo ">>> Starting lisk (test) chain and faucet..."
+# echo
+# bash "${SCRIPT_DIR}"/lisk/start.sh
+# bash "${SCRIPT_DIR}"/lisk/load_faucet.sh
+# bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 
 echo
 echo ">>> Waiting for faucets to load tokens..."
