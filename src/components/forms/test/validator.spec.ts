@@ -166,5 +166,10 @@ describe("Components -> Forms -> Validator", () => {
       const result = maxDecimals(3)("not a float");
       expect(result).toBeUndefined();
     });
+
+    it("should return undefined even if extra trailing zeros", () => {
+      const result = maxDecimals(2)("1.230000");
+      expect(result).toBeUndefined();
+    });
   });
 });
