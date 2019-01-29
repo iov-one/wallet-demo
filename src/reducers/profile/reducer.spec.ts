@@ -1,3 +1,4 @@
+import { ChainId } from "@iov/bcp-types";
 import { UserProfile } from "@iov/core";
 
 import { createMemDb, hasStoredProfile, loadOrCreateProfile } from "../../logic";
@@ -5,13 +6,11 @@ import { aNewStore } from "../../store";
 import { fixTypes } from "../helpers";
 import { createProfileAsyncAction, getIdentityAction } from "./actions";
 
-import { bnsChainId } from "../../logic/testhelpers";
-
 describe("profile async actions", () => {
   it("stores get_identity results", async () => {
     const store = aNewStore();
     const db = createMemDb();
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile = await loadOrCreateProfile(chainIdBns, db, "my-secret-here");
 
     const action = getIdentityAction(profile);
@@ -41,7 +40,7 @@ describe("profile async actions", () => {
     expect(dirty).toEqual(false);
 
     // ensure the action is correct
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const create = createProfileAsyncAction.start(chainIdBns, db, "my-secret-here", undefined);
     expect(create.type).toEqual("CREATE_PROFILE");
     expect(create.payload.then).not.toBeUndefined();
@@ -74,7 +73,7 @@ describe("profile async actions", () => {
 
     // ensure the action is correct
     const mnemonic = "verb reunion luggage nominee range can device shoe dial wealth palace seek";
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const create = createProfileAsyncAction.start(chainIdBns, db, "new-secret", mnemonic);
     const { value } = await fixTypes(store.dispatch(create));
     const profile: UserProfile = value;

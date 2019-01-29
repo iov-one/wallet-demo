@@ -1,3 +1,4 @@
+import { ChainId } from "@iov/bcp-types";
 import { UserProfile } from "@iov/keycontrol";
 
 import { createMemDb } from "./db";
@@ -9,11 +10,9 @@ import {
   loadOrCreateProfile,
 } from "./profile";
 
-import { bnsChainId } from "./testhelpers";
-
 describe("createProfile", () => {
   it("should return a profile with one keyring, and one identity", async () => {
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile = await createProfile(chainIdBns);
     expect(profile.wallets.value.length).toEqual(1);
     const { id } = profile.wallets.value[0];
@@ -22,7 +21,7 @@ describe("createProfile", () => {
   });
 
   it("should return unique identities each time", async () => {
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await createProfile(chainIdBns);
     const ident1 = getMainIdentity(profile1);
     expect(ident1).toBeTruthy();
@@ -51,7 +50,7 @@ describe("hasStoredProfile", () => {
     expect(await hasStoredProfile(db)).toBe(false);
     await expect(UserProfile.loadFrom(db, password)).rejects.toThrow(/Key not found/);
 
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile = await createProfile(chainIdBns);
     await profile.storeIn(db, password);
     expect(await hasStoredProfile(db)).toBe(true);
@@ -67,7 +66,7 @@ describe("loadOrCreateProfile", () => {
     const db = createMemDb();
     const password = "foobar";
 
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await loadOrCreateProfile(chainIdBns, db, password);
     const profile2 = await loadOrCreateProfile(chainIdBns, db, password);
     expect(getMainIdentity(profile2).pubkey).toEqual(getMainIdentity(profile1).pubkey);
@@ -78,7 +77,7 @@ describe("loadOrCreateProfile", () => {
     const password = "can't guess this!";
 
     // first time should work with any password
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     await loadOrCreateProfile(chainIdBns, db, password);
     // second load fails if password doesn't match
     await expect(loadOrCreateProfile(chainIdBns, db, "bad password")).rejects.toThrow("invalid usage");
@@ -90,7 +89,7 @@ describe("loadOrCreateProfile", () => {
     const password = "foobar";
 
     // create matches mnemonic
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await loadOrCreateProfile(chainIdBns, db, password, mnemonic);
     const walletId = profile1.wallets.value[0].id;
     expect(walletId).toBeDefined();
@@ -110,7 +109,7 @@ describe("loadOrCreateProfile", () => {
     const password2 = "bazoom";
 
     // create matches mnemonic
-    const chainIdBns = await bnsChainId();
+    const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await loadOrCreateProfile(chainIdBns, db, password, mnemonic);
     const walletId = profile1.wallets.value[0].id;
     expect(walletId).toBeDefined();
