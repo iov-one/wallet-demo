@@ -162,8 +162,8 @@ describe("Components -> Forms -> Validator", () => {
       expect(result).toBeUndefined();
     });
 
-    it("should return undefined if value is not a float", () => {
-      const result = maxDecimals(3)("not a float");
+    it("should return undefined if decimal point with number after exists", () => {
+      const result = maxDecimals(3)("1.");
       expect(result).toBeUndefined();
     });
 

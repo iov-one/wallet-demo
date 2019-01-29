@@ -1,6 +1,5 @@
-import { TokenTicker } from "@iov/core";
 import { FieldValidator } from "final-form";
-import { stringToAmount } from "~/logic/balances";
+import { parseFigures } from "~/logic/balances";
 
 export const greaterThan = (min: number) => (value: string) => {
   const parsedNumber = toValidFloat(value);
@@ -47,13 +46,9 @@ export const mustBeInteger = (value: string) => {
 };
 
 export const maxDecimals = (decimals: number) => (value: string) => {
-  const isFloat = mustBeFloat(value) === undefined;
+  const figures = parseFigures(value);
 
-  if (!isFloat) {
-    return undefined;
-  }
-  const amount = stringToAmount(value, "IOV" as TokenTicker);
-  if (amount.fractionalDigits > decimals) {
+  if (figures.fractionalDigits > decimals) {
     return `Too many decimal places was used. Max: ${decimals}`;
   }
 
