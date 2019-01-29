@@ -3,10 +3,12 @@ import { FormState } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Block from "~/components/layout/Block";
+import CircleImage from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import PageMenuColumn from "~/components/pages/PageMenuColumn";
 import Controls from "~/routes/sendPayment/components/Controls";
 import { background } from "~/theme/variables";
+import person from "../../assets/person.svg";
 import SendCard, { SendBalance } from "./SendCard";
 
 interface Props extends SendBalance, WithStyles<typeof styles> {
@@ -25,6 +27,11 @@ const styles = createStyles({
     backgroundColor: background,
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
+  },
+  icon: {
+    position: "relative",
+    top: -36,
   },
   controls: {},
 });
@@ -39,34 +46,35 @@ const SendPaymentLayout = ({
   defaultTicker,
   onUpdateBalanceToSend,
 }: Props) => (
-  <PageMenuColumn phoneFullWidth>
-    <Form
-      onSubmit={onSubmit}
-      initialValues={initialValues}
-      subscription={subscription}
-      validation={validation}
-      fullWidth
-    >
-      {({ submitting, validating }: FormState) => (
-        <React.Fragment>
-          <Block margin="xxl" />
-          <Typography variant="body1" align="center">
-            Payment Info
-          </Typography>
-          <Block margin="md" />
-          <Block padding="lg" margin="lg" className={classes.card}>
-            <SendCard
-              balance={balance}
-              tickersWithBalance={tickersWithBalance}
-              defaultTicker={defaultTicker}
-              onUpdateBalanceToSend={onUpdateBalanceToSend}
-            />
-          </Block>
-          <Controls submitting={submitting} validating={validating} />
-        </React.Fragment>
-      )}
-    </Form>
-  </PageMenuColumn>
-);
+    <PageMenuColumn phoneFullWidth>
+      <Block margin="xxl" />
+      <Block margin="md" />
+      <Form
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        subscription={subscription}
+        validation={validation}
+        fullWidth
+      >
+        {({ submitting, validating }: FormState) => (
+          <React.Fragment>
+            <Block padding="lg" margin="lg" className={classes.card}>
+              <CircleImage alt="Send Payment" dia={72} circleColor="#ffe152" icon={person} iconClasses={classes.icon} />
+              <Typography variant="subtitle2">You send</Typography>
+            </Block>
+            <Block padding="lg" margin="lg" className={classes.card}>
+              <SendCard
+                balance={balance}
+                tickersWithBalance={tickersWithBalance}
+                defaultTicker={defaultTicker}
+                onUpdateBalanceToSend={onUpdateBalanceToSend}
+              />
+            </Block>
+            <Controls submitting={submitting} validating={validating} />
+          </React.Fragment>
+        )}
+      </Form>
+    </PageMenuColumn>
+  );
 
 export default withStyles(styles)(SendPaymentLayout);
