@@ -47,13 +47,14 @@ export const mustBeInteger = (value: string) => {
 };
 
 export const maxDecimals = (decimals: number) => (value: string) => {
-  try {
-    const amount = stringToAmount(value, "IOV" as TokenTicker);
-    if (amount.fractionalDigits > decimals) {
-      return `Too many decimal places was used. Max: ${decimals}`;
-    }
-  } catch {
+  const isFloat = mustBeFloat(value) === undefined;
+
+  if (!isFloat) {
     return undefined;
+  }
+  const amount = stringToAmount(value, "IOV" as TokenTicker);
+  if (amount.fractionalDigits > decimals) {
+    return `Too many decimal places was used. Max: ${decimals}`;
   }
 
   return undefined;
