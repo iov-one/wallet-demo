@@ -30,9 +30,9 @@ describe("boot sequence", () => {
         expect(ac.chainId).toEqual(chainsLoaded[index]);
         expect(ac.account).toBeUndefined();
       });
-      // same address for now as we have same codec....
+      // we have different addresses for each chain
       expect(accounts[0].address.length).toBeGreaterThan(10);
-      expect(accounts[0].address).toEqual(accounts[1].address);
+      expect(accounts[0].address).not.toEqual(accounts[1].address);
 
       // validate state properly initialized
       const state = store.getState();
@@ -61,9 +61,7 @@ describe("boot sequence", () => {
       expect(bnsId).toEqual(chain1);
 
       // make sure to close connections so test ends
-      for (const chainId of signer.chainIds()) {
-        signer.connection(chainId).disconnect();
-      }
+      signer.shutdown();
     },
     4000,
   );
