@@ -4,38 +4,42 @@ import Field from "~/components/forms/Field";
 import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
+import Tooltip from "~/components/layout/dialogs/Tooltip";
 import IovTypography from "~/components/layout/Typography";
 import SendCard from "./SendCard";
 
 export const RECIPIENT_FIELD = "recipient";
 
 interface State {
-  readonly noteHook: HTMLDivElement | null;
+  readonly phoneHook: HTMLDivElement | null;
 }
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> { }
 
 const styles = createStyles({
-  container: {
+  tooltip: {
     display: "flex",
-    flexWrap: "nowrap",
-    alignItems: "baseline",
+    alignItems: "center", 
+    justifyContent: "flex-end"
   },
 });
 
 class RecipientCard extends React.Component<Props, State> {
   public readonly state = {
-    noteHook: null,
+    phoneHook: null,
   };
-  private readonly noteHookRef = React.createRef<HTMLDivElement>();
+  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
     this.setState(() => ({
-      noteHook: this.noteHookRef.current,
+      phoneHook: this.phoneHookRef.current,
     }));
   }
 
   public render(): JSX.Element {
+    const {
+      classes,
+    } = this.props;
     return (
       <SendCard>
         <Block margin="xl" />
@@ -52,7 +56,18 @@ class RecipientCard extends React.Component<Props, State> {
           validate={required}
           placeholder="IOV or wallet address"
         />
-        <Block margin="sm" />
+        <Block margin="lg" />
+        <Block margin="sm" className={classes.tooltip}>          
+          <IovTypography inline variant="body2">
+            How it works
+          </IovTypography>
+          <Block padding="xs" />
+          <Tooltip phoneHook={this.state.phoneHook}>
+            Send payments to anyone with an IOV handle, and it will go directly to their account. If they don’t have an IOV account add their blockchain address.
+          </Tooltip>
+        </Block>
+        <div ref={this.phoneHookRef} />
+        <Block margin="xl" />
       </SendCard>
     );
   }
