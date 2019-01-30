@@ -1,3 +1,5 @@
+import { Address } from "@iov/bcp-types";
+
 import { compareAmounts } from "~/logic";
 import { faucetSpecs, mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
@@ -53,8 +55,8 @@ describe("drinkFaucetSequence", () => {
         // validate the current account is defined and has some tokens
         const fullAccounts = getAllAccounts(store.getState());
         expect(fullAccounts.length).toEqual(totalFaucetChains);
-        fullAccounts.forEach((ac, index) => {
-          expect(ac.chainId).toEqual(chains[index]); // same chain
+        fullAccounts.forEach(ac => {
+          expect(chains.includes(ac.chainId)).toBeTruthy(); // chainId present
           expect(ac.account).toBeDefined(); // but with tokens
 
           const account = ac.account!;
@@ -67,17 +69,20 @@ describe("drinkFaucetSequence", () => {
             tokenTicker: account.balance[0].tokenTicker,
           };
           expect(compareAmounts(account.balance[0], minBalance)).toBeGreaterThanOrEqual(1);
-          // at the address we expect
-          expect(account.address).toEqual(addresses[index]);
+          expect(addresses.includes(ac.address)).toBeTruthy(); // address present
         });
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(totalFaucetChains);
-        // and we should be the recipient (from the faucet) - reverse order as requests???
-        expect(transactions[0].recipient).toEqual(addresses[2]);
-        expect(transactions[1].recipient).toEqual(addresses[1]);
-        expect(transactions[2].recipient).toEqual(addresses[0]);
+        // and we should be the recipient (from the faucet)
+        const allAddresses = JSON.parse(JSON.stringify(addresses));
+        transactions.forEach(tx => {
+          // check unique existence between address and tx recipient
+          const addrPos = allAddresses.indexOf(tx.recipient as Address);
+          expect(addrPos !== -1).toBeTruthy();
+          allAddresses.splice(addrPos, 1);
+        });
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
