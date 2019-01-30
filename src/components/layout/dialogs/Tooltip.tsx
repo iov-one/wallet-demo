@@ -1,5 +1,5 @@
 import { createStyles, Popper, WithStyles, withStyles } from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
+import Paper from "@material-ui/core/Paper";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
@@ -20,7 +20,7 @@ const styles = createStyles({
     borderRadius: xs,
     backgroundColor: itemBackground,
     padding: md,
-  }
+  },
 });
 
 interface Outer extends WithStyles<typeof styles> {
@@ -30,19 +30,11 @@ interface Outer extends WithStyles<typeof styles> {
 
 type Props = OpenType & OpenHandler & Outer;
 
-
 class Tooltip extends React.PureComponent<Props> {
-
   private readonly tooltipRef = React.createRef<HTMLDivElement>();
 
   public render(): JSX.Element {
-    const {
-      toggle,
-      open,
-      children,
-      classes,
-      phoneHook
-    } = this.props;
+    const { toggle, open, children, classes, phoneHook } = this.props;
 
     const popperStyle = {
       marginTop: sm,
@@ -59,46 +51,36 @@ class Tooltip extends React.PureComponent<Props> {
               <div ref={this.tooltipRef} onClick={toggle}>
                 <Img src={infoNormal} alt="Info" width={16} height={16} />
               </div>
-              {
-                showPhone ? (
-                  ReactDOM.createPortal(
-                    <Block className={classes.phone}>
-                      <Typography variant="body2">
-                        {children}
-                      </Typography>
-                    </Block>,
-                    phoneHook!,
-                  )
+              {showPhone ? (
+                ReactDOM.createPortal(
+                  <Block className={classes.phone}>
+                    <Typography variant="body2">{children}</Typography>
+                  </Block>,
+                  phoneHook!,
                 )
-                  :
-                  (
-                    <Popper
-                      open={open}
-                      style={popperStyle}
-                      anchorEl={this.tooltipRef.current}
-                      placement="bottom-end"
-                      modifiers={{
-                        flip: {
-                          enabled: true,
-                        },
-                      }}
-                    >
-                      <Paper className={classes.paper}>
-                        <Typography variant="body2">
-                          {children}
-                        </Typography>
-                      </Paper>
-                    </Popper>
-                  )
-              }
-
+              ) : (
+                <Popper
+                  open={open}
+                  style={popperStyle}
+                  anchorEl={this.tooltipRef.current}
+                  placement="bottom-end"
+                  modifiers={{
+                    flip: {
+                      enabled: true,
+                    },
+                  }}
+                >
+                  <Paper className={classes.paper}>
+                    <Typography variant="body2">{children}</Typography>
+                  </Paper>
+                </Popper>
+              )}
             </React.Fragment>
           );
         }}
       </MatchMediaContext.Consumer>
     );
   }
-
 }
 
 export default withStyles(styles)(openHoc<Outer>(Tooltip));

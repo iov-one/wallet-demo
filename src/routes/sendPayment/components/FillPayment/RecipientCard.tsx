@@ -14,13 +14,13 @@ interface State {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({
   tooltip: {
     display: "flex",
-    alignItems: "center", 
-    justifyContent: "flex-end"
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });
 
@@ -37,9 +37,7 @@ class RecipientCard extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const {
-      classes,
-    } = this.props;
+    const { classes } = this.props;
     return (
       <SendCard>
         <Block margin="xl" />
@@ -57,13 +55,14 @@ class RecipientCard extends React.Component<Props, State> {
           placeholder="IOV or wallet address"
         />
         <Block margin="lg" />
-        <Block margin="sm" className={classes.tooltip}>          
+        <Block margin="sm" className={classes.tooltip}>
           <IovTypography inline variant="body2">
             How it works
           </IovTypography>
           <Block padding="xs" />
           <Tooltip phoneHook={this.state.phoneHook}>
-            Send payments to anyone with an IOV handle, and it will go directly to their account. If they don’t have an IOV account add their blockchain address.
+            Send payments to anyone with an IOV handle, and it will go directly to their account. If they
+            don’t have an IOV account add their blockchain address.
           </Tooltip>
         </Block>
         <div ref={this.phoneHookRef} />
