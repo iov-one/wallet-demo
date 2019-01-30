@@ -8,7 +8,7 @@ import {
   TxCodec,
 } from "@iov/bcp-types";
 import { bnsCodec, BnsConnection } from "@iov/bns";
-import { ChainId, MultiChainSigner } from "@iov/core";
+import { MultiChainSigner } from "@iov/core";
 
 import {
   BlockchainSpec,
@@ -17,7 +17,6 @@ import {
   parseConfirmedTransaction,
   resetProfile,
 } from "~/logic";
-import { bnsChainId } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import {
   AccountInfo,
@@ -30,7 +29,7 @@ import {
   updateUsernameNft,
 } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
-import { createProfileAsyncAction, getIdentityAction } from "~/reducers/profile";
+import { createProfileAsyncAction } from "~/reducers/profile";
 import { getConnections, getProfileDB } from "~/selectors";
 import { addConfirmedTransaction } from "~/store/notifications/actions";
 
@@ -39,12 +38,12 @@ import { RootThunkDispatch } from "./types";
 // resetSequence will create a new profile (from mnemonic or random) and save it to disk
 // it will NOT update the redux store.
 // Most likely you will want to call bootSequence(...) after it is done
-export const resetSequence = (chainId: ChainId, password: string, mnemonic?: string) => async (
+export const resetSequence = (password: string, mnemonic?: string) => async (
   _: RootThunkDispatch,
   getState: () => RootState,
 ) => {
   const db = getProfileDB(getState());
-  return resetProfile(chainId, db, password, mnemonic);
+  return resetProfile(db, password, mnemonic);
 };
 
 export interface BootResult {
@@ -66,28 +65,26 @@ export const bootSequence = (
 
   // clean up mnemonic whitespace to be more forgiving of user-entered data
   const cleaned = mnemonic ? cleanMnemonic(mnemonic) : undefined;
-  // TODO 0.11: check if this is the right chain Id
-  const chainId = await bnsChainId();
   // note, if mnemonic is provided, it will always create a profile, over-writing any existing profile
   const { value: profile } = await fixTypes(
-    dispatch(createProfileAsyncAction.start(chainId, db, password, cleaned)),
+    dispatch(createProfileAsyncAction.start(db, password, cleaned, {})),
   );
 
   // --- get the active identity
-  const {
-    payload: { identity },
-  } = await dispatch(getIdentityAction(profile));
+  // const {
+  //   payload: { identity },
+  // } = await dispatch(getIdentityAction(profile), "foo" as ChainId);
 
   // --- initiate the signer
   const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
   // first we clarify the bns connection (which we need for later transaction resolution)
-  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, bns, {}, {})));
+  const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, profile, bns, {})));
   const bnsConn = value.connection as BnsConnection;
   dispatch(setBnsChainId(bnsConn.chainId()));
   // and set it as first account/tickers
   let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
-    watchAccountAndTransactions(dispatch, bnsConn, bnsConn, identity, bnsCodec),
+    watchAccountAndTransactions(dispatch, bnsConn, bnsConn, value.identity, bnsCodec),
   ];
   let initTickers: ReadonlyArray<Promise<any>> = [getTickers(dispatch, bnsConn)];
 
@@ -95,11 +92,11 @@ export const bootSequence = (
   // bns chain is the first one we connect to, so we can pull out the chainId later
   for (const blockchain of blockchains) {
     const { value: chain } = await fixTypes(
-      dispatch(addBlockchainAsyncAction.start(signer, blockchain, {}, {})),
+      dispatch(addBlockchainAsyncAction.start(signer, profile, blockchain, {})),
     );
     initAccounts = [
       ...initAccounts,
-      watchAccountAndTransactions(dispatch, bnsConn, chain.connection, identity, chain.codec),
+      watchAccountAndTransactions(dispatch, bnsConn, chain.connection, chain.identity, chain.codec),
     ];
     initTickers = [...initTickers, getTickers(dispatch, chain.connection)];
   }

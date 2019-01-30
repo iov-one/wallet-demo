@@ -3,15 +3,14 @@ import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";
 import { createProfile } from "./profile";
-import { bnsChainId, mayTestBns, testSpec } from "./testhelpers";
+import { mayTestBns, testSpec } from "./testhelpers";
 
 describe("addBlockchain", () => {
   mayTestBns("should connect to local testnet", async () => {
-    const chainIdBns = await bnsChainId();
-    const profile = await createProfile(chainIdBns);
+    const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const { connection: reader } = await addBlockchain(writer, testSpecData);
+    const { connection: reader } = await addBlockchain(writer, profile, testSpecData);
     try {
       expect(reader).toBeTruthy();
       // basic checks that we connected properly

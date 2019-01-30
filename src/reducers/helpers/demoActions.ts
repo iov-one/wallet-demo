@@ -1,6 +1,6 @@
 import { ActionType, createAction, createAsyncAction } from "typesafe-actions";
 
-import { ChainId, UserProfile } from "@iov/core";
+import { UserProfile } from "@iov/core";
 
 import { loadOrCreateProfile, StringDB } from "../../logic";
 import { createPromiseAction, createSyncAction } from "./actions";
@@ -10,8 +10,8 @@ import { createPromiseAction, createSyncAction } from "./actions";
 // "old" way to do this
 export const loadProfileAction = createAction(
   "CREATE_PROFILE",
-  resolve => (chainId: ChainId, db: StringDB, password: string, mnemonic?: string) =>
-    resolve(loadOrCreateProfile(chainId, db, password, mnemonic)),
+  resolve => (db: StringDB, password: string, mnemonic?: string) =>
+    resolve(loadOrCreateProfile(db, password, mnemonic)),
 );
 type ExpectedAction = typeof loadProfileAction;
 // more automatic promise-wrapping with type-pass-through is equivalent

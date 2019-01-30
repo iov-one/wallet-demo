@@ -131,7 +131,7 @@ xdescribe("loadOrCreateProfile", () => {
 
     const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await loadOrCreateProfile(db, password);
-    // note: fails as we don't save this here...
+    // note: currently fails as we don't save this here...
     await ensureIdentity(profile1, chainIdBns, "bns");
 
     const profile2 = await loadOrCreateProfile(db, password);

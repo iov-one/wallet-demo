@@ -1,9 +1,7 @@
 // tslint:disable:no-string-literal
 import PseudoRandom from "random-js";
 
-import { ChainId } from "@iov/core";
-
-import { BlockchainSpec, specToConnector } from "./connection";
+import { BlockchainSpec } from "./connection";
 import { createProfile } from "./profile";
 
 import { allFaucetSpecs, loadConfig } from "../utils/conf";
@@ -38,16 +36,3 @@ export const adminProfile = () => createProfile(adminMnemonic);
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();
 const pool = "abcdefghijklmnopqrstuvwxyz0123456789";
 export const randomString = (len: number) => PseudoRandom.string(pool)(prng, len);
-
-let chainIdBns: ChainId;
-
-export const bnsChainId = async () => {
-  if (!chainIdBns) {
-    const bnsSpec = await testSpec();
-    const connector = specToConnector(bnsSpec);
-    const connection = await connector.client();
-    chainIdBns = connection.chainId();
-    connection.disconnect();
-  }
-  return chainIdBns;
-};
