@@ -123,7 +123,7 @@ class SelectInput extends React.PureComponent<Props, State> {
               </div>
               {showPhone ? (
                 ReactDOM.createPortal(
-                  <SelectItems align={align} phone={phone} items={items} action={this.onAction} />,
+                  <SelectItems selectedItem={this.state.value} align={align} phone={phone} items={items} action={this.onAction} />,
                   phoneHook!,
                 )
               ) : (
@@ -133,7 +133,7 @@ class SelectInput extends React.PureComponent<Props, State> {
                   anchorEl={this.menuRef.current}
                   placement="bottom-start"
                 >
-                  {() => <SelectItems align={align} items={items} action={this.onAction} phone={phone} />}
+                  {() => <SelectItems selectedItem={this.state.value} align={align} items={items} action={this.onAction} phone={phone} />}
                 </Popper>
               )}
             </Block>
