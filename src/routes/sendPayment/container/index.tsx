@@ -1,4 +1,4 @@
-import { Amount, BcpCoin, TxCodec } from "@iov/bcp-types";
+import { Amount, BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -70,7 +70,7 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
-    const { codecs, connection, chainTickers, defaultBalance } = this.props;
+    const { connection, chainTickers, defaultBalance, signer } = this.props;
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
@@ -81,14 +81,8 @@ class SendPayment extends React.Component<Props, State> {
 
     if (!isIovAddress(maybeAddress)) {
       const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-      const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
-      const chainId = selectedTicker!.chainId;
-      const codec: TxCodec = codecs[chainId];
-      if (!codec) {
-        return generateError(RECIPIENT_FIELD, `Not chain codec found for ${chainId}, try again later`);
-      }
-      const valid = codec.isValidAddress(maybeAddress);
-
+      const chainId = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker)!.chainId;
+      const valid = signer.isValidAddress(chainId, maybeAddress);
       return valid
         ? {}
         : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`);

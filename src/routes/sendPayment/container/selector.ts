@@ -1,11 +1,14 @@
-import { BcpCoin, TxCodec } from "@iov/bcp-types";
-import { BnsConnection } from "@iov/bns";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
+
+import { BcpCoin } from "@iov/bcp-types";
+import { BnsConnection } from "@iov/bns";
+import { MultiChainSigner } from "@iov/core";
+
 import { Item } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { tokensSelector } from "~/routes/balance/container/selector";
 import { accountNameSelector } from "~/routes/home/container/selector";
-import { ChainTicker, getChainTickers, getCodecs, requireBnsConnection } from "~/selectors";
+import { ChainTicker, getChainTickers, requireBnsConnection, requireSigner } from "~/selectors";
 
 export interface SelectorProps {
   readonly chainTickers: ReadonlyArray<ChainTicker>;
@@ -14,9 +17,7 @@ export interface SelectorProps {
   readonly balanceTokens: ReadonlyArray<BcpCoin>;
   readonly defaultBalance: BcpCoin;
   readonly accountName: string | undefined;
-  readonly codecs: {
-    readonly [chainId: string]: TxCodec;
-  };
+  readonly signer: MultiChainSigner;
 }
 
 const IOV = "IOV";
@@ -54,7 +55,7 @@ const structuredSelector: Selector<RootState, SelectorProps> = createStructuredS
   balanceTokens: balanceTokensSelector,
   defaultBalance: defaultBalanceSelector,
   accountName: accountNameSelector,
-  codecs: getCodecs,
+  signer: requireSigner,
 });
 
 export default structuredSelector;
