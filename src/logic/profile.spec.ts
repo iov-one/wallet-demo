@@ -45,9 +45,9 @@ describe("ensureIdentity", () => {
     expect(ident1).toBeTruthy();
     const ident2 = await ensureIdentity(profile, "bov-chain" as ChainId, "bov");
     expect(ident2).toBeTruthy();
-    const ident3 = await ensureIdentity(profile, "lisk-chain" as ChainId, "lisk");
+    const ident3 = await ensureIdentity(profile, "lisk-chain" as ChainId, "lsk");
     expect(ident3).toBeTruthy();
-    const ident4 = await ensureIdentity(profile, "rinkeby-chain" as ChainId, "ethereum");
+    const ident4 = await ensureIdentity(profile, "rinkeby-chain" as ChainId, "eth");
     expect(ident4).toBeTruthy();
 
     // compare all pairs of identities to ensure all have unique derivations
@@ -94,7 +94,7 @@ describe("getWalletAndIdentity", () => {
 
   it("should return identity if this chain registered - secp256k1", async () => {
     const profile = await createProfile();
-    const ident = await ensureIdentity(profile, "rinkeby" as ChainId, "ethereum");
+    const ident = await ensureIdentity(profile, "rinkeby" as ChainId, "eth");
     const { walletId, identity } = getWalletAndIdentity(profile, "rinkeby" as ChainId);
     expect(identity).toEqual(ident);
     // should be wallet 1 (secp256k1)

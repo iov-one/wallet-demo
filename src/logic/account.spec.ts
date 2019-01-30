@@ -41,11 +41,12 @@ describe("getAccount", () => {
     const testSpecData = await testSpec();
     const { connection: reader, codec } = await addBlockchain(writer, profile, testSpecData);
     const ident = await getIdentity(profile, reader.chainId());
+    console.log(`codec: ${testSpecData.codecType}, chainId: ${reader.chainId()}`);
+    console.log(`address: ${writer.identityToAddress(ident)}`);
 
     try {
       const acct = await getAccount(reader, ident, codec);
       expect(acct).toBeTruthy();
-      expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
       // make sure the initial balance is over 1 million IOV
       const token = acct!.balance[0];
@@ -98,7 +99,6 @@ describe("sendTransaction", () => {
         // ensure the recipient is properly rewarded
         const after = await getAccount(reader, rcpt, codec);
         expect(after).toBeTruthy();
-        expect(after!.name).toEqual(undefined);
         expect(after!.balance.length).toEqual(1);
         const token = after!.balance[0];
         expect(token.tokenTicker).toEqual(amount.tokenTicker);
@@ -159,8 +159,6 @@ describe("setName", () => {
         const after = await getAccount(reader, rcpt, codec);
         expect(after).toBeTruthy();
 
-        // no more name, using username
-        expect(after!.name).toBeUndefined();
         expect(after!.balance.length).toEqual(1);
 
         // make sure we have properly registered on this chain
@@ -227,7 +225,6 @@ describe("setName", () => {
           await sleep(50);
           expect(updatesFaucet).toEqual(1);
           expect(acctFaucet).toBeTruthy();
-          expect(acctFaucet!.name).toEqual("admin");
           expect(updatesRcpt).toEqual(1);
           expect(acctRcpt).toBe(undefined);
 
@@ -246,10 +243,8 @@ describe("setName", () => {
           await sleep(50);
           expect(updatesFaucet).toEqual(2);
           expect(acctFaucet).toBeTruthy();
-          expect(acctFaucet!.name).toEqual("admin");
           expect(updatesRcpt).toEqual(2);
           expect(acctRcpt).toBeTruthy();
-          expect(acctRcpt!.name).toBe(undefined);
           expect(acctRcpt!.balance.length).toEqual(1);
           const token = acctRcpt!.balance[0];
           expect(token.tokenTicker).toEqual(amount.tokenTicker);
@@ -266,11 +261,9 @@ describe("setName", () => {
           // no more facuet updates should come
           expect(updatesFaucet).toEqual(2);
           expect(acctFaucet).toBeTruthy();
-          expect(acctFaucet!.name).toEqual("admin");
           // rcpt should get one more callback
           expect(updatesRcpt).toEqual(3);
           expect(acctRcpt).toBeTruthy();
-          expect(acctRcpt!.name).toBe(undefined);
           expect(acctRcpt!.balance.length).toEqual(1);
           const token2 = acctRcpt!.balance[0];
           expect(token2.tokenTicker).toEqual(amount.tokenTicker);
