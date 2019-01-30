@@ -1,29 +1,54 @@
 import { ChainId, PublicIdentity } from "@iov/bcp-types";
-import { Bip39, Random } from "@iov/crypto";
-import { Ed25519HdWallet, HdPaths, UserProfile, WalletId } from "@iov/keycontrol";
+import { Bip39, Random, Slip10RawIndex } from "@iov/crypto";
+import { Ed25519HdWallet, HdPaths, Secp256k1HdWallet, UserProfile, WalletId } from "@iov/keycontrol";
 
 import { hasDbKey, StringDB } from "./db";
 
 const EntropyBytes = 16;
 
-// initializes a UserProfile with one keyring and one identity
-// you can pass in a mnemonic or it will generate a random one
-export async function createProfile(chainId: ChainId, fixedMnemonic?: string): Promise<UserProfile> {
+// initializes a UserProfile with two keyrings (ed25519, secp256k1)
+// you can pass in a mnemonic or it will generate a random one, same will be used for both
+// you must then make chain-specific identities in ensureIdentity
+export async function createProfile(fixedMnemonic?: string): Promise<UserProfile> {
   const mnemonic = fixedMnemonic || Bip39.encode(await Random.getBytes(EntropyBytes)).asString();
-  const keyring = Ed25519HdWallet.fromMnemonic(mnemonic);
+  const edKeyring = Ed25519HdWallet.fromMnemonic(mnemonic);
+  const secKeyring = Secp256k1HdWallet.fromMnemonic(mnemonic);
   const profile = new UserProfile();
-  profile.addWallet(keyring);
-  await profile.createIdentity(keyring.id, chainId, HdPaths.simpleAddress(0));
+  profile.addWallet(edKeyring);
+  profile.addWallet(secKeyring);
   return profile;
 }
 
-// returns id of the first keyring
-export function getMainKeyring(profile: UserProfile): WalletId {
-  const wallets = profile.wallets.value;
-  if (wallets.length < 1) {
-    throw new Error("No wallet on the UserProfile");
+export async function ensureIdentity(profile: UserProfile, chainId: ChainId, codecType: string): Promise<PublicIdentity> {
+  const {walletId, path} = selectWalletAndPath(profile, codecType)
+  // return existing identity if it exists
+  const existing = profile.getIdentities(walletId).find(i => i.chainId === chainId);
+  if (existing) {
+    return existing;
   }
-  return wallets[0].id;
+  // otherwise, create the proper identity
+  return profile.createIdentity(walletId, chainId, path);
+}
+
+function selectWalletAndPath(profile: UserProfile, codecType: string): {readonly walletId: WalletId, readonly path: ReadonlyArray<Slip10RawIndex>} {
+  // assumes there are two wallets set up, let's enfor
+  const wallets = profile.wallets.value.map(i => i.id);
+  if (wallets.length !== 2) {
+    throw new Error("Wallet not properly set up");
+  }
+  const [edWallet, secWallet] = wallets;
+  switch (codecType) {
+    case "bns":
+      return {walletId: edWallet, path: HdPaths.iov(0)};
+    case "bov":
+      return {walletId: edWallet, path: HdPaths.iov(1)};
+    case "lisk":
+      return {walletId: edWallet, path: HdPaths.bip44Like(134, 0)};
+    case "ethereum":
+      return {walletId: secWallet, path: HdPaths.metamaskHdKeyTree(0)};
+    default:
+      throw new Error(`unsupported codec: ${codecType}`);
+  }
 }
 
 export interface WalletAndIdentity {
@@ -31,22 +56,18 @@ export interface WalletAndIdentity {
   readonly identity: PublicIdentity;
 }
 
-// returns the first identity on the first keyring.
+// searches all wallets to find an identity matching this chain
+// returns the first one, assuming it is unique (currently true, see ensureIdentity)
 // throws an error if this doesn't exist
-export function getMainWalletAndIdentity(profile: UserProfile): WalletAndIdentity {
-  const walletId = getMainKeyring(profile);
-  const idents = profile.getIdentities(walletId);
-  if (idents.length < 1) {
-    throw new Error("There must be an identity on the first wallet");
+export function getWalletAndIdentity(profile: UserProfile, chainId: ChainId): WalletAndIdentity {
+  const wallets = profile.wallets.value.map(i => i.id);
+  for (const walletId of wallets) {
+    const identity = profile.getIdentities(walletId).find(i => i.chainId === chainId);
+    if (identity !== undefined) {
+      return {walletId, identity};
+    } 
   }
-  return {
-    walletId,
-    identity: idents[0],
-  };
-}
-
-export function getMainIdentity(profile: UserProfile): PublicIdentity {
-  return getMainWalletAndIdentity(profile).identity;
+  throw new Error(`No identity found for chain: ${chainId}`);
 }
 
 // returns true if there is a profile to load
@@ -61,7 +82,6 @@ export async function hasStoredProfile(db: StringDB): Promise<boolean> {
 // throws an error on existing profile, but bad password
 // if mnemonic is provided, it will create new one from that mnemonic, overwriting anything that exists
 export async function loadOrCreateProfile(
-  chainId: ChainId,
   db: StringDB,
   password: string,
   mnemonic?: string,
@@ -71,17 +91,16 @@ export async function loadOrCreateProfile(
     return loadProfile(db, password);
   }
   // provided mnemonic or db missing will trigger reset
-  return resetProfile(chainId, db, password, mnemonic);
+  return resetProfile(db, password, mnemonic);
 }
 
 // creates new profile with random seed, or existing mnemonic if provided
 export async function resetProfile(
-  chainId: ChainId,
   db: StringDB,
   password: string,
   mnemonic?: string,
 ): Promise<UserProfile> {
-  const profile = await createProfile(chainId, mnemonic);
+  const profile = await createProfile(mnemonic);
   await profile.storeIn(db, password);
   return profile;
 }

@@ -3,7 +3,7 @@ import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@io
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
-import { getMainIdentity, getMainKeyring } from "./profile";
+import { getWalletAndIdentity } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
@@ -83,9 +83,7 @@ export async function checkBnsBlockchainNft(
   if (result.length === 0) {
     const registryChainId = await connection.chainId();
 
-    // TODO: is this the proper way? should we pass that in?
-    const walletId = getMainKeyring(profile);
-    const signer = getMainIdentity(profile);
+    const {walletId, identity: signer} = getWalletAndIdentity(profile, chainId);
 
     const blockchainRegistration: RegisterBlockchainTx = {
       kind: "bns/register_blockchain",

@@ -16,7 +16,7 @@ import { ChainAddressPair } from "@iov/bns/types/types";
 import { MultiChainSigner, UserProfile } from "@iov/core";
 
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
-import { getMainIdentity, getMainKeyring } from "./profile";
+import { getWalletAndIdentity } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec): Address {
   return codec.identityToAddress(ident);
@@ -118,8 +118,7 @@ export async function sendTransaction(
   amount: Amount,
   memo?: string,
 ): Promise<PostTxResponse> {
-  const walletId = getMainKeyring(profile);
-  const signer = getMainIdentity(profile);
+  const {walletId, identity: signer} = getWalletAndIdentity(profile, chainId);
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: {
@@ -141,8 +140,7 @@ export async function setName(
   username: string,
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
-  const walletId = getMainKeyring(profile);
-  const signer = getMainIdentity(profile);
+  const {walletId, identity: signer} = getWalletAndIdentity(profile, bnsId);
   const unsigned: RegisterUsernameTx = {
     kind: "bns/register_username",
     creator: {
