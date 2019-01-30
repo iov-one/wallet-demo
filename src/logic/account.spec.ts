@@ -14,19 +14,20 @@ import {
 } from "./account";
 import { compareAmounts } from "./balances";
 import { addBlockchain, checkBnsBlockchainNft } from "./connection";
-import { createProfile, getMainIdentity } from "./profile";
-import { adminProfile, bnsChainId, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
+import { createProfile, ensureIdentity, getIdentity } from "./profile";
+import { adminProfile, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
 import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTestBns("random account should be empty", async () => {
-    const chainIdBns = await bnsChainId();
-    const profile = await createProfile(chainIdBns);
+    const profile = await createProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
+    const { connection: reader, codec } = await addBlockchain(writer, profile, testSpecData);
+    const ident = await getIdentity(profile, reader.chainId());
+
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile), codec);
+      const acct = await getAccount(reader, ident, codec);
       expect(acct).toEqual(undefined);
     } finally {
       reader.disconnect();
@@ -35,13 +36,14 @@ describe("getAccount", () => {
   });
 
   mayTestBns("faucet account should have tokens", async () => {
-    const chainIdBns = await bnsChainId();
-    const profile = await adminProfile(chainIdBns);
+    const profile = await adminProfile();
     const writer = new MultiChainSigner(profile);
     const testSpecData = await testSpec();
-    const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
+    const { connection: reader, codec } = await addBlockchain(writer, profile, testSpecData);
+    const ident = await getIdentity(profile, reader.chainId());
+
     try {
-      const acct = await getAccount(reader, getMainIdentity(profile), codec);
+      const acct = await getAccount(reader, ident, codec);
       expect(acct).toBeTruthy();
       expect(acct!.name).toEqual("admin");
       expect(acct!.balance.length).toEqual(1);
@@ -60,14 +62,15 @@ describe("sendTransaction", () => {
   mayTestBns(
     "moves token to new account",
     async () => {
-      const chainIdBns = await bnsChainId();
-      const faucet = await adminProfile(chainIdBns);
-      const empty = await createProfile(chainIdBns);
-      const rcpt = getMainIdentity(empty);
+      const faucet = await adminProfile();
+      const empty = await createProfile();
 
       const writer = new MultiChainSigner(faucet);
       const testSpecData = await testSpec();
-      const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
+      const { connection: reader, codec } = await addBlockchain(writer, faucet, testSpecData);
+      // we need to create proper identity here, add it was never passed to addBlockchain
+      const rcpt = await ensureIdentity(empty, reader.chainId(), testSpecData.codecType);
+
       try {
         // ensure rcpt is empty before
         const before = await getAccount(reader, rcpt, codec);
@@ -113,21 +116,20 @@ describe("setName", () => {
   mayTestBns(
     "sets a name on account with funds",
     async () => {
-      const chainIdBns = await bnsChainId();
-      const faucet = await adminProfile(chainIdBns);
-      const empty = await createProfile(chainIdBns);
-      const rcpt = getMainIdentity(empty);
+      const faucet = await adminProfile();
+      const empty = await createProfile();
+      const testSpecData = await testSpec();
 
       const writer = new MultiChainSigner(faucet);
-      const testSpecData = await testSpec();
-      const { connection, codec } = await addBlockchain(writer, testSpecData);
+      const { connection, codec } = await addBlockchain(writer, faucet, testSpecData);
+      const rcptWriter = new MultiChainSigner(empty);
+      const { connection: rcptReader, identity: rcpt } = await addBlockchain(rcptWriter, empty, testSpecData);
+
       const reader = connection as BnsConnection;
       const rcptAddr = keyToAddress(rcpt, codec);
       const chainId = reader.chainId();
       await checkBnsBlockchainNft(faucet, reader, writer, chainId, "bns");
 
-      const rcptWriter = new MultiChainSigner(empty);
-      const { connection: rcptReader } = await addBlockchain(rcptWriter, testSpecData);
       try {
         const { token: testTicker } = (await bnsFaucetSpec())!;
         // send a token from the genesis account
@@ -146,8 +148,8 @@ describe("setName", () => {
         // we need to register the blockchain before we can register a name on it...
         // how do we do that in the real app?
 
-        // on yaknet, i guess we pre-register the names ourselves.
-        // in test code, we update the startup???
+        // right now dont "automatically" in setName
+        // by mainnet, will not be necessary
 
         // set the name - note we must sign with the recipient's writer
         const name = randomString(10);
@@ -179,23 +181,29 @@ describe("setName", () => {
     mayTestBns(
       "updates on all changes",
       async () => {
-        const chainIdBns = await bnsChainId();
-        const faucet = await adminProfile(chainIdBns);
-        const empty = await createProfile(chainIdBns);
-        const rcpt = getMainIdentity(empty);
+        const faucet = await adminProfile();
+        const empty = await createProfile();
+        const testSpecData = await testSpec();
 
         const writer = new MultiChainSigner(faucet);
-        const testSpecData = await testSpec();
-        const { connection: reader, codec } = await addBlockchain(writer, testSpecData);
-
+        const { connection: reader, codec, identity: faucetId } = await addBlockchain(
+          writer,
+          faucet,
+          testSpecData,
+        );
         const rcptWriter = new MultiChainSigner(empty);
-        const { connection: rcptReader } = await addBlockchain(rcptWriter, testSpecData);
+        const { connection: rcptReader, identity: rcpt } = await addBlockchain(
+          rcptWriter,
+          empty,
+          testSpecData,
+        );
+
         try {
           let updatesFaucet = 0;
           let acctFaucet: BcpAccount | undefined;
           const unsubscribeFaucet = await watchAccount(
             reader,
-            getMainIdentity(faucet),
+            faucetId,
             (acct?: BcpAccount) => {
               updatesFaucet++;
               acctFaucet = acct;

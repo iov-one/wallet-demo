@@ -19,8 +19,13 @@ export async function createProfile(fixedMnemonic?: string): Promise<UserProfile
   return profile;
 }
 
-export async function ensureIdentity(profile: UserProfile, chainId: ChainId, codecType: string): Promise<PublicIdentity> {
-  const {walletId, path} = selectWalletAndPath(profile, codecType)
+// TODO: save this when creating (need password, etc)
+export async function ensureIdentity(
+  profile: UserProfile,
+  chainId: ChainId,
+  codecType: string,
+): Promise<PublicIdentity> {
+  const { walletId, path } = selectWalletAndPath(profile, codecType);
   // return existing identity if it exists
   const existing = profile.getIdentities(walletId).find(i => i.chainId === chainId);
   if (existing) {
@@ -30,7 +35,10 @@ export async function ensureIdentity(profile: UserProfile, chainId: ChainId, cod
   return profile.createIdentity(walletId, chainId, path);
 }
 
-function selectWalletAndPath(profile: UserProfile, codecType: string): {readonly walletId: WalletId, readonly path: ReadonlyArray<Slip10RawIndex>} {
+function selectWalletAndPath(
+  profile: UserProfile,
+  codecType: string,
+): { readonly walletId: WalletId; readonly path: ReadonlyArray<Slip10RawIndex> } {
   // assumes there are two wallets set up, let's enfor
   const wallets = profile.wallets.value.map(i => i.id);
   if (wallets.length !== 2) {
@@ -39,13 +47,13 @@ function selectWalletAndPath(profile: UserProfile, codecType: string): {readonly
   const [edWallet, secWallet] = wallets;
   switch (codecType) {
     case "bns":
-      return {walletId: edWallet, path: HdPaths.iov(0)};
+      return { walletId: edWallet, path: HdPaths.iov(0) };
     case "bov":
-      return {walletId: edWallet, path: HdPaths.iov(1)};
+      return { walletId: edWallet, path: HdPaths.iov(1) };
     case "lisk":
-      return {walletId: edWallet, path: HdPaths.bip44Like(134, 0)};
+      return { walletId: edWallet, path: HdPaths.bip44Like(134, 0) };
     case "ethereum":
-      return {walletId: secWallet, path: HdPaths.metamaskHdKeyTree(0)};
+      return { walletId: secWallet, path: HdPaths.metamaskHdKeyTree(0) };
     default:
       throw new Error(`unsupported codec: ${codecType}`);
   }
@@ -64,10 +72,15 @@ export function getWalletAndIdentity(profile: UserProfile, chainId: ChainId): Wa
   for (const walletId of wallets) {
     const identity = profile.getIdentities(walletId).find(i => i.chainId === chainId);
     if (identity !== undefined) {
-      return {walletId, identity};
-    } 
+      return { walletId, identity };
+    }
   }
   throw new Error(`No identity found for chain: ${chainId}`);
+}
+
+// getIdentity is just a wrapper around getWalletAndIdentity to avoid lots of typing on usage
+export function getIdentity(profile: UserProfile, chainId: ChainId): PublicIdentity {
+  return getWalletAndIdentity(profile, chainId).identity;
 }
 
 // returns true if there is a profile to load
@@ -95,11 +108,7 @@ export async function loadOrCreateProfile(
 }
 
 // creates new profile with random seed, or existing mnemonic if provided
-export async function resetProfile(
-  db: StringDB,
-  password: string,
-  mnemonic?: string,
-): Promise<UserProfile> {
+export async function resetProfile(db: StringDB, password: string, mnemonic?: string): Promise<UserProfile> {
   const profile = await createProfile(mnemonic);
   await profile.storeIn(db, password);
   return profile;

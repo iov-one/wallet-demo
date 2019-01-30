@@ -33,7 +33,7 @@ export const mayTestFull =
 
 // this is a pre-loaded account we can play with (separate from the faucet)
 const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";
-export const adminProfile = (chainId: ChainId) => createProfile(chainId, adminMnemonic);
+export const adminProfile = () => createProfile(adminMnemonic);
 
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();
 const pool = "abcdefghijklmnopqrstuvwxyz0123456789";

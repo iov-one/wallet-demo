@@ -118,7 +118,7 @@ export async function sendTransaction(
   amount: Amount,
   memo?: string,
 ): Promise<PostTxResponse> {
-  const {walletId, identity: signer} = getWalletAndIdentity(profile, chainId);
+  const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: {
@@ -140,7 +140,7 @@ export async function setName(
   username: string,
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
-  const {walletId, identity: signer} = getWalletAndIdentity(profile, bnsId);
+  const { walletId, identity: signer } = getWalletAndIdentity(profile, bnsId);
   const unsigned: RegisterUsernameTx = {
     kind: "bns/register_username",
     creator: {

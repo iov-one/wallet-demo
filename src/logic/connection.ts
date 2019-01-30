@@ -1,9 +1,9 @@
-import { BcpConnection, ChainConnector, isBlockInfoPending, TxCodec } from "@iov/bcp-types";
+import { BcpConnection, ChainConnector, isBlockInfoPending, PublicIdentity, TxCodec } from "@iov/bcp-types";
 import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
-import { getWalletAndIdentity } from "./profile";
+import { ensureIdentity, getWalletAndIdentity } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
@@ -14,6 +14,7 @@ export enum CodecType {
 export interface BcpBlockchain {
   readonly connection: BcpConnection;
   readonly codec: TxCodec;
+  readonly identity: PublicIdentity;
 }
 
 // BlockchainSpec is a config option, such as may be returned from bns in the future
@@ -62,14 +63,18 @@ export function addressToCodec(address: string): TxCodec {
   }
 }
 
+// add blockchain will add a connection to the signer, and create an identity if needed on the profile
 export async function addBlockchain(
   writer: MultiChainSigner,
+  profile: UserProfile,
   blockchain: BlockchainSpec,
 ): Promise<BcpBlockchain> {
   const connector = specToConnector(blockchain);
   const codec = specToCodec(blockchain);
   const { connection } = await writer.addChain(connector);
-  return { connection, codec };
+  // we now ensure there is a identity set up for this blockchain here
+  const identity = await ensureIdentity(profile, connection.chainId(), blockchain.codecType);
+  return { connection, codec, identity };
 }
 
 export async function checkBnsBlockchainNft(
@@ -83,7 +88,7 @@ export async function checkBnsBlockchainNft(
   if (result.length === 0) {
     const registryChainId = await connection.chainId();
 
-    const {walletId, identity: signer} = getWalletAndIdentity(profile, chainId);
+    const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
 
     const blockchainRegistration: RegisterBlockchainTx = {
       kind: "bns/register_blockchain",
