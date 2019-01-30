@@ -12,9 +12,9 @@ async function genAccount(chainId: ChainId): Promise<void> {
   console.log("");
   const keyring = Ed25519HdWallet.fromMnemonic(mnemonic);
 
-  console.log("Profile accounts (simpleAddress)");
+  console.log("Profile accounts (iov)");
   for (let idx = 0; idx < 10; idx++) {
-    const ident = await keyring.createIdentity(chainId, HdPaths.simpleAddress(idx));
+    const ident = await keyring.createIdentity(chainId, HdPaths.iov(idx));
     const addr = bnsCodec.identityToAddress(ident);
     const hex = Encoding.toHex(Bech32.decode(addr).data);
     console.log(`${idx}:   ${addr} / ${hex}`);

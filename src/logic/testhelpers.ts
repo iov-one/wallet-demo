@@ -30,7 +30,7 @@ export const mayTestFull =
   !skipTests(process.env.BNS_ENABLED) && !skipTests(process.env.CHAINS_ENABLED) ? it : xit;
 
 // this is a pre-loaded account we can play with (separate from the faucet)
-const adminMnemonic = "scissors media glory glimpse insect trophy cause wheel opinion elite card media";
+const adminMnemonic = "wage excuse odor equip paddle remain journey weekend mouse fork orchard more";
 export const adminProfile = () => createProfile(adminMnemonic);
 
 const prng: PseudoRandom.Engine = PseudoRandom.engines.mt19937().autoSeed();

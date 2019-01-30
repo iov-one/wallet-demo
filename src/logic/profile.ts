@@ -50,9 +50,9 @@ function selectWalletAndPath(
       return { walletId: edWallet, path: HdPaths.iov(0) };
     case "bov":
       return { walletId: edWallet, path: HdPaths.iov(1) };
-    case "lisk":
+    case "lsk":
       return { walletId: edWallet, path: HdPaths.bip44Like(134, 0) };
-    case "ethereum":
+    case "eth":
       return { walletId: secWallet, path: HdPaths.metamaskHdKeyTree(0) };
     default:
       throw new Error(`unsupported codec: ${codecType}`);
