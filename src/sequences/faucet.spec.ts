@@ -1,7 +1,7 @@
 import { compareAmounts } from "~/logic";
 import { faucetSpecs, mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
-import { getActiveChainAddresses, getMyAccounts, requireSigner } from "~/selectors";
+import { getAllAccounts, requireSigner } from "~/selectors";
 import { makeStore } from "~/store";
 import { getTransactions } from "~/store/notifications/selectors";
 import { sleep } from "~/utils/timer";
@@ -29,7 +29,7 @@ describe("drinkFaucetSequence", () => {
 
       try {
         // validate the current accounts are undefined
-        const thirstyAccounts = getMyAccounts(store.getState());
+        const thirstyAccounts = getAllAccounts(store.getState());
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
         thirstyAccounts.map(ac => expect(ac.account).toBeUndefined());
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
@@ -38,9 +38,8 @@ describe("drinkFaucetSequence", () => {
         expect(getTransactions(store.getState()).length).toEqual(0);
 
         // get the addresses for later...
-        const addresses = getActiveChainAddresses(store.getState());
+        const addresses = getAllAccounts(store.getState()).map(acct => acct.address);
         expect(addresses.length).toEqual(totalFaucetChains);
-        const addr = addresses[0].address;
 
         // drink from all faucets
         const faucetAction = drinkFaucetSequence(faucets);
@@ -52,7 +51,7 @@ describe("drinkFaucetSequence", () => {
         await sleep(15000);
 
         // validate the current account is defined and has some tokens
-        const fullAccounts = getMyAccounts(store.getState());
+        const fullAccounts = getAllAccounts(store.getState());
         expect(fullAccounts.length).toEqual(totalFaucetChains);
         fullAccounts.forEach((ac, index) => {
           expect(ac.chainId).toEqual(chains[index]); // same chain
@@ -69,16 +68,16 @@ describe("drinkFaucetSequence", () => {
           };
           expect(compareAmounts(account.balance[0], minBalance)).toBeGreaterThanOrEqual(1);
           // at the address we expect
-          expect(account.address).toEqual(addresses[index].address);
+          expect(account.address).toEqual(addresses[index]);
         });
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
         expect(transactions.length).toEqual(totalFaucetChains);
-        // and we should be the recipient (from the faucet)
-        expect(transactions[0].recipient).toEqual(addresses[2].address);
-        expect(transactions[1].recipient).toEqual(addr);
-        expect(transactions[2].recipient).toEqual(addr);
+        // and we should be the recipient (from the faucet) - reverse order as requests???
+        expect(transactions[0].recipient).toEqual(addresses[2]);
+        expect(transactions[1].recipient).toEqual(addresses[1]);
+        expect(transactions[2].recipient).toEqual(addresses[0]);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());

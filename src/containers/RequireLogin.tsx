@@ -4,7 +4,7 @@ import { Redirect, RouteProps } from "react-router-dom";
 
 import { AccountInfo } from "~/reducers/blockchain";
 import { HOME_ROUTE } from "~/routes";
-import { getMyAccounts } from "~/selectors";
+import { getAllAccounts } from "~/selectors";
 
 interface RequireLoginProps extends RouteProps {
   readonly accounts: ReadonlyArray<AccountInfo>;
@@ -32,7 +32,7 @@ class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
 
 const mapStateToProps = (state: any, ownProps: RouteProps): RequireLoginProps => ({
   ...ownProps,
-  accounts: getMyAccounts(state),
+  accounts: getAllAccounts(state),
 });
 
 export default connect(

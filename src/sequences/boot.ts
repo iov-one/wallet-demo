@@ -70,12 +70,7 @@ export const bootSequence = (
     dispatch(createProfileAsyncAction.start(db, password, cleaned, {})),
   );
 
-  // --- get the active identity
-  // const {
-  //   payload: { identity },
-  // } = await dispatch(getIdentityAction(profile), "foo" as ChainId);
-
-  // --- initiate the signer
+  // --- initialize the signer
   const { payload: signer } = await fixTypes(dispatch(createSignerAction(profile)));
 
   // first we clarify the bns connection (which we need for later transaction resolution)

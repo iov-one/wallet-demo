@@ -1,7 +1,6 @@
-import { ChainId } from "@iov/bcp-types";
 import { UserProfile } from "@iov/core";
 
-import { createMemDb, hasStoredProfile, loadOrCreateProfile } from "../../logic";
+import { hasStoredProfile } from "../../logic";
 import { aNewStore } from "../../store";
 import { fixTypes } from "../helpers";
 import { createProfileAsyncAction } from "./actions";
@@ -57,7 +56,7 @@ describe("profile async actions", () => {
     const profile: UserProfile = value;
     expect(profile).not.toBeUndefined();
     const walletIds = profile.wallets.value.map(wallet => wallet.id);
-    expect(walletIds.length).toEqual(1);
+    expect(walletIds.length).toEqual(2);
     const secret = profile.printableSecret(walletIds[0]);
     expect(secret).toEqual(mnemonic);
 

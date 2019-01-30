@@ -13,7 +13,7 @@ import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import {
   ensure,
-  getActiveChainAddresses,
+  getAllAccounts,
   getProfile,
   requireBnsChainId,
   requireBnsConnection,
@@ -35,7 +35,7 @@ export const setNameSequence = (username: string) => async (
   const signer = requireSigner(getState());
   const bnsId = requireBnsChainId(getState());
   const bnsConn = requireBnsConnection(getState());
-  const addresses = getActiveChainAddresses(getState());
+  const addresses = getAllAccounts(getState());
   const profileState = getProfile(getState());
   const profile = profileState === undefined ? await createProfile(bnsId) : profileState;
 

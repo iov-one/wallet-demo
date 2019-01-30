@@ -3,7 +3,7 @@ import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { StringDB } from "~/logic";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
-import { getActiveIdentity, getMyAccounts, getProfileDB } from "~/selectors";
+import { getAllIdentities, getBnsAccount, getProfileDB } from "~/selectors";
 
 export interface SelectorProps {
   readonly db: StringDB;
@@ -12,8 +12,8 @@ export interface SelectorProps {
 }
 
 export const identitySelector = createSelector(
-  getActiveIdentity,
-  (localIdentity: PublicIdentity | undefined) => !!localIdentity,
+  getAllIdentities,
+  (idents: ReadonlyArray<PublicIdentity>) => idents.length > 0,
 );
 
 export const dbSelector = createSelector(
@@ -22,13 +22,8 @@ export const dbSelector = createSelector(
 );
 
 export const accountNameSelector = createSelector(
-  getMyAccounts,
-  (accounts: ReadonlyArray<AccountInfo>) => {
-    if (accounts.length === 0) {
-      return undefined;
-    }
-    return accounts[0].username;
-  },
+  getBnsAccount,
+  (account: AccountInfo | undefined) => (account ? account.username : undefined),
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({

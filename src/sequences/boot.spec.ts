@@ -36,7 +36,6 @@ describe("boot sequence", () => {
 
       // validate state properly initialized
       const state = store.getState();
-      expect(state.profile.activeIdentity).toBeDefined();
       expect(state.blockchain.internal.signer).toBeDefined();
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(totalChains);
 

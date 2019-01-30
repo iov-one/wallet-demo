@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
-import { ChainTicker, getChainTickers, getMyAccounts } from "~/selectors";
+import { ChainTicker, getAllAccounts, getChainTickers } from "~/selectors";
 import { TickerWithAddress } from "./index";
 
 export interface SelectorProps {
@@ -9,7 +9,7 @@ export interface SelectorProps {
 }
 
 export const availableTokensSelector = createSelector(
-  getMyAccounts,
+  getAllAccounts,
   getChainTickers,
   (accounts: ReadonlyArray<AccountInfo>, tickers: ReadonlyArray<ChainTicker>) => {
     if (tickers.length === 0) {

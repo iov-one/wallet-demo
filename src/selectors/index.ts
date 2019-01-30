@@ -2,10 +2,10 @@ import { createSelector } from "reselect";
 
 import { BcpAccount, BcpTicker, PublicIdentity } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
-import { Address, ChainId, MultiChainSigner } from "@iov/core";
+import { Address, ChainId } from "@iov/core";
 
 import { RootState } from "~/reducers";
-import { AccountInfo, getAccountByChainAndAddress } from "~/reducers/blockchain";
+import { AccountInfo } from "~/reducers/blockchain";
 
 /*** TODO: separate this out into multiple files ****/
 
@@ -30,10 +30,6 @@ export const getProfile = (state: RootState) => state.profile.internal.profile;
 export const getSigner = (state: RootState) => state.blockchain.internal.signer;
 export const getConnections = (state: RootState) => state.blockchain.internal.connections;
 export const getCodecs = (state: RootState) => state.blockchain.internal.codecs;
-export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createSelector(
-  getConnections,
-  conns => Object.keys(conns).map(x => x as ChainId),
-);
 
 export const getBnsChainId = (state: RootState) => state.blockchain.bnsId;
 export const getBnsConnection: (state: RootState) => BnsConnection | undefined = createSelector(
@@ -44,38 +40,26 @@ export const getBnsConnection: (state: RootState) => BnsConnection | undefined =
 // getChainTickers was a map, now the redux state
 export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
-export const getActiveWallet = (state: RootState) => state.profile.activeIdentity;
-export const getActiveIdentity: (state: RootState) => PublicIdentity | undefined = createSelector(
-  getActiveWallet,
-  wallet => wallet && wallet.identity,
-);
-
-export const getActiveChainAddresses: (state: RootState) => ReadonlyArray<ChainAddress> = createSelector(
-  getSigner,
-  getActiveIdentity,
-  getChainIds,
-  (
-    signer: MultiChainSigner | undefined,
-    identity: PublicIdentity | undefined,
-    chainIds: ReadonlyArray<ChainId>,
-  ) =>
-    identity === undefined || signer === undefined
+export const getAllIdentities: (state: RootState) => ReadonlyArray<PublicIdentity> = createSelector(
+  getProfile,
+  profile =>
+    profile === undefined
       ? []
-      : chainIds.map(chainId => ({ chainId, address: signer.identityToAddress(identity) })),
+      : profile.wallets.value.map(i => profile.getIdentities(i.id)).reduce((acc, cur) => [...acc, ...cur]),
 );
 
 export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 
-// getMyAccounts will return an entry for each activeChainAddress, possibly empty account/username
-export const getMyAccounts: (state: RootState) => ReadonlyArray<AccountInfo> = createSelector(
+export const getBnsAccount: (state: RootState) => AccountInfo | undefined = createSelector(
   getAllAccounts,
-  getActiveChainAddresses,
-  // only show those balances that are includes in the addresses list
-  (balances: ReadonlyArray<AccountInfo>, addresses: ReadonlyArray<ChainAddress>) =>
-    addresses.map(
-      ({ chainId, address }) =>
-        getAccountByChainAndAddress(balances, chainId, address) || { chainId, address },
-    ),
+  getBnsChainId,
+  (accts: ReadonlyArray<AccountInfo>, bnsId?: ChainId) =>
+    bnsId ? accts.find(acct => acct.chainId === bnsId) : undefined,
+);
+
+export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createSelector(
+  getAllAccounts,
+  accts => accts.map(acct => acct.chainId),
 );
 
 export function ensure<T>(maybe: T | undefined, msg: string = "missing required value"): T {
@@ -84,9 +68,6 @@ export function ensure<T>(maybe: T | undefined, msg: string = "missing required 
   }
   return maybe;
 }
-
-export const requireActiveIdentity = (state: RootState) =>
-  ensure(getActiveIdentity(state), "No identity active");
 
 export const requireConnection = (state: RootState, chainId: ChainId) =>
   ensure(getConnections(state)[chainId], `No connection for chain: ${chainId}`);

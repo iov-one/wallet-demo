@@ -1,8 +1,7 @@
 import { UserProfile } from "@iov/core";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { ActiveIdentity } from "~/reducers/profile";
-import { getActiveWallet, getProfile } from "~/selectors";
+import { getProfile } from "~/selectors";
 
 export interface SelectorProps {
   readonly mnemonic: string | undefined;
@@ -10,9 +9,8 @@ export interface SelectorProps {
 
 const getWalletMnemonic: (state: RootState) => string | undefined = createSelector(
   getProfile,
-  getActiveWallet,
-  (profile: UserProfile | undefined, wallet: ActiveIdentity | undefined) =>
-    profile === undefined || wallet === undefined ? undefined : profile.printableSecret(wallet.walletId),
+  (profile: UserProfile | undefined) =>
+    profile === undefined ? undefined : profile.printableSecret(profile.wallets.value[0].id),
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
