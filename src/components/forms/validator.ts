@@ -1,4 +1,5 @@
 import { FieldValidator } from "final-form";
+import { parseFigures } from "~/logic/balances";
 
 export const greaterThan = (min: number) => (value: string) => {
   const parsedNumber = toValidFloat(value);
@@ -39,6 +40,16 @@ export const lowerThanOrEqual = (min: number) => (value: string) => {
 export const mustBeInteger = (value: string) => {
   if (!Number.isInteger(Number(value)) || value.includes(".")) {
     return "Must be an integer";
+  }
+
+  return undefined;
+};
+
+export const maxDecimals = (decimals: number) => (value: string) => {
+  const figures = parseFigures(value);
+
+  if (figures.fractionalDigits > decimals) {
+    return `Too many decimal places was used. Max: ${decimals}`;
   }
 
   return undefined;

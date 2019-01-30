@@ -3,6 +3,7 @@ import {
   greaterThanOrEqual,
   lowerThan,
   lowerThanOrEqual,
+  maxDecimals,
   mustBeFloat,
   toValidFloat,
 } from "../validator";
@@ -139,13 +140,35 @@ describe("Components -> Forms -> Validator", () => {
       expect(result).toEqual("Must be a number");
     });
 
-    it("hould return undefined if string is float with dot", () => {
+    it("should return undefined if string is float with dot", () => {
       const result = mustBeFloat("2.5");
       expect(result).toBeUndefined();
     });
 
-    it("hould return undefined if string is float with comma", () => {
+    it("should return undefined if string is float with comma", () => {
       const result = mustBeFloat("2,5");
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe("maxDecimals validator", () => {
+    it("should return error string if decimals more than required", () => {
+      const result = maxDecimals(3)("1.5555");
+      expect(result).toEqual("Too many decimal places was used. Max: 3");
+    });
+
+    it("should return undefined if decimals less or equal to required", () => {
+      const result = maxDecimals(3)("1.555");
+      expect(result).toBeUndefined();
+    });
+
+    it("should return undefined if decimal point with number after exists", () => {
+      const result = maxDecimals(3)("1.");
+      expect(result).toBeUndefined();
+    });
+
+    it("should return undefined even if extra trailing zeros", () => {
+      const result = maxDecimals(2)("1.230000");
       expect(result).toBeUndefined();
     });
   });
