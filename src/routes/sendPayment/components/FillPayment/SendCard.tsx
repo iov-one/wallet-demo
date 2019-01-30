@@ -3,7 +3,6 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { background } from "~/theme/variables";
 
-
 interface Props extends WithStyles<typeof styles> {
   readonly children: React.ReactNode;
 }

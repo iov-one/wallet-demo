@@ -10,12 +10,9 @@ import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
 import FillPayment from "~/routes/sendPayment/components/FillPayment";
-import {
-  AMOUNT_FIELD,
-  NOTE_FIELD,
-  RECIPIENT_FIELD,
-  TOKEN_FIELD,
-} from "~/routes/sendPayment/components/FillPayment/SendCard";
+import { NOTE_FIELD } from "~/routes/sendPayment/components/FillPayment/NoteCard";
+import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/RecipientCard";
+import { AMOUNT_FIELD, TOKEN_FIELD } from "~/routes/sendPayment/components/FillPayment/SendAmount";
 import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
