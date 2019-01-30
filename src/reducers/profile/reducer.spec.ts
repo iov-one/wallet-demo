@@ -4,28 +4,9 @@ import { UserProfile } from "@iov/core";
 import { createMemDb, hasStoredProfile, loadOrCreateProfile } from "../../logic";
 import { aNewStore } from "../../store";
 import { fixTypes } from "../helpers";
-import { createProfileAsyncAction, getIdentityAction } from "./actions";
+import { createProfileAsyncAction } from "./actions";
 
 describe("profile async actions", () => {
-  xit("stores get_identity results", async () => {
-    const store = aNewStore();
-    const db = createMemDb();
-    const profile = await loadOrCreateProfile(db, "my-secret-here");
-
-    const action = getIdentityAction(profile, "foo" as ChainId);
-    expect(action.type).toEqual("GET_ACTIVE_IDENTITY");
-    expect(action.payload.walletId).not.toBeUndefined();
-    expect(action.payload.identity).not.toBeUndefined();
-
-    const init = store.getState();
-    expect(init.profile.activeIdentity).toBeUndefined();
-    fixTypes(store.dispatch(action));
-
-    const after = store.getState();
-    expect(after.profile.activeIdentity).not.toBeUndefined();
-    expect(after.profile.activeIdentity!.walletId).toEqual(action.payload.walletId);
-  });
-
   it("initializes a fresh redux store", async () => {
     const store = aNewStore();
     const init = store.getState();

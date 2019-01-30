@@ -19,12 +19,8 @@ export function profileReducer(maybeState: ProfileState | undefined, action: Pro
   const state = maybeState ? maybeState : initState();
 
   switch (action.type) {
-    // example of promise resolution
     case "CREATE_PROFILE_FULFILLED":
       return { ...state, internal: { ...state.internal, profile: action.payload } };
-    // example of synchronous function
-    case "GET_ACTIVE_IDENTITY":
-      return { ...state, activeIdentity: action.payload };
     default:
       return state;
   }

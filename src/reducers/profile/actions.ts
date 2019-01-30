@@ -1,5 +1,5 @@
-import { getWalletAndIdentity, loadOrCreateProfile } from "../../logic";
-import { createPromiseAction, createSyncAction } from "../helpers";
+import { loadOrCreateProfile } from "../../logic";
+import { createPromiseAction } from "../helpers";
 
 export const createProfileAsyncAction = createPromiseAction(
   "CREATE_PROFILE",
@@ -7,6 +7,3 @@ export const createProfileAsyncAction = createPromiseAction(
   "CREATE_PROFILE_FULFILLED",
   "CREATE_PROFILE_REJECTED",
 )(loadOrCreateProfile);
-
-// TODO: what do we do with the concept of "active identity"
-export const getIdentityAction = createSyncAction("GET_ACTIVE_IDENTITY", getWalletAndIdentity);
