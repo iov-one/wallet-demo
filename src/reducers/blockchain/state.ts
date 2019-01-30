@@ -7,6 +7,11 @@ export interface BlockchainState {
   readonly internal: InternalDetails;
   // this is the main chain use for lookups, we must know which is which
   readonly bnsId?: ChainId;
+  // this is a list of all chain ids in the same order as the config...
+  // so we can use that to match to config specs, like faucet, or anything else is a deterministic order
+  // (accounts order changes as they are updated)
+  // bns should be the first one here
+  readonly chains: ReadonlyArray<ChainId>;
   readonly accountInfo: ReadonlyArray<AccountInfo>;
   readonly tickers: ReadonlyArray<ChainTicker>;
 }

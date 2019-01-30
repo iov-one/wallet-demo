@@ -15,6 +15,8 @@ import { AccountInfo } from "./state";
 
 export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
 
+export const setChainIds = createSyncAction("SET_CHAIN_IDS", (chains: ReadonlyArray<ChainId>) => chains);
+
 export const createSignerAction = createSyncAction(
   "CREATE_SIGNER",
   (profile: UserProfile) => new MultiChainSigner(profile),

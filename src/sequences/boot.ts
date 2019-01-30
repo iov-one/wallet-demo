@@ -26,6 +26,8 @@ import {
   getTickersAsyncAction,
   getUsernameNftByChainAddressAsyncAction,
   setBnsChainId,
+  setChainIds,
+  TickerInfo,
   updateUsernameNft,
 } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
@@ -81,7 +83,7 @@ export const bootSequence = (
   let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
     watchAccountAndTransactions(dispatch, bnsConn, bnsConn, value.identity, bnsCodec),
   ];
-  let initTickers: ReadonlyArray<Promise<any>> = [getTickers(dispatch, bnsConn)];
+  let initTickers: ReadonlyArray<Promise<{ readonly value: TickerInfo }>> = [getTickers(dispatch, bnsConn)];
 
   // then we connect all other chains, in parallel
   // bns chain is the first one we connect to, so we can pull out the chainId later
@@ -97,7 +99,10 @@ export const bootSequence = (
   }
 
   // wait for all accounts and tickers to initialize
-  await Promise.all(initTickers);
+  const tickers = await Promise.all(initTickers);
+  const orderedChains = tickers.map(ti => ti.value.chainId);
+  dispatch(setChainIds(orderedChains));
+
   let accounts: ReadonlyArray<AccountInfo> = await Promise.all(initAccounts);
   const bnsAccount = accounts[0];
 

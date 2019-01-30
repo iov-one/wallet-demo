@@ -1,5 +1,6 @@
 import { mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
+import { getOrderedChainIds } from "~/selectors";
 import { makeStore } from "~/store";
 
 import { BootResult, bootSequence } from "./boot";
@@ -59,6 +60,15 @@ describe("boot sequence", () => {
       const bnsId = state.blockchain.bnsId;
       expect(bnsId).toBeDefined();
       expect(bnsId).toEqual(chain1);
+
+      // ensure all chains are registered
+      const chainIds = getOrderedChainIds(state);
+      expect(chainIds.length).toEqual(3);
+      // bns and bov chains
+      expect(chainIds[0]).toMatch(/^test-chain/);
+      expect(chainIds[1]).toMatch(/^test-chain/);
+      // lisk chain
+      expect(chainIds[2]).toMatch(/^[0-9a-f]+$/);
 
       // make sure to close connections so test ends
       signer.shutdown();

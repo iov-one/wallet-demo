@@ -81,9 +81,7 @@ describe("drinkFaucetSequence", () => {
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
-        for (const chainId of signer.chainIds()) {
-          signer.connection(chainId).disconnect();
-        }
+        signer.shutdown();
       }
     },
     20000,

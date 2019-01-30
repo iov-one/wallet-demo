@@ -31,6 +31,7 @@ export const getSigner = (state: RootState) => state.blockchain.internal.signer;
 export const getConnections = (state: RootState) => state.blockchain.internal.connections;
 export const getCodecs = (state: RootState) => state.blockchain.internal.codecs;
 
+export const getOrderedChainIds = (state: RootState) => state.blockchain.chains;
 export const getBnsChainId = (state: RootState) => state.blockchain.bnsId;
 export const getBnsConnection: (state: RootState) => BnsConnection | undefined = createSelector(
   getConnections,
