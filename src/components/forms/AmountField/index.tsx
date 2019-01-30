@@ -9,7 +9,7 @@ import { sm, xxlFontSize } from "~/theme/variables";
 
 const styles = createStyles({
   root: {
-    padding: 0,  
+    padding: 0,
     "& * input": {
       textAlign: "right",
       paddingRight: sm,
@@ -19,8 +19,8 @@ const styles = createStyles({
     },
   },
   input: {
-    fontSize: xxlFontSize,  
-  }
+    fontSize: xxlFontSize,
+  },
 });
 
 interface Props extends FieldRenderProps, WithStyles<typeof styles> {
@@ -45,21 +45,23 @@ class AmountFieldElem extends React.PureComponent<Props> {
 
     return (
       <React.Fragment>
-      <MuiTextField
-        {...rest}
-        name={name}
-        className={classes.root}
-        InputProps={inputRootProps}
-        inputProps={inputProps}
-        onChange={onChange}
-        value={value}
-      />
-      {
-        showError && errorHook && ReactDOM.createPortal(
-          <Typography variant="subtitle2" color="error">{meta.error}</Typography>,
-          errorHook!,
-        )
-      }
+        <MuiTextField
+          {...rest}
+          name={name}
+          className={classes.root}
+          InputProps={inputRootProps}
+          inputProps={inputProps}
+          onChange={onChange}
+          value={value}
+        />
+        {showError &&
+          errorHook &&
+          ReactDOM.createPortal(
+            <Typography variant="subtitle2" color="error">
+              {meta.error}
+            </Typography>,
+            errorHook!,
+          )}
       </React.Fragment>
     );
   }

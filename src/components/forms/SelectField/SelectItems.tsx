@@ -6,7 +6,7 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import selectedTick from "./assets/selectedTick.svg"
+import selectedTick from "./assets/selectedTick.svg";
 import { Item } from "./index";
 
 const style = {
@@ -37,9 +37,9 @@ const ListItems = ({ phone, action, items, align, selectedItem }: ListItemProps)
               }
               secondary={<Typography color="textSecondary">{item.additionalText}</Typography>}
             />
-            { 
-              item.name === selectedItem && <Img src={selectedTick} alt="Selected Ticker" width={24} height={24} />
-            }
+            {item.name === selectedItem && (
+              <Img src={selectedTick} alt="Selected Ticker" width={24} height={24} />
+            )}
           </ListItem>
           <Hairline />
         </Block>

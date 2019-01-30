@@ -22,14 +22,7 @@ interface Props extends ImgWithStyles {
 
 class CircleImg extends React.PureComponent<Props> {
   public render(): JSX.Element {
-    const { 
-      circleColor, 
-      classes, 
-      icon, 
-      dia, 
-      iconClasses, 
-      ...props 
-    } = this.props;
+    const { circleColor, classes, icon, dia, iconClasses, ...props } = this.props;
 
     const style = {
       height: dia,
