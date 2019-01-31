@@ -29,6 +29,12 @@ bash "${SCRIPT_DIR}"/lisk/load_faucet.sh
 bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 
 echo
+echo ">>> Starting ethereum (ganache) chain and faucet..."
+echo
+bash "${SCRIPT_DIR}"/ethereum/start.sh
+bash "${SCRIPT_DIR}"/faucet/ethereum_start.sh
+
+echo
 echo ">>> Waiting for faucets to load tokens..."
 echo
 sleep 5
