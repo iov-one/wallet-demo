@@ -2,6 +2,7 @@ import {
   BcpConnection,
   ChainId,
   ConfirmedTransaction,
+  isBlockInfoFailed,
   isBlockInfoPending,
   isSendTransaction,
   PostTxResponse,
@@ -11,10 +12,12 @@ import {
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
-import { BnsConnection } from "@iov/bns";
+import { BnsConnection, RegisterBlockchainTx } from "@iov/bns";
+import { MultiChainSigner, UserProfile } from "@iov/core";
 import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
+import { getWalletAndIdentity } from "./profile";
 
 export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
   extends ConfirmedTransaction<T> {
@@ -84,9 +87,48 @@ export const parseConfirmedTransaction = async (
   };
 };
 
+export async function checkBnsBlockchainNft(
+  profile: UserProfile,
+  connection: BnsConnection,
+  writer: MultiChainSigner,
+  chainId: ChainId,
+  codecName: string,
+): Promise<void> {
+  const result = await connection.getBlockchains({ chainId });
+  if (result.length === 0) {
+    const registryChainId = await connection.chainId();
+
+    const { walletId, identity: signer } = getWalletAndIdentity(profile, connection.chainId());
+
+    const blockchainRegistration: RegisterBlockchainTx = {
+      kind: "bns/register_blockchain",
+      creator: {
+        chainId: registryChainId,
+        pubkey: signer.pubkey,
+      },
+      chain: {
+        chainId: chainId,
+        production: false,
+        enabled: true,
+        name: "Wonderland",
+        networkId: "7rg047g4h",
+      },
+      codecName,
+      codecConfig: `{ }`,
+    };
+    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
+  }
+}
+
 // this waits for one commit to be writen, then returns the response
+// if either CheckTx or DeliverTx error, then this will throw an error.
+// If it succeeds, we are assured that PostTxResponse.blockInfo.value is of type BlockInfoSucceeded
 export async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
+  // this throws error if the query fails on CheckTx
   const res = await req;
-  await res.blockInfo.waitFor(info => !isBlockInfoPending(info));
+  const info = await res.blockInfo.waitFor(x => !isBlockInfoPending(x));
+  if (isBlockInfoFailed(info)) {
+    throw new Error(`(${info.code}) ${info.message}`);
+  }
   return res;
 }

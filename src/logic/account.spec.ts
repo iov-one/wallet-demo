@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BlockInfoSucceeded, isBlockInfoPending, TokenTicker } from "@iov/bcp-types";
+import { Amount, BcpAccount, BlockInfoSucceeded, TokenTicker } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
@@ -13,10 +13,10 @@ import {
   watchAccount,
 } from "./account";
 import { compareAmounts } from "./balances";
-import { addBlockchain, checkBnsBlockchainNft } from "./connection";
+import { addBlockchain } from "./connection";
 import { createProfile, ensureIdentity, getIdentity } from "./profile";
 import { adminProfile, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
-import { waitForCommit } from "./transaction";
+import { checkBnsBlockchainNft, waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTestBns("random account should be empty", async () => {
@@ -81,7 +81,7 @@ describe("sendTransaction", () => {
           fractionalDigits: 9,
           tokenTicker: testTicker,
         };
-        const res = await sendTransaction(
+        const tx = sendTransaction(
           faucet,
           writer,
           reader.chainId(),
@@ -89,7 +89,8 @@ describe("sendTransaction", () => {
           amount,
           "hello",
         );
-        const blockInfo = await res.blockInfo.waitFor(info => !isBlockInfoPending(info));
+        const res = await waitForCommit(tx);
+        const blockInfo = res.blockInfo.value;
         const txHeight = (blockInfo as BlockInfoSucceeded).height;
         expect(txHeight).toBeGreaterThan(2);
         expect(res.transactionId).toBeTruthy();

@@ -1,9 +1,9 @@
-import { BcpConnection, ChainConnector, isBlockInfoPending, PublicIdentity, TxCodec } from "@iov/bcp-types";
-import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
+import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp-types";
+import { bnsCodec, bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
-import { ensureIdentity, getWalletAndIdentity } from "./profile";
+import { ensureIdentity } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
@@ -75,38 +75,4 @@ export async function addBlockchain(
   // we now ensure there is a identity set up for this blockchain here
   const identity = await ensureIdentity(profile, connection.chainId(), blockchain.codecType);
   return { connection, codec, identity };
-}
-
-export async function checkBnsBlockchainNft(
-  profile: UserProfile,
-  connection: BnsConnection,
-  writer: MultiChainSigner,
-  chainId: ChainId,
-  codecName: string,
-): Promise<void> {
-  const result = await connection.getBlockchains({ chainId });
-  if (result.length === 0) {
-    const registryChainId = await connection.chainId();
-
-    const { walletId, identity: signer } = getWalletAndIdentity(profile, connection.chainId());
-
-    const blockchainRegistration: RegisterBlockchainTx = {
-      kind: "bns/register_blockchain",
-      creator: {
-        chainId: registryChainId,
-        pubkey: signer.pubkey,
-      },
-      chain: {
-        chainId: chainId,
-        production: false,
-        enabled: true,
-        name: "Wonderland",
-        networkId: "7rg047g4h",
-      },
-      codecName,
-      codecConfig: `{ }`,
-    };
-    const response = await writer.signAndPost(blockchainRegistration, walletId);
-    await response.blockInfo.waitFor(info => !isBlockInfoPending(info));
-  }
 }
