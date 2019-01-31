@@ -811,6 +811,25 @@
     bn.js "^4.11.8"
     readonly-date "^1.0.0"
 
+"@iov/ethereum@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@iov/ethereum/-/ethereum-0.12.1.tgz#0d7ddcb142da2af759279014a2e561c693bd9c2a"
+  integrity sha512-EFf22UtpimJhm4SZxBMJYX7P+4KJitFeStYJ+xdyToZhSmEVksa0btRzKyVD8NoAu4Mv2/BXZaC8mnB1GS7EwQ==
+  dependencies:
+    "@iov/bcp-types" "^0.12.0"
+    "@iov/crypto" "^0.12.1"
+    "@iov/encoding" "^0.12.0"
+    "@iov/jsonrpc" "^0.12.0"
+    "@iov/keycontrol" "^0.12.1"
+    "@types/long" "^4.0.0"
+    axios "^0.18.0"
+    bn.js "^4.11.8"
+    fast-deep-equal "^2.0.1"
+    long "^4.0.0"
+    readonly-date "^1.0.0"
+    rlp "^2.2.2"
+    xstream "^11.10.0"
+
 "@iov/faucets@^0.12.1":
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/@iov/faucets/-/faucets-0.12.1.tgz#c5f51959eb29ef635f3390cf2056a9f0e2072c9f"
@@ -2351,7 +2370,7 @@ bluebird@^3.3.5, bluebird@^3.5.1:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.8, bn.js@^4.4.0:
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.1, bn.js@^4.11.8, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
 
@@ -8223,6 +8242,14 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rlp@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.2.2.tgz#e6677b83cca9105371d930e01d8ffc1263139d05"
+  integrity sha512-Ng2kJEN731Sfv4ZAY2i0ytPMc0BbJKBsVNl0QZY8LxOWSwd+1xpg+fpSRfaMn0heHU447s6Kgy8qfHZR0XTyVw==
+  dependencies:
+    bn.js "^4.11.1"
+    safe-buffer "^5.1.1"
 
 rsvp@^3.3.3:
   version "3.6.2"

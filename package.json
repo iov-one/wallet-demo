@@ -27,6 +27,7 @@
     "@iov/bns": "^0.12.1",
     "@iov/core": "^0.12.1",
     "@iov/crypto": "^0.12.1",
+    "@iov/ethereum": "^0.12.1",
     "@iov/faucets": "^0.12.1",
     "@iov/keycontrol": "^0.12.1",
     "@iov/lisk": "^0.12.1",
