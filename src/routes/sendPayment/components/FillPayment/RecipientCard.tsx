@@ -5,12 +5,12 @@ import TextField from "~/components/forms/TextField";
 import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
-import IovTypography from "~/components/layout/Typography";
+import Typography from "~/components/layout/Typography";
 
 export const RECIPIENT_FIELD = "recipient";
 
 interface State {
-  readonly phoneHook: HTMLDivElement | null;
+  readonly howItWorksHook: HTMLDivElement | null;
 }
 
 interface Props extends WithStyles<typeof styles> {}
@@ -25,13 +25,13 @@ const styles = createStyles({
 
 class RecipientCard extends React.Component<Props, State> {
   public readonly state = {
-    phoneHook: null,
+    howItWorksHook: null,
   };
-  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+  private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
     this.setState(() => ({
-      phoneHook: this.phoneHookRef.current,
+      howItWorksHook: this.howItWorksHookRef.current,
     }));
   }
 
@@ -40,9 +40,9 @@ class RecipientCard extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <Block margin="xl" />
-        <IovTypography variant="body2" weight="semibold">
+        <Typography variant="body2" weight="semibold">
           To
-        </IovTypography>
+        </Typography>
         <Block margin="md" />
         <Field
           variant="outlined"
@@ -55,16 +55,16 @@ class RecipientCard extends React.Component<Props, State> {
         />
         <Block margin="lg" />
         <Block margin="sm" className={classes.tooltip}>
-          <IovTypography inline variant="body2">
+          <Typography inline variant="body2">
             How it works
-          </IovTypography>
+          </Typography>
           <Block padding="xs" />
-          <Tooltip phoneHook={this.state.phoneHook}>
+          <Tooltip phoneHook={this.state.howItWorksHook}>
             Send payments to anyone with an IOV handle, and it will go directly to their account. If they
             don’t have an IOV account add their blockchain address.
           </Tooltip>
         </Block>
-        <div ref={this.phoneHookRef} />
+        <div ref={this.howItWorksHookRef} />
         <Block margin="xl" />
       </React.Fragment>
     );
