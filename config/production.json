@@ -2,20 +2,20 @@
   "bns": {
     "chainSpec": {
       "codecType": "bns",
-      "bootstrapNodes": ["wss://bns.yaknet.iov.one/"]
+      "bootstrapNodes": ["wss://bns.hugnet.iov.one/"]
     },
     "faucetSpec": {
-      "uri": "https://iov-faucet.yaknet.iov.one",
+      "uri": "https://iov-faucet.hugnet.iov.one",
       "token": "IOV"
     }
   },
   "chains": [{
     "chainSpec": {
       "codecType": "bov",
-      "bootstrapNodes": ["wss://bov.yaknet.iov.one/"]
+      "bootstrapNodes": ["wss://bov.hugnet.iov.one/"]
     },
     "faucetSpec": {
-      "uri": "https://bov-faucet.yaknet.iov.one",
+      "uri": "https://bov-faucet.hugnet.iov.one",
       "token": "ALT"
     }
   },{
