@@ -7,13 +7,13 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { border, itemBackground, md, sm, xs } from "~/theme/variables";
+import { border, itemBackground, md, shadow, sm, xs } from "~/theme/variables";
 import infoNormal from "./assets/info_normal.svg";
 
 const styles = createStyles({
   paper: {
     padding: md,
-    boxShadow: `0 ${xs} ${md} 0 #e3e4e7`,
+    boxShadow: shadow, //`0 ${xs} ${md} 0 #e3e4e7`,
   },
   phone: {
     border: `1px solid ${border}`,

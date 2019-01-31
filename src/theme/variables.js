@@ -33,6 +33,7 @@ const screenSmMax = 991;
 const screenMd = 992;
 const screenMdMax = 1199;
 const screenLg = 1200;
+const shadow = `0 ${xs} ${md} 0 #e3e4e7`;
 
 module.exports = Object.assign(
   {}, 
@@ -72,6 +73,7 @@ module.exports = Object.assign(
     screenLg,
     temporaryError,
     placeholder,
+    shadow,
 
   },
 )
