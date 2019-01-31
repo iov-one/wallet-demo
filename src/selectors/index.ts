@@ -75,6 +75,9 @@ export const requireConnection = (state: RootState, chainId: ChainId) =>
 export const requireBnsConnection = (state: RootState) =>
   ensure(getBnsConnection(state), `No BNS connection set`);
 
-export const requireBnsChainId = (state: RootState) => ensure(getBnsChainId(state), `No BNS chain id set`);
+export const requireBnsChainId = (state: RootState) => { 
+  
+  return ensure(getBnsChainId(state), `No BNS chain id set`);
+}
 
 export const requireSigner = (state: RootState) => ensure(getSigner(state), "Signer not yet initialized");

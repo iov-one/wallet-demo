@@ -41,7 +41,7 @@ const styles = createStyles({
 const account = /^[a-z0-9_]+$/;
 const error = "Allowed lowercase letters, numbers and _";
 
-const takenName = (connection: BnsConnection | undefined) => async (name: string) => {
+export const takenName = (connection: BnsConnection | undefined) => async (name: string) => {
   if (!connection) {
     return "BNS connection is not active";
   }

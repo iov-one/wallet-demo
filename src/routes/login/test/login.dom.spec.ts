@@ -1,7 +1,6 @@
 import { UserProfile } from "@iov/keycontrol";
 import { Store } from "redux";
-// import * as profile from "~/logic/profile";
-import { mayTestBns } from "~/logic/testhelpers";
+import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { BALANCE_ROUTE, LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
@@ -18,7 +17,8 @@ describe("DOM > Feature > Login", () => {
 
   beforeAll(async () => {
     store = aNewStore();
-    await processBalance(store);
+    const account = randomString(6)
+    await processBalance(store, account);
   }, 35000);
 
   beforeEach(() => {
