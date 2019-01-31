@@ -49,10 +49,9 @@ export const setNameSequence = (username: string) => async (
 
   // this now sets the name on the bns chain
   await waitForCommit(setName(profile, signer, bnsId, username, addresses));
+  // TODO: we don't handle errors here at all!
 
   // since we are not watching the username (TODO in iov-core), we need to query it again one this is set
-
-  // let's just query for any one that we registered...
   return fixTypes(dispatch(getUsernameNftByUsernameAsyncAction.start(bnsConn, username, {}, {})));
 };
 
@@ -64,11 +63,11 @@ export const sendTransactionSequence = (
   uniqId: string,
   signerName: string,
 ) => async (dispatch: RootThunkDispatch, getState: () => RootState) => {
+  const profile = ensure(getProfile(getState()));
+  const signer = requireSigner(getState());
+  const conn = requireBnsConnection(getState());
+  const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
   try {
-    const profile = ensure(getProfile(getState()));
-    const signer = requireSigner(getState());
-    const conn = requireBnsConnection(getState());
-    const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
@@ -78,7 +77,6 @@ export const sendTransactionSequence = (
       }),
     );
     await waitForCommit(sendTransaction(profile, signer, chainId, address, amount, memo));
-    dispatch(removePendingTransactionAction(uniqId));
   } catch (err) {
     dispatch(
       addFailedTransactionAction(
@@ -91,6 +89,7 @@ export const sendTransactionSequence = (
         err,
       ),
     );
+  } finally {
     dispatch(removePendingTransactionAction(uniqId));
   }
 };
