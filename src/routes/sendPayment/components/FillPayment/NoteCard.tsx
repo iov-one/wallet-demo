@@ -11,14 +11,9 @@ import note from "../../assets/note.svg";
 export const NOTE_FIELD = "note";
 const NOTE_MAX_SIZE = 150;
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> { }
 
 const styles = createStyles({
-  noteField: {
-    "& * fieldset": {
-      border: "0 !important",
-    },
-  },
   resize: {
     fontSize: `${mediumFontSize} !important`,
   },
@@ -36,31 +31,34 @@ const styles = createStyles({
   },
 });
 
-const NoteCard = ({ classes }: Props): JSX.Element => (
-  <React.Fragment>
-    <Block margin="xl" />
-    <Block padding="lg" className={classes.inner}>
-      <Img src={note} width={15} height={15} alt="Note icon" />
-      <Field
-        variant="outlined"
-        name={NOTE_FIELD}
-        className={classes.noteField}
-        InputProps={{
-          classes: {
-            input: classes.resize,
-            root: classes.textRoot,
-          },
-        }}
-        type="text"
-        multiline
-        fullWidth
-        component={TextField}
-        validate={lengthLowerThan(NOTE_MAX_SIZE)}
-        placeholder="Add a note"
-      />
-    </Block>
-    <Block margin="xl" />
-  </React.Fragment>
-);
+const NoteCard = ({ classes }: Props): JSX.Element => {
+  const inputRootProps = {
+    classes: {
+      input: classes.resize,
+      root: classes.textRoot,
+    },
+    disableUnderline: true,
+  };
+
+  return (
+    <React.Fragment>
+      <Block margin="xl" />
+      <Block padding="lg" className={classes.inner}>
+        <Img src={note} width={15} height={15} alt="Note icon" />
+        <Field
+          name={NOTE_FIELD}
+          InputProps={inputRootProps}
+          type="text"
+          multiline
+          fullWidth
+          component={TextField}
+          validate={lengthLowerThan(NOTE_MAX_SIZE)}
+          placeholder="Add a note"
+        />
+      </Block>
+      <Block margin="xl" />
+    </React.Fragment>
+  );
+}
 
 export default withStyles(styles)(NoteCard);
