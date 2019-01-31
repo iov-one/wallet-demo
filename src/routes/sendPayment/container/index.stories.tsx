@@ -5,7 +5,7 @@ import * as React from "react";
 import { Item } from "~/components/forms/SelectField";
 import { RootMatchMedia } from "~/utils/storybook";
 import ConfirmPayment from "../components/ConfirmPayment";
-import { FillPayment } from "../components/FillPayment";
+import FillPayment from "../components/FillPayment";
 
 const noOp = () => true;
 const noOpAsync = (_: object) => Promise.resolve();

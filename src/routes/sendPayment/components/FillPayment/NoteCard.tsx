@@ -7,7 +7,6 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { background, md, mediumFontSize } from "~/theme/variables";
 import note from "../../assets/note.svg";
-import SendCard from "./SendCard";
 
 export const NOTE_FIELD = "note";
 const NOTE_MAX_SIZE = 150;
@@ -38,7 +37,7 @@ const styles = createStyles({
 });
 
 const NoteCard = ({ classes }: Props): JSX.Element => (
-  <SendCard>
+  <React.Fragment>
     <Block margin="xl" />
     <Block padding="lg" className={classes.inner}>
       <Img src={note} width={15} height={15} alt="Note icon" />
@@ -61,7 +60,7 @@ const NoteCard = ({ classes }: Props): JSX.Element => (
       />
     </Block>
     <Block margin="xl" />
-  </SendCard>
+  </React.Fragment>
 );
 
 export default withStyles(styles)(NoteCard);

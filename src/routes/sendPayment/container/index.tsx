@@ -9,10 +9,10 @@ import { getUsernameNftByUsername, IOV_NAMESPACE, isIovAddress, padAmount, strin
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
-import { FillPayment } from "~/routes/sendPayment/components/FillPayment";
+import FillPayment from "~/routes/sendPayment/components/FillPayment";
 import { NOTE_FIELD } from "~/routes/sendPayment/components/FillPayment/NoteCard";
 import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/RecipientCard";
-import { AMOUNT_FIELD, TOKEN_FIELD } from "~/routes/sendPayment/components/FillPayment/SendAmount";
+import { AMOUNT_FIELD, TOKEN_FIELD } from "~/routes/sendPayment/components/FillPayment/SendCard";
 import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";

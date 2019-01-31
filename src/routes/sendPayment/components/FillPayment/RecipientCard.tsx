@@ -6,7 +6,6 @@ import { required } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import IovTypography from "~/components/layout/Typography";
-import SendCard from "./SendCard";
 
 export const RECIPIENT_FIELD = "recipient";
 
@@ -39,7 +38,7 @@ class RecipientCard extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { classes } = this.props;
     return (
-      <SendCard>
+      <React.Fragment>
         <Block margin="xl" />
         <IovTypography variant="body2" weight="semibold">
           To
@@ -67,7 +66,7 @@ class RecipientCard extends React.Component<Props, State> {
         </Block>
         <div ref={this.phoneHookRef} />
         <Block margin="xl" />
-      </SendCard>
+      </React.Fragment>
     );
   }
 }
