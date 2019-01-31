@@ -11,7 +11,7 @@ import note from "../../assets/note.svg";
 export const NOTE_FIELD = "note";
 const NOTE_MAX_SIZE = 150;
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {}
 
 const styles = createStyles({
   resize: {
@@ -59,6 +59,6 @@ const NoteCard = ({ classes }: Props): JSX.Element => {
       <Block margin="xl" />
     </React.Fragment>
   );
-}
+};
 
 export default withStyles(styles)(NoteCard);
