@@ -40,8 +40,6 @@ describe("getAccount", () => {
     const testSpecData = await testSpec();
     const { connection: reader, codec } = await addBlockchain(writer, profile, testSpecData);
     const ident = await getIdentity(profile, reader.chainId());
-    console.log(`codec: ${testSpecData.codecType}, chainId: ${reader.chainId()}`);
-    console.log(`address: ${writer.identityToAddress(ident)}`);
 
     try {
       const acct = await getAccount(reader, ident, codec);

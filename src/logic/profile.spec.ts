@@ -124,20 +124,23 @@ describe("hasStoredProfile", () => {
   });
 });
 
-xdescribe("loadOrCreateProfile", () => {
+describe("loadOrCreateProfile", () => {
   it("should work on empty and full db", async () => {
     const db = createMemDb();
     const password = "foobar";
 
-    const chainIdBns = "bns-chain" as ChainId;
     const profile1 = await loadOrCreateProfile(db, password);
-    // note: currently fails as we don't save this here...
-    await ensureIdentity(profile1, chainIdBns, "bns");
+    const wallets1 = profile1.wallets.value;
+    expect(wallets1.length).toEqual(2);
+    const secret1 = profile1.printableSecret(wallets1[0].id);
 
     const profile2 = await loadOrCreateProfile(db, password);
-    const ident1 = getWalletAndIdentity(profile1, chainIdBns).identity;
-    const ident2 = getWalletAndIdentity(profile2, chainIdBns).identity;
-    expect(ident1.pubkey).toEqual(ident2.pubkey);
+    const wallets2 = profile2.wallets.value;
+    expect(wallets2.length).toEqual(2);
+    const secret2 = profile2.printableSecret(wallets2[0].id);
+
+    expect(wallets2).toEqual(wallets1);
+    expect(secret2).toEqual(secret1);
   });
 
   it("should error loading with invalid password", async () => {
@@ -151,46 +154,42 @@ xdescribe("loadOrCreateProfile", () => {
     await expect(loadOrCreateProfile(db, "bad password")).rejects.toThrow("invalid usage");
   });
 
-  // it("generates new profile from mnemonic", async () => {
-  //   const db = createMemDb();
-  //   const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
-  //   const password = "foobar";
+  it("generates new profile from mnemonic", async () => {
+    const db = createMemDb();
+    const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
+    const password = "foobar";
 
-  //   // create matches mnemonic
-  //   const chainIdBns = "bns-chain" as ChainId;
-  //   const profile1 = await loadOrCreateProfile(db, password, mnemonic);
-  //   const walletId = profile1.wallets.value[0].id;
-  //   expect(walletId).toBeDefined();
-  //   expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
+    // create matches mnemonic
+    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const walletId = profile1.wallets.value[0].id;
+    expect(walletId).toBeDefined();
+    expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
 
-  //   // reload with same mnemonic
-  //   const profile2 = await loadOrCreateProfile(db, password);
-  //   expect(getMainIdentity(profile2).pubkey).toEqual(getMainIdentity(profile1).pubkey);
-  //   expect(profile2.printableSecret(walletId)).toEqual(mnemonic);
-  // });
+    // reload with same mnemonic
+    const profile2 = await loadOrCreateProfile(db, password);
+    expect(profile2.printableSecret(walletId)).toEqual(mnemonic);
+  });
 
-  // it("overwrites existing profile when mnemonic provided", async () => {
-  //   const db = createMemDb();
-  //   const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
-  //   const password = "foobar";
-  //   const mnemonic2 = "beach young hobby distance confirm material coin endless buzz correct express they";
-  //   const password2 = "bazoom";
+  it("overwrites existing profile when mnemonic provided", async () => {
+    const db = createMemDb();
+    const mnemonic = "kiss assault oxygen consider duck auto annual nerve census cloth stem park";
+    const password = "foobar";
+    const mnemonic2 = "beach young hobby distance confirm material coin endless buzz correct express they";
+    const password2 = "bazoom";
 
-  //   // create matches mnemonic
-  //   const chainIdBns = "bns-chain" as ChainId;
-  //   const profile1 = await loadOrCreateProfile(chainIdBns, db, password, mnemonic);
-  //   const walletId = profile1.wallets.value[0].id;
-  //   expect(walletId).toBeDefined();
-  //   expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
+    // create matches mnemonic
+    const profile1 = await loadOrCreateProfile(db, password, mnemonic);
+    const walletId = profile1.wallets.value[0].id;
+    expect(walletId).toBeDefined();
+    expect(profile1.printableSecret(walletId)).toEqual(mnemonic);
 
-  //   // reload with different mnemonic and password works (overwrite)
-  //   const profile2 = await loadOrCreateProfile(chainIdBns, db, password2, mnemonic2);
-  //   const walletId2 = profile2.wallets.value[0].id;
-  //   expect(walletId2).toBeDefined();
-  //   expect(walletId2).not.toEqual(walletId);
-  //   expect(getMainIdentity(profile2).pubkey).not.toEqual(getMainIdentity(profile1).pubkey);
-  //   expect(profile2.printableSecret(walletId2)).toEqual(mnemonic2);
-  // });
+    // reload with different mnemonic and password works (overwrite)
+    const profile2 = await loadOrCreateProfile(db, password2, mnemonic2);
+    const walletId2 = profile2.wallets.value[0].id;
+    expect(walletId2).toBeDefined();
+    expect(walletId2).not.toEqual(walletId);
+    expect(profile2.printableSecret(walletId2)).toEqual(mnemonic2);
+  });
 });
 
 describe("cleanMnemonic", () => {
