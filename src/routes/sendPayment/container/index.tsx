@@ -20,9 +20,6 @@ import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
 
-// TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-export const FRACTIONAL_DIGITS = 9;
-
 interface RouteLocation {
   readonly [RECIPIENT_FIELD]: string | undefined;
 }
@@ -107,7 +104,7 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onConfirmPayment = async () => {
-    const { payment } = this.state;
+    const { balanceToSend, payment } = this.state;
     const { sendTransaction, accountName } = this.props;
 
     if (!payment) {
@@ -116,13 +113,13 @@ class SendPayment extends React.Component<Props, State> {
 
     const { chainId, ticker, amount, note, recipient } = payment;
     const txAmount: Amount = stringToAmount(amount, ticker);
-    // this line is essential
-    // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-    const paddedTxAmount = padAmount(txAmount, FRACTIONAL_DIGITS);
+    // use amount of sigfigs from the ticker. 9 is needed for bns, 8 for lisk, 18 for eth...
+    const paddedTxAmount = padAmount(txAmount, balanceToSend.fractionalDigits);
     const id = uniquId();
     if (!accountName) {
       throw new Error("Not possible to send a transaction without an account");
     }
+    // we start the sequence, but do not
     sendTransaction(chainId, recipient, paddedTxAmount, note, id, accountName);
 
     history.push(BALANCE_ROUTE);
