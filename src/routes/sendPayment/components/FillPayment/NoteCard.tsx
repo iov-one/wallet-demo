@@ -5,7 +5,7 @@ import TextField from "~/components/forms/TextField";
 import { lengthLowerThan } from "~/components/forms/validator";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
-import { background, md, mediumFontSize } from "~/theme/variables";
+import { md, mediumFontSize } from "~/theme/variables";
 import note from "../../assets/note.svg";
 
 export const NOTE_FIELD = "note";
@@ -16,11 +16,6 @@ interface Props extends WithStyles<typeof styles> {}
 const styles = createStyles({
   resize: {
     fontSize: `${mediumFontSize} !important`,
-  },
-  card: {
-    backgroundColor: background,
-    display: "flex",
-    flexDirection: "column",
   },
   inner: {
     display: "flex",
