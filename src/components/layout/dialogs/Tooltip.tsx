@@ -8,6 +8,7 @@ import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { border, itemBackground, md, shadow, sm, xs } from "~/theme/variables";
+import { showPhone } from "~/utils/reactportals";
 import infoNormal from "./assets/info_normal.svg";
 
 const styles = createStyles({
@@ -44,14 +45,12 @@ class Tooltip extends React.PureComponent<Props> {
     return (
       <MatchMediaContext.Consumer>
         {phone => {
-          const showPhone = phone && phoneHook !== null && open;
-
           return (
             <React.Fragment>
               <div ref={this.tooltipRef} onClick={toggle}>
                 <Img src={infoNormal} alt="Info" width={16} height={16} />
               </div>
-              {showPhone ? (
+              {showPhone(phone, phoneHook, open) ? (
                 ReactDOM.createPortal(
                   <Block className={classes.phone}>
                     <Typography variant="body2">{children}</Typography>

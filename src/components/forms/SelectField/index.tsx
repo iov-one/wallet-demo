@@ -9,6 +9,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { border, mediumFontSize, sm } from "~/theme/variables";
+import { showPhone } from "~/utils/reactportals";
 import selectChevron from "./assets/selectChevron.svg";
 import SelectItems from "./SelectItems";
 
@@ -106,7 +107,6 @@ class SelectInput extends React.PureComponent<Props, State> {
     return (
       <MatchMediaContext.Consumer>
         {phone => {
-          const showPhone = phone && phoneHook !== null && open;
 
           return (
             <Block maxWidth={maxWidth} className={classes.container}>
@@ -121,7 +121,7 @@ class SelectInput extends React.PureComponent<Props, State> {
                 />
                 <Img noShrink src={selectChevron} alt="Phone Menu" width={`${CHEVRON_WIDTH}`} height="5" />
               </div>
-              {showPhone ? (
+              {showPhone(phone, phoneHook, open) ? (
                 ReactDOM.createPortal(
                   <SelectItems
                     selectedItem={this.state.value}
