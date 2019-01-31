@@ -1,11 +1,11 @@
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { SET_NAME_ROUTE } from "~/routes";
+import { SIGNUP_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-export const processSetName = async (SetNameDom: React.Component, account: string ): Promise<void> => {
+export const processSetName = async (SetNameDom: React.Component, account: string): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SetNameDom, "input");
   expect(inputs.length).toBe(1);
 
@@ -19,11 +19,11 @@ export const processSetName = async (SetNameDom: React.Component, account: strin
   }
   TestUtils.Simulate.submit(form);
 
-  await sleep(6000);
+  await sleep(4000);
 };
 
 export const travelToSetName = async (store: Store): Promise<React.Component> => {
-  history.push(SET_NAME_ROUTE);
+  history.push(SIGNUP_ROUTE);
 
   const dom = createDom(store);
   await sleep(500);

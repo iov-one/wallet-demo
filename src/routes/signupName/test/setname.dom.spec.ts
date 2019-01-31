@@ -8,7 +8,6 @@ import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
-import { sleep } from "~/utils/timer";
 import { processSetName, travelToSetName } from "./utils/travelSetName";
 
 describe("DOM > Feature > Signup - setname", () => {
@@ -36,17 +35,16 @@ describe("DOM > Feature > Signup - setname", () => {
   });
 
   mayTestBns(
-    'should fail if user uses an already registered account name',
+    "should fail if user uses an already registered account name",
     async () => {
       const SignUpDom = await travelToSetName(refreshStore);
       expectRoute(refreshStore, SIGNUP_ROUTE);
       await processSignup(SignUpDom);
       expectRoute(refreshStore, SET_NAME_ROUTE);
-      await sleep(6000);
-      const takenNameSpy = jest.spyOn(SetNameForm, "takenName");
+      const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
       await processSetName(SignUpDom, account);
 
-      expect(takenNameSpy).toHaveBeenCalledTimes(1);
+      expect(takenNameSpy).toHaveBeenCalled();
       expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
       expectRoute(refreshStore, SET_NAME_ROUTE);
     },

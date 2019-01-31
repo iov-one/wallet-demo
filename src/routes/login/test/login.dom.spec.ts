@@ -17,7 +17,7 @@ describe("DOM > Feature > Login", () => {
 
   beforeAll(async () => {
     store = aNewStore();
-    const account = randomString(6)
+    const account = randomString(6);
     await processBalance(store, account);
   }, 35000);
 
