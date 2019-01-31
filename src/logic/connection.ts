@@ -88,7 +88,7 @@ export async function checkBnsBlockchainNft(
   if (result.length === 0) {
     const registryChainId = await connection.chainId();
 
-    const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
+    const { walletId, identity: signer } = getWalletAndIdentity(profile, connection.chainId());
 
     const blockchainRegistration: RegisterBlockchainTx = {
       kind: "bns/register_blockchain",

@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BcpAccount, BcpTicker, PublicIdentity } from "@iov/bcp-types";
+import { BcpAccount, BcpTicker } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { Address, ChainId } from "@iov/core";
 
@@ -41,13 +41,12 @@ export const getBnsConnection: (state: RootState) => BnsConnection | undefined =
 // getChainTickers was a map, now the redux state
 export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
-export const getAllIdentities: (state: RootState) => ReadonlyArray<PublicIdentity> = createSelector(
-  getProfile,
-  profile =>
-    profile === undefined
+export const getAllIdentities = (state: RootState) => {
+  const profile = state.profile.internal.profile;
+  return (profile === undefined)
       ? []
-      : profile.wallets.value.map(i => profile.getIdentities(i.id)).reduce((acc, cur) => [...acc, ...cur]),
-);
+      : profile.wallets.value.map(i => profile.getIdentities(i.id)).reduce((acc, cur) => [...acc, ...cur]);
+}
 
 export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 
