@@ -1,5 +1,4 @@
 import { BcpCoin } from "@iov/bcp-types";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
@@ -18,7 +17,7 @@ export interface SendBalance {
   readonly onUpdateBalanceToSend: (ticker: Item) => void;
 }
 
-interface Props extends SendBalance, WithStyles<typeof styles> {
+interface Props extends SendBalance {
   readonly onSubmit: (values: object) => Promise<void>;
   readonly validation?: (values: object) => object | Promise<object>;
   readonly initialValues?: object;
@@ -29,11 +28,7 @@ const subscription = {
   validating: true,
 };
 
-const styles = createStyles({
-  controls: {},
-});
-
-const SendPaymentLayout = ({
+export const FillPayment = ({
   onSubmit,
   validation,
   initialValues,
@@ -68,5 +63,3 @@ const SendPaymentLayout = ({
     </Form>
   </PageMenuColumn>
 );
-
-export default withStyles(styles)(SendPaymentLayout);
