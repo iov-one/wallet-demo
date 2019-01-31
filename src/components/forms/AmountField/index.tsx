@@ -10,15 +10,10 @@ import { sm, xxlFontSize } from "~/theme/variables";
 const styles = createStyles({
   root: {
     padding: 0,
-    "& * input": {
-      textAlign: "right",
-      paddingRight: sm,
-    },
-    "& * fieldset": {
-      borderWidth: "0 !important",
-    },
   },
-  input: {
+  inputProps: {
+    textAlign: "right",
+    paddingRight: sm,
     fontSize: xxlFontSize,
   },
 });
@@ -40,8 +35,15 @@ class AmountFieldElem extends React.PureComponent<Props> {
     } = this.props;
     const showError = (meta.touched || !meta.pristine) && !meta.valid;
 
-    const inputProps = { ...restInput, autoComplete: "off" };
-    const inputRootProps = { ...InputProps, className: classes.input };
+    const inputProps = { 
+      ...restInput, 
+      autoComplete: "off",
+      className: classes.inputProps,
+    };
+    const inputRootProps = { 
+      ...InputProps, 
+      disableUnderline: true,
+    };
 
     return (
       <React.Fragment>

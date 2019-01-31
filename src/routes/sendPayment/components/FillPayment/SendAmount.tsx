@@ -91,7 +91,6 @@ class SendAmount extends React.Component<Props, State> {
           <Block className={classes.container}>
             <Block className={classes.amountField}>
               <Field
-                variant="outlined"
                 name={AMOUNT_FIELD}
                 type="text"
                 fullWidth
