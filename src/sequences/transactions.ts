@@ -66,8 +66,8 @@ export const sendTransactionSequence = (
   const profile = ensure(getProfile(getState()));
   const signer = requireSigner(getState());
   const conn = requireBnsConnection(getState());
-  const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
   try {
+    const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
