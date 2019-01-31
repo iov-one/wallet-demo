@@ -25,7 +25,6 @@ describe("addBlockchain", () => {
       const tokens = tickers.map((tick: BcpTicker) => tick.tokenTicker);
       expect(tokens).toEqual(["CASH", "IOV"]);
     } finally {
-      reader.disconnect();
       writer.shutdown();
     }
   });

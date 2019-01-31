@@ -7,7 +7,7 @@ import { HOME_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { getBnsAccount } from "~/selectors";
 
 interface RequireLoginProps extends RouteProps {
-  readonly bnsAccount: AccountInfo|undefined;
+  readonly bnsAccount: AccountInfo | undefined;
   readonly children?: React.ReactNode | ReadonlyArray<React.ReactNode>;
 }
 
@@ -17,7 +17,6 @@ class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
     if (location && location.pathname === HOME_ROUTE) {
       return <React.Fragment>{children}</React.Fragment>;
     }
-
 
     // redirect is the url to redirect to, or undefined if no redirect
     const redirect =

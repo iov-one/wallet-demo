@@ -30,7 +30,6 @@ describe("getAccount", () => {
       const acct = await getAccount(reader, ident, codec);
       expect(acct).toEqual(undefined);
     } finally {
-      reader.disconnect();
       writer.shutdown();
     }
   });
@@ -53,7 +52,6 @@ describe("getAccount", () => {
       const minBalance = { quantity: "1000000", fractionalDigits: 0, tokenTicker: "IOV" as TokenTicker };
       expect(compareAmounts(token, minBalance)).toBeGreaterThanOrEqual(1);
     } finally {
-      reader.disconnect();
       writer.shutdown();
     }
   });
@@ -104,7 +102,6 @@ describe("sendTransaction", () => {
         expect(token.tokenTicker).toEqual(amount.tokenTicker);
         expect(token.quantity).toEqual(amount.quantity);
       } finally {
-        reader.disconnect();
         writer.shutdown();
       }
     },
@@ -123,7 +120,7 @@ describe("setName", () => {
       const writer = new MultiChainSigner(faucet);
       const { connection, codec } = await addBlockchain(writer, faucet, testSpecData);
       const rcptWriter = new MultiChainSigner(empty);
-      const { connection: rcptReader, identity: rcpt } = await addBlockchain(rcptWriter, empty, testSpecData);
+      const { identity: rcpt } = await addBlockchain(rcptWriter, empty, testSpecData);
 
       const reader = connection as BnsConnection;
       const rcptAddr = keyToAddress(rcpt, codec);
@@ -166,8 +163,6 @@ describe("setName", () => {
         expect(addr).toBeDefined();
         expect(addr).toEqual(rcptAddr);
       } finally {
-        reader.disconnect();
-        rcptReader.disconnect();
         writer.shutdown();
         rcptWriter.shutdown();
       }
@@ -190,11 +185,7 @@ describe("setName", () => {
           testSpecData,
         );
         const rcptWriter = new MultiChainSigner(empty);
-        const { connection: rcptReader, identity: rcpt } = await addBlockchain(
-          rcptWriter,
-          empty,
-          testSpecData,
-        );
+        const { identity: rcpt } = await addBlockchain(rcptWriter, empty, testSpecData);
 
         try {
           let updatesFaucet = 0;
@@ -272,8 +263,6 @@ describe("setName", () => {
           // end other subscription
           unsubscribeRcpt.unsubscribe();
         } finally {
-          reader.disconnect();
-          rcptReader.disconnect();
           writer.shutdown();
           rcptWriter.shutdown();
         }

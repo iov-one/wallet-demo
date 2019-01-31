@@ -43,10 +43,10 @@ export const getChainTickers = (state: RootState) => state.blockchain.tickers;
 
 export const getAllIdentities = (state: RootState) => {
   const profile = state.profile.internal.profile;
-  return (profile === undefined)
-      ? []
-      : profile.wallets.value.map(i => profile.getIdentities(i.id)).reduce((acc, cur) => [...acc, ...cur]);
-}
+  return profile === undefined
+    ? []
+    : profile.wallets.value.map(i => profile.getIdentities(i.id)).reduce((acc, cur) => [...acc, ...cur]);
+};
 
 export const getAllAccounts = (state: RootState) => state.blockchain.accountInfo;
 

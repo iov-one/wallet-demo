@@ -32,7 +32,7 @@ import {
 } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import { createProfileAsyncAction } from "~/reducers/profile";
-import { getConnections, getProfileDB } from "~/selectors";
+import { getProfileDB, getSigner } from "~/selectors";
 import { addConfirmedTransaction } from "~/store/notifications/actions";
 
 import { RootThunkDispatch } from "./types";
@@ -178,6 +178,8 @@ async function watchAccountAndTransactions(
 // dispatch(shutdownSequence)
 // we only have access to the state itself in tests
 export function shutdownSequence(_: any, getState: () => RootState): void {
-  const connections = getConnections(getState());
-  Object.values(connections).forEach(conn => conn.disconnect());
+  const signer = getSigner(getState());
+  if (signer) {
+    signer.shutdown();
+  }
 }
