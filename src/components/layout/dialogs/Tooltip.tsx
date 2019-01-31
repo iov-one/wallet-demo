@@ -14,7 +14,7 @@ import infoNormal from "./assets/info_normal.svg";
 const styles = createStyles({
   paper: {
     padding: md,
-    boxShadow: shadow, //`0 ${xs} ${md} 0 #e3e4e7`,
+    boxShadow: shadow,
   },
   phone: {
     border: `1px solid ${border}`,
@@ -42,6 +42,12 @@ class Tooltip extends React.PureComponent<Props> {
       maxWidth: 200,
     };
 
+    const popperModifiers = {
+      flip: {
+        enabled: true,
+      },
+    };
+
     return (
       <MatchMediaContext.Consumer>
         {phone => {
@@ -63,11 +69,7 @@ class Tooltip extends React.PureComponent<Props> {
                   style={popperStyle}
                   anchorEl={this.tooltipRef.current}
                   placement="bottom-end"
-                  modifiers={{
-                    flip: {
-                      enabled: true,
-                    },
-                  }}
+                  modifiers={popperModifiers}
                 >
                   <Paper className={classes.paper}>
                     <Typography variant="body2">{children}</Typography>
