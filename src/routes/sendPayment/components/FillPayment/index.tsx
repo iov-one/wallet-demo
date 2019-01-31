@@ -48,37 +48,37 @@ const SendPaymentLayout = ({
   onUpdateBalanceToSend,
   classes,
 }: Props) => (
-    <PageMenuColumn phoneFullWidth>
-      <Block margin="xxl" />
-      <Block margin="md" />
-      <Form
-        onSubmit={onSubmit}
-        initialValues={initialValues}
-        subscription={subscription}
-        validation={validation}
-        fullWidth
-      >
-        {({ submitting, validating }: FormState) => (
-          <React.Fragment>
-            <Block padding="lg" margin="lg" className={classes.card}>
-              <SendCard
-                balance={balance}
-                tickersWithBalance={tickersWithBalance}
-                defaultTicker={defaultTicker}
-                onUpdateBalanceToSend={onUpdateBalanceToSend}
-              />
-            </Block>
-            <Block padding="lg" margin="lg" className={classes.card}>
-              <RecipientCard />
-            </Block>
-            <Block padding="lg" margin="lg" className={classes.card}>
-              <NoteCard />
-            </Block>
-            <Controls submitting={submitting} validating={validating} />
-          </React.Fragment>
-        )}
-      </Form>
-    </PageMenuColumn>
-  );
+  <PageMenuColumn phoneFullWidth>
+    <Block margin="xxl" />
+    <Block margin="md" />
+    <Form
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      subscription={subscription}
+      validation={validation}
+      fullWidth
+    >
+      {({ submitting, validating }: FormState) => (
+        <React.Fragment>
+          <Block padding="lg" margin="lg" className={classes.card}>
+            <SendCard
+              balance={balance}
+              tickersWithBalance={tickersWithBalance}
+              defaultTicker={defaultTicker}
+              onUpdateBalanceToSend={onUpdateBalanceToSend}
+            />
+          </Block>
+          <Block padding="lg" margin="lg" className={classes.card}>
+            <RecipientCard />
+          </Block>
+          <Block padding="lg" margin="lg" className={classes.card}>
+            <NoteCard />
+          </Block>
+          <Controls submitting={submitting} validating={validating} />
+        </React.Fragment>
+      )}
+    </Form>
+  </PageMenuColumn>
+);
 
 export default withStyles(styles)(SendPaymentLayout);

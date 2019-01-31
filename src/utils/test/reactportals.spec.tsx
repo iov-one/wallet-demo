@@ -19,5 +19,4 @@ describe("Utils -> ReactPortas", () => {
     const divElement = document.createElement("div");
     expect(showPhone(true, divElement, false)).toBe(false);
   });
-
 });

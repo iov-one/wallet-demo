@@ -107,7 +107,6 @@ class SelectInput extends React.PureComponent<Props, State> {
     return (
       <MatchMediaContext.Consumer>
         {phone => {
-
           return (
             <Block maxWidth={maxWidth} className={classes.container}>
               <div ref={this.menuRef} className={classes.dropdown} onClick={toggle}>

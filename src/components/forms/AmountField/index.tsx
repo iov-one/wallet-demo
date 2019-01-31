@@ -35,13 +35,13 @@ class AmountFieldElem extends React.PureComponent<Props> {
     } = this.props;
     const showError = (meta.touched || !meta.pristine) && !meta.valid;
 
-    const inputProps = { 
-      ...restInput, 
+    const inputProps = {
+      ...restInput,
       autoComplete: "off",
       className: classes.inputProps,
     };
-    const inputRootProps = { 
-      ...InputProps, 
+    const inputRootProps = {
+      ...InputProps,
       disableUnderline: true,
     };
 
