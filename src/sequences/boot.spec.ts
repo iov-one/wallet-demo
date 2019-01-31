@@ -1,5 +1,6 @@
 import { mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
+import { getOrderedChainIds } from "~/selectors";
 import { makeStore } from "~/store";
 
 import { BootResult, bootSequence } from "./boot";
@@ -30,13 +31,12 @@ describe("boot sequence", () => {
         expect(ac.chainId).toEqual(chainsLoaded[index]);
         expect(ac.account).toBeUndefined();
       });
-      // same address for now as we have same codec....
+      // we have different addresses for each chain
       expect(accounts[0].address.length).toBeGreaterThan(10);
-      expect(accounts[0].address).toEqual(accounts[1].address);
+      expect(accounts[0].address).not.toEqual(accounts[1].address);
 
       // validate state properly initialized
       const state = store.getState();
-      expect(state.profile.activeIdentity).toBeDefined();
       expect(state.blockchain.internal.signer).toBeDefined();
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(totalChains);
 
@@ -61,10 +61,17 @@ describe("boot sequence", () => {
       expect(bnsId).toBeDefined();
       expect(bnsId).toEqual(chain1);
 
+      // ensure all chains are registered
+      const chainIds = getOrderedChainIds(state);
+      expect(chainIds.length).toEqual(3);
+      // bns and bov chains
+      expect(chainIds[0]).toMatch(/^test-chain/);
+      expect(chainIds[1]).toMatch(/^test-chain/);
+      // lisk chain
+      expect(chainIds[2]).toMatch(/^[0-9a-f]+$/);
+
       // make sure to close connections so test ends
-      for (const chainId of signer.chainIds()) {
-        signer.connection(chainId).disconnect();
-      }
+      signer.shutdown();
     },
     4000,
   );

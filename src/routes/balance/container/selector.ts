@@ -2,7 +2,7 @@ import { BcpCoin } from "@iov/bcp-types";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
 import { accountNameSelector } from "~/routes/home/container/selector";
-import { ChainAccount, getMyAccounts } from "~/selectors";
+import { ChainAccount, getAllAccounts } from "~/selectors";
 
 export interface SelectorProps {
   readonly name: string | undefined;
@@ -10,7 +10,7 @@ export interface SelectorProps {
 }
 
 export const tokensSelector = createSelector(
-  getMyAccounts,
+  getAllAccounts,
   (accounts: ReadonlyArray<ChainAccount>) =>
     accounts
       .filter(acct => !!acct.account)

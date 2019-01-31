@@ -1,35 +1,25 @@
-import { ChainId } from "@iov/base-types";
 import {
   Address,
   Amount,
   BcpAccount,
   BcpConnection,
-  BcpTxQuery,
+  ChainId,
   ConfirmedTransaction,
+  isConfirmedTransaction,
   PostTxResponse,
+  PublicIdentity,
   SendTransaction,
   TxCodec,
 } from "@iov/bcp-types";
 import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
 import { ChainAddressPair } from "@iov/bns/types/types";
-import { bnsFromOrToTag, MultiChainSigner } from "@iov/core";
-import { dposFromOrToTag } from "@iov/dpos";
-import { PublicIdentity } from "@iov/keycontrol";
+import { MultiChainSigner, UserProfile } from "@iov/core";
 
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
-import { getMainIdentity, getMainKeyring } from "./profile";
+import { getWalletAndIdentity } from "./profile";
 
 export function keyToAddress(ident: PublicIdentity, codec: TxCodec): Address {
-  return codec.keyToAddress(ident.pubkey);
-}
-
-// TODO: codec should have fromOrToTag function
-export function fromOrToTag(address: Address): BcpTxQuery {
-  const isBns = address.toString().indexOf("iov") !== -1;
-  const query: BcpTxQuery = isBns
-    ? { tags: [bnsFromOrToTag(address)] }
-    : { tags: [dposFromOrToTag(address)] };
-  return query;
+  return codec.identityToAddress(ident);
 }
 
 // queries account on bns chain by default
@@ -41,10 +31,7 @@ export async function getAccount(
 ): Promise<BcpAccount | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
-  if (result.data && result.data.length > 0) {
-    return result.data[0];
-  }
-  return undefined;
+  return result;
 }
 
 // looks up account for a given address (or undefined)
@@ -53,10 +40,7 @@ export async function getAccountByAddress(
   address: Address,
 ): Promise<BcpAccount | undefined> {
   const result = await connection.getAccount({ address });
-  if (result.data && result.data.length > 0) {
-    return result.data[0];
-  }
-  return undefined;
+  return result;
 }
 
 // looks up name for a given address (or undefined)
@@ -112,10 +96,14 @@ export function watchTransaction(
   codec: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);
-  const query = fromOrToTag(address);
-  const stream = connection.liveTx(query);
+  const stream = connection.liveTx({ sentFromOrTo: address });
   const subscription = stream.subscribe({
-    next: x => cb(x),
+    next: x => {
+      if (!isConfirmedTransaction(x)) {
+        throw new Error("Confirmed transaction expected");
+      }
+      cb(x);
+    },
     error: err => cb(undefined, err),
   });
   return subscription;
@@ -123,18 +111,20 @@ export function watchTransaction(
 
 // sends the given transaction from the main account
 export async function sendTransaction(
+  profile: UserProfile,
   writer: MultiChainSigner,
   chainId: ChainId,
   recipient: Address,
   amount: Amount,
   memo?: string,
 ): Promise<PostTxResponse> {
-  const walletId = getMainKeyring(writer.profile);
-  const signer = getMainIdentity(writer.profile);
+  const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
   const unsigned: SendTransaction = {
     kind: "bcp/send",
-    chainId: chainId,
-    signer: signer.pubkey,
+    creator: {
+      chainId: chainId,
+      pubkey: signer.pubkey,
+    },
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
@@ -144,17 +134,19 @@ export async function sendTransaction(
 
 // registers a new username nft on the bns with the given list of chain-address pairs
 export async function setName(
+  profile: UserProfile,
   writer: MultiChainSigner,
   bnsId: ChainId,
   username: string,
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
-  const walletId = getMainKeyring(writer.profile);
-  const signer = getMainIdentity(writer.profile);
+  const { walletId, identity: signer } = getWalletAndIdentity(profile, bnsId);
   const unsigned: RegisterUsernameTx = {
     kind: "bns/register_username",
-    chainId: bnsId,
-    signer: signer.pubkey,
+    creator: {
+      chainId: bnsId,
+      pubkey: signer.pubkey,
+    },
     username,
     addresses,
   };

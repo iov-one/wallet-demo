@@ -1,9 +1,10 @@
+import { ChainId } from "@iov/bcp-types";
 import { bnsCodec } from "@iov/bns";
 import { Bip39, Random, Slip10RawIndex } from "@iov/crypto";
 import { Bech32, Encoding } from "@iov/encoding";
 import { Ed25519HdWallet, HdPaths } from "@iov/keycontrol";
 
-async function genAccount(): Promise<void> {
+async function genAccount(chainId: ChainId): Promise<void> {
   const entropy = await Random.getBytes(16);
   const mnemonic = Bip39.encode(entropy).asString();
   console.log("mnemonic:");
@@ -11,10 +12,10 @@ async function genAccount(): Promise<void> {
   console.log("");
   const keyring = Ed25519HdWallet.fromMnemonic(mnemonic);
 
-  console.log("Profile accounts (simpleAddress)");
+  console.log("Profile accounts (iov)");
   for (let idx = 0; idx < 10; idx++) {
-    const ident = await keyring.createIdentity(HdPaths.simpleAddress(idx));
-    const addr = bnsCodec.keyToAddress(ident.pubkey);
+    const ident = await keyring.createIdentity(chainId, HdPaths.iov(idx));
+    const addr = bnsCodec.identityToAddress(ident);
     const hex = Encoding.toHex(Bech32.decode(addr).data);
     console.log(`${idx}:   ${addr} / ${hex}`);
   }
@@ -22,8 +23,8 @@ async function genAccount(): Promise<void> {
 
   console.log("Faucet accounts (coinType, see README)");
   for (let idx = 0; idx < 10; idx++) {
-    const ident = await keyring.createIdentity(faucetHdPath(idx));
-    const addr = bnsCodec.keyToAddress(ident.pubkey);
+    const ident = await keyring.createIdentity(chainId, faucetHdPath(idx));
+    const addr = bnsCodec.identityToAddress(ident);
     const hex = Encoding.toHex(Bech32.decode(addr).data);
     console.log(`${idx}:   ${addr} / ${hex}`);
   }
@@ -41,4 +42,4 @@ export function faucetHdPath(coinType: number): ReadonlyArray<Slip10RawIndex> {
   ];
 }
 
-genAccount();
+genAccount("test-chain" as ChainId);

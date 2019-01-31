@@ -1,4 +1,4 @@
-import { Amount, BcpCoin, TxCodec } from "@iov/bcp-types";
+import { Amount, BcpCoin } from "@iov/bcp-types";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -19,9 +19,6 @@ import {
 import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
-
-// TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-export const FRACTIONAL_DIGITS = 9;
 
 interface RouteLocation {
   readonly [RECIPIENT_FIELD]: string | undefined;
@@ -70,7 +67,7 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
-    const { codecs, connection, chainTickers, defaultBalance } = this.props;
+    const { connection, chainTickers, defaultBalance, signer } = this.props;
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
@@ -81,14 +78,8 @@ class SendPayment extends React.Component<Props, State> {
 
     if (!isIovAddress(maybeAddress)) {
       const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-      const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
-      const chainId = selectedTicker!.chainId;
-      const codec: TxCodec = codecs[chainId];
-      if (!codec) {
-        return generateError(RECIPIENT_FIELD, `Not chain codec found for ${chainId}, try again later`);
-      }
-      const valid = codec.isValidAddress(maybeAddress);
-
+      const chainId = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker)!.chainId;
+      const valid = signer.isValidAddress(chainId, maybeAddress);
       return valid
         ? {}
         : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`);
@@ -113,7 +104,7 @@ class SendPayment extends React.Component<Props, State> {
   };
 
   public readonly onConfirmPayment = async () => {
-    const { payment } = this.state;
+    const { balanceToSend, payment } = this.state;
     const { sendTransaction, accountName } = this.props;
 
     if (!payment) {
@@ -122,13 +113,13 @@ class SendPayment extends React.Component<Props, State> {
 
     const { chainId, ticker, amount, note, recipient } = payment;
     const txAmount: Amount = stringToAmount(amount, ticker);
-    // this line is essential
-    // TODO: use amount of sigfigs from the ticker, when implemented. 9 is needed for bns
-    const paddedTxAmount = padAmount(txAmount, FRACTIONAL_DIGITS);
+    // use amount of sigfigs from the ticker. 9 is needed for bns, 8 for lisk, 18 for eth...
+    const paddedTxAmount = padAmount(txAmount, balanceToSend.fractionalDigits);
     const id = uniquId();
     if (!accountName) {
       throw new Error("Not possible to send a transaction without an account");
     }
+    // we start the sequence, but do not
     sendTransaction(chainId, recipient, paddedTxAmount, note, id, accountName);
 
     history.push(BALANCE_ROUTE);

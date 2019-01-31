@@ -8,16 +8,16 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo
-echo ">>> Stopping bcpd (demo) chain and faucet..."
-echo
-bash "${SCRIPT_DIR}"/faucet/bcpd_stop.sh
-bash "${SCRIPT_DIR}"/bcpd/stop.sh
-
-echo
 echo ">>> Stopping bns chain and faucet..."
 echo
 bash "${SCRIPT_DIR}"/faucet/bnsd_stop.sh
 bash "${SCRIPT_DIR}"/bnsd/stop.sh
+
+echo
+echo ">>> Stopping bcpd (demo) chain and faucet..."
+echo
+bash "${SCRIPT_DIR}"/faucet/bcpd_stop.sh
+bash "${SCRIPT_DIR}"/bcpd/stop.sh
 
 echo
 echo ">>> Stopping lisk chain and faucet..."

@@ -48,7 +48,7 @@ class SignupName extends React.Component<Props> {
       await setName(name);
     } catch (err) {
       showToast("SetName failed. Try again later, please", ToastVariant.ERROR);
-      console.log(`SetName failed: ${err}`);
+      console.log(`SetName failed: ${err}\n${err.stack}`);
     }
   };
 

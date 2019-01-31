@@ -14,6 +14,7 @@ const initState: BlockchainState = {
     connections: {},
     codecs: {},
   },
+  chains: [],
   tickers: [],
   accountInfo: [],
 };
@@ -60,11 +61,13 @@ export function blockchainReducer(
       // new account at head of list, remove old copy if it existed
       return {
         ...state,
-        accountInfo: [prepared, ...filterAccountByChainAndAddress(state.accountInfo, chainId, address)],
+        accountInfo: [...filterAccountByChainAndAddress(state.accountInfo, chainId, address), prepared],
       };
     }
     case "SET_BNS_CHAIN_ID":
       return { ...state, bnsId: action.payload };
+    case "SET_CHAIN_IDS":
+      return { ...state, chains: action.payload };
     case "GET_USERNAME_FULFILLED":
     case "GET_USERNAME_BY_ADDRESS_FULFILLED":
       if (action.payload === undefined) {

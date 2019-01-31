@@ -1,19 +1,23 @@
-import { ChainId, PublicKeyBundle } from "@iov/base-types";
 import {
   BcpConnection,
-  BcpTransactionState,
+  ChainId,
   ConfirmedTransaction,
+  isBlockInfoFailed,
+  isBlockInfoPending,
   isSendTransaction,
   PostTxResponse,
+  PublicIdentity,
+  PublicKeyBundle,
   SendTransaction,
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp-types";
-import { BnsConnection } from "@iov/bns";
-import { PublicIdentity } from "@iov/keycontrol";
+import { BnsConnection, RegisterBlockchainTx } from "@iov/bns";
+import { MultiChainSigner, UserProfile } from "@iov/core";
 import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress, keyToAddress } from "./account";
+import { getWalletAndIdentity } from "./profile";
 
 export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
   extends ConfirmedTransaction<T> {
@@ -64,7 +68,11 @@ export const parseConfirmedTransaction = async (
   const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
   const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
-  const signerAddr = keyToAddress(trans.primarySignature, codec);
+  const ident: PublicIdentity = {
+    chainId: chainId,
+    pubkey: trans.primarySignature.pubkey as PublicKeyBundle,
+  };
+  const signerAddr = keyToAddress(ident, codec);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),
@@ -79,9 +87,48 @@ export const parseConfirmedTransaction = async (
   };
 };
 
+export async function checkBnsBlockchainNft(
+  profile: UserProfile,
+  connection: BnsConnection,
+  writer: MultiChainSigner,
+  chainId: ChainId,
+  codecName: string,
+): Promise<void> {
+  const result = await connection.getBlockchains({ chainId });
+  if (result.length === 0) {
+    const registryChainId = await connection.chainId();
+
+    const { walletId, identity: signer } = getWalletAndIdentity(profile, connection.chainId());
+
+    const blockchainRegistration: RegisterBlockchainTx = {
+      kind: "bns/register_blockchain",
+      creator: {
+        chainId: registryChainId,
+        pubkey: signer.pubkey,
+      },
+      chain: {
+        chainId: chainId,
+        production: false,
+        enabled: true,
+        name: "Wonderland",
+        networkId: "7rg047g4h",
+      },
+      codecName,
+      codecConfig: `{ }`,
+    };
+    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
+  }
+}
+
 // this waits for one commit to be writen, then returns the response
+// if either CheckTx or DeliverTx error, then this will throw an error.
+// If it succeeds, we are assured that PostTxResponse.blockInfo.value is of type BlockInfoSucceeded
 export async function waitForCommit(req: Promise<PostTxResponse>): Promise<PostTxResponse> {
+  // this throws error if the query fails on CheckTx
   const res = await req;
-  await res.blockInfo.waitFor(info => info.state === BcpTransactionState.InBlock);
+  const info = await res.blockInfo.waitFor(x => !isBlockInfoPending(x));
+  if (isBlockInfoFailed(info)) {
+    throw new Error(`(${info.code}) ${info.message}`);
+  }
   return res;
 }

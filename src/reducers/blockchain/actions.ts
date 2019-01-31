@@ -1,6 +1,6 @@
-import { BcpAccount, BcpConnection, BcpTicker, TxCodec } from "@iov/bcp-types";
+import { BcpAccount, BcpConnection, BcpTicker, PublicIdentity, TxCodec } from "@iov/bcp-types";
 import { ChainId, MultiChainSigner } from "@iov/core";
-import { PublicIdentity, UserProfile } from "@iov/keycontrol";
+import { UserProfile } from "@iov/keycontrol";
 
 import {
   addBlockchain,
@@ -14,6 +14,8 @@ import { createPromiseAction, createSyncAction } from "../helpers";
 import { AccountInfo } from "./state";
 
 export const setBnsChainId = createSyncAction("SET_BNS_CHAIN_ID", (bns: ChainId) => bns);
+
+export const setChainIds = createSyncAction("SET_CHAIN_IDS", (chains: ReadonlyArray<ChainId>) => chains);
 
 export const createSignerAction = createSyncAction(
   "CREATE_SIGNER",
@@ -41,7 +43,7 @@ export interface TickerInfo {
 
 async function getTickers(connection: BcpConnection): Promise<TickerInfo> {
   const chainId = connection.chainId();
-  const tickers = (await connection.getAllTickers()).data;
+  const tickers = await connection.getAllTickers();
   return { chainId, tickers };
 }
 
@@ -58,7 +60,7 @@ const getAccountWithChain = async (
 ): Promise<AccountInfo> => {
   const account = await getAccount(connection, ident, codec);
   const chainId = connection.chainId();
-  const address = codec.keyToAddress(ident.pubkey);
+  const address = codec.identityToAddress(ident);
   return {
     chainId,
     address,

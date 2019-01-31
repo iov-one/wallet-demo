@@ -1,10 +1,9 @@
-import { BcpConnection, ChainConnector, TxCodec } from "@iov/bcp-types";
-import { bnsCodec, BnsConnection, bnsConnector, RegisterBlockchainTx } from "@iov/bns";
-import { ChainId, MultiChainSigner } from "@iov/core";
+import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp-types";
+import { bnsCodec, bnsConnector } from "@iov/bns";
+import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
-import { getMainIdentity, getMainKeyring } from "./profile";
-import { waitForCommit } from "./transaction";
+import { ensureIdentity } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
@@ -15,6 +14,7 @@ export enum CodecType {
 export interface BcpBlockchain {
   readonly connection: BcpConnection;
   readonly codec: TxCodec;
+  readonly identity: PublicIdentity;
 }
 
 // BlockchainSpec is a config option, such as may be returned from bns in the future
@@ -63,44 +63,16 @@ export function addressToCodec(address: string): TxCodec {
   }
 }
 
+// add blockchain will add a connection to the signer, and create an identity if needed on the profile
 export async function addBlockchain(
   writer: MultiChainSigner,
+  profile: UserProfile,
   blockchain: BlockchainSpec,
 ): Promise<BcpBlockchain> {
   const connector = specToConnector(blockchain);
   const codec = specToCodec(blockchain);
   const { connection } = await writer.addChain(connector);
-  return { connection, codec };
-}
-
-export async function checkBnsBlockchainNft(
-  connection: BnsConnection,
-  writer: MultiChainSigner,
-  chainId: ChainId,
-  codecName: string,
-): Promise<void> {
-  const result = await connection.getBlockchains({ chainId });
-  if (result.length === 0) {
-    const registryChainId = await connection.chainId();
-
-    // TODO: is this the proper way? should we pass that in?
-    const walletId = getMainKeyring(writer.profile);
-    const signer = getMainIdentity(writer.profile);
-
-    const blockchainRegistration: RegisterBlockchainTx = {
-      kind: "bns/register_blockchain",
-      chainId: registryChainId,
-      signer: signer.pubkey,
-      chain: {
-        chainId: chainId,
-        production: false,
-        enabled: true,
-        name: "Wonderland",
-        networkId: "7rg047g4h",
-      },
-      codecName,
-      codecConfig: `{ }`,
-    };
-    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
-  }
+  // we now ensure there is a identity set up for this blockchain here
+  const identity = await ensureIdentity(profile, connection.chainId(), blockchain.codecType);
+  return { connection, codec, identity };
 }

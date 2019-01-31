@@ -1,30 +1,11 @@
 import { UserProfile } from "@iov/core";
 
-import { createMemDb, hasStoredProfile, loadOrCreateProfile } from "../../logic";
+import { hasStoredProfile } from "../../logic";
 import { aNewStore } from "../../store";
 import { fixTypes } from "../helpers";
-import { createProfileAsyncAction, getIdentityAction } from "./actions";
+import { createProfileAsyncAction } from "./actions";
 
 describe("profile async actions", () => {
-  it("stores get_identity results", async () => {
-    const store = aNewStore();
-    const db = createMemDb();
-    const profile = await loadOrCreateProfile(db, "my-secret-here");
-
-    const action = getIdentityAction(profile);
-    expect(action.type).toEqual("GET_ACTIVE_IDENTITY");
-    expect(action.payload.walletId).not.toBeUndefined();
-    expect(action.payload.identity).not.toBeUndefined();
-
-    const init = store.getState();
-    expect(init.profile.activeIdentity).toBeUndefined();
-    fixTypes(store.dispatch(action));
-
-    const after = store.getState();
-    expect(after.profile.activeIdentity).not.toBeUndefined();
-    expect(after.profile.activeIdentity!.walletId).toEqual(action.payload.walletId);
-  });
-
   it("initializes a fresh redux store", async () => {
     const store = aNewStore();
     const init = store.getState();
@@ -38,7 +19,7 @@ describe("profile async actions", () => {
     expect(dirty).toEqual(false);
 
     // ensure the action is correct
-    const create = createProfileAsyncAction.start(db, "my-secret-here", undefined, undefined);
+    const create = createProfileAsyncAction.start(db, "my-secret-here", undefined, {});
     expect(create.type).toEqual("CREATE_PROFILE");
     expect(create.payload.then).not.toBeUndefined();
 
@@ -70,12 +51,12 @@ describe("profile async actions", () => {
 
     // ensure the action is correct
     const mnemonic = "verb reunion luggage nominee range can device shoe dial wealth palace seek";
-    const create = createProfileAsyncAction.start(db, "new-secret", mnemonic, undefined);
+    const create = createProfileAsyncAction.start(db, "new-secret", mnemonic, {});
     const { value } = await fixTypes(store.dispatch(create));
     const profile: UserProfile = value;
     expect(profile).not.toBeUndefined();
     const walletIds = profile.wallets.value.map(wallet => wallet.id);
-    expect(walletIds.length).toEqual(1);
+    expect(walletIds.length).toEqual(2);
     const secret = profile.printableSecret(walletIds[0]);
     expect(secret).toEqual(mnemonic);
 
