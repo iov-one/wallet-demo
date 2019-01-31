@@ -1,4 +1,4 @@
-import { Address, BcpAccount, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp-types";
+import { Account, Address, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp-types";
 import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { ChainTicker } from "~/selectors";
@@ -19,7 +19,7 @@ export interface BlockchainState {
 export interface AccountInfo {
   readonly chainId: ChainId;
   readonly address: Address;
-  readonly account?: BcpAccount;
+  readonly account?: Account;
   readonly username?: string;
 }
 

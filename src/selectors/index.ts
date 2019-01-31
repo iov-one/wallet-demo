@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BcpAccount, BcpTicker } from "@iov/bcp-types";
+import { Account, BcpTicker } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { Address, ChainId } from "@iov/core";
 
@@ -16,7 +16,7 @@ export interface ChainAddress {
 
 export interface ChainAccount {
   readonly chainId: ChainId;
-  readonly account?: BcpAccount;
+  readonly account?: Account;
 }
 
 export interface ChainTicker {

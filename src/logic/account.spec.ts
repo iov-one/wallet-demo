@@ -1,4 +1,4 @@
-import { Amount, BcpAccount, BlockInfoSucceeded, TokenTicker } from "@iov/bcp-types";
+import { Account, Amount, BlockInfoSucceeded, TokenTicker } from "@iov/bcp-types";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
@@ -188,11 +188,11 @@ describe("setName", () => {
 
         try {
           let updatesFaucet = 0;
-          let acctFaucet: BcpAccount | undefined;
+          let acctFaucet: Account | undefined;
           const unsubscribeFaucet = await watchAccount(
             reader,
             faucetId,
-            (acct?: BcpAccount) => {
+            (acct?: Account) => {
               updatesFaucet++;
               acctFaucet = acct;
             },
@@ -200,11 +200,11 @@ describe("setName", () => {
           );
 
           let updatesRcpt = 0;
-          let acctRcpt: BcpAccount | undefined;
+          let acctRcpt: Account | undefined;
           const unsubscribeRcpt = await watchAccount(
             reader,
             rcpt,
-            (acct?: BcpAccount) => {
+            (acct?: Account) => {
               updatesRcpt++;
               acctRcpt = acct;
             },
