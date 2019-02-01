@@ -5,6 +5,7 @@ declare module "~/theme/variables" {
   export const fontColor: string;
   export const border: string;
   export const background: string;
+  export const shadowColor: string;
   export const backgroundPrimary: string;
   export const itemBackground: string;
   export const placeholder: string;
@@ -34,5 +35,4 @@ declare module "~/theme/variables" {
   export const screenMd: number;
   export const screenMdMax: number;
   export const screenLg: number;
-  export const shadow: string;
 }

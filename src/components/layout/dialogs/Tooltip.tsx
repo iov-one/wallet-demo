@@ -7,14 +7,14 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { border, itemBackground, md, shadow, sm, xs } from "~/theme/variables";
+import { border, itemBackground, md, shadowColor, sm, xs } from "~/theme/variables";
 import { showPhone } from "~/utils/reactportals";
 import infoNormal from "./assets/info_normal.svg";
 
 const styles = createStyles({
   paper: {
     padding: md,
-    boxShadow: shadow,
+    boxShadow: `0 ${xs} ${md} 0 ${shadowColor}`,
   },
   phone: {
     border: `1px solid ${border}`,
