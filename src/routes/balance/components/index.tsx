@@ -65,6 +65,9 @@ const styles = createStyles({
   },
 });
 
+const LISK_FAUCET = "https://testnet-faucet.lisk.io";
+const ETH_FACUET = "https://faucet.rinkeby.io/";
+
 interface CardProps {
   readonly text: string;
   readonly logo: string;
@@ -125,7 +128,7 @@ class BalanceLayout extends React.Component<Props, State> {
         <GridItem order={info}>
           <Spacer order={1} />
           <Block className={classes.container}>
-            <Block padding={ phone ? "lg" : "xl"} className={classes.info}>
+            <Block padding={phone ? "lg" : "xl"} className={classes.info}>
               <Block margin="sm" />
               <Block margin="xl" />
               <Typography variant="h5" align="center" weight="light">
@@ -157,9 +160,13 @@ class BalanceLayout extends React.Component<Props, State> {
                 </Typography>
                 <Block padding="xs" />
                 <Tooltip maxWidth={350} phoneHook={this.state.howItWorksHook}>
-                  <Typography variant="body2">Claim test LSK here <Link to="https://testnet-faucet.lisk.io">https://testnet-faucet.lisk.io</Link></Typography>
+                  <Typography variant="body2">
+                    Claim test LSK here <Link to={LISK_FAUCET}>{LISK_FAUCET}</Link>
+                  </Typography>
                   <Block margin="sm" />
-                  <Typography variant="body2">Claim test ETH here <Link to="https://faucet.rinkeby.io/">https://faucet.rinkeby.io</Link></Typography>
+                  <Typography variant="body2">
+                    Claim test ETH here <Link to={ETH_FACUET}>{ETH_FACUET}</Link>
+                  </Typography>
                 </Tooltip>
               </Block>
               <div ref={this.howItWorksHookRef} />
