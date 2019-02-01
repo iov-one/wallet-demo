@@ -5,6 +5,10 @@ import { getAddressByName } from "./account";
 
 export const IOV_NAMESPACE = "*iov";
 export function isIovAddress(address: string): boolean {
+  if (!address) {
+    return false;
+  }
+
   return address.endsWith(IOV_NAMESPACE);
 }
 
