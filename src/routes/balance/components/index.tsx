@@ -2,9 +2,11 @@ import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import Tooltip from "~/components/layout/dialogs/Tooltip";
 import GridItem, { Order } from "~/components/layout/GridItem";
 import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
+import Link from "~/components/layout/Link";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { amountToString, trimAmount } from "~/logic";
@@ -56,6 +58,11 @@ const styles = createStyles({
       cursor: "pointer",
     },
   },
+  tooltip: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
 });
 
 interface CardProps {
@@ -72,64 +79,100 @@ const Card = ({ text, logo, className, onAction }: CardProps) => (
   </Block>
 );
 
-const BalanceLayout = ({ classes, name, tokens, phone, onSendPayment, onReceivePayment }: Props) => {
-  const spacer: Order = { xs: 1 };
-  const actions: Order = { xs: 5 };
-  const actionSpacer: Order = { xs: 4 };
-  const info: Order = { xs: 2 };
-  const grow: Order = { xs: 3 };
-  const hasTokens = tokens && tokens.length;
+interface State {
+  readonly howItWorksHook: HTMLDivElement | null;
+}
 
-  return (
-    <React.Fragment>
-      <GridItem order={spacer}>
-        <Block margin="xxl" />
-      </GridItem>
-      <GridItem order={actions} className={classes.actions}>
-        <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
-        {!phone && <Block className={classes.separator} />}
-        <Card text="Receive Payment" logo={receive} onAction={onReceivePayment} className={classes.action} />
-      </GridItem>
-      <GridItem order={actionSpacer}>
-        <Block margin="lg" />
-      </GridItem>
-      <GridItem order={info}>
-        <Spacer order={1} />
-        <Block className={classes.container}>
-          <Block padding="xl" className={classes.info}>
-            <Block margin="sm" />
-            <Block margin="xl" />
-            <Typography variant="h5" align="center" weight="light">
-              {name ? name : "--"}
-            </Typography>
-            <Hairline margin="xl" />
-            <Typography variant="subtitle2" align="center">
-              {hasTokens ? "Your currencies" : "No funds available"}
-            </Typography>
-            <Block margin="xl" />
-            {tokens.map((token: BcpCoin) => (
-              <Typography
-                key={token.tokenTicker}
-                pointer
-                underlined
-                variant="h6"
-                weight="regular"
-                color="primary"
-                align="center"
-                onClick={onSendPayment}
-              >
-                {`${amountToString(trimAmount(token))}`}
+class BalanceLayout extends React.Component<Props, State> {
+  public readonly state = {
+    howItWorksHook: null,
+  };
+  private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
+
+  public componentDidMount(): void {
+    this.setState(() => ({
+      howItWorksHook: this.howItWorksHookRef.current,
+    }));
+  }
+
+  public render(): JSX.Element {
+    const { classes, name, tokens, phone, onSendPayment, onReceivePayment } = this.props;
+    const spacer: Order = { xs: 1 };
+    const actions: Order = { xs: 5 };
+    const actionSpacer: Order = { xs: 4 };
+    const info: Order = { xs: 2 };
+    const grow: Order = { xs: 3 };
+    const hasTokens = tokens && tokens.length;
+
+    return (
+      <React.Fragment>
+        <GridItem order={spacer}>
+          <Block margin="xxl" />
+        </GridItem>
+        <GridItem order={actions} className={classes.actions}>
+          <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
+          {!phone && <Block className={classes.separator} />}
+          <Card
+            text="Receive Payment"
+            logo={receive}
+            onAction={onReceivePayment}
+            className={classes.action}
+          />
+        </GridItem>
+        <GridItem order={actionSpacer}>
+          <Block margin="lg" />
+        </GridItem>
+        <GridItem order={info}>
+          <Spacer order={1} />
+          <Block className={classes.container}>
+            <Block padding={ phone ? "lg" : "xl"} className={classes.info}>
+              <Block margin="sm" />
+              <Block margin="xl" />
+              <Typography variant="h5" align="center" weight="light">
+                {name ? name : "--"}
               </Typography>
-            ))}
-            <Block margin="xl" />
-            <Block margin="xl" />
+              <Hairline margin="xl" />
+              <Typography variant="subtitle2" align="center">
+                {hasTokens ? "Your currencies" : "No funds available"}
+              </Typography>
+              <Block margin="xl" />
+              {tokens.map((token: BcpCoin) => (
+                <Typography
+                  key={token.tokenTicker}
+                  pointer
+                  underlined
+                  variant="h6"
+                  weight="regular"
+                  color="primary"
+                  align="center"
+                  onClick={onSendPayment}
+                >
+                  {`${amountToString(trimAmount(token))}`}
+                </Typography>
+              ))}
+              <Block margin="sm" />
+              <Block className={classes.tooltip}>
+                <Typography inline variant="body2">
+                  need funds?
+                </Typography>
+                <Block padding="xs" />
+                <Tooltip maxWidth={350} phoneHook={this.state.howItWorksHook}>
+                  <Typography variant="body2">Claim test LSK here <Link to="https://testnet-faucet.lisk.io">https://testnet-faucet.lisk.io</Link></Typography>
+                  <Block margin="sm" />
+                  <Typography variant="body2">Claim test ETH here <Link to="https://faucet.rinkeby.io/">https://faucet.rinkeby.io</Link></Typography>
+                </Tooltip>
+              </Block>
+              <div ref={this.howItWorksHookRef} />
+              <Block margin="lg" />
+              <Block margin="xl" />
+            </Block>
           </Block>
-        </Block>
-        <Spacer order={1} />
-      </GridItem>
-      <GridItem grow order={grow} />
-    </React.Fragment>
-  );
-};
+          <Spacer order={1} />
+        </GridItem>
+        <GridItem grow order={grow} />
+      </React.Fragment>
+    );
+  }
+}
 
 export default withStyles(styles)(BalanceLayout);
