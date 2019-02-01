@@ -128,7 +128,7 @@ class BalanceLayout extends React.Component<Props, State> {
         <GridItem order={info}>
           <Spacer order={1} />
           <Block className={classes.container}>
-            <Block padding={phone ? "lg" : "xl"} className={classes.info}>
+            <Block padding="xl" className={classes.info}>
               <Block margin="sm" />
               <Block margin="xl" />
               <Typography variant="h5" align="center" weight="light">
