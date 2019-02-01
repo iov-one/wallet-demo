@@ -55,7 +55,7 @@ const styles = createStyles({
   },
 });
 
-class SendAmount extends React.Component<Props, State> {
+class SendCard extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
     errorHook: null,
@@ -135,4 +135,4 @@ class SendAmount extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(SendAmount);
+export default withStyles(styles)(SendCard);
