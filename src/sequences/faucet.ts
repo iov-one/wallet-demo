@@ -1,16 +1,16 @@
 import { takeFaucetCredit } from "~/logic";
 import { RootState } from "~/reducers";
-import { getAllAccounts, getOrderedChainIds } from "~/selectors";
+import { AccountInfo } from "~/reducers/blockchain";
+import { getOrderedChainIds } from "~/selectors";
 import { FaucetSpec } from "~/utils/conf";
 
 import { RootThunkDispatch } from "./types";
 
-export const drinkFaucetSequence = (faucets: ReadonlyArray<FaucetSpec | undefined>) => async (
-  _: RootThunkDispatch,
-  getState: () => RootState,
-) => {
+export const drinkFaucetSequence = (
+  faucets: ReadonlyArray<FaucetSpec | undefined>,
+  accounts: ReadonlyArray<AccountInfo>,
+) => async (_: RootThunkDispatch, getState: () => RootState) => {
   const orderedChains = getOrderedChainIds(getState());
-  const accounts = getAllAccounts(getState());
 
   // drink from every defined faucet
   const resolved = faucets.map((f, i) => {

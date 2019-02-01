@@ -32,10 +32,10 @@ class SignupPass extends React.Component<Props> {
   }
 
   public readonly onCreateAccount = async (values: object) => {
-    const { boot, drinkFaucet } = this.props;
+    const { boot } = this.props;
     const password = (values as FormType)[PASSWORD_FIELD];
 
-    return loginAccount(boot, drinkFaucet, password);
+    return loginAccount(boot, password);
   };
 
   public render(): JSX.Element {

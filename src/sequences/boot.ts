@@ -1,3 +1,4 @@
+import { firstEvent } from "@iov/stream";
 import debounce from "xstream/extra/debounce";
 
 import {
@@ -32,8 +33,10 @@ import {
 } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
 import { createProfileAsyncAction } from "~/reducers/profile";
+import drinkFaucet from "~/routes/signupPass/store/actions/drinkFaucet";
 import { getProfileDB, getSigner } from "~/selectors";
 import { addConfirmedTransaction } from "~/store/notifications/actions";
+import { allFaucetSpecs, loadConfig } from "~/utils/conf";
 
 import { RootThunkDispatch } from "./types";
 
@@ -79,6 +82,7 @@ export const bootSequence = (
   const { value } = await fixTypes(dispatch(addBlockchainAsyncAction.start(signer, profile, bns, {})));
   const bnsConn = value.connection as BnsConnection;
   dispatch(setBnsChainId(bnsConn.chainId()));
+
   // and set it as first account/tickers
   let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
     watchAccountAndTransactions(dispatch, bnsConn, bnsConn, value.identity, bnsCodec),
@@ -107,6 +111,16 @@ export const bootSequence = (
   const bnsAccount = accounts[0];
 
   if (bnsAccount) {
+    if (!bnsAccount.account) {
+      const config = await loadConfig();
+      const faucets = allFaucetSpecs(config);
+      await dispatch(drinkFaucet(faucets, accounts));
+      await firstEvent(
+        bnsConn.watchAccount({ address: bnsAccount.address }).filter(event => event !== undefined),
+      );
+      await dispatch(getAccountAsyncAction.start(bnsConn, value.identity, bnsCodec, {}));
+    }
+
     // just lookup first bns account, that should match all....
     const { value: usernameNft } = await fixTypes(
       dispatch(
@@ -135,6 +149,7 @@ async function watchAccountAndTransactions(
   codec: TxCodec,
 ): Promise<AccountInfo> {
   // request the current account and return a promise resolved when it is loaded
+
   const accountAction = getAccountAsyncAction.start(conn, identity, codec, {});
   // don't wait on the dispatch here, we return the result of the dispatch to await on by client
   dispatch(accountAction);

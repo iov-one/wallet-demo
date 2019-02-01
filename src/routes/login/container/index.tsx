@@ -12,11 +12,11 @@ interface Props extends ToastType, HomeActions {}
 
 class Login extends React.Component<Props, {}> {
   public readonly onLogin = async (values: object) => {
-    const { boot, drinkFaucet } = this.props;
+    const { boot } = this.props;
     const password = (values as FormType)[LOGIN_PASS_FIELD];
 
     try {
-      await loginAccount(boot, drinkFaucet, password);
+      await loginAccount(boot, password);
     } catch (err) {
       this.props.showToast("Wrong password, try again.", ToastVariant.ERROR);
     }

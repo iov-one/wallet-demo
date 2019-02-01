@@ -44,7 +44,7 @@ describe("drinkFaucetSequence", () => {
         expect(addresses.length).toEqual(totalFaucetChains);
 
         // drink from all faucets
-        const faucetAction = drinkFaucetSequence(faucets);
+        const faucetAction = drinkFaucetSequence(faucets, getAllAccounts(store.getState()));
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
 

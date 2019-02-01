@@ -1,9 +1,7 @@
 // tslint:disable:no-string-literal
-import { RootState } from "~/reducers";
 import { fixTypes } from "~/reducers/helpers";
 import { BALANCE_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { BootType } from "~/routes/signupPass/store/actions/boot";
-import { DrinkFaucetType } from "~/routes/signupPass/store/actions/drinkFaucet";
 import { history } from "~/store";
 import { BlockchainSpec } from "../logic/connection";
 import { allFaucetSpecs, loadConfig } from "../utils/conf";
@@ -12,28 +10,14 @@ import { BootResult, bootSequence } from "./boot";
 import { drinkFaucetSequence } from "./faucet";
 import { RootThunkDispatch } from "./types";
 
-export const loginAccount = async (
-  boot: BootType,
-  drinkFaucet: DrinkFaucetType,
-  pass: string,
-  mnemonic?: string,
-) => {
+export const loginAccount = async (boot: BootType, pass: string, mnemonic?: string) => {
   const config = await loadConfig();
   const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
   const { accounts } = await boot(pass, config.bns.chainSpec as BlockchainSpec, chains, mnemonic);
-
   // TODO: we should check each chain for which accounts are defined
-  const mainAccount = accounts[0];
-  const account = mainAccount ? mainAccount.account : undefined;
-  if (!account) {
-    const faucets = allFaucetSpecs(config);
-    await drinkFaucet(faucets);
-    history.push(SET_NAME_ROUTE);
+  const bnsAccount = accounts[0];
 
-    return;
-  }
-
-  const hasName = mainAccount && mainAccount.username !== undefined;
+  const hasName = bnsAccount && bnsAccount.username !== undefined;
   if (hasName) {
     history.push(BALANCE_ROUTE);
 
@@ -46,7 +30,6 @@ export const loginAccount = async (
 // this will boot and drink faucets, using the config
 export const loginSequence = (password: string, mnemonic?: string) => async (
   dispatch: RootThunkDispatch,
-  _: () => RootState,
 ): Promise<BootResult> => {
   const config = await loadConfig();
   const chains = config.chains.map(cfg => cfg.chainSpec as BlockchainSpec);
@@ -64,7 +47,7 @@ export const loginSequence = (password: string, mnemonic?: string) => async (
   const account = mainAccount ? mainAccount.account : undefined;
   if (!account) {
     const faucets = allFaucetSpecs(config);
-    const drinkFaucet = drinkFaucetSequence(faucets);
+    const drinkFaucet = drinkFaucetSequence(faucets, accounts);
     await fixTypes(dispatch(drinkFaucet as any));
   }
   return result;
