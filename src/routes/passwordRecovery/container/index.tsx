@@ -20,7 +20,7 @@ interface State {
   readonly mnemonic: string;
 }
 
-class PasswordRecovery extends React.Component<Props, State> {
+export class PasswordRecoveryInternal extends React.Component<Props, State> {
   public readonly state = {
     step: RECOVER_PROFILE,
     mnemonic: "",
@@ -72,4 +72,4 @@ class PasswordRecovery extends React.Component<Props, State> {
 export default connect(
   undefined,
   actions,
-)(toastHoc(PasswordRecovery));
+)(toastHoc(PasswordRecoveryInternal));

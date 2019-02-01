@@ -16,16 +16,28 @@ interface Props {
   readonly variant: ToastVariant;
 }
 
-export const Toast = ({ open, onClose, message, variant }: Props) => (
-  <Snackbar
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    open={open}
-    autoHideDuration={5000}
-    onClose={onClose}
-  >
-    <ToastContent onClose={onClose} variant={variant} message={message} />
-  </Snackbar>
-);
+export class Toast extends React.Component<Props> {
+
+
+  public render(): JSX.Element {
+    const { 
+      open, 
+      onClose, 
+      message, 
+      variant, 
+    } = this.props;
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={onClose}
+      >
+        <ToastContent onClose={onClose} variant={variant} message={message} />
+      </Snackbar>
+    );
+  }
+}
