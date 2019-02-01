@@ -10,7 +10,7 @@ import actions, { HomeActions } from "./actions";
 
 interface Props extends ToastType, HomeActions {}
 
-class SignUp extends React.Component<Props, {}> {
+class Login extends React.Component<Props, {}> {
   public readonly onLogin = async (values: object) => {
     const { boot, drinkFaucet } = this.props;
     const password = (values as FormType)[LOGIN_PASS_FIELD];
@@ -30,4 +30,4 @@ class SignUp extends React.Component<Props, {}> {
 export default connect(
   undefined,
   actions,
-)(toastHoc(SignUp));
+)(toastHoc(Login));
