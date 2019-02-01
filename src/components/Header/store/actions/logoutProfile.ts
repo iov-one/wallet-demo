@@ -1,5 +1,3 @@
 import { logoutProfileSyncAction } from "~/reducers/profile";
 
-export type LogoutProfileType = () => Promise<void>;
-
-export default (dispatch: any) => dispatch(logoutProfileSyncAction());
+export default (): any => async (dispatch: any): Promise<void> => dispatch(logoutProfileSyncAction());
