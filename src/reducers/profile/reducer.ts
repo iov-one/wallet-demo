@@ -21,6 +21,9 @@ export function profileReducer(maybeState: ProfileState | undefined, action: Pro
   switch (action.type) {
     case "CREATE_PROFILE_FULFILLED":
       return { ...state, internal: { ...state.internal, profile: action.payload } };
+    case "LOGOUT_PROFILE_FULFILLED":
+      const refreshState = initState();
+      return { ...refreshState };
     default:
       return state;
   }
