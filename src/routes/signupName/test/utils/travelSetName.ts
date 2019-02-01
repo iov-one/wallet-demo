@@ -1,14 +1,16 @@
 import TestUtils from "react-dom/test-utils";
-import { randomString } from "~/logic/testhelpers";
+import { Store } from "redux";
+import { SIGNUP_ROUTE } from "~/routes";
+import { history } from "~/store";
+import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-export const processSetName = async (SetNameDom: React.Component): Promise<void> => {
-  const addressName = randomString(6);
+export const processSetName = async (SetNameDom: React.Component, account: string): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SetNameDom, "input");
   expect(inputs.length).toBe(1);
 
   const accountNameField = inputs[0];
-  TestUtils.Simulate.change(accountNameField, { target: { value: addressName } } as any);
+  TestUtils.Simulate.change(accountNameField, { target: { value: account } } as any);
   await sleep(2000);
 
   const form = TestUtils.findRenderedDOMComponentWithTag(SetNameDom, "form");
@@ -17,5 +19,14 @@ export const processSetName = async (SetNameDom: React.Component): Promise<void>
   }
   TestUtils.Simulate.submit(form);
 
-  await sleep(6000);
+  await sleep(4000);
+};
+
+export const travelToSetName = async (store: Store): Promise<React.Component> => {
+  history.push(SIGNUP_ROUTE);
+
+  const dom = createDom(store);
+  await sleep(500);
+
+  return dom;
 };

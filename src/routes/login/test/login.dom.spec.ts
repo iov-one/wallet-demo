@@ -1,9 +1,8 @@
 import { UserProfile } from "@iov/keycontrol";
 import { Store } from "redux";
-// import * as profile from "~/logic/profile";
-import { mayTestBns } from "~/logic/testhelpers";
+import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
-import { BALANCE_ROUTE, LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
+import { BALANCE_ROUTE, LOGIN_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
 import { TEST_PASS_PHRASE } from "~/routes/signupPass/test/utils/travelSignup";
 import { getProfileDB } from "~/selectors";
@@ -18,7 +17,8 @@ describe("DOM > Feature > Login", () => {
 
   beforeAll(async () => {
     store = aNewStore();
-    await processBalance(store);
+    const account = randomString(6);
+    await processBalance(store, account);
   }, 35000);
 
   beforeEach(() => {
@@ -41,7 +41,7 @@ describe("DOM > Feature > Login", () => {
   });
 
   mayTestBns(
-    `should redirect to ${SET_NAME_ROUTE} route after success login`,
+    `should redirect to ${BALANCE_ROUTE} route after success login`,
     async () => {
       const loginDom = await travelToBalance(refreshStore);
       expectRoute(refreshStore, LOGIN_ROUTE);

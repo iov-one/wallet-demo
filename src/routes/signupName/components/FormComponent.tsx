@@ -13,7 +13,7 @@ import {
 import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import { getUsernameNftByUsername } from "~/logic";
+import { getUsernameNftByUsername } from "~/logic/name";
 import { md } from "~/theme/variables";
 
 export const USERNAME_FIELD = "username";
@@ -41,17 +41,25 @@ const styles = createStyles({
 const account = /^[a-z0-9_]+$/;
 const error = "Allowed lowercase letters, numbers and _";
 
-const takenName = (connection: BnsConnection | undefined) => async (name: string) => {
+/**
+ * This method should only be used here. It has separated from #takenName for testing purposes
+ * @param response Response from getUsernameNftByUsername method
+ *
+ */
+export const nameValidator = (response: string | undefined) => {
+  const isTaken = response !== undefined;
+
+  return isTaken ? "Name is already taken" : undefined;
+};
+
+export const takenName = (connection: BnsConnection | undefined) => async (name: string) => {
   if (!connection) {
     return "BNS connection is not active";
   }
 
-  const isTaken = (await getUsernameNftByUsername(connection, name)) !== undefined;
-  if (isTaken) {
-    return "Name is already taken";
-  }
+  const response = await getUsernameNftByUsername(connection, name);
 
-  return undefined;
+  return nameValidator(response as string | undefined);
 };
 
 const FormComponent = ({ connection, classes }: Props) => (

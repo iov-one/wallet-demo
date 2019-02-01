@@ -1,12 +1,12 @@
 import { Store } from "redux";
-import { mayTestBns } from "~/logic/testhelpers";
+import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { BALANCE_ROUTE } from "~/routes";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore } from "~/store";
 import { processBalance } from "./util/travelBalance";
 
-describe("DOM > Feature > Travel to Balance", () => {
+describe("DOM > Feature > Balance", () => {
   let store: Store<RootState>;
 
   beforeEach(() => {
@@ -18,9 +18,10 @@ describe("DOM > Feature > Travel to Balance", () => {
   });
 
   mayTestBns(
-    `should redirect to ${BALANCE_ROUTE} route`,
+    `should redirect to ${BALANCE_ROUTE} route after signing up`,
     async () => {
-      await processBalance(store);
+      const account = randomString(6);
+      await processBalance(store, account);
     },
     16000,
   );
