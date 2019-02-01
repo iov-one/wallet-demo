@@ -42,8 +42,8 @@ export const MainRouter = () => (
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={PASSWORD_RECOVERY_ROUTE} component={PasswordRecovery} />
-    <Route exact path={SET_NAME_ROUTE} component={SignupName} />
     <RequireLogin>
+      <Route exact path={SET_NAME_ROUTE} component={SignupName} />
       <Route exact path={BALANCE_ROUTE} component={Balance} />
       <Route exact path={RECEIVE_FROM_IOV_USER} component={ReceiveIov} />
       <Route exact path={RECEIVE_FROM_NON_IOV_USER} component={ReceiveExternal} />

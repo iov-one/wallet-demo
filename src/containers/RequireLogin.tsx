@@ -14,7 +14,8 @@ interface RequireLoginProps extends RouteProps {
 class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
   public render(): JSX.Element {
     const { bnsAccount, children, location } = this.props;
-    if (location && location.pathname === HOME_ROUTE) {
+    const path = location ? location.pathname : "N/A";
+    if (path === HOME_ROUTE) {
       return <React.Fragment>{children}</React.Fragment>;
     }
 
@@ -25,8 +26,13 @@ class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
         : bnsAccount.username === undefined
         ? SET_NAME_ROUTE /*set name page*/
         : undefined;
+
     // one redirect if needed, or all children
-    return <React.Fragment>{redirect ? <Redirect push to={redirect} /> : children}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {redirect && redirect !== path ? <Redirect push to={redirect} /> : children}
+      </React.Fragment>
+    );
   }
 }
 
