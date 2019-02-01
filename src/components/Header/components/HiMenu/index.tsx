@@ -23,7 +23,9 @@ import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
-interface Props extends PhoneHook, WithStyles<typeof styles> {}
+interface Props extends PhoneHook, WithStyles<typeof styles> {
+  readonly logoutProfile: () => Promise<void>;
+}
 
 interface HiElementProps {
   readonly src: string;
@@ -77,7 +79,7 @@ const onInvite = () => {
 
 const noOp = () => true;
 
-const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
+const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
   const phoneStarter = (open: boolean) => (
     <React.Fragment>
       <Block className={classes.separator} />
@@ -132,7 +134,7 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
         {!phoneMode && <Hairline color={border} />}
         <HiElement src={privacy} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement src={logout} action={noOp} phone={phoneMode} msg="Log out" alt="Log out" />
+        <HiElement src={logout} action={logoutProfile} phone={phoneMode} msg="Log out" alt="Log out" />
       </Block>
     </ListMenu>
   );
