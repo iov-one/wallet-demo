@@ -1,19 +1,35 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
+import actions from "./actions";
 import Layout from "./components";
 import selector, { SelectorProps } from "./selector";
 
-class Header extends React.Component<SelectorProps> {
+interface Props extends SelectorProps {
+  readonly logoutProfile: () => Promise<void>;
+}
+
+class Header extends React.Component<Props> {
   public render(): JSX.Element {
-    const { pendingTxs, txs, lastTx } = this.props;
+    const { pendingTxs, txs, lastTx, logoutProfile } = this.props;
 
     return (
       <MatchMediaContext.Consumer>
-        {phone => <Layout phoneMode={phone} pendingTxs={pendingTxs} txs={txs} lastTx={lastTx} />}
+        {phone => (
+          <Layout
+            phoneMode={phone}
+            pendingTxs={pendingTxs}
+            txs={txs}
+            lastTx={lastTx}
+            logoutProfile={logoutProfile}
+          />
+        )}
       </MatchMediaContext.Consumer>
     );
   }
 }
 
-export default connect(selector)(Header);
+export default connect(
+  selector,
+  actions,
+)(Header);

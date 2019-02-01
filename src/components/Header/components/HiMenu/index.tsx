@@ -18,12 +18,14 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { INVITE_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
+import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
-interface Props extends PhoneHook, WithStyles<typeof styles> {}
+interface Props extends PhoneHook, WithStyles<typeof styles> {
+  readonly logoutProfile: () => Promise<void>;
+}
 
 interface HiElementProps {
   readonly src: string;
@@ -77,7 +79,12 @@ const onInvite = () => {
 
 const noOp = () => true;
 
-const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
+const onLogout = (logoutProfile: () => Promise<void>) => async () => {
+  await logoutProfile();
+  history.push(LOGIN_ROUTE);
+};
+
+const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
   const phoneStarter = (open: boolean) => (
     <React.Fragment>
       <Block className={classes.separator} />
@@ -132,7 +139,13 @@ const HiMenu = ({ classes, phoneMode, ...rest }: Props) => {
         {!phoneMode && <Hairline color={border} />}
         <HiElement src={privacy} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement src={logout} action={noOp} phone={phoneMode} msg="Log out" alt="Log out" />
+        <HiElement
+          src={logout}
+          action={onLogout(logoutProfile)}
+          phone={phoneMode}
+          msg="Log out"
+          alt="Log out"
+        />
       </Block>
     </ListMenu>
   );

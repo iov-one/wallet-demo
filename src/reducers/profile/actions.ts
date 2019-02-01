@@ -1,5 +1,5 @@
 import { loadOrCreateProfile } from "../../logic";
-import { createPromiseAction } from "../helpers";
+import { createPromiseAction, createSyncAction } from "../helpers";
 
 export const createProfileAsyncAction = createPromiseAction(
   "CREATE_PROFILE",
@@ -7,3 +7,5 @@ export const createProfileAsyncAction = createPromiseAction(
   "CREATE_PROFILE_FULFILLED",
   "CREATE_PROFILE_REJECTED",
 )(loadOrCreateProfile);
+
+export const logoutProfileSyncAction = createSyncAction("LOGOUT_PROFILE_FULFILLED", () => undefined);

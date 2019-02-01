@@ -26,6 +26,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly pendingTxs: ReadonlyArray<Tx>;
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly lastTx: ProcessedTx | undefined;
+  readonly logoutProfile: () => Promise<void>;
 }
 
 interface State {
@@ -45,7 +46,7 @@ class HeaderComponent extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { phoneMode, classes, pendingTxs, txs, lastTx } = this.props;
+    const { phoneMode, classes, pendingTxs, txs, lastTx, logoutProfile } = this.props;
     const { phoneHook } = this.state;
 
     return (
@@ -57,7 +58,7 @@ class HeaderComponent extends React.Component<Props, State> {
           <Spacer order={4} />
           <TransactionsMenu phoneHook={phoneHook} phoneMode={phoneMode} items={pendingTxs} />
           <BellMenu phoneHook={phoneHook} phoneMode={phoneMode} items={txs} lastTx={lastTx} />
-          <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} />
+          <HiMenu phoneHook={phoneHook} phoneMode={phoneMode} logoutProfile={logoutProfile} />
         </Block>
         <div ref={this.phoneHookRef} />
       </React.Fragment>
