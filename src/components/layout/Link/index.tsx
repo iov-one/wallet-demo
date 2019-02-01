@@ -14,7 +14,7 @@ const Link = ({ children, to, ...rest }: Props) => {
     // update if we need more protocols
     if (/^(https?:)?\/\//.test(to)) {
       return (
-        <a href={to} {...rest}>
+        <a href={to} target="_blank" {...rest}>
           {children}
         </a>
       );

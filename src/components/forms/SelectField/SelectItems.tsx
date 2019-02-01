@@ -26,7 +26,7 @@ const ListItems = ({ phone, action, items, align, selectedItem }: ListItemProps)
   return (
     <List component="nav" style={style}>
       {items.map(item => (
-        <Block>
+        <Block key={item.name}>
           <ListItem key={item.name} button onClick={action(item)}>
             <ListItemText
               disableTypography

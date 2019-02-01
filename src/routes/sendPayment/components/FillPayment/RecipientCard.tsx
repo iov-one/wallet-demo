@@ -60,8 +60,10 @@ class RecipientCard extends React.Component<Props, State> {
           </Typography>
           <Block padding="xs" />
           <Tooltip phoneHook={this.state.howItWorksHook}>
-            Send payments to anyone with an IOV handle, and it will go directly to their account. If they
-            don’t have an IOV account add their blockchain address.
+            <Typography variant="body2">
+              Send payments to anyone with an IOV handle, and it will go directly to their account. If they
+              don’t have an IOV account add their blockchain address.
+            </Typography>
           </Tooltip>
         </Block>
         <div ref={this.howItWorksHookRef} />
