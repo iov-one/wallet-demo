@@ -2,10 +2,11 @@ import { filter } from "lodash";
 import { ReadonlyDate } from "readonly-date";
 import { ActionType } from "typesafe-actions";
 import { AnnotatedConfirmedTransaction } from "~/logic";
+import * as logoutActions from "~/store/logout/actions";
 import * as actions from "./actions";
 import { NotificationState, ProcessedTx } from "./state";
 
-export type NotificationActions = ActionType<typeof actions>;
+export type NotificationActions = ActionType<typeof actions & typeof logoutActions>;
 const initState: NotificationState = {
   pending: [],
   transaction: [],
@@ -82,6 +83,8 @@ export function notificationReducer(
         ...state,
         transaction: orderedNotifications,
       };
+    case "LOGOUT":
+      return { ...initState };
     default:
       return state;
   }
