@@ -68,11 +68,16 @@ class SendPayment extends React.Component<Props, State> {
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
+    // In case user fills other inputs first do not force app to validate dummy addresses
+    if (!maybeAddress) {
+      return {}
+    }
+
     if (!isIovAddress(maybeAddress)) {
       const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
       const chainTicker = chainTickers.find(chTicker => chTicker.ticker.tokenTicker === ticker);
       const chainId = chainTicker ? chainTicker.chainId : undefined;
-
+      
       const valid = chainId && signer.isValidAddress(chainId, maybeAddress);
 
       return valid
