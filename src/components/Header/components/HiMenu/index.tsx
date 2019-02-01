@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import * as React from "react";
+import { LogoutProfileActions } from "~/components/Header/actions";
 import chevronDown from "~/components/Header/assets/chevronDown.svg";
 import chevronUp from "~/components/Header/assets/chevronUp.svg";
 import invite from "~/components/Header/assets/invite.svg";
@@ -20,12 +21,11 @@ import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
 import { history } from "~/store";
+import { logoutSyncAction } from "~/store/logout/actions";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
-interface Props extends PhoneHook, WithStyles<typeof styles> {
-  readonly logoutProfile: () => Promise<void>;
-}
+interface Props extends PhoneHook, WithStyles<typeof styles>, LogoutProfileActions {}
 
 interface HiElementProps {
   readonly src: string;
@@ -79,7 +79,7 @@ const onInvite = () => {
 
 const noOp = () => true;
 
-const onLogout = (logoutProfile: () => Promise<void>) => async () => {
+const onLogout = (logoutProfile: typeof logoutSyncAction) => async () => {
   await logoutProfile();
   history.push(LOGIN_ROUTE);
 };

@@ -1,4 +1,5 @@
 import { ActionType } from "typesafe-actions";
+import * as logoutActions from "~/store/logout/actions";
 
 import * as actions from "./actions";
 import {
@@ -8,7 +9,7 @@ import {
   updateUsernameNft,
 } from "./state";
 
-export type BlockchainActions = ActionType<typeof actions>;
+export type BlockchainActions = ActionType<typeof actions & typeof logoutActions>;
 const initState: BlockchainState = {
   internal: {
     connections: {},
@@ -75,6 +76,8 @@ export function blockchainReducer(
       }
       // set the username on all matching chain-address pairs
       return { ...state, accountInfo: updateUsernameNft(state.accountInfo, action.payload) };
+    case "LOGOUT":
+      return { ...initState };
     default:
       return state;
   }

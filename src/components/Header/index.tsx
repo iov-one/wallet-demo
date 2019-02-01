@@ -1,13 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
-import actions from "./actions";
+import actions, { LogoutProfileActions } from "./actions";
 import Layout from "./components";
 import selector, { SelectorProps } from "./selector";
 
-interface Props extends SelectorProps {
-  readonly logoutProfile: () => Promise<void>;
-}
+interface Props extends SelectorProps, LogoutProfileActions {}
 
 class Header extends React.Component<Props> {
   public render(): JSX.Element {

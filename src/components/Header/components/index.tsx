@@ -9,7 +9,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import { ProcessedTx, Tx } from "~/store/notifications/state";
-//import { getLastTx, setLastTx } from "~/utils/localstorage/transactions";
+import { LogoutProfileActions } from "../actions";
 
 const styles = createStyles({
   root: {
@@ -21,12 +21,11 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends WithStyles<typeof styles>, LogoutProfileActions {
   readonly phoneMode: boolean;
   readonly pendingTxs: ReadonlyArray<Tx>;
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly lastTx: ProcessedTx | undefined;
-  readonly logoutProfile: () => Promise<void>;
 }
 
 interface State {

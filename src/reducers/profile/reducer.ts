@@ -1,11 +1,12 @@
 import { ActionType } from "typesafe-actions";
+import * as logoutActions from "~/store/logout/actions";
 
 import { createDb } from "../../logic";
 import * as actions from "./actions";
 import { ProfileState } from "./state";
 
 export const DB_PROFILE_NAME = "profile";
-export type ProfileActions = ActionType<typeof actions>;
+export type ProfileActions = ActionType<typeof actions & typeof logoutActions>;
 const initState = (): ProfileState => ({
   internal: {
     db: createDb(DB_PROFILE_NAME),
@@ -21,7 +22,7 @@ export function profileReducer(maybeState: ProfileState | undefined, action: Pro
   switch (action.type) {
     case "CREATE_PROFILE_FULFILLED":
       return { ...state, internal: { ...state.internal, profile: action.payload } };
-    case "LOGOUT_PROFILE_FULFILLED":
+    case "LOGOUT":
       const refreshState = initState();
       return { ...refreshState };
     default:
