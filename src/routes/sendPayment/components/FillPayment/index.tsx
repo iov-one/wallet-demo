@@ -1,13 +1,23 @@
+import { BcpCoin } from "@iov/bcp-types";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
 import Form from "~/components/forms/Form";
+import { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
-import Typography from "~/components/layout/Typography";
 import PageMenuColumn from "~/components/pages/PageMenuColumn";
 import Controls from "~/routes/sendPayment/components/Controls";
 import { background } from "~/theme/variables";
-import SendCard, { SendBalance } from "./SendCard";
+import NoteCard from "./NoteCard";
+import RecipientCard from "./RecipientCard";
+import SendCard from "./SendCard";
+
+export interface SendBalance {
+  readonly balance: BcpCoin;
+  readonly tickersWithBalance: ReadonlyArray<Item>;
+  readonly defaultTicker: string;
+  readonly onUpdateBalanceToSend: (ticker: Item) => void;
+}
 
 interface Props extends SendBalance, WithStyles<typeof styles> {
   readonly onSubmit: (values: object) => Promise<void>;
@@ -26,11 +36,9 @@ const styles = createStyles({
     display: "flex",
     flexDirection: "column",
   },
-  controls: {},
 });
 
 const SendPaymentLayout = ({
-  classes,
   onSubmit,
   validation,
   initialValues,
@@ -38,8 +46,11 @@ const SendPaymentLayout = ({
   tickersWithBalance,
   defaultTicker,
   onUpdateBalanceToSend,
+  classes,
 }: Props) => (
   <PageMenuColumn phoneFullWidth>
+    <Block margin="xxl" />
+    <Block margin="md" />
     <Form
       onSubmit={onSubmit}
       initialValues={initialValues}
@@ -49,11 +60,6 @@ const SendPaymentLayout = ({
     >
       {({ submitting, validating }: FormState) => (
         <React.Fragment>
-          <Block margin="xxl" />
-          <Typography variant="body1" align="center">
-            Payment Info
-          </Typography>
-          <Block margin="md" />
           <Block padding="lg" margin="lg" className={classes.card}>
             <SendCard
               balance={balance}
@@ -61,6 +67,12 @@ const SendPaymentLayout = ({
               defaultTicker={defaultTicker}
               onUpdateBalanceToSend={onUpdateBalanceToSend}
             />
+          </Block>
+          <Block padding="lg" margin="lg" className={classes.card}>
+            <RecipientCard />
+          </Block>
+          <Block padding="lg" margin="lg" className={classes.card}>
+            <NoteCard />
           </Block>
           <Controls submitting={submitting} validating={validating} />
         </React.Fragment>

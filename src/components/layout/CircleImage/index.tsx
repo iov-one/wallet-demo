@@ -1,4 +1,5 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import classNames from "classnames";
 import * as React from "react";
 import Img, { ImgProps } from "~/components/layout/Image";
 
@@ -16,11 +17,12 @@ interface Props extends ImgWithStyles {
   readonly icon: string;
   readonly dia: number;
   readonly circleColor?: string;
+  readonly iconClasses?: string;
 }
 
 class CircleImg extends React.PureComponent<Props> {
   public render(): JSX.Element {
-    const { circleColor, classes, icon, dia, ...props } = this.props;
+    const { circleColor, classes, icon, dia, iconClasses, ...props } = this.props;
 
     const style = {
       height: dia,
@@ -30,7 +32,7 @@ class CircleImg extends React.PureComponent<Props> {
     };
 
     return (
-      <div className={classes.iconBackground} style={style}>
+      <div className={classNames(classes.iconBackground, iconClasses)} style={style}>
         <Img src={icon} {...props} />
       </div>
     );

@@ -10,7 +10,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import { prettyAmount } from "~/logic";
 import { PAYMENT_ROUTE } from "~/routes";
-import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/SendCard";
+import { RECIPIENT_FIELD } from "~/routes/sendPayment/components/FillPayment/RecipientCard";
 import { history } from "~/store";
 import { ProcessedTx } from "~/store/notifications/state";
 import { itemBackground, xs } from "~/theme/variables";

@@ -7,6 +7,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import { sm } from "~/theme/variables";
+import { showPhone } from "~/utils/reactportals";
 
 export interface PhoneHook {
   readonly phoneHook: HTMLDivElement | null;
@@ -81,7 +82,6 @@ class ListMenu extends React.Component<Props> {
       open,
       clickAway,
     } = this.props;
-    const showPhone = phoneMode && phoneHook !== null && open;
     const style = buildListStyleFrom(phoneMode, listWidth, color);
     const popperStyle = {
       marginTop: sm,
@@ -92,7 +92,7 @@ class ListMenu extends React.Component<Props> {
         <div ref={this.menuRef} className={classes.root} onClick={this.menuClicked}>
           {starter(open)}
         </div>
-        {showPhone ? (
+        {showPhone(phoneMode, phoneHook, open) ? (
           ReactDOM.createPortal(
             <ListItems clickAway={clickAway} items={children} style={style} />,
             phoneHook!,

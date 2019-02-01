@@ -8,6 +8,7 @@ const itemBackground = "#fcfcfc";
 const border = "#f3f3f3";
 const placeholder = "#b8bccb";
 const temporaryError = "#ffb968";
+const shadowColor = "#e3e4e7";
 const xs = "4px";
 const sm = "8px";
 const md = "16px";
@@ -44,6 +45,7 @@ module.exports = Object.assign(
     background,
     backgroundPrimary,
     itemBackground,
+    shadowColor,
     border,
     xs,
     sm,
@@ -72,6 +74,5 @@ module.exports = Object.assign(
     screenLg,
     temporaryError,
     placeholder,
-
   },
 )
