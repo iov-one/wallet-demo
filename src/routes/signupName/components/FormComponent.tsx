@@ -44,7 +44,7 @@ const error = "Allowed lowercase letters, numbers and _";
 /**
  * This method should only be used here. It has separated from #takenName for testing purposes
  * @param response Response from getUsernameNftByUsername method
- * 
+ *
  */
 export const nameValidator = (response: string | undefined) => {
   const isTaken = response !== undefined;
