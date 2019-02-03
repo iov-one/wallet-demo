@@ -7,11 +7,6 @@ import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 import { PasswordRecoveryInternal } from "../../container";
 
-export interface PasswordFormData {
-  readonly password: string;
-  readonly passwordConfirm: string;
-}
-
 export const processProfileRecovery = async (
   RecoveryDom: React.Component,
   mnemonic: ReadonlyArray<string>,
@@ -51,16 +46,14 @@ export const travelToUpdatePass = async (store: Store): Promise<React.Component>
 
 export const processUpdatePass = async (
   RecoveryDom: React.Component,
-  passwords: PasswordFormData,
+  password: string,
+  passwordConfirm: string,
   submitForm: boolean = true,
 ): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(RecoveryDom, "input");
 
-  const password = inputs[0];
-  TestUtils.Simulate.change(password, { target: { value: passwords.password } } as any);
-
-  const passwordConfirm = inputs[1];
-  TestUtils.Simulate.change(passwordConfirm, { target: { value: passwords.passwordConfirm } } as any);
+  TestUtils.Simulate.change(inputs[0], { target: { value: password } } as any);
+  TestUtils.Simulate.change(inputs[1], { target: { value: passwordConfirm } } as any);
 
   if (submitForm) {
     const form = TestUtils.findRenderedDOMComponentWithTag(RecoveryDom, "form");

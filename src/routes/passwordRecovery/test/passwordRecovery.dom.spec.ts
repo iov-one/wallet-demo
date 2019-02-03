@@ -11,7 +11,6 @@ import { expectRoute } from "~/utils/test/dom";
 import {
   getRandomMnemonic,
   getRealMnemonic,
-  PasswordFormData,
   processProfileRecovery,
   processUpdatePass,
   travelToProfileRecovery,
@@ -95,13 +94,8 @@ describe("DOM > Feature > Password Recovery", () => {
     }, 16000);
 
     it("submit should be disabled if input fields values are not equal", async () => {
-      const passwords: PasswordFormData = {
-        password: randomString(10),
-        passwordConfirm: randomString(10),
-      };
-
       const UpdatePassDom = await travelToUpdatePass(refreshStore);
-      await processUpdatePass(UpdatePassDom, passwords);
+      await processUpdatePass(UpdatePassDom, randomString(10), randomString(10));
 
       const button = TestUtils.findRenderedDOMComponentWithTag(UpdatePassDom, "button") as HTMLButtonElement;
       expect(button.disabled).toBeTruthy();
@@ -109,13 +103,9 @@ describe("DOM > Feature > Password Recovery", () => {
 
     it("submit should be enabled if input fields values are equal", async () => {
       const password = randomString(10);
-      const passwords: PasswordFormData = {
-        password: password,
-        passwordConfirm: password,
-      };
 
       const UpdatePassDom = await travelToUpdatePass(refreshStore);
-      await processUpdatePass(UpdatePassDom, passwords, false);
+      await processUpdatePass(UpdatePassDom, password, password, false);
 
       const button = TestUtils.findRenderedDOMComponentWithTag(UpdatePassDom, "button") as HTMLButtonElement;
       expect(button.disabled).toBeFalsy();
@@ -125,13 +115,9 @@ describe("DOM > Feature > Password Recovery", () => {
       `should submit password and redirect to ${SET_NAME_ROUTE}`,
       async () => {
         const password = randomString(10);
-        const passwords: PasswordFormData = {
-          password: password,
-          passwordConfirm: password,
-        };
 
         const UpdatePassDom = await travelToUpdatePass(refreshStore);
-        await processUpdatePass(UpdatePassDom, passwords);
+        await processUpdatePass(UpdatePassDom, password, password);
 
         expectRoute(refreshStore, SET_NAME_ROUTE);
       },
