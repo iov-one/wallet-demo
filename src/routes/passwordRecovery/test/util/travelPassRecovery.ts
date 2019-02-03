@@ -12,7 +12,10 @@ export interface PasswordFormData {
   readonly passwordConfirm: string;
 }
 
-export const processProfileRecovery = async (RecoveryDom: React.Component, mnemonic: ReadonlyArray<string>): Promise<void> => {
+export const processProfileRecovery = async (
+  RecoveryDom: React.Component,
+  mnemonic: ReadonlyArray<string>,
+): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(RecoveryDom, "input");
 
   for (let i = 0; i < mnemonic.length; i++) {
@@ -23,7 +26,7 @@ export const processProfileRecovery = async (RecoveryDom: React.Component, mnemo
   TestUtils.Simulate.submit(form);
 
   await sleep(3000);
-}
+};
 
 export const travelToProfileRecovery = async (store: Store): Promise<React.Component> => {
   history.push(PASSWORD_RECOVERY_ROUTE);
@@ -46,7 +49,11 @@ export const travelToUpdatePass = async (store: Store): Promise<React.Component>
   return dom;
 };
 
-export const processUpdatePass = async (RecoveryDom: React.Component, passwords: PasswordFormData, submitForm: boolean = true): Promise<void> => {
+export const processUpdatePass = async (
+  RecoveryDom: React.Component,
+  passwords: PasswordFormData,
+  submitForm: boolean = true,
+): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(RecoveryDom, "input");
 
   const password = inputs[0];
@@ -61,7 +68,7 @@ export const processUpdatePass = async (RecoveryDom: React.Component, passwords:
   }
 
   await sleep(5000);
-}
+};
 
 export const getRandomMnemonic = (): ReadonlyArray<string> => {
   // tslint:disable-next-line:readonly-array
@@ -71,8 +78,7 @@ export const getRandomMnemonic = (): ReadonlyArray<string> => {
   }
 
   return mnemonicList;
-}
-
+};
 
 export const getRealMnemonic = (): ReadonlyArray<string> => {
   return [
@@ -87,6 +93,6 @@ export const getRealMnemonic = (): ReadonlyArray<string> => {
     "cover",
     "prepare",
     "oak",
-    "script"
+    "script",
   ];
-} 
+};
