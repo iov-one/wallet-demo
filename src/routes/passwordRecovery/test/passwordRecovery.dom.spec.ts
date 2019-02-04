@@ -5,7 +5,6 @@ import { Toast } from "~/context/ToastProvider/Toast";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { PASSWORD_RECOVERY_ROUTE, SET_NAME_ROUTE } from "~/routes";
-import { processBalance } from "~/routes/balance/test/util/travelBalance";
 import { shutdownSequence } from "~/sequences";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
