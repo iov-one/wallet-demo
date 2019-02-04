@@ -40,6 +40,7 @@ export const travelToUpdatePass = async (store: Store): Promise<React.Component>
 
   const recoveryComponent = TestUtils.findRenderedComponentWithType(dom, PasswordRecoveryInternal);
   expect(recoveryComponent.state.step).toBe("recover_password");
+  expect(recoveryComponent.state.mnemonic).toBe(mnemonic.join(" "));
 
   return dom;
 };
@@ -58,9 +59,10 @@ export const processUpdatePass = async (
   if (submitForm) {
     const form = TestUtils.findRenderedDOMComponentWithTag(RecoveryDom, "form");
     TestUtils.Simulate.submit(form);
+    await sleep(3500);
   }
 
-  await sleep(5000);
+  await sleep(1500);
 };
 
 export const getRandomMnemonic = (): ReadonlyArray<string> => {
