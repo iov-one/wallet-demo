@@ -29,7 +29,7 @@ export const processSignup = async (SignUpDom: React.Component): Promise<void> =
   }
   TestUtils.Simulate.submit(form);
 
-  await sleep(3000);
+  await sleep(4000);
 };
 
 export const travelToSignup = (store: Store): React.Component => {
