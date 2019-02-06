@@ -24,18 +24,27 @@ import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
+export const SECURITY_CENTER_ID = "security-center";
+export const INVITE_FRIENDS_ID = "invite-friends";
+export const TERMS_CONDITIONS_ID = "terms-conditions";
+export const PRIVACY_POLICY_ID = "privacy-policy";
+export const LOG_OUT_ID = "log-out";
+
+export const MENU_ID = "hi-menu";
+
 interface Props extends PhoneHook, WithStyles<typeof styles>, LogoutProfileActions {}
 
 interface HiElementProps {
   readonly src: string;
   readonly alt: string;
   readonly msg: string;
+  readonly id: string;
   readonly phone: boolean;
   readonly action: () => void;
   readonly height?: string;
 }
 
-const HiElement = ({ src, alt, action, phone, msg, height = "18" }: HiElementProps) => {
+const HiElement = ({ src, alt, id, action, phone, msg, height = "18" }: HiElementProps) => {
   const ItemIcon = () => (
     <ListItemIcon>
       <Img src={src} alt={alt} height={height} />
@@ -43,7 +52,7 @@ const HiElement = ({ src, alt, action, phone, msg, height = "18" }: HiElementPro
   );
 
   return (
-    <ListItem disableGutters button onClick={action}>
+    <ListItem id={id} disableGutters button onClick={action}>
       {!phone && <ItemIcon />}
       <ListItemText disableTypography>
         <Typography variant={phone ? "body1" : "body2"}>{msg}</Typography>
@@ -107,12 +116,14 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
       starter={phoneMode ? phoneStarter : desktopStarter}
       listWidth={280}
       phoneMode={phoneMode}
+      listId={MENU_ID}
       {...rest}
     >
       <Block padding={phoneMode ? "lg" : "md"}>
         {phoneMode && <PhoneLinks />}
         <HiElement
           height="20"
+          id={SECURITY_CENTER_ID}
           src={securityCentre}
           phone={phoneMode}
           action={onSecurityCenter}
@@ -122,6 +133,7 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
         {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={invite}
+          id={INVITE_FRIENDS_ID}
           action={onInvite}
           phone={phoneMode}
           msg="Invite friends"
@@ -130,16 +142,18 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
         {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={terms}
+          id={TERMS_CONDITIONS_ID}
           action={noOp}
           phone={phoneMode}
           msg="Terms & Conditions"
           alt="Terms & Conditions"
         />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement src={privacy} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
+        <HiElement src={privacy} id={PRIVACY_POLICY_ID} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
         {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={logout}
+          id={LOG_OUT_ID}
           action={onLogout(logoutProfile)}
           phone={phoneMode}
           msg="Log out"
