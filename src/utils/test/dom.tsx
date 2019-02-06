@@ -7,8 +7,8 @@ import MatchMedia from "~/context/MatchMediaContext";
 import Route from "~/routes";
 import { history } from "~/store";
 
-/** 
- * This is required because it is not possible to test menu items containg Popper component 
+/**
+ * This is required because it is not possible to test menu items containg Popper component
  * because of component limitation. We should test it in phone mode.
  */
 
@@ -24,7 +24,6 @@ window.matchMedia = jest.fn().mockImplementation(query => {
 });
 
 export const createDom = (store: Store): React.Component =>
-
   TestUtils.renderIntoDocument(
     <Provider store={store}>
       <MatchMedia>
@@ -53,4 +52,4 @@ export const findRenderedDOMComponentWithId = (tree: React.Component<any>, id: s
   }
 
   return elementsWithId[0] as Element;
-}
+};

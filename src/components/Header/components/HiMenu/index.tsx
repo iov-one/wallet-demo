@@ -149,7 +149,14 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
           alt="Terms & Conditions"
         />
         {!phoneMode && <Hairline color={border} />}
-        <HiElement src={privacy} id={PRIVACY_POLICY_ID} action={noOp} phone={phoneMode} msg="Privacy Policy" alt="Privacy Policy" />
+        <HiElement
+          src={privacy}
+          id={PRIVACY_POLICY_ID}
+          action={noOp}
+          phone={phoneMode}
+          msg="Privacy Policy"
+          alt="Privacy Policy"
+        />
         {!phoneMode && <Hairline color={border} />}
         <HiElement
           src={logout}
