@@ -50,7 +50,6 @@ const onTransactions = () => {
   history.push(TRANSACTIONS_ROUTE);
 };
 
-
 const BALANCE_TEXT = "Balance";
 const PAYMENT_TEXT = "Payments";
 const TRANSACTIONS_TEXT = "Transactions";
@@ -105,9 +104,9 @@ const LinkMenuItem = withStyles(styles)(({ phone, onClick, itemTitle, currentPat
 
 export const PhoneLinks = () => (
   <React.Fragment>
-    <LinkMenuItem phone={true} onClick={onBalance} itemTitle={BALANCE_TEXT} />
-    <LinkMenuItem phone={true} onClick={onPayments} itemTitle={PAYMENT_TEXT} />
-    <LinkMenuItem phone={true} onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />
+    <LinkMenuItem phone onClick={onBalance} itemTitle={BALANCE_TEXT} />
+    <LinkMenuItem phone onClick={onPayments} itemTitle={PAYMENT_TEXT} />
+    <LinkMenuItem phone onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />
     <Hairline color={border} margin="sm" />
   </React.Fragment>
 );
