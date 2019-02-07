@@ -8,7 +8,7 @@ import download from "../assets/download.svg";
 
 const styles = createStyles({
   root: {
-    width: 150,
+    width: "auto",
     justifyContent: "left",
     textTransform: "inherit",
   },
