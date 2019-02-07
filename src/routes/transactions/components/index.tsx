@@ -1,5 +1,10 @@
 import * as React from "react";
+import ToolBox from "./ToolBox";
 
 export default (): JSX.Element => {
-  return <React.Fragment>Transactions</React.Fragment>;
+  return (
+    <React.Fragment>
+      <ToolBox />
+    </React.Fragment>
+  );
 };
