@@ -1,7 +1,7 @@
 import {
+  Account,
   Address,
   Amount,
-  BcpAccount,
   BcpConnection,
   ChainId,
   ConfirmedTransaction,
@@ -28,7 +28,7 @@ export async function getAccount(
   connection: BcpConnection,
   ident: PublicIdentity,
   codec: TxCodec,
-): Promise<BcpAccount | undefined> {
+): Promise<Account | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
   return result;
@@ -38,7 +38,7 @@ export async function getAccount(
 export async function getAccountByAddress(
   connection: BcpConnection,
   address: Address,
-): Promise<BcpAccount | undefined> {
+): Promise<Account | undefined> {
   const result = await connection.getAccount({ address });
   return result;
 }
@@ -75,7 +75,7 @@ export interface Unsubscriber {
 export function watchAccount(
   connection: BcpConnection,
   ident: PublicIdentity,
-  cb: (acct?: BcpAccount, err?: any) => any,
+  cb: (acct?: Account, err?: any) => any,
   codec: TxCodec,
 ): Unsubscriber {
   const address = keyToAddress(ident, codec);

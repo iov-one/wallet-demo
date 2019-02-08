@@ -1,5 +1,5 @@
 {
-  "wallets": [
+  "cash": [
     {
       "address": "27aef264d3f70687dd9c1472bc551ac511636f1a",
       "// name": "admin",
@@ -25,7 +25,7 @@
       ]
     }
   ],
-  "tokens": [
+  "currencies": [
     {
       "ticker": "BOV",
       "name": "Main token of this test chain",

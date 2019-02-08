@@ -81,7 +81,7 @@ export async function loadConfig(): Promise<Config> {
   if (configFile === undefined) {
     let configData: any;
     try {
-      const response = await axios.get("/config.json");
+      const response = await axios.get("/assets/config.json");
       configData = response.data ? response.data : config;
     } catch {
       configData = config;
