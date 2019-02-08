@@ -5,7 +5,7 @@
       "bootstrapNodes": ["wss://bns.hugnet.iov.one/"]
     },
     "faucetSpec": {
-      "uri": "https://iov-faucet.hugnet.iov.one",
+      "uri": "https://bns-faucet.hugnet.iov.one",
       "token": "IOV"
     }
   },
