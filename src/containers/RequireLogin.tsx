@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect, RouteProps } from "react-router-dom";
 import { AccountInfo } from "~/reducers/blockchain";
-import { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
+import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { getBnsAccount } from "~/selectors";
 
 interface RequireLoginProps extends RouteProps {
@@ -17,7 +17,7 @@ class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
 
     const redirectPath =
       !bnsAccount || !bnsAccount.account
-        ? SIGNUP_ROUTE /*login/signup page*/
+        ? LOGIN_ROUTE /*login/signup page*/
         : bnsAccount.username === undefined
         ? SET_NAME_ROUTE /*set name page*/
         : undefined;
