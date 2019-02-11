@@ -1,8 +1,7 @@
 import { BnsConnection } from "@iov/bns";
 import { createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { accountNameSelector } from "~/routes/home/container/selector";
-import { requireBnsConnection } from "~/selectors";
+import { accountNameSelector, requireBnsConnection } from "~/selectors";
 
 export interface SelectorProps {
   readonly connection: BnsConnection;

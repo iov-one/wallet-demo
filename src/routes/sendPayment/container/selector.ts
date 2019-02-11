@@ -7,8 +7,13 @@ import { MultiChainSigner } from "@iov/core";
 import { Item } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { tokensSelector } from "~/routes/balance/container/selector";
-import { accountNameSelector } from "~/routes/home/container/selector";
-import { ChainTicker, getChainTickers, requireBnsConnection, requireSigner } from "~/selectors";
+import {
+  accountNameSelector,
+  ChainTicker,
+  getChainTickers,
+  requireBnsConnection,
+  requireSigner,
+} from "~/selectors";
 
 export interface SelectorProps {
   readonly chainTickers: ReadonlyArray<ChainTicker>;

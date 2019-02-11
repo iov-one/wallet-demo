@@ -1,8 +1,7 @@
 import { BcpCoin } from "@iov/bcp-types";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { accountNameSelector } from "~/routes/home/container/selector";
-import { ChainAccount, getAllAccounts } from "~/selectors";
+import { accountNameSelector, ChainAccount, getAllAccounts } from "~/selectors";
 
 export interface SelectorProps {
   readonly name: string | undefined;

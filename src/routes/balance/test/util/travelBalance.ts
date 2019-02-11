@@ -1,6 +1,5 @@
 import { Store } from "redux";
-import { BALANCE_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
-import { travelToHome } from "~/routes/home/test/utils/travelHome";
+import { BALANCE_ROUTE, HOME_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { processSetName } from "~/routes/signupName/test/utils/travelSetName";
 import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
 import { history } from "~/store";
@@ -26,5 +25,13 @@ export const travelToBalance = async (store: Store): Promise<React.Component> =>
   const dom = createDom(store);
   await sleep(500);
 
+  return dom;
+};
+
+const travelToHome = async (store: Store): Promise<React.Component> => {
+  history.push(HOME_ROUTE);
+
+  const dom = createDom(store);
+  await sleep(500);
   return dom;
 };

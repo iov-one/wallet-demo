@@ -6,7 +6,6 @@ import RequireLogin from "~/containers/RequireLogin";
 import AdvancedSecurity from "~/routes/advancedSecurity/container";
 import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
-import Home from "~/routes/home/container";
 import LogIn from "~/routes/login/container";
 import PasswordRecovery from "~/routes/passwordRecovery/container";
 import ReceiveIov from "~/routes/receiveIov/container";
@@ -38,11 +37,11 @@ export const RECEIVE_FROM_NON_IOV_USER = "/receive-external";
 
 export const MainRouter = () => (
   <Switch>
-    <Route exact path={HOME_ROUTE} component={Home} />
-    <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
-    <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={PASSWORD_RECOVERY_ROUTE} component={PasswordRecovery} />
+    <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <RequireLogin>
+      <Route exact path={HOME_ROUTE} component={Balance} />
+      <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
       <Route exact path={SET_NAME_ROUTE} component={SignupName} />
       <Route exact path={BALANCE_ROUTE} component={Balance} />
       <Route exact path={RECEIVE_FROM_IOV_USER} component={ReceiveIov} />

@@ -1,6 +1,6 @@
 import { createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
-import { accountNameSelector } from "~/routes/home/container/selector";
+import { accountNameSelector } from "~/selectors";
 
 export interface SelectorProps {
   readonly accountName: string | undefined;
