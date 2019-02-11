@@ -2,7 +2,7 @@ import { Store } from "redux";
 import { mayTestBns } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { processSignup, travelToSignup } from "../test/utils/travelSignup";

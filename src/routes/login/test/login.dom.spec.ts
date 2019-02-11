@@ -6,7 +6,7 @@ import { BALANCE_ROUTE, LOGIN_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
 import { TEST_PASS_PHRASE } from "~/routes/signupPass/test/utils/travelSignup";
 import { getProfileDB } from "~/selectors";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { processLogin } from "./utils/travelLogin";

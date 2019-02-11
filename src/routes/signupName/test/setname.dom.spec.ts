@@ -5,7 +5,7 @@ import { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { processBalance } from "~/routes/balance/test/util/travelBalance";
 import * as SetNameForm from "~/routes/signupName/components/FormComponent";
 import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { processSetName, travelToSetName } from "./utils/travelSetName";
