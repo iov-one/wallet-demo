@@ -35,7 +35,7 @@ describe("boot sequence", () => {
       const { signer, accounts } = (res as any) as BootResult;
       expect(signer.chainIds().length).toEqual(totalChains);
       const chainsLoaded = signer.chainIds();
-      expect(accounts.length).toEqual(3);
+      expect(accounts.length).toEqual(4);
       // empty accounts with same chain
       accounts.forEach((ac, index) => {
         expect(ac.chainId).toEqual(chainsLoaded[index]);
@@ -52,7 +52,7 @@ describe("boot sequence", () => {
 
       // two tokens registered on each of the chains we connected to
       expect(state.blockchain.tickers.length).toEqual(5);
-      const [chain1, chain2, chain3] = chainsLoaded;
+      const [chain1, chain2, chain3, chain4] = chainsLoaded;
       const tickers1 = state.blockchain.tickers
         .filter(t => t.chainId === chain1)
         .map(t => t.ticker.tokenTicker);
@@ -65,6 +65,10 @@ describe("boot sequence", () => {
         .filter(t => t.chainId === chain3)
         .map(t => t.ticker.tokenTicker);
       expect(tickers3).toEqual(["LSK"]);
+      const tickers4 = state.blockchain.tickers
+        .filter(t => t.chainId === chain4)
+        .map(t => t.ticker.tokenTicker);
+      expect(tickers4).toEqual(["ETH"]);
 
       // make sure the bns chain is listed
       const bnsId = state.blockchain.bnsId;
@@ -73,12 +77,17 @@ describe("boot sequence", () => {
 
       // ensure all chains are registered
       const chainIds = getOrderedChainIds(state);
-      expect(chainIds.length).toEqual(3);
+      expect(chainIds.length).toEqual(4);
       // bns and bov chains
       expect(chainIds[0]).toMatch(/^test-chain/);
       expect(chainIds[1]).toMatch(/^test-chain/);
       // lisk chain
       expect(chainIds[2]).toMatch(/^[0-9a-f]+$/);
+      // ethereum chain
+      expect(chainIds[3]).toMatch(/^ethereum-/);
+
+      // make sure to close connections so test ends
+      signer.shutdown();
     },
     35000,
   );
