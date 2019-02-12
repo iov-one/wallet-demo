@@ -1,3 +1,4 @@
+const { VirtualConsole } = require("jsdom");
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
@@ -57,8 +58,8 @@ module.exports = {
   // A set of global variables that need to be available in all test environments
   globals: {
     "ts-jest": {
-      "tsConfig": "tsconfig.json"
-    }
+      tsConfig: "tsconfig.json",
+    },
   },
 
   // An array of directory names to be searched recursively up from the requiring module's location
@@ -67,11 +68,7 @@ module.exports = {
   // ],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: [
-    "ts",
-    "tsx",
-    "js"
-  ],
+  moduleFileExtensions: ["ts", "tsx", "js"],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
@@ -112,9 +109,7 @@ module.exports = {
   // rootDir: null,
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: [
-    "./src"
-  ],
+  roots: ["./src"],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -132,15 +127,17 @@ module.exports = {
   // testEnvironment: "jest-environment-jsdom",
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironmentOptions: {
+    virtualConsole: new VirtualConsole().sendTo(console, {
+      omitJSDOMErrors: true,
+    }),
+  },
 
   // Adds a location field to test results
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    "**/*.spec.+(ts|tsx|js)"
-  ],
+  testMatch: ["**/*.spec.+(ts|tsx|js)"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -166,7 +163,7 @@ module.exports = {
   transform: {
     "^.+\\.(ts|tsx)?$": "ts-jest",
     "^.+\\.(css|scss)$": "<rootDir>/config/jest/cssTransform.js",
-    "^(?!.*\\.(ts|tsx|css|scss|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    "^(?!.*\\.(ts|tsx|css|scss|json)$)": "<rootDir>/config/jest/fileTransform.js",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
