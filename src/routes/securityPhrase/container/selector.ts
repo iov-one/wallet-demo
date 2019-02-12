@@ -7,7 +7,7 @@ export interface SelectorProps {
   readonly mnemonic: string | undefined;
 }
 
-const getWalletMnemonic: (state: RootState) => string | undefined = createSelector(
+export const getWalletMnemonic: (state: RootState) => string | undefined = createSelector(
   getProfile,
   (profile: UserProfile | undefined) =>
     profile === undefined ? undefined : profile.printableSecret(profile.wallets.value[0].id),

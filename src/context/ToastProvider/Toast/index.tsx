@@ -19,6 +19,7 @@ interface Props {
 export class Toast extends React.Component<Props> {
   public render(): JSX.Element {
     const { open, onClose, message, variant } = this.props;
+
     return (
       <Snackbar
         anchorOrigin={{
