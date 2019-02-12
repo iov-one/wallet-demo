@@ -4,6 +4,7 @@ import { RootState } from "~/reducers";
 import { BALANCE_ROUTE, PASSWORD_RECOVERY_ROUTE } from "~/routes";
 import { processBalance } from "~/routes/balance/test/util/travelBalance";
 import { getWalletMnemonic } from "~/routes/securityPhrase/container/selector";
+import { getAllAccounts } from "~/selectors";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
@@ -13,7 +14,6 @@ import {
   processUpdatePass,
   travelToProfileRecovery,
 } from "./util/passRecoveryUtils";
-import { getAllAccounts } from "~/selectors";
 
 describe("DOM > Feature > Password Recovery", () => {
   let store: Store<RootState>;
@@ -27,35 +27,40 @@ describe("DOM > Feature > Password Recovery", () => {
     shutdownSequence(null, store.getState);
   });
 
+  mayTestBns(
+    "should check wrong mnemonic behaviour and right mnemonic",
+    async () => {
+      await processBalance(store, randomString(10));
+      const mnemonic = getWalletMnemonic(store.getState());
+      const addresses: ReadonlyArray<string> = getAllAccounts(store.getState()).map(acct => acct.address);
+      expect(mnemonic).toBeDefined();
 
-  mayTestBns("should check wrong mnemonic behaviour and right mnemonic", async () => {
-    await processBalance(store, randomString(10));
-    const mnemonic = getWalletMnemonic(store.getState());
-    const addresses: ReadonlyArray<string> = getAllAccounts(store.getState()).map(acct => acct.address);
-    expect(mnemonic).toBeDefined();
+      resetHistory();
+      const freshStore = aNewStore();
 
-    resetHistory();
-    const freshStore = aNewStore();
+      const PasswordRecoveryDom = await travelToProfileRecovery(freshStore);
+      expectRoute(freshStore, PASSWORD_RECOVERY_ROUTE);
 
-    const PasswordRecoveryDom = await travelToProfileRecovery(freshStore);
-    expectRoute(freshStore, PASSWORD_RECOVERY_ROUTE);
+      await checkRecoverProfileComponent(PasswordRecoveryDom, mnemonic!);
+      await checkUpdatePassComponent(PasswordRecoveryDom, mnemonic!);
 
-    await checkRecoverProfileComponent(PasswordRecoveryDom, mnemonic!);
-    await checkUpdatePassComponent(PasswordRecoveryDom, mnemonic!);
+      const password = randomString(10);
+      //Should redirect to BALANCE_ROUTE in case if everything is ok
+      await processUpdatePass(PasswordRecoveryDom, password, password);
+      expectRoute(freshStore, BALANCE_ROUTE);
 
-    const password = randomString(10);
-    //Should redirect to BALANCE_ROUTE in case if everything is ok
-    await processUpdatePass(PasswordRecoveryDom, password, password);
-    expectRoute(freshStore, BALANCE_ROUTE);
+      const mnemonicRecovered = getWalletMnemonic(freshStore.getState());
+      expect(mnemonicRecovered).toBeDefined();
+      expect(mnemonic).toBe(mnemonicRecovered);
 
-    const mnemonicRecovered = getWalletMnemonic(freshStore.getState());    
-    expect(mnemonicRecovered).toBeDefined();
-    expect(mnemonic).toBe(mnemonicRecovered);
+      //Recovered addresses should be the same
+      const addressesRecovered: ReadonlyArray<string> = getAllAccounts(store.getState()).map(
+        acct => acct.address,
+      );
+      expect(addresses).toEqual(addressesRecovered);
 
-    //Recovered addresses should be the same
-    const addressesRecovered: ReadonlyArray<string> = getAllAccounts(store.getState()).map(acct => acct.address);
-    expect(addresses).toEqual(addressesRecovered);
-
-    shutdownSequence(null, freshStore.getState);
-  }, 40000);
+      shutdownSequence(null, freshStore.getState);
+    },
+    40000,
+  );
 });

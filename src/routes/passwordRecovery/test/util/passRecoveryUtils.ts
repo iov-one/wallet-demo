@@ -75,7 +75,7 @@ export const checkRecoverProfileComponent = async (dom: React.Component, mnemoni
   await processProfileRecovery(dom, mnemonic!.split(" "));
   //Toast component should be closed in case of right mnemonic
   expect(toastComponent.props.open).toBeFalsy();
-}
+};
 
 export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: string): Promise<void> => {
   //Checks that Component point to second page of recovering process
@@ -87,10 +87,7 @@ export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: s
   //Check new password input fields amount
   expect(inputs.length).toBe(2);
 
-  const button = TestUtils.findRenderedDOMComponentWithTag(
-    dom,
-    "button",
-  ) as HTMLButtonElement;
+  const button = TestUtils.findRenderedDOMComponentWithTag(dom, "button") as HTMLButtonElement;
 
   //Submit button should be disabled in case if password fields are empty
   expect(button.disabled).toBeTruthy();
@@ -103,7 +100,7 @@ export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: s
   const password = randomString(10);
   await processUpdatePass(dom, password, password, false);
   expect(button.disabled).toBeFalsy();
-}
+};
 
 export const getRandomMnemonic = (): ReadonlyArray<string> => {
   // tslint:disable-next-line:readonly-array
