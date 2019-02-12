@@ -1,5 +1,5 @@
 import { BlockchainSpec } from "~/logic";
-import { BootResult, bootSequence } from "~/sequences";
+import { BootResult, bootSequence } from "~/sequences/boot";
 
 export type BootType = (
   password: string,

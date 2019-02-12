@@ -57,6 +57,11 @@ export const getBnsAccount: (state: RootState) => AccountInfo | undefined = crea
     bnsId ? accts.find(acct => acct.chainId === bnsId) : undefined,
 );
 
+export const accountNameSelector = createSelector(
+  getBnsAccount,
+  (account: AccountInfo | undefined) => (account ? account.username : undefined),
+);
+
 export const getChainIds: (state: RootState) => ReadonlyArray<ChainId> = createSelector(
   getAllAccounts,
   accts => accts.map(acct => acct.chainId),

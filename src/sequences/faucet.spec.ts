@@ -1,5 +1,3 @@
-import { Address } from "@iov/bcp-types";
-
 import { compareAmounts } from "~/logic";
 import { faucetSpecs, mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
 import { fixTypes } from "~/reducers/helpers";
@@ -33,18 +31,16 @@ describe("drinkFaucetSequence", () => {
         // validate the current accounts are undefined
         const thirstyAccounts = getAllAccounts(store.getState());
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
-        thirstyAccounts.map(ac => expect(ac.account).toBeUndefined());
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
 
-        // no transactions yet
-        expect(getTransactions(store.getState()).length).toEqual(0);
+        expect(getTransactions(store.getState()).length).toEqual(2);
 
         // get the addresses for later...
         const addresses = getAllAccounts(store.getState()).map(acct => acct.address);
         expect(addresses.length).toEqual(totalFaucetChains);
 
         // drink from all faucets
-        const faucetAction = drinkFaucetSequence(faucets);
+        const faucetAction = drinkFaucetSequence(faucets, getAllAccounts(store.getState()));
         // TODO we should get rid of this `as any` for dispatch
         await fixTypes(store.dispatch(faucetAction as any));
 
@@ -54,7 +50,7 @@ describe("drinkFaucetSequence", () => {
 
         // validate the current account is defined and has some tokens
         const fullAccounts = getAllAccounts(store.getState());
-        expect(fullAccounts.length).toEqual(totalFaucetChains);
+        expect(fullAccounts.length).toEqual(3);
         fullAccounts.forEach(ac => {
           expect(chains.includes(ac.chainId)).toBeTruthy(); // chainId present
           expect(ac.account).toBeDefined(); // but with tokens
@@ -74,15 +70,7 @@ describe("drinkFaucetSequence", () => {
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
-        expect(transactions.length).toEqual(totalFaucetChains);
-        // and we should be the recipient (from the faucet)
-        const allAddresses = JSON.parse(JSON.stringify(addresses));
-        transactions.forEach(tx => {
-          // check unique existence between address and tx recipient
-          const addrPos = allAddresses.indexOf(tx.recipient as Address);
-          expect(addrPos !== -1).toBeTruthy();
-          allAddresses.splice(addrPos, 1);
-        });
+        expect(transactions.length).toEqual(5);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());

@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { FormType } from "~/components/forms/Form";
 import { hasStoredProfile } from "~/logic";
-import { BALANCE_ROUTE, LOGIN_ROUTE } from "~/routes";
+import { LOGIN_ROUTE } from "~/routes";
 import CreateAccount from "~/routes/signupPass/components";
 import { PASSWORD_FIELD } from "~/routes/signupPass/components/FormComponent";
 import { loginAccount } from "~/sequences/login";
@@ -14,14 +14,7 @@ interface Props extends HomeActions, SelectorProps {}
 
 class SignupPass extends React.Component<Props> {
   public async componentDidMount(): Promise<void> {
-    const { hasIdentity, accountName, db } = this.props;
-
-    const hasIdentityWithName = hasIdentity && accountName;
-    if (hasIdentityWithName) {
-      history.push(BALANCE_ROUTE);
-
-      return;
-    }
+    const { db } = this.props;
 
     const hasProfile = await hasStoredProfile(db);
     if (hasProfile) {
@@ -32,10 +25,10 @@ class SignupPass extends React.Component<Props> {
   }
 
   public readonly onCreateAccount = async (values: object) => {
-    const { boot, drinkFaucet } = this.props;
+    const { boot } = this.props;
     const password = (values as FormType)[PASSWORD_FIELD];
 
-    return loginAccount(boot, drinkFaucet, password);
+    await loginAccount(boot, password);
   };
 
   public render(): JSX.Element {

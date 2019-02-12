@@ -48,10 +48,10 @@ class PasswordRecovery extends React.Component<Props, State> {
   };
 
   public readonly onPasswordSubmit = async (values: FormType): Promise<void> => {
-    const { boot, drinkFaucet } = this.props;
+    const { boot } = this.props;
     const password = values[LOGIN_PASS_FIELD];
     try {
-      await loginAccount(boot, drinkFaucet, password, this.state.mnemonic);
+      await loginAccount(boot, password, this.state.mnemonic);
     } catch (err) {
       this.props.showToast("Unable to restore profile.", ToastVariant.ERROR);
       console.log(err);

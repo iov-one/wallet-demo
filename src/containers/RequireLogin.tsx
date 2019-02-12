@@ -1,9 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect, RouteProps } from "react-router-dom";
-
 import { AccountInfo } from "~/reducers/blockchain";
-import { HOME_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
+import { LOGIN_ROUTE, SET_NAME_ROUTE } from "~/routes";
 import { getBnsAccount } from "~/selectors";
 
 interface RequireLoginProps extends RouteProps {
@@ -14,19 +13,19 @@ interface RequireLoginProps extends RouteProps {
 class RequireLogin extends React.PureComponent<RequireLoginProps, {}> {
   public render(): JSX.Element {
     const { bnsAccount, children, location } = this.props;
-    if (location && location.pathname === HOME_ROUTE) {
-      return <React.Fragment>{children}</React.Fragment>;
-    }
+    const path = location ? location.pathname : "N/A";
 
-    // redirect is the url to redirect to, or undefined if no redirect
-    const redirect =
+    const redirectPath =
       !bnsAccount || !bnsAccount.account
-        ? SIGNUP_ROUTE /*login/signup page*/
+        ? LOGIN_ROUTE /*login/signup page*/
         : bnsAccount.username === undefined
         ? SET_NAME_ROUTE /*set name page*/
         : undefined;
-    // one redirect if needed, or all children
-    return <React.Fragment>{redirect ? <Redirect push to={redirect} /> : children}</React.Fragment>;
+
+    const differentDestination = path !== redirectPath;
+    const redirect = redirectPath && differentDestination;
+
+    return <React.Fragment>{redirect ? <Redirect push to={redirectPath!} /> : children}</React.Fragment>;
   }
 }
 

@@ -2,7 +2,7 @@ import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { BALANCE_ROUTE } from "~/routes";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore } from "~/store";
 import { processBalance } from "./util/travelBalance";
 
@@ -23,6 +23,6 @@ describe("DOM > Feature > Balance", () => {
       const account = randomString(6);
       await processBalance(store, account);
     },
-    16000,
+    55000,
   );
 });
