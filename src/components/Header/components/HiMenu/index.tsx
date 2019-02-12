@@ -21,7 +21,6 @@ import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
 import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
 import { history } from "~/store";
-import { logoutSyncAction } from "~/store/logout/actions";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
@@ -79,7 +78,7 @@ const onInvite = () => {
 
 const noOp = () => true;
 
-const onLogout = (logoutProfile: typeof logoutSyncAction) => async () => {
+const onLogout = (logoutProfile: (dispatch?: any) => Promise<void>) => async () => {
   await logoutProfile();
   history.push(LOGIN_ROUTE);
 };

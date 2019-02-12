@@ -14,7 +14,7 @@ export const processBalance = async (store: Store, account: string): Promise<voi
   const SignupDom = HomeDom;
   expectRoute(store, SIGNUP_ROUTE);
   await processSignup(SignupDom);
-  await sleep(4000)
+  await sleep(4000);
   expectRoute(store, SET_NAME_ROUTE);
 
   const SetNameDom = SignupDom;

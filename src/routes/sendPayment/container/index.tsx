@@ -1,4 +1,5 @@
 import { Amount, BcpCoin } from "@iov/bcp-types";
+import { ChainAddressPair } from "@iov/bns";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -73,11 +74,11 @@ class SendPayment extends React.Component<Props, State> {
       return {};
     }
 
-    if (!isIovAddress(maybeAddress)) {
-      const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-      const chainTicker = chainTickers.find(chTicker => chTicker.ticker.tokenTicker === ticker);
-      const chainId = chainTicker ? chainTicker.chainId : undefined;
+    const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
+    const chainTicker = chainTickers.find(chTicker => chTicker.ticker.tokenTicker === ticker);
+    const chainId = chainTicker ? chainTicker.chainId : undefined;
 
+    if (!isIovAddress(maybeAddress)) {
       const valid = chainId && signer.isValidAddress(chainId, maybeAddress);
 
       return valid
@@ -85,11 +86,16 @@ class SendPayment extends React.Component<Props, State> {
         : generateError(RECIPIENT_FIELD, `Invalid address for chain ${chainId}: ${maybeAddress}`);
     }
 
-    // check if name is registered in BNS (remember to remove namespace component)
     const username = maybeAddress.slice(0, -IOV_NAMESPACE.length);
     const nft = await getUsernameNftByUsername(connection, username);
     if (nft === undefined) {
       return generateError(RECIPIENT_FIELD, "IOV address not registered");
+    }
+    const nftChain =
+      chainId && nft.addresses.find((address: ChainAddressPair) => address.chainId === chainId);
+
+    if (!nftChain) {
+      return generateError(RECIPIENT_FIELD, `IOV address is not registered on ${ticker}`);
     }
 
     return {};

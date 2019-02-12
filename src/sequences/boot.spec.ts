@@ -1,15 +1,24 @@
+import { Store } from "redux";
 import { mayTestFull, randomString, testChains, testSpec } from "~/logic/testhelpers";
+import { RootState } from "~/reducers";
 import { fixTypes } from "~/reducers/helpers";
 import { getOrderedChainIds } from "~/selectors";
-import { makeStore } from "~/store";
-
-import { BootResult, bootSequence } from "./boot";
+import { aNewStore } from "~/store";
+import { sleep } from "~/utils/timer";
+import { BootResult, bootSequence, shutdownSequence } from "./boot";
 
 describe("boot sequence", () => {
+  let store: Store<RootState>;
+  beforeEach(() => {
+    store = aNewStore();
+  });
+
+  afterEach(() => {
+    shutdownSequence(null, store.getState);
+  });
   mayTestFull(
     "initializes the chain",
     async () => {
-      const store = makeStore();
       const password = randomString(16);
 
       const testSpecData = await testSpec();
@@ -21,6 +30,7 @@ describe("boot sequence", () => {
 
       // TODO we should get rid of this `as any` for dispatch
       const res = await fixTypes(store.dispatch(action as any));
+      await sleep(4000);
       // and this ugly cast on return value
       const { signer, accounts } = (res as any) as BootResult;
       expect(signer.chainIds().length).toEqual(totalChains);
@@ -36,7 +46,7 @@ describe("boot sequence", () => {
       expect(accounts[0].address).not.toEqual(accounts[1].address);
 
       // validate state properly initialized
-      const state = store.getState();
+      const state: RootState = store.getState();
       expect(state.blockchain.internal.signer).toBeDefined();
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(totalChains);
 
@@ -69,10 +79,7 @@ describe("boot sequence", () => {
       expect(chainIds[1]).toMatch(/^test-chain/);
       // lisk chain
       expect(chainIds[2]).toMatch(/^[0-9a-f]+$/);
-
-      // make sure to close connections so test ends
-      signer.shutdown();
     },
-    4000,
+    35000,
   );
 });
