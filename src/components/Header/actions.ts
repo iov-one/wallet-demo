@@ -1,7 +1,7 @@
 import { logoutSyncAction } from "~/store/logout/actions";
 
 export interface LogoutProfileActions {
-  readonly logoutProfile: typeof logoutSyncAction;
+  readonly logoutProfile: (dispatch: any) => Promise<void>;
 }
 
 export default {
