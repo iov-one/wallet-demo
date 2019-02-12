@@ -1,13 +1,24 @@
 import { UserProfile } from "@iov/core";
-
+import { Store } from "redux";
+import { RootState } from "~/reducers";
+import { shutdownSequence } from "~/sequences/boot";
 import { hasStoredProfile } from "../../logic";
 import { aNewStore } from "../../store";
 import { fixTypes } from "../helpers";
 import { createProfileAsyncAction } from "./actions";
 
 describe("profile async actions", () => {
+  let store: Store<RootState>;
+
+  beforeEach(() => {
+    store = aNewStore();
+  });
+
+  afterEach(() => {
+    shutdownSequence(null, store.getState);
+  });
+
   it("initializes a fresh redux store", async () => {
-    const store = aNewStore();
     const init = store.getState();
     expect(init.profile.internal.profile).toBeUndefined();
     expect(init.profile.internal.db).not.toBeUndefined();
@@ -39,7 +50,6 @@ describe("profile async actions", () => {
   });
 
   it("recovers a redux store from mnemonic", async () => {
-    const store = aNewStore();
     const init = store.getState();
     expect(init.profile.internal.profile).toBeUndefined();
     expect(init.profile.internal.db).not.toBeUndefined();
