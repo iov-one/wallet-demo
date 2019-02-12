@@ -6,7 +6,7 @@ import { RootState } from "~/reducers";
 import { LOGIN_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
 import { getSigner } from "~/selectors";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore } from "~/store";
 import { expectRoute, findRenderedDOMComponentWithId } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
@@ -43,6 +43,9 @@ describe("Components -> Header -> HiMenu", () => {
 
       await sleep(1500);
       expectRoute(store, LOGIN_ROUTE);
+      const newStore = aNewStore();
+      await sleep(1500);
+      expect(store.getState()).toEqual(newStore.getState());
     },
     16000,
   );
