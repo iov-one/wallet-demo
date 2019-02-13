@@ -15,7 +15,9 @@ export default class ErrorBoundary extends React.Component<Props, State> {
   };
 
   public readonly componentDidCatch = (error: Error | null, errorInfo: any): void => {
-    this.setState({ openSentry: true });
+    const openSentry = process.env.NODE_ENV === "production" ? true : false;
+    this.setState({ openSentry });
+
     Sentry.withScope(scope => {
       Object.keys(errorInfo).forEach(key => {
         scope.setExtra(key, errorInfo[key]);
