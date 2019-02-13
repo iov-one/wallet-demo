@@ -16,7 +16,7 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ToolBox = ({ classes }: Props): JSX.Element => {
+const NoTransactions = ({ classes }: Props): JSX.Element => {
   return (
     <Block className={classes.panel}>
       <Img src={noTransactions} alt="No Transactions" />
@@ -34,4 +34,4 @@ const ToolBox = ({ classes }: Props): JSX.Element => {
   );
 };
 
-export default withStyles(styles)(ToolBox);
+export default withStyles(styles)(NoTransactions);
