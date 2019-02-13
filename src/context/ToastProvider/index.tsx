@@ -47,7 +47,7 @@ export class ToastProvider extends React.Component<Props, State> {
     open: false,
     message: "",
     variant: ToastVariant.INFO,
-  };  
+  };
 
   public readonly showToast = (message: string, variant: ToastVariant) => {
     this.setState({
@@ -64,7 +64,6 @@ export class ToastProvider extends React.Component<Props, State> {
     });
   };
 
-
   public render(): JSX.Element {
     const { children } = this.props;
 
@@ -77,9 +76,7 @@ export class ToastProvider extends React.Component<Props, State> {
     };
 
     return (
-      <ToastContext.Provider
-        value={toastConfig}
-      >
+      <ToastContext.Provider value={toastConfig}>
         <SharedToast />
         {children}
       </ToastContext.Provider>

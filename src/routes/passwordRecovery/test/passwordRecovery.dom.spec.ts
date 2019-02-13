@@ -11,9 +11,9 @@ import { expectRoute } from "~/utils/test/dom";
 import {
   checkRecoverProfileComponent,
   checkUpdatePassComponent,
+  processProfileRecovery,
   processUpdatePass,
   travelToProfileRecovery,
-  processProfileRecovery,
 } from "./util/passRecoveryUtils";
 
 describe("DOM > Feature > Password Recovery", () => {
@@ -42,14 +42,14 @@ describe("DOM > Feature > Password Recovery", () => {
       const PasswordRecoveryDom = await travelToProfileRecovery(freshStore);
       expectRoute(freshStore, PASSWORD_RECOVERY_ROUTE);
 
-      await checkRecoverProfileComponent(PasswordRecoveryDom, mnemonic!);
+      await checkRecoverProfileComponent(PasswordRecoveryDom);
       await processProfileRecovery(PasswordRecoveryDom, mnemonic!.split(" "));
 
       await checkUpdatePassComponent(PasswordRecoveryDom, mnemonic!);
       const password = randomString(10);
       //Should redirect to BALANCE_ROUTE in case if everything is ok
       await processUpdatePass(PasswordRecoveryDom, password, password);
-      
+
       expectRoute(freshStore, BALANCE_ROUTE);
 
       const mnemonicRecovered = getWalletMnemonic(freshStore.getState());

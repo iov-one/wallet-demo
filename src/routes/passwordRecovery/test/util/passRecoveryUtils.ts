@@ -54,7 +54,7 @@ export const processUpdatePass = async (
   await sleep(1500);
 };
 
-export const checkRecoverProfileComponent = async (dom: React.Component, mnemonic: string): Promise<void> => {
+export const checkRecoverProfileComponent = async (dom: React.Component): Promise<void> => {
   const hdWalletSpy = jest.spyOn(Ed25519HdWallet, "fromMnemonic");
   const mnemonicInputs = TestUtils.scryRenderedDOMComponentsWithTag(dom, "input");
   //Check mnemonic input fields amount
@@ -100,7 +100,5 @@ export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: s
 };
 
 export const getRandomMnemonic = (): ReadonlyArray<string> => {
-  const mnemonicList = new Array(12);
-
-  return mnemonicList.map(() => randomString(10));
+  return Array.from(Array(12)).map(() => randomString(10));
 };
