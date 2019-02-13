@@ -42,7 +42,7 @@ class Block extends React.PureComponent<BlockProps> {
     } = this.props;
     const styleCombined = {
       ...style,
-      maxWidth: (maxWidth ? `${maxWidth}px` : undefined)
+      maxWidth: maxWidth ? `${maxWidth}px` : undefined,
     };
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
     const blockClasses = cx(

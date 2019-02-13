@@ -85,8 +85,8 @@ export const PhoneLinks = () => (
 
 const DesktopLinkMenuItem = ({ itemTitle, onClick }: MenuItemProps) => {
   const textStyle = {
-    marginTop: '12px',
-}
+    marginTop: "12px",
+  };
 
   return (
     <Block style={textStyle}>
@@ -95,9 +95,9 @@ const DesktopLinkMenuItem = ({ itemTitle, onClick }: MenuItemProps) => {
       </Typography>
     </Block>
   );
-}
+};
 
-interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> { }
+interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> {}
 
 const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
   const { pathname: path } = location;
