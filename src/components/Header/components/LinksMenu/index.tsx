@@ -83,17 +83,21 @@ export const PhoneLinks = () => (
   </React.Fragment>
 );
 
-interface DesktopMenuItemProps extends MenuItemProps, WithStyles<typeof styles> {}
+const DesktopLinkMenuItem = ({ itemTitle, onClick }: MenuItemProps) => {
+  const textStyle = {
+    marginTop: '12px',
+}
 
-const DesktopLinkMenuItem = withStyles(styles)(({ classes, itemTitle, onClick }: DesktopMenuItemProps) => (
-  <Block className={classes.text}>
-    <Typography variant="subtitle2" color="textPrimary" className={classes.text} onClick={onClick}>
-      {itemTitle}
-    </Typography>
-  </Block>
-));
+  return (
+    <Block style={textStyle}>
+      <Typography variant="subtitle2" color="textPrimary" style={textStyle} onClick={onClick}>
+        {itemTitle}
+      </Typography>
+    </Block>
+  );
+}
 
-interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> {}
+interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> { }
 
 const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
   const { pathname: path } = location;
