@@ -16,12 +16,19 @@ const styles = createStyles({
   },
   column: {
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
     margin: `${md} 0`,
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+  },
+  row: {
+    
   }
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> { }
 
 const TransactionsTable = ({ classes }: Props): JSX.Element => {
   return (
@@ -29,9 +36,16 @@ const TransactionsTable = ({ classes }: Props): JSX.Element => {
       <Block margin="lg" />
       <Block className={classes.panel}>
         <Block padding="lg" className={classes.column}>
-          <Typography variant="subtitle2" weight="semibold">Transactions</Typography> 
-          <Spacer order={1} />
-          <Img src={sorting} width={24} height={24} alt="Sorting" />
+          <Block className={classes.header}>
+            <Typography variant="subtitle2" weight="semibold">Transactions</Typography>
+            <Spacer order={1} />
+            <Img src={sorting} width={24} height={24} alt="Sorting" />
+          </Block>
+          <Block className={classes.row}>
+            <Typography variant="subtitle2" weight="semibold">Transactions</Typography>
+            <Spacer order={1} />
+            <Img src={sorting} width={24} height={24} alt="Sorting" />
+          </Block>
         </Block>
         <Hairline />
       </Block>
