@@ -11,7 +11,7 @@ const styles = createStyles({
     flexDirection: "column",
     justifyContent: "center",
     paddingTop: 100,
-  }
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {}
@@ -22,9 +22,13 @@ const ToolBox = ({ classes }: Props): JSX.Element => {
       <Img src={noTransactions} alt="No Transactions" />
       <Block margin="xl" />
       <Block padding="md">
-        <Typography variant="subtitle1" weight="semibold" align="center">No transactions yet</Typography>
+        <Typography variant="subtitle1" weight="semibold" align="center">
+          No transactions yet
+        </Typography>
         <Block margin="xs" />
-        <Typography variant="subtitle1" color="textSecondary" align="center">Make your first transaction and it will appear here</Typography>
+        <Typography variant="subtitle1" color="textSecondary" align="center">
+          Make your first transaction and it will appear here
+        </Typography>
       </Block>
     </Block>
   );

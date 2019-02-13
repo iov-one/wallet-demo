@@ -10,7 +10,7 @@ class Transactions extends React.Component {
         {phone => {
           return (
             <PageMenu phoneFullWidth padding={false}>
-              <Layout phone={phone}/>
+              <Layout phone={phone} />
             </PageMenu>
           );
         }}
