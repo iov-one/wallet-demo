@@ -99,6 +99,5 @@ export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: s
   expect(button.disabled).toBeFalsy();
 };
 
-export const getRandomMnemonic = (): ReadonlyArray<string> => {
-  return Array.from(Array(12)).map(() => randomString(10));
-};
+export const getRandomMnemonic = (): ReadonlyArray<string> =>
+  Array.from(Array(12)).map(() => randomString(10));
