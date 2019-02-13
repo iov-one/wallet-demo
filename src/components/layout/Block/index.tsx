@@ -12,6 +12,7 @@ export interface BlockProps {
   readonly scroll?: boolean;
   readonly margin?: Size;
   readonly padding?: Size;
+  readonly style?: object;
   readonly align?: "center" | "right";
   readonly className?: string;
   readonly maxWidth?: number;
@@ -36,9 +37,13 @@ class Block extends React.PureComponent<BlockProps> {
       maxWidth,
       children,
       className,
+      style,
       ...props
     } = this.props;
-    const style = maxWidth ? { maxWidth: `${maxWidth}px` } : undefined;
+    const styleCombined = {
+      ...style,
+      maxWidth: maxWidth ? `${maxWidth}px` : undefined,
+    };
     const paddingStyle = padding ? capitalize(padding, "padding") : undefined;
     const blockClasses = cx(
       className,
@@ -52,7 +57,7 @@ class Block extends React.PureComponent<BlockProps> {
     );
 
     return (
-      <div className={blockClasses} style={style} {...props}>
+      <div className={blockClasses} style={styleCombined} {...props}>
         {children}
       </div>
     );

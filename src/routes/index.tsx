@@ -15,6 +15,7 @@ import SecurityPhrase from "~/routes/securityPhrase/container";
 import Payment from "~/routes/sendPayment/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
+import Transactions from "~/routes/transactions/container";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
@@ -29,6 +30,7 @@ export const CHANGE_PASSWORD_ROUTE = "/change-password";
 export const PASSWORD_RECOVERY_ROUTE = "/password-recovery";
 export const SECURITY_PHRASE_ROUTE = "/security-phrase";
 export const PAYMENT_ROUTE = "/payment";
+export const TRANSACTIONS_ROUTE = "/transactions";
 export const INVITE_ROUTE = "/invite";
 export const SEND_PAYMENT = "/send-payment";
 export const CONFIRM_TRANSACTION = "/confirm-transaction";
@@ -49,9 +51,10 @@ export const MainRouter = () => (
       <Route exact path={SECURITY_CENTER_ROUTE} component={SecurityCenter} />
       <Route path={PAYMENT_ROUTE} component={Payment} />
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
-      <Route path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
-      <Route path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
-      <Route path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
+      <Route exact path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
+      <Route exact path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
+      <Route path={TRANSACTIONS_ROUTE} component={Transactions} />
+      <Route exact path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
     </RequireLogin>
   </Switch>
 );
