@@ -23,12 +23,10 @@ const styles = createStyles({
     display: "flex",
     alignItems: "center",
   },
-  row: {
-    
-  }
+  row: {},
 });
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {}
 
 const TransactionsTable = ({ classes }: Props): JSX.Element => {
   return (
@@ -37,12 +35,16 @@ const TransactionsTable = ({ classes }: Props): JSX.Element => {
       <Block className={classes.panel}>
         <Block padding="lg" className={classes.column}>
           <Block className={classes.header}>
-            <Typography variant="subtitle2" weight="semibold">Transactions</Typography>
+            <Typography variant="subtitle2" weight="semibold">
+              Transactions
+            </Typography>
             <Spacer order={1} />
             <Img src={sorting} width={24} height={24} alt="Sorting" />
           </Block>
           <Block className={classes.row}>
-            <Typography variant="subtitle2" weight="semibold">Transactions</Typography>
+            <Typography variant="subtitle2" weight="semibold">
+              Transactions
+            </Typography>
             <Spacer order={1} />
             <Img src={sorting} width={24} height={24} alt="Sorting" />
           </Block>
