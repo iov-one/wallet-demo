@@ -2,8 +2,8 @@
 set -o errexit -o nounset -o pipefail
 command -v shellcheck > /dev/null && shellcheck "$0"
 
-# Choose from https://hub.docker.com/r/lisk/faucet/tags
-FAUCET_VERSION="v0.3.1"
+# Choose from https://hub.docker.com/r/iov1/iov-faucet/tags
+FAUCET_VERSION="v0.5.0"
 
 TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/faucet_start_lisk.XXXXXXXXX")
 LOGFILE="$TMP_DIR/faucet_lisk.log"
