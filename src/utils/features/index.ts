@@ -1,1 +1,1 @@
-export const transactionsFeature = () => false;
+export const TXS_FEATURE_FLAG = false;

@@ -16,6 +16,7 @@ import Payment from "~/routes/sendPayment/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
 import Transactions from "~/routes/transactions/container";
+import { TXS_FEATURE_FLAG } from "~/utils/features";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
@@ -53,7 +54,7 @@ export const MainRouter = () => (
       <Route exact path={INVITE_ROUTE} component={InvitePage} />
       <Route exact path={CHANGE_PASSWORD_ROUTE} component={ChangePassword} />
       <Route exact path={SECURITY_PHRASE_ROUTE} component={SecurityPhrase} />
-      <Route path={TRANSACTIONS_ROUTE} component={Transactions} />
+      {TXS_FEATURE_FLAG && <Route path={TRANSACTIONS_ROUTE} component={Transactions} />}
       <Route exact path={ADVANCED_SECURITY_ROUTE} component={AdvancedSecurity} />
     </RequireLogin>
   </Switch>
