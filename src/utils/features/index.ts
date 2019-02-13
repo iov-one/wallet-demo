@@ -1,1 +1,1 @@
-export const transactionsFeature = () => true;
+export const transactionsFeature = () => false;
