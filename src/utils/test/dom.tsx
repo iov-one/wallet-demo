@@ -4,6 +4,7 @@ import TestUtils from "react-dom/test-utils";
 import { Provider } from "react-redux";
 import { Store } from "redux";
 import MatchMedia from "~/context/MatchMediaContext";
+import { ToastProvider } from "~/context/ToastProvider";
 import Route from "~/routes";
 import { history } from "~/store";
 
@@ -27,9 +28,11 @@ export const createDom = (store: Store): React.Component =>
   TestUtils.renderIntoDocument(
     <Provider store={store}>
       <MatchMedia>
-        <ConnectedRouter history={history}>
-          <Route />
-        </ConnectedRouter>
+        <ToastProvider>
+          <ConnectedRouter history={history}>
+            <Route />
+          </ConnectedRouter>
+        </ToastProvider>
       </MatchMedia>
     </Provider>,
   ) as React.Component;

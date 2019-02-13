@@ -1,4 +1,5 @@
 import { Snackbar } from "@material-ui/core";
+import { SnackbarOrigin } from "@material-ui/core/Snackbar";
 import * as React from "react";
 import ToastContent from "./ToastContent";
 
@@ -16,16 +17,19 @@ interface Props {
   readonly variant: ToastVariant;
 }
 
-export const Toast = ({ open, onClose, message, variant }: Props) => (
-  <Snackbar
-    anchorOrigin={{
+export class Toast extends React.Component<Props> {
+  public render(): JSX.Element {
+    const { open, onClose, message, variant } = this.props;
+
+    const anchorProps: SnackbarOrigin = {
       vertical: "bottom",
       horizontal: "right",
-    }}
-    open={open}
-    autoHideDuration={5000}
-    onClose={onClose}
-  >
-    <ToastContent onClose={onClose} variant={variant} message={message} />
-  </Snackbar>
-);
+    };
+
+    return (
+      <Snackbar anchorOrigin={anchorProps} open={open} autoHideDuration={5000} onClose={onClose}>
+        <ToastContent onClose={onClose} variant={variant} message={message} />
+      </Snackbar>
+    );
+  }
+}

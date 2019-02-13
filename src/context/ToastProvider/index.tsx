@@ -67,16 +67,16 @@ export class ToastProvider extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { children } = this.props;
 
+    const toastConfig = {
+      showToast: this.showToast,
+      onClose: this.closeToast,
+      open: this.state.open,
+      message: this.state.message,
+      variant: this.state.variant,
+    };
+
     return (
-      <ToastContext.Provider
-        value={{
-          showToast: this.showToast,
-          onClose: this.closeToast,
-          open: this.state.open,
-          message: this.state.message,
-          variant: this.state.variant,
-        }}
-      >
+      <ToastContext.Provider value={toastConfig}>
         <SharedToast />
         {children}
       </ToastContext.Provider>

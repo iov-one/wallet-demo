@@ -7,7 +7,7 @@ import Layout from "~/routes/balance/components";
 import { history } from "~/store";
 import selector, { SelectorProps } from "./selector";
 
-class Balance extends React.Component<SelectorProps> {
+export class Balance extends React.Component<SelectorProps> {
   public readonly onSendPayment = () => {
     history.push(PAYMENT_ROUTE);
   };
