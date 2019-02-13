@@ -1,5 +1,5 @@
 import { createSyncAction } from "~/reducers/helpers";
-import { shutdownSequence } from "~/sequences";
+import { shutdownSequence } from "~/sequences/boot";
 
 export const logoutAction = createSyncAction("LOGOUT", () => undefined);
 

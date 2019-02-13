@@ -19,6 +19,7 @@ interface Outer extends PhoneHook, WithStyles<typeof styles> {
   readonly listWidth: number;
   readonly color?: string;
   readonly onClick?: () => void;
+  readonly listId?: string;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -80,6 +81,7 @@ class ListMenu extends React.Component<Props> {
       phoneHook,
       phoneMode,
       open,
+      listId,
       clickAway,
     } = this.props;
     const style = buildListStyleFrom(phoneMode, listWidth, color);
@@ -89,7 +91,7 @@ class ListMenu extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <div ref={this.menuRef} className={classes.root} onClick={this.menuClicked}>
+        <div id={listId} ref={this.menuRef} className={classes.root} onClick={this.menuClicked}>
           {starter(open)}
         </div>
         {showPhone(phoneMode, phoneHook, open) ? (
