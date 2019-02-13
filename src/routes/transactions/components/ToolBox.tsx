@@ -50,7 +50,7 @@ const ToolBox = ({ classes, phone }: Props): JSX.Element => {
     <Block className={classes.panel} padding="lg">
       {!phone && <Block maxWidth={176} grow />}
       <Fab variant="extended" size="small" color="secondary" aria-label="Export as CSV" classes={fabClasses}>
-        <CircleImage icon={download} circleColor={primary} alt="Download" dia={32} width={16} height={16} />
+        <CircleImage icon={download} circleColor={primary} alt="Download" dia={xl} width={16} height={16} />
         <Typography variant="subtitle2" weight="regular" className={classes.text}>
           Export as .CSV
         </Typography>
