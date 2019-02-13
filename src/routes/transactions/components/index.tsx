@@ -13,7 +13,7 @@ export default ({ phone }: Props): JSX.Element => {
       <Hairline />
       <ToolBox phone={phone} />
       <Hairline />
-      <TransactionsTable phone={phone} />
+      <TransactionsTable />
     </React.Fragment>
   );
 };

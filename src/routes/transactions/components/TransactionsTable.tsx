@@ -41,6 +41,7 @@ const TransactionsTable = ({ classes }: Props): JSX.Element => {
             <Spacer order={1} />
             <Img src={sorting} width={24} height={24} alt="Sorting" />
           </Block>
+          <Hairline />
           <Block className={classes.row}>
             <Typography variant="subtitle2" weight="semibold">
               Transactions
@@ -49,7 +50,6 @@ const TransactionsTable = ({ classes }: Props): JSX.Element => {
             <Img src={sorting} width={24} height={24} alt="Sorting" />
           </Block>
         </Block>
-        <Hairline />
       </Block>
     </React.Fragment>
   );
