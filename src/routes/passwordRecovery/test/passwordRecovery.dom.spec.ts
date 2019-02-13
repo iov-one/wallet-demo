@@ -13,6 +13,7 @@ import {
   checkUpdatePassComponent,
   processUpdatePass,
   travelToProfileRecovery,
+  processProfileRecovery,
 } from "./util/passRecoveryUtils";
 
 describe("DOM > Feature > Password Recovery", () => {
@@ -28,7 +29,7 @@ describe("DOM > Feature > Password Recovery", () => {
   });
 
   mayTestBns(
-    "should check wrong mnemonic behaviour and right mnemonic",
+    "should recover same profille using mnemonic of new profile",
     async () => {
       await processBalance(store, randomString(10));
       const mnemonic = getWalletMnemonic(store.getState());
@@ -42,11 +43,13 @@ describe("DOM > Feature > Password Recovery", () => {
       expectRoute(freshStore, PASSWORD_RECOVERY_ROUTE);
 
       await checkRecoverProfileComponent(PasswordRecoveryDom, mnemonic!);
-      await checkUpdatePassComponent(PasswordRecoveryDom, mnemonic!);
+      await processProfileRecovery(PasswordRecoveryDom, mnemonic!.split(" "));
 
+      await checkUpdatePassComponent(PasswordRecoveryDom, mnemonic!);
       const password = randomString(10);
       //Should redirect to BALANCE_ROUTE in case if everything is ok
       await processUpdatePass(PasswordRecoveryDom, password, password);
+      
       expectRoute(freshStore, BALANCE_ROUTE);
 
       const mnemonicRecovered = getWalletMnemonic(freshStore.getState());

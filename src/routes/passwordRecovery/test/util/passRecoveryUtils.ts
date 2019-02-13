@@ -33,6 +33,7 @@ export const travelToProfileRecovery = async (store: Store): Promise<React.Compo
 
   return dom;
 };
+
 export const processUpdatePass = async (
   RecoveryDom: React.Component,
   password: string,
@@ -71,10 +72,6 @@ export const checkRecoverProfileComponent = async (dom: React.Component, mnemoni
   //Check for mnemonic processing
   expect(hdWalletSpy).toHaveBeenCalledTimes(1);
   expect(hdWalletSpy).toHaveBeenLastCalledWith(randomMnemonic.join(" "));
-
-  await processProfileRecovery(dom, mnemonic!.split(" "));
-  //Toast component should be closed in case of right mnemonic
-  expect(toastComponent.props.open).toBeFalsy();
 };
 
 export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: string): Promise<void> => {
@@ -103,11 +100,7 @@ export const checkUpdatePassComponent = async (dom: React.Component, mnemonic: s
 };
 
 export const getRandomMnemonic = (): ReadonlyArray<string> => {
-  // tslint:disable-next-line:readonly-array
-  const mnemonicList: string[] = [];
-  for (let i = 0; i < 12; i++) {
-    mnemonicList.push(randomString(10));
-  }
+  const mnemonicList = new Array(12);
 
-  return mnemonicList;
+  return mnemonicList.map(() => randomString(10));
 };
