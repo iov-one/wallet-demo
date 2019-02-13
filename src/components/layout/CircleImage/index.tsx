@@ -2,6 +2,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import classNames from "classnames";
 import * as React from "react";
 import Img, { ImgProps } from "~/components/layout/Image";
+import { backgroundPrimary } from "~/theme/variables";
 
 const styles = createStyles({
   iconBackground: {
@@ -28,7 +29,7 @@ class CircleImg extends React.PureComponent<Props> {
       height: dia,
       width: dia,
       borderRadius: "50%",
-      backgroundColor: circleColor ? circleColor : "#f5f7f9",
+      backgroundColor: circleColor ? circleColor : backgroundPrimary,
     };
 
     return (
