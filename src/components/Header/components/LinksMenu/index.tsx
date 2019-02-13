@@ -16,6 +16,7 @@ import {
 } from "~/routes";
 import { history } from "~/store";
 import { border, lg, primary } from "~/theme/variables";
+import { transactionsFeature } from "~/utils/features";
 
 const styles = createStyles({
   root: {
@@ -77,7 +78,7 @@ export const PhoneLinks = () => (
   <React.Fragment>
     <PhoneLinkMenuItem onClick={onBalance} itemTitle={BALANCE_TEXT} />
     <PhoneLinkMenuItem onClick={onPayments} itemTitle={PAYMENT_TEXT} />
-    <PhoneLinkMenuItem onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />
+    {transactionsFeature() && <PhoneLinkMenuItem onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />}
 
     <Hairline color={border} margin="sm" />
   </React.Fragment>
@@ -97,7 +98,7 @@ const DesktopLinkMenuItem = ({ itemTitle, onClick }: MenuItemProps) => {
   );
 };
 
-interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> {}
+interface LinksProps extends RouteComponentProps<{}>, WithStyles<typeof styles> { }
 
 const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
   const { pathname: path } = location;
@@ -120,10 +121,11 @@ const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
         <DesktopLinkMenuItem onClick={onPayments} itemTitle={PAYMENT_TEXT} />
         <Block className={classes.line} />
       </Block>
-      <Block className={transactionsClasses}>
-        <DesktopLinkMenuItem onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />
-        <Block className={classes.line} />
-      </Block>
+      {transactionsFeature() &&
+        <Block className={transactionsClasses}>
+          <DesktopLinkMenuItem onClick={onTransactions} itemTitle={TRANSACTIONS_TEXT} />
+          <Block className={classes.line} />
+        </Block>}
     </Block>
   );
 };
