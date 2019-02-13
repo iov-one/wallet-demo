@@ -33,7 +33,7 @@ describe("drinkFaucetSequence", () => {
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
 
-        expect(getTransactions(store.getState()).length).toEqual(2);
+        expect(getTransactions(store.getState()).length).toEqual(3);
 
         // get the addresses for later...
         const addresses = getAllAccounts(store.getState()).map(acct => acct.address);
@@ -50,7 +50,7 @@ describe("drinkFaucetSequence", () => {
 
         // validate the current account is defined and has some tokens
         const fullAccounts = getAllAccounts(store.getState());
-        expect(fullAccounts.length).toEqual(3);
+        expect(fullAccounts.length).toEqual(totalFaucetChains);
         fullAccounts.forEach(ac => {
           expect(chains.includes(ac.chainId)).toBeTruthy(); // chainId present
           expect(ac.account).toBeDefined(); // but with tokens

@@ -40,7 +40,10 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
     case CodecType.Lsk:
       return { ...liskConnector(uri), expectedChainId: spec.chainId };
     case CodecType.Eth:
-      return { ...ethereumConnector(uri, {scraperApiUrl: spec.bootstrapNodes[1]}), expectedChainId: spec.chainId };
+      return {
+        ...ethereumConnector(uri, { scraperApiUrl: spec.bootstrapNodes[1] }),
+        expectedChainId: spec.chainId,
+      };
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
