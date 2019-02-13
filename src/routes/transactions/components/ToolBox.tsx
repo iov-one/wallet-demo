@@ -40,10 +40,16 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const ToolBox = ({ classes, phone }: Props): JSX.Element => {
+  const fabClasses = {
+    secondary: classes.secondary,
+    root: classes.root,
+    sizeSmall: classes.sizeSmall,    
+  }
+  
   return (
     <Block className={classes.panel} padding="lg">
       {!phone && <Block maxWidth={176} grow />}
-      <Fab variant="extended" size="small" color="secondary" aria-label="Export as CSV" classes={classes}>
+      <Fab variant="extended" size="small" color="secondary" aria-label="Export as CSV" classes={fabClasses}>
         <CircleImage icon={download} circleColor={primary} alt="Download" dia={32} width={16} height={16} />
         <Typography variant="subtitle2" weight="regular" className={classes.text}>
           Export as .CSV
