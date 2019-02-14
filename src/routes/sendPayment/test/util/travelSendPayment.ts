@@ -1,7 +1,7 @@
 import TestUtils from "react-dom/test-utils";
 import { Form, FormProps } from "react-final-form";
+import * as sendPaymentValidatorModule from "~/routes/sendPayment/container/validator";
 import { sleep } from "~/utils/timer";
-import * as sendPaymentValidatorModule from "../../container/validator/index";
 
 export const processPaymentTo = async (
   SendPaymentDom: React.Component,

@@ -6,11 +6,11 @@ import { RootState } from "~/reducers";
 import { BALANCE_ROUTE, PAYMENT_ROUTE } from "~/routes";
 import { processBalance } from "~/routes/balance/test/util/travelBalance";
 import { CONFIRM_PAYMENT, FILL_PAYMENT, SendPaymentInternal } from "~/routes/sendPayment/container";
+import { balanceTokensSelector } from "~/routes/sendPayment/container/selector";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
-import { balanceTokensSelector } from "../container/selector";
 import { processConfirmation, processPaymentTo } from "./util/travelSendPayment";
 
 describe("DOM > Feature > Send Payment", () => {
