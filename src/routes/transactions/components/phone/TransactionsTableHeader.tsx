@@ -6,7 +6,7 @@ import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, md } from "~/theme/variables";
-import sorting from "../assets/sorting.svg";
+import sorting from "../../assets/sorting.svg";
 
 const styles = createStyles({
   panel: {

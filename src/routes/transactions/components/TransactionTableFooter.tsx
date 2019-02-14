@@ -1,9 +1,12 @@
 import { createStyles, MenuItem, Select, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { lg, md, secondary, smallFontSize } from "~/theme/variables";
+import arrowLeft from "../assets/arrowLeft.svg";
+import arrowRight from "../assets/arrowRight.svg";
 
 const styles = createStyles({
   selectIcon: {
@@ -24,11 +27,12 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
+  readonly phone?: boolean;
   readonly rowsPerPage: number;
   readonly rowsChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage }: Props) => {
+const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage, phone }: Props) => {
   const selectClasses = {
     icon: classes.selectIcon,
     root: classes.selectRoot,
@@ -37,6 +41,7 @@ const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage }: Props) => 
 
   return (
     <Block padding="lg" className={classes.footer}>
+      { !phone && <Spacer order={1} />}
       <Typography variant="subtitle2" weight="regular">
         Rows per page
       </Typography>
@@ -54,14 +59,9 @@ const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage }: Props) => 
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={20}>20</MenuItem>
       </Select>
-      <Spacer order={1} />
-      <Typography variant="subtitle2" weight="semibold" color="secondary">
-        &lt;
-      </Typography>
-      <Block padding="lg" />
-      <Typography variant="subtitle2" weight="semibold" color="secondary">
-        &gt;
-      </Typography>
+      { phone && <Spacer order={1} />}
+      <Img src={arrowLeft} alt="Previous page" />
+      <Img src={arrowRight} alt="Next page" />
     </Block>
   );
 };

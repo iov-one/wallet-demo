@@ -2,9 +2,9 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import { background, md } from "~/theme/variables";
+import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
-import TransactionTableFooter from "./TransactionTableFooter";
 
 const styles = createStyles({
   panel: {
@@ -78,7 +78,7 @@ class TransactionsTable extends React.Component<Props, State> {
               time="1:00 am &#183; 20 Nov 2018"
             />
 
-            <TransactionTableFooter rowsChange={this.rowsChange} rowsPerPage={this.state.rowsPerPage} />
+            <TransactionTableFooter phone rowsChange={this.rowsChange} rowsPerPage={this.state.rowsPerPage} />
           </Block>
         </Block>
       </React.Fragment>

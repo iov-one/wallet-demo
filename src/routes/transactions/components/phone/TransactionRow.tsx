@@ -7,10 +7,10 @@ import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, border, md } from "~/theme/variables";
-import dropdownArrow from "../assets/dropdownArrow.svg";
-import fromAddress from "../assets/fromAddress.svg";
-import toAddress from "../assets/toAddress.svg";
-import toAddressRejected from "../assets/toAddressRejected.svg";
+import dropdownArrow from "../../assets/dropdownArrow.svg";
+import fromAddress from "../../assets/fromAddress.svg";
+import toAddress from "../../assets/toAddress.svg";
+import toAddressRejected from "../../assets/toAddressRejected.svg";
 
 const styles = createStyles({
   row: {

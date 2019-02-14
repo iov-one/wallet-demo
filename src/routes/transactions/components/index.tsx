@@ -1,7 +1,8 @@
 import * as React from "react";
 import Hairline from "~/components/layout/Hairline";
+import DesktopTransactionsTable from "./desktop/TransactionsTable";
+import PhoneTransactionsTable from "./phone/TransactionsTable";
 import ToolBox from "./ToolBox";
-import TransactionsTable from "./TransactionsTable";
 
 interface Props {
   readonly phone: boolean;
@@ -13,7 +14,11 @@ export default ({ phone }: Props): JSX.Element => {
       <Hairline />
       <ToolBox phone={phone} />
       <Hairline />
-      <TransactionsTable />
+      {phone ? 
+        <PhoneTransactionsTable />
+        :
+        <DesktopTransactionsTable />
+      }
     </React.Fragment>
   );
 };
