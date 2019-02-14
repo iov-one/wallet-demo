@@ -2,14 +2,14 @@ import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
-import { PAYMENT_ROUTE } from "~/routes";
+import { BALANCE_ROUTE, PAYMENT_ROUTE } from "~/routes";
 import { processBalance } from "~/routes/balance/test/util/travelBalance";
 import { CONFIRM_PAYMENT, FILL_PAYMENT, SendPaymentInternal } from "~/routes/sendPayment/container";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
-import { processPaymentTo } from "./util/travelSendPayment";
+import { processConfirmation, processPaymentTo } from "./util/travelSendPayment";
 
 describe("DOM > Feature > Send Payment", () => {
   let userFooStore: Store<RootState>;
@@ -50,12 +50,10 @@ describe("DOM > Feature > Send Payment", () => {
       await sleep(800);
 
       expect(sendPaymentComponent.state.page).toBe(CONFIRM_PAYMENT);
-      /*
-      processConfirmation(BalanceDom);   
+      await processConfirmation(BalanceDom)
       await sleep(800);
 
       expectRoute(userBarStore, BALANCE_ROUTE);
-      */
     },
     90000,
   );
