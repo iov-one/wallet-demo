@@ -33,7 +33,7 @@ describe("drinkFaucetSequence", () => {
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
 
-        expect(getTransactions(store.getState()).length).toEqual(3);
+        expect(getTransactions(store.getState()).length).toEqual(totalFaucetChains);
 
         // get the addresses for later...
         const addresses = getAllAccounts(store.getState()).map(acct => acct.address);
@@ -70,7 +70,7 @@ describe("drinkFaucetSequence", () => {
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
-        expect(transactions.length).toEqual(5);
+        expect(transactions.length).toEqual(6);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());

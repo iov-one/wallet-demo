@@ -51,7 +51,7 @@ describe("boot sequence", () => {
       expect(Object.keys(state.blockchain.internal.connections).length).toEqual(totalChains);
 
       // two tokens registered on each of the chains we connected to
-      expect(state.blockchain.tickers.length).toEqual(5);
+      expect(state.blockchain.tickers.length).toEqual(6);
       const [chain1, chain2, chain3, chain4] = chainsLoaded;
       const tickers1 = state.blockchain.tickers
         .filter(t => t.chainId === chain1)
