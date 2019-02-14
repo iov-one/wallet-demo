@@ -1,3 +1,4 @@
+import { BcpCoin } from "@iov/bcp-types";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
@@ -9,6 +10,7 @@ import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
+import { balanceTokensSelector } from "../container/selector";
 import { processConfirmation, processPaymentTo } from "./util/travelSendPayment";
 
 describe("DOM > Feature > Send Payment", () => {
@@ -50,10 +52,15 @@ describe("DOM > Feature > Send Payment", () => {
       await sleep(800);
 
       expect(sendPaymentComponent.state.page).toBe(CONFIRM_PAYMENT);
-      await processConfirmation(BalanceDom)
+      await processConfirmation(BalanceDom);
       await sleep(800);
 
       expectRoute(userBarStore, BALANCE_ROUTE);
+
+      const tokens = balanceTokensSelector(userBarStore.getState());
+      const iovToken = tokens.find((token: BcpCoin) => token.tokenTicker === "IOV");
+      expect(iovToken).not.toBeFalsy();
+      expect(iovToken!.quantity).toEqual("9000000000");
     },
     90000,
   );

@@ -27,7 +27,7 @@ export interface SelectorProps {
 
 const IOV = "IOV";
 
-const balanceTokensSelector = createSelector(
+export const balanceTokensSelector = createSelector(
   tokensSelector,
   (tokens: ReadonlyArray<BcpCoin>) => tokens.filter(token => Number(token.quantity) > 0),
 );
