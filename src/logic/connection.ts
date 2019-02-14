@@ -63,7 +63,7 @@ export function specToCodec(spec: BlockchainSpec): TxCodec {
 }
 
 export function addressToCodec(address: string): TxCodec {
-  if (bnsCodec.isValidAddress(address)) {
+  if (address.indexOf("iov") !== -1) {
     return bnsCodec;
   } else if (liskCodec.isValidAddress(address)) {
     return liskCodec;
