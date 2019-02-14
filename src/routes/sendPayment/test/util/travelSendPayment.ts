@@ -19,24 +19,24 @@ export const processPaymentTo = async (
   TestUtils.Simulate.change(amount, { target: { value: "0.5" } } as any);
   const recipient = inputs[2];
   TestUtils.Simulate.change(recipient, { target: { value: "badAddress" } } as any);
-  await sleep(1800);
+  await sleep(800);
   expect(sendPaymentForm.state.state.errors.recipient).toMatch(/Invalid address for/);
 
   const validationMock = jest.spyOn(sendPaymentValidatorModule, "isRecipientRegistered");
   validationMock.mockImplementationOnce((_: any, __: any) => false);
 
   TestUtils.Simulate.change(recipient, { target: { value: recipientIovAccount } } as any);
-  await sleep(1800);
+  await sleep(800);
   expect(sendPaymentForm.state.state.errors.recipient).toMatch(/IOV address is not registered/);
 
   validationMock.mockRestore();
   // Force form to be validated
   TestUtils.Simulate.change(amount, { target: { value: "1" } } as any);
-  await sleep(1800);
+  await sleep(800);
   expect(sendPaymentForm.state.state.errors).toEqual({});
 
-  /*
   const form = TestUtils.findRenderedDOMComponentWithTag(SendPaymentDom, "form");
   TestUtils.Simulate.submit(form);
-  */
+
+  await sleep(800);
 };

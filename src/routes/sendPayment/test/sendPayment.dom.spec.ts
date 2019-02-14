@@ -4,7 +4,7 @@ import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
 import { PAYMENT_ROUTE } from "~/routes";
 import { processBalance } from "~/routes/balance/test/util/travelBalance";
-import { FILL_PAYMENT, SendPaymentInternal } from "~/routes/sendPayment/container";
+import { CONFIRM_PAYMENT, FILL_PAYMENT, SendPaymentInternal } from "~/routes/sendPayment/container";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
@@ -49,8 +49,8 @@ describe("DOM > Feature > Send Payment", () => {
       await processPaymentTo(BalanceDom, `${userFooAccount}*iov`);
       await sleep(800);
 
+      expect(sendPaymentComponent.state.page).toBe(CONFIRM_PAYMENT);
       /*
-      expect(recoveryComponent.state.page).toBe(CONFIRM_PAYMENT);
       processConfirmation(BalanceDom);   
       await sleep(800);
 
