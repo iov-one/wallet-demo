@@ -25,7 +25,7 @@ const styles = createStyles({
   },
   cell: {
     flex: "1 0 50px",
-  }
+  },
 });
 
 type txType = "send" | "receive" | "reject";
@@ -72,13 +72,13 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props)
         height={24}
       />
       <Block className={classes.cell} padding="md">
-        <Typography variant="subtitle2" weight="semibold">
+        <Typography variant="subtitle2" weight="semibold" gutterBottom>
           {getAddressPrefix(type)} {address}
         </Typography>
         <Typography variant="subtitle2" weight="regular" color="secondary">
           {getTime(time)}
         </Typography>
-      </Block>      
+      </Block>
       <Spacer order={1} />
       <Typography variant="subtitle2" weight="regular" color="secondary" className={classes.cell}>
         {getDate(time)}
@@ -88,7 +88,7 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props)
         {amount} {symbol}
       </Typography>
       <Block padding="xs" />
-      <Img src={dropdownArrow} width={16} height={10} alt="Sorting"  />
+      <Img src={dropdownArrow} width={16} height={10} alt="Sorting" />
     </Block>
     <Hairline />
   </Block>

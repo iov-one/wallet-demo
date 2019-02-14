@@ -54,28 +54,28 @@ class TransactionsTable extends React.Component<Props, State> {
               address="alex*iov"
               amount="-0.01762507"
               symbol="BTC"
-              time="1:00 am &#183; 20 Nov 2018"
+              time={new Date(Date.now())}
             />
             <TransactionRow
               type="receive"
               address="cathy*iov"
               amount="+507"
               symbol="IOV"
-              time="1:00 am &#183; 20 Nov 2018"
+              time={new Date(Date.now())}
             />
             <TransactionRow
               type="reject"
               address="alex*iov"
               amount="-0.01762507"
               symbol="BTC"
-              time="1:00 am &#183; 20 Nov 2018"
+              time={new Date(Date.now())}
             />
             <TransactionRow
               type="receive"
               address="blockchain address"
               amount="+0.1757"
               symbol="ETH"
-              time="1:00 am &#183; 20 Nov 2018"
+              time={new Date(Date.now())}
             />
 
             <TransactionTableFooter phone rowsChange={this.rowsChange} rowsPerPage={this.state.rowsPerPage} />

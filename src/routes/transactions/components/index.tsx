@@ -14,11 +14,7 @@ export default ({ phone }: Props): JSX.Element => {
       <Hairline />
       <ToolBox phone={phone} />
       <Hairline />
-      {phone ? 
-        <PhoneTransactionsTable />
-        :
-        <DesktopTransactionsTable />
-      }
+      {phone ? <PhoneTransactionsTable /> : <DesktopTransactionsTable />}
     </React.Fragment>
   );
 };

@@ -41,7 +41,7 @@ const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage, phone }: Pro
 
   return (
     <Block padding="lg" className={classes.footer}>
-      { !phone && <Spacer order={1} />}
+      {!phone && <Spacer order={1} />}
       <Typography variant="subtitle2" weight="regular">
         Rows per page
       </Typography>
@@ -59,7 +59,7 @@ const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage, phone }: Pro
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={20}>20</MenuItem>
       </Select>
-      { phone && <Spacer order={1} />}
+      {phone && <Spacer order={1} />}
       <Img src={arrowLeft} alt="Previous page" />
       <Img src={arrowRight} alt="Next page" />
     </Block>

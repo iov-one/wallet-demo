@@ -20,7 +20,7 @@ const styles = createStyles({
     flexDirection: "column",
     backgroundColor: background,
     borderRadius: 4,
-    boxShadow: `0 0 20px 0 ${shadowColor}`,    
+    boxShadow: `0 0 20px 0 ${shadowColor}`,
   },
   column: {
     display: "flex",
@@ -33,7 +33,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {}
 
 interface State {
   readonly rowsPerPage: number;

@@ -15,7 +15,7 @@ const styles = createStyles({
   },
   title: {
     flex: "1 0 40px",
-  }
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {}
@@ -27,9 +27,9 @@ const TransactionsTableHeader = ({ classes }: Props) => (
         Transactions
       </Typography>
       <Spacer order={1} />
-      <ColumnHeader name="Date"/>
+      <ColumnHeader name="Date" />
       <Spacer order={1} />
-      <ColumnHeader name="Amount" alignRight/>
+      <ColumnHeader name="Amount" alignRight />
     </Block>
     <Hairline />
   </React.Fragment>

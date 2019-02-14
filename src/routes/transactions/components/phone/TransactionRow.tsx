@@ -7,6 +7,7 @@ import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, border, md } from "~/theme/variables";
+import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import fromAddress from "../../assets/fromAddress.svg";
 import toAddress from "../../assets/toAddress.svg";
@@ -34,7 +35,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly address: string;
   readonly amount: string;
   readonly symbol: string;
-  readonly time: string; //TODO: change to Date
+  readonly time: Date; //TODO: change to Date
 }
 
 const getTypeIcon = (type: txType): string => {
@@ -80,7 +81,7 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props)
         </Typography>
         <Block margin="md" />
         <Typography variant="subtitle2" weight="regular" color="secondary">
-          {time}
+          {getTime(time)} &#183; {getDate(time)}
         </Typography>
       </Block>
       <Spacer order={1} />
