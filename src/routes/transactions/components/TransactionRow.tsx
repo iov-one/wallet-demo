@@ -8,6 +8,7 @@ import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { background, border, md } from "~/theme/variables";
 import dropdownArrow from "../assets/dropdownArrow.svg";
+import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 
@@ -43,7 +44,7 @@ const getTypeIcon = (type: txType): string => {
     case "reject":
       return toAddressRejected;
     case "receive":
-      return toAddress; //TODO: change to proper icon as soon it will be available
+      return fromAddress;
   }
 };
 
@@ -66,8 +67,8 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props)
         borderColor={border}
         alt="Transaction type"
         dia={40}
-        width={19}
-        height={16}
+        width={24}
+        height={24}
       />
       <Block padding="md">
         <Typography variant="subtitle2" weight="semibold">
