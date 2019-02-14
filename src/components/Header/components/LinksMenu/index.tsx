@@ -7,13 +7,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Typography from "~/components/layout/Typography";
-import {
-  BALANCE_ROUTE,
-  CONFIRM_TRANSACTION,
-  PAYMENT_ROUTE,
-  SEND_PAYMENT,
-  TRANSACTIONS_ROUTE,
-} from "~/routes";
+import { BALANCE_ROUTE, CONFIRM_TRANSACTION, PAYMENT_ROUTE, TRANSACTIONS_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { border, lg, primary } from "~/theme/variables";
 import { TXS_FEATURE_FLAG } from "~/utils/features";
@@ -104,8 +98,7 @@ const DesktopLinksComponent = ({ classes, location }: LinksProps) => {
   const { pathname: path } = location;
   const showBalance = path === BALANCE_ROUTE;
   const showTransactions = path === TRANSACTIONS_ROUTE;
-  const showPayment =
-    path === PAYMENT_ROUTE || path.startsWith(SEND_PAYMENT) || path.startsWith(CONFIRM_TRANSACTION);
+  const showPayment = path === PAYMENT_ROUTE || path.startsWith(CONFIRM_TRANSACTION);
 
   const balanceClasses = classNames(classes.item, showBalance ? classes.activated : undefined);
   const paymentClasses = classNames(classes.item, showPayment ? classes.activated : undefined);
