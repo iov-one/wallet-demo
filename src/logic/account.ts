@@ -31,7 +31,9 @@ export async function getAccount(
 ): Promise<Account | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
-  return result;
+  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
+  // return result;
+  return result && result.balance![0].quantity === "0" ? undefined : result;
 }
 
 // looks up account for a given address (or undefined)
@@ -40,7 +42,9 @@ export async function getAccountByAddress(
   address: Address,
 ): Promise<Account | undefined> {
   const result = await connection.getAccount({ address });
-  return result;
+  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
+  // return result;
+  return result && result.balance![0].quantity === "0" ? undefined : result;
 }
 
 // looks up name for a given address (or undefined)
