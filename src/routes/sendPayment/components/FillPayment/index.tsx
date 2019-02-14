@@ -28,6 +28,7 @@ interface Props extends SendBalance, WithStyles<typeof styles> {
 const subscription = {
   submitting: true,
   validating: true,
+  errors: true,
 };
 
 const styles = createStyles({

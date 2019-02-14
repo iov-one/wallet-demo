@@ -30,10 +30,10 @@ interface State {
   readonly payment: Payment | undefined;
 }
 
-const FILL_PAYMENT = 0;
-const CONFIRM_PAYMENT = 1;
+export const FILL_PAYMENT = 0;
+export const CONFIRM_PAYMENT = 1;
 
-class SendPayment extends React.Component<Props, State> {
+export class SendPaymentInternal extends React.Component<Props, State> {
   public readonly state = {
     balanceToSend: this.props.defaultBalance,
     page: FILL_PAYMENT,
@@ -160,4 +160,4 @@ class SendPayment extends React.Component<Props, State> {
 export default connect(
   selector,
   actions,
-)(SendPayment);
+)(SendPaymentInternal);
