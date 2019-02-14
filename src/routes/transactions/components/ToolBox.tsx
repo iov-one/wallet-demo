@@ -43,9 +43,9 @@ const ToolBox = ({ classes, phone }: Props): JSX.Element => {
   const fabClasses = {
     secondary: classes.secondary,
     root: classes.root,
-    sizeSmall: classes.sizeSmall,    
-  }
-  
+    sizeSmall: classes.sizeSmall,
+  };
+
   return (
     <Block className={classes.panel} padding="lg">
       {!phone && <Block maxWidth={176} grow />}

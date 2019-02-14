@@ -1,5 +1,4 @@
 import { Amount, BcpCoin } from "@iov/bcp-types";
-import { ChainAddressPair } from "@iov/bns";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -17,6 +16,7 @@ import { AMOUNT_FIELD, TOKEN_FIELD } from "~/routes/sendPayment/components/FillP
 import { history } from "~/store";
 import actions, { SendPaymentActions } from "./actions";
 import selector, { SelectorProps } from "./selector";
+import { isRecipientRegistered } from "./validator";
 
 interface RouteLocation {
   readonly [RECIPIENT_FIELD]: string | undefined;
@@ -30,10 +30,10 @@ interface State {
   readonly payment: Payment | undefined;
 }
 
-const FILL_PAYMENT = 0;
-const CONFIRM_PAYMENT = 1;
+export const FILL_PAYMENT = 0;
+export const CONFIRM_PAYMENT = 1;
 
-class SendPayment extends React.Component<Props, State> {
+export class SendPaymentInternal extends React.Component<Props, State> {
   public readonly state = {
     balanceToSend: this.props.defaultBalance,
     page: FILL_PAYMENT,
@@ -91,10 +91,8 @@ class SendPayment extends React.Component<Props, State> {
     if (nft === undefined) {
       return generateError(RECIPIENT_FIELD, "IOV address not registered");
     }
-    const nftChain =
-      chainId && nft.addresses.find((address: ChainAddressPair) => address.chainId === chainId);
-
-    if (!nftChain) {
+    const recipientInChain = isRecipientRegistered(chainId, nft!);
+    if (!recipientInChain) {
       return generateError(RECIPIENT_FIELD, `IOV address is not registered on ${ticker}`);
     }
 
@@ -160,4 +158,4 @@ class SendPayment extends React.Component<Props, State> {
 export default connect(
   selector,
   actions,
-)(SendPayment);
+)(SendPaymentInternal);

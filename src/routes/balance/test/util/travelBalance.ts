@@ -6,7 +6,7 @@ import { history } from "~/store";
 import { createDom, expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-export const processBalance = async (store: Store, account: string): Promise<void> => {
+export const processBalance = async (store: Store, account: string): Promise<React.Component> => {
   const HomeDom = await travelToHome(store);
   expectRoute(store, LOGIN_ROUTE);
   history.push(SIGNUP_ROUTE);
@@ -21,6 +21,9 @@ export const processBalance = async (store: Store, account: string): Promise<voi
   await processSetName(SetNameDom, account);
 
   expectRoute(store, BALANCE_ROUTE);
+  const BalanceDom = SetNameDom;
+
+  return BalanceDom;
 };
 
 export const travelToBalance = async (store: Store): Promise<React.Component> => {

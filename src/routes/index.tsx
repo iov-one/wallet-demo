@@ -33,7 +33,6 @@ export const SECURITY_PHRASE_ROUTE = "/security-phrase";
 export const PAYMENT_ROUTE = "/payment";
 export const TRANSACTIONS_ROUTE = "/transactions";
 export const INVITE_ROUTE = "/invite";
-export const SEND_PAYMENT = "/send-payment";
 export const CONFIRM_TRANSACTION = "/confirm-transaction";
 export const RECEIVE_FROM_IOV_USER = "/receive-from-iov";
 export const RECEIVE_FROM_NON_IOV_USER = "/receive-external";

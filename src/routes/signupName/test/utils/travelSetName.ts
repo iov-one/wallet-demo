@@ -19,7 +19,7 @@ export const processSetName = async (SetNameDom: React.Component, account: strin
   }
   TestUtils.Simulate.submit(form);
 
-  await sleep(4000);
+  await sleep(4500);
 };
 
 export const travelToSetName = async (store: Store): Promise<React.Component> => {
