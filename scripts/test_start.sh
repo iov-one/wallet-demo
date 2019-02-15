@@ -32,6 +32,7 @@ echo
 echo ">>> Starting ethereum (ganache) chain, scraper and faucet..."
 echo
 bash "${SCRIPT_DIR}"/ethereum/start.sh
+sleep 5
 bash "${SCRIPT_DIR}"/faucet/ethereum_start.sh
 sleep 5
 bash "${SCRIPT_DIR}"/ethereum/scraper_start.sh

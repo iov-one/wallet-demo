@@ -9,6 +9,7 @@ import {
   PostTxResponse,
   PublicIdentity,
   SendTransaction,
+  TokenTicker,
   TxCodec,
 } from "@iov/bcp-types";
 import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
@@ -123,6 +124,16 @@ export async function sendTransaction(
   memo?: string,
 ): Promise<PostTxResponse> {
   const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
+  const gasPrice = {
+    quantity: "20000000000",
+    fractionalDigits: 18,
+    tokenTicker: "ETH" as TokenTicker,
+  };
+  const gasLimit = {
+    quantity: "2100000",
+    fractionalDigits: 18,
+    tokenTicker: "ETH" as TokenTicker,
+  };
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: {
@@ -132,6 +143,8 @@ export async function sendTransaction(
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
+    gasPrice: gasPrice,
+    gasLimit: gasLimit
   };
   return writer.signAndPost(unsigned, walletId);
 }
