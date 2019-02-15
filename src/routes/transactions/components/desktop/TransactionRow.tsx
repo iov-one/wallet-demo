@@ -1,5 +1,6 @@
 import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
+import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import CircleImage from "~/components/layout/CircleImage";
 import Hairline from "~/components/layout/Hairline";
@@ -26,7 +27,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionRowProps, WithStyles<typeof styles> {}
+interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
+
+type Props = OpenType & OpenHandler & Outer;
 
 const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
@@ -57,10 +60,11 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props)
         {amount} {symbol}
       </Typography>
       <Block padding="xs" />
-      <Img src={dropdownArrow} width={16} height={10} alt="Sorting" />
+      <Img src={open ? dropdownArrowClose : dropdownArrow} width={16} height={10} alt="Sorting" onClick={toggle} />
     </Block>
+    { open && <TransactionDetails address={address} note={note}/> }
     <Hairline />
   </Block>
 );
 
-export default withStyles(styles)(TransactionRow);
+export default withStyles(styles)(openHoc<Outer>(TransactionRow));
