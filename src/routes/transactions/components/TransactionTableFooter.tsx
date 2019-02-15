@@ -26,7 +26,6 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Props) => {
-
   return (
     <Block padding="lg" className={classes.footer}>
       {!phone && <Spacer order={1} />}

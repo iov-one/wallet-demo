@@ -10,8 +10,26 @@ interface Props {
   readonly phone: boolean;
 }
 
-export default class Layout extends React.Component<Props> {
+export type txType = "send" | "receive" | "reject";
 
+export interface TransactionRowProps {
+  readonly type: txType;
+  readonly address: string;
+  readonly amount: string;
+  readonly symbol: string;
+  readonly time: Date;
+}
+
+export interface TransactionsTableState {
+  readonly rowsPerPage: number;
+  readonly phoneHook: HTMLDivElement | null;
+}
+
+export interface TransactionTableProps {
+  readonly onChangeRows: (item: Item) => void;
+}
+
+export default class Layout extends React.Component<Props> {
   public readonly onChangeRows = (item: Item) => {
     console.log(item);
     this.setState({
@@ -20,11 +38,9 @@ export default class Layout extends React.Component<Props> {
   };
 
   // tslint:disable-next-line:no-empty
-  public readonly onSubmit = async (_: object) => { };
+  public readonly onSubmit = async (_: object) => {};
   public render(): JSX.Element {
-    const {
-      phone
-    } = this.props;
+    const { phone } = this.props;
 
     return (
       <React.Fragment>
@@ -34,15 +50,15 @@ export default class Layout extends React.Component<Props> {
         <Form onSubmit={this.onSubmit}>
           {() => (
             <React.Fragment>
-              {phone ? 
+              {phone ? (
                 <PhoneTransactionsTable onChangeRows={this.onChangeRows} />
-                :
+              ) : (
                 <DesktopTransactionsTable onChangeRows={this.onChangeRows} />
-              }
+              )}
             </React.Fragment>
           )}
         </Form>
       </React.Fragment>
-    )
+    );
   }
 }

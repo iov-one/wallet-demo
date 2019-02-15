@@ -12,6 +12,7 @@ import dropdownArrow from "../../assets/dropdownArrow.svg";
 import fromAddress from "../../assets/fromAddress.svg";
 import toAddress from "../../assets/toAddress.svg";
 import toAddressRejected from "../../assets/toAddressRejected.svg";
+import { TransactionRowProps, txType } from "../index";
 
 const styles = createStyles({
   row: {
@@ -28,15 +29,7 @@ const styles = createStyles({
   },
 });
 
-type txType = "send" | "receive" | "reject";
-
-interface Props extends WithStyles<typeof styles> {
-  readonly type: txType;
-  readonly address: string;
-  readonly amount: string;
-  readonly symbol: string;
-  readonly time: Date;
-}
+interface Props extends TransactionRowProps, WithStyles<typeof styles> {}
 
 const getTypeIcon = (type: txType): string => {
   switch (type) {

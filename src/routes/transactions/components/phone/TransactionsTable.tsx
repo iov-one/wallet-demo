@@ -1,8 +1,8 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
-import { background, md } from "~/theme/variables";
+import { background } from "~/theme/variables";
+import { TransactionsTableState, TransactionTableProps } from "../index";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -19,16 +19,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
-  readonly onChangeRows: (item: Item) => void;
-}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
 
-interface State {
-  readonly rowsPerPage: number;
-  readonly phoneHook: HTMLDivElement | null;
-}
-
-class TransactionsTable extends React.Component<Props, State> {
+class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {
     rowsPerPage: 5,
     phoneHook: null,
@@ -43,19 +36,15 @@ class TransactionsTable extends React.Component<Props, State> {
   }
 
   // tslint:disable-next-line:no-empty
-  public readonly onSubmit = async (_: object) => { };
+  public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
-    const {
-      classes,
-      onChangeRows
-    } = this.props;
+    const { classes, onChangeRows } = this.props;
 
     return (
       <React.Fragment>
         <Block margin="lg" />
         <Block className={classes.panel}>
-
           <TransactionsTableHeader />
           <Block className={classes.column}>
             <TransactionRow
@@ -89,7 +78,6 @@ class TransactionsTable extends React.Component<Props, State> {
             <div ref={this.phoneHookRef} />
             <TransactionTableFooter phone phoneHook={this.state.phoneHook} onChangeRows={onChangeRows} />
           </Block>
-
         </Block>
       </React.Fragment>
     );

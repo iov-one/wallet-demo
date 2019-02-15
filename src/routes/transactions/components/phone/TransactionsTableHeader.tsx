@@ -5,19 +5,10 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { background, md } from "~/theme/variables";
+import { md } from "~/theme/variables";
 import sorting from "../../assets/sorting.svg";
 
 const styles = createStyles({
-  panel: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: background,
-  },
-  column: {
-    display: "flex",
-    flexDirection: "column",
-  },
   header: {
     display: "flex",
     alignItems: "center",

@@ -1,8 +1,8 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
-import { background, md, shadowColor } from "~/theme/variables";
+import { background, shadowColor } from "~/theme/variables";
+import { TransactionsTableState, TransactionTableProps } from "../index";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -29,16 +29,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
-  readonly onChangeRows: (item: Item) => void;
-}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
 
-interface State {
-  readonly rowsPerPage: number;
-  readonly phoneHook: HTMLDivElement | null;
-}
-
-class TransactionsTable extends React.Component<Props, State> {
+class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {
     rowsPerPage: 5,
     phoneHook: null,
@@ -59,10 +52,7 @@ class TransactionsTable extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { 
-      classes,
-      onChangeRows
-    } = this.props;
+    const { classes, onChangeRows } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -101,7 +91,7 @@ class TransactionsTable extends React.Component<Props, State> {
                 time={new Date(Date.now())}
               />
               <div ref={this.phoneHookRef} />
-              <TransactionTableFooter phoneHook={this.state.phoneHook}  onChangeRows={onChangeRows} />
+              <TransactionTableFooter phoneHook={this.state.phoneHook} onChangeRows={onChangeRows} />
             </Block>
           </Block>
           <Block margin="lg" />
