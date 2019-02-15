@@ -18,7 +18,7 @@ interface Props extends WithStyles<typeof styles> {
 
 const TransactionDetails = ({ classes, address, note }: Props) => (
   <Block className={classes.details}>
-  <Block margin="lg" />
+    <Block margin="lg" />
     <Grid>
       <GridItem xs={12} sm={6}>
         <Block>
@@ -42,6 +42,7 @@ const TransactionDetails = ({ classes, address, note }: Props) => (
         </Block>
       </GridItem>
     </Grid>
+    <Block margin="lg" />
   </Block>
 );
 
