@@ -1,5 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
+import { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import { background, md, shadowColor } from "~/theme/variables";
 import TransactionTableFooter from "../TransactionTableFooter";
@@ -26,23 +27,30 @@ const styles = createStyles({
     display: "flex",
     flexDirection: "column",
   },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    margin: `${md} 0`,
-  },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  readonly onChangeRows: (item: Item) => void;
+}
 
 interface State {
   readonly rowsPerPage: number;
+  readonly phoneHook: HTMLDivElement | null;
 }
 
 class TransactionsTable extends React.Component<Props, State> {
   public readonly state = {
     rowsPerPage: 5,
+    phoneHook: null,
   };
+
+  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+
+  public componentDidMount(): void {
+    this.setState(() => ({
+      phoneHook: this.phoneHookRef.current,
+    }));
+  }
 
   public readonly rowsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
@@ -51,7 +59,10 @@ class TransactionsTable extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { classes } = this.props;
+    const { 
+      classes,
+      onChangeRows
+    } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -89,8 +100,8 @@ class TransactionsTable extends React.Component<Props, State> {
                 symbol="ETH"
                 time={new Date(Date.now())}
               />
-
-              <TransactionTableFooter rowsChange={this.rowsChange} rowsPerPage={this.state.rowsPerPage} />
+              <div ref={this.phoneHookRef} />
+              <TransactionTableFooter phoneHook={this.state.phoneHook}  onChangeRows={onChangeRows} />
             </Block>
           </Block>
           <Block margin="lg" />

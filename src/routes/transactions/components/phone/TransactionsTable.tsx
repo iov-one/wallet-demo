@@ -1,5 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
+import { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import { background, md } from "~/theme/variables";
 import TransactionTableFooter from "../TransactionTableFooter";
@@ -16,37 +17,45 @@ const styles = createStyles({
     display: "flex",
     flexDirection: "column",
   },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    margin: `${md} 0`,
-  },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  readonly onChangeRows: (item: Item) => void;
+}
 
 interface State {
   readonly rowsPerPage: number;
+  readonly phoneHook: HTMLDivElement | null;
 }
 
 class TransactionsTable extends React.Component<Props, State> {
   public readonly state = {
     rowsPerPage: 5,
+    phoneHook: null,
   };
 
-  public readonly rowsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({
-      rowsPerPage: Number(event.target.value),
-    });
-  };
+  private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+
+  public componentDidMount(): void {
+    this.setState(() => ({
+      phoneHook: this.phoneHookRef.current,
+    }));
+  }
+
+  // tslint:disable-next-line:no-empty
+  public readonly onSubmit = async (_: object) => { };
 
   public render(): JSX.Element {
-    const { classes } = this.props;
+    const {
+      classes,
+      onChangeRows
+    } = this.props;
 
     return (
       <React.Fragment>
         <Block margin="lg" />
         <Block className={classes.panel}>
+
           <TransactionsTableHeader />
           <Block className={classes.column}>
             <TransactionRow
@@ -77,9 +86,10 @@ class TransactionsTable extends React.Component<Props, State> {
               symbol="ETH"
               time={new Date(Date.now())}
             />
-
-            <TransactionTableFooter phone rowsChange={this.rowsChange} rowsPerPage={this.state.rowsPerPage} />
+            <div ref={this.phoneHookRef} />
+            <TransactionTableFooter phone phoneHook={this.state.phoneHook} onChangeRows={onChangeRows} />
           </Block>
+
         </Block>
       </React.Fragment>
     );

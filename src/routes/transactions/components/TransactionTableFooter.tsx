@@ -1,24 +1,16 @@
-import { createStyles, MenuItem, Select, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
+import Field from "~/components/forms/Field";
+import SelectField, { Item } from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { lg, md, secondary, smallFontSize } from "~/theme/variables";
+import { md } from "~/theme/variables";
 import arrowLeft from "../assets/arrowLeft.svg";
 import arrowRight from "../assets/arrowRight.svg";
 
 const styles = createStyles({
-  selectIcon: {
-    color: secondary,
-  },
-  selectRoot: {
-    fontSize: smallFontSize,
-  },
-  select: {
-    paddingRight: lg,
-    paddingLeft: md,
-  },
   footer: {
     display: "flex",
     alignItems: "center",
@@ -28,16 +20,12 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {
   readonly phone?: boolean;
-  readonly rowsPerPage: number;
-  readonly rowsChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+
+  readonly phoneHook: HTMLDivElement | null;
+  readonly onChangeRows: (item: Item) => void;
 }
 
-const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage, phone }: Props) => {
-  const selectClasses = {
-    icon: classes.selectIcon,
-    root: classes.selectRoot,
-    select: classes.select,
-  };
+const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Props) => {
 
   return (
     <Block padding="lg" className={classes.footer}>
@@ -45,23 +33,19 @@ const TransactionTableFooter = ({ classes, rowsChange, rowsPerPage, phone }: Pro
       <Typography variant="subtitle2" weight="regular">
         Rows per page
       </Typography>
-      <Select
-        value={rowsPerPage}
-        onChange={rowsChange}
-        classes={selectClasses}
-        disableUnderline
-        inputProps={{
-          name: "rows-per-page",
-          id: "rows-per-page",
-        }}
-      >
-        <MenuItem value={5}>5</MenuItem>
-        <MenuItem value={10}>10</MenuItem>
-        <MenuItem value={20}>20</MenuItem>
-      </Select>
+      <Block padding="xs" />
+      <Field
+        name="rows-per-page"
+        component={SelectField}
+        phoneHook={phoneHook}
+        onChangeCallback={onChangeRows}
+        items={[{ name: "5" }, { name: "10" }, { name: "25" }, { name: "50" }]}
+        initial="5"
+        width={60}
+      />
       {phone && <Spacer order={1} />}
-      <Img src={arrowLeft} alt="Previous page" />
-      <Img src={arrowRight} alt="Next page" />
+      <Img src={arrowLeft} alt="Previous page" width={40} height={40} />
+      <Img src={arrowRight} alt="Next page" width={40} height={40} />
     </Block>
   );
 };
