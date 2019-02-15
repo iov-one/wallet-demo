@@ -25,6 +25,8 @@ interface Props extends WithStyles<typeof styles> {
   readonly onChangeRows: (item: Item) => void;
 }
 
+const rowsSelectorData: ReadonlyArray<Item> = [{ name: "5" }, { name: "10" }, { name: "25" }, { name: "50" }];
+
 const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Props) => {
   return (
     <Block padding="lg" className={classes.footer}>
@@ -38,7 +40,7 @@ const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Pro
         component={SelectField}
         phoneHook={phoneHook}
         onChangeCallback={onChangeRows}
-        items={[{ name: "5" }, { name: "10" }, { name: "25" }, { name: "50" }]}
+        items={rowsSelectorData}
         initial="5"
         width={60}
       />

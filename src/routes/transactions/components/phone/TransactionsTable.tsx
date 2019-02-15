@@ -2,7 +2,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import { background } from "~/theme/variables";
-import { TransactionsTableState, TransactionTableProps } from "../index";
+import { TransactionsTableState, TransactionTableProps } from "../../common";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -23,7 +23,6 @@ interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
 
 class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {
-    rowsPerPage: 5,
     phoneHook: null,
   };
 

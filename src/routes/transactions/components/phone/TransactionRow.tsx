@@ -9,10 +9,7 @@ import Typography from "~/components/layout/Typography";
 import { background, border, md } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
-import fromAddress from "../../assets/fromAddress.svg";
-import toAddress from "../../assets/toAddress.svg";
-import toAddressRejected from "../../assets/toAddressRejected.svg";
-import { TransactionRowProps, txType } from "../index";
+import { getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
 
 const styles = createStyles({
   row: {
@@ -31,27 +28,6 @@ const styles = createStyles({
 
 interface Props extends TransactionRowProps, WithStyles<typeof styles> {}
 
-const getTypeIcon = (type: txType): string => {
-  switch (type) {
-    case "send":
-      return toAddress;
-    case "reject":
-      return toAddressRejected;
-    case "receive":
-      return fromAddress;
-  }
-};
-
-const getAddressPrefix = (type: txType): string => {
-  switch (type) {
-    case "send":
-      return "To";
-    case "reject":
-      return "To";
-    case "receive":
-      return "From";
-  }
-};
 const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
     <Block className={classes.rowContent}>
