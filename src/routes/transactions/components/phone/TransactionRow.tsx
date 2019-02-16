@@ -10,6 +10,7 @@ import Typography from "~/components/layout/Typography";
 import { background, border, md } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
+import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
 import { getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
 import TransactionDetails from "../TransactionDetails";
 
@@ -69,7 +70,7 @@ const TransactionRow = ({
       </Block>
       <Spacer order={1} />
       <Img
-        src={dropdownArrow}
+        src={open ? dropdownArrowClose : dropdownArrow}
         className={classes.dropdownArrow}
         width={16}
         height={10}
