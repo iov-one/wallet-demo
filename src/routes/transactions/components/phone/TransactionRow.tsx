@@ -11,6 +11,7 @@ import { background, border, md } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import { getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
+import TransactionDetails from "../TransactionDetails";
 
 const styles = createStyles({
   row: {
@@ -31,7 +32,7 @@ interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
 
 type Props = OpenType & OpenHandler & Outer;
 
-const TransactionRow = ({ classes, type, address, amount, symbol, time }: Props): JSX.Element => (
+const TransactionRow = ({ classes, type, address, amount, symbol, time, note, toggle, open }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
     <Block className={classes.rowContent}>
       <CircleImage
