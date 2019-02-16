@@ -32,7 +32,17 @@ interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
 
 type Props = OpenType & OpenHandler & Outer;
 
-const TransactionRow = ({ classes, type, address, amount, symbol, time, note, toggle, open }: Props): JSX.Element => (
+const TransactionRow = ({
+  classes,
+  type,
+  address,
+  amount,
+  symbol,
+  time,
+  note,
+  toggle,
+  open,
+}: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
     <Block className={classes.rowContent}>
       <CircleImage
@@ -58,10 +68,16 @@ const TransactionRow = ({ classes, type, address, amount, symbol, time, note, to
         </Typography>
       </Block>
       <Spacer order={1} />
-      <Img src={dropdownArrow} className={classes.dropdownArrow} width={16} height={10} alt="Sorting" onClick={toggle} />
-      
+      <Img
+        src={dropdownArrow}
+        className={classes.dropdownArrow}
+        width={16}
+        height={10}
+        alt="Sorting"
+        onClick={toggle}
+      />
     </Block>
-    { open && <TransactionDetails address={address} note={note}/> }
+    {open && <TransactionDetails address={address} note={note} />}
     <Hairline />
   </Block>
 );

@@ -11,7 +11,7 @@ export interface TransactionRowProps {
   readonly amount: string;
   readonly symbol: string;
   readonly time: Date;
-  readonly note: string;
+  readonly note?: string;
 }
 
 export interface TransactionsTableState {

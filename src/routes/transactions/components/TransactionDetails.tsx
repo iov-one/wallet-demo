@@ -8,7 +8,7 @@ import Typography from "~/components/layout/Typography";
 const styles = createStyles({
   details: {
     paddingLeft: 60,
-  }
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -47,4 +47,3 @@ const TransactionDetails = ({ classes, address, note }: Props) => (
 );
 
 export default withStyles(styles)(TransactionDetails);
-
