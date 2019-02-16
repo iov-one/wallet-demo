@@ -18,7 +18,6 @@ import TransactionDetails from "../TransactionDetails";
 const styles = createStyles({
   row: {
     display: "flex",
-
     flexDirection: "column",
   },
   rowContent: {
@@ -27,6 +26,12 @@ const styles = createStyles({
   },
   dropdownArrow: {
     marginTop: 10,
+  },
+  sectionWidth: {
+    overflowWrap: "break-word",
+  },
+  txData: {
+    maxWidth: "calc(100% - 100px)",
   },
 });
 
@@ -46,8 +51,8 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
         width={24}
         height={24}
       />
-      <Block padding="md">
-        <Typography variant="subtitle2" weight="semibold">
+      <Block padding="md" className={classes.txData}>
+        <Typography variant="subtitle2" weight="semibold" className={classes.sectionWidth}>
           {getAddressPrefix(tx)} {tx.received ? tx.signer : tx.recipient}
         </Typography>
         <Block margin="md" />
