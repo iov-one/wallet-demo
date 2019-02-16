@@ -1,6 +1,7 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
+import { ProcessedTx } from "~/store/notifications/state";
 import { background, shadowColor } from "~/theme/variables";
 import { TransactionsTableState, TransactionTableProps } from "../../common";
 import TransactionTableFooter from "../TransactionTableFooter";
@@ -45,7 +46,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   }
 
   public render(): JSX.Element {
-    const { classes, onChangeRows } = this.props;
+    const { classes, onChangeRows, txs } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -55,34 +56,9 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
           <Block className={classes.panel}>
             <TransactionsTableHeader />
             <Block className={classes.column}>
-              <TransactionRow
-                type="send"
-                address="alex*iov"
-                amount="-0.01762507"
-                symbol="BTC"
-                time={new Date(Date.now())}
-              />
-              <TransactionRow
-                type="receive"
-                address="cathy*iov"
-                amount="+507"
-                symbol="IOV"
-                time={new Date(Date.now())}
-              />
-              <TransactionRow
-                type="reject"
-                address="alex*iov"
-                amount="-0.01762507"
-                symbol="BTC"
-                time={new Date(Date.now())}
-              />
-              <TransactionRow
-                type="receive"
-                address="blockchain address"
-                amount="+0.1757"
-                symbol="ETH"
-                time={new Date(Date.now())}
-              />
+              {txs.map((tx: ProcessedTx) => (
+                <TransactionRow tx={tx} />
+              ))}
               <div ref={this.phoneHookRef} />
               <TransactionTableFooter phoneHook={this.state.phoneHook} onChangeRows={onChangeRows} />
             </Block>

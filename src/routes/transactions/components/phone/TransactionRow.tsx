@@ -7,6 +7,7 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
+import { amountToNumber } from "~/logic";
 import { background, border, md } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
@@ -33,21 +34,11 @@ interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
 
 type Props = OpenType & OpenHandler & Outer;
 
-const TransactionRow = ({
-  classes,
-  type,
-  address,
-  amount,
-  symbol,
-  time,
-  note,
-  toggle,
-  open,
-}: Props): JSX.Element => (
+const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
     <Block className={classes.rowContent}>
       <CircleImage
-        icon={getTypeIcon(type)}
+        icon={getTypeIcon(tx)}
         circleColor={background}
         borderColor={border}
         alt="Transaction type"
@@ -57,15 +48,15 @@ const TransactionRow = ({
       />
       <Block padding="md">
         <Typography variant="subtitle2" weight="semibold">
-          {getAddressPrefix(type)} {address}
+          {getAddressPrefix(tx)} {tx.received ? tx.signer : tx.recipient}
         </Typography>
         <Block margin="md" />
         <Typography variant="subtitle2" weight="regular">
-          {amount} {symbol}
+          {amountToNumber(tx.amount)} {tx.amount.tokenTicker}
         </Typography>
         <Block margin="md" />
         <Typography variant="subtitle2" weight="regular" color="secondary">
-          {getTime(time)} &#183; {getDate(time)}
+          {getTime(tx.time as Date)} &#183; {getDate(tx.time as Date)}
         </Typography>
       </Block>
       <Spacer order={1} />
@@ -78,7 +69,7 @@ const TransactionRow = ({
         onClick={toggle}
       />
     </Block>
-    {open && <TransactionDetails address={address} note={note} />}
+    {open && <TransactionDetails recipient={tx.recipient} />}
     <Hairline />
   </Block>
 );

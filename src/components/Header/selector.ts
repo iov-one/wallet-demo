@@ -10,7 +10,7 @@ export interface SelectorProps {
   readonly lastTx: ProcessedTx | undefined;
 }
 
-const confirmedTxSelector = createSelector(
+export const confirmedTxSelector = createSelector(
   getTransactions,
   (txs: ReadonlyArray<ProcessedTx>) => {
     const min = Math.min(txs.length, 3);

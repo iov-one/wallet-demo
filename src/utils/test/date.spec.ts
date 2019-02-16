@@ -18,6 +18,11 @@ describe("Utils -> Date", () => {
       currentDate.setMinutes(37);
       time = getTime(currentDate);
       expect(time).toBe("12:37 pm");
+
+      currentDate.setHours(0);
+      currentDate.setMinutes(12);
+      time = getTime(currentDate);
+      expect(time).toBe("12:12 am");
     });
   });
 

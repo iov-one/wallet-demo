@@ -1,17 +1,17 @@
 import { Item } from "~/components/forms/SelectField";
+import { ProcessedTx } from "~/store/notifications/state";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 
-export type txType = "send" | "receive" | "reject";
-
 export interface TransactionRowProps {
-  readonly type: txType;
+  readonly tx: ProcessedTx;
+  /*readonly type: txType;
   readonly address: string;
   readonly amount: string;
   readonly symbol: string;
   readonly time: Date;
-  readonly note?: string;
+  readonly note?: string;*/
 }
 
 export interface TransactionsTableState {
@@ -19,27 +19,24 @@ export interface TransactionsTableState {
 }
 
 export interface TransactionTableProps {
+  readonly txs: ReadonlyArray<ProcessedTx>;
   readonly onChangeRows: (item: Item) => void;
 }
 
-export const getTypeIcon = (type: txType): string => {
-  switch (type) {
-    case "send":
-      return toAddress;
-    case "reject":
-      return toAddressRejected;
-    case "receive":
-      return fromAddress;
+export const getTypeIcon = (tx: ProcessedTx): string => {
+  if (tx.received) {
+    return fromAddress;
+  } else if (!tx.success) {
+    return toAddressRejected;
+  } else {
+    return toAddress;
   }
 };
 
-export const getAddressPrefix = (type: txType): string => {
-  switch (type) {
-    case "send":
-      return "To";
-    case "reject":
-      return "To";
-    case "receive":
-      return "From";
+export const getAddressPrefix = (tx: ProcessedTx): string => {
+  if (tx.received) {
+    return "From";
+  } else {
+    return "To";
   }
 };

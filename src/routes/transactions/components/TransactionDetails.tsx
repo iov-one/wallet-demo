@@ -12,11 +12,11 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly address: string;
+  readonly recipient: string;
   readonly note?: string;
 }
 
-const TransactionDetails = ({ classes, address, note }: Props) => (
+const TransactionDetails = ({ classes, recipient, note }: Props) => (
   <Block className={classes.details}>
     <Block margin="lg" />
     <Grid>
@@ -26,7 +26,7 @@ const TransactionDetails = ({ classes, address, note }: Props) => (
             To address:
           </Typography>
           <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            {address}
+            {recipient}
           </Typography>
           <Block margin="md" />
         </Block>
