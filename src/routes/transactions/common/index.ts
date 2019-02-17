@@ -6,12 +6,6 @@ import toAddressRejected from "../assets/toAddressRejected.svg";
 
 export interface TransactionRowProps {
   readonly tx: ProcessedTx;
-  /*readonly type: txType;
-  readonly address: string;
-  readonly amount: string;
-  readonly symbol: string;
-  readonly time: Date;
-  readonly note?: string;*/
 }
 
 export interface TransactionsTableState {
@@ -21,6 +15,8 @@ export interface TransactionsTableState {
 export interface TransactionTableProps {
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly onChangeRows: (item: Item) => void;
+  readonly onPrevPage: () => void;
+  readonly onNextPage: () => void;
 }
 
 export const getTypeIcon = (tx: ProcessedTx): string => {
@@ -39,4 +35,12 @@ export const getAddressPrefix = (tx: ProcessedTx): string => {
   } else {
     return "To";
   }
+};
+
+export const isNativeSender = (sender: string): string => {
+  if (sender.indexOf("*") >= 0) {
+    return sender;
+  }
+
+  return "blockchain address";
 };
