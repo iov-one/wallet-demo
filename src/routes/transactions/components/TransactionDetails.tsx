@@ -4,29 +4,38 @@ import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
+import { ProcessedTx } from "~/store/notifications/state";
+import { getAddressPrefix } from "../common";
 
 const styles = createStyles({
   details: {
     paddingLeft: 60,
   },
+  sectionName: {
+    overflowWrap: "break-word",
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly recipient: string;
-  readonly note?: string;
+  readonly tx: ProcessedTx;
 }
 
-const TransactionDetails = ({ classes, recipient, note }: Props) => (
+const TransactionDetails = ({ classes, tx }: Props) => (
   <Block className={classes.details}>
     <Block margin="lg" />
     <Grid>
       <GridItem xs={12} sm={6}>
         <Block>
           <Typography variant="subtitle2" weight="regular" gutterBottom>
-            To address:
+            {getAddressPrefix(tx)} address:
           </Typography>
-          <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            {recipient}
+          <Typography
+            variant="subtitle2"
+            weight="regular"
+            color="textSecondary"
+            className={classes.sectionName}
+          >
+            {tx.received ? tx.signer : tx.recipient}
           </Typography>
           <Block margin="md" />
         </Block>
@@ -37,7 +46,7 @@ const TransactionDetails = ({ classes, recipient, note }: Props) => (
             Note:
           </Typography>
           <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            {note ? note : "No note"}
+            No note
           </Typography>
         </Block>
       </GridItem>

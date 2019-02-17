@@ -39,7 +39,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
-    const { classes, onChangeRows, txs } = this.props;
+    const { classes, onChangeRows, onPrevPage, onNextPage, txs } = this.props;
 
     return (
       <React.Fragment>
@@ -48,10 +48,16 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
           <TransactionsTableHeader />
           <Block className={classes.column}>
             {txs.map((tx: ProcessedTx) => (
-              <TransactionRow tx={tx} />
+              <TransactionRow key={tx.id} tx={tx} />
             ))}
             <div ref={this.phoneHookRef} />
-            <TransactionTableFooter phone phoneHook={this.state.phoneHook} onChangeRows={onChangeRows} />
+            <TransactionTableFooter
+              phone
+              phoneHook={this.state.phoneHook}
+              onChangeRows={onChangeRows}
+              onPrevPage={onPrevPage}
+              onNextPage={onNextPage}
+            />
           </Block>
         </Block>
       </React.Fragment>

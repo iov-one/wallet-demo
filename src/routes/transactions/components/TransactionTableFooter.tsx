@@ -20,14 +20,22 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {
   readonly phone?: boolean;
-
   readonly phoneHook: HTMLDivElement | null;
   readonly onChangeRows: (item: Item) => void;
+  readonly onPrevPage: () => void;
+  readonly onNextPage: () => void;
 }
 
 const rowsSelectorData: ReadonlyArray<Item> = [{ name: "5" }, { name: "10" }, { name: "25" }, { name: "50" }];
 
-const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Props) => {
+const TransactionTableFooter = ({
+  classes,
+  phone,
+  phoneHook,
+  onChangeRows,
+  onPrevPage,
+  onNextPage,
+}: Props) => {
   return (
     <Block padding="lg" className={classes.footer}>
       {!phone && <Spacer order={1} />}
@@ -45,8 +53,8 @@ const TransactionTableFooter = ({ classes, phone, phoneHook, onChangeRows }: Pro
         width={60}
       />
       {phone && <Spacer order={1} />}
-      <Img src={arrowLeft} alt="Previous page" width={40} height={40} />
-      <Img src={arrowRight} alt="Next page" width={40} height={40} />
+      <Img src={arrowLeft} alt="Previous page" width={40} height={40} onClick={onPrevPage} />
+      <Img src={arrowRight} alt="Next page" width={40} height={40} onClick={onNextPage} />
     </Block>
   );
 };

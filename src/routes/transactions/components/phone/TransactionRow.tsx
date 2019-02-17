@@ -12,7 +12,7 @@ import { background, border, md } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
-import { getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
+import { getAddressPrefix, getTypeIcon, isNativeSender, TransactionRowProps } from "../../common";
 import TransactionDetails from "../TransactionDetails";
 
 const styles = createStyles({
@@ -27,7 +27,7 @@ const styles = createStyles({
   dropdownArrow: {
     marginTop: 10,
   },
-  sectionWidth: {
+  sectionName: {
     overflowWrap: "break-word",
   },
   txData: {
@@ -52,8 +52,8 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
         height={24}
       />
       <Block padding="md" className={classes.txData}>
-        <Typography variant="subtitle2" weight="semibold" className={classes.sectionWidth}>
-          {getAddressPrefix(tx)} {tx.received ? tx.signer : tx.recipient}
+        <Typography variant="subtitle2" weight="semibold" className={classes.sectionName}>
+          {getAddressPrefix(tx)} {tx.received ? isNativeSender(tx.signer) : isNativeSender(tx.recipient)}
         </Typography>
         <Block margin="md" />
         <Typography variant="subtitle2" weight="regular">
@@ -74,7 +74,7 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
         onClick={toggle}
       />
     </Block>
-    {open && <TransactionDetails recipient={tx.recipient} />}
+    {open && <TransactionDetails tx={tx} />}
     <Hairline />
   </Block>
 );

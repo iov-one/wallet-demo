@@ -1,6 +1,6 @@
 import { createStructuredSelector, Selector } from "reselect";
-import { confirmedTxSelector } from "~/components/Header/selector";
 import { RootState } from "~/reducers";
+import { getTransactions } from "~/store/notifications/selectors";
 import { ProcessedTx } from "~/store/notifications/state";
 
 export interface SelectorProps {
@@ -8,7 +8,7 @@ export interface SelectorProps {
 }
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
-  txs: confirmedTxSelector,
+  txs: getTransactions,
 });
 
 export default structuredSelector;
