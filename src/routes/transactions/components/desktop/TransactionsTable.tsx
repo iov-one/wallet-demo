@@ -3,7 +3,7 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background, shadowColor } from "~/theme/variables";
-import { TransactionsTableState, TransactionTableProps } from "../../common";
+import { ColumnName, TransactionsTableState, TransactionTableProps } from "../../common";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -30,7 +30,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {
+  readonly onSort: (column: ColumnName) => () => void;
+}
 
 class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {

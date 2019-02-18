@@ -16,7 +16,7 @@ const style = {
 
 interface ListItemProps {
   readonly action: (value: Item) => () => void;
-  readonly phone: boolean;
+  readonly phone?: boolean;
   readonly selectedItem: string;
   readonly items: ReadonlyArray<Item>;
   readonly align: "left" | "right";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Hairline from "~/components/layout/Hairline";
-import { ColumnName, TransactionTableProps } from "../common";
+import { ColumnName, SortItem, TransactionTableProps } from "../common";
 import DesktopTransactionsTable from "./desktop/TransactionsTable";
 import PhoneTransactionsTable from "./phone/TransactionsTable";
 import ToolBox from "./ToolBox";
@@ -9,12 +9,22 @@ import ToolBox from "./ToolBox";
 interface Props extends TransactionTableProps {
   readonly phone: boolean;
   readonly onSort: (column: ColumnName) => () => void;
+  readonly onSetSortOrder: (value: SortItem) => void;
 }
 
 // tslint:disable-next-line:no-empty
 const onSubmit = (_: object) => {};
 
-export const Layout = ({ onChangeRows, onPrevPage, onNextPage, onSort, sortingState, txs, phone }: Props) => (
+export const Layout = ({
+  onChangeRows,
+  onPrevPage,
+  onNextPage,
+  onSort,
+  onSetSortOrder,
+  sortingState,
+  txs,
+  phone,
+}: Props) => (
   <React.Fragment>
     <Hairline />
     <ToolBox phone={phone} />
@@ -27,7 +37,7 @@ export const Layout = ({ onChangeRows, onPrevPage, onNextPage, onSort, sortingSt
             onChangeRows={onChangeRows}
             onPrevPage={onPrevPage}
             onNextPage={onNextPage}
-            onSort={onSort}
+            onSetSortOrder={onSetSortOrder}
             sortingState={sortingState}
           />
         ) : (

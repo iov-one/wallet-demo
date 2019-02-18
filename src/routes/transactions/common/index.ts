@@ -5,13 +5,25 @@ import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 
 export enum ColumnName {
+  NoColumn = "",
   Date = "Date",
-  Amount = "Amount"
-};
+  Amount = "Amount",
+}
+
+export enum SortOrder {
+  NoOrder = 0,
+  Ascending = 1,
+  Descending = -1,
+}
+
+export interface SortItem extends Item {
+  readonly column: ColumnName;
+  readonly order: SortOrder;
+}
 
 export interface SortingState {
   // tslint:disable-next-line:readonly-keyword
-  [index:string] : number;
+  [index: string]: SortOrder;
 }
 
 export interface TransactionRowProps {
@@ -27,7 +39,6 @@ export interface TransactionTableProps {
   readonly onChangeRows: (item: Item) => void;
   readonly onPrevPage: () => void;
   readonly onNextPage: () => void;
-  readonly onSort: (column: ColumnName) => () => void;
   readonly sortingState: SortingState;
 }
 

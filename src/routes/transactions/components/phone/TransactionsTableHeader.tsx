@@ -2,10 +2,10 @@ import { createStyles, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
-import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import sorting from "../../assets/sorting.svg";
+import { ColumnName, SortItem, SortOrder } from "../../common";
+import SortMenu from "./SortMenu";
 
 const styles = createStyles({
   header: {
@@ -14,9 +14,19 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  readonly phoneHook: HTMLDivElement | null;
+  readonly onSetSortOrder: (value: SortItem) => void;
+}
 
-const TransactionsTableHeader = ({ classes }: Props) => (
+const sortItems: ReadonlyArray<SortItem> = [
+  { name: "Date ascending", column: ColumnName.Date, order: SortOrder.Ascending },
+  { name: "Date descending", column: ColumnName.Date, order: SortOrder.Descending },
+  { name: "Ticker ascending", column: ColumnName.Amount, order: SortOrder.Ascending },
+  { name: "Ticker descending", column: ColumnName.Amount, order: SortOrder.Descending },
+];
+
+const TransactionsTableHeader = ({ classes, phoneHook, onSetSortOrder }: Props) => (
   <React.Fragment>
     <Block margin="md" />
     <Block padding="lg" className={classes.header}>
@@ -24,7 +34,7 @@ const TransactionsTableHeader = ({ classes }: Props) => (
         Transactions
       </Typography>
       <Spacer order={1} />
-      <Img src={sorting} width={24} height={24} alt="Sorting" />
+      <SortMenu phoneHook={phoneHook} items={sortItems} initial="" onChangeCallback={onSetSortOrder} />
     </Block>
     <Block margin="md" />
     <Hairline />

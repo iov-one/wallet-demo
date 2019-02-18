@@ -4,15 +4,15 @@ import { Item } from "~/components/forms/SelectField";
 import PageMenu from "~/components/pages/PageMenu";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { ProcessedTx } from "~/store/notifications/state";
-import { ColumnName, SortingState } from "../common";
+import { ColumnName, SortingState, SortItem, SortOrder } from "../common";
 import { Layout } from "../components";
 import selector, { SelectorProps } from "./selector";
 
 interface State {
   readonly rowsPerPage: number;
   readonly pageNumber: number;
-  readonly sortingColumn: string;
-  readonly sortingOrder: number;
+  readonly sortingColumn: ColumnName;
+  readonly sortingOrder: SortOrder;
   readonly sortingState: SortingState;
 }
 
@@ -20,7 +20,7 @@ class Transactions extends React.Component<SelectorProps, State> {
   public readonly state = {
     rowsPerPage: 5,
     pageNumber: 0,
-    sortingColumn: "",
+    sortingColumn: ColumnName.NoColumn,
     sortingOrder: 0,
     sortingState: {},
   };
@@ -33,26 +33,31 @@ class Transactions extends React.Component<SelectorProps, State> {
 
   public readonly onSort = (column: ColumnName) => () => {
     let sortingOrder = this.state.sortingOrder;
-    let sortingState: SortingState = this.state.sortingState;
 
     if (column !== this.state.sortingColumn) {
-      sortingOrder = 1;
-      sortingState = {};
+      sortingOrder = SortOrder.Ascending;
     } else if (sortingOrder === 1) {
-      sortingOrder = -1;
+      sortingOrder = SortOrder.Descending;
     } else {
       sortingOrder++;
     }
-    
-    // tslint:disable-next-line:no-object-mutation
-    sortingState[column] = sortingOrder;
+
+    this.onSetSortOrder({
+      name: "Sort item",
+      column,
+      order: sortingOrder,
+    });
+  };
+
+  public readonly onSetSortOrder = (sorting: SortItem): void => {
+    const sortingState: SortingState = { [sorting.column]: sorting.order };
 
     this.setState({
-      sortingColumn: column,
-      sortingOrder,
+      sortingColumn: sorting.column,
+      sortingOrder: sorting.order,
       sortingState,
     });
-  }
+  };
 
   public readonly onPrevPage = () => {
     if (!this.state.pageNumber) {
@@ -89,7 +94,7 @@ class Transactions extends React.Component<SelectorProps, State> {
         return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * sortingOrder;
       } else if (sortingColumn === ColumnName.Date) {
         const compareResult = a.time < b.time ? -1 : a.time > b.time ? 1 : 0;
-        return compareResult * sortingOrder; 
+        return compareResult * sortingOrder;
       }
       return 0;
     });
@@ -111,6 +116,7 @@ class Transactions extends React.Component<SelectorProps, State> {
                 onNextPage={this.onNextPage}
                 onSort={this.onSort}
                 sortingState={sortingState}
+                onSetSortOrder={this.onSetSortOrder}
               />
             </PageMenu>
           );

@@ -8,7 +8,7 @@ import sortDown from "../../assets/sortDown.svg";
 import sortDownActive from "../../assets/sortDownActive.svg";
 import sortUp from "../../assets/sortUp.svg";
 import sortUpActive from "../../assets/sortUpActive.svg";
-import { ColumnName, SortingState } from "../../common";
+import { ColumnName, SortingState, SortOrder } from "../../common";
 
 const styles = createStyles({
   header: {
@@ -35,14 +35,14 @@ interface Props extends WithStyles<typeof styles> {
 
 const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props) => {
   const headerClasses = classNames(classes.header, { [classes.alignRight]: alignRight });
-  const sortOrder = sortingState && (name in sortingState) ? sortingState[name] : 0;
-  
+  const sortOrder = sortingState && name in sortingState ? sortingState[name] : SortOrder.NoOrder;
+
   return (
     <Block className={headerClasses} onClick={onSort(name as ColumnName)}>
       <Block className={classes.sorting} padding="sm">
-        <Img src={sortOrder === 1 ? sortUpActive : sortUp} alt="Descending sort" />
+        <Img src={sortOrder === SortOrder.Ascending ? sortUpActive : sortUp} alt="Descending sort" />
         <Block margin="xs" />
-        <Img src={sortOrder === -1 ? sortDownActive : sortDown} alt="Ascending sort" />
+        <Img src={sortOrder === SortOrder.Descending ? sortDownActive : sortDown} alt="Ascending sort" />
       </Block>
       <Typography variant="subtitle2" weight="semibold">
         {name}

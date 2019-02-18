@@ -3,7 +3,7 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background } from "~/theme/variables";
-import { TransactionsTableState, TransactionTableProps } from "../../common";
+import { SortItem, TransactionsTableState, TransactionTableProps } from "../../common";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -20,18 +20,27 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {
+  readonly onSetSortOrder: (value: SortItem) => void;
+}
 
-class TransactionsTable extends React.Component<Props, TransactionsTableState> {
+interface State extends TransactionsTableState {
+  readonly phoneSortHook: HTMLDivElement | null;
+}
+
+class TransactionsTable extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
+    phoneSortHook: null,
   };
 
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+  private readonly phoneSortHookRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
     this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
+      phoneSortHook: this.phoneSortHookRef.current,
     }));
   }
 
@@ -39,14 +48,15 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
-    const { classes, onChangeRows, onPrevPage, onNextPage, txs } = this.props;
+    const { classes, onChangeRows, onPrevPage, onNextPage, onSetSortOrder, txs } = this.props;
 
     return (
       <React.Fragment>
         <Block margin="lg" />
         <Block className={classes.panel}>
-          <TransactionsTableHeader />
+          <TransactionsTableHeader phoneHook={this.state.phoneSortHook} onSetSortOrder={onSetSortOrder} />
           <Block className={classes.column}>
+            <div ref={this.phoneSortHookRef} />
             {txs.map((tx: ProcessedTx) => (
               <TransactionRow key={tx.id} tx={tx} />
             ))}
