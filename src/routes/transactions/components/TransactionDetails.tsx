@@ -46,7 +46,7 @@ const TransactionDetails = ({ classes, tx }: Props) => (
             Note:
           </Typography>
           <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            No note
+            {tx.memo ? tx.memo : "No note"}
           </Typography>
         </Block>
       </GridItem>
