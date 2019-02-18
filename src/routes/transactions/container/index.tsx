@@ -50,7 +50,8 @@ class Transactions extends React.Component<SelectorProps, State> {
     const { rowsPerPage, pageNumber } = this.state;
 
     const pageStartIdx = pageNumber * rowsPerPage;
-    const txsToRender = txs.slice(pageStartIdx, pageStartIdx + rowsPerPage);
+    const pageEndIdx = Math.min(txs.length - 1, pageStartIdx + rowsPerPage);
+    const txsToRender = txs.slice(pageStartIdx, pageEndIdx);
 
     return (
       <MatchMediaContext.Consumer>
