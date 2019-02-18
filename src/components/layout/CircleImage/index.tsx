@@ -16,20 +16,22 @@ type ImgWithStyles = ImgProps & WithStyles<typeof styles>;
 
 interface Props extends ImgWithStyles {
   readonly icon: string;
-  readonly dia: number;
+  readonly dia: number | string;
+  readonly borderColor?: string;
   readonly circleColor?: string;
   readonly iconClasses?: string;
 }
 
 class CircleImg extends React.PureComponent<Props> {
   public render(): JSX.Element {
-    const { circleColor, classes, icon, dia, iconClasses, ...props } = this.props;
+    const { borderColor, circleColor, classes, icon, dia, iconClasses, ...props } = this.props;
 
     const style = {
       height: dia,
       width: dia,
       borderRadius: "50%",
       backgroundColor: circleColor ? circleColor : backgroundPrimary,
+      border: borderColor ? `1px solid ${borderColor}` : undefined,
     };
 
     return (

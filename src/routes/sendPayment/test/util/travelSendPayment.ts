@@ -41,14 +41,12 @@ export const processPaymentTo = async (
   await sleep(800);
 };
 
-export const processConfirmation = async (
-  SendPaymentDom: React.Component,
-): Promise<void> => {
+export const processConfirmation = async (SendPaymentDom: React.Component): Promise<void> => {
   const buttons = TestUtils.scryRenderedDOMComponentsWithTag(SendPaymentDom, "button");
   expect(buttons.length).toBe(2);
 
-  const continueButton = buttons[0]
-  expect(continueButton.textContent).toBe("Continue")
+  const continueButton = buttons[0];
+  expect(continueButton.textContent).toBe("Continue");
 
   TestUtils.Simulate.click(continueButton);
 
