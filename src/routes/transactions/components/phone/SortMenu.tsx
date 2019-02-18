@@ -8,15 +8,14 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
-import { ColumnName, SortItem, SortOrder } from "../../common";
+import { ColumnName, SortingStateProps, SortItem, SortOrder } from "../../common";
 
 export interface SortMenuProps {
   readonly onSetSortOrder: (value: SortItem) => void;
 }
 
-interface Outer extends SortMenuProps, WithStyles<typeof styles> {
+interface Outer extends SortMenuProps, SortingStateProps, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<Item>;
-  readonly initial: string;
   readonly phoneHook: HTMLDivElement | null;
 }
 
@@ -40,9 +39,21 @@ const resetSorting: SortItem = {
 
 class SortMenu extends React.PureComponent<Props, State> {
   public readonly state = {
-    value: this.props.initial,
+    value: "",
   };
 
+  
+  public componentDidMount(): void {
+    const selectedSort = this.props.items.find((item: Item): boolean => {
+      const sortItem = item as SortItem;
+      return sortItem.column in this.props.sortingState 
+        && this.props.sortingState[sortItem.column] === sortItem.order;
+    });
+
+    if (selectedSort) {
+      this.setState({ value: selectedSort.name });
+    }    
+  }
   public readonly onAction = (value: Item) => () => {
     const { toggle, onSetSortOrder } = this.props;
 
