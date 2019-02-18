@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { ColumnName, SortItem, SortOrder } from "../../common";
+import { ColumnName, SortingStateProps, SortItem, SortOrder } from "../../common";
 import SortMenu, { SortMenuProps } from "./SortMenu";
 
 const styles = createStyles({
@@ -14,7 +14,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends SortMenuProps, WithStyles<typeof styles> {
+interface Props extends SortMenuProps, SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
 }
 
@@ -25,7 +25,7 @@ const sortItems: ReadonlyArray<SortItem> = [
   { name: "Ticker descending", column: ColumnName.Amount, order: SortOrder.Descending },
 ];
 
-const TransactionsTableHeader = ({ classes, phoneHook, onSetSortOrder }: Props) => (
+const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (
   <React.Fragment>
     <Block margin="md" />
     <Block padding="lg" className={classes.header}>
@@ -33,7 +33,7 @@ const TransactionsTableHeader = ({ classes, phoneHook, onSetSortOrder }: Props) 
         Transactions
       </Typography>
       <Spacer order={1} />
-      <SortMenu phoneHook={phoneHook} items={sortItems} initial="" onSetSortOrder={onSetSortOrder} />
+      <SortMenu items={sortItems} {...restProps} />
     </Block>
     <Block margin="md" />
     <Hairline />

@@ -23,7 +23,7 @@ export interface DesktopHeaderProps {
 
 interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof styles> {}
 
-const TransactionsTableHeader = ({ classes, onSort, sortingState }: Props) => (
+const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (
   <React.Fragment>
     <Block margin="md" />
     <Block padding="lg" className={classes.header}>
@@ -31,9 +31,9 @@ const TransactionsTableHeader = ({ classes, onSort, sortingState }: Props) => (
         Transactions
       </Typography>
       <Spacer order={1} />
-      <ColumnHeader name={ColumnName.Date} onSort={onSort} sortingState={sortingState} />
+      <ColumnHeader name={ColumnName.Date} {...restProps} />
       <Spacer order={1} />
-      <ColumnHeader name={ColumnName.Amount} onSort={onSort} sortingState={sortingState} alignRight />
+      <ColumnHeader name={ColumnName.Amount} {...restProps} alignRight />
     </Block>
     <Block margin="md" />
     <Hairline />

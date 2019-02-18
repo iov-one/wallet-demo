@@ -13,45 +13,36 @@ interface Props extends SortMenuProps, DesktopHeaderProps, ToolBoxProps, Transac
 }
 
 // tslint:disable-next-line:no-empty
-const onSubmit = (_: object) => {};
+const onSubmit = (_: object) => { };
 
 export const Layout = ({
-  onChangeRows,
   onDownloadCSV,
-  onPrevPage,
-  onNextPage,
   onSort,
   onSetSortOrder,
-  sortingState,
   txs,
   phone,
+  ...restProps
 }: Props) => (
-  <React.Fragment>
-    <Hairline />
-    <ToolBox phone={phone} onDownloadCSV={onDownloadCSV} />
-    <Hairline />
-    <Form onSubmit={onSubmit}>
-      {() =>
-        phone ? (
-          <PhoneTransactionsTable
-            txs={txs}
-            onChangeRows={onChangeRows}
-            onPrevPage={onPrevPage}
-            onNextPage={onNextPage}
-            onSetSortOrder={onSetSortOrder}
-            sortingState={sortingState}
-          />
-        ) : (
-          <DesktopTransactionsTable
-            txs={txs}
-            onChangeRows={onChangeRows}
-            onPrevPage={onPrevPage}
-            onNextPage={onNextPage}
-            onSort={onSort}
-            sortingState={sortingState}
-          />
-        )
-      }
-    </Form>
-  </React.Fragment>
-);
+    <React.Fragment>
+      <Hairline />
+      <ToolBox phone={phone} onDownloadCSV={onDownloadCSV} />
+      <Hairline />
+      <Form onSubmit={onSubmit}>
+        {() =>
+          phone ? (
+            <PhoneTransactionsTable
+              txs={txs}
+              onSetSortOrder={onSetSortOrder}
+              {...restProps}
+            />
+          ) : (
+              <DesktopTransactionsTable
+                txs={txs}
+                onSort={onSort}
+                {...restProps}
+              />
+            )
+        }
+      </Form>
+    </React.Fragment>
+  );

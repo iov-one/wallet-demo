@@ -48,13 +48,13 @@ class TransactionsTable extends React.Component<Props, State> {
   public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
-    const { classes, onChangeRows, onPrevPage, onNextPage, onSetSortOrder, txs } = this.props;
+    const { classes, txs, ...restProps } = this.props;
 
     return (
       <React.Fragment>
         <Block margin="lg" />
         <Block className={classes.panel}>
-          <TransactionsTableHeader phoneHook={this.state.phoneSortHook} onSetSortOrder={onSetSortOrder} />
+          <TransactionsTableHeader phoneHook={this.state.phoneSortHook} {...restProps} />
           <Block className={classes.column}>
             <div ref={this.phoneSortHookRef} />
             {txs.length > 0 ? (
@@ -66,9 +66,7 @@ class TransactionsTable extends React.Component<Props, State> {
             <TransactionTableFooter
               phone
               phoneHook={this.state.phoneHook}
-              onChangeRows={onChangeRows}
-              onPrevPage={onPrevPage}
-              onNextPage={onNextPage}
+              {...restProps}
             />
           </Block>
         </Block>
