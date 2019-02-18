@@ -116,7 +116,7 @@ class Transactions extends React.Component<SelectorProps, State> {
     });
 
     const pageStartIdx = pageNumber * rowsPerPage;
-    const pageEndIdx = Math.min(txs.length - 1, pageStartIdx + rowsPerPage);
+    const pageEndIdx = Math.min(txs.length, pageStartIdx + rowsPerPage);
     const txsToRender = sortedTx.slice(pageStartIdx, pageEndIdx);
 
     return (
