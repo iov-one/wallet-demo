@@ -1,3 +1,4 @@
+import FileSaver from "file-saver";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Item } from "~/components/forms/SelectField";
@@ -80,6 +81,11 @@ class Transactions extends React.Component<SelectorProps, State> {
     });
   };
 
+  public readonly onDownloadCSV = () => {
+    const blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, "hello world.txt");
+  }
+
   public render(): JSX.Element {
     const { txs } = this.props;
 
@@ -117,6 +123,7 @@ class Transactions extends React.Component<SelectorProps, State> {
                 onSort={this.onSort}
                 sortingState={sortingState}
                 onSetSortOrder={this.onSetSortOrder}
+                onDownloadCSV={this.onDownloadCSV}
               />
             </PageMenu>
           );

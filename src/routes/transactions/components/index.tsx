@@ -10,6 +10,7 @@ interface Props extends TransactionTableProps {
   readonly phone: boolean;
   readonly onSort: (column: ColumnName) => () => void;
   readonly onSetSortOrder: (value: SortItem) => void;
+  readonly onDownloadCSV: () => void;
 }
 
 // tslint:disable-next-line:no-empty
@@ -17,6 +18,7 @@ const onSubmit = (_: object) => {};
 
 export const Layout = ({
   onChangeRows,
+  onDownloadCSV,
   onPrevPage,
   onNextPage,
   onSort,
@@ -27,7 +29,7 @@ export const Layout = ({
 }: Props) => (
   <React.Fragment>
     <Hairline />
-    <ToolBox phone={phone} />
+    <ToolBox phone={phone} onDownloadCSV={onDownloadCSV}/>
     <Hairline />
     <Form onSubmit={onSubmit}>
       {() =>

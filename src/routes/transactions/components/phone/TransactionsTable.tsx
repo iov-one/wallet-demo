@@ -4,6 +4,7 @@ import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background } from "~/theme/variables";
 import { SortItem, TransactionsTableState, TransactionTableProps } from "../../common";
+import NoTransactions from "../NoTransactions";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
@@ -45,7 +46,7 @@ class TransactionsTable extends React.Component<Props, State> {
   }
 
   // tslint:disable-next-line:no-empty
-  public readonly onSubmit = async (_: object) => {};
+  public readonly onSubmit = async (_: object) => { };
 
   public render(): JSX.Element {
     const { classes, onChangeRows, onPrevPage, onNextPage, onSetSortOrder, txs } = this.props;
@@ -57,9 +58,13 @@ class TransactionsTable extends React.Component<Props, State> {
           <TransactionsTableHeader phoneHook={this.state.phoneSortHook} onSetSortOrder={onSetSortOrder} />
           <Block className={classes.column}>
             <div ref={this.phoneSortHookRef} />
-            {txs.map((tx: ProcessedTx) => (
-              <TransactionRow key={tx.id} tx={tx} />
-            ))}
+            {txs.length > 0 ?
+              txs.map((tx: ProcessedTx) => (
+                <TransactionRow key={tx.id} tx={tx} />
+              ))
+              :
+              <NoTransactions />
+            }
             <div ref={this.phoneHookRef} />
             <TransactionTableFooter
               phone
