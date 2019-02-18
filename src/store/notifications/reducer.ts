@@ -24,6 +24,7 @@ function simplifyTransaction(full: AnnotatedConfirmedTransaction): ProcessedTx {
     recipientName,
     success,
     transactionId,
+    memo,
   } = full;
 
   const signer = signerName || signerAddr;
@@ -37,6 +38,7 @@ function simplifyTransaction(full: AnnotatedConfirmedTransaction): ProcessedTx {
     signer,
     recipient,
     success,
+    memo,
   };
 }
 

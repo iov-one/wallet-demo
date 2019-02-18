@@ -31,6 +31,7 @@ export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = S
   readonly signerName?: string;
   readonly recipientName?: string;
   readonly chainId: ChainId;
+  readonly memo?: string;
 }
 
 const keysEqual = (a: PublicKeyBundle, b: PublicKeyBundle): boolean =>
@@ -84,6 +85,7 @@ export const parseConfirmedTransaction = async (
     signerAddr,
     signerName,
     chainId,
+    memo: payload.memo,
   };
 };
 
