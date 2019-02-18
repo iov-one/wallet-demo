@@ -4,6 +4,16 @@ import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 
+export enum ColumnName {
+  Date = "Date",
+  Amount = "Amount"
+};
+
+export interface SortingState {
+  // tslint:disable-next-line:readonly-keyword
+  [index:string] : number;
+}
+
 export interface TransactionRowProps {
   readonly tx: ProcessedTx;
 }
@@ -17,6 +27,8 @@ export interface TransactionTableProps {
   readonly onChangeRows: (item: Item) => void;
   readonly onPrevPage: () => void;
   readonly onNextPage: () => void;
+  readonly onSort: (column: ColumnName) => () => void;
+  readonly sortingState: SortingState;
 }
 
 export const getTypeIcon = (tx: ProcessedTx): string => {
