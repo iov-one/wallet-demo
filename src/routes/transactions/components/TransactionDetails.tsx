@@ -51,7 +51,6 @@ const TransactionDetails = ({ classes, tx }: Props) => (
         </Block>
       </GridItem>
     </Grid>
-    <Block margin="lg" />
   </Block>
 );
 

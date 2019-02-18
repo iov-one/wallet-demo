@@ -8,7 +8,7 @@ import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { amountToNumber } from "~/logic";
-import { background, border, md } from "~/theme/variables";
+import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
@@ -22,7 +22,6 @@ const styles = createStyles({
   },
   rowContent: {
     display: "flex",
-    margin: `${md} 0`,
   },
   dropdownArrow: {
     marginTop: 10,
@@ -41,6 +40,7 @@ type Props = OpenType & OpenHandler & Outer;
 
 const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
+    <Block margin="md" />
     <Block className={classes.rowContent}>
       <CircleImage
         icon={getTypeIcon(tx)}
@@ -75,6 +75,7 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
       />
     </Block>
     {open && <TransactionDetails tx={tx} />}
+    <Block margin="md" />
     <Hairline />
   </Block>
 );
