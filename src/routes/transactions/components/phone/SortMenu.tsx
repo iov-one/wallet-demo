@@ -10,11 +10,14 @@ import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
 import { ColumnName, SortItem, SortOrder } from "../../common";
 
-interface Outer extends WithStyles<typeof styles> {
+export interface SortMenuProps {
+  readonly onSetSortOrder: (value: SortItem) => void;
+}
+
+interface Outer extends SortMenuProps, WithStyles<typeof styles> {
   readonly items: ReadonlyArray<Item>;
-  readonly phoneHook: HTMLDivElement | null;
   readonly initial: string;
-  readonly onChangeCallback: (value: SortItem) => void;
+  readonly phoneHook: HTMLDivElement | null;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -41,15 +44,15 @@ class SortMenu extends React.PureComponent<Props, State> {
   };
 
   public readonly onAction = (value: Item) => () => {
-    const { toggle, onChangeCallback } = this.props;
+    const { toggle, onSetSortOrder } = this.props;
 
     if (value.name === this.state.value) {
       this.setState({ value: "" }, () => {
-        onChangeCallback(resetSorting);
+        onSetSortOrder(resetSorting);
       });
     } else {
       this.setState({ value: value.name }, () => {
-        onChangeCallback(value as SortItem);
+        onSetSortOrder(value as SortItem);
       });
     }
 

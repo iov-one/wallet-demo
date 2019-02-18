@@ -34,12 +34,15 @@ export interface TransactionsTableState {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-export interface TransactionTableProps {
+export interface SortingStateProps {
+  readonly sortingState: SortingState;
+}
+
+export interface TransactionTableProps extends SortingStateProps {
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly onChangeRows: (item: Item) => void;
   readonly onPrevPage: () => void;
   readonly onNextPage: () => void;
-  readonly sortingState: SortingState;
 }
 
 export const getTypeIcon = (tx: ProcessedTx): string => {

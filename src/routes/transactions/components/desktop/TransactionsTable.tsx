@@ -3,10 +3,10 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background, shadowColor } from "~/theme/variables";
-import { ColumnName, TransactionsTableState, TransactionTableProps } from "../../common";
+import { TransactionsTableState, TransactionTableProps } from "../../common";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
-import TransactionsTableHeader from "./TransactionsTableHeader";
+import TransactionsTableHeader, { DesktopHeaderProps } from "./TransactionsTableHeader";
 
 const styles = createStyles({
   inner: {
@@ -30,9 +30,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {
-  readonly onSort: (column: ColumnName) => () => void;
-}
+interface Props extends DesktopHeaderProps, TransactionTableProps, WithStyles<typeof styles> {}
 
 class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {

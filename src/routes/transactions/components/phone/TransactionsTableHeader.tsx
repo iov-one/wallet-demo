@@ -5,7 +5,7 @@ import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { ColumnName, SortItem, SortOrder } from "../../common";
-import SortMenu from "./SortMenu";
+import SortMenu, { SortMenuProps } from "./SortMenu";
 
 const styles = createStyles({
   header: {
@@ -14,9 +14,8 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends SortMenuProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
-  readonly onSetSortOrder: (value: SortItem) => void;
 }
 
 const sortItems: ReadonlyArray<SortItem> = [
@@ -34,7 +33,7 @@ const TransactionsTableHeader = ({ classes, phoneHook, onSetSortOrder }: Props) 
         Transactions
       </Typography>
       <Spacer order={1} />
-      <SortMenu phoneHook={phoneHook} items={sortItems} initial="" onChangeCallback={onSetSortOrder} />
+      <SortMenu phoneHook={phoneHook} items={sortItems} initial="" onSetSortOrder={onSetSortOrder} />
     </Block>
     <Block margin="md" />
     <Hairline />

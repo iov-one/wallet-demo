@@ -35,9 +35,12 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
-  readonly phone: boolean;
+export interface ToolBoxProps {
   readonly onDownloadCSV: () => void;
+}
+
+interface Props extends ToolBoxProps, WithStyles<typeof styles> {
+  readonly phone: boolean;
 }
 
 const ToolBox = ({ classes, onDownloadCSV, phone }: Props): JSX.Element => {
@@ -50,7 +53,14 @@ const ToolBox = ({ classes, onDownloadCSV, phone }: Props): JSX.Element => {
   return (
     <Block className={classes.panel} padding="lg">
       {!phone && <Block maxWidth={176} grow />}
-      <Fab variant="extended" size="small" color="secondary" aria-label="Export as CSV" classes={fabClasses} onClick={onDownloadCSV}>
+      <Fab
+        variant="extended"
+        size="small"
+        color="secondary"
+        aria-label="Export as CSV"
+        classes={fabClasses}
+        onClick={onDownloadCSV}
+      >
         <CircleImage icon={download} circleColor={primary} alt="Download" dia={xl} width={16} height={16} />
         <Typography variant="subtitle2" weight="regular" className={classes.text}>
           Export as .CSV

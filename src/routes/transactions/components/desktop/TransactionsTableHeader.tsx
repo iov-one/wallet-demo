@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { ColumnName, SortingState } from "../../common";
+import { ColumnName, SortingStateProps } from "../../common";
 import ColumnHeader from "./ColumnHeader";
 
 const styles = createStyles({
@@ -17,10 +17,11 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
+export interface DesktopHeaderProps {
   readonly onSort: (column: ColumnName) => () => void;
-  readonly sortingState: SortingState;
 }
+
+interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof styles> {}
 
 const TransactionsTableHeader = ({ classes, onSort, sortingState }: Props) => (
   <React.Fragment>

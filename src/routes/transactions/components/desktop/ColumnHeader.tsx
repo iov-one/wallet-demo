@@ -8,7 +8,8 @@ import sortDown from "../../assets/sortDown.svg";
 import sortDownActive from "../../assets/sortDownActive.svg";
 import sortUp from "../../assets/sortUp.svg";
 import sortUpActive from "../../assets/sortUpActive.svg";
-import { ColumnName, SortingState, SortOrder } from "../../common";
+import { ColumnName, SortingStateProps, SortOrder } from "../../common";
+import { DesktopHeaderProps } from "./TransactionsTableHeader";
 
 const styles = createStyles({
   header: {
@@ -26,11 +27,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof styles> {
   readonly name: string;
   readonly alignRight?: boolean;
-  readonly onSort: (column: ColumnName) => () => void;
-  readonly sortingState: SortingState;
 }
 
 const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props) => {

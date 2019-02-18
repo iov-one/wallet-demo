@@ -82,14 +82,20 @@ class Transactions extends React.Component<SelectorProps, State> {
   };
 
   public readonly onDownloadCSV = () => {
-    const csvHeader = '"ID";"Recipient";"Signer";"Quantity";"Fractional Digits";"Token Ticker";"Time";"Received";"Success";"Error"';
-    const csvBody = this.props.txs.map((tx: ProcessedTx) => (
-      `"${tx.id}";"${tx.recipient}";"${tx.signer}";"${tx.amount.quantity}";"${tx.amount.fractionalDigits}";"${tx.amount.tokenTicker}";"${tx.time.toISOString()}";"${tx.received}";"${tx.success}";"${tx.err}"`
-    ));
+    const csvHeader =
+      '"ID";"Recipient";"Signer";"Quantity";"Fractional Digits";"Token Ticker";"Time";"Received";"Success";"Error"';
+    const csvBody = this.props.txs.map(
+      (tx: ProcessedTx) =>
+        `"${tx.id}";"${tx.recipient}";"${tx.signer}";"${tx.amount.quantity}";"${
+          tx.amount.fractionalDigits
+        }";"${tx.amount.tokenTicker}";"${tx.time.toISOString()}";"${tx.received}";"${tx.success}";"${
+          tx.err
+        }"`,
+    );
 
-    const blob = new Blob([`${csvHeader}\n${csvBody.join("\n")}`], {type: "text/plain;charset=utf-8"});
+    const blob = new Blob([`${csvHeader}\n${csvBody.join("\n")}`], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "transactions.csv");
-  }
+  };
 
   public render(): JSX.Element {
     const { txs } = this.props;

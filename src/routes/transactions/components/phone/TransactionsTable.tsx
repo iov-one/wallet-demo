@@ -3,9 +3,10 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background } from "~/theme/variables";
-import { SortItem, TransactionsTableState, TransactionTableProps } from "../../common";
+import { TransactionsTableState, TransactionTableProps } from "../../common";
 import NoTransactions from "../NoTransactions";
 import TransactionTableFooter from "../TransactionTableFooter";
+import { SortMenuProps } from "./SortMenu";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
 
@@ -21,9 +22,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {
-  readonly onSetSortOrder: (value: SortItem) => void;
-}
+interface Props extends SortMenuProps, TransactionTableProps, WithStyles<typeof styles> {}
 
 interface State extends TransactionsTableState {
   readonly phoneSortHook: HTMLDivElement | null;
@@ -46,7 +45,7 @@ class TransactionsTable extends React.Component<Props, State> {
   }
 
   // tslint:disable-next-line:no-empty
-  public readonly onSubmit = async (_: object) => { };
+  public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
     const { classes, onChangeRows, onPrevPage, onNextPage, onSetSortOrder, txs } = this.props;
@@ -58,13 +57,11 @@ class TransactionsTable extends React.Component<Props, State> {
           <TransactionsTableHeader phoneHook={this.state.phoneSortHook} onSetSortOrder={onSetSortOrder} />
           <Block className={classes.column}>
             <div ref={this.phoneSortHookRef} />
-            {txs.length > 0 ?
-              txs.map((tx: ProcessedTx) => (
-                <TransactionRow key={tx.id} tx={tx} />
-              ))
-              :
+            {txs.length > 0 ? (
+              txs.map((tx: ProcessedTx) => <TransactionRow key={tx.id} tx={tx} />)
+            ) : (
               <NoTransactions />
-            }
+            )}
             <div ref={this.phoneHookRef} />
             <TransactionTableFooter
               phone
