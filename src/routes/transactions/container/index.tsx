@@ -104,8 +104,7 @@ class Transactions extends React.Component<SelectorProps, State> {
       if (sortingColumn === ColumnName.Amount) {
         return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * sortingOrder;
       } else if (sortingColumn === ColumnName.Date) {
-        const compareResult = a.time < b.time ? -1 : a.time > b.time ? 1 : 0;
-        return compareResult * sortingOrder;
+        return a.time.getTime() - b.time.getTime() * sortingOrder;
       }
       return 0;
     });
