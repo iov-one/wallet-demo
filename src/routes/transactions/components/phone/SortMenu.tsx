@@ -42,17 +42,20 @@ class SortMenu extends React.PureComponent<Props, State> {
     value: "",
   };
 
-  
   public componentDidMount(): void {
-    const selectedSort = this.props.items.find((item: Item): boolean => {
-      const sortItem = item as SortItem;
-      return sortItem.column in this.props.sortingState 
-        && this.props.sortingState[sortItem.column] === sortItem.order;
-    });
+    const selectedSort = this.props.items.find(
+      (item: Item): boolean => {
+        const sortItem = item as SortItem;
+        return (
+          sortItem.column in this.props.sortingState &&
+          this.props.sortingState[sortItem.column] === sortItem.order
+        );
+      },
+    );
 
     if (selectedSort) {
       this.setState({ value: selectedSort.name });
-    }    
+    }
   }
   public readonly onAction = (value: Item) => () => {
     const { toggle, onSetSortOrder } = this.props;

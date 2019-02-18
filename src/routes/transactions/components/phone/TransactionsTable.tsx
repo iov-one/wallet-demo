@@ -63,11 +63,7 @@ class TransactionsTable extends React.Component<Props, State> {
               <NoTransactions />
             )}
             <div ref={this.phoneHookRef} />
-            <TransactionTableFooter
-              phone
-              phoneHook={this.state.phoneHook}
-              {...restProps}
-            />
+            <TransactionTableFooter phone phoneHook={this.state.phoneHook} {...restProps} />
           </Block>
         </Block>
       </React.Fragment>

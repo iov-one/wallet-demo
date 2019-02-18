@@ -60,10 +60,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
                 <TransactionRow key={tx.id} tx={tx} />
               ))}
               <div ref={this.phoneHookRef} />
-              <TransactionTableFooter
-                phoneHook={this.state.phoneHook}
-                {...restProps}
-              />
+              <TransactionTableFooter phoneHook={this.state.phoneHook} {...restProps} />
             </Block>
           </Block>
           <Block margin="lg" />

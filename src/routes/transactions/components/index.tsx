@@ -13,36 +13,21 @@ interface Props extends SortMenuProps, DesktopHeaderProps, ToolBoxProps, Transac
 }
 
 // tslint:disable-next-line:no-empty
-const onSubmit = (_: object) => { };
+const onSubmit = (_: object) => {};
 
-export const Layout = ({
-  onDownloadCSV,
-  onSort,
-  onSetSortOrder,
-  txs,
-  phone,
-  ...restProps
-}: Props) => (
-    <React.Fragment>
-      <Hairline />
-      <ToolBox phone={phone} onDownloadCSV={onDownloadCSV} />
-      <Hairline />
-      <Form onSubmit={onSubmit}>
-        {() =>
-          phone ? (
-            <PhoneTransactionsTable
-              txs={txs}
-              onSetSortOrder={onSetSortOrder}
-              {...restProps}
-            />
-          ) : (
-              <DesktopTransactionsTable
-                txs={txs}
-                onSort={onSort}
-                {...restProps}
-              />
-            )
-        }
-      </Form>
-    </React.Fragment>
-  );
+export const Layout = ({ onDownloadCSV, onSort, onSetSortOrder, txs, phone, ...restProps }: Props) => (
+  <React.Fragment>
+    <Hairline />
+    <ToolBox phone={phone} onDownloadCSV={onDownloadCSV} />
+    <Hairline />
+    <Form onSubmit={onSubmit}>
+      {() =>
+        phone ? (
+          <PhoneTransactionsTable txs={txs} onSetSortOrder={onSetSortOrder} {...restProps} />
+        ) : (
+          <DesktopTransactionsTable txs={txs} onSort={onSort} {...restProps} />
+        )
+      }
+    </Form>
+  </React.Fragment>
+);
