@@ -1,4 +1,5 @@
 import { Item } from "~/components/forms/SelectField";
+import { isIovAddress } from "~/logic";
 import { ProcessedTx } from "~/store/notifications/state";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
@@ -43,7 +44,7 @@ export interface TransactionTableProps extends SortingStateProps {
   readonly onNextPage: () => void;
 }
 
-export const getTypeIcon = (tx: ProcessedTx): string => {
+export function getTypeIcon(tx: ProcessedTx): string {
   if (tx.received) {
     return fromAddress;
   } else if (!tx.success) {
@@ -53,7 +54,7 @@ export const getTypeIcon = (tx: ProcessedTx): string => {
   }
 };
 
-export const getAddressPrefix = (tx: ProcessedTx): string => {
+export function getAddressPrefix(tx: ProcessedTx): string {
   if (tx.received) {
     return "From";
   } else {
@@ -61,9 +62,9 @@ export const getAddressPrefix = (tx: ProcessedTx): string => {
   }
 };
 
-export const isNativeSender = (sender: string): string => {
-  if (sender.indexOf("*") >= 0) {
-    return sender;
+export function calculateSender(senderAddress: string): string {
+  if (isIovAddress(senderAddress)) {
+    return senderAddress;
   }
 
   return "blockchain address";

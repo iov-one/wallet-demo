@@ -12,7 +12,7 @@ import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
-import { getAddressPrefix, getTypeIcon, isNativeSender, TransactionRowProps } from "../../common";
+import { calculateSender, getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
 import TransactionDetails from "../TransactionDetails";
 
 const styles = createStyles({
@@ -48,7 +48,7 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
       />
       <Block className={classes.cell} padding="md">
         <Typography variant="subtitle2" weight="semibold" gutterBottom>
-          {getAddressPrefix(tx)} {tx.received ? isNativeSender(tx.signer) : isNativeSender(tx.recipient)}
+          {getAddressPrefix(tx)} {tx.received ? calculateSender(tx.signer) : calculateSender(tx.recipient)}
         </Typography>
         <Typography variant="subtitle2" weight="regular" color="secondary">
           {getTime(tx.time as Date)}
