@@ -7,7 +7,7 @@ import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { ProcessedTx } from "~/store/notifications/state";
 import { Layout } from "../components";
 import { ColumnName } from "../components/rowTransactionsBuilder";
-import { SortingState, SortItem, SortOrder } from "../components/sorting";
+import { SortingState, SortOrder } from "../components/sorting";
 import selector, { SelectorProps } from "./selector";
 
 interface State {
@@ -33,22 +33,12 @@ class Transactions extends React.Component<SelectorProps, State> {
     });
   };
 
-  public readonly onSort = (column: ColumnName) => () => {
-    const sortingOrder = column !== this.state.orderBy ? SortOrder.ASC : this.state.order * -1;
-
-    this.onSetSortOrder({
-      name: "Sort item",
-      column,
-      order: sortingOrder,
-    });
-  };
-
-  public readonly onSetSortOrder = (sorting: SortItem): void => {
-    const sortingState: SortingState = { [sorting.column]: sorting.order };
+  public readonly onSort = (orderBy: ColumnName, order: SortOrder) => () => {
+    const sortingState: SortingState = { [orderBy]: order };
 
     this.setState({
-      orderBy: sorting.column,
-      order: sorting.order,
+      orderBy,
+      order,
       sortingState,
     });
   };
@@ -77,18 +67,16 @@ class Transactions extends React.Component<SelectorProps, State> {
   public readonly onDownloadCSV = () => {
     const csvHeader =
       '"ID";"Recipient";"Signer";"Quantity";"Fractional Digits";"Token Ticker";"Time";"Received";"Success";"Error";"Note"';
-    const csvBody = this.props.txs.map(
-      (tx: ProcessedTx) => {
-        const parties = `"${tx.id}";"${tx.recipient}";"${tx.signer}";`;
-        const payment = `"${tx.amount.quantity}";"${tx.amount.fractionalDigits}";"${tx.amount.tokenTicker}";`;
-        const date = `"${tx.time.toISOString()}";`;
-        const status = `"${tx.received}";"${tx.success}";"${tx.err}";"${tx.memo}"`;
+    const csvBody = this.props.txs.map((tx: ProcessedTx) => {
+      const parties = `"${tx.id}";"${tx.recipient}";"${tx.signer}";`;
+      const payment = `"${tx.amount.quantity}";"${tx.amount.fractionalDigits}";"${tx.amount.tokenTicker}";`;
+      const date = `"${tx.time.toISOString()}";`;
+      const status = `"${tx.received}";"${tx.success}";"${tx.err}";"${tx.memo}"`;
 
-        const txRow = `${parties}${payment}${date}${status}`;
+      const txRow = `${parties}${payment}${date}${status}`;
 
-        return txRow;
-      }
-    );
+      return txRow;
+    });
 
     const blob = new Blob([`${csvHeader}\n${csvBody.join("\n")}`], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "transactions.csv");
@@ -132,7 +120,6 @@ class Transactions extends React.Component<SelectorProps, State> {
                 onNextPage={this.onNextPage}
                 onSort={this.onSort}
                 sortingState={sortingState}
-                onSetSortOrder={this.onSetSortOrder}
                 onDownloadCSV={this.onDownloadCSV}
               />
             </PageMenu>

@@ -6,7 +6,6 @@ import { background } from "~/theme/variables";
 import NoTransactions from "../NoTransactions";
 import { TransactionsTableState, TransactionTableProps } from "../rowTransactionsBuilder";
 import TransactionTableFooter from "../TransactionTableFooter";
-import { SortMenuProps } from "./SortMenu";
 import TransactionRow from "./TransactionRow";
 import TransactionsTableHeader from "./TransactionsTableHeader";
 
@@ -22,7 +21,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends SortMenuProps, TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
 
 interface State extends TransactionsTableState {
   readonly phoneSortHook: HTMLDivElement | null;

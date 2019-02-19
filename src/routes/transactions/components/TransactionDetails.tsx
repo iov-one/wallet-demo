@@ -5,7 +5,7 @@ import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
 import { ProcessedTx } from "~/store/notifications/state";
-import { getAddressPrefix } from "../common";
+import { getAddressPrefix } from "./rowTransactionsBuilder";
 
 const styles = createStyles({
   details: {

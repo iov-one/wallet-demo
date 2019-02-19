@@ -10,7 +10,6 @@ import sortUp from "../../assets/sortUp.svg";
 import sortUpActive from "../../assets/sortUpActive.svg";
 import { ColumnName } from "../rowTransactionsBuilder";
 import { SortingStateProps, SortOrder } from "../sorting";
-import { DesktopHeaderProps } from "./TransactionsTableHeader";
 
 const styles = createStyles({
   header: {
@@ -28,7 +27,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof styles> {
+interface Props extends SortingStateProps, WithStyles<typeof styles> {
   readonly name: string;
   readonly alignRight?: boolean;
 }
@@ -38,7 +37,10 @@ const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props
   const sortOrder = sortingState && name in sortingState ? sortingState[name] : undefined;
 
   return (
-    <Block className={headerClasses} onClick={onSort(name as ColumnName)}>
+    <Block
+      className={headerClasses}
+      onClick={onSort(name as ColumnName, sortOrder ? sortOrder * -1 : SortOrder.ASC)}
+    >
       <Block className={classes.sorting} padding="sm">
         <Img src={sortOrder === SortOrder.ASC ? sortUpActive : sortUp} alt="Descending sort" />
         <Block margin="xs" />

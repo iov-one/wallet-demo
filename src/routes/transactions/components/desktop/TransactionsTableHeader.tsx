@@ -18,11 +18,7 @@ const styles = createStyles({
   },
 });
 
-export interface DesktopHeaderProps {
-  readonly onSort: (column: ColumnName) => () => void;
-}
-
-interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof styles> {}
+interface Props extends SortingStateProps, WithStyles<typeof styles> {}
 
 const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (
   <React.Fragment>

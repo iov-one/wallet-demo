@@ -19,7 +19,6 @@ export interface TransactionsTableState {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-
 export interface TransactionTableProps extends SortingStateProps {
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly onChangeRows: (item: Item) => void;
@@ -35,7 +34,7 @@ export function getTypeIcon(tx: ProcessedTx): string {
   } else {
     return toAddress;
   }
-};
+}
 
 export function getAddressPrefix(tx: ProcessedTx): string {
   if (tx.received) {
@@ -43,7 +42,7 @@ export function getAddressPrefix(tx: ProcessedTx): string {
   } else {
     return "To";
   }
-};
+}
 
 export function calculateSender(senderAddress: string): string {
   if (isIovAddress(senderAddress)) {
@@ -51,4 +50,4 @@ export function calculateSender(senderAddress: string): string {
   }
 
   return "blockchain address";
-};
+}

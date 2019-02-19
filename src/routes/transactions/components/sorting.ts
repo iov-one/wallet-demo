@@ -3,6 +3,7 @@ import { ColumnName } from "./rowTransactionsBuilder";
 
 export interface SortingStateProps {
   readonly sortingState: SortingState;
+  readonly onSort: (orderBy: ColumnName, order: SortOrder) => () => void;
 }
 
 export interface SortingState {
@@ -16,6 +17,6 @@ export enum SortOrder {
 }
 
 export interface SortItem extends Item {
-  readonly column: ColumnName;
+  readonly orderBy: ColumnName;
   readonly order: SortOrder;
 }

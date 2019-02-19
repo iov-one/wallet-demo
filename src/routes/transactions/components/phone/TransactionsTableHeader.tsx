@@ -6,7 +6,7 @@ import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { ColumnName } from "../rowTransactionsBuilder";
 import { SortingStateProps, SortItem, SortOrder } from "../sorting";
-import SortMenu, { SortMenuProps } from "./SortMenu";
+import SortMenu from "./SortMenu";
 
 const styles = createStyles({
   header: {
@@ -15,15 +15,15 @@ const styles = createStyles({
   },
 });
 
-interface Props extends SortMenuProps, SortingStateProps, WithStyles<typeof styles> {
+interface Props extends SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
 }
 
 const sortItems: ReadonlyArray<SortItem> = [
-  { name: "Date ascending", column: ColumnName.Date, order: SortOrder.ASC },
-  { name: "Date descending", column: ColumnName.Date, order: SortOrder.DESC },
-  { name: "Ticker ascending", column: ColumnName.Amount, order: SortOrder.ASC },
-  { name: "Ticker descending", column: ColumnName.Amount, order: SortOrder.DESC },
+  { name: "Date ascending", orderBy: ColumnName.Date, order: SortOrder.ASC },
+  { name: "Date descending", orderBy: ColumnName.Date, order: SortOrder.DESC },
+  { name: "Ticker ascending", orderBy: ColumnName.Amount, order: SortOrder.ASC },
+  { name: "Ticker descending", orderBy: ColumnName.Amount, order: SortOrder.DESC },
 ];
 
 const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (

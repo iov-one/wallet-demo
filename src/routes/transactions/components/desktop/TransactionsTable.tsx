@@ -6,7 +6,7 @@ import { background, shadowColor } from "~/theme/variables";
 import { TransactionsTableState, TransactionTableProps } from "../rowTransactionsBuilder";
 import TransactionTableFooter from "../TransactionTableFooter";
 import TransactionRow from "./TransactionRow";
-import TransactionsTableHeader, { DesktopHeaderProps } from "./TransactionsTableHeader";
+import TransactionsTableHeader from "./TransactionsTableHeader";
 
 const styles = createStyles({
   inner: {
@@ -30,7 +30,7 @@ const styles = createStyles({
   },
 });
 
-interface Props extends DesktopHeaderProps, TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
 
 class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   public readonly state = {
