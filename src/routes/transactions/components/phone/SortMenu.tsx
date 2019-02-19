@@ -8,7 +8,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
-import { ColumnName, SortingStateProps, SortItem, SortOrder } from "../../common";
+import { SortingStateProps, SortItem } from "../../common";
 
 export interface SortMenuProps {
   readonly onSetSortOrder: (value: SortItem) => void;
@@ -30,12 +30,6 @@ const styles = createStyles({
     flexShrink: 0,
   },
 });
-
-const resetSorting: SortItem = {
-  name: "",
-  column: ColumnName.NoColumn,
-  order: SortOrder.NoOrder,
-};
 
 class SortMenu extends React.PureComponent<Props, State> {
   public readonly state = {
@@ -60,17 +54,10 @@ class SortMenu extends React.PureComponent<Props, State> {
   public readonly onAction = (value: Item) => () => {
     const { toggle, onSetSortOrder } = this.props;
 
-    if (value.name === this.state.value) {
-      this.setState({ value: "" }, () => {
-        onSetSortOrder(resetSorting);
-      });
-    } else {
-      this.setState({ value: value.name }, () => {
-        onSetSortOrder(value as SortItem);
-      });
-    }
-
-    toggle();
+    this.setState({ value: value.name }, () => {
+      onSetSortOrder(value as SortItem);
+      toggle();
+    });
   };
 
   public render(): JSX.Element {

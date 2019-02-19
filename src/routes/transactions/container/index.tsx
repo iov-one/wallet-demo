@@ -12,8 +12,8 @@ import selector, { SelectorProps } from "./selector";
 interface State {
   readonly rowsPerPage: number;
   readonly pageNumber: number;
-  readonly sortingColumn: ColumnName;
-  readonly sortingOrder: SortOrder;
+  readonly orderBy: ColumnName;
+  readonly order: SortOrder;
   readonly sortingState: SortingState;
 }
 
@@ -21,9 +21,9 @@ class Transactions extends React.Component<SelectorProps, State> {
   public readonly state = {
     rowsPerPage: 5,
     pageNumber: 0,
-    sortingColumn: ColumnName.NoColumn,
-    sortingOrder: 0,
-    sortingState: {},
+    orderBy: ColumnName.Date,
+    order: SortOrder.DESC,
+    sortingState: { [ColumnName.Date]: SortOrder.DESC },
   };
 
   public readonly onChangeRows = (item: Item) => {
@@ -33,15 +33,7 @@ class Transactions extends React.Component<SelectorProps, State> {
   };
 
   public readonly onSort = (column: ColumnName) => () => {
-    let sortingOrder = this.state.sortingOrder;
-
-    if (column !== this.state.sortingColumn) {
-      sortingOrder = SortOrder.Ascending;
-    } else if (sortingOrder === 1) {
-      sortingOrder = SortOrder.Descending;
-    } else {
-      sortingOrder++;
-    }
+    const sortingOrder = column !== this.state.orderBy ? SortOrder.ASC : this.state.order * -1;
 
     this.onSetSortOrder({
       name: "Sort item",
@@ -54,8 +46,8 @@ class Transactions extends React.Component<SelectorProps, State> {
     const sortingState: SortingState = { [sorting.column]: sorting.order };
 
     this.setState({
-      sortingColumn: sorting.column,
-      sortingOrder: sorting.order,
+      orderBy: sorting.column,
+      order: sorting.order,
       sortingState,
     });
   };
@@ -100,17 +92,17 @@ class Transactions extends React.Component<SelectorProps, State> {
   public render(): JSX.Element {
     const { txs } = this.props;
 
-    const { rowsPerPage, pageNumber, sortingColumn, sortingOrder, sortingState } = this.state;
+    const { rowsPerPage, pageNumber, orderBy, order, sortingState } = this.state;
 
     // tslint:disable-next-line:readonly-array
     const sortedTx = (txs as ProcessedTx[]).sort((a: ProcessedTx | undefined, b: ProcessedTx | undefined) => {
       if (!a || !b) {
         return 0;
       }
-      if (sortingColumn === ColumnName.Amount) {
-        return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * sortingOrder;
-      } else if (sortingColumn === ColumnName.Date) {
-        return a.time.getTime() - b.time.getTime() * sortingOrder;
+      if (orderBy === ColumnName.Amount) {
+        return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
+      } else if (orderBy === ColumnName.Date) {
+        return a.time.getTime() - b.time.getTime() * order;
       }
       return 0;
     });

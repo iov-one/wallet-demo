@@ -19,10 +19,10 @@ interface Props extends SortMenuProps, SortingStateProps, WithStyles<typeof styl
 }
 
 const sortItems: ReadonlyArray<SortItem> = [
-  { name: "Date ascending", column: ColumnName.Date, order: SortOrder.Ascending },
-  { name: "Date descending", column: ColumnName.Date, order: SortOrder.Descending },
-  { name: "Ticker ascending", column: ColumnName.Amount, order: SortOrder.Ascending },
-  { name: "Ticker descending", column: ColumnName.Amount, order: SortOrder.Descending },
+  { name: "Date ascending", column: ColumnName.Date, order: SortOrder.ASC },
+  { name: "Date descending", column: ColumnName.Date, order: SortOrder.DESC },
+  { name: "Ticker ascending", column: ColumnName.Amount, order: SortOrder.ASC },
+  { name: "Ticker descending", column: ColumnName.Amount, order: SortOrder.DESC },
 ];
 
 const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (

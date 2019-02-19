@@ -5,15 +5,13 @@ import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 
 export enum ColumnName {
-  NoColumn = "",
   Date = "Date",
   Amount = "Amount",
 }
 
 export enum SortOrder {
-  NoOrder = 0,
-  Ascending = 1,
-  Descending = -1,
+  ASC = 1,
+  DESC = -1,
 }
 
 export interface SortItem extends Item {

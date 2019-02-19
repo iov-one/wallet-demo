@@ -18,7 +18,7 @@ const txs: ReadonlyArray<ProcessedTx> = [
     time: new ReadonlyDate("2018-11-13T05:35:03.763Z"),
     success: true,
     id: "tx1",
-    memo: "Sample note"
+    memo: "Sample note",
   },
   {
     received: false,
@@ -37,7 +37,7 @@ const txs: ReadonlyArray<ProcessedTx> = [
     time: new ReadonlyDate("2018-12-24T10:51:33.763Z"),
     success: false,
     id: "tx3",
-    memo: "Another note"
+    memo: "Another note",
   },
   {
     received: true,
@@ -47,7 +47,7 @@ const txs: ReadonlyArray<ProcessedTx> = [
     time: new ReadonlyDate("2018-11-13T05:35:03.763Z"),
     success: true,
     id: "tx4",
-    memo: "And again note"
+    memo: "And again note",
   },
   {
     received: false,

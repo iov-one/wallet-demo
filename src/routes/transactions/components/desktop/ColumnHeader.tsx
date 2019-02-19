@@ -34,14 +34,14 @@ interface Props extends DesktopHeaderProps, SortingStateProps, WithStyles<typeof
 
 const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props) => {
   const headerClasses = classNames(classes.header, { [classes.alignRight]: alignRight });
-  const sortOrder = sortingState && name in sortingState ? sortingState[name] : SortOrder.NoOrder;
+  const sortOrder = sortingState && name in sortingState ? sortingState[name] : undefined;
 
   return (
     <Block className={headerClasses} onClick={onSort(name as ColumnName)}>
       <Block className={classes.sorting} padding="sm">
-        <Img src={sortOrder === SortOrder.Ascending ? sortUpActive : sortUp} alt="Descending sort" />
+        <Img src={sortOrder === SortOrder.ASC ? sortUpActive : sortUp} alt="Descending sort" />
         <Block margin="xs" />
-        <Img src={sortOrder === SortOrder.Descending ? sortDownActive : sortDown} alt="Ascending sort" />
+        <Img src={sortOrder === SortOrder.DESC ? sortDownActive : sortDown} alt="Ascending sort" />
       </Block>
       <Typography variant="subtitle2" weight="semibold">
         {name}
