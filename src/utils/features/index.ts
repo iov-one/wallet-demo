@@ -1,1 +1,1 @@
-export const TXS_FEATURE_FLAG = false;
+export const TXS_FEATURE_FLAG = true;
