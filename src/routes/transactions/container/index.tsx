@@ -75,14 +75,18 @@ class Transactions extends React.Component<SelectorProps, State> {
 
   public readonly onDownloadCSV = () => {
     const csvHeader =
-      '"ID";"Recipient";"Signer";"Quantity";"Fractional Digits";"Token Ticker";"Time";"Received";"Success";"Error"';
+      '"ID";"Recipient";"Signer";"Quantity";"Fractional Digits";"Token Ticker";"Time";"Received";"Success";"Error";"Note"';
     const csvBody = this.props.txs.map(
-      (tx: ProcessedTx) =>
-        `"${tx.id}";"${tx.recipient}";"${tx.signer}";"${tx.amount.quantity}";"${
-          tx.amount.fractionalDigits
-        }";"${tx.amount.tokenTicker}";"${tx.time.toISOString()}";"${tx.received}";"${tx.success}";"${
-          tx.err
-        }"`,
+      (tx: ProcessedTx) => {
+        const parties = `"${tx.id}";"${tx.recipient}";"${tx.signer}";`;
+        const payment = `"${tx.amount.quantity}";"${tx.amount.fractionalDigits}";"${tx.amount.tokenTicker}";`;
+        const date = `"${tx.time.toISOString()}";`;
+        const status = `"${tx.received}";"${tx.success}";"${tx.err}";"${tx.memo}"`;
+
+        const txRow = `${parties}${payment}${date}${status}`;
+
+        return txRow;
+      }
     );
 
     const blob = new Blob([`${csvHeader}\n${csvBody.join("\n")}`], { type: "text/plain;charset=utf-8" });
@@ -99,11 +103,14 @@ class Transactions extends React.Component<SelectorProps, State> {
       if (!a || !b) {
         return 0;
       }
-      if (orderBy === ColumnName.Amount) {
-        return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
-      } else if (orderBy === ColumnName.Date) {
-        return a.time.getTime() - b.time.getTime() * order;
+
+      switch (orderBy) {
+        case ColumnName.Amount:
+          return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
+        case ColumnName.Date:
+          return a.time.getTime() - b.time.getTime() * order;
       }
+
       return 0;
     });
 
