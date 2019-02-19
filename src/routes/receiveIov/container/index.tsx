@@ -1,18 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import PageMenu from "~/components/pages/PageMenu";
 import { SuggestionButton } from "~/components/subComponents/buttons";
 import { IOV_NAMESPACE } from "~/logic";
 import { RECEIVE_FROM_NON_IOV_USER } from "~/routes";
-import ReceiveIovLayout from "~/routes/receiveIov/components";
 import { history } from "~/store";
 import selector, { SelectorProps } from "./selector";
 
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+import Layout from "../components/ReceiveIOVForm";
 
 class RecieveIov extends React.Component<SelectorProps> {
   public readonly onReceiveExpernal = () => {
@@ -25,9 +20,7 @@ class RecieveIov extends React.Component<SelectorProps> {
 
     return (
       <PageMenu phoneFullWidth>
-        <Layout>
-          <ReceiveIovLayout iovAddress={iovAddress} />
-        </Layout>
+        <Layout iovAddress={iovAddress} />
         <SuggestionButton
           suggestionText="Receiving from outside IOV?"
           buttonText="View your address"
