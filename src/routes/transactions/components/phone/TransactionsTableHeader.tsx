@@ -4,7 +4,8 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { ColumnName, SortingStateProps, SortItem, SortOrder } from "../../common";
+import { ColumnName } from "../rowTransactionsBuilder";
+import { SortingStateProps, SortItem, SortOrder } from "../sorting";
 import SortMenu, { SortMenuProps } from "./SortMenu";
 
 const styles = createStyles({

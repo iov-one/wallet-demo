@@ -4,9 +4,9 @@ import { stringToAmount } from "~/logic";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
-import { calculateSender, getAddressPrefix, getTypeIcon } from "../common";
+import { calculateSender, getAddressPrefix, getTypeIcon } from "../components/rowTransactionsBuilder";
 
-describe("Route -> Transaction -> Common", () => {
+describe("Route -> Transaction -> Component", () => {
   describe("calculateSender", () => {
     it("should return sender name if name belongs to BNS", () => {
       expect(calculateSender("alex*iov")).toBe("alex*iov");

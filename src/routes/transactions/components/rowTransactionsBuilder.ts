@@ -4,25 +4,11 @@ import { ProcessedTx } from "~/store/notifications/state";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
+import { SortingStateProps } from "../components/sorting";
 
 export enum ColumnName {
   Date = "Date",
   Amount = "Amount",
-}
-
-export enum SortOrder {
-  ASC = 1,
-  DESC = -1,
-}
-
-export interface SortItem extends Item {
-  readonly column: ColumnName;
-  readonly order: SortOrder;
-}
-
-export interface SortingState {
-  // tslint:disable-next-line:readonly-keyword
-  [index: string]: SortOrder;
 }
 
 export interface TransactionRowProps {
@@ -33,9 +19,6 @@ export interface TransactionsTableState {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-export interface SortingStateProps {
-  readonly sortingState: SortingState;
-}
 
 export interface TransactionTableProps extends SortingStateProps {
   readonly txs: ReadonlyArray<ProcessedTx>;

@@ -5,8 +5,9 @@ import { Item } from "~/components/forms/SelectField";
 import PageMenu from "~/components/pages/PageMenu";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { ProcessedTx } from "~/store/notifications/state";
-import { ColumnName, SortingState, SortItem, SortOrder } from "../common";
 import { Layout } from "../components";
+import { ColumnName } from "../components/rowTransactionsBuilder";
+import { SortingState, SortItem, SortOrder } from "../components/sorting";
 import selector, { SelectorProps } from "./selector";
 
 interface State {

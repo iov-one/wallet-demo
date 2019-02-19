@@ -8,7 +8,8 @@ import sortDown from "../../assets/sortDown.svg";
 import sortDownActive from "../../assets/sortDownActive.svg";
 import sortUp from "../../assets/sortUp.svg";
 import sortUpActive from "../../assets/sortUpActive.svg";
-import { ColumnName, SortingStateProps, SortOrder } from "../../common";
+import { ColumnName } from "../rowTransactionsBuilder";
+import { SortingStateProps, SortOrder } from "../sorting";
 import { DesktopHeaderProps } from "./TransactionsTableHeader";
 
 const styles = createStyles({

@@ -12,7 +12,7 @@ import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
 import dropdownArrow from "../../assets/dropdownArrow.svg";
 import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
-import { calculateSender, getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
+import { calculateSender, getAddressPrefix, getTypeIcon, TransactionRowProps } from "../rowTransactionsBuilder";
 import TransactionDetails from "../TransactionDetails";
 
 const styles = createStyles({

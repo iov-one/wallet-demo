@@ -8,7 +8,7 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
-import { SortingStateProps, SortItem } from "../../common";
+import { SortingStateProps, SortItem } from "../sorting";
 
 export interface SortMenuProps {
   readonly onSetSortOrder: (value: SortItem) => void;
