@@ -4,8 +4,14 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { ColumnName } from "../rowTransactionsBuilder";
-import { SortingStateProps, SortItem, SortOrder } from "../sorting";
+import {
+  ORDER_ASC,
+  ORDER_DESC,
+  SortingStateProps,
+  SortItem,
+  TX_DATE_COLUMN,
+  TX_TICKER_COLUMN,
+} from "../sorting";
 import SortMenu from "./SortMenu";
 
 const styles = createStyles({
@@ -20,10 +26,10 @@ interface Props extends SortingStateProps, WithStyles<typeof styles> {
 }
 
 const sortItems: ReadonlyArray<SortItem> = [
-  { name: "Date ascending", orderBy: ColumnName.Date, order: SortOrder.ASC },
-  { name: "Date descending", orderBy: ColumnName.Date, order: SortOrder.DESC },
-  { name: "Ticker ascending", orderBy: ColumnName.Amount, order: SortOrder.ASC },
-  { name: "Ticker descending", orderBy: ColumnName.Amount, order: SortOrder.DESC },
+  { name: "Date ascending", orderBy: TX_DATE_COLUMN, order: ORDER_ASC },
+  { name: "Date descending", orderBy: TX_DATE_COLUMN, order: ORDER_DESC },
+  { name: "Ticker ascending", orderBy: TX_TICKER_COLUMN, order: ORDER_ASC },
+  { name: "Ticker descending", orderBy: TX_TICKER_COLUMN, order: ORDER_DESC },
 ];
 
 const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (

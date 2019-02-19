@@ -6,14 +6,20 @@ import PageMenu from "~/components/pages/PageMenu";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { ProcessedTx } from "~/store/notifications/state";
 import { Layout } from "../components";
-import { ColumnName } from "../components/rowTransactionsBuilder";
-import { SortingState, SortOrder } from "../components/sorting";
+import {
+  ORDER_DESC,
+  SortingState,
+  SortOrder,
+  TX_DATE_COLUMN,
+  TX_TICKER_COLUMN,
+  TxsOrder,
+} from "../components/sorting";
 import selector, { SelectorProps } from "./selector";
 
 interface State {
   readonly rowsPerPage: number;
   readonly pageNumber: number;
-  readonly orderBy: ColumnName;
+  readonly orderBy: TxsOrder;
   readonly order: SortOrder;
   readonly sortingState: SortingState;
 }
@@ -22,9 +28,9 @@ class Transactions extends React.Component<SelectorProps, State> {
   public readonly state = {
     rowsPerPage: 5,
     pageNumber: 0,
-    orderBy: ColumnName.Date,
-    order: SortOrder.DESC,
-    sortingState: { [ColumnName.Date]: SortOrder.DESC },
+    orderBy: TX_DATE_COLUMN as TxsOrder,
+    order: ORDER_DESC as SortOrder,
+    sortingState: { [TX_DATE_COLUMN]: ORDER_DESC as SortOrder },
   };
 
   public readonly onChangeRows = (item: Item) => {
@@ -33,7 +39,7 @@ class Transactions extends React.Component<SelectorProps, State> {
     });
   };
 
-  public readonly onSort = (orderBy: ColumnName, order: SortOrder) => () => {
+  public readonly onSort = (orderBy: TxsOrder, order: SortOrder) => () => {
     const sortingState: SortingState = { [orderBy]: order };
 
     this.setState({
@@ -87,17 +93,17 @@ class Transactions extends React.Component<SelectorProps, State> {
 
     const { rowsPerPage, pageNumber, orderBy, order, sortingState } = this.state;
 
-    // tslint:disable-next-line:readonly-array
-    const sortedTx = (txs as ProcessedTx[]).sort((a: ProcessedTx | undefined, b: ProcessedTx | undefined) => {
+    const sortedTx = txs.slice(0).sort((a: ProcessedTx | undefined, b: ProcessedTx | undefined) => {
       if (!a || !b) {
         return 0;
       }
 
-      switch (orderBy) {
-        case ColumnName.Amount:
-          return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
-        case ColumnName.Date:
-          return a.time.getTime() - b.time.getTime() * order;
+      if (orderBy === TX_TICKER_COLUMN) {
+        return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
+      }
+
+      if (orderBy === TX_DATE_COLUMN) {
+        return (a.time < b.time ? -1 : a.time > b.time ? 1 : 0) * order;
       }
 
       return 0;

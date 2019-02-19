@@ -6,11 +6,6 @@ import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
 import { SortingStateProps } from "../components/sorting";
 
-export enum ColumnName {
-  Date = "Date",
-  Amount = "Amount",
-}
-
 export interface TransactionRowProps {
   readonly tx: ProcessedTx;
 }

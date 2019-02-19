@@ -52,7 +52,7 @@ class SortMenu extends React.PureComponent<Props, State> {
     const sortItem = value as SortItem;
 
     this.setState({ value: value.name }, () => {
-      onSort(sortItem.orderBy, sortItem.order);
+      onSort(sortItem.orderBy, sortItem.order)();
       toggle();
     });
   };

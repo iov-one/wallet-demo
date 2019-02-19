@@ -8,8 +8,7 @@ import sortDown from "../../assets/sortDown.svg";
 import sortDownActive from "../../assets/sortDownActive.svg";
 import sortUp from "../../assets/sortUp.svg";
 import sortUpActive from "../../assets/sortUpActive.svg";
-import { ColumnName } from "../rowTransactionsBuilder";
-import { SortingStateProps, SortOrder } from "../sorting";
+import { ORDER_ASC, ORDER_DESC, SortingStateProps, SortOrder, TxsOrder } from "../sorting";
 
 const styles = createStyles({
   header: {
@@ -39,12 +38,12 @@ const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props
   return (
     <Block
       className={headerClasses}
-      onClick={onSort(name as ColumnName, sortOrder ? sortOrder * -1 : SortOrder.ASC)}
+      onClick={onSort(name as TxsOrder, sortOrder ? ((sortOrder * -1) as SortOrder) : ORDER_ASC)}
     >
       <Block className={classes.sorting} padding="sm">
-        <Img src={sortOrder === SortOrder.ASC ? sortUpActive : sortUp} alt="Descending sort" />
+        <Img src={sortOrder === ORDER_ASC ? sortUpActive : sortUp} alt="Descending sort" />
         <Block margin="xs" />
-        <Img src={sortOrder === SortOrder.DESC ? sortDownActive : sortDown} alt="Ascending sort" />
+        <Img src={sortOrder === ORDER_DESC ? sortDownActive : sortDown} alt="Ascending sort" />
       </Block>
       <Typography variant="subtitle2" weight="semibold">
         {name}
