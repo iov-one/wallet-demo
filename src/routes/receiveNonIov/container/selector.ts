@@ -1,8 +1,12 @@
 import { createSelector, createStructuredSelector, Selector } from "reselect";
+import { Item } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
 import { ChainTicker, getAllAccounts, getChainTickers } from "~/selectors";
-import { TickerWithAddress } from "./index";
+
+export interface TickerWithAddress extends Item {
+  readonly address: string;
+}
 
 export interface SelectorProps {
   readonly tickersList: ReadonlyArray<TickerWithAddress>;
