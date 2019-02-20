@@ -4,11 +4,17 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import sortDown from "../../../../assets/sortDown.svg";
-import sortDownActive from "../../../../assets/sortDownActive.svg";
-import sortUp from "../../../../assets/sortUp.svg";
-import sortUpActive from "../../../../assets/sortUpActive.svg";
-import { calculateOppositeOrder, ORDER_ASC, ORDER_DESC, SortingStateProps, TxsOrder } from "../../../sorting";
+import sortDown from "~/routes/transactions/assets/sortDown.svg";
+import sortDownActive from "~/routes/transactions/assets/sortDownActive.svg";
+import sortUp from "~/routes/transactions/assets/sortUp.svg";
+import sortUpActive from "~/routes/transactions/assets/sortUpActive.svg";
+import {
+  calculateOppositeOrder,
+  ORDER_ASC,
+  ORDER_DESC,
+  SortingStateProps,
+  TxsOrder,
+} from "~/routes/transactions/components/sorting";
 
 const styles = createStyles({
   header: {

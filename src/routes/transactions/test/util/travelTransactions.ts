@@ -6,7 +6,6 @@ import { history } from "~/store";
 import { createDom, expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-
 export const travelToTransactions = async (store: Store): Promise<React.Component> => {
   const account = randomString(6);
   await processBalance(store, account);
@@ -20,4 +19,3 @@ export const travelToTransactions = async (store: Store): Promise<React.Componen
 
   return dom;
 };
-

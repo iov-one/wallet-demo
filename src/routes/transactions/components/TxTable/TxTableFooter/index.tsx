@@ -6,8 +6,8 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import arrowLeft from "../../../assets/arrowLeft.svg";
-import arrowRight from "../../../assets/arrowRight.svg";
+import arrowLeft from "~/routes/transactions/assets/arrowLeft.svg";
+import arrowRight from "~/routes/transactions/assets/arrowRight.svg";
 
 const styles = createStyles({
   footer: {

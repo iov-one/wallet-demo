@@ -8,10 +8,10 @@ import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { amountToNumber } from "~/logic";
+import dropdownArrow from "~/routes/transactions/assets/dropdownArrow.svg";
+import dropdownArrowClose from "~/routes/transactions/assets/dropdownArrowClose.svg";
 import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
-import dropdownArrow from "../../../assets/dropdownArrow.svg";
-import dropdownArrowClose from "../../../assets/dropdownArrowClose.svg";
 import { calculateSender, getAddressPrefix, getTypeIcon, TxTableRowProps } from "../rowTxBuilder";
 import TxDetails from "../TxDetails";
 

@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { SortingStateProps } from "../../sorting";
+import { SortingStateProps } from "~/routes/transactions/components/sorting";
 import SortMenu, { buildNameFrom } from "./utils/SortMenuPhone";
 
 const styles = createStyles({

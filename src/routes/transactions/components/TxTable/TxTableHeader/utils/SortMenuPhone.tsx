@@ -6,9 +6,15 @@ import SelectItems from "~/components/forms/SelectField/SelectItems";
 import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
+import sorting from "~/routes/transactions/assets/sorting.svg";
+import {
+  ORDER_ASC,
+  ORDER_DESC,
+  SortingStateProps,
+  SortOrder,
+  TxsOrder,
+} from "~/routes/transactions/components/sorting";
 import { showPhone } from "~/utils/reactportals";
-import sorting from "../../../../assets/sorting.svg";
-import { ORDER_ASC, ORDER_DESC, SortingStateProps, SortOrder, TxsOrder } from "../../../sorting";
 
 export function buildNameFrom(orderBy: TxsOrder, order: SortOrder): string {
   return `${orderBy} ${order === ORDER_ASC ? "ascending" : "descending"}`;

@@ -1,9 +1,9 @@
 import { Item } from "~/components/forms/SelectField";
 import { isIovAddress } from "~/logic";
+import fromAddress from "~/routes/transactions/assets/fromAddress.svg";
+import toAddress from "~/routes/transactions/assets/toAddress.svg";
+import toAddressRejected from "~/routes/transactions/assets/toAddressRejected.svg";
 import { ProcessedTx } from "~/store/notifications/state";
-import fromAddress from "../../assets/fromAddress.svg";
-import toAddress from "../../assets/toAddress.svg";
-import toAddressRejected from "../../assets/toAddressRejected.svg";
 import { SortingStateProps } from "../sorting";
 
 export interface TxTableRowProps {
