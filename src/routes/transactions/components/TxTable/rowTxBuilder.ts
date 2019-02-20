@@ -1,20 +1,20 @@
 import { Item } from "~/components/forms/SelectField";
 import { isIovAddress } from "~/logic";
 import { ProcessedTx } from "~/store/notifications/state";
-import fromAddress from "../assets/fromAddress.svg";
-import toAddress from "../assets/toAddress.svg";
-import toAddressRejected from "../assets/toAddressRejected.svg";
-import { SortingStateProps } from "../components/sorting";
+import fromAddress from "../../assets/fromAddress.svg";
+import toAddress from "../../assets/toAddress.svg";
+import toAddressRejected from "../../assets/toAddressRejected.svg";
+import { SortingStateProps } from "../sorting";
 
-export interface TransactionRowProps {
+export interface TxTableRowProps {
   readonly tx: ProcessedTx;
 }
 
-export interface TransactionsTableState {
+export interface TxTableState {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-export interface TransactionTableProps extends SortingStateProps {
+export interface TxTableProps extends SortingStateProps {
   readonly txs: ReadonlyArray<ProcessedTx>;
   readonly onChangeRows: (item: Item) => void;
   readonly onPrevPage: () => void;

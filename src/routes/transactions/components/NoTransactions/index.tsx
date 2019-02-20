@@ -3,7 +3,7 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
-import noTransactions from "../assets/noTransactions.svg";
+import noTransactions from "../../assets/noTransactions.svg";
 
 const styles = createStyles({
   panel: {

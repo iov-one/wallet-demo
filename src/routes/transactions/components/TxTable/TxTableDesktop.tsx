@@ -3,10 +3,10 @@ import * as React from "react";
 import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background, shadowColor } from "~/theme/variables";
-import { TransactionsTableState, TransactionTableProps } from "../rowTransactionsBuilder";
-import TransactionTableFooter from "../TransactionTableFooter";
-import TransactionRow from "./TransactionRow";
-import TransactionsTableHeader from "./TransactionsTableHeader";
+import { TxTableProps, TxTableState } from "./rowTxBuilder";
+import TxTableFooter from "./TxTableFooter";
+import TxTableHeaderDesktop from "./TxTableHeader/TxTableHeaderDesktop";
+import TxTableRowDesktop from "./TxTableRow/TxTableRowDesktop";
 
 const styles = createStyles({
   inner: {
@@ -30,9 +30,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TxTableProps, WithStyles<typeof styles> {}
 
-class TransactionsTable extends React.Component<Props, TransactionsTableState> {
+class TxTableDesktop extends React.Component<Props, TxTableState> {
   public readonly state = {
     phoneHook: null,
   };
@@ -54,13 +54,13 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
         <Block className={classes.inner}>
           <Block margin="lg" />
           <Block className={classes.panel}>
-            <TransactionsTableHeader onSort={onSort} orderBy={orderBy} order={order} />
+            <TxTableHeaderDesktop onSort={onSort} orderBy={orderBy} order={order} />
             <Block className={classes.column}>
               {txs.map((tx: ProcessedTx) => (
-                <TransactionRow key={tx.id} tx={tx} />
+                <TxTableRowDesktop key={tx.id} tx={tx} />
               ))}
               <div ref={this.phoneHookRef} />
-              <TransactionTableFooter
+              <TxTableFooter
                 phoneHook={this.state.phoneHook}
                 onChangeRows={onChangeRows}
                 onNextPage={onNextPage}
@@ -76,4 +76,4 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   }
 }
 //&#183;
-export default withStyles(styles)(TransactionsTable);
+export default withStyles(styles)(TxTableDesktop);

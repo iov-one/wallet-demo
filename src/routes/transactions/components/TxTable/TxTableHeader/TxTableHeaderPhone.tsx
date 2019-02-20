@@ -4,8 +4,8 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { SortingStateProps } from "../sorting";
-import SortMenu, { buildNameFrom } from "./SortMenu";
+import { SortingStateProps } from "../../sorting";
+import SortMenu, { buildNameFrom } from "./utils/SortMenuPhone";
 
 const styles = createStyles({
   header: {
@@ -18,7 +18,7 @@ interface Props extends SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-const TransactionsTableHeader = ({ classes, orderBy, order, onSort, phoneHook }: Props) => {
+const TxTableHeaderPhone = ({ classes, orderBy, order, onSort, phoneHook }: Props) => {
   const initialName = buildNameFrom(orderBy, order);
   return (
     <React.Fragment>
@@ -42,4 +42,4 @@ const TransactionsTableHeader = ({ classes, orderBy, order, onSort, phoneHook }:
   );
 };
 
-export default withStyles(styles)(TransactionsTableHeader);
+export default withStyles(styles)(TxTableHeaderPhone);

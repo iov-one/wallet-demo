@@ -1,12 +1,12 @@
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Hairline from "~/components/layout/Hairline";
-import DesktopTransactionsTable from "./desktop/TransactionsTable";
 import DownloadCSV, { DownloadCSVProps } from "./DownloadCSV";
-import PhoneTransactionsTable from "./phone/TransactionsTable";
-import { TransactionTableProps } from "./rowTransactionsBuilder";
+import { TxTableProps } from "./TxTable/rowTxBuilder";
+import TxTableDesktop from "./TxTable/TxTableDesktop";
+import TxTablePhone from "./TxTable/TxTablePhone";
 
-interface Props extends DownloadCSVProps, TransactionTableProps {
+interface Props extends DownloadCSVProps, TxTableProps {
   readonly phone: boolean;
 }
 
@@ -31,7 +31,7 @@ export const Layout = ({
     <Form onSubmit={onSubmit}>
       {() =>
         phone ? (
-          <PhoneTransactionsTable
+          <TxTablePhone
             txs={txs}
             onChangeRows={onChangeRows}
             onPrevPage={onPrevPage}
@@ -41,7 +41,7 @@ export const Layout = ({
             order={order}
           />
         ) : (
-          <DesktopTransactionsTable
+          <TxTableDesktop
             txs={txs}
             onChangeRows={onChangeRows}
             onPrevPage={onPrevPage}

@@ -7,8 +7,8 @@ import { OpenHandler, openHoc, OpenType } from "~/components/hoc/OpenHoc";
 import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
-import sorting from "../../assets/sorting.svg";
-import { ORDER_ASC, ORDER_DESC, SortingStateProps, SortOrder, TxsOrder } from "../sorting";
+import sorting from "../../../../assets/sorting.svg";
+import { ORDER_ASC, ORDER_DESC, SortingStateProps, SortOrder, TxsOrder } from "../../../sorting";
 
 export function buildNameFrom(orderBy: TxsOrder, order: SortOrder): string {
   return `${orderBy} ${order === ORDER_ASC ? "ascending" : "descending"}`;
@@ -38,7 +38,7 @@ const items: ReadonlyArray<Item> = [
   { name: buildNameFrom("Amount", ORDER_DESC) },
 ];
 
-class SortMenu extends React.PureComponent<Props, State> {
+class SortMenuPhone extends React.PureComponent<Props, State> {
   public readonly state = {
     value: this.props.initialItem,
   };
@@ -47,14 +47,18 @@ class SortMenu extends React.PureComponent<Props, State> {
     const { toggle, onSort } = this.props;
     const { name } = value;
 
-    const parsedName = name.split(" ");
-    const orderBy = parsedName[0] === "Date" ? "Date" : "Amount";
-    const order = parsedName[1] === "ascending" ? ORDER_ASC : ORDER_DESC;
+    try {
+      const parsedName = name.split(" ");
+      const orderBy = parsedName[0] === "Date" ? "Date" : "Amount";
+      const order = parsedName[1] === "ascending" ? ORDER_ASC : ORDER_DESC;
 
-    this.setState({ value: name }, () => {
-      onSort(orderBy, order)();
-      toggle();
-    });
+      this.setState({ value: name }, () => {
+        onSort(orderBy, order)();
+        toggle();
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   public render(): JSX.Element {
@@ -79,4 +83,4 @@ class SortMenu extends React.PureComponent<Props, State> {
   }
 }
 
-export default withStyles(styles)(openHoc<Outer>(SortMenu));
+export default withStyles(styles)(openHoc<Outer>(SortMenuPhone));

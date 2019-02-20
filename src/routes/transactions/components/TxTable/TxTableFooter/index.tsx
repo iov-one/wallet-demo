@@ -6,8 +6,8 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import arrowLeft from "../assets/arrowLeft.svg";
-import arrowRight from "../assets/arrowRight.svg";
+import arrowLeft from "../../../assets/arrowLeft.svg";
+import arrowRight from "../../../assets/arrowRight.svg";
 
 const styles = createStyles({
   footer: {
@@ -26,14 +26,7 @@ interface Props extends WithStyles<typeof styles> {
 
 const rowsSelectorData: ReadonlyArray<Item> = [{ name: "5" }, { name: "10" }, { name: "25" }, { name: "50" }];
 
-const TransactionTableFooter = ({
-  classes,
-  phone,
-  phoneHook,
-  onChangeRows,
-  onPrevPage,
-  onNextPage,
-}: Props) => {
+const TxTableFooter = ({ classes, phone, phoneHook, onChangeRows, onPrevPage, onNextPage }: Props) => {
   return (
     <React.Fragment>
       <Block margin="md" />
@@ -61,4 +54,4 @@ const TransactionTableFooter = ({
   );
 };
 
-export default withStyles(styles)(TransactionTableFooter);
+export default withStyles(styles)(TxTableFooter);

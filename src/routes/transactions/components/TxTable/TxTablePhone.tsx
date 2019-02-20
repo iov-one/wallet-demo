@@ -4,10 +4,10 @@ import Block from "~/components/layout/Block";
 import { ProcessedTx } from "~/store/notifications/state";
 import { background } from "~/theme/variables";
 import NoTransactions from "../NoTransactions";
-import { TransactionsTableState, TransactionTableProps } from "../rowTransactionsBuilder";
-import TransactionTableFooter from "../TransactionTableFooter";
-import TransactionRow from "./TransactionRow";
-import TransactionsTableHeader from "./TransactionsTableHeader";
+import { TxTableProps, TxTableState } from "./rowTxBuilder";
+import TxTableFooter from "./TxTableFooter";
+import TxTableHeaderPhone from "./TxTableHeader/TxTableHeaderPhone";
+import TxTableRowPhone from "./TxTableRow/TxTableRowPhone";
 
 const styles = createStyles({
   panel: {
@@ -21,13 +21,13 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TransactionTableProps, WithStyles<typeof styles> {}
+interface Props extends TxTableProps, WithStyles<typeof styles> {}
 
-interface State extends TransactionsTableState {
+interface State extends TxTableState {
   readonly phoneSortHook: HTMLDivElement | null;
 }
 
-class TransactionsTable extends React.Component<Props, State> {
+class TxTablePhone extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
     phoneSortHook: null,
@@ -53,7 +53,7 @@ class TransactionsTable extends React.Component<Props, State> {
       <React.Fragment>
         <Block margin="lg" />
         <Block className={classes.panel}>
-          <TransactionsTableHeader
+          <TxTableHeaderPhone
             phoneHook={this.state.phoneSortHook}
             onSort={onSort}
             orderBy={orderBy}
@@ -62,12 +62,12 @@ class TransactionsTable extends React.Component<Props, State> {
           <Block className={classes.column}>
             <div ref={this.phoneSortHookRef} />
             {txs.length > 0 ? (
-              txs.map((tx: ProcessedTx) => <TransactionRow key={tx.id} tx={tx} />)
+              txs.map((tx: ProcessedTx) => <TxTableRowPhone key={tx.id} tx={tx} />)
             ) : (
               <NoTransactions />
             )}
             <div ref={this.phoneHookRef} />
-            <TransactionTableFooter
+            <TxTableFooter
               phone
               phoneHook={this.state.phoneHook}
               onChangeRows={onChangeRows}
@@ -81,4 +81,4 @@ class TransactionsTable extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(TransactionsTable);
+export default withStyles(styles)(TxTablePhone);

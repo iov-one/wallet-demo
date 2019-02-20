@@ -4,8 +4,8 @@ import Block from "~/components/layout/Block";
 import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { SortingStateProps, TX_DATE_COLUMN, TX_TICKER_COLUMN } from "../sorting";
-import ColumnHeader from "./ColumnHeader";
+import { SortingStateProps, TX_DATE_COLUMN, TX_TICKER_COLUMN } from "../../sorting";
+import ColumnHeaderDesktop from "./utils/ColumnHeaderDesktop";
 
 const styles = createStyles({
   header: {
@@ -19,7 +19,7 @@ const styles = createStyles({
 
 interface Props extends SortingStateProps, WithStyles<typeof styles> {}
 
-const TransactionsTableHeader = ({ classes, orderBy, order, onSort }: Props) => (
+const TxTableHeaderDesktop = ({ classes, orderBy, order, onSort }: Props) => (
   <React.Fragment>
     <Block margin="md" />
     <Block padding="lg" className={classes.header}>
@@ -27,13 +27,19 @@ const TransactionsTableHeader = ({ classes, orderBy, order, onSort }: Props) => 
         Transactions
       </Typography>
       <Spacer order={1} />
-      <ColumnHeader name={TX_DATE_COLUMN} orderBy={orderBy} order={order} onSort={onSort} />
+      <ColumnHeaderDesktop name={TX_DATE_COLUMN} orderBy={orderBy} order={order} onSort={onSort} />
       <Spacer order={1} />
-      <ColumnHeader name={TX_TICKER_COLUMN} orderBy={orderBy} order={order} onSort={onSort} alignRight />
+      <ColumnHeaderDesktop
+        name={TX_TICKER_COLUMN}
+        orderBy={orderBy}
+        order={order}
+        onSort={onSort}
+        alignRight
+      />
     </Block>
     <Block margin="md" />
     <Hairline />
   </React.Fragment>
 );
 
-export default withStyles(styles)(TransactionsTableHeader);
+export default withStyles(styles)(TxTableHeaderDesktop);

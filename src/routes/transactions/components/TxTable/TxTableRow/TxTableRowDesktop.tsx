@@ -10,15 +10,10 @@ import Typography from "~/components/layout/Typography";
 import { amountToNumber } from "~/logic";
 import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
-import dropdownArrow from "../../assets/dropdownArrow.svg";
-import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
-import {
-  calculateSender,
-  getAddressPrefix,
-  getTypeIcon,
-  TransactionRowProps,
-} from "../rowTransactionsBuilder";
-import TransactionDetails from "../TransactionDetails";
+import dropdownArrow from "../../../assets/dropdownArrow.svg";
+import dropdownArrowClose from "../../../assets/dropdownArrowClose.svg";
+import { calculateSender, getAddressPrefix, getTypeIcon, TxTableRowProps } from "../rowTxBuilder";
+import TxDetails from "../TxDetails";
 
 const styles = createStyles({
   row: {
@@ -34,11 +29,11 @@ const styles = createStyles({
   },
 });
 
-interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
+interface Outer extends TxTableRowProps, WithStyles<typeof styles> {}
 
 type Props = OpenType & OpenHandler & Outer;
 
-const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
+const TxTableRowDesktop = ({ classes, tx, toggle, open }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
     <Block margin="md" />
     <Block className={classes.rowContent}>
@@ -76,10 +71,10 @@ const TransactionRow = ({ classes, tx, toggle, open }: Props): JSX.Element => (
         onClick={toggle}
       />
     </Block>
-    {open && <TransactionDetails tx={tx} />}
+    {open && <TxDetails tx={tx} />}
     <Block margin="md" />
     <Hairline />
   </Block>
 );
 
-export default withStyles(styles)(openHoc<Outer>(TransactionRow));
+export default withStyles(styles)(openHoc<Outer>(TxTableRowDesktop));

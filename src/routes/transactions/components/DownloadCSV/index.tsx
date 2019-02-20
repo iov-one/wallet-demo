@@ -4,7 +4,7 @@ import Block from "~/components/layout/Block";
 import CircleImage from "~/components/layout/CircleImage";
 import Typography from "~/components/layout/Typography";
 import { background, border, primary, xl, xs } from "~/theme/variables";
-import download from "../assets/download.svg";
+import download from "../../assets/download.svg";
 
 const styles = createStyles({
   root: {

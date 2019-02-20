@@ -4,7 +4,7 @@ import { stringToAmount } from "~/logic";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
-import { calculateSender, getAddressPrefix, getTypeIcon } from "../components/rowTransactionsBuilder";
+import { calculateSender, getAddressPrefix, getTypeIcon } from "../components/TxTable/rowTxBuilder";
 
 describe("Route -> Transaction -> Component", () => {
   describe("calculateSender", () => {

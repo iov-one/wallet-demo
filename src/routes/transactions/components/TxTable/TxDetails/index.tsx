@@ -5,7 +5,7 @@ import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
 import { ProcessedTx } from "~/store/notifications/state";
-import { getAddressPrefix } from "./rowTransactionsBuilder";
+import { getAddressPrefix } from "../rowTxBuilder";
 
 const styles = createStyles({
   details: {
@@ -20,7 +20,7 @@ interface Props extends WithStyles<typeof styles> {
   readonly tx: ProcessedTx;
 }
 
-const TransactionDetails = ({ classes, tx }: Props) => (
+const TxDetails = ({ classes, tx }: Props) => (
   <Block className={classes.details}>
     <Block margin="lg" />
     <Grid>
@@ -54,4 +54,4 @@ const TransactionDetails = ({ classes, tx }: Props) => (
   </Block>
 );
 
-export default withStyles(styles)(TransactionDetails);
+export default withStyles(styles)(TxDetails);
