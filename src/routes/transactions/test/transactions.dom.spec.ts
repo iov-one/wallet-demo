@@ -24,7 +24,10 @@ describe("DOM > Feature > Transactions", () => {
       const TxDom = await travelToTransactions(store);
 
       //Checks that TransactionsTable component is exists on the page
-      TestUtils.findRenderedComponentWithType(TxDom, TxTablePhoneInternal);
+      const table = TestUtils.findRenderedComponentWithType(TxDom, TxTablePhoneInternal);
+      expect(table.props.orderBy).toBe("Date");
+      expect(table.props.order).toBe(-1);
+      expect(table.props.txs).toEqual(store.getState().notification.transaction);
     },
     55000,
   );
