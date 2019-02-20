@@ -32,7 +32,7 @@ const styles = createStyles({
 
 interface Props extends TxTableProps, WithStyles<typeof styles> {}
 
-class TxTableDesktop extends React.Component<Props, TxTableState> {
+class TxTableDesktopInternal extends React.Component<Props, TxTableState> {
   public readonly state = {
     phoneHook: null,
   };
@@ -76,4 +76,4 @@ class TxTableDesktop extends React.Component<Props, TxTableState> {
   }
 }
 //&#183;
-export default withStyles(styles)(TxTableDesktop);
+export default withStyles(styles)(TxTableDesktopInternal);

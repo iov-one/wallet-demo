@@ -27,7 +27,7 @@ interface State extends TxTableState {
   readonly phoneSortHook: HTMLDivElement | null;
 }
 
-class TxTablePhone extends React.Component<Props, State> {
+export class TxTablePhoneInternal extends React.Component<Props, State> {
   public readonly state = {
     phoneHook: null,
     phoneSortHook: null,
@@ -81,4 +81,4 @@ class TxTablePhone extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(TxTablePhone);
+export default withStyles(styles)(TxTablePhoneInternal);
