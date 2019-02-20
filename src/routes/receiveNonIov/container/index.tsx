@@ -1,9 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import PageMenu from "~/components/pages/PageMenu";
+import Layout from "~/routes/receiveNonIov/components";
 import selector, { SelectorProps } from "./selector";
-
-import Layout from "../components";
 
 class RecieveNonIov extends React.Component<SelectorProps> {
   public render(): JSX.Element {
