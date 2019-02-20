@@ -18,7 +18,7 @@ interface Props extends SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-const TransactionsTableHeader = ({ classes, orderBy, order, ...restProps }: Props) => {
+const TransactionsTableHeader = ({ classes, orderBy, order, onSort, phoneHook }: Props) => {
   const initialName = buildNameFrom(orderBy, order);
   return (
     <React.Fragment>
@@ -28,7 +28,13 @@ const TransactionsTableHeader = ({ classes, orderBy, order, ...restProps }: Prop
           Transactions
         </Typography>
         <Spacer order={1} />
-        <SortMenu initialItem={initialName} orderBy={orderBy} order={order} {...restProps} />
+        <SortMenu
+          initialItem={initialName}
+          orderBy={orderBy}
+          order={order}
+          onSort={onSort}
+          phoneHook={phoneHook}
+        />
       </Block>
       <Block margin="md" />
       <Hairline />

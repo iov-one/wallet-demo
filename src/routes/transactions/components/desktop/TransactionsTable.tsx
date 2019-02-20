@@ -46,7 +46,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   }
 
   public render(): JSX.Element {
-    const { classes, onSort, txs, ...restProps } = this.props;
+    const { classes, onSort, orderBy, order, txs, onChangeRows, onNextPage, onPrevPage } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -54,13 +54,18 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
         <Block className={classes.inner}>
           <Block margin="lg" />
           <Block className={classes.panel}>
-            <TransactionsTableHeader onSort={onSort} {...restProps} />
+            <TransactionsTableHeader onSort={onSort} orderBy={orderBy} order={order} />
             <Block className={classes.column}>
               {txs.map((tx: ProcessedTx) => (
                 <TransactionRow key={tx.id} tx={tx} />
               ))}
               <div ref={this.phoneHookRef} />
-              <TransactionTableFooter phoneHook={this.state.phoneHook} {...restProps} />
+              <TransactionTableFooter
+                phoneHook={this.state.phoneHook}
+                onChangeRows={onChangeRows}
+                onNextPage={onNextPage}
+                onPrevPage={onPrevPage}
+              />
             </Block>
           </Block>
           <Block margin="lg" />

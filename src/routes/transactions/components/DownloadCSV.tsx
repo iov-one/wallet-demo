@@ -35,15 +35,15 @@ const styles = createStyles({
   },
 });
 
-export interface ToolBoxProps {
+export interface DownloadCSVProps {
   readonly onDownloadCSV: () => void;
 }
 
-interface Props extends ToolBoxProps, WithStyles<typeof styles> {
+interface Props extends DownloadCSVProps, WithStyles<typeof styles> {
   readonly phone: boolean;
 }
 
-const ToolBox = ({ classes, onDownloadCSV, phone }: Props): JSX.Element => {
+const DownloadCSV = ({ classes, onDownloadCSV, phone }: Props): JSX.Element => {
   const fabClasses = {
     secondary: classes.secondary,
     root: classes.root,
@@ -70,4 +70,4 @@ const ToolBox = ({ classes, onDownloadCSV, phone }: Props): JSX.Element => {
   );
 };
 
-export default withStyles(styles)(ToolBox);
+export default withStyles(styles)(DownloadCSV);
