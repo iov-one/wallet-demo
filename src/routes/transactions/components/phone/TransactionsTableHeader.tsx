@@ -5,7 +5,7 @@ import Hairline from "~/components/layout/Hairline";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import { SortingStateProps } from "../sorting";
-import SortMenu from "./SortMenu";
+import SortMenu, { buildNameFrom } from "./SortMenu";
 
 const styles = createStyles({
   header: {
@@ -18,11 +18,8 @@ interface Props extends SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
 }
 
-
-
-const TransactionsTableHeader = ({ classes, orderBy, order, ...restProps }: Props) => { 
-  const initialName = buildNameFrom(orderBy, order) // this method should be in SortMenu
-
+const TransactionsTableHeader = ({ classes, orderBy, order, ...restProps }: Props) => {
+  const initialName = buildNameFrom(orderBy, order);
   return (
     <React.Fragment>
       <Block margin="md" />
@@ -31,12 +28,12 @@ const TransactionsTableHeader = ({ classes, orderBy, order, ...restProps }: Prop
           Transactions
         </Typography>
         <Spacer order={1} />
-        <SortMenu initialItem={initialName} {...restProps} />
+        <SortMenu initialItem={initialName} orderBy={orderBy} order={order} {...restProps} />
       </Block>
       <Block margin="md" />
       <Hairline />
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default withStyles(styles)(TransactionsTableHeader);

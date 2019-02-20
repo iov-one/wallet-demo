@@ -8,7 +8,11 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
-import { ORDER_ASC, ORDER_DESC, SortingStateProps } from "../sorting";
+import { ORDER_ASC, ORDER_DESC, SortingStateProps, SortOrder, TxsOrder } from "../sorting";
+
+export function buildNameFrom(orderBy: TxsOrder, order: SortOrder): string {
+  return `${orderBy} ${order === ORDER_ASC ? "ascending" : "descending"}`;
+}
 
 interface Outer extends SortingStateProps, WithStyles<typeof styles> {
   readonly phoneHook: HTMLDivElement | null;
@@ -28,10 +32,10 @@ const styles = createStyles({
 });
 
 const items: ReadonlyArray<Item> = [
-  { name: buildNameFrom("Date", ORDER_ASC)},
-  { name: buildNameFrom("Date", ORDER_DSC)},
-  { name: buildNameFrom("Ticker", ORDER_ASC)},
-  { name: buildNameFrom("Ticker", ORDER_DSC)},
+  { name: buildNameFrom("Date", ORDER_ASC) },
+  { name: buildNameFrom("Date", ORDER_DESC) },
+  { name: buildNameFrom("Amount", ORDER_ASC) },
+  { name: buildNameFrom("Amount", ORDER_DESC) },
 ];
 
 class SortMenu extends React.PureComponent<Props, State> {
