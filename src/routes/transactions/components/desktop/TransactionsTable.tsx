@@ -46,7 +46,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
   }
 
   public render(): JSX.Element {
-    const { classes, onSort, sortingState, txs, ...restProps } = this.props;
+    const { classes, onSort, txs, ...restProps } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -54,7 +54,7 @@ class TransactionsTable extends React.Component<Props, TransactionsTableState> {
         <Block className={classes.inner}>
           <Block margin="lg" />
           <Block className={classes.panel}>
-            <TransactionsTableHeader onSort={onSort} sortingState={sortingState} />
+            <TransactionsTableHeader onSort={onSort} />
             <Block className={classes.column}>
               {txs.map((tx: ProcessedTx) => (
                 <TransactionRow key={tx.id} tx={tx} />

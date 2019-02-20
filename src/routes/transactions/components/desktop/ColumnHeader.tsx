@@ -27,23 +27,21 @@ const styles = createStyles({
 });
 
 interface Props extends SortingStateProps, WithStyles<typeof styles> {
-  readonly name: string;
+  readonly name: TxsOrder;
+  readonly direction: SortOrder;
   readonly alignRight?: boolean;
 }
 
-const ColumnHeader = ({ classes, name, alignRight, onSort, sortingState }: Props) => {
+const ColumnHeader = ({ classes, name, direction, alignRight, onSort }: Props) => {
   const headerClasses = classNames(classes.header, { [classes.alignRight]: alignRight });
-  const sortOrder = sortingState && name in sortingState ? sortingState[name] : undefined;
+  const oppositeOrder = direction ? direction : calculateOppositeFrom(direction); // This method should live in sort.ts
 
   return (
-    <Block
-      className={headerClasses}
-      onClick={onSort(name as TxsOrder, sortOrder ? ((sortOrder * -1) as SortOrder) : ORDER_ASC)}
-    >
+    <Block className={headerClasses} onClick={onSort(name, oppositeOrder)}>
       <Block className={classes.sorting} padding="sm">
-        <Img src={sortOrder === ORDER_ASC ? sortUpActive : sortUp} alt="Descending sort" />
+        <Img src={direction === ORDER_ASC ? sortUpActive : sortUp} alt="Descending sort" />
         <Block margin="xs" />
-        <Img src={sortOrder === ORDER_DESC ? sortDownActive : sortDown} alt="Ascending sort" />
+        <Img src={direction === ORDER_DESC ? sortDownActive : sortDown} alt="Ascending sort" />
       </Block>
       <Typography variant="subtitle2" weight="semibold">
         {name}

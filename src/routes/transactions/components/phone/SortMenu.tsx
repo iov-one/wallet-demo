@@ -8,11 +8,11 @@ import Block from "~/components/layout/Block";
 import Img from "~/components/layout/Image";
 import { showPhone } from "~/utils/reactportals";
 import sorting from "../../assets/sorting.svg";
-import { SortingStateProps, SortItem } from "../sorting";
+import { ORDER_ASC, ORDER_DESC, SortingStateProps } from "../sorting";
 
 interface Outer extends SortingStateProps, WithStyles<typeof styles> {
-  readonly items: ReadonlyArray<Item>;
   readonly phoneHook: HTMLDivElement | null;
+  readonly initialItem: string;
 }
 
 type Props = OpenType & OpenHandler & Outer;
@@ -27,38 +27,34 @@ const styles = createStyles({
   },
 });
 
+const items: ReadonlyArray<Item> = [
+  { name: buildNameFrom("Date", ORDER_ASC)},
+  { name: buildNameFrom("Date", ORDER_DSC)},
+  { name: buildNameFrom("Ticker", ORDER_ASC)},
+  { name: buildNameFrom("Ticker", ORDER_DSC)},
+];
+
 class SortMenu extends React.PureComponent<Props, State> {
   public readonly state = {
-    value: "",
+    value: this.props.initialItem,
   };
 
-  public componentDidMount(): void {
-    const selectedSort = this.props.items.find(
-      (item: Item): boolean => {
-        const sortItem = item as SortItem;
-        return (
-          sortItem.orderBy in this.props.sortingState &&
-          this.props.sortingState[sortItem.orderBy] === sortItem.order
-        );
-      },
-    );
-
-    if (selectedSort) {
-      this.setState({ value: selectedSort.name });
-    }
-  }
   public readonly onAction = (value: Item) => () => {
     const { toggle, onSort } = this.props;
-    const sortItem = value as SortItem;
+    const { name } = value;
 
-    this.setState({ value: value.name }, () => {
-      onSort(sortItem.orderBy, sortItem.order)();
+    const parsedName = name.split(" ");
+    const orderBy = parsedName[0] === "Date" ? "Date" : "Amount";
+    const order = parsedName[1] === "ascending" ? ORDER_ASC : ORDER_DESC;
+
+    this.setState({ value: name }, () => {
+      onSort(orderBy, order)();
       toggle();
     });
   };
 
   public render(): JSX.Element {
-    const { open, toggle, classes, items, phoneHook } = this.props;
+    const { open, toggle, classes, phoneHook } = this.props;
 
     return (
       <Block className={classes.container}>

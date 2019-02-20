@@ -6,14 +6,7 @@ import PageMenu from "~/components/pages/PageMenu";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
 import { ProcessedTx } from "~/store/notifications/state";
 import { Layout } from "../components";
-import {
-  ORDER_DESC,
-  SortingState,
-  SortOrder,
-  TX_DATE_COLUMN,
-  TX_TICKER_COLUMN,
-  TxsOrder,
-} from "../components/sorting";
+import { filterTxsBy, ORDER_DESC, SortOrder, TX_DATE_COLUMN, TxsOrder } from "../components/sorting";
 import selector, { SelectorProps } from "./selector";
 
 interface State {
@@ -21,7 +14,6 @@ interface State {
   readonly pageNumber: number;
   readonly orderBy: TxsOrder;
   readonly order: SortOrder;
-  readonly sortingState: SortingState;
 }
 
 class Transactions extends React.Component<SelectorProps, State> {
@@ -30,7 +22,6 @@ class Transactions extends React.Component<SelectorProps, State> {
     pageNumber: 0,
     orderBy: TX_DATE_COLUMN as TxsOrder,
     order: ORDER_DESC as SortOrder,
-    sortingState: { [TX_DATE_COLUMN]: ORDER_DESC as SortOrder },
   };
 
   public readonly onChangeRows = (item: Item) => {
@@ -40,13 +31,14 @@ class Transactions extends React.Component<SelectorProps, State> {
   };
 
   public readonly onSort = (orderBy: TxsOrder, order: SortOrder) => () => {
-    const sortingState: SortingState = { [orderBy]: order };
+    if (orderBy === this.state.orderBy && order === this.state.order) {
+      return;
+    }
 
-    this.setState({
+    this.setState(() => ({
       orderBy,
       order,
-      sortingState,
-    });
+    }));
   };
 
   public readonly onPrevPage = () => {
@@ -89,29 +81,9 @@ class Transactions extends React.Component<SelectorProps, State> {
   };
 
   public render(): JSX.Element {
+    const { rowsPerPage, pageNumber, orderBy, order } = this.state;
     const { txs } = this.props;
-
-    const { rowsPerPage, pageNumber, orderBy, order, sortingState } = this.state;
-
-    const sortedTx = txs.slice(0).sort((a: ProcessedTx | undefined, b: ProcessedTx | undefined) => {
-      if (!a || !b) {
-        return 0;
-      }
-
-      if (orderBy === TX_TICKER_COLUMN) {
-        return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
-      }
-
-      if (orderBy === TX_DATE_COLUMN) {
-        return (a.time < b.time ? -1 : a.time > b.time ? 1 : 0) * order;
-      }
-
-      return 0;
-    });
-
-    const pageStartIdx = pageNumber * rowsPerPage;
-    const pageEndIdx = Math.min(txs.length, pageStartIdx + rowsPerPage);
-    const txsToRender = sortedTx.slice(pageStartIdx, pageEndIdx);
+    const orderedTxs = filterTxsBy(txs, rowsPerPage, pageNumber, orderBy, order);
 
     return (
       <MatchMediaContext.Consumer>
@@ -120,13 +92,14 @@ class Transactions extends React.Component<SelectorProps, State> {
             <PageMenu phoneFullWidth padding={false}>
               <Layout
                 phone={phone}
-                txs={txsToRender}
+                txs={orderedTxs}
                 onChangeRows={this.onChangeRows}
                 onPrevPage={this.onPrevPage}
                 onNextPage={this.onNextPage}
                 onSort={this.onSort}
-                sortingState={sortingState}
                 onDownloadCSV={this.onDownloadCSV}
+                orderBy={orderBy}
+                order={order}
               />
             </PageMenu>
           );

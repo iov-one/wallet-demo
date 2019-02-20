@@ -19,7 +19,7 @@ const styles = createStyles({
 
 interface Props extends SortingStateProps, WithStyles<typeof styles> {}
 
-const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (
+const TransactionsTableHeader = ({ classes, order, ...restProps }: Props) => (
   <React.Fragment>
     <Block margin="md" />
     <Block padding="lg" className={classes.header}>
@@ -27,9 +27,9 @@ const TransactionsTableHeader = ({ classes, ...restProps }: Props) => (
         Transactions
       </Typography>
       <Spacer order={1} />
-      <ColumnHeader name={TX_DATE_COLUMN} {...restProps} />
+      <ColumnHeader name={TX_DATE_COLUMN} direction={order} {...restProps} />
       <Spacer order={1} />
-      <ColumnHeader name={TX_TICKER_COLUMN} {...restProps} alignRight />
+      <ColumnHeader name={TX_TICKER_COLUMN} direction={order} {...restProps} alignRight />
     </Block>
     <Block margin="md" />
     <Hairline />
