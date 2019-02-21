@@ -1,11 +1,13 @@
-import { createStyles, Paper, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import { ConfirmInput, TooltipDescription } from "~/components/compoundComponents/form";
+import { ConfirmInput } from "~/components/compoundComponents/form";
 import Field from "~/components/forms/Field";
 import Form from "~/components/forms/Form";
 import SelectField from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
-import { primary, xl, xxl } from "~/theme/variables";
+import Tooltip from "~/components/layout/dialogs/Tooltip";
+import Typography from "~/components/layout/Typography";
+import { background, primary } from "~/theme/variables";
 import { TickerWithAddress } from "../container/selector";
 
 const styles = createStyles({
@@ -13,29 +15,20 @@ const styles = createStyles({
     display: "flex",
     justifyContent: "center",
   },
-  wrapper: {
+  card: {
+    backgroundColor: background,
+    display: "flex",
+    flexDirection: "column",
     flexBasis: "506px",
     maxWidth: "506px",
-    alignSelf: "center",
-    marginTop: "32px",
-  },
-  actionWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: "23px",
-  },
-  modalPaper: {
-    flexBasis: "506px",
-    paddingBottom: xxl,
-  },
-  mainText: {
-    marginBottom: xl,
-    component: "h2",
   },
   highlight: {
     color: primary,
+  },
+  tooltip: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });
 
@@ -49,10 +42,12 @@ interface Props extends WithStyles<typeof styles> {
 interface RecieveNonIOVState {
   readonly ticker: TickerWithAddress;
   readonly phoneHook: HTMLDivElement | null;
+  readonly howItWorksHook: HTMLDivElement | null;
 }
 
 class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
+  private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
   constructor(props: Props) {
     super(props);
 
@@ -61,6 +56,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
     this.state = {
       ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
       phoneHook: null,
+      howItWorksHook: null,
     };
   }
 
@@ -73,6 +69,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   public readonly onChangeAddress = (ticker: TickerWithAddress): void => {
     this.setState({
       ticker,
+      howItWorksHook: this.howItWorksHookRef.current,
     });
   };
 
@@ -85,45 +82,50 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
     const { ticker } = this.state;
 
     return (
+      <React.Fragment>
+      <Block padding="lg" margin="lg" />
       <Block className={classes.container}>
-        <div className={classes.wrapper}>
-          <Form onSubmit={this.onSubmit} fullWidth>
-            {() => (
-              <Paper className={classes.modalPaper}>
-                <Typography className={classes.mainText}>
-                  Receive payment from <b className={classes.highlight}>non-IOV users</b> by giving them this
-                  address
+        <Form onSubmit={this.onSubmit} fullWidth>
+          {() => (
+            <Block padding="lg" margin="lg" className={classes.card}>
+              <Block margin="xl" />
+              <Typography variant="title" weight="light">
+                Receive payment from <b className={classes.highlight}>non-IOV users</b> by giving them this address
+              </Typography>
+              <Block margin="xl" />
+              <Field
+                name={TOKEN_FIELD}
+                phoneHook={this.state.phoneHook}
+                component={SelectField}
+                items={tickersList}
+                initial={INITIAL_TOKEN}
+                onChangeCallback={this.onChangeAddress}
+                width={100}
+              />
+              <Block margin="md" />
+              <ConfirmInput
+                title={`Your ${ticker.name} Address`}
+                value={ticker.address}
+                notification={`${ticker.name} Address copied to clipboard`}
+              />
+              <Block margin="lg" />
+              <Block margin="sm" className={classes.tooltip}>
+                <Typography inline variant="body2">
+                  How it works
                 </Typography>
-                <Block margin="xl" />
-                <Field
-                  name={TOKEN_FIELD}
-                  phoneHook={this.state.phoneHook}
-                  component={SelectField}
-                  items={tickersList}
-                  initial={INITIAL_TOKEN}
-                  onChangeCallback={this.onChangeAddress}
-                  width={100}
-                />
-                <Block margin="sm" />
-                <div ref={this.phoneHookRef} />
-                <Block margin="md" />
-                <ConfirmInput
-                  title={`Your ${ticker.name} Address`}
-                  value={ticker.address}
-                  notification={`${ticker.name} Address copied to clipboard`}
-                />
-                <div className={classes.actionWrapper}>
-                  <TooltipDescription
-                    reversed
-                    label="How it works"
-                    info="Have a non IOV user send you Lisk to this address and it will show up on your account"
-                  />
-                </div>
-              </Paper>
-            )}
-          </Form>
-        </div>
+                <Block padding="xs" />
+                <Tooltip phoneHook={this.state.howItWorksHook}>
+                  <Typography variant="body2">
+                    Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds will get send directly to your wallet
+                  </Typography>
+                </Tooltip>
+              </Block>
+              <Block margin="xl" />
+            </Block>
+          )}
+        </Form>
       </Block>
+      </React.Fragment>
     );
   }
 }
