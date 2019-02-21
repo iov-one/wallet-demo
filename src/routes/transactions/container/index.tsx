@@ -82,7 +82,7 @@ class Transactions extends React.Component<SelectorProps, State> {
 
   public render(): JSX.Element {
     const { rowsPerPage, pageNumber, orderBy, order } = this.state;
-    const { txs } = this.props;
+    const { txs, connection } = this.props;
     const orderedTxs = filterTxsBy(txs, rowsPerPage, pageNumber, orderBy, order);
 
     return (
@@ -100,6 +100,7 @@ class Transactions extends React.Component<SelectorProps, State> {
                 onDownloadCSV={this.onDownloadCSV}
                 orderBy={orderBy}
                 order={order}
+                connection={connection}
               />
             </PageMenu>
           );

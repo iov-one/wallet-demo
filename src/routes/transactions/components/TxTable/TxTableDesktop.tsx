@@ -1,3 +1,4 @@
+import { BnsConnection } from "@iov/bns";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
@@ -30,7 +31,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TxTableProps, WithStyles<typeof styles> {}
+interface Props extends TxTableProps, WithStyles<typeof styles> {
+  readonly connection: BnsConnection;
+}
 
 class TxTableDesktopInternal extends React.Component<Props, TxTableState> {
   public readonly state = {
@@ -46,7 +49,17 @@ class TxTableDesktopInternal extends React.Component<Props, TxTableState> {
   }
 
   public render(): JSX.Element {
-    const { classes, onSort, orderBy, order, txs, onChangeRows, onNextPage, onPrevPage } = this.props;
+    const {
+      classes,
+      onSort,
+      orderBy,
+      order,
+      txs,
+      onChangeRows,
+      connection,
+      onNextPage,
+      onPrevPage,
+    } = this.props;
 
     return (
       <Block className={classes.outer}>
@@ -57,7 +70,7 @@ class TxTableDesktopInternal extends React.Component<Props, TxTableState> {
             <TxTableHeaderDesktop onSort={onSort} orderBy={orderBy} order={order} />
             <Block className={classes.column}>
               {txs.map((tx: ProcessedTx) => (
-                <TxTableRowDesktop key={tx.id} tx={tx} />
+                <TxTableRowDesktop connection={connection} key={tx.id} tx={tx} />
               ))}
               <div ref={this.phoneHookRef} />
               <TxTableFooter
