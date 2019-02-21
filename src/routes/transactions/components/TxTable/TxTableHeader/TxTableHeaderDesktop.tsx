@@ -39,6 +39,7 @@ const TxTableHeaderDesktop = ({ classes, orderBy, order, onSort }: Props) => (
         order={order}
         onSort={onSort}
         alignRight
+        disableOrder
       />
     </Block>
     <Block margin="md" />
