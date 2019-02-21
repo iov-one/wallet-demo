@@ -4,7 +4,7 @@ import { ConfirmInput } from "~/components/compoundComponents/form";
 import Block from "~/components/layout/Block";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
-import { background, primary, xl, xxl } from "~/theme/variables";
+import { background, primary } from "~/theme/variables";
 
 const styles = createStyles({
   container: {
@@ -17,27 +17,6 @@ const styles = createStyles({
     flexDirection: "column",
     flexBasis: "506px",
     maxWidth: "506px",
-  },
-  wrapper: {
-    flexBasis: "506px",
-    maxWidth: "506px",
-    alignSelf: "center",
-    marginTop: "32px",
-  },
-  actionWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: "23px",
-  },
-  modalPaper: {
-    flexBasis: "506px",
-    paddingBottom: xxl,
-  },
-  mainText: {
-    gutterBottom: xl,
-    marginBottom: xl,
   },
   highlight: {
     color: primary,
@@ -81,7 +60,7 @@ class ReceiveIov extends React.Component<Props, State> {
               Receive payment from <b className={classes.highlight}>IOV wallet users</b> by giving them your
               IOV address
             </Typography>
-            <Block margin="xl" />
+            <Block margin="md" />
             <ConfirmInput
               title="Your IOV Address"
               value={iovAddress}
