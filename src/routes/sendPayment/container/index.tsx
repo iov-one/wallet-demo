@@ -123,7 +123,6 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     if (!accountName) {
       throw new Error("Not possible to send a transaction without an account");
     }
-    // we start the sequence, but do not
     sendTransaction(chainId, recipient, paddedTxAmount, note, id, accountName);
 
     history.push(BALANCE_ROUTE);
