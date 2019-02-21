@@ -7,7 +7,7 @@ import SelectField from "~/components/forms/SelectField";
 import Block from "~/components/layout/Block";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
-import { background, primary } from "~/theme/variables";
+import { background, card, primary } from "~/theme/variables";
 import { TickerWithAddress } from "../container/selector";
 
 const styles = createStyles({
@@ -19,8 +19,8 @@ const styles = createStyles({
     backgroundColor: background,
     display: "flex",
     flexDirection: "column",
-    flexBasis: "506px",
-    maxWidth: "506px",
+    flexBasis: card,
+    maxWidth: card,
   },
   highlight: {
     color: primary,
@@ -83,48 +83,50 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
 
     return (
       <React.Fragment>
-      <Block padding="lg" margin="lg" />
-      <Block className={classes.container}>
-        <Form onSubmit={this.onSubmit} fullWidth>
-          {() => (
-            <Block padding="lg" margin="lg" className={classes.card}>
-              <Block margin="xl" />
-              <Typography variant="title" weight="light">
-                Receive payment from <b className={classes.highlight}>non-IOV users</b> by giving them this address
-              </Typography>
-              <Block margin="xl" />
-              <Field
-                name={TOKEN_FIELD}
-                phoneHook={this.state.phoneHook}
-                component={SelectField}
-                items={tickersList}
-                initial={INITIAL_TOKEN}
-                onChangeCallback={this.onChangeAddress}
-                width={100}
-              />
-              <Block margin="md" />
-              <ConfirmInput
-                title={`Your ${ticker.name} Address`}
-                value={ticker.address}
-                notification={`${ticker.name} Address copied to clipboard`}
-              />
-              <Block margin="lg" />
-              <Block margin="sm" className={classes.tooltip}>
-                <Typography inline variant="body2">
-                  How it works
+        <Block padding="lg" margin="lg" />
+        <Block className={classes.container}>
+          <Form onSubmit={this.onSubmit} fullWidth>
+            {() => (
+              <Block padding="lg" margin="lg" className={classes.card}>
+                <Block margin="xl" />
+                <Typography variant="title" weight="light">
+                  Receive payment from <b className={classes.highlight}>non-IOV users</b> by giving them this
+                  address
                 </Typography>
-                <Block padding="xs" />
-                <Tooltip phoneHook={this.state.howItWorksHook}>
-                  <Typography variant="body2">
-                    Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds will get send directly to your wallet
+                <Block margin="xl" />
+                <Field
+                  name={TOKEN_FIELD}
+                  phoneHook={this.state.phoneHook}
+                  component={SelectField}
+                  items={tickersList}
+                  initial={INITIAL_TOKEN}
+                  onChangeCallback={this.onChangeAddress}
+                  width={100}
+                />
+                <Block margin="md" />
+                <ConfirmInput
+                  title={`Your ${ticker.name} Address`}
+                  value={ticker.address}
+                  notification={`${ticker.name} Address copied to clipboard`}
+                />
+                <Block margin="lg" />
+                <Block margin="sm" className={classes.tooltip}>
+                  <Typography inline variant="body2">
+                    How it works
                   </Typography>
-                </Tooltip>
+                  <Block padding="xs" />
+                  <Tooltip phoneHook={this.state.howItWorksHook}>
+                    <Typography variant="body2">
+                      Receive payments from anyone with an IOV wallet. Give them your IOV username and the
+                      funds will get send directly to your wallet
+                    </Typography>
+                  </Tooltip>
+                </Block>
+                <Block margin="xl" />
               </Block>
-              <Block margin="xl" />
-            </Block>
-          )}
-        </Form>
-      </Block>
+            )}
+          </Form>
+        </Block>
       </React.Fragment>
     );
   }

@@ -35,4 +35,5 @@ declare module "~/theme/variables" {
   export const screenMd: number;
   export const screenMdMax: number;
   export const screenLg: number;
+  export const card: string;
 }

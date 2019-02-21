@@ -4,7 +4,7 @@ import { ConfirmInput } from "~/components/compoundComponents/form";
 import Block from "~/components/layout/Block";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
-import { background, primary } from "~/theme/variables";
+import { background, card, primary } from "~/theme/variables";
 
 const styles = createStyles({
   container: {
@@ -15,8 +15,8 @@ const styles = createStyles({
     backgroundColor: background,
     display: "flex",
     flexDirection: "column",
-    flexBasis: "506px",
-    maxWidth: "506px",
+    flexBasis: card,
+    maxWidth: card,
   },
   highlight: {
     color: primary,
@@ -74,7 +74,8 @@ class ReceiveIov extends React.Component<Props, State> {
               <Block padding="xs" />
               <Tooltip phoneHook={this.state.howItWorksHook}>
                 <Typography variant="body2">
-                  Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds will get send directly to your wallet
+                  Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds
+                  will get send directly to your wallet
                 </Typography>
               </Tooltip>
             </Block>

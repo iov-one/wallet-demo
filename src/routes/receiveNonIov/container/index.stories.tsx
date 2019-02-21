@@ -9,19 +9,23 @@ import { ChainTicker } from "~/selectors";
 import { RootMatchMedia } from "~/utils/storybook";
 import ReceiveNonIov from "./index";
 
-const accountInfo: ReadonlyArray<AccountInfo> = [{
-  chainId: "chain-test1" as ChainId,
-  address: "123-addr" as Address,
-}];
+const accountInfo: ReadonlyArray<AccountInfo> = [
+  {
+    chainId: "chain-test1" as ChainId,
+    address: "123-addr" as Address,
+  },
+];
 
-const tickers: ReadonlyArray<ChainTicker> = [{
-  chainId: "chain-test1" as ChainId,
-  ticker: {
-    tokenTicker: "TEST",
-    tokenName: "test storybook",
-    fractionalDigits: 5,
-  } as BcpTicker
-}];
+const tickers: ReadonlyArray<ChainTicker> = [
+  {
+    chainId: "chain-test1" as ChainId,
+    ticker: {
+      tokenTicker: "TEST",
+      tokenName: "test storybook",
+      fractionalDigits: 5,
+    } as BcpTicker,
+  },
+];
 
 const txStore: DeepPartial<RootState> = {
   blockchain: {
@@ -33,7 +37,7 @@ const txStore: DeepPartial<RootState> = {
 storiesOf("Routes /receive-external", module)
   .add("Receive tokens from NON iov address for desktop", () => (
     <RootMatchMedia matchMedia={false} storeProps={txStore}>
-      <ReceiveNonIov/>
+      <ReceiveNonIov />
     </RootMatchMedia>
   ))
   .add("Receive tokens from NON iov address for phones", () => (

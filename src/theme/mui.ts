@@ -3,6 +3,7 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import {
   background,
   border,
+  card,
   fontColor,
   lg,
   lightFont,
@@ -95,7 +96,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiDialog: {
       paperWidthSm: {
-        maxWidth: "506px",
+        maxWidth: card,
       },
       paper: {
         margin: 0,
