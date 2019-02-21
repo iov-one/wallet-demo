@@ -1,28 +1,55 @@
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Hairline from "~/components/layout/Hairline";
-import { TransactionTableProps } from "../common";
-import DesktopTransactionsTable from "./desktop/TransactionsTable";
-import PhoneTransactionsTable from "./phone/TransactionsTable";
-import ToolBox from "./ToolBox";
+import DownloadCSV, { DownloadCSVProps } from "./DownloadCSV";
+import { TxTableProps } from "./TxTable/rowTxBuilder";
+import TxTableDesktop from "./TxTable/TxTableDesktop";
+import TxTablePhone from "./TxTable/TxTablePhone";
 
-interface Props extends TransactionTableProps {
+interface Props extends DownloadCSVProps, TxTableProps {
   readonly phone: boolean;
 }
 
 // tslint:disable-next-line:no-empty
 const onSubmit = (_: object) => {};
-export const Layout = ({ phone, onChangeRows }: Props) => (
+
+export const Layout = ({
+  onDownloadCSV,
+  phone,
+  txs,
+  onChangeRows,
+  onPrevPage,
+  onNextPage,
+  onSort,
+  orderBy,
+  order,
+}: Props) => (
   <React.Fragment>
     <Hairline />
-    <ToolBox phone={phone} />
+    <DownloadCSV phone={phone} onDownloadCSV={onDownloadCSV} />
     <Hairline />
     <Form onSubmit={onSubmit}>
       {() =>
         phone ? (
-          <PhoneTransactionsTable onChangeRows={onChangeRows} />
+          <TxTablePhone
+            txs={txs}
+            onChangeRows={onChangeRows}
+            onPrevPage={onPrevPage}
+            onNextPage={onNextPage}
+            onSort={onSort}
+            orderBy={orderBy}
+            order={order}
+          />
         ) : (
-          <DesktopTransactionsTable onChangeRows={onChangeRows} />
+          <TxTableDesktop
+            txs={txs}
+            onChangeRows={onChangeRows}
+            onPrevPage={onPrevPage}
+            onNextPage={onNextPage}
+            onSort={onSort}
+            orderBy={orderBy}
+            order={order}
+          />
         )
       }
     </Form>

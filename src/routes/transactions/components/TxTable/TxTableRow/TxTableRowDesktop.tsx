@@ -7,12 +7,13 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { background, border, md } from "~/theme/variables";
+import { amountToNumber } from "~/logic";
+import dropdownArrow from "~/routes/transactions/assets/dropdownArrow.svg";
+import dropdownArrowClose from "~/routes/transactions/assets/dropdownArrowClose.svg";
+import { background, border } from "~/theme/variables";
 import { getDate, getTime } from "~/utils/date";
-import dropdownArrow from "../../assets/dropdownArrow.svg";
-import dropdownArrowClose from "../../assets/dropdownArrowClose.svg";
-import { getAddressPrefix, getTypeIcon, TransactionRowProps } from "../../common";
-import TransactionDetails from "../TransactionDetails";
+import { calculateSender, getAddressPrefix, getTypeIcon, TxTableRowProps } from "../rowTxBuilder";
+import TxDetails from "../TxDetails";
 
 const styles = createStyles({
   row: {
@@ -22,32 +23,22 @@ const styles = createStyles({
   rowContent: {
     display: "flex",
     alignItems: "center",
-    margin: `${md} 0`,
   },
   cell: {
     flex: "1 0 50px",
   },
 });
 
-interface Outer extends TransactionRowProps, WithStyles<typeof styles> {}
+interface Outer extends TxTableRowProps, WithStyles<typeof styles> {}
 
 type Props = OpenType & OpenHandler & Outer;
 
-const TransactionRow = ({
-  classes,
-  type,
-  address,
-  amount,
-  symbol,
-  time,
-  note,
-  toggle,
-  open,
-}: Props): JSX.Element => (
+const TxTableRowDesktop = ({ classes, tx, toggle, open }: Props): JSX.Element => (
   <Block padding="lg" className={classes.row}>
+    <Block margin="md" />
     <Block className={classes.rowContent}>
       <CircleImage
-        icon={getTypeIcon(type)}
+        icon={getTypeIcon(tx)}
         circleColor={background}
         borderColor={border}
         alt="Transaction type"
@@ -57,19 +48,19 @@ const TransactionRow = ({
       />
       <Block className={classes.cell} padding="md">
         <Typography variant="subtitle2" weight="semibold" gutterBottom>
-          {getAddressPrefix(type)} {address}
+          {getAddressPrefix(tx)} {tx.received ? calculateSender(tx.signer) : calculateSender(tx.recipient)}
         </Typography>
         <Typography variant="subtitle2" weight="regular" color="secondary">
-          {getTime(time)}
+          {getTime(tx.time as Date)}
         </Typography>
       </Block>
       <Spacer order={1} />
       <Typography variant="subtitle2" weight="regular" color="secondary" className={classes.cell}>
-        {getDate(time)}
+        {getDate(tx.time as Date)}
       </Typography>
       <Spacer order={1} />
       <Typography variant="subtitle2" weight="regular" align="right" className={classes.cell}>
-        {amount} {symbol}
+        {amountToNumber(tx.amount)} {tx.amount.tokenTicker}
       </Typography>
       <Block padding="xs" />
       <Img
@@ -80,9 +71,10 @@ const TransactionRow = ({
         onClick={toggle}
       />
     </Block>
-    {open && <TransactionDetails address={address} note={note} />}
+    {open && <TxDetails tx={tx} />}
+    <Block margin="md" />
     <Hairline />
   </Block>
 );
 
-export default withStyles(styles)(openHoc<Outer>(TransactionRow));
+export default withStyles(styles)(openHoc<Outer>(TxTableRowDesktop));

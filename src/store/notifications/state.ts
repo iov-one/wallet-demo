@@ -7,6 +7,7 @@ export interface Tx {
   readonly recipient: string;
   readonly signer: string;
   readonly amount: Amount;
+  readonly memo?: string;
 }
 
 export interface ProcessedTx extends Tx {

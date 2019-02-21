@@ -4,29 +4,38 @@ import Block from "~/components/layout/Block";
 import Grid from "~/components/layout/Grid";
 import GridItem from "~/components/layout/GridItem";
 import Typography from "~/components/layout/Typography";
+import { ProcessedTx } from "~/store/notifications/state";
+import { getAddressPrefix } from "../rowTxBuilder";
 
 const styles = createStyles({
   details: {
     paddingLeft: 60,
   },
+  sectionName: {
+    overflowWrap: "break-word",
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly address: string;
-  readonly note?: string;
+  readonly tx: ProcessedTx;
 }
 
-const TransactionDetails = ({ classes, address, note }: Props) => (
+const TxDetails = ({ classes, tx }: Props) => (
   <Block className={classes.details}>
     <Block margin="lg" />
     <Grid>
       <GridItem xs={12} sm={6}>
         <Block>
           <Typography variant="subtitle2" weight="regular" gutterBottom>
-            To address:
+            {getAddressPrefix(tx)} address:
           </Typography>
-          <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            {address}
+          <Typography
+            variant="subtitle2"
+            weight="regular"
+            color="textSecondary"
+            className={classes.sectionName}
+          >
+            {tx.received ? tx.signer : tx.recipient}
           </Typography>
           <Block margin="md" />
         </Block>
@@ -37,13 +46,12 @@ const TransactionDetails = ({ classes, address, note }: Props) => (
             Note:
           </Typography>
           <Typography variant="subtitle2" weight="regular" color="textSecondary">
-            {note ? note : "No note"}
+            {tx.memo ? tx.memo : "No note"}
           </Typography>
         </Block>
       </GridItem>
     </Grid>
-    <Block margin="lg" />
   </Block>
 );
 
-export default withStyles(styles)(TransactionDetails);
+export default withStyles(styles)(TxDetails);
