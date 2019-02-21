@@ -7,6 +7,7 @@ import {
   composeValidators,
   greaterThanOrEqual,
   lowerThanOrEqual,
+  maxDecimals,
   mustBeFloat,
   required,
 } from "~/components/forms/validator";
@@ -98,6 +99,7 @@ class SendCard extends React.Component<Props, State> {
                 validate={composeValidators(
                   required,
                   mustBeFloat,
+                  maxDecimals(fractionalDigits),
                   greaterThanOrEqual(0.000000001),
                   lowerThanOrEqual(crypto),
                 )}
