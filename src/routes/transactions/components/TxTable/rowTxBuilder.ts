@@ -46,5 +46,5 @@ export const calculateSender = async (connection: BnsConnection, senderAddress: 
   const response = await getUsernameNftByUsername(connection, senderAddress);
   const isIovAddress = response !== undefined;
 
-  return isIovAddress ? senderAddress : DEFAULT_ADDRESS;
+  return isIovAddress ? `${senderAddress}*iov` : DEFAULT_ADDRESS;
 };
