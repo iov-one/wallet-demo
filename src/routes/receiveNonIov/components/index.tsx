@@ -82,11 +82,11 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
     const { ticker } = this.state;
 
     return (
-      <React.Fragment>
-        <Block padding="lg" margin="lg" />
-        <Block className={classes.container}>
-          <Form onSubmit={this.onSubmit} fullWidth>
-            {() => (
+      <Form onSubmit={this.onSubmit} fullWidth>
+        {() => (
+          <React.Fragment>
+            <Block padding="lg" margin="lg" />
+            <Block className={classes.container}>
               <Block padding="lg" margin="lg" className={classes.card}>
                 <Block margin="xl" />
                 <Typography variant="title" weight="light">
@@ -124,10 +124,10 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                 </Block>
                 <Block margin="xl" />
               </Block>
-            )}
-          </Form>
-        </Block>
-      </React.Fragment>
+            </Block>
+          </React.Fragment>
+        )}
+      </Form>
     );
   }
 }
