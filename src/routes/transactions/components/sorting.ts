@@ -10,9 +10,9 @@ export const ORDER_ASC = 1;
 export const ORDER_DESC = -1;
 export type SortOrder = 1 | -1;
 
-export const TX_TICKER_COLUMN = "Amount";
+export const TX_AMOUNT_COLUMN = "Amount";
 export const TX_DATE_COLUMN = "Date";
-export type TxsOrder = "Amount" | "Date";
+export type TxsOrder = "Date";
 
 export const filterTxsBy = (
   txs: ReadonlyArray<ProcessedTx>,
@@ -24,10 +24,6 @@ export const filterTxsBy = (
   const orderedTxs = txs.slice(0).sort((a: ProcessedTx | undefined, b: ProcessedTx | undefined) => {
     if (!a || !b) {
       return 0;
-    }
-
-    if (orderBy === TX_TICKER_COLUMN) {
-      return a.amount.tokenTicker.localeCompare(b.amount.tokenTicker) * order;
     }
 
     if (orderBy === TX_DATE_COLUMN) {

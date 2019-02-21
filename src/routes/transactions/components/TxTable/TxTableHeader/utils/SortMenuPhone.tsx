@@ -53,7 +53,7 @@ class SortMenuPhone extends React.PureComponent<Props, State> {
 
     try {
       const parsedName = name.split(" ");
-      const orderBy = parsedName[0] === "Date" ? "Date" : "Amount";
+      const orderBy = "Date";
       const order = parsedName[1] === "ascending" ? ORDER_ASC : ORDER_DESC;
 
       this.setState({ value: name }, () => {

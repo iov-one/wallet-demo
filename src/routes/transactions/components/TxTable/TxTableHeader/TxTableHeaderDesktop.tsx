@@ -6,10 +6,11 @@ import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
 import {
   SortingStateProps,
+  TX_AMOUNT_COLUMN,
   TX_DATE_COLUMN,
-  TX_TICKER_COLUMN,
 } from "~/routes/transactions/components/sorting";
-import ColumnHeaderDesktop from "./utils/ColumnHeaderDesktop";
+import ColumnDesktop from "./utils/ColumnDesktop";
+import SortableColumnDesktop from "./utils/SortableColumnDesktop";
 
 const styles = createStyles({
   header: {
@@ -31,16 +32,9 @@ const TxTableHeaderDesktop = ({ classes, orderBy, order, onSort }: Props) => (
         Transactions
       </Typography>
       <Spacer order={1} />
-      <ColumnHeaderDesktop name={TX_DATE_COLUMN} orderBy={orderBy} order={order} onSort={onSort} />
+      <SortableColumnDesktop name={TX_DATE_COLUMN} orderBy={orderBy} order={order} onSort={onSort} />
       <Spacer order={1} />
-      <ColumnHeaderDesktop
-        name={TX_TICKER_COLUMN}
-        orderBy={orderBy}
-        order={order}
-        onSort={onSort}
-        alignRight
-        disableOrder
-      />
+      <ColumnDesktop name={TX_AMOUNT_COLUMN} alignRight />
     </Block>
     <Block margin="md" />
     <Hairline />
