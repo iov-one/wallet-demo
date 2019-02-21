@@ -40,8 +40,6 @@ const styles = createStyles({
 const items: ReadonlyArray<Item> = [
   { name: buildNameFrom("Date", ORDER_ASC) },
   { name: buildNameFrom("Date", ORDER_DESC) },
-  { name: buildNameFrom("Amount", ORDER_ASC) },
-  { name: buildNameFrom("Amount", ORDER_DESC) },
 ];
 
 class SortMenuPhone extends React.PureComponent<Props, State> {
