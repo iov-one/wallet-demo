@@ -1,3 +1,4 @@
+import { BnsConnection } from "@iov/bns";
 import * as React from "react";
 import Form from "~/components/forms/Form";
 import Hairline from "~/components/layout/Hairline";
@@ -8,6 +9,7 @@ import TxTablePhone from "./TxTable/TxTablePhone";
 
 interface Props extends DownloadCSVProps, TxTableProps {
   readonly phone: boolean;
+  readonly connection: BnsConnection;
 }
 
 // tslint:disable-next-line:no-empty
@@ -23,6 +25,7 @@ export const Layout = ({
   onSort,
   orderBy,
   order,
+  connection,
 }: Props) => (
   <React.Fragment>
     <Hairline />
@@ -39,6 +42,7 @@ export const Layout = ({
             onSort={onSort}
             orderBy={orderBy}
             order={order}
+            connection={connection}
           />
         ) : (
           <TxTableDesktop
@@ -49,6 +53,7 @@ export const Layout = ({
             onSort={onSort}
             orderBy={orderBy}
             order={order}
+            connection={connection}
           />
         )
       }

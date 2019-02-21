@@ -1,5 +1,6 @@
+import { BnsConnection } from "@iov/bns";
 import { Item } from "~/components/forms/SelectField";
-import { isIovAddress } from "~/logic";
+import { getUsernameNftByUsername } from "~/logic";
 import fromAddress from "~/routes/transactions/assets/fromAddress.svg";
 import toAddress from "~/routes/transactions/assets/toAddress.svg";
 import toAddressRejected from "~/routes/transactions/assets/toAddressRejected.svg";
@@ -39,10 +40,11 @@ export function getAddressPrefix(tx: ProcessedTx): string {
   }
 }
 
-export function calculateSender(senderAddress: string): string {
-  if (isIovAddress(senderAddress)) {
-    return senderAddress;
-  }
+export const DEFAULT_ADDRESS = "blockchain address";
 
-  return "blockchain address";
-}
+export const calculateSender = async (connection: BnsConnection, senderAddress: string): Promise<string> => {
+  const response = await getUsernameNftByUsername(connection, senderAddress);
+  const isIovAddress = response !== undefined;
+
+  return isIovAddress ? `${senderAddress}*iov` : DEFAULT_ADDRESS;
+};

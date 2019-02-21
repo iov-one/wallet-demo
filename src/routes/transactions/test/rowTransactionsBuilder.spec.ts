@@ -4,19 +4,9 @@ import { stringToAmount } from "~/logic";
 import fromAddress from "../assets/fromAddress.svg";
 import toAddress from "../assets/toAddress.svg";
 import toAddressRejected from "../assets/toAddressRejected.svg";
-import { calculateSender, getAddressPrefix, getTypeIcon } from "../components/TxTable/rowTxBuilder";
+import { getAddressPrefix, getTypeIcon } from "../components/TxTable/rowTxBuilder";
 
 describe("Route -> Transaction -> Component", () => {
-  describe("calculateSender", () => {
-    it("should return sender name if name belongs to BNS", () => {
-      expect(calculateSender("alex*iov")).toBe("alex*iov");
-    });
-
-    it("should return 'blockchain address' title if name doesn't belongs to BNS", () => {
-      expect(calculateSender("tiov1maljemv2ef8vt3f00yg9j4cqzj6rxpskvdzf4x")).toBe("blockchain address");
-    });
-  });
-
   describe("getAddressPrefix", () => {
     it("should return 'From' prefix if payment was recieved", () => {
       const tx = {

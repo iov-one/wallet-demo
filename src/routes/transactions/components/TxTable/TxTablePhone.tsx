@@ -1,3 +1,4 @@
+import { BnsConnection } from "@iov/bns";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
@@ -21,7 +22,9 @@ const styles = createStyles({
   },
 });
 
-interface Props extends TxTableProps, WithStyles<typeof styles> {}
+interface Props extends TxTableProps, WithStyles<typeof styles> {
+  readonly connection: BnsConnection;
+}
 
 interface State extends TxTableState {
   readonly phoneSortHook: HTMLDivElement | null;
@@ -47,7 +50,17 @@ export class TxTablePhoneInternal extends React.Component<Props, State> {
   public readonly onSubmit = async (_: object) => {};
 
   public render(): JSX.Element {
-    const { classes, txs, onSort, orderBy, order, onChangeRows, onNextPage, onPrevPage } = this.props;
+    const {
+      classes,
+      txs,
+      onSort,
+      orderBy,
+      order,
+      onChangeRows,
+      onNextPage,
+      onPrevPage,
+      connection,
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -62,7 +75,7 @@ export class TxTablePhoneInternal extends React.Component<Props, State> {
           <Block className={classes.column}>
             <div ref={this.phoneSortHookRef} />
             {txs.length > 0 ? (
-              txs.map((tx: ProcessedTx) => <TxTableRowPhone key={tx.id} tx={tx} />)
+              txs.map((tx: ProcessedTx) => <TxTableRowPhone connection={connection} key={tx.id} tx={tx} />)
             ) : (
               <NoTransactions />
             )}
