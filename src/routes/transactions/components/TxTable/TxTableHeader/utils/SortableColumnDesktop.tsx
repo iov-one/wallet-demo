@@ -13,7 +13,6 @@ import {
   ORDER_ASC,
   ORDER_DESC,
   SortingStateProps,
-  TxsOrder,
 } from "~/routes/transactions/components/sorting";
 
 const styles = createStyles({
@@ -33,7 +32,7 @@ const styles = createStyles({
 });
 
 interface Props extends SortingStateProps, WithStyles<typeof styles> {
-  readonly name: TxsOrder;
+  readonly name: "Date";
   readonly alignRight?: boolean;
 }
 

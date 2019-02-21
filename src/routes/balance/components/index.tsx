@@ -109,10 +109,10 @@ class BalanceLayout extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <GridItem order={spacer}>
+        <GridItem noHeight order={spacer}>
           <Block margin="xxl" />
         </GridItem>
-        <GridItem order={actions} className={classes.actions}>
+        <GridItem noHeight order={actions} className={classes.actions}>
           <Card text="Send payment" logo={send} onAction={onSendPayment} className={classes.action} />
           {!phone && <Block className={classes.separator} />}
           <Card
@@ -122,10 +122,10 @@ class BalanceLayout extends React.Component<Props, State> {
             className={classes.action}
           />
         </GridItem>
-        <GridItem order={actionSpacer}>
+        <GridItem noHeight order={actionSpacer}>
           <Block margin="lg" />
         </GridItem>
-        <GridItem order={info}>
+        <GridItem noHeight order={info}>
           <Spacer order={1} />
           <Block className={classes.container}>
             <Block padding="xl" className={classes.info}>
@@ -176,7 +176,7 @@ class BalanceLayout extends React.Component<Props, State> {
           </Block>
           <Spacer order={1} />
         </GridItem>
-        <GridItem grow order={grow} />
+        <GridItem noHeight grow order={grow} />
       </React.Fragment>
     );
   }

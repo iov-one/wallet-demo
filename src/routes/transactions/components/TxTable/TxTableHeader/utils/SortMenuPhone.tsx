@@ -40,8 +40,6 @@ const styles = createStyles({
 const items: ReadonlyArray<Item> = [
   { name: buildNameFrom("Date", ORDER_ASC) },
   { name: buildNameFrom("Date", ORDER_DESC) },
-  { name: buildNameFrom("Amount", ORDER_ASC) },
-  { name: buildNameFrom("Amount", ORDER_DESC) },
 ];
 
 class SortMenuPhone extends React.PureComponent<Props, State> {
@@ -55,7 +53,7 @@ class SortMenuPhone extends React.PureComponent<Props, State> {
 
     try {
       const parsedName = name.split(" ");
-      const orderBy = parsedName[0] === "Date" ? "Date" : "Amount";
+      const orderBy = "Date";
       const order = parsedName[1] === "ascending" ? ORDER_ASC : ORDER_DESC;
 
       this.setState({ value: name }, () => {

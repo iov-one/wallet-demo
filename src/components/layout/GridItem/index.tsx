@@ -21,6 +21,7 @@ interface Props {
   readonly margin?: Size;
   readonly overflow?: boolean;
   readonly grow?: boolean;
+  readonly noHeight?: boolean;
 
   readonly start?: "xs" | "sm" | "md" | "lg";
   readonly center?: "xs" | "sm" | "md" | "lg";
@@ -119,6 +120,7 @@ class GridItem extends React.PureComponent<Props, State> {
       growMd,
       growLg,
       grow,
+      noHeight,
       className,
       ...props
     } = this.props;
@@ -149,6 +151,7 @@ class GridItem extends React.PureComponent<Props, State> {
       capitalize(maxwidth, "maxwidth"),
       { overflow },
       { grow },
+      { noHeight },
       variant,
       className,
     );
