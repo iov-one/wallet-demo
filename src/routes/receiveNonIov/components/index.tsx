@@ -1,12 +1,15 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
-import { ConfirmInput } from "~/components/compoundComponents/form";
+import CopyToClipboard from "react-copy-to-clipboard";
 import Field from "~/components/forms/Field";
 import Form from "~/components/forms/Form";
 import SelectField from "~/components/forms/SelectField";
+import TextField from "~/components/forms/TextField";
 import Block from "~/components/layout/Block";
+import Button from "~/components/layout/Button";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
+import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/ToastProvider";
 import { background, card, primary } from "~/theme/variables";
 import { TickerWithAddress } from "../container/selector";
 
@@ -104,11 +107,32 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                   width={100}
                 />
                 <Block margin="md" />
-                <ConfirmInput
-                  title={`Your ${ticker.name} Address`}
-                  value={ticker.address}
-                  notification={`${ticker.name} Address copied to clipboard`}
-                />
+                <Block className={classes.container} margin="md">
+                  <Field
+                    variant="outlined"
+                    name="copy-address"
+                    type="string"
+                    fullWidth
+                    component={TextField}
+                    placeholder={ticker.address}
+                  />
+                  <ToastConsumer>
+                    {({ showToast }: ToastContextInterface) => (
+                      <CopyToClipboard text={ticker.address}>
+                        <Button
+                          onClick={() =>
+                            showToast(`${ticker.name} Address copied to clipboard`, ToastVariant.SUCCESS)
+                          }
+                          variant="contained"
+                          color="primary"
+                          size="large"
+                        >
+                          Copy!
+                        </Button>
+                      </CopyToClipboard>
+                    )}
+                  </ToastConsumer>
+                </Block>
                 <Block margin="lg" />
                 <Block margin="sm" className={classes.tooltip}>
                   <Typography inline variant="body2">
