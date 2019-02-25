@@ -14,6 +14,10 @@ const accountInfo: ReadonlyArray<AccountInfo> = [
     chainId: "chain-test1" as ChainId,
     address: "123-addr" as Address,
   },
+  {
+    chainId: "chain-test2" as ChainId,
+    address: "321-addr" as Address,
+  },
 ];
 
 const tickers: ReadonlyArray<ChainTicker> = [
@@ -22,6 +26,14 @@ const tickers: ReadonlyArray<ChainTicker> = [
     ticker: {
       tokenTicker: "TEST",
       tokenName: "test storybook",
+      fractionalDigits: 5,
+    } as BcpTicker,
+  },
+  {
+    chainId: "chain-test2" as ChainId,
+    ticker: {
+      tokenTicker: "TST",
+      tokenName: "another test",
       fractionalDigits: 5,
     } as BcpTicker,
   },

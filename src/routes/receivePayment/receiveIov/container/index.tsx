@@ -4,12 +4,12 @@ import PageMenu from "~/components/pages/PageMenu";
 import { SuggestionButton } from "~/components/subComponents/buttons";
 import { IOV_NAMESPACE } from "~/logic";
 import { RECEIVE_FROM_NON_IOV_USER } from "~/routes";
-import Layout from "~/routes/receiveIov/components";
+import Layout from "~/routes/receivePayment/receiveIov/components";
 import { history } from "~/store";
 import selector, { SelectorProps } from "./selector";
 
 class RecieveIov extends React.Component<SelectorProps> {
-  public readonly onReceiveExpernal = () => {
+  public readonly onReceiveExternal = () => {
     history.push(RECEIVE_FROM_NON_IOV_USER);
   };
 
@@ -23,7 +23,7 @@ class RecieveIov extends React.Component<SelectorProps> {
         <SuggestionButton
           suggestionText="Receiving from outside IOV?"
           buttonText="View your address"
-          onClick={this.onReceiveExpernal}
+          onClick={this.onReceiveExternal}
         />
       </PageMenu>
     );

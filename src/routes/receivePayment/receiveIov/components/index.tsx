@@ -1,4 +1,4 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Field from "~/components/forms/Field";
@@ -8,29 +8,7 @@ import Button from "~/components/layout/Button";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
 import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/ToastProvider";
-import { background, card, primary } from "~/theme/variables";
-
-const styles = createStyles({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundColor: background,
-    display: "flex",
-    flexDirection: "column",
-    flexBasis: card,
-    maxWidth: card,
-  },
-  highlight: {
-    color: primary,
-  },
-  tooltip: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-});
+import { styles } from "~/routes/receivePayment/styles";
 
 interface Props extends WithStyles<typeof styles> {
   readonly iovAddress: string;
@@ -56,13 +34,17 @@ class ReceiveIov extends React.Component<Props, State> {
     const { iovAddress, classes } = this.props;
     return (
       <React.Fragment>
-        <Block padding="lg" margin="lg" />
+        <Block margin="lg" />
         <Block className={classes.container}>
           <Block padding="lg" margin="lg" className={classes.card}>
             <Block margin="xl" />
             <Typography variant="title" weight="light">
-              Receive payment from <b className={classes.highlight}>IOV wallet users</b> by giving them your
-              IOV address
+              Receive payment from
+              <Typography inline={true} variant="title" weight="semibold" color="primary">
+                {" "}
+                IOV wallet users{" "}
+              </Typography>
+              by giving them your IOV address
             </Typography>
             <Block margin="md" />
             <Block className={classes.container} margin="md">
@@ -72,7 +54,8 @@ class ReceiveIov extends React.Component<Props, State> {
                 type="string"
                 fullWidth
                 component={TextField}
-                placeholder={iovAddress}
+                value={`${iovAddress}`}
+                readOnly
               />
               <ToastConsumer>
                 {({ showToast }: ToastContextInterface) => (

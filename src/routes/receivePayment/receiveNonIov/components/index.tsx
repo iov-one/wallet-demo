@@ -1,4 +1,4 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Field from "~/components/forms/Field";
@@ -10,31 +10,8 @@ import Button from "~/components/layout/Button";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
 import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/ToastProvider";
-import { background, card, primary } from "~/theme/variables";
+import { styles } from "~/routes/receivePayment/styles";
 import { TickerWithAddress } from "../container/selector";
-
-const styles = createStyles({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundColor: background,
-    display: "flex",
-    flexDirection: "column",
-    flexBasis: card,
-    maxWidth: card,
-  },
-  highlight: {
-    color: primary,
-  },
-  tooltip: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-});
-
 export const TOKEN_FIELD = "token";
 const INITIAL_TOKEN = "IOV";
 
@@ -66,13 +43,13 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   public componentDidMount(): void {
     this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
+      howItWorksHook: this.howItWorksHookRef.current,
     }));
   }
 
   public readonly onChangeAddress = (ticker: TickerWithAddress): void => {
     this.setState({
       ticker,
-      howItWorksHook: this.howItWorksHookRef.current,
     });
   };
 
@@ -82,27 +59,31 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
 
   public render(): JSX.Element {
     const { tickersList, classes } = this.props;
-    const { ticker } = this.state;
+    const { howItWorksHook, phoneHook, ticker } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} fullWidth>
         {() => (
           <React.Fragment>
-            <Block padding="lg" margin="lg" />
+            <Block margin="lg" />
             <Block className={classes.container}>
               <Block padding="lg" margin="lg" className={classes.card}>
                 <Block margin="xl" />
                 <Typography variant="title" weight="light">
-                  Receive payment from <b className={classes.highlight}>non-IOV users</b> by giving them this
-                  address
+                  Receive payment from
+                  <Typography inline={true} variant="title" weight="semibold" color="primary">
+                    {" "}
+                    non-IOV users{" "}
+                  </Typography>
+                  by giving them this address
                 </Typography>
                 <Block margin="xl" />
                 <Field
                   name={TOKEN_FIELD}
-                  phoneHook={this.state.phoneHook}
+                  phoneHook={phoneHook}
                   component={SelectField}
                   items={tickersList}
-                  initial={INITIAL_TOKEN}
+                  initial={ticker.name}
                   onChangeCallback={this.onChangeAddress}
                   width={100}
                 />
@@ -110,7 +91,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                 <Block className={classes.container} margin="md">
                   <Field
                     variant="outlined"
-                    name="copy-address"
+                    name="copy-address-non-iov"
                     type="string"
                     fullWidth
                     component={TextField}
@@ -139,7 +120,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                     How it works
                   </Typography>
                   <Block padding="xs" />
-                  <Tooltip phoneHook={this.state.howItWorksHook}>
+                  <Tooltip phoneHook={howItWorksHook}>
                     <Typography variant="body2">
                       Receive payments from anyone with an IOV wallet. Give them your IOV username and the
                       funds will get send directly to your wallet

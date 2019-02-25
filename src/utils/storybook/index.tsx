@@ -22,9 +22,9 @@ export const RootMatchMedia = ({ storeProps = {}, children, matchMedia }: Props)
   <Provider store={aNewStore(storeProps)}>
     <MuiThemeProvider theme={theme}>
       <MatchMediaContext.Provider value={matchMedia}>
-      <ToastProvider>
-        <ConnectedRouter history={history}>{children}</ConnectedRouter>
-      </ToastProvider>
+        <ToastProvider>
+          <ConnectedRouter history={history}>{children}</ConnectedRouter>
+        </ToastProvider>
       </MatchMediaContext.Provider>
     </MuiThemeProvider>
   </Provider>
