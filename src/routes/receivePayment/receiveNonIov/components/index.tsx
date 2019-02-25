@@ -13,6 +13,7 @@ import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/To
 import { styles } from "~/routes/receivePayment/styles";
 import { TickerWithAddress } from "../container/selector";
 export const TOKEN_FIELD = "token";
+const ADDRESS_FIELD = "address";
 const INITIAL_TOKEN = "IOV";
 
 interface Props extends WithStyles<typeof styles> {
@@ -26,22 +27,19 @@ interface RecieveNonIOVState {
 }
 
 class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
+  public readonly state = {
+    ticker: this.props.tickersList[1],
+    phoneHook: null,
+    howItWorksHook: null,
+  };
+
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
   private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
-  constructor(props: Props) {
-    super(props);
-
-    const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
-
-    this.state = {
-      ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
-      phoneHook: null,
-      howItWorksHook: null,
-    };
-  }
 
   public componentDidMount(): void {
+    const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
     this.setState(() => ({
+      ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
       phoneHook: this.phoneHookRef.current,
       howItWorksHook: this.howItWorksHookRef.current,
     }));
@@ -91,11 +89,12 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                 <Block className={classes.container} margin="md">
                   <Field
                     variant="outlined"
-                    name="copy-address-non-iov"
+                    name={ADDRESS_FIELD}
                     type="string"
                     fullWidth
                     component={TextField}
                     placeholder={ticker.address}
+                    disabled
                   />
                   <ToastConsumer>
                     {({ showToast }: ToastContextInterface) => (
