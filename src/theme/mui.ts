@@ -230,10 +230,10 @@ export const themeObject: ThemeOptions = {
       },
       root: {
         "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-          borderColor: border,
+          borderColor: `${border} !important`,
         },
         "& $notchedOutline": {
-          borderColor: border,
+          borderColor: `${border} !important`,
           borderWidth: "1px",
         },
       },
