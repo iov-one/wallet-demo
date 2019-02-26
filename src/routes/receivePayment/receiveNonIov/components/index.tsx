@@ -14,21 +14,21 @@ import { styles } from "~/routes/receivePayment/styles";
 import { TickerWithAddress } from "../container/selector";
 export const TOKEN_FIELD = "token";
 const ADDRESS_FIELD = "address";
-const INITIAL_TOKEN = "IOV";
 
 interface Props extends WithStyles<typeof styles> {
   readonly tickersList: ReadonlyArray<TickerWithAddress>;
+  readonly defaultTicker: TickerWithAddress;
 }
 
 interface RecieveNonIOVState {
-  readonly ticker: TickerWithAddress;
+  readonly ticker: TickerWithAddress | null;
   readonly phoneHook: HTMLDivElement | null;
   readonly howItWorksHook: HTMLDivElement | null;
 }
 
 class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   public readonly state = {
-    ticker: this.props.tickersList[0],
+    ticker: this.props.defaultTicker,
     phoneHook: null,
     howItWorksHook: null,
   };
@@ -36,13 +36,6 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
   private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
 
-  constructor(props: Props) {
-    super(props);
-    const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
-    this.setState(() => ({
-      ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
-    }));
-  }
   public componentDidMount(): void {
     this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
@@ -86,7 +79,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                   phoneHook={phoneHook}
                   component={SelectField}
                   items={tickersList}
-                  initial={ticker.name}
+                  initial={ticker!.name}
                   onChangeCallback={this.onChangeAddress}
                   width={100}
                 />
@@ -98,15 +91,15 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                     type="string"
                     fullWidth
                     component={TextField}
-                    placeholder={ticker.address}
+                    placeholder={ticker!.address}
                     disabled
                   />
                   <ToastConsumer>
                     {({ showToast }: ToastContextInterface) => (
-                      <CopyToClipboard text={ticker.address}>
+                      <CopyToClipboard text={ticker!.address}>
                         <Button
                           onClick={() =>
-                            showToast(`${ticker.name} Address copied to clipboard`, ToastVariant.SUCCESS)
+                            showToast(`${ticker!.name} Address copied to clipboard`, ToastVariant.SUCCESS)
                           }
                           variant="contained"
                           color="primary"
