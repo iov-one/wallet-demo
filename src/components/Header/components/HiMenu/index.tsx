@@ -26,7 +26,7 @@ import { PhoneLinks } from "../LinksMenu";
 
 export const SECURITY_CENTER_ID = "security-center";
 export const INVITE_FRIENDS_ID = "invite-friends";
-export const TERMS_CONDITIONS_ID = "terms-conditions";
+export const TERMS_CONDITIONS_ID = "terms";
 export const PRIVACY_POLICY_ID = "privacy-policy";
 export const LOG_OUT_ID = "log-out";
 
