@@ -28,7 +28,7 @@ interface RecieveNonIOVState {
 
 class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   public readonly state = {
-    ticker: this.props.tickersList[1],
+    ticker: this.props.tickersList[0],
     phoneHook: null,
     howItWorksHook: null,
   };
@@ -36,10 +36,15 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
   private readonly phoneHookRef = React.createRef<HTMLDivElement>();
   private readonly howItWorksHookRef = React.createRef<HTMLDivElement>();
 
-  public componentDidMount(): void {
+  constructor(props: Props) {
+    super(props);
     const defaultTicker = this.props.tickersList.find(item => item.name === INITIAL_TOKEN);
     this.setState(() => ({
       ticker: defaultTicker ? defaultTicker : this.props.tickersList[0],
+    }));
+  }
+  public componentDidMount(): void {
+    this.setState(() => ({
       phoneHook: this.phoneHookRef.current,
       howItWorksHook: this.howItWorksHookRef.current,
     }));

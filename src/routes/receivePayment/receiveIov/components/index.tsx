@@ -33,6 +33,7 @@ class ReceiveIov extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     const { iovAddress, classes } = this.props;
+    const { howItWorksHook } = this.state;
     return (
       <React.Fragment>
         <Block margin="lg" />
@@ -79,7 +80,7 @@ class ReceiveIov extends React.Component<Props, State> {
                 How it works
               </Typography>
               <Block padding="xs" />
-              <Tooltip phoneHook={this.state.howItWorksHook}>
+              <Tooltip phoneHook={howItWorksHook}>
                 <Typography variant="body2">
                   Receive payments from anyone with an IOV wallet. Give them your IOV username and the funds
                   will get send directly to your wallet
