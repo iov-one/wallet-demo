@@ -1,16 +1,16 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { RootMatchMedia } from "~/utils/storybook";
-import TermsOfService from "./index";
+import Terms from "./index";
 
-storiesOf("Routes /terms-of-service", module)
+storiesOf("Routes /terms", module)
   .add("Terms of Service for desktop", () => (
     <RootMatchMedia matchMedia={false}>
-      <TermsOfService />
+      <Terms />
     </RootMatchMedia>
   ))
   .add("Terms of Service for phones", () => (
     <RootMatchMedia matchMedia={true}>
-      <TermsOfService />
+      <Terms />
     </RootMatchMedia>
   ));

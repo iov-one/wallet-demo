@@ -15,7 +15,7 @@ import SecurityPhrase from "~/routes/securityPhrase/container";
 import Payment from "~/routes/sendPayment/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
-import TermsOfService from "~/routes/termsOfService/container";
+import Terms from "~/routes/terms/container";
 import Transactions from "~/routes/transactions/container";
 import { TXS_FEATURE_FLAG } from "~/utils/features";
 
@@ -43,7 +43,7 @@ export const MainRouter = () => (
     <Route exact path={PASSWORD_RECOVERY_ROUTE} component={PasswordRecovery} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
-    <Route exact path={TERMS_OF_SERVICE_ROUTE} component={TermsOfService} />
+    <Route exact path={TERMS_OF_SERVICE_ROUTE} component={Terms} />
     <RequireLogin>
       <Route exact path={HOME_ROUTE} component={Balance} />
       <Route exact path={SET_NAME_ROUTE} component={SignupName} />
