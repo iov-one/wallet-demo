@@ -37,16 +37,20 @@ describe("DOM > Feature > Signup - setname", () => {
   mayTestBns(
     "should fail if user uses an already registered account name",
     async () => {
-      const SignUpDom = await travelToSetName(refreshStore);
-      expectRoute(refreshStore, SIGNUP_ROUTE);
-      await processSignup(SignUpDom);
-      expectRoute(refreshStore, SET_NAME_ROUTE);
-      const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
-      await processSetName(SignUpDom, account);
-
-      expect(takenNameSpy).toHaveBeenCalled();
-      expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
-      expectRoute(refreshStore, SET_NAME_ROUTE);
+      try {
+        const SignUpDom = await travelToSetName(refreshStore);
+        expectRoute(refreshStore, SIGNUP_ROUTE);
+        await processSignup(SignUpDom, refreshStore);
+        expectRoute(refreshStore, SIGNUP_ROUTE);
+        const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
+        await processSetName(SignUpDom, account, refreshStore);
+  
+        expect(takenNameSpy).toHaveBeenCalled();
+        expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
+        expectRoute(refreshStore, SET_NAME_ROUTE);
+      } catch (e) {
+        console.log("error" ,e);
+      }
     },
     45000,
   );
