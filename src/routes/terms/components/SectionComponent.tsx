@@ -15,15 +15,15 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  readonly text: string;
+  readonly children: React.ReactNode;
 }
 
-const SectionComponent = ({ classes, text }: Props) => (
+const SectionComponent = ({ classes, children }: Props) => (
   <Block margin="xl" maxWidth={450} className={classes.content}>
     <Block margin="xxl" />
     <Block padding="xl">
       <Typography weight="light" variant="body2">
-        {text}
+        {children}
       </Typography>
     </Block>
     <Block margin="xxl" />
