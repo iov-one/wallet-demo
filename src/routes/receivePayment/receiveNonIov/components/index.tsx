@@ -65,9 +65,9 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
             <Block className={classes.container}>
               <Block padding="lg" margin="lg" className={classes.card}>
                 <Block margin="xl" />
-                <Typography variant="title" weight="light">
+                <Typography variant="h6" weight="light">
                   Receive payment from
-                  <Typography inline={true} variant="title" weight="semibold" color="primary">
+                  <Typography inline={true} variant="h6" weight="semibold" color="primary">
                     {" "}
                     non-IOV users{" "}
                   </Typography>
