@@ -18,7 +18,11 @@ describe("DOM > Feature > Signup - setname", () => {
   beforeAll(async () => {
     store = aNewStore();
     account = randomString(6);
-    await processBalance(store, account);
+    try {
+      await processBalance(store, account);
+    } catch (e) {
+      expect(e).toBeUndefined();
+    }
   }, 35000);
 
   beforeEach(() => {
@@ -41,15 +45,15 @@ describe("DOM > Feature > Signup - setname", () => {
         const SignUpDom = await travelToSetName(refreshStore);
         expectRoute(refreshStore, SIGNUP_ROUTE);
         await processSignup(SignUpDom, refreshStore);
-        expectRoute(refreshStore, SIGNUP_ROUTE);
+        expectRoute(refreshStore, SET_NAME_ROUTE);
         const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
         await processSetName(SignUpDom, account, refreshStore);
-  
+
         expect(takenNameSpy).toHaveBeenCalled();
         expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
         expectRoute(refreshStore, SET_NAME_ROUTE);
       } catch (e) {
-        console.log("error" ,e);
+        expect(e).toBeUndefined();
       }
     },
     45000,

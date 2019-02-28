@@ -18,7 +18,11 @@ describe("DOM > Feature > Login", () => {
   beforeAll(async () => {
     store = aNewStore();
     const account = randomString(6);
-    await processBalance(store, account);
+    try {
+      await processBalance(store, account);
+    } catch (e) {
+      expect(e).toBeUndefined();
+    }
   }, 35000);
 
   beforeEach(() => {
