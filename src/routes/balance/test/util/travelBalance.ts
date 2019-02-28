@@ -3,7 +3,6 @@ import { BALANCE_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SET_NAME_ROUTE, SIGNUP_ROUTE } 
 import { processSetName } from "~/routes/signupName/test/utils/travelSetName";
 import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
 import { history } from "~/store";
-import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { createDom, expectRoute } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
@@ -15,7 +14,6 @@ export const processBalance = async (store: Store, account: string): Promise<Rea
   const SignupDom = HomeDom;
   expectRoute(store, SIGNUP_ROUTE);
   await processSignup(SignupDom, store);
-  await whenOnNavigatedToRoute(store, SET_NAME_ROUTE);
   expectRoute(store, SET_NAME_ROUTE);
 
   const SetNameDom = SignupDom;
