@@ -2,7 +2,10 @@ import * as React from "react";
 import { Link as RouterLink, LinkProps } from "react-router-dom";
 
 // use type alias not interface for equality (unless we extend it)
-type Props = LinkProps;
+interface Props extends LinkProps {
+  readonly children: React.ReactNode;
+}
+//type Props = LinkProps;
 
 // Note that react-router-dom Link cannot handle external URLS
 // So we need to use "a" for external links
