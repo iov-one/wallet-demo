@@ -6,10 +6,9 @@ import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { createDom } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
 
-export const processSetName = async (
+export const submitSetNameForm = async (
   SetNameDom: React.Component,
   account: string,
-  refreshStore: Store,
 ): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SetNameDom, "input");
   expect(inputs.length).toBe(1);
@@ -23,7 +22,15 @@ export const processSetName = async (
     throw new Error();
   }
   TestUtils.Simulate.submit(form);
+  await sleep(500);
+}
 
+export const processSetName = async (
+  SetNameDom: React.Component,
+  account: string,
+  refreshStore: Store,
+): Promise<void> => {
+  await submitSetNameForm(SetNameDom, account);
   await whenOnNavigatedToRoute(refreshStore, BALANCE_ROUTE);
 };
 
