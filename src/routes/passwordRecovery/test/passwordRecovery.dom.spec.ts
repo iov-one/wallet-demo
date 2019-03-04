@@ -60,7 +60,8 @@ describe("DOM > Feature > Password Recovery", () => {
       const addressesRecovered: ReadonlyArray<string> = getAllAccounts(store.getState()).map(
         acct => acct.address,
       );
-      expect(addresses).toEqual(addressesRecovered);
+
+      addressesRecovered.map((recoveredAddress: string) => expect(addresses).toContain(recoveredAddress));
 
       shutdownSequence(null, freshStore.getState);
     },
