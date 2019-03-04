@@ -1,6 +1,6 @@
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { SIGNUP_ROUTE } from "~/routes";
+import { BALANCE_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { createDom } from "~/utils/test/dom";
@@ -24,7 +24,7 @@ export const processSetName = async (
   }
   TestUtils.Simulate.submit(form);
 
-  await whenOnNavigatedToRoute(refreshStore, SIGNUP_ROUTE);
+  await whenOnNavigatedToRoute(refreshStore, BALANCE_ROUTE);
 };
 
 export const travelToSetName = async (store: Store): Promise<React.Component> => {
