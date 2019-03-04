@@ -18,11 +18,7 @@ describe("DOM > Feature > Signup - setname", () => {
   beforeAll(async () => {
     store = aNewStore();
     account = randomString(6);
-    try {
-      await processBalance(store, account);
-    } catch (e) {
-      expect(e).toBeUndefined();
-    }
+    await processBalance(store, account);
   }, 35000);
 
   beforeEach(() => {
@@ -41,20 +37,16 @@ describe("DOM > Feature > Signup - setname", () => {
   mayTestBns(
     "should fail if user uses an already registered account name",
     async () => {
-      try {
-        const SignUpDom = await travelToSetName(refreshStore);
-        expectRoute(refreshStore, SIGNUP_ROUTE);
-        await processSignup(SignUpDom, refreshStore);
-        expectRoute(refreshStore, SET_NAME_ROUTE);
-        const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
-        await processSetName(SignUpDom, account, refreshStore);
+      const SignUpDom = await travelToSetName(refreshStore);
+      expectRoute(refreshStore, SIGNUP_ROUTE);
+      await processSignup(SignUpDom, refreshStore);
+      expectRoute(refreshStore, SET_NAME_ROUTE);
+      const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
+      await processSetName(SignUpDom, account, refreshStore);
 
-        expect(takenNameSpy).toHaveBeenCalled();
-        expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
-        expectRoute(refreshStore, SET_NAME_ROUTE);
-      } catch (e) {
-        expect(e).toBeUndefined();
-      }
+      expect(takenNameSpy).toHaveBeenCalled();
+      expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");
+      expectRoute(refreshStore, SET_NAME_ROUTE);
     },
     45000,
   );

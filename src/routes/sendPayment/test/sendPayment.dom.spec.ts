@@ -21,14 +21,9 @@ describe("DOM > Feature > Send Payment", () => {
   beforeAll(async () => {
     userFooStore = aNewStore();
     userFooAccount = randomString(10);
-    try {
-      await processBalance(userFooStore, userFooAccount);
-
-      resetHistory();
-      userBarStore = aNewStore();
-    } catch (e) {
-      expect(e).toBeUndefined();
-    }
+    await processBalance(userFooStore, userFooAccount);
+    resetHistory();
+    userBarStore = aNewStore();
   }, 30000);
 
   afterAll(() => {

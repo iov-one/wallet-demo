@@ -16,11 +16,7 @@ describe("Components -> Header -> HiMenu", () => {
   beforeEach(async () => {
     store = aNewStore();
     const account = randomString(6);
-    try {
-      await processBalance(store, account);
-    } catch (e) {
-      expect(e).toBeUndefined();
-    }
+    await processBalance(store, account);
   }, 25000);
 
   afterEach(() => {
