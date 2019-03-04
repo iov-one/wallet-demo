@@ -8,7 +8,7 @@ import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
-import { travelToSetName, submitSetNameForm } from "./utils/travelSetName";
+import { submitSetNameForm, travelToSetName } from "./utils/travelSetName";
 
 describe("DOM > Feature > Signup - setname", () => {
   let store: Store<RootState>;

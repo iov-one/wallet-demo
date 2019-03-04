@@ -9,7 +9,8 @@ import { getProfileDB } from "~/selectors";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
-import { processLogin } from "./utils/travelLogin";
+import { sleep } from "~/utils/timer";
+import { fillLoginForm, processLogin } from "./utils/travelLogin";
 
 describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
@@ -46,7 +47,7 @@ describe("DOM > Feature > Login", () => {
       const loginDom = await travelToBalance(refreshStore);
       expectRoute(refreshStore, LOGIN_ROUTE);
 
-      await processLogin(loginDom, TEST_PASS_PHRASE);
+      await processLogin(loginDom, TEST_PASS_PHRASE, refreshStore);
       expectRoute(refreshStore, BALANCE_ROUTE);
     },
     30000,
@@ -63,7 +64,9 @@ describe("DOM > Feature > Login", () => {
 
       // WHEN
       expectRoute(refreshStore, LOGIN_ROUTE);
-      await processLogin(loginDom, wrongPassword);
+      await fillLoginForm(loginDom, wrongPassword);
+      // Needed time to try to load the profile
+      await sleep(5000);
 
       // THEN
       expect(loadProfileSpy).toHaveBeenCalledTimes(1);
