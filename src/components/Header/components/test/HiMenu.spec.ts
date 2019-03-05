@@ -1,4 +1,3 @@
-import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
@@ -6,10 +5,9 @@ import { LOGIN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/rou
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore } from "~/store";
-import { whenOnNavigatedToRoute } from "~/utils/navigation";
-import { findRenderedDOMComponentWithId } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
-import { LOG_OUT_ID, MENU_ID, PRIVACY_POLICY_ID, TERMS_CONDITIONS_ID } from "../HiMenu/index";
+import { LOG_OUT_ID, PRIVACY_POLICY_ID, TERMS_CONDITIONS_ID } from "../HiMenu/index";
+import { clickMenuAndRedirect } from "./util/menu";
 
 describe("Components -> Header -> HiMenu", () => {
   let store: Store<RootState>;
@@ -29,24 +27,14 @@ describe("Components -> Header -> HiMenu", () => {
     async () => {
       const BalanceDom = await travelToBalance(store);
 
-      let hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);
-      TestUtils.Simulate.click(hiMenu);
-      const termsItem = findRenderedDOMComponentWithId(BalanceDom, TERMS_CONDITIONS_ID);
-      TestUtils.Simulate.click(termsItem);
-      await whenOnNavigatedToRoute(store, TERMS_OF_SERVICE_ROUTE);
+      await clickMenuAndRedirect(BalanceDom, TERMS_CONDITIONS_ID, TERMS_OF_SERVICE_ROUTE, store);
+      await clickMenuAndRedirect(BalanceDom, PRIVACY_POLICY_ID, PRIVACY_POLICY_ROUTE, store);
 
-      hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);
-      TestUtils.Simulate.click(hiMenu);
-      const policyItem = findRenderedDOMComponentWithId(BalanceDom, PRIVACY_POLICY_ID);
-      TestUtils.Simulate.click(policyItem);
-      await whenOnNavigatedToRoute(store, PRIVACY_POLICY_ROUTE);
-
-      hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);
-      TestUtils.Simulate.click(hiMenu);
-      const logOutItem = findRenderedDOMComponentWithId(BalanceDom, LOG_OUT_ID);
-      TestUtils.Simulate.click(logOutItem);
-
-      await whenOnNavigatedToRoute(store, LOGIN_ROUTE);
+      /**
+       * This should be run at the end of all checks. Because this will logout current user from
+       * the wallet and all other menu checks will be failed.
+       */
+      await clickMenuAndRedirect(BalanceDom, LOG_OUT_ID, LOGIN_ROUTE, store);
       const newStore = aNewStore();
       await sleep(1500);
       expect(store.getState()).toEqual(newStore.getState());
