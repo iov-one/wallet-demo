@@ -2,6 +2,7 @@ import { withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Field from "~/components/forms/Field";
+import Form from "~/components/forms/Form";
 import TextField from "~/components/forms/TextField";
 import Block from "~/components/layout/Block";
 import Button from "~/components/layout/Button";
@@ -18,6 +19,8 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   readonly howItWorksHook: HTMLDivElement | null;
 }
+
+const noOp = () => undefined;
 
 class ReceiveIov extends React.Component<Props, State> {
   public readonly state = {
@@ -40,25 +43,33 @@ class ReceiveIov extends React.Component<Props, State> {
         <Block className={classes.container}>
           <Block padding="lg" margin="lg" className={classes.card}>
             <Block margin="xl" />
-            <Typography variant="h6" weight="light">
-              Receive payment from
-              <Typography inline={true} variant="h6" weight="semibold" color="primary">
+            <Block>
+              <Typography inline variant="h6" weight="light">
+                Receive payment from
+              </Typography>
+              <Typography inline variant="h6" weight="semibold" color="primary">
                 {" "}
                 IOV wallet users{" "}
               </Typography>
-              by giving them your IOV address
-            </Typography>
+              <Typography inline variant="h6" weight="light">
+                by giving them your IOV address
+              </Typography>
+            </Block>
             <Block margin="md" />
             <Block className={classes.container} margin="md">
-              <Field
-                variant="outlined"
-                name={ADDRESS_FIELD}
-                type="string"
-                fullWidth
-                component={TextField}
-                placeholder={iovAddress}
-                disabled
-              />
+              <Form onSubmit={noOp} fullWidth>
+                {() => (
+                  <Field
+                    variant="outlined"
+                    name={ADDRESS_FIELD}
+                    type="string"
+                    fullWidth
+                    component={TextField}
+                    placeholder={iovAddress}
+                    disabled
+                  />
+                )}
+              </Form>
               <ToastConsumer>
                 {({ showToast }: ToastContextInterface) => (
                   <CopyToClipboard text={iovAddress}>
