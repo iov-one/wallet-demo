@@ -11,6 +11,7 @@ const styles = createStyles({
     boxSizing: "border-box",
     display: "inline-block",
     wordWrap: "break-word",
+    width: "100%",
   },
 });
 
