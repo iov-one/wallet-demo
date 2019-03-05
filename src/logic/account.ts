@@ -139,6 +139,7 @@ export async function sendTransaction(
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
+    // TODO: don't set gasPrice/gasLimit for non-Ethereum blockchains
     gasPrice: gasPrice,
     gasLimit: gasLimit,
   };
