@@ -80,15 +80,17 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
                 />
                 <Block margin="md" />
                 <Block className={classes.container} margin="md">
-                  <Field
-                    variant="outlined"
-                    name={ADDRESS_FIELD}
-                    type="string"
-                    fullWidth
-                    component={TextField}
-                    placeholder={ticker!.address}
-                    disabled
-                  />
+                  <Block grow className={classes.field}>
+                    <Field
+                      variant="outlined"
+                      name={ADDRESS_FIELD}
+                      type="string"
+                      fullWidth
+                      component={TextField}
+                      placeholder={ticker!.address}
+                      disabled
+                    />
+                  </Block>
                   <ToastConsumer>
                     {({ showToast }: ToastContextInterface) => (
                       <CopyToClipboard text={ticker!.address}>
