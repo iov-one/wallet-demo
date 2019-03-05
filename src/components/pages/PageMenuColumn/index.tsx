@@ -24,7 +24,7 @@ const styles = createStyles({
   },
 });
 
-const PageMenuColumn = ({ children, classes, maxWidth=450, ...props }: Props) => (
+const PageMenuColumn = ({ children, classes, maxWidth = 450, ...props }: Props) => (
   <PageMenu {...props}>
     <Block className={classes.container} margin="md">
       <Spacer order={1} />

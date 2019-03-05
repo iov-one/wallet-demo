@@ -9,7 +9,7 @@ import { aNewStore } from "~/store";
 import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { findRenderedDOMComponentWithId } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
-import { LOG_OUT_ID, MENU_ID, PRIVACY_POLICY_ID, TERMS_CONDITIONS_ID} from "../HiMenu/index";
+import { LOG_OUT_ID, MENU_ID, PRIVACY_POLICY_ID, TERMS_CONDITIONS_ID } from "../HiMenu/index";
 
 describe("Components -> Header -> HiMenu", () => {
   let store: Store<RootState>;

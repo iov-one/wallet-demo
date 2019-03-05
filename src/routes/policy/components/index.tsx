@@ -2,10 +2,10 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
 import Link from "~/components/layout/Link";
+import Paragraph from "~/components/layout/TextMarkup/Paragraph";
+import Section from "~/components/layout/TextMarkup/Section";
+import Title from "~/components/layout/TextMarkup/Title";
 import Typography from "~/components/layout/Typography";
-import Section from "./SectionComponent";
-import Paragraph from "./SectionParagraph";
-import Title from "./TitleComponent";
 
 const styles = createStyles({
   updateDate: {
