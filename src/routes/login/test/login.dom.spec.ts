@@ -26,27 +26,6 @@ describe("DOM > Feature > Login", () => {
   });
 
   mayTestBns(
-    `should redirect to ${BALANCE_ROUTE} route after success login`,
-    async () => {
-      resetHistory();
-      const refreshStore = aNewStore({
-        profile: {
-          internal: {
-            db: store.getState().profile.internal.db,
-          },
-        },
-      });
-      const loginDom = await travelToBalance(refreshStore);
-      expectRoute(refreshStore, LOGIN_ROUTE);
-
-      await processLogin(loginDom, TEST_PASS_PHRASE, refreshStore);
-      expectRoute(refreshStore, BALANCE_ROUTE);
-      shutdownSequence(null, refreshStore.getState);
-    },
-    30000,
-  );
-
-  mayTestBns(
     `should fail if user introduces incorrect password`,
     async () => {
       // GIVEN
@@ -65,15 +44,40 @@ describe("DOM > Feature > Login", () => {
 
       // WHEN
       expectRoute(refreshStore, LOGIN_ROUTE);
-      await fillLoginForm(loginDom, wrongPassword);
+      fillLoginForm(loginDom, wrongPassword);
       // Needed time to try to load the profile
-      await sleep(5000);
+      await sleep(2000);
+      await sleep(2000);
+      await sleep(2000);
 
       // THEN
       expect(loadProfileSpy).toHaveBeenCalledTimes(1);
       expect(loadProfileSpy).toHaveBeenLastCalledWith(db, wrongPassword);
+      loadProfileSpy.mockRestore();
       await expect(UserProfile.loadFrom(db, wrongPassword)).rejects.toThrow("invalid usage");
       expectRoute(refreshStore, LOGIN_ROUTE);
+      shutdownSequence(null, refreshStore.getState);
+    },
+    30000,
+  );
+
+  mayTestBns(
+    `should redirect to ${BALANCE_ROUTE} route after success login`,
+    async () => {
+      resetHistory();
+      const refreshStore = aNewStore({
+        profile: {
+          internal: {
+            db: store.getState().profile.internal.db,
+          },
+        },
+      });
+      const loginDom = await travelToBalance(refreshStore);
+      expectRoute(refreshStore, LOGIN_ROUTE);
+
+      await processLogin(loginDom, TEST_PASS_PHRASE, refreshStore);
+      expectRoute(refreshStore, BALANCE_ROUTE);
+      shutdownSequence(null, refreshStore.getState);
     },
     30000,
   );
