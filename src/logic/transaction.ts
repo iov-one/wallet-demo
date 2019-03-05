@@ -7,7 +7,7 @@ import {
   isSendTransaction,
   PostTxResponse,
   PublicIdentity,
-  PublicKeyBundle,
+  publicKeyBundleEquals,
   SendTransaction,
   TxCodec,
   UnsignedTransaction,
@@ -34,21 +34,6 @@ export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = S
   readonly memo?: string;
 }
 
-const keysEqual = (a: PublicKeyBundle, b: PublicKeyBundle): boolean =>
-  a.algo === b.algo && arraysEqual(a.data, b.data);
-
-const arraysEqual = (a: Uint8Array, b: Uint8Array): boolean => {
-  if (a.length !== b.length) {
-    return false;
-  }
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return false;
-    }
-  }
-  return true;
-};
-
 export const parseConfirmedTransaction = async (
   bnsConn: BnsConnection,
   conn: BcpConnection,
@@ -61,7 +46,7 @@ export const parseConfirmedTransaction = async (
     console.log(`Only handle SendTransaction for now, got ${payload.kind}`);
     return undefined;
   }
-  const received = !keysEqual(trans.primarySignature.pubkey, identity.pubkey);
+  const received = !publicKeyBundleEquals(trans.primarySignature.pubkey, identity.pubkey);
   // we get header and time from the chain the tx comes from
   const header = await conn.getBlockHeader(trans.height);
   const time = header.time;
@@ -69,14 +54,12 @@ export const parseConfirmedTransaction = async (
   const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
   const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
-  // TODO: temp fix until get pubkey in ethereum trans, then assign trans.primarySignature.pubkey
-  const pubkey =
-    trans.primarySignature.pubkey.data.length > 0 ? trans.primarySignature.pubkey : identity.pubkey;
-  const ident: PublicIdentity = {
+  const creatorPubkey = trans.primarySignature.pubkey;
+  const creator: PublicIdentity = {
     chainId: chainId,
-    pubkey: pubkey as PublicKeyBundle,
+    pubkey: creatorPubkey,
   };
-  const signerAddr = keyToAddress(ident, codec);
+  const signerAddr = keyToAddress(creator, codec);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),

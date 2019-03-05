@@ -32,9 +32,7 @@ export async function getAccount(
 ): Promise<Account | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
-  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
-  // return result;
-  return result && result.balance![0].quantity === "0" ? undefined : result;
+  return result;
 }
 
 // looks up account for a given address (or undefined)
@@ -43,9 +41,7 @@ export async function getAccountByAddress(
   address: Address,
 ): Promise<Account | undefined> {
   const result = await connection.getAccount({ address });
-  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
-  // return result;
-  return result && result.balance![0].quantity === "0" ? undefined : result;
+  return result;
 }
 
 // looks up name for a given address (or undefined)
@@ -143,8 +139,9 @@ export async function sendTransaction(
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
+    // TODO: don't set gasPrice/gasLimit for non-Ethereum blockchains
     gasPrice: gasPrice,
-    gasLimit: gasLimit
+    gasLimit: gasLimit,
   };
   return writer.signAndPost(unsigned, walletId);
 }
