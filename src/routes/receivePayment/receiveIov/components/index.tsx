@@ -9,7 +9,9 @@ import Button from "~/components/layout/Button";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
 import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/ToastProvider";
-import { styles } from "~/routes/receivePayment/styles";
+import ReceiveAddress from "~/routes/receivePayment/shared/ReceiveAddress";
+import { styles } from "~/routes/receivePayment/shared/styles";
+
 const ADDRESS_FIELD = "address";
 
 interface Props extends WithStyles<typeof styles> {
@@ -43,18 +45,7 @@ class ReceiveIov extends React.Component<Props, State> {
         <Block className={classes.container}>
           <Block padding="lg" margin="lg" className={classes.card}>
             <Block margin="xl" />
-            <Block>
-              <Typography inline variant="h6" weight="light">
-                Receive payment from
-              </Typography>
-              <Typography inline variant="h6" weight="semibold" color="primary">
-                {" "}
-                IOV wallet users{" "}
-              </Typography>
-              <Typography inline variant="h6" weight="light">
-                by giving them your IOV address
-              </Typography>
-            </Block>
+            <ReceiveAddress sender="IOV wallet users" address="your IOV" />
             <Block margin="md" />
             <Block className={classes.container} margin="md">
               <Form className={classes.field} onSubmit={noOp} fullWidth>

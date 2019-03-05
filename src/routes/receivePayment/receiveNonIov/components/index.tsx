@@ -10,8 +10,10 @@ import Button from "~/components/layout/Button";
 import Tooltip from "~/components/layout/dialogs/Tooltip";
 import Typography from "~/components/layout/Typography";
 import { ToastConsumer, ToastContextInterface, ToastVariant } from "~/context/ToastProvider";
-import { styles } from "~/routes/receivePayment/styles";
+import ReceiveAddress from "~/routes/receivePayment/shared/ReceiveAddress";
+import { styles } from "~/routes/receivePayment/shared/styles";
 import { TickerWithAddress } from "../container/selector";
+
 export const TOKEN_FIELD = "token";
 const ADDRESS_FIELD = "address";
 
@@ -65,14 +67,7 @@ class ReceiveNonIov extends React.Component<Props, RecieveNonIOVState> {
             <Block className={classes.container}>
               <Block padding="lg" margin="lg" className={classes.card}>
                 <Block margin="xl" />
-                <Typography variant="h6" weight="light">
-                  Receive payment from
-                  <Typography inline={true} variant="h6" weight="semibold" color="primary">
-                    {" "}
-                    non-IOV users{" "}
-                  </Typography>
-                  by giving them this address
-                </Typography>
+                <ReceiveAddress sender="non-IOV users" address="this" />
                 <Block margin="xl" />
                 <Field
                   name={TOKEN_FIELD}
