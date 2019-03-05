@@ -35,7 +35,7 @@ _Note:_ we are pinned to the v3.x release of react-hot-loader as v4.x requires
 babel, which is unnecessary overhead for a typescript project.
 
 ### Debug
-1. Laun the app normally using: ```yarn start```
+1. Launch the app normally using: ```yarn start```
 2. Create a launch config file in vscode. I have used the next one:
 ```
 {
