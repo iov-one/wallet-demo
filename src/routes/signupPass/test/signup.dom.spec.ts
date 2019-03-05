@@ -23,6 +23,6 @@ describe("DOM > Feature > Signup", () => {
       await processSignup(SignUpDom, store);
       expectRoute(store, SET_NAME_ROUTE);
     },
-    10000,
+    40000,
   );
 });
