@@ -15,9 +15,6 @@ export const submitSetNameForm = async (SetNameDom: React.Component, account: st
   await sleep(2000);
 
   const form = TestUtils.findRenderedDOMComponentWithTag(SetNameDom, "form");
-  if (!form) {
-    throw new Error();
-  }
   TestUtils.Simulate.submit(form);
   await sleep(500);
 };

@@ -10,9 +10,6 @@ export const fillLoginForm = (LoginDom: React.Component, password: string): void
   TestUtils.Simulate.change(passwordInput, { target: { value: password } } as any);
 
   const form = TestUtils.findRenderedDOMComponentWithTag(LoginDom, "form");
-  if (!form) {
-    throw new Error();
-  }
   TestUtils.Simulate.submit(form);
 };
 
