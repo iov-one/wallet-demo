@@ -9,6 +9,7 @@ import {
   PostTxResponse,
   PublicIdentity,
   SendTransaction,
+  TokenTicker,
   TxCodec,
 } from "@iov/bcp-types";
 import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
@@ -31,7 +32,9 @@ export async function getAccount(
 ): Promise<Account | undefined> {
   const address = keyToAddress(ident, codec);
   const result = await connection.getAccount({ address });
-  return result;
+  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
+  // return result;
+  return result && result.balance![0].quantity === "0" ? undefined : result;
 }
 
 // looks up account for a given address (or undefined)
@@ -40,7 +43,9 @@ export async function getAccountByAddress(
   address: Address,
 ): Promise<Account | undefined> {
   const result = await connection.getAccount({ address });
-  return result;
+  // TODO: work around, return result when fix https://github.com/iov-one/iov-core/issues/768
+  // return result;
+  return result && result.balance![0].quantity === "0" ? undefined : result;
 }
 
 // looks up name for a given address (or undefined)
@@ -119,6 +124,16 @@ export async function sendTransaction(
   memo?: string,
 ): Promise<PostTxResponse> {
   const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
+  const gasPrice = {
+    quantity: "20000000000",
+    fractionalDigits: 18,
+    tokenTicker: "ETH" as TokenTicker,
+  };
+  const gasLimit = {
+    quantity: "2100000",
+    fractionalDigits: 18,
+    tokenTicker: "ETH" as TokenTicker,
+  };
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: {
@@ -128,6 +143,8 @@ export async function sendTransaction(
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
+    gasPrice: gasPrice,
+    gasLimit: gasLimit
   };
   return writer.signAndPost(unsigned, walletId);
 }

@@ -20,6 +20,7 @@ const tickersWithBalance: ReadonlyArray<Item> = [
   { name: "IOV", additionalText: "IOV description" },
   { name: "LSK", additionalText: "LSK description" },
   { name: "CASH", additionalText: "CASH description" },
+  { name: "ETH", additionalText: "ETH description" },
 ];
 
 storiesOf("Routes /send-payment", module)

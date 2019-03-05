@@ -23,5 +23,10 @@
       "codecType": "lsk",
       "bootstrapNodes": ["https://testnet.lisk.io"]
     }
+  },{
+    "chainSpec": {
+      "codecType": "eth",
+      "bootstrapNodes": ["https://rinkeby.infura.io", "https://api-rinkeby.etherscan.io/api"]
+    }
   }]
 }

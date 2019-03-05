@@ -69,9 +69,12 @@ export const parseConfirmedTransaction = async (
   const chainId = conn.chainId();
   const recipientAddr = payload.recipient;
   const recipientName = await getNameByAddress(bnsConn, chainId, recipientAddr);
+  // TODO: temp fix until get pubkey in ethereum trans, then assign trans.primarySignature.pubkey
+  const pubkey =
+    trans.primarySignature.pubkey.data.length > 0 ? trans.primarySignature.pubkey : identity.pubkey;
   const ident: PublicIdentity = {
     chainId: chainId,
-    pubkey: trans.primarySignature.pubkey as PublicKeyBundle,
+    pubkey: pubkey as PublicKeyBundle,
   };
   const signerAddr = keyToAddress(ident, codec);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);

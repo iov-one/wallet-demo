@@ -25,4 +25,11 @@ echo
 bash "${SCRIPT_DIR}"/faucet/lisk_stop.sh
 bash "${SCRIPT_DIR}"/lisk/stop.sh
 
+echo
+echo ">>> Stopping ethereum chain, scraper and faucet..."
+echo
+bash "${SCRIPT_DIR}"/faucet/ethereum_stop.sh
+bash "${SCRIPT_DIR}"/ethereum/scraper_stop.sh
+bash "${SCRIPT_DIR}"/ethereum/stop.sh
+
 echo "Done!"

@@ -25,7 +25,7 @@ describe("drinkFaucetSequence", () => {
       // TODO we should get rid of this `as any` for dispatch
       await fixTypes(store.dispatch(bootAction as any));
       // after a dispatch resolves, we may have to wait a bit for the redux state to update.....
-      await sleep(20);
+      await sleep(5000);
 
       try {
         // validate the current accounts are undefined
@@ -33,7 +33,7 @@ describe("drinkFaucetSequence", () => {
         expect(thirstyAccounts.length).toEqual(totalFaucetChains);
         const chains = thirstyAccounts.map(ac => ac.chainId); // we will check later
 
-        expect(getTransactions(store.getState()).length).toEqual(2);
+        expect(getTransactions(store.getState()).length).toEqual(totalFaucetChains);
 
         // get the addresses for later...
         const addresses = getAllAccounts(store.getState()).map(acct => acct.address);
@@ -46,11 +46,11 @@ describe("drinkFaucetSequence", () => {
 
         // it seems the faucet dispatch takes a while to resolve....
         // TODO: investigate
-        await sleep(15000);
+        await sleep(20000);
 
         // validate the current account is defined and has some tokens
         const fullAccounts = getAllAccounts(store.getState());
-        expect(fullAccounts.length).toEqual(3);
+        expect(fullAccounts.length).toEqual(totalFaucetChains);
         fullAccounts.forEach(ac => {
           expect(chains.includes(ac.chainId)).toBeTruthy(); // chainId present
           expect(ac.account).toBeDefined(); // but with tokens
@@ -70,13 +70,13 @@ describe("drinkFaucetSequence", () => {
 
         // validate there is now a transaction set in the state tree
         const transactions = getTransactions(store.getState());
-        expect(transactions.length).toEqual(5);
+        expect(transactions.length).toEqual(totalFaucetChains);
       } finally {
         // make sure to close connections so test ends
         const signer = requireSigner(store.getState());
         signer.shutdown();
       }
     },
-    20000,
+    40000,
   );
 });
