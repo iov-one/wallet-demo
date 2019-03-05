@@ -3,7 +3,7 @@ import PageMenuColumn from "~/components/pages/PageMenuColumn";
 import Layout from "../components";
 
 const Policy = (): JSX.Element => (
-  <PageMenuColumn phoneFullWidth>
+  <PageMenuColumn maxWidth={960} phoneFullWidth>
     <Layout />
   </PageMenuColumn>
 );
