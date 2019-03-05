@@ -23,9 +23,13 @@ class RecieveIov extends React.Component<SelectorProps> {
       <PageMenu phoneFullWidth>
         <Layout iovAddress={iovAddress} />
         <Block>
-          <Typography variant="subtitle1" align="center">Receiving from outside IOV?</Typography>
+          <Typography variant="subtitle1" align="center">
+            Receiving from outside IOV?
+          </Typography>
           <Link to={RECEIVE_FROM_NON_IOV_USER}>
-            <Typography variant="subtitle1" align="center" underlined color="primary">View your address</Typography>
+            <Typography variant="subtitle1" align="center" underlined color="primary">
+              View your address
+            </Typography>
           </Link>
         </Block>
       </PageMenu>

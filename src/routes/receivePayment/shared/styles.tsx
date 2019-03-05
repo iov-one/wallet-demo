@@ -20,5 +20,5 @@ export const styles = createStyles({
   },
   field: {
     marginRight: md,
-  }
+  },
 });
