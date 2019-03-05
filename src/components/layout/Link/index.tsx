@@ -12,7 +12,7 @@ const Link = ({ children, to, ...rest }: Props) => {
   if (typeof to === "string") {
     // this matches for https://foo.bar/ http://foo.bar/ //foo.bar/
     // update if we need more protocols
-    if (/^(https?:)?\/\//.test(to)) {
+    if (/^(mailto:)|((https?:)?\/\/)/.test(to)) {
       return (
         <a href={to} target="_blank" {...rest}>
           {children}

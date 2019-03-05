@@ -6,6 +6,7 @@ import PageMenu, { PageMenuProps } from "~/components/pages/PageMenu";
 
 interface Props extends PageMenuProps, WithStyles<typeof styles> {
   readonly children: React.ReactNode;
+  readonly maxWidth?: number;
 }
 
 const styles = createStyles({
@@ -23,11 +24,11 @@ const styles = createStyles({
   },
 });
 
-const PageMenuColumn = ({ children, classes, ...props }: Props) => (
+const PageMenuColumn = ({ children, classes, maxWidth=450, ...props }: Props) => (
   <PageMenu {...props}>
     <Block className={classes.container} margin="md">
       <Spacer order={1} />
-      <Block maxWidth={450} className={classes.column}>
+      <Block maxWidth={maxWidth} className={classes.column}>
         {children}
       </Block>
       <Spacer order={1} />

@@ -15,6 +15,7 @@ import SecurityPhrase from "~/routes/securityPhrase/container";
 import Payment from "~/routes/sendPayment/container";
 import SignupName from "~/routes/signupName/container";
 import SignupPass from "~/routes/signupPass/container";
+import Terms from "~/routes/terms/container";
 import Transactions from "~/routes/transactions/container";
 import { TXS_FEATURE_FLAG } from "~/utils/features";
 
@@ -22,7 +23,7 @@ export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
 export const SIGNUP_ROUTE = "/signup";
 export const SET_NAME_ROUTE = "/name";
-export const TERMS_OF_SERVICE_ROUTE = "https://support.iov.one/hc/en-us/articles/360001072312-Terms-of-Use";
+export const TERMS_OF_SERVICE_ROUTE = "/terms";
 export const PRIVACY_POLICY_ROUTE = "https://support.iov.one/hc/en-us/articles/360001094411-Privacy-Policy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
@@ -42,6 +43,7 @@ export const MainRouter = () => (
     <Route exact path={PASSWORD_RECOVERY_ROUTE} component={PasswordRecovery} />
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
+    <Route exact path={TERMS_OF_SERVICE_ROUTE} component={Terms} />
     <RequireLogin>
       <Route exact path={HOME_ROUTE} component={Balance} />
       <Route exact path={SET_NAME_ROUTE} component={SignupName} />

@@ -19,14 +19,14 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE } from "~/routes";
+import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
 import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
 
 export const SECURITY_CENTER_ID = "security-center";
 export const INVITE_FRIENDS_ID = "invite-friends";
-export const TERMS_CONDITIONS_ID = "terms-conditions";
+export const TERMS_CONDITIONS_ID = "terms";
 export const PRIVACY_POLICY_ID = "privacy-policy";
 export const LOG_OUT_ID = "log-out";
 
@@ -83,6 +83,10 @@ const onSecurityCenter = () => {
 
 const onInvite = () => {
   history.push(INVITE_ROUTE);
+};
+
+const onTerms = () => {
+  history.push(TERMS_OF_SERVICE_ROUTE);
 };
 
 const noOp = () => true;
@@ -143,7 +147,7 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
         <HiElement
           src={terms}
           id={TERMS_CONDITIONS_ID}
-          action={noOp}
+          action={onTerms}
           phone={phoneMode}
           msg="Terms & Conditions"
           alt="Terms & Conditions"
