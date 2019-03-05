@@ -39,7 +39,6 @@ describe("Components -> Header -> HiMenu", () => {
       TestUtils.Simulate.click(hiMenu);
       const policyItem = findRenderedDOMComponentWithId(BalanceDom, PRIVACY_POLICY_ID);
       TestUtils.Simulate.click(policyItem);
-      await sleep(1500);
       await whenOnNavigatedToRoute(store, PRIVACY_POLICY_ROUTE);
 
       hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);

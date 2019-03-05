@@ -7,7 +7,7 @@ import { aNewStore } from "~/store";
 import { PolicyLayoutInternal } from "../components";
 import { travelToPolicy } from "./util/travelPolicy";
 
-describe("DOM > Feature > Transactions", () => {
+describe("DOM > Feature > Privacy Policy", () => {
   let store: Store<RootState>;
 
   beforeEach(() => {
