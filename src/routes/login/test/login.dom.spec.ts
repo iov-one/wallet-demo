@@ -19,7 +19,7 @@ describe("DOM > Feature > Login", () => {
     store = aNewStore();
     const account = randomString(6);
     await processBalance(store, account);
-  }, 35000);
+  }, 65000);
 
   afterAll(() => {
     shutdownSequence(null, store.getState);
@@ -58,7 +58,7 @@ describe("DOM > Feature > Login", () => {
       expectRoute(refreshStore, LOGIN_ROUTE);
       shutdownSequence(null, refreshStore.getState);
     },
-    30000,
+    60000,
   );
 
   mayTestBns(
@@ -79,6 +79,6 @@ describe("DOM > Feature > Login", () => {
       expectRoute(refreshStore, BALANCE_ROUTE);
       shutdownSequence(null, refreshStore.getState);
     },
-    30000,
+    60000,
   );
 });
