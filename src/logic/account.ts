@@ -144,7 +144,7 @@ export async function sendTransaction(
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
     gasPrice: gasPrice,
-    gasLimit: gasLimit
+    gasLimit: gasLimit,
   };
   return writer.signAndPost(unsigned, walletId);
 }
