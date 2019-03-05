@@ -43,67 +43,33 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
       </Section>
       <Title>Types of Information Collected</Title>
       <Section>
-        <SectionParagraph>
-          We process the following personal information about you:
-        </SectionParagraph>
-        <SectionParagraph>
-          Information that you provide to us
-        </SectionParagraph>
+        <SectionParagraph>We process the following personal information about you:</SectionParagraph>
+        <SectionParagraph>Information that you provide to us</SectionParagraph>
         <SectionParagraph>
           IOV processes every information that you choose to provide to us as well as the following data:
         </SectionParagraph>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            - Your first name, name and gender;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Citizenship;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Mailing address, email, phone number;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Name of your company, position;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Email;
-          </SectionParagraph>
-          <SectionParagraph>
-            - IP address;
-          </SectionParagraph>
+          <SectionParagraph>- Your first name, name and gender;</SectionParagraph>
+          <SectionParagraph>- Citizenship;</SectionParagraph>
+          <SectionParagraph>- Mailing address, email, phone number;</SectionParagraph>
+          <SectionParagraph>- Name of your company, position;</SectionParagraph>
+          <SectionParagraph>- Email;</SectionParagraph>
+          <SectionParagraph>- IP address;</SectionParagraph>
           <SectionParagraph>
             - Every information necessary for the provision our services pursuant to a contract (payment
             information, services history…);
           </SectionParagraph>
-          <SectionParagraph>
-            - Login and access codes;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Social media profile;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Your preferences about commercial solicitation.
-          </SectionParagraph>
+          <SectionParagraph>- Login and access codes;</SectionParagraph>
+          <SectionParagraph>- Social media profile;</SectionParagraph>
+          <SectionParagraph>- Your preferences about commercial solicitation.</SectionParagraph>
         </Block>
-        <SectionParagraph>
-          Your personal information is collected when:
-        </SectionParagraph>
+        <SectionParagraph>Your personal information is collected when:</SectionParagraph>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            - You register on our Websites;
-          </SectionParagraph>
-          <SectionParagraph>
-            - You subscribe to our newsletter;
-          </SectionParagraph>
-          <SectionParagraph>
-            - You contact us;
-          </SectionParagraph>
-          <SectionParagraph>
-            - You open a wallet;
-          </SectionParagraph>
-          <SectionParagraph>
-            - You interact with our company.
-          </SectionParagraph>
+          <SectionParagraph>- You register on our Websites;</SectionParagraph>
+          <SectionParagraph>- You subscribe to our newsletter;</SectionParagraph>
+          <SectionParagraph>- You contact us;</SectionParagraph>
+          <SectionParagraph>- You open a wallet;</SectionParagraph>
+          <SectionParagraph>- You interact with our company.</SectionParagraph>
         </Block>
       </Section>
       <Title>Use of your personal information</Title>
@@ -112,21 +78,15 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           IOV will only process your personal data for the following purposes:
         </SectionParagraph>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            - To visit our Website;
-          </SectionParagraph>
-          <SectionParagraph>
-            - To activate your account;
-          </SectionParagraph>
+          <SectionParagraph>- To visit our Website;</SectionParagraph>
+          <SectionParagraph>- To activate your account;</SectionParagraph>
           <SectionParagraph>
             - To provide our services and execute our contractual obligations;
           </SectionParagraph>
           <SectionParagraph>
             - To ensure communication on our services and customize our offers;
           </SectionParagraph>
-          <SectionParagraph>
-            - To provide our newsletter;
-          </SectionParagraph>
+          <SectionParagraph>- To provide our newsletter;</SectionParagraph>
           <SectionParagraph>
             - To understand and answer your expectations, comments and suggestions;
           </SectionParagraph>
@@ -134,21 +94,11 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
             - To analyze and predict your preferences so that we can offer you tailored services or that may
             interest you;
           </SectionParagraph>
-          <SectionParagraph>
-            - To send you marketing communications;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Conduct surveys, analysis and statistics;
-          </SectionParagraph>
-          <SectionParagraph>
-            - Inform you on the improvement of our services;
-          </SectionParagraph>
-          <SectionParagraph>
-            - To comply with our regulatory requirements;
-          </SectionParagraph>
-          <SectionParagraph>
-            - If any, to process your claims.
-          </SectionParagraph>
+          <SectionParagraph>- To send you marketing communications;</SectionParagraph>
+          <SectionParagraph>- Conduct surveys, analysis and statistics;</SectionParagraph>
+          <SectionParagraph>- Inform you on the improvement of our services;</SectionParagraph>
+          <SectionParagraph>- To comply with our regulatory requirements;</SectionParagraph>
+          <SectionParagraph>- If any, to process your claims.</SectionParagraph>
         </Block>
         <SectionParagraph>
           Also, we may aggregate and/or anonymize your data so that it will no longer be considered as
@@ -228,58 +178,34 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
         </SectionParagraph>
         <Block padding="sm" margin="sm">
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Access to your information
-            </Typography>
-            &nbsp;– You have the right to request a copy of your personal information that we hold.
+            - <strong>Access to your information</strong> – You have the right to request a copy of your personal information that we hold.
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Correcting your information
-            </Typography>
-            &nbsp;– IOV ensures to make sure that your personal information is accurate, complete and up to
+            - <strong>Correcting your information</strong> – IOV ensures to make sure that your personal information is accurate, complete and up to
             date. At any time, you may ask us to correct your personal information.
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Deletion of your information
-            </Typography>
-            &nbsp;– You have the right to ask us to delete personal information about you where i) You
+            - <strong>Deletion of your information</strong> – You have the right to ask us to delete personal information about you where i) You
             consider that we no longer require the information for the purposes for which it was obtained or
             ii) our use of your personal information is contrary to law or our other legal obligations.
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Oppose or restrict how we may use your information
-            </Typography>
-            &nbsp;– You may ask us to restrict how we use your personal information or oppose to such process.
+            - <strong>Oppose or restrict how we may use your information</strong> – You may ask us to restrict how we use your personal information or oppose to such process.
             In this case, we may only use the relevant personal information with your consent, for legal
             claims or where there are other public interest grounds.
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Opt-out to the reception of newsletters.
-            </Typography>
-            You may at any time decide to opt-out to the reception of our newsletters.
+            - <strong>Opt-out to the reception of newsletters.</strong> You may at any time decide to opt-out to the reception of our newsletters.
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Right to data portability
-            </Typography>
-            &nbsp;– You have the right, in certain circumstances, to obtain personal information you have
+            - <strong>Right to data portability</strong> – You have the right, in certain circumstances, to obtain personal information you have
             provided us with (in a structured, commonly used and machine-readable format) and to reuse it
             elsewhere or to ask us to transfer this to a third party of your choice (please note that this
             right is limited to the data you provided to us).
           </SectionParagraph>
         </Block>
         <SectionParagraph>
-          These requests must be addressed by written request to IOV,
+          These requests must be addressed by written request to IOV,&nbsp;
           <Link to="mailto:privacy@iov.one">privacy@iov.one</Link>
         </SectionParagraph>
         <SectionParagraph>
@@ -382,32 +308,16 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
         </Typography>
         <Block padding="sm" margin="sm">
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Cookie name
-            </Typography>
-            :
+            - <strong>Cookie name:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Purpose
-            </Typography>
-            :
+            - <strong>Purpose:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Duration
-            </Typography>
-            :
+            - <strong>Duration:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Strictly necessary (Y/N)
-            </Typography>
-            :
+            - <strong>Strictly necessary (Y/N):</strong>
           </SectionParagraph>
         </Block>
         <Typography variant="h6" gutterBottom>
@@ -417,33 +327,17 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           [TO BE COMPLETED]
         </Typography>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Cookie name
-            </Typography>
-            :
+        <SectionParagraph>
+            - <strong>Cookie name:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Purpose
-            </Typography>
-            :
+            - <strong>Purpose:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Duration
-            </Typography>
-            :
+            - <strong>Duration:</strong>
           </SectionParagraph>
           <SectionParagraph>
-            -{" "}
-            <Typography weight="semibold" variant="body2" inline>
-              Strictly necessary (Y/N)
-            </Typography>
-            :
+            - <strong>Strictly necessary (Y/N):</strong>
           </SectionParagraph>
         </Block>
       </Section>
@@ -464,9 +358,7 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           anyone under the age of 18, and no part of the Websites is designed to attract anyone under the age
           of 18. By accessing to the Site, you declare that you are older than 18.
         </SectionParagraph>
-        <SectionParagraph>
-          You may choose at any time to opt-in to our newsletters.
-        </SectionParagraph>
+        <SectionParagraph>You may choose at any time to opt-in to our newsletters.</SectionParagraph>
       </Section>
       <Title>Changes to Privacy Policy</Title>
       <Section>

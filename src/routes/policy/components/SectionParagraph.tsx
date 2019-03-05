@@ -1,7 +1,6 @@
 import * as React from "react";
 import Typography from "~/components/layout/Typography";
 
-
 interface Props {
   readonly children: React.ReactNode;
 }
