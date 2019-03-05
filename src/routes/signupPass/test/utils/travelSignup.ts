@@ -1,13 +1,13 @@
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
-import { SIGNUP_ROUTE } from "~/routes";
+import { SET_NAME_ROUTE, SIGNUP_ROUTE } from "~/routes";
 import { history } from "~/store";
+import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { createDom } from "~/utils/test/dom";
-import { sleep } from "~/utils/timer";
 
 export const TEST_PASS_PHRASE = "your secret password";
 
-export const processSignup = async (SignUpDom: React.Component): Promise<void> => {
+export const processSignup = async (SignUpDom: React.Component, store: Store): Promise<void> => {
   const inputs = TestUtils.scryRenderedDOMComponentsWithTag(SignUpDom, "input");
   expect(inputs.length).toBe(4);
 
@@ -29,7 +29,7 @@ export const processSignup = async (SignUpDom: React.Component): Promise<void> =
   }
   TestUtils.Simulate.submit(form);
 
-  await sleep(4000);
+  await whenOnNavigatedToRoute(store, SET_NAME_ROUTE);
 };
 
 export const travelToSignup = (store: Store): React.Component => {

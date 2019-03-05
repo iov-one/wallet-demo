@@ -9,11 +9,11 @@ import { getProfileDB } from "~/selectors";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
-import { processLogin } from "./utils/travelLogin";
+import { sleep } from "~/utils/timer";
+import { fillLoginForm, processLogin } from "./utils/travelLogin";
 
 describe("DOM > Feature > Login", () => {
   let store: Store<RootState>;
-  let refreshStore: Store<RootState>;
 
   beforeAll(async () => {
     store = aNewStore();
@@ -21,41 +21,22 @@ describe("DOM > Feature > Login", () => {
     await processBalance(store, account);
   }, 35000);
 
-  beforeEach(() => {
-    resetHistory();
-    refreshStore = aNewStore({
-      profile: {
-        internal: {
-          db: store.getState().profile.internal.db,
-        },
-      },
-    });
-  });
-
-  afterEach(() => {
-    shutdownSequence(null, refreshStore.getState);
-  });
-
   afterAll(() => {
     shutdownSequence(null, store.getState);
   });
 
   mayTestBns(
-    `should redirect to ${BALANCE_ROUTE} route after success login`,
-    async () => {
-      const loginDom = await travelToBalance(refreshStore);
-      expectRoute(refreshStore, LOGIN_ROUTE);
-
-      await processLogin(loginDom, TEST_PASS_PHRASE);
-      expectRoute(refreshStore, BALANCE_ROUTE);
-    },
-    30000,
-  );
-
-  mayTestBns(
     `should fail if user introduces incorrect password`,
     async () => {
       // GIVEN
+      resetHistory();
+      const refreshStore = aNewStore({
+        profile: {
+          internal: {
+            db: store.getState().profile.internal.db,
+          },
+        },
+      });
       const loginDom = await travelToBalance(refreshStore);
       const db = getProfileDB(refreshStore.getState());
       const wrongPassword = "wrong password";
@@ -63,13 +44,40 @@ describe("DOM > Feature > Login", () => {
 
       // WHEN
       expectRoute(refreshStore, LOGIN_ROUTE);
-      await processLogin(loginDom, wrongPassword);
+      fillLoginForm(loginDom, wrongPassword);
+      // Needed time to try to load the profile
+      await sleep(2000);
+      await sleep(2000);
+      await sleep(2000);
 
       // THEN
       expect(loadProfileSpy).toHaveBeenCalledTimes(1);
       expect(loadProfileSpy).toHaveBeenLastCalledWith(db, wrongPassword);
+      loadProfileSpy.mockRestore();
       await expect(UserProfile.loadFrom(db, wrongPassword)).rejects.toThrow("invalid usage");
       expectRoute(refreshStore, LOGIN_ROUTE);
+      shutdownSequence(null, refreshStore.getState);
+    },
+    30000,
+  );
+
+  mayTestBns(
+    `should redirect to ${BALANCE_ROUTE} route after success login`,
+    async () => {
+      resetHistory();
+      const refreshStore = aNewStore({
+        profile: {
+          internal: {
+            db: store.getState().profile.internal.db,
+          },
+        },
+      });
+      const loginDom = await travelToBalance(refreshStore);
+      expectRoute(refreshStore, LOGIN_ROUTE);
+
+      await processLogin(loginDom, TEST_PASS_PHRASE, refreshStore);
+      expectRoute(refreshStore, BALANCE_ROUTE);
+      shutdownSequence(null, refreshStore.getState);
     },
     30000,
   );

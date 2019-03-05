@@ -22,7 +22,6 @@ describe("DOM > Feature > Send Payment", () => {
     userFooStore = aNewStore();
     userFooAccount = randomString(10);
     await processBalance(userFooStore, userFooAccount);
-
     resetHistory();
     userBarStore = aNewStore();
   }, 30000);

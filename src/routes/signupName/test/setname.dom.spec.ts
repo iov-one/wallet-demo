@@ -8,29 +8,23 @@ import { processSignup } from "~/routes/signupPass/test/utils/travelSignup";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore, resetHistory } from "~/store";
 import { expectRoute } from "~/utils/test/dom";
-import { processSetName, travelToSetName } from "./utils/travelSetName";
+import { submitSetNameForm, travelToSetName } from "./utils/travelSetName";
 
 describe("DOM > Feature > Signup - setname", () => {
   let store: Store<RootState>;
   let refreshStore: Store<RootState>;
   let account: string;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     store = aNewStore();
     account = randomString(6);
     await processBalance(store, account);
-  }, 35000);
-
-  beforeEach(() => {
     resetHistory();
     refreshStore = aNewStore();
-  });
+  }, 35000);
 
   afterEach(() => {
     shutdownSequence(null, refreshStore.getState);
-  });
-
-  afterAll(() => {
     shutdownSequence(null, store.getState);
   });
 
@@ -39,10 +33,11 @@ describe("DOM > Feature > Signup - setname", () => {
     async () => {
       const SignUpDom = await travelToSetName(refreshStore);
       expectRoute(refreshStore, SIGNUP_ROUTE);
-      await processSignup(SignUpDom);
+      await processSignup(SignUpDom, refreshStore);
       expectRoute(refreshStore, SET_NAME_ROUTE);
+
       const takenNameSpy = jest.spyOn(SetNameForm, "nameValidator");
-      await processSetName(SignUpDom, account);
+      await submitSetNameForm(SignUpDom, account);
 
       expect(takenNameSpy).toHaveBeenCalled();
       expect(takenNameSpy).toHaveLastReturnedWith("Name is already taken");

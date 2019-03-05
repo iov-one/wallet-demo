@@ -13,12 +13,11 @@ export const processBalance = async (store: Store, account: string): Promise<Rea
 
   const SignupDom = HomeDom;
   expectRoute(store, SIGNUP_ROUTE);
-  await processSignup(SignupDom);
-  await sleep(4000);
+  await processSignup(SignupDom, store);
   expectRoute(store, SET_NAME_ROUTE);
 
   const SetNameDom = SignupDom;
-  await processSetName(SetNameDom, account);
+  await processSetName(SetNameDom, account, store);
 
   expectRoute(store, BALANCE_ROUTE);
   const BalanceDom = SetNameDom;
