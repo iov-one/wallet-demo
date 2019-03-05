@@ -8,6 +8,7 @@ import Balance from "~/routes/balance/container";
 import ChangePassword from "~/routes/changePassword/container";
 import LogIn from "~/routes/login/container";
 import PasswordRecovery from "~/routes/passwordRecovery/container";
+import Policy from "~/routes/policy/container";
 import ReceiveIov from "~/routes/receivePayment/receiveIov/container";
 import ReceiveExternal from "~/routes/receivePayment/receiveNonIov/container";
 import SecurityCenter from "~/routes/securityCenter/container";
@@ -24,7 +25,7 @@ export const LOGIN_ROUTE = "/login";
 export const SIGNUP_ROUTE = "/signup";
 export const SET_NAME_ROUTE = "/name";
 export const TERMS_OF_SERVICE_ROUTE = "/terms";
-export const PRIVACY_POLICY_ROUTE = "https://support.iov.one/hc/en-us/articles/360001094411-Privacy-Policy";
+export const PRIVACY_POLICY_ROUTE = "/policy";
 export const BALANCE_ROUTE = "/balance";
 export const SECURITY_CENTER_ROUTE = "/security-center";
 export const ADVANCED_SECURITY_ROUTE = "/advanced-security";
@@ -44,6 +45,7 @@ export const MainRouter = () => (
     <Route exact path={LOGIN_ROUTE} component={LogIn} />
     <Route exact path={SIGNUP_ROUTE} component={SignupPass} />
     <Route exact path={TERMS_OF_SERVICE_ROUTE} component={Terms} />
+    <Route exact path={PRIVACY_POLICY_ROUTE} component={Policy} />
     <RequireLogin>
       <Route exact path={HOME_ROUTE} component={Balance} />
       <Route exact path={SET_NAME_ROUTE} component={SignupName} />

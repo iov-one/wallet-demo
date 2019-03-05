@@ -19,7 +19,13 @@ import Hairline from "~/components/layout/Hairline";
 import Img from "~/components/layout/Image";
 import Typography from "~/components/layout/Typography";
 import ListMenu, { PhoneHook } from "~/components/templates/menu/ListMenu";
-import { INVITE_ROUTE, LOGIN_ROUTE, SECURITY_CENTER_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
+import {
+  INVITE_ROUTE,
+  LOGIN_ROUTE,
+  PRIVACY_POLICY_ROUTE,
+  SECURITY_CENTER_ROUTE,
+  TERMS_OF_SERVICE_ROUTE,
+} from "~/routes";
 import { history } from "~/store";
 import { border, lg, xs } from "~/theme/variables";
 import { PhoneLinks } from "../LinksMenu";
@@ -89,7 +95,9 @@ const onTerms = () => {
   history.push(TERMS_OF_SERVICE_ROUTE);
 };
 
-const noOp = () => true;
+const onPolicy = () => {
+  history.push(PRIVACY_POLICY_ROUTE);
+};
 
 const onLogout = (logoutProfile: (dispatch?: any) => Promise<void>) => async () => {
   await logoutProfile();
@@ -156,7 +164,7 @@ const HiMenu = ({ classes, phoneMode, logoutProfile, ...rest }: Props) => {
         <HiElement
           src={privacy}
           id={PRIVACY_POLICY_ID}
-          action={noOp}
+          action={onPolicy}
           phone={phoneMode}
           msg="Privacy Policy"
           alt="Privacy Policy"
