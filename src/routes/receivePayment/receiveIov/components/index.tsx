@@ -57,7 +57,7 @@ class ReceiveIov extends React.Component<Props, State> {
             </Block>
             <Block margin="md" />
             <Block className={classes.container} margin="md">
-              <Form onSubmit={noOp} fullWidth>
+              <Form className={classes.field} onSubmit={noOp} fullWidth>
                 {() => (
                   <Field
                     variant="outlined"

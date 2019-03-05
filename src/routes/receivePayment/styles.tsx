@@ -1,5 +1,5 @@
 import { createStyles } from "@material-ui/core";
-import { background, card } from "~/theme/variables";
+import { background, card, md } from "~/theme/variables";
 
 export const styles = createStyles({
   container: {
@@ -18,4 +18,7 @@ export const styles = createStyles({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  field: {
+    marginRight: md,
+  }
 });
