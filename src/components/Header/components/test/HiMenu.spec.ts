@@ -2,14 +2,14 @@ import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
 import { RootState } from "~/reducers";
-import { LOGIN_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
+import { LOGIN_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "~/routes";
 import { processBalance, travelToBalance } from "~/routes/balance/test/util/travelBalance";
 import { shutdownSequence } from "~/sequences/boot";
 import { aNewStore } from "~/store";
 import { whenOnNavigatedToRoute } from "~/utils/navigation";
 import { findRenderedDOMComponentWithId } from "~/utils/test/dom";
 import { sleep } from "~/utils/timer";
-import { LOG_OUT_ID, MENU_ID, TERMS_CONDITIONS_ID } from "../HiMenu/index";
+import { LOG_OUT_ID, MENU_ID, PRIVACY_POLICY_ID, TERMS_CONDITIONS_ID} from "../HiMenu/index";
 
 describe("Components -> Header -> HiMenu", () => {
   let store: Store<RootState>;
@@ -34,6 +34,13 @@ describe("Components -> Header -> HiMenu", () => {
       const termsItem = findRenderedDOMComponentWithId(BalanceDom, TERMS_CONDITIONS_ID);
       TestUtils.Simulate.click(termsItem);
       await whenOnNavigatedToRoute(store, TERMS_OF_SERVICE_ROUTE);
+
+      hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);
+      TestUtils.Simulate.click(hiMenu);
+      const policyItem = findRenderedDOMComponentWithId(BalanceDom, PRIVACY_POLICY_ID);
+      TestUtils.Simulate.click(policyItem);
+      await sleep(1500);
+      await whenOnNavigatedToRoute(store, PRIVACY_POLICY_ROUTE);
 
       hiMenu = findRenderedDOMComponentWithId(BalanceDom, MENU_ID);
       TestUtils.Simulate.click(hiMenu);
