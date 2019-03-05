@@ -6,7 +6,7 @@ import Layout from "../components";
 export default class Terms extends React.Component {
   public render(): JSX.Element {
     return (
-      <PageMenuColumn phoneFullWidth>
+      <PageMenuColumn maxWidth={960} phoneFullWidth>
         <Layout />
       </PageMenuColumn>
     );
