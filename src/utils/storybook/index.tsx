@@ -4,6 +4,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { DeepPartial } from "redux";
 import { MatchMediaContext } from "~/context/MatchMediaContext";
+import { ToastProvider } from "~/context/ToastProvider";
 import { RootState } from "~/reducers";
 import { aNewStore, history } from "~/store";
 import theme from "~/theme/mui";
@@ -21,7 +22,9 @@ export const RootMatchMedia = ({ storeProps = {}, children, matchMedia }: Props)
   <Provider store={aNewStore(storeProps)}>
     <MuiThemeProvider theme={theme}>
       <MatchMediaContext.Provider value={matchMedia}>
-        <ConnectedRouter history={history}>{children}</ConnectedRouter>
+        <ToastProvider>
+          <ConnectedRouter history={history}>{children}</ConnectedRouter>
+        </ToastProvider>
       </MatchMediaContext.Provider>
     </MuiThemeProvider>
   </Provider>

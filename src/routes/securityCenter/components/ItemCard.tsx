@@ -5,7 +5,7 @@ import Block from "~/components/layout/Block";
 import Link from "~/components/layout/Link";
 import Spacer from "~/components/layout/Spacer";
 import Typography from "~/components/layout/Typography";
-import { background, lg } from "~/theme/variables";
+import { background, card, lg } from "~/theme/variables";
 
 const styles = createStyles({
   container: {
@@ -17,7 +17,7 @@ const styles = createStyles({
     padding: lg,
     alignItems: "center",
     width: "100%",
-    maxWidth: "506px",
+    maxWidth: card,
   },
   info: {
     flexGrow: 1,

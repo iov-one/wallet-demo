@@ -3,6 +3,7 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import {
   background,
   border,
+  card,
   fontColor,
   lg,
   lightFont,
@@ -95,7 +96,7 @@ export const themeObject: ThemeOptions = {
     },
     MuiDialog: {
       paperWidthSm: {
-        maxWidth: "506px",
+        maxWidth: card,
       },
       paper: {
         margin: 0,
@@ -229,10 +230,10 @@ export const themeObject: ThemeOptions = {
       },
       root: {
         "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-          borderColor: border,
+          borderColor: `${border} !important`,
         },
         "& $notchedOutline": {
-          borderColor: border,
+          borderColor: `${border} !important`,
           borderWidth: "1px",
         },
       },

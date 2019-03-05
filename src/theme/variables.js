@@ -34,6 +34,7 @@ const screenSmMax = 991;
 const screenMd = 992;
 const screenMdMax = 1199;
 const screenLg = 1200;
+const card = "506px";
 
 module.exports = Object.assign(
   {}, 
@@ -74,5 +75,6 @@ module.exports = Object.assign(
     screenLg,
     temporaryError,
     placeholder,
+    card,
   },
 )

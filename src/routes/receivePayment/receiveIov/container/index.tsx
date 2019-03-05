@@ -1,21 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import Block from "~/components/layout/Block";
+import Link from "~/components/layout/Link";
+import Typography from "~/components/layout/Typography";
 import PageMenu from "~/components/pages/PageMenu";
-import { SuggestionButton } from "~/components/subComponents/buttons";
 import { IOV_NAMESPACE } from "~/logic";
 import { RECEIVE_FROM_NON_IOV_USER } from "~/routes";
-import ReceiveIovLayout from "~/routes/receiveIov/components";
+import Layout from "~/routes/receivePayment/receiveIov/components";
 import { history } from "~/store";
 import selector, { SelectorProps } from "./selector";
 
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 class RecieveIov extends React.Component<SelectorProps> {
-  public readonly onReceiveExpernal = () => {
+  public readonly onReceiveExternal = () => {
     history.push(RECEIVE_FROM_NON_IOV_USER);
   };
 
@@ -25,14 +21,17 @@ class RecieveIov extends React.Component<SelectorProps> {
 
     return (
       <PageMenu phoneFullWidth>
-        <Layout>
-          <ReceiveIovLayout iovAddress={iovAddress} />
-        </Layout>
-        <SuggestionButton
-          suggestionText="Receiving from outside IOV?"
-          buttonText="View your address"
-          onClick={this.onReceiveExpernal}
-        />
+        <Layout iovAddress={iovAddress} />
+        <Block>
+          <Typography variant="subtitle1" align="center">
+            Receiving from outside IOV?
+          </Typography>
+          <Link to={RECEIVE_FROM_NON_IOV_USER}>
+            <Typography variant="subtitle1" align="center" underlined color="primary">
+              View your address
+            </Typography>
+          </Link>
+        </Block>
       </PageMenu>
     );
   }

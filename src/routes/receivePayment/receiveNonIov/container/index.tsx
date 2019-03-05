@@ -1,29 +1,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
-import { Item } from "~/components/forms/SelectField";
 import PageMenu from "~/components/pages/PageMenu";
-import ReceiveNonIovLayout from "~/routes/receiveNonIov/components";
+import Layout from "~/routes/receivePayment/receiveNonIov/components";
 import selector, { SelectorProps } from "./selector";
-
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-export interface TickerWithAddress extends Item {
-  readonly address: string;
-}
+const INITIAL_TOKEN = "IOV";
 
 class RecieveNonIov extends React.Component<SelectorProps> {
   public render(): JSX.Element {
     const { tickersList } = this.props;
+    const matchTicker = tickersList.find(item => item.name === INITIAL_TOKEN);
+    const defaultTicker = matchTicker ? matchTicker : tickersList[0];
 
     return (
       <PageMenu phoneFullWidth>
-        <Layout>
-          <ReceiveNonIovLayout tickersList={tickersList} />
-        </Layout>
+        <Layout tickersList={tickersList} defaultTicker={defaultTicker} />
       </PageMenu>
     );
   }
