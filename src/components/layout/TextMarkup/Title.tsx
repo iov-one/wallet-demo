@@ -3,15 +3,14 @@ import Block from "~/components/layout/Block";
 import Typography from "~/components/layout/Typography";
 
 interface Props {
-  readonly text: string;
+  readonly children: React.ReactNode;
+  readonly variant?: "h5" | "h6";
 }
 
-const TitleComponent = ({ text }: Props) => (
+const TitleComponent = ({ children, variant = "h6" }: Props) => (
   <React.Fragment>
-    <Block margin="xl" />
-    <Typography variant="h5" align="center">
-      {text}
-    </Typography>
+    <Block margin="lg" />
+    <Typography variant={variant}>{children}</Typography>
     <Block margin="lg" />
   </React.Fragment>
 );

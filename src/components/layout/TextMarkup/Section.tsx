@@ -1,7 +1,6 @@
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
-import Typography from "~/components/layout/Typography";
 import { background, border } from "~/theme/variables";
 
 const styles = createStyles({
@@ -11,6 +10,7 @@ const styles = createStyles({
     border: `1px solid ${border}`,
     boxSizing: "border-box",
     display: "inline-block",
+    wordWrap: "break-word",
   },
 });
 
@@ -19,14 +19,10 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const SectionComponent = ({ classes, children }: Props) => (
-  <Block margin="xl" maxWidth={450} className={classes.content}>
-    <Block margin="xxl" />
-    <Block padding="xl">
-      <Typography weight="light" variant="body2">
-        {children}
-      </Typography>
-    </Block>
-    <Block margin="xxl" />
+  <Block margin="xl" className={classes.content}>
+    <Block margin="xl" />
+    <Block padding="xl">{children}</Block>
+    <Block margin="xl" />
   </Block>
 );
 
