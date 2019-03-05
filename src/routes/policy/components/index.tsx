@@ -177,31 +177,42 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           ensure the same levels of protection are in place as are applied within the EEA.
         </SectionParagraph>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            - <strong>Access to your information</strong> – You have the right to request a copy of your personal information that we hold.
+          <SectionParagraph strong inline> - Access to your information</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;– You have the right to request a copy of your personal information that we hold.
           </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Correcting your information</strong> – IOV ensures to make sure that your personal information is accurate, complete and up to
-            date. At any time, you may ask us to correct your personal information.
+          <Block />
+          <SectionParagraph strong inline> - Correcting your information</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;– IOV ensures to make sure that your personal information is accurate, complete and up to
+              date. At any time, you may ask us to correct your personal information.
           </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Deletion of your information</strong> – You have the right to ask us to delete personal information about you where i) You
-            consider that we no longer require the information for the purposes for which it was obtained or
-            ii) our use of your personal information is contrary to law or our other legal obligations.
+          <Block />
+          <SectionParagraph strong inline> - Deletion of your information</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;– You have the right to ask us to delete personal information about you where i) You
+              consider that we no longer require the information for the purposes for which it was obtained or
+              ii) our use of your personal information is contrary to law or our other legal obligations.
           </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Oppose or restrict how we may use your information</strong> – You may ask us to restrict how we use your personal information or oppose to such process.
-            In this case, we may only use the relevant personal information with your consent, for legal
-            claims or where there are other public interest grounds.
+          <Block />
+          <SectionParagraph strong inline> - Oppose or restrict how we may use your information</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;– You may ask us to restrict how we use your personal information or oppose to such process.
+              In this case, we may only use the relevant personal information with your consent, for legal
+              claims or where there are other public interest grounds.
           </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Opt-out to the reception of newsletters.</strong> You may at any time decide to opt-out to the reception of our newsletters.
+          <Block />
+          <SectionParagraph strong inline> - Opt-out to the reception of newsletters.</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;You may at any time decide to opt-out to the reception of our newsletters.
           </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Right to data portability</strong> – You have the right, in certain circumstances, to obtain personal information you have
-            provided us with (in a structured, commonly used and machine-readable format) and to reuse it
-            elsewhere or to ask us to transfer this to a third party of your choice (please note that this
-            right is limited to the data you provided to us).
+          <Block />
+          <SectionParagraph strong inline> - SectionParagraphRight to data portability</SectionParagraph>
+          <SectionParagraph inline>
+            &nbsp;– You have the right, in certain circumstances, to obtain personal information you have
+              provided us with (in a structured, commonly used and machine-readable format) and to reuse it
+              elsewhere or to ask us to transfer this to a third party of your choice (please note that this
+              right is limited to the data you provided to us).
           </SectionParagraph>
         </Block>
         <SectionParagraph>
@@ -307,18 +318,18 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           [TO BE COMPLETED]
         </Typography>
         <Block padding="sm" margin="sm">
-          <SectionParagraph>
-            - <strong>Cookie name:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Purpose:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Duration:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Strictly necessary (Y/N):</strong>
-          </SectionParagraph>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Cookie name:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Purpose:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Duration:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Strictly necessary (Y/N):
+            </Typography>
         </Block>
         <Typography variant="h6" gutterBottom>
           Third party cookies
@@ -327,18 +338,18 @@ const PolicyLayout = ({ classes }: WithStyles<typeof styles>): JSX.Element => {
           [TO BE COMPLETED]
         </Typography>
         <Block padding="sm" margin="sm">
-        <SectionParagraph>
-            - <strong>Cookie name:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Purpose:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Duration:</strong>
-          </SectionParagraph>
-          <SectionParagraph>
-            - <strong>Strictly necessary (Y/N):</strong>
-          </SectionParagraph>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Cookie name:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Purpose:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Duration:
+            </Typography>
+          <Typography weight="semibold" variant="body2" gutterBottom>
+            - Strictly necessary (Y/N):
+            </Typography>
         </Block>
       </Section>
       <Title>Privacy Policies of Third-Party Websites</Title>
