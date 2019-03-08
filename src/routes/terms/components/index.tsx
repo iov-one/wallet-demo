@@ -18,7 +18,7 @@ export default (): JSX.Element => {
       <Title>Terms</Title>
       <Section>
         <Paragraph>
-          The website {addLinkTo("http://demo.iov.one")}  (hereinafter: the “Website”) is owned and operated
+          The website {addLinkTo("http://wallet.hugnet.iov.one")}  (hereinafter: the “Website”) is owned and operated
           by the company IOV SAS, 55 Rue La Boetie, 75008, Paris, France (hereinafter "IOV").
         </Paragraph>
       </Section>
