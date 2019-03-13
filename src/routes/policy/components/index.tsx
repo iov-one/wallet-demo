@@ -32,11 +32,11 @@ export class PolicyLayoutInternal extends React.Component<WithStyles<typeof styl
         </Typography>
         <Section>
           <Paragraph>
-            IOV SAS, a French company, the provider our website, {addLinkTo("http://demo.iov.one")}, and other
-            sites we own and operate (the “Websites”) is committed to protecting your privacy online. Please
-            read the following to learn what information we collect from you (the “User” or the “End User”)
-            and how we use that information. If you have any questions about our privacy policy, please email
-            us.
+            IOV SAS, a French company, the provider our website, {addLinkTo("https://wallet.hugnet.iov.one")},
+            and other sites we own and operate (the “Websites”) is committed to protecting your privacy
+            online. Please read the following to learn what information we collect from you (the “User” or the
+            “End User”) and how we use that information. If you have any questions about our privacy policy,
+            please email us.
           </Paragraph>
           <Block margin="md" />
           <Paragraph>
@@ -151,12 +151,6 @@ export class PolicyLayoutInternal extends React.Component<WithStyles<typeof styl
         <Title>Location of your personal information</Title>
         <Section>
           <Paragraph>
-            IOV may transfer your personal information outside of the European Economic Area (EEA) to its
-            subsidiaries and to external suppliers based outside of the EEA. The EEA comprises those countries
-            that are in the European Union (EU) and some other countries that are considered to have adequate
-            laws to ensure personal information is protected.
-          </Paragraph>
-          <Paragraph>
             When transferring your personal information outside of the EEA, IOV will (and will ensure that
             service providers acting on our behalf agree to) protect it from improper use or disclosure and
             ensure the same levels of protection are in place as are applied within the EEA.
@@ -220,7 +214,7 @@ export class PolicyLayoutInternal extends React.Component<WithStyles<typeof styl
             <Block />
             <Paragraph strong inline>
               {" "}
-              - SectionParagraphRight to data portability
+              - Right to data portability
             </Paragraph>
             <Paragraph inline>
               &nbsp;– You have the right, in certain circumstances, to obtain personal information you have
@@ -323,49 +317,6 @@ export class PolicyLayoutInternal extends React.Component<WithStyles<typeof styl
             a way to measure our promotions and performance. We may also utilize pixel tags and web beacons
             provided by our Affiliates and/or Marketing Partners for the same purposes.
           </Paragraph>
-          <Typography weight="light" variant="body1" underlined>
-            Cookies used on our Websites
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-            First party cookies
-          </Typography>
-          <Typography weight="light" variant="body1">
-            [TO BE COMPLETED]
-          </Typography>
-          <Block padding="sm" margin="sm">
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Cookie name:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Purpose:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Duration:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Strictly necessary (Y/N):
-            </Typography>
-          </Block>
-          <Typography variant="h6" gutterBottom>
-            Third party cookies
-          </Typography>
-          <Typography weight="light" variant="body1">
-            [TO BE COMPLETED]
-          </Typography>
-          <Block padding="sm" margin="sm">
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Cookie name:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Purpose:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Duration:
-            </Typography>
-            <Typography weight="semibold" variant="body2" gutterBottom>
-              - Strictly necessary (Y/N):
-            </Typography>
-          </Block>
         </Section>
         <Title>Privacy Policies of Third-Party Websites</Title>
         <Section>
