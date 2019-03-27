@@ -11,7 +11,7 @@ import {
   SendTransaction,
   TxCodec,
   UnsignedTransaction,
-} from "@iov/bcp-types";
+} from "@iov/bcp";
 import { BnsConnection, RegisterBlockchainTx } from "@iov/bns";
 import { MultiChainSigner, UserProfile } from "@iov/core";
 import { ReadonlyDate } from "readonly-date";
@@ -84,16 +84,11 @@ export async function checkBnsBlockchainNft(
 ): Promise<void> {
   const result = await connection.getBlockchains({ chainId });
   if (result.length === 0) {
-    const registryChainId = await connection.chainId();
-
-    const { walletId, identity: signer } = getWalletAndIdentity(profile, connection.chainId());
+    const { identity: creator } = getWalletAndIdentity(profile, connection.chainId());
 
     const blockchainRegistration: RegisterBlockchainTx = {
       kind: "bns/register_blockchain",
-      creator: {
-        chainId: registryChainId,
-        pubkey: signer.pubkey,
-      },
+      creator: creator,
       chain: {
         chainId: chainId,
         production: false,
@@ -104,7 +99,7 @@ export async function checkBnsBlockchainNft(
       codecName,
       codecConfig: `{ }`,
     };
-    await waitForCommit(writer.signAndPost(blockchainRegistration, walletId));
+    await waitForCommit(writer.signAndPost(blockchainRegistration));
   }
 }
 

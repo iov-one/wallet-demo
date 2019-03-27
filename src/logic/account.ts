@@ -11,7 +11,7 @@ import {
   SendTransaction,
   TokenTicker,
   TxCodec,
-} from "@iov/bcp-types";
+} from "@iov/bcp";
 import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
 import { ChainAddressPair } from "@iov/bns/types/types";
 import { MultiChainSigner, UserProfile } from "@iov/core";
@@ -119,7 +119,7 @@ export async function sendTransaction(
   amount: Amount,
   memo?: string,
 ): Promise<PostTxResponse> {
-  const { walletId, identity: signer } = getWalletAndIdentity(profile, chainId);
+  const { identity: creator } = getWalletAndIdentity(profile, chainId);
   const gasPrice = {
     quantity: "20000000000",
     fractionalDigits: 18,
@@ -132,18 +132,17 @@ export async function sendTransaction(
   };
   const unsigned: SendTransaction = {
     kind: "bcp/send",
-    creator: {
-      chainId: chainId,
-      pubkey: signer.pubkey,
-    },
+    creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-    // TODO: don't set gasPrice/gasLimit for non-Ethereum blockchains
-    gasPrice: gasPrice,
-    gasLimit: gasLimit,
+    fee: {
+      // TODO: don't set gasPrice/gasLimit for non-Ethereum blockchains
+      gasPrice: gasPrice,
+      gasLimit: gasLimit,
+    },
   };
-  return writer.signAndPost(unsigned, walletId);
+  return writer.signAndPost(unsigned);
 }
 
 // registers a new username nft on the bns with the given list of chain-address pairs
@@ -154,15 +153,12 @@ export async function setName(
   username: string,
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
-  const { walletId, identity: signer } = getWalletAndIdentity(profile, bnsId);
+  const { identity: creator } = getWalletAndIdentity(profile, bnsId);
   const unsigned: RegisterUsernameTx = {
     kind: "bns/register_username",
-    creator: {
-      chainId: bnsId,
-      pubkey: signer.pubkey,
-    },
+    creator: creator,
     username,
     addresses,
   };
-  return writer.signAndPost(unsigned, walletId);
+  return writer.signAndPost(unsigned);
 }

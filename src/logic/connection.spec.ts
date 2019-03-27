@@ -1,4 +1,4 @@
-import { BcpTicker } from "@iov/bcp-types";
+import { BcpTicker } from "@iov/bcp";
 import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";

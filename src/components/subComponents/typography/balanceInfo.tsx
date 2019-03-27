@@ -1,7 +1,7 @@
 import React from "react";
 // import styled from "styled-components";
 
-// import { BcpCoin } from "@iov/bcp-types";
+// import { BcpCoin } from "@iov/bcp";
 
 // import { coinToString } from "../../../logic";
 

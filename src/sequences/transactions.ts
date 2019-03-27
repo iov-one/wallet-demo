@@ -1,4 +1,4 @@
-import { Amount, ChainId } from "@iov/bcp-types";
+import { Amount, ChainId } from "@iov/bcp";
 
 import {
   addressToCodec,

@@ -1,4 +1,4 @@
-import { ChainId } from "@iov/bcp-types";
+import { ChainId } from "@iov/bcp";
 import { bnsCodec } from "@iov/bns";
 import { Bip39, Random, Slip10RawIndex } from "@iov/crypto";
 import { Bech32, Encoding } from "@iov/encoding";

@@ -1,4 +1,4 @@
-import { Amount } from "@iov/bcp-types";
+import { Amount } from "@iov/bcp";
 import { TokenTicker } from "@iov/core";
 import { randomString } from "~/logic/testhelpers";
 import { aNewStore } from "~/store";

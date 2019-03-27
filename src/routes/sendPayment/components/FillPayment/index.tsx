@@ -1,4 +1,4 @@
-import { BcpCoin } from "@iov/bcp-types";
+import { BcpCoin } from "@iov/bcp";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";

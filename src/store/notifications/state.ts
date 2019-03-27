@@ -1,6 +1,6 @@
 import { ReadonlyDate } from "readonly-date";
 
-import { Amount } from "@iov/bcp-types";
+import { Amount } from "@iov/bcp";
 
 export interface Tx {
   readonly id: string;

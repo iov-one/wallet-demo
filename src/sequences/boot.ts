@@ -7,7 +7,7 @@ import {
   isConfirmedTransaction,
   PublicIdentity,
   TxCodec,
-} from "@iov/bcp-types";
+} from "@iov/bcp";
 import { bnsCodec, BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 

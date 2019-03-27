@@ -1,4 +1,4 @@
-import { Account, BcpConnection, BcpTicker, PublicIdentity, TxCodec } from "@iov/bcp-types";
+import { Account, BcpConnection, BcpTicker, PublicIdentity, TxCodec } from "@iov/bcp";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { UserProfile } from "@iov/keycontrol";
 

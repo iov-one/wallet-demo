@@ -1,4 +1,4 @@
-import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp-types";
+import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp";
 import { bnsCodec, bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { ethereumCodec, ethereumConnector } from "@iov/ethereum";

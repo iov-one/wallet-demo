@@ -1,4 +1,4 @@
-import { Address, BcpTicker } from "@iov/bcp-types";
+import { Address, BcpTicker } from "@iov/bcp";
 import { ChainId } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";

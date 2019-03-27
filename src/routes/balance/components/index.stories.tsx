@@ -1,4 +1,4 @@
-import { BcpCoin, TokenTicker } from "@iov/bcp-types";
+import { BcpCoin, TokenTicker } from "@iov/bcp";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import PageMenu from "~/components/pages/PageMenu";
