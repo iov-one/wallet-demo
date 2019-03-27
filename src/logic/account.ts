@@ -5,6 +5,7 @@ import {
   BcpConnection,
   ChainId,
   ConfirmedTransaction,
+  Fee,
   isConfirmedTransaction,
   PostTxResponse,
   PublicIdentity,
@@ -120,27 +121,30 @@ export async function sendTransaction(
   memo?: string,
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, chainId);
-  const gasPrice = {
-    quantity: "20000000000",
-    fractionalDigits: 18,
-    tokenTicker: "ETH" as TokenTicker,
-  };
-  const gasLimit = {
-    quantity: "2100000",
-    fractionalDigits: 18,
-    tokenTicker: "ETH" as TokenTicker,
-  };
+
+  let fee: Fee | undefined;
+  if (chainId.startsWith("ethereum-")) {
+    fee = {
+      gasPrice: {
+        quantity: "20000000000",
+        fractionalDigits: 18,
+        tokenTicker: "ETH" as TokenTicker,
+      },
+      gasLimit: {
+        quantity: "2100000",
+        fractionalDigits: 18,
+        tokenTicker: "ETH" as TokenTicker,
+      },
+    };
+  }
+
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-    fee: {
-      // TODO: don't set gasPrice/gasLimit for non-Ethereum blockchains
-      gasPrice: gasPrice,
-      gasLimit: gasLimit,
-    },
+    fee: fee,
   };
   return writer.signAndPost(unsigned);
 }
