@@ -1,4 +1,4 @@
-import { ChainId, PublicIdentity } from "@iov/bcp-types";
+import { ChainId, PublicIdentity } from "@iov/bcp";
 import { UserProfile } from "@iov/keycontrol";
 
 import { createMemDb } from "./db";

@@ -1,4 +1,4 @@
-import { Address, ChainId, TxReadCodec } from "@iov/bcp-types";
+import { Address, ChainId, TxReadCodec } from "@iov/bcp";
 import { BnsConnection, BnsUsernameNft } from "@iov/bns";
 
 import { getAddressByName } from "./account";

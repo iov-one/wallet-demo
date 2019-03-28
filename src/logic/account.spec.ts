@@ -1,4 +1,4 @@
-import { Account, Amount, BlockInfoSucceeded, TokenTicker } from "@iov/bcp-types";
+import { Account, Amount, BlockInfoSucceeded, TokenTicker } from "@iov/bcp";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 

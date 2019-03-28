@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Account, BcpTicker } from "@iov/bcp-types";
+import { Account, BcpTicker } from "@iov/bcp";
 import { BnsConnection } from "@iov/bns";
 import { Address, ChainId } from "@iov/core";
 

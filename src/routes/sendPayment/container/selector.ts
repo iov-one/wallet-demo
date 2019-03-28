@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 
-import { BcpCoin } from "@iov/bcp-types";
+import { BcpCoin } from "@iov/bcp";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 

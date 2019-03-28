@@ -1,4 +1,4 @@
-import { Account, Address, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp-types";
+import { Account, Address, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp";
 import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { ChainTicker } from "~/selectors";

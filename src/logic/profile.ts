@@ -1,4 +1,4 @@
-import { ChainId, PublicIdentity } from "@iov/bcp-types";
+import { ChainId, PublicIdentity } from "@iov/bcp";
 import { Bip39, Random, Slip10RawIndex } from "@iov/crypto";
 import { Ed25519HdWallet, HdPaths, Secp256k1HdWallet, UserProfile, WalletId } from "@iov/keycontrol";
 
@@ -53,7 +53,7 @@ function selectWalletAndPath(
     case "lsk":
       return { walletId: edWallet, path: HdPaths.bip44Like(134, 0) };
     case "eth":
-      return { walletId: secWallet, path: HdPaths.metamaskHdKeyTree(0) };
+      return { walletId: secWallet, path: HdPaths.ethereum(0) };
     default:
       throw new Error(`unsupported codec: ${codecType}`);
   }

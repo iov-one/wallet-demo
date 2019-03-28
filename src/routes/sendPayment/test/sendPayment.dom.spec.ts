@@ -1,4 +1,4 @@
-import { BcpCoin } from "@iov/bcp-types";
+import { BcpCoin } from "@iov/bcp";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";

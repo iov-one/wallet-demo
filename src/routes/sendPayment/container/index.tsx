@@ -1,4 +1,4 @@
-import { Amount, BcpCoin } from "@iov/bcp-types";
+import { Amount, BcpCoin } from "@iov/bcp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";

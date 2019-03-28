@@ -1,4 +1,4 @@
-import { Address } from "@iov/bcp-types";
+import { Address } from "@iov/bcp";
 import { TokenTicker } from "@iov/core";
 import { IovFaucet } from "@iov/faucets";
 
