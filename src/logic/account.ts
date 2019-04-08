@@ -4,8 +4,6 @@ import {
   Amount,
   BcpConnection,
   ChainId,
-  ConfirmedTransaction,
-  isConfirmedTransaction,
   PostTxResponse,
   PublicIdentity,
   SendTransaction,
@@ -77,28 +75,6 @@ export function watchAccount(
   const stream = connection.watchAccount({ address });
   const subscription = stream.subscribe({
     next: x => cb(x),
-    error: err => cb(undefined, err),
-  });
-  return subscription;
-}
-
-// get update for the transaction information for account
-
-export function watchTransaction(
-  connection: BcpConnection,
-  ident: PublicIdentity,
-  cb: (transaction?: ConfirmedTransaction, err?: any) => any,
-  codec: TxCodec,
-): Unsubscriber {
-  const address = codec.identityToAddress(ident);
-  const stream = connection.liveTx({ sentFromOrTo: address });
-  const subscription = stream.subscribe({
-    next: x => {
-      if (!isConfirmedTransaction(x)) {
-        throw new Error("Confirmed transaction expected");
-      }
-      cb(x);
-    },
     error: err => cb(undefined, err),
   });
   return subscription;
