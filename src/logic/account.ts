@@ -11,8 +11,7 @@ import {
   SendTransaction,
   TxCodec,
 } from "@iov/bcp";
-import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
-import { ChainAddressPair } from "@iov/bns/types/types";
+import { BnsConnection, ChainAddressPair, RegisterUsernameTx } from "@iov/bns";
 import { MultiChainSigner, UserProfile } from "@iov/core";
 
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
