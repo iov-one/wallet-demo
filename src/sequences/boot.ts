@@ -11,13 +11,7 @@ import {
 import { bnsCodec, BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
-import {
-  BlockchainSpec,
-  cleanMnemonic,
-  keyToAddress,
-  parseConfirmedTransaction,
-  resetProfile,
-} from "~/logic";
+import { BlockchainSpec, cleanMnemonic, parseConfirmedTransaction, resetProfile } from "~/logic";
 import { RootState } from "~/reducers";
 import {
   AccountInfo,
@@ -156,7 +150,7 @@ async function watchAccountAndTransactions(
   const fetchedAccount = accountAction.payload;
 
   // get a stream of all transactions
-  const address = keyToAddress(identity, codec);
+  const address = codec.identityToAddress(identity);
   const stream = conn.liveTx({ sentFromOrTo: address });
 
   // process incoming transactions and add to dispatched/redux store

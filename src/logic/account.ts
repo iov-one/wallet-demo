@@ -18,10 +18,6 @@ import { MultiChainSigner, UserProfile } from "@iov/core";
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
 import { getWalletAndIdentity } from "./profile";
 
-export function keyToAddress(ident: PublicIdentity, codec: TxCodec): Address {
-  return codec.identityToAddress(ident);
-}
-
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
 export async function getAccount(
@@ -29,7 +25,7 @@ export async function getAccount(
   ident: PublicIdentity,
   codec: TxCodec,
 ): Promise<Account | undefined> {
-  const address = keyToAddress(ident, codec);
+  const address = codec.identityToAddress(ident);
   const result = await connection.getAccount({ address });
   return result;
 }
@@ -78,7 +74,7 @@ export function watchAccount(
   cb: (acct?: Account, err?: any) => any,
   codec: TxCodec,
 ): Unsubscriber {
-  const address = keyToAddress(ident, codec);
+  const address = codec.identityToAddress(ident);
   const stream = connection.watchAccount({ address });
   const subscription = stream.subscribe({
     next: x => cb(x),
@@ -95,7 +91,7 @@ export function watchTransaction(
   cb: (transaction?: ConfirmedTransaction, err?: any) => any,
   codec: TxCodec,
 ): Unsubscriber {
-  const address = keyToAddress(ident, codec);
+  const address = codec.identityToAddress(ident);
   const stream = connection.liveTx({ sentFromOrTo: address });
   const subscription = stream.subscribe({
     next: x => {

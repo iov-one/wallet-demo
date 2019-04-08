@@ -16,7 +16,7 @@ import { BnsConnection, RegisterBlockchainTx } from "@iov/bns";
 import { MultiChainSigner, UserProfile } from "@iov/core";
 import { ReadonlyDate } from "readonly-date";
 
-import { getNameByAddress, keyToAddress } from "./account";
+import { getNameByAddress } from "./account";
 import { getWalletAndIdentity } from "./profile";
 
 export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
@@ -59,7 +59,7 @@ export const parseConfirmedTransaction = async (
     chainId: chainId,
     pubkey: creatorPubkey,
   };
-  const signerAddr = keyToAddress(creator, codec);
+  const signerAddr = codec.identityToAddress(creator);
   const signerName = await getNameByAddress(bnsConn, chainId, signerAddr);
   return {
     ...(trans as ConfirmedTransaction<SendTransaction>),
