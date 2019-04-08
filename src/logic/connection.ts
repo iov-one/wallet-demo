@@ -1,10 +1,39 @@
-import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp";
+import { Address, BcpConnection, ChainConnector, PublicIdentity, TokenTicker, TxCodec } from "@iov/bcp";
 import { bnsCodec, bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
-import { ethereumCodec, ethereumConnector } from "@iov/ethereum";
+import { Erc20Options, EthereumCodec, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
 import { ensureIdentity } from "./profile";
+
+// TODO: move into config file
+const erc20Tokens = new Map<TokenTicker, Erc20Options>([
+  [
+    "WETH" as TokenTicker,
+    {
+      contractAddress: "0xc778417e063141139fce010982780140aa0cd5ab" as Address,
+      decimals: 18,
+      symbol: "WETH",
+    },
+  ],
+  [
+    "AVO" as TokenTicker,
+    {
+      contractAddress: "0x0c8184c21a51cdb7df9e5dc415a6a54b3a39c991" as Address,
+      decimals: 18,
+      symbol: "AVO",
+    },
+  ],
+  [
+    // from https://ethereum.stackexchange.com/a/68072
+    "ZEENUS" as TokenTicker,
+    {
+      contractAddress: "0x1f9061B953bBa0E36BF50F21876132DcF276fC6e" as Address,
+      decimals: 0,
+      symbol: "ZEENUS",
+    },
+  ],
+]);
 
 export enum CodecType {
   Bns = "bns",
@@ -40,15 +69,19 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
     case CodecType.Lsk:
       return { ...liskConnector(uri), expectedChainId: spec.chainId };
     case CodecType.Eth:
-      return {
-        ...ethereumConnector(uri, { scraperApiUrl: spec.bootstrapNodes[1] }),
-        expectedChainId: spec.chainId,
+      const options: EthereumConnectionOptions = {
+        scraperApiUrl: spec.bootstrapNodes[1],
+        erc20Tokens: erc20Tokens,
       };
+      return ethereumConnector(uri, options, spec.chainId);
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
 }
+
 export function specToCodec(spec: BlockchainSpec): TxCodec {
+  const configuredEthereumCodec = new EthereumCodec({ erc20Tokens: erc20Tokens });
+
   switch (spec.codecType) {
     case CodecType.Bns:
     case CodecType.Bov:
@@ -56,19 +89,21 @@ export function specToCodec(spec: BlockchainSpec): TxCodec {
     case CodecType.Lsk:
       return liskCodec;
     case CodecType.Eth:
-      return ethereumCodec;
+      return configuredEthereumCodec;
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
 }
 
 export function addressToCodec(address: string): TxCodec {
+  const configuredEthereumCodec = new EthereumCodec({ erc20Tokens: erc20Tokens });
+
   if (address.indexOf("iov") !== -1) {
     return bnsCodec;
   } else if (liskCodec.isValidAddress(address)) {
     return liskCodec;
-  } else if (ethereumCodec.isValidAddress(address)) {
-    return ethereumCodec;
+  } else if (configuredEthereumCodec.isValidAddress(address)) {
+    return configuredEthereumCodec;
   } else {
     throw new Error(`Unsupported Address Type: ${address}`);
   }
