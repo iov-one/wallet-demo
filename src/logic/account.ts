@@ -5,12 +5,10 @@ import {
   BcpConnection,
   ChainId,
   ConfirmedTransaction,
-  Fee,
   isConfirmedTransaction,
   PostTxResponse,
   PublicIdentity,
   SendTransaction,
-  TokenTicker,
   TxCodec,
 } from "@iov/bcp";
 import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
@@ -122,31 +120,17 @@ export async function sendTransaction(
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, chainId);
 
-  let fee: Fee | undefined;
-  if (chainId.startsWith("ethereum-")) {
-    fee = {
-      gasPrice: {
-        quantity: "20000000000",
-        fractionalDigits: 18,
-        tokenTicker: "ETH" as TokenTicker,
-      },
-      gasLimit: {
-        quantity: "2100000",
-        fractionalDigits: 18,
-        tokenTicker: "ETH" as TokenTicker,
-      },
-    };
-  }
-
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-    fee: fee,
   };
-  return writer.signAndPost(unsigned);
+
+  const fee = await writer.connection(chainId).getFeeQuote(unsigned);
+
+  return writer.signAndPost({ ...unsigned, fee: fee });
 }
 
 // registers a new username nft on the bns with the given list of chain-address pairs
@@ -164,5 +148,8 @@ export async function setName(
     username,
     addresses,
   };
-  return writer.signAndPost(unsigned);
+
+  const fee = await writer.connection(bnsId).getFeeQuote(unsigned);
+
+  return writer.signAndPost({ ...unsigned, fee: fee });
 }
