@@ -52,11 +52,11 @@ export function specToCodec(spec: BlockchainSpec): TxCodec {
   switch (spec.codecType) {
     case CodecType.Bns:
     case CodecType.Bov:
-      return { ...bnsCodec };
+      return bnsCodec;
     case CodecType.Lsk:
-      return { ...liskCodec };
+      return liskCodec;
     case CodecType.Eth:
-      return { ...ethereumCodec };
+      return ethereumCodec;
     default:
       throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
