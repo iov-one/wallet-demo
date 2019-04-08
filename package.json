@@ -3,8 +3,8 @@
   "version": "0.9.0",
   "description": "Demo web-wallet built on iov-core",
   "main": "build/index.js",
-  "author": "Ethan Frey <ethanfrey@users.noreply.github.com>",
-  "license": "MIT",
+  "author": "IOV SAS <admin@iov.one>",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "lint": "tslint -t verbose --project .",
