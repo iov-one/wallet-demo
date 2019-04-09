@@ -33,7 +33,10 @@
     {
       "chainSpec": {
         "codecType": "eth",
-        "bootstrapNodes": ["http://localhost:8545", "http://localhost:8546"]
+        "bootstrapNodes": ["http://localhost:8545"],
+        "ethereumOptions": {
+          "scraperApiUrl": "http://localhost:8546"
+        }
       },
       "faucetSpec": {
         "uri": "http://localhost:8003",

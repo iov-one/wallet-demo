@@ -16,9 +16,14 @@ export interface ChainConfig {
   readonly faucetSpec?: FaucetSpec;
 }
 
+export interface ConfigEthereumOptions {
+  readonly scraperApiUrl?: string;
+}
+
 export interface ChainSpec {
   readonly codecType: string;
   readonly bootstrapNodes: ReadonlyArray<string>;
+  readonly ethereumOptions?: ConfigEthereumOptions;
 }
 
 export interface FaucetSpec {

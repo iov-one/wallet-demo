@@ -4,6 +4,7 @@ import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { Erc20Options, EthereumCodec, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
 import { liskCodec, liskConnector } from "@iov/lisk";
 
+import { ConfigEthereumOptions } from "~/utils/conf";
 import { ensureIdentity } from "./profile";
 
 // TODO: move into config file
@@ -53,6 +54,7 @@ export interface BlockchainSpec {
   readonly chainId?: ChainId; // if non-empty, enforce this
   readonly codecType: CodecType;
   readonly bootstrapNodes: ReadonlyArray<string>;
+  readonly ethereumOptions?: ConfigEthereumOptions;
 }
 
 export function specToConnector(spec: BlockchainSpec): ChainConnector {
@@ -70,7 +72,7 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
       return { ...liskConnector(uri), expectedChainId: spec.chainId };
     case CodecType.Eth:
       const options: EthereumConnectionOptions = {
-        scraperApiUrl: spec.bootstrapNodes[1],
+        scraperApiUrl: spec.ethereumOptions ? spec.ethereumOptions.scraperApiUrl : undefined,
         erc20Tokens: erc20Tokens,
       };
       return ethereumConnector(uri, options, spec.chainId);
