@@ -97,20 +97,6 @@ export function specToCodec(spec: BlockchainSpec): TxCodec {
   }
 }
 
-export function addressToCodec(address: string): TxCodec {
-  const configuredEthereumCodec = new EthereumCodec({ erc20Tokens: erc20Tokens });
-
-  if (address.indexOf("iov") !== -1) {
-    return bnsCodec;
-  } else if (liskCodec.isValidAddress(address)) {
-    return liskCodec;
-  } else if (configuredEthereumCodec.isValidAddress(address)) {
-    return configuredEthereumCodec;
-  } else {
-    throw new Error(`Unsupported Address Type: ${address}`);
-  }
-}
-
 // add blockchain will add a connection to the signer, and create an identity if needed on the profile
 export async function addBlockchain(
   writer: MultiChainSigner,
