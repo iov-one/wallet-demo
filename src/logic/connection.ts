@@ -1,8 +1,8 @@
 import { Address, BcpConnection, ChainConnector, PublicIdentity, TokenTicker, TxCodec } from "@iov/bcp";
-import { bnsCodec, bnsConnector } from "@iov/bns";
+import { bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
-import { Erc20Options, EthereumCodec, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
-import { liskCodec, liskConnector } from "@iov/lisk";
+import { Erc20Options, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
+import { liskConnector } from "@iov/lisk";
 
 import { ConfigEthereumOptions } from "~/utils/conf";
 import { ensureIdentity } from "./profile";
@@ -81,22 +81,6 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
   }
 }
 
-export function specToCodec(spec: BlockchainSpec): TxCodec {
-  const configuredEthereumCodec = new EthereumCodec({ erc20Tokens: erc20Tokens });
-
-  switch (spec.codecType) {
-    case CodecType.Bns:
-    case CodecType.Bov:
-      return bnsCodec;
-    case CodecType.Lsk:
-      return liskCodec;
-    case CodecType.Eth:
-      return configuredEthereumCodec;
-    default:
-      throw new Error(`Unsupported codecType: ${spec.codecType}`);
-  }
-}
-
 // add blockchain will add a connection to the signer, and create an identity if needed on the profile
 export async function addBlockchain(
   writer: MultiChainSigner,
@@ -104,9 +88,8 @@ export async function addBlockchain(
   blockchain: BlockchainSpec,
 ): Promise<BcpBlockchain> {
   const connector = specToConnector(blockchain);
-  const codec = specToCodec(blockchain);
   const { connection } = await writer.addChain(connector);
   // we now ensure there is a identity set up for this blockchain here
   const identity = await ensureIdentity(profile, connection.chainId(), blockchain.codecType);
-  return { connection, codec, identity };
+  return { connection, codec: connector.codec, identity };
 }
