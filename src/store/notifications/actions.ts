@@ -1,4 +1,4 @@
-import { AnnotatedConfirmedTransaction, watchTransaction } from "~/logic";
+import { AnnotatedConfirmedTransaction } from "~/logic";
 import { createSyncAction } from "~/reducers/helpers";
 import { Tx } from "./state";
 
@@ -21,5 +21,3 @@ export const addFailedTransactionAction = createSyncAction(
   "ADD_FAILED_TRANSACTION",
   (transaction: Tx, err: any) => ({ transaction, err }),
 );
-
-export const watchTransactionAction = createSyncAction("WATCH_TRANSACTION", watchTransaction);

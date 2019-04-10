@@ -9,24 +9,31 @@
       "token": "IOV"
     }
   },
-  "chains": [{
-    "chainSpec": {
-      "codecType": "bov",
-      "bootstrapNodes": ["wss://bov.hugnet.iov.one/"]
+  "chains": [
+    {
+      "chainSpec": {
+        "codecType": "bov",
+        "bootstrapNodes": ["wss://bov.hugnet.iov.one/"]
+      },
+      "faucetSpec": {
+        "uri": "https://bov-faucet.hugnet.iov.one",
+        "token": "ALT"
+      }
     },
-    "faucetSpec": {
-      "uri": "https://bov-faucet.hugnet.iov.one",
-      "token": "ALT"
+    {
+      "chainSpec": {
+        "codecType": "lsk",
+        "bootstrapNodes": ["https://testnet.lisk.io"]
+      }
+    },
+    {
+      "chainSpec": {
+        "codecType": "eth",
+        "bootstrapNodes": ["https://rinkeby.infura.io"],
+        "ethereumOptions": {
+          "scraperApiUrl": "https://api-rinkeby.etherscan.io/api"
+        }
+      }
     }
-  },{
-    "chainSpec": {
-      "codecType": "lsk",
-      "bootstrapNodes": ["https://testnet.lisk.io"]
-    }
-  },{
-    "chainSpec": {
-      "codecType": "eth",
-      "bootstrapNodes": ["https://rinkeby.infura.io", "https://api-rinkeby.etherscan.io/api"]
-    }
-  }]
+  ]
 }

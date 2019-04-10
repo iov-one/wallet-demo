@@ -5,7 +5,13 @@ import { RouteComponentProps } from "react-router";
 import uniquId from "uniqid";
 import { FormType, generateError } from "~/components/forms/Form";
 import { Item } from "~/components/forms/SelectField";
-import { getUsernameNftByUsername, IOV_NAMESPACE, isIovAddress, padAmount, stringToAmount } from "~/logic";
+import {
+  getUsernameNftByUsername,
+  IOV_NAMESPACE,
+  isHumanReadableAddress,
+  padAmount,
+  stringToAmount,
+} from "~/logic";
 import { BALANCE_ROUTE } from "~/routes";
 import ConfirmPayment from "~/routes/sendPayment/components/ConfirmPayment";
 import { Payment } from "~/routes/sendPayment/components/ConfirmPayment/ConfirmCard";
@@ -78,7 +84,7 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     const chainTicker = chainTickers.find(chTicker => chTicker.ticker.tokenTicker === ticker);
     const chainId = chainTicker ? chainTicker.chainId : undefined;
 
-    if (!isIovAddress(maybeAddress)) {
+    if (!isHumanReadableAddress(maybeAddress)) {
       const valid = chainId && signer.isValidAddress(chainId, maybeAddress);
 
       return valid

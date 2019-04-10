@@ -1,9 +1,10 @@
-import { BcpConnection, ChainConnector, PublicIdentity, TxCodec } from "@iov/bcp";
-import { bnsCodec, bnsConnector } from "@iov/bns";
+import { Address, BcpConnection, ChainConnector, PublicIdentity, TokenTicker, TxCodec } from "@iov/bcp";
+import { bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
-import { ethereumCodec, ethereumConnector } from "@iov/ethereum";
-import { liskCodec, liskConnector } from "@iov/lisk";
+import { Erc20Options, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
+import { liskConnector } from "@iov/lisk";
 
+import { ConfigEthereumOptions } from "~/utils/conf";
 import { ensureIdentity } from "./profile";
 
 export enum CodecType {
@@ -24,6 +25,7 @@ export interface BlockchainSpec {
   readonly chainId?: ChainId; // if non-empty, enforce this
   readonly codecType: CodecType;
   readonly bootstrapNodes: ReadonlyArray<string>;
+  readonly ethereumOptions?: ConfigEthereumOptions;
 }
 
 export function specToConnector(spec: BlockchainSpec): ChainConnector {
@@ -40,37 +42,27 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
     case CodecType.Lsk:
       return { ...liskConnector(uri), expectedChainId: spec.chainId };
     case CodecType.Eth:
-      return {
-        ...ethereumConnector(uri, { scraperApiUrl: spec.bootstrapNodes[1] }),
-        expectedChainId: spec.chainId,
-      };
-    default:
-      throw new Error(`Unsupported codecType: ${spec.codecType}`);
-  }
-}
-export function specToCodec(spec: BlockchainSpec): TxCodec {
-  switch (spec.codecType) {
-    case CodecType.Bns:
-    case CodecType.Bov:
-      return { ...bnsCodec };
-    case CodecType.Lsk:
-      return { ...liskCodec };
-    case CodecType.Eth:
-      return { ...ethereumCodec };
-    default:
-      throw new Error(`Unsupported codecType: ${spec.codecType}`);
-  }
-}
+      const erc20s: ReadonlyArray<[TokenTicker, Erc20Options]> =
+        spec.ethereumOptions && spec.ethereumOptions.erc20s
+          ? spec.ethereumOptions.erc20s.map(
+              (row): [TokenTicker, Erc20Options] => [
+                row.symbol as TokenTicker,
+                {
+                  contractAddress: row.contractAddress as Address,
+                  symbol: row.symbol as TokenTicker,
+                  decimals: row.decimals,
+                },
+              ],
+            )
+          : [];
 
-export function addressToCodec(address: string): TxCodec {
-  if (address.indexOf("iov") !== -1) {
-    return bnsCodec;
-  } else if (liskCodec.isValidAddress(address)) {
-    return liskCodec;
-  } else if (ethereumCodec.isValidAddress(address)) {
-    return ethereumCodec;
-  } else {
-    throw new Error(`Unsupported Address Type: ${address}`);
+      const options: EthereumConnectionOptions = {
+        scraperApiUrl: spec.ethereumOptions ? spec.ethereumOptions.scraperApiUrl : undefined,
+        erc20Tokens: new Map(erc20s),
+      };
+      return ethereumConnector(uri, options, spec.chainId);
+    default:
+      throw new Error(`Unsupported codecType: ${spec.codecType}`);
   }
 }
 
@@ -81,9 +73,8 @@ export async function addBlockchain(
   blockchain: BlockchainSpec,
 ): Promise<BcpBlockchain> {
   const connector = specToConnector(blockchain);
-  const codec = specToCodec(blockchain);
   const { connection } = await writer.addChain(connector);
   // we now ensure there is a identity set up for this blockchain here
   const identity = await ensureIdentity(profile, connection.chainId(), blockchain.codecType);
-  return { connection, codec, identity };
+  return { connection, codec: connector.codec, identity };
 }

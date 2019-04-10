@@ -1,8 +1,8 @@
-import { Amount, ChainId } from "@iov/bcp";
+import { Address, Amount, ChainId } from "@iov/bcp";
 
 import {
-  addressToCodec,
   checkBnsBlockchainNft,
+  isHumanReadableAddress,
   resolveAddress,
   sendTransaction,
   setName,
@@ -67,7 +67,9 @@ export const sendTransactionSequence = (
   const signer = requireSigner(getState());
   const conn = requireBnsConnection(getState());
   try {
-    const address = await resolveAddress(conn, iovAddress, chainId, addressToCodec(iovAddress));
+    const blockchainAddress = isHumanReadableAddress(iovAddress)
+      ? await resolveAddress(conn, iovAddress, chainId)
+      : (iovAddress as Address);
     dispatch(
       addPendingTransactionAction({
         id: uniqId,
@@ -76,7 +78,7 @@ export const sendTransactionSequence = (
         signer: signerName,
       }),
     );
-    await waitForCommit(sendTransaction(profile, signer, chainId, address, amount, memo));
+    await waitForCommit(sendTransaction(profile, signer, chainId, blockchainAddress, amount, memo));
   } catch (err) {
     dispatch(
       addFailedTransactionAction(

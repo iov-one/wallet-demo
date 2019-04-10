@@ -4,25 +4,16 @@ import {
   Amount,
   BcpConnection,
   ChainId,
-  ConfirmedTransaction,
-  Fee,
-  isConfirmedTransaction,
   PostTxResponse,
   PublicIdentity,
   SendTransaction,
-  TokenTicker,
   TxCodec,
 } from "@iov/bcp";
-import { BnsConnection, RegisterUsernameTx } from "@iov/bns";
-import { ChainAddressPair } from "@iov/bns/types/types";
+import { BnsConnection, ChainAddressPair, RegisterUsernameTx } from "@iov/bns";
 import { MultiChainSigner, UserProfile } from "@iov/core";
 
 import { getUsernameNftByChainAddress, getUsernameNftByUsername } from "./name";
 import { getWalletAndIdentity } from "./profile";
-
-export function keyToAddress(ident: PublicIdentity, codec: TxCodec): Address {
-  return codec.identityToAddress(ident);
-}
 
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
@@ -31,7 +22,7 @@ export async function getAccount(
   ident: PublicIdentity,
   codec: TxCodec,
 ): Promise<Account | undefined> {
-  const address = keyToAddress(ident, codec);
+  const address = codec.identityToAddress(ident);
   const result = await connection.getAccount({ address });
   return result;
 }
@@ -80,32 +71,10 @@ export function watchAccount(
   cb: (acct?: Account, err?: any) => any,
   codec: TxCodec,
 ): Unsubscriber {
-  const address = keyToAddress(ident, codec);
+  const address = codec.identityToAddress(ident);
   const stream = connection.watchAccount({ address });
   const subscription = stream.subscribe({
     next: x => cb(x),
-    error: err => cb(undefined, err),
-  });
-  return subscription;
-}
-
-// get update for the transaction information for account
-
-export function watchTransaction(
-  connection: BcpConnection,
-  ident: PublicIdentity,
-  cb: (transaction?: ConfirmedTransaction, err?: any) => any,
-  codec: TxCodec,
-): Unsubscriber {
-  const address = keyToAddress(ident, codec);
-  const stream = connection.liveTx({ sentFromOrTo: address });
-  const subscription = stream.subscribe({
-    next: x => {
-      if (!isConfirmedTransaction(x)) {
-        throw new Error("Confirmed transaction expected");
-      }
-      cb(x);
-    },
     error: err => cb(undefined, err),
   });
   return subscription;
@@ -122,31 +91,17 @@ export async function sendTransaction(
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, chainId);
 
-  let fee: Fee | undefined;
-  if (chainId.startsWith("ethereum-")) {
-    fee = {
-      gasPrice: {
-        quantity: "20000000000",
-        fractionalDigits: 18,
-        tokenTicker: "ETH" as TokenTicker,
-      },
-      gasLimit: {
-        quantity: "2100000",
-        fractionalDigits: 18,
-        tokenTicker: "ETH" as TokenTicker,
-      },
-    };
-  }
-
   const unsigned: SendTransaction = {
     kind: "bcp/send",
     creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-    fee: fee,
   };
-  return writer.signAndPost(unsigned);
+
+  const fee = await writer.connection(chainId).getFeeQuote(unsigned);
+
+  return writer.signAndPost({ ...unsigned, fee: fee });
 }
 
 // registers a new username nft on the bns with the given list of chain-address pairs
@@ -164,5 +119,8 @@ export async function setName(
     username,
     addresses,
   };
-  return writer.signAndPost(unsigned);
+
+  const fee = await writer.connection(bnsId).getFeeQuote(unsigned);
+
+  return writer.signAndPost({ ...unsigned, fee: fee });
 }

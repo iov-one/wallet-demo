@@ -4,14 +4,7 @@ import { MultiChainSigner } from "@iov/core";
 
 import { sleep } from "../utils/timer";
 
-import {
-  getAccount,
-  getAddressByName,
-  keyToAddress,
-  sendTransaction,
-  setName,
-  watchAccount,
-} from "./account";
+import { getAccount, getAddressByName, sendTransaction, setName, watchAccount } from "./account";
 import { compareAmounts } from "./balances";
 import { addBlockchain } from "./connection";
 import { createProfile, ensureIdentity, getIdentity } from "./profile";
@@ -83,7 +76,7 @@ describe("sendTransaction", () => {
           faucet,
           writer,
           reader.chainId(),
-          keyToAddress(rcpt, codec),
+          codec.identityToAddress(rcpt),
           amount,
           "hello",
         );
@@ -122,7 +115,7 @@ describe("setName", () => {
       const { identity: rcpt } = await addBlockchain(rcptWriter, empty, testSpecData);
 
       const reader = connection as BnsConnection;
-      const rcptAddr = keyToAddress(rcpt, codec);
+      const rcptAddr = codec.identityToAddress(rcpt);
       const chainId = reader.chainId();
       await checkBnsBlockchainNft(faucet, reader, writer, chainId, "bns");
 
@@ -226,7 +219,7 @@ describe("setName", () => {
             tokenTicker: testTicker,
           };
           await waitForCommit(
-            sendTransaction(faucet, writer, reader.chainId(), keyToAddress(rcpt, codec), amount),
+            sendTransaction(faucet, writer, reader.chainId(), codec.identityToAddress(rcpt), amount),
           );
 
           // validate update messages came
@@ -244,7 +237,7 @@ describe("setName", () => {
           unsubscribeFaucet.unsubscribe();
           // send a second payment
           await waitForCommit(
-            sendTransaction(faucet, writer, reader.chainId(), keyToAddress(rcpt, codec), amount),
+            sendTransaction(faucet, writer, reader.chainId(), codec.identityToAddress(rcpt), amount),
           );
 
           await sleep(50);

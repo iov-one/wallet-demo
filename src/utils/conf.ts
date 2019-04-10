@@ -16,9 +16,21 @@ export interface ChainConfig {
   readonly faucetSpec?: FaucetSpec;
 }
 
+export interface ConfigErc20Options {
+  readonly contractAddress: string;
+  readonly symbol: string;
+  readonly decimals: number;
+}
+
+export interface ConfigEthereumOptions {
+  readonly scraperApiUrl?: string;
+  readonly erc20s?: ReadonlyArray<ConfigErc20Options>;
+}
+
 export interface ChainSpec {
   readonly codecType: string;
   readonly bootstrapNodes: ReadonlyArray<string>;
+  readonly ethereumOptions?: ConfigEthereumOptions;
 }
 
 export interface FaucetSpec {
