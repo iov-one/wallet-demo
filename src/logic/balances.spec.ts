@@ -98,7 +98,7 @@ describe("trimAmount", () => {
       quantity: "0",
       fractionalDigits: 18,
       tokenTicker: eth,
-    }
+    };
     expect(trimAmount(original)).toEqual(original);
   });
 });
