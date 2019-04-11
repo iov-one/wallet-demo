@@ -10,11 +10,14 @@ export interface SelectorProps {
 
 export const tokensSelector = createSelector(
   getAllAccounts,
-  (accounts: ReadonlyArray<ChainAccount>) =>
-    accounts
+  (accounts: ReadonlyArray<ChainAccount>) => {
+    const tokens = accounts
       .filter(acct => !!acct.account)
       .map(acct => acct.account!.balance)
-      .reduce((acc, cur) => [...acc, ...cur], []),
+      .reduce((acc, cur) => [...acc, ...cur], []);
+    const sortedTokens = [...tokens].sort((a, b) => a.tokenTicker.localeCompare(b.tokenTicker));
+    return sortedTokens;
+  },
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
