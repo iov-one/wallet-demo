@@ -29,7 +29,9 @@ export const availableTokensSelector = createSelector(
         })),
     );
 
-    return tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
+    const tickersList = tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
+    tickersList.sort((a, b) => a.name.localeCompare(b.name));
+    return tickersList;
   },
 );
 

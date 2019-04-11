@@ -34,11 +34,13 @@ export const balanceTokensSelector = createSelector(
 
 const balanceTickersSelector = createSelector(
   balanceTokensSelector,
-  (balanceTokens: ReadonlyArray<BcpCoin>) =>
-    balanceTokens.map(balanceToken => ({
+  (balanceTokens: ReadonlyArray<BcpCoin>) => {
+    const sortedTokens = [...balanceTokens].sort((a, b) => a.tokenTicker.localeCompare(b.tokenTicker));
+    return sortedTokens.map(balanceToken => ({
       name: balanceToken.tokenTicker as string,
       additionaName: balanceToken.tokenName,
-    })),
+    }));
+  },
 );
 
 const defaultBalanceSelector = createSelector(
