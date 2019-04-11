@@ -1,4 +1,4 @@
-import { TokenTicker } from "@iov/bcp";
+import { Amount, TokenTicker } from "@iov/bcp";
 
 import {
   amountToString,
@@ -91,6 +91,15 @@ describe("trimAmount", () => {
     expect(trimAmount(makeInfo("1200", 2, eth))).toEqual(makeInfo("12", 0, eth));
     expect(trimAmount(makeInfo("120034000", 7, eth))).toEqual(makeInfo("120034", 4, eth));
     expect(trimAmount(makeInfo("3400", 1, eth))).toEqual(makeInfo("340", 0, eth));
+  });
+
+  it("should keep 0 amount unchanged", () => {
+    const original: Amount = {
+      quantity: "0",
+      fractionalDigits: 18,
+      tokenTicker: eth,
+    }
+    expect(trimAmount(original)).toEqual(original);
   });
 });
 

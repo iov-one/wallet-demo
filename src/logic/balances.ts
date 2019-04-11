@@ -61,8 +61,9 @@ export function amountToString(amount: Amount): string {
 // TODO: remove leading 0s also
 export function trimAmount(amount: Amount): Amount {
   const { quantity, fractionalDigits, tokenTicker } = amount;
-  const zeros = quantity.match(/0*$/)![0].length;
-  const cut = Math.min(zeros, fractionalDigits);
+  const trailingZerosMatch = quantity.match(/[^0](0*)$/);
+  const numberOfTrailingZeros = trailingZerosMatch ? trailingZerosMatch[1].length : 0;
+  const cut = Math.min(numberOfTrailingZeros, fractionalDigits);
   if (cut === 0) {
     return amount;
   }
