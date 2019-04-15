@@ -67,6 +67,7 @@ const styles = createStyles({
 
 const LISK_FAUCET = "https://testnet-faucet.lisk.io";
 const ETH_FACUET = "https://faucet.rinkeby.io/";
+const ERC20_DOCS = "https://github.com/iov-one/wallet-demo/wiki/ERC20-demo-tokens";
 
 interface CardProps {
   readonly text: string;
@@ -161,11 +162,15 @@ class BalanceLayout extends React.Component<Props, State> {
                 <Block padding="xs" />
                 <Tooltip maxWidth={350} phoneHook={this.state.howItWorksHook}>
                   <Typography variant="body2">
-                    Claim test LSK here <Link to={LISK_FAUCET}>{LISK_FAUCET}</Link>
+                    Claim test LSK: <Link to={LISK_FAUCET}>Lisk faucet</Link>
                   </Typography>
                   <Block margin="sm" />
                   <Typography variant="body2">
-                    Claim test ETH here <Link to={ETH_FACUET}>{ETH_FACUET}</Link>
+                    Claim test ETH: <Link to={ETH_FACUET}>Rinkeby faucet</Link>
+                  </Typography>
+                  <Block margin="sm" />
+                  <Typography variant="body2">
+                    Claim test ERC20s: <Link to={ERC20_DOCS}>read the docs</Link>
                   </Typography>
                 </Tooltip>
               </Block>
