@@ -1,5 +1,7 @@
 # Wallet Demo
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/iov1/wallet-demo.svg)](https://hub.docker.com/r/iov1/wallet-demo/)
+
 This is a demo version of the IOV Wallet. It is meant both to provide a simple but
 usable of our technology as well as to establish a common agreement on best practices
 in react/redux application development. The demos are useful for backend devs to
