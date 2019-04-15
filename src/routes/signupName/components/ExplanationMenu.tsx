@@ -54,7 +54,7 @@ const ExplanationMenu = ({ classes }: Props) => (
         we provide an address like this:
       </Typography>
     </Block>
-    <RoundTextBox text="John*iov" />
+    <RoundTextBox text="john*iov" />
   </Col>
 );
 

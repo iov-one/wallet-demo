@@ -74,6 +74,6 @@ export const InviteDescription = ({ style }: Props): JSX.Element => (
     <InviteDescriptionField>1DkyBEKt5S2G...AvnsRyHoYM</InviteDescriptionField>
     <ArrowImage src={ArrowIcon} />
     <InviteDescriptionLabel>IOV provides an address like this</InviteDescriptionLabel>
-    <InviteDescriptionField className="highlight">John*iov</InviteDescriptionField>
+    <InviteDescriptionField className="highlight">john*iov</InviteDescriptionField>
   </ContentWrapper>
 );
