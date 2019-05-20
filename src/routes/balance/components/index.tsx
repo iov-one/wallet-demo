@@ -1,4 +1,4 @@
-import { BcpCoin } from "@iov/bcp";
+import { Amount } from "@iov/bcp";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Block from "~/components/layout/Block";
@@ -16,7 +16,7 @@ import { background, md } from "~/theme/variables";
 
 interface Props extends WithStyles<typeof styles> {
   readonly name: string | undefined;
-  readonly tokens: ReadonlyArray<BcpCoin>;
+  readonly tokens: ReadonlyArray<Amount>;
   readonly phone: boolean;
   readonly onSendPayment: () => void;
   readonly onReceivePayment: () => void;
@@ -140,7 +140,7 @@ class BalanceLayout extends React.Component<Props, State> {
                 {hasTokens ? "Your currencies" : "No funds available"}
               </Typography>
               <Block margin="xl" />
-              {tokens.map((token: BcpCoin) => (
+              {tokens.map(token => (
                 <Typography
                   key={token.tokenTicker}
                   pointer

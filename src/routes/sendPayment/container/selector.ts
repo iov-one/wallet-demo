@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 
-import { BcpCoin } from "@iov/bcp";
+import { Amount } from "@iov/bcp";
 import { BnsConnection } from "@iov/bns";
 import { MultiChainSigner } from "@iov/core";
 
@@ -9,18 +9,18 @@ import { RootState } from "~/reducers";
 import { tokensSelector } from "~/routes/balance/container/selector";
 import {
   accountNameSelector,
-  ChainTicker,
+  ChainToken,
   getChainTickers,
   requireBnsConnection,
   requireSigner,
 } from "~/selectors";
 
 export interface SelectorProps {
-  readonly chainTickers: ReadonlyArray<ChainTicker>;
+  readonly chainTickers: ReadonlyArray<ChainToken>;
   readonly connection: BnsConnection;
   readonly tickers: ReadonlyArray<Item>;
-  readonly balanceTokens: ReadonlyArray<BcpCoin>;
-  readonly defaultBalance: BcpCoin;
+  readonly balanceTokens: ReadonlyArray<Amount>;
+  readonly defaultBalance: Amount;
   readonly accountName: string | undefined;
   readonly signer: MultiChainSigner;
 }
@@ -29,16 +29,16 @@ const IOV = "IOV";
 
 export const balanceTokensSelector = createSelector(
   tokensSelector,
-  (tokens: ReadonlyArray<BcpCoin>) => tokens.filter(token => Number(token.quantity) > 0),
+  (tokens: ReadonlyArray<Amount>) => tokens.filter(token => Number(token.quantity) > 0),
 );
 
 const balanceTickersSelector = createSelector(
   balanceTokensSelector,
-  (balanceTokens: ReadonlyArray<BcpCoin>) => {
+  (balanceTokens: ReadonlyArray<Amount>) => {
     const sortedTokens = [...balanceTokens].sort((a, b) => a.tokenTicker.localeCompare(b.tokenTicker));
     return sortedTokens.map(balanceToken => ({
       name: balanceToken.tokenTicker as string,
-      additionaName: balanceToken.tokenName,
+      additionaName: "Hmmmm, no idea what to put here. Is this even shown?",
     }));
   },
 );
@@ -46,7 +46,7 @@ const balanceTickersSelector = createSelector(
 const defaultBalanceSelector = createSelector(
   balanceTokensSelector,
   balanceTickersSelector,
-  (balances: ReadonlyArray<BcpCoin>, tickers: ReadonlyArray<Item>): BcpCoin => {
+  (balances: ReadonlyArray<Amount>, tickers: ReadonlyArray<Item>): Amount => {
     const iovTicker = tickers.find(item => item.name === IOV);
     const ticker = iovTicker ? iovTicker : tickers[0];
     const defaultBalance = balances.find(balance => balance.tokenTicker === ticker.name);

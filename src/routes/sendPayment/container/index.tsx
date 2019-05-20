@@ -1,4 +1,4 @@
-import { Amount, BcpCoin } from "@iov/bcp";
+import { Amount } from "@iov/bcp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
@@ -31,7 +31,7 @@ interface RouteLocation {
 interface Props extends RouteComponentProps<RouteLocation>, SelectorProps, SendPaymentActions {}
 
 interface State {
-  readonly balanceToSend: BcpCoin;
+  readonly balanceToSend: Amount;
   readonly page: number;
   readonly payment: Payment | undefined;
 }
@@ -55,7 +55,7 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     const amount = formValues[AMOUNT_FIELD];
     const note = formValues[NOTE_FIELD];
 
-    const selectedTicker = chainTickers.find(chainTicker => chainTicker.ticker.tokenTicker === ticker);
+    const selectedTicker = chainTickers.find(chainTicker => chainTicker.token.tokenTicker === ticker);
     const chainId = selectedTicker!.chainId;
 
     this.setState(() => ({
@@ -81,7 +81,7 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     }
 
     const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-    const chainTicker = chainTickers.find(chTicker => chTicker.ticker.tokenTicker === ticker);
+    const chainTicker = chainTickers.find(chTicker => chTicker.token.tokenTicker === ticker);
     const chainId = chainTicker ? chainTicker.chainId : undefined;
 
     if (!isHumanReadableAddress(maybeAddress)) {

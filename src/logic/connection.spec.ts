@@ -1,4 +1,3 @@
-import { BcpTicker } from "@iov/bcp";
 import { MultiChainSigner } from "@iov/core";
 
 import { addBlockchain } from "./connection";
@@ -20,10 +19,10 @@ describe("addBlockchain", () => {
       expect(await reader.height()).toBeGreaterThan(1);
 
       // check proper tickers
-      const tickers = await reader.getAllTickers();
-      expect(tickers.length).toEqual(2);
-      const tokens = tickers.map((tick: BcpTicker) => tick.tokenTicker);
-      expect(tokens).toEqual(["CASH", "IOV"]);
+      const tokens = await reader.getAllTokens();
+      expect(tokens.length).toEqual(2);
+      const tickers = tokens.map(token => token.tokenTicker);
+      expect(tickers).toEqual(["CASH", "IOV"]);
     } finally {
       writer.shutdown();
     }

@@ -55,19 +55,19 @@ describe("boot sequence", () => {
       const [chain1, chain2, chain3, chain4] = chainsLoaded;
       const tickers1 = state.blockchain.tickers
         .filter(t => t.chainId === chain1)
-        .map(t => t.ticker.tokenTicker);
+        .map(t => t.token.tokenTicker);
       expect(tickers1).toEqual(["CASH", "IOV"]);
       const tickers2 = state.blockchain.tickers
         .filter(t => t.chainId === chain2)
-        .map(t => t.ticker.tokenTicker);
+        .map(t => t.token.tokenTicker);
       expect(tickers2).toEqual(["ASH", "BOV"]);
       const tickers3 = state.blockchain.tickers
         .filter(t => t.chainId === chain3)
-        .map(t => t.ticker.tokenTicker);
+        .map(t => t.token.tokenTicker);
       expect(tickers3).toEqual(["LSK"]);
       const tickers4 = state.blockchain.tickers
         .filter(t => t.chainId === chain4)
-        .map(t => t.ticker.tokenTicker);
+        .map(t => t.token.tokenTicker);
       expect(tickers4).toEqual(["ETH"]);
 
       // make sure the bns chain is listed

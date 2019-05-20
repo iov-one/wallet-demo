@@ -1,4 +1,4 @@
-import { BcpCoin } from "@iov/bcp";
+import { Amount } from "@iov/bcp";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { FormState } from "final-form";
 import * as React from "react";
@@ -13,7 +13,7 @@ import RecipientCard from "./RecipientCard";
 import SendCard from "./SendCard";
 
 export interface SendBalance {
-  readonly balance: BcpCoin;
+  readonly balance: Amount;
   readonly tickersWithBalance: ReadonlyArray<Item>;
   readonly defaultTicker: string;
   readonly onUpdateBalanceToSend: (ticker: Item) => void;

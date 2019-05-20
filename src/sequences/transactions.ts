@@ -1,13 +1,6 @@
 import { Address, Amount, ChainId } from "@iov/bcp";
 
-import {
-  checkBnsBlockchainNft,
-  isHumanReadableAddress,
-  resolveAddress,
-  sendTransaction,
-  setName,
-  waitForCommit,
-} from "~/logic";
+import { isHumanReadableAddress, resolveAddress, sendTransaction, setName, waitForCommit } from "~/logic";
 import { RootState } from "~/reducers";
 import { getUsernameNftByUsernameAsyncAction } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
@@ -38,14 +31,6 @@ export const setNameSequence = (username: string) => async (
   const addresses = getAllAccounts(getState());
   const profileState = getProfile(getState());
   const profile = profileState === undefined ? await createProfile(bnsId) : profileState;
-
-  // make sure all chains are registered and register if not their
-  // TODO mid-term we need a better way than auto-registering... eg. actually using bns better
-  // but for now this will work
-  for (const { chainId } of addresses) {
-    // TODO: this should not be "bns", but rather the codec name...
-    await checkBnsBlockchainNft(profile, bnsConn, signer, chainId, "bns");
-  }
 
   // this now sets the name on the bns chain
   await waitForCommit(setName(profile, signer, bnsId, username, addresses));

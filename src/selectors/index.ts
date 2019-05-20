@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Account, BcpTicker } from "@iov/bcp";
+import { Account, Token } from "@iov/bcp";
 import { BnsConnection } from "@iov/bns";
 import { Address, ChainId } from "@iov/core";
 
@@ -19,9 +19,9 @@ export interface ChainAccount {
   readonly account?: Account;
 }
 
-export interface ChainTicker {
+export interface ChainToken {
   readonly chainId: ChainId;
-  readonly ticker: BcpTicker;
+  readonly token: Token;
 }
 
 export const getProfileDB = (state: RootState) => state.profile.internal.db;

@@ -9,7 +9,7 @@ import { compareAmounts } from "./balances";
 import { addBlockchain } from "./connection";
 import { createProfile, ensureIdentity, getIdentity } from "./profile";
 import { adminProfile, bnsFaucetSpec, mayTestBns, randomString, testSpec } from "./testhelpers";
-import { checkBnsBlockchainNft, waitForCommit } from "./transaction";
+import { waitForCommit } from "./transaction";
 
 describe("getAccount", () => {
   mayTestBns("random account should be empty", async () => {
@@ -117,7 +117,6 @@ describe("setName", () => {
       const reader = connection as BnsConnection;
       const rcptAddr = codec.identityToAddress(rcpt);
       const chainId = reader.chainId();
-      await checkBnsBlockchainNft(faucet, reader, writer, chainId, "bns");
 
       try {
         const { token: testTicker } = (await bnsFaucetSpec())!;

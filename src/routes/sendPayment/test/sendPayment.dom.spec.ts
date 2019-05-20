@@ -1,4 +1,3 @@
-import { BcpCoin } from "@iov/bcp";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
@@ -56,8 +55,8 @@ describe("DOM > Feature > Send Payment", () => {
 
       expectRoute(userBarStore, BALANCE_ROUTE);
 
-      const tokens = balanceTokensSelector(userBarStore.getState());
-      const iovToken = tokens.find((token: BcpCoin) => token.tokenTicker === "IOV");
+      const balance = balanceTokensSelector(userBarStore.getState());
+      const iovToken = balance.find(amount => amount.tokenTicker === "IOV");
       expect(iovToken).not.toBeFalsy();
       expect(iovToken!.quantity).toEqual("9000000000");
     },

@@ -1,11 +1,11 @@
-import { BcpCoin } from "@iov/bcp";
+import { Amount } from "@iov/bcp";
 import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { RootState } from "~/reducers";
 import { accountNameSelector, ChainAccount, getAllAccounts } from "~/selectors";
 
 export interface SelectorProps {
   readonly name: string | undefined;
-  readonly tokens: ReadonlyArray<BcpCoin>;
+  readonly tokens: ReadonlyArray<Amount>;
 }
 
 export const tokensSelector = createSelector(

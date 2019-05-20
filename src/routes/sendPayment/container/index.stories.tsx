@@ -1,4 +1,4 @@
-import { BcpCoin, TokenTicker } from "@iov/bcp";
+import { Amount, TokenTicker } from "@iov/bcp";
 import { ChainId } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
@@ -9,9 +9,8 @@ import FillPayment from "../components/FillPayment";
 
 const noOp = () => true;
 const noOpAsync = (_: object) => Promise.resolve();
-const balance: BcpCoin = {
+const balance: Amount = {
   tokenTicker: "IOV" as TokenTicker,
-  tokenName: "IOV default Token",
   quantity: "10",
   fractionalDigits: 0,
 };

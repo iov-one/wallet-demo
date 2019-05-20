@@ -1,4 +1,11 @@
-import { Address, BcpConnection, ChainConnector, PublicIdentity, TokenTicker, TxCodec } from "@iov/bcp";
+import {
+  Address,
+  BlockchainConnection,
+  ChainConnector,
+  PublicIdentity,
+  TokenTicker,
+  TxCodec,
+} from "@iov/bcp";
 import { bnsConnector } from "@iov/bns";
 import { ChainId, MultiChainSigner, UserProfile } from "@iov/core";
 import { Erc20Options, EthereumConnectionOptions, ethereumConnector } from "@iov/ethereum";
@@ -15,7 +22,7 @@ export enum CodecType {
 }
 
 export interface BcpBlockchain {
-  readonly connection: BcpConnection;
+  readonly connection: BlockchainConnection;
   readonly codec: TxCodec;
   readonly identity: PublicIdentity;
 }
