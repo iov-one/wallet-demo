@@ -1,4 +1,5 @@
-FROM nginx:1.15.5-alpine
+# See https://hub.docker.com/_/nginx/
+FROM nginx:1.15-alpine
 
 # we run in read-only volume...
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
