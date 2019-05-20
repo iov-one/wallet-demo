@@ -38,8 +38,7 @@ export const getBnsConnection: (state: RootState) => BnsConnection | undefined =
   getBnsChainId,
   (conns, bnsId) => (bnsId ? (conns[bnsId] as BnsConnection) : undefined),
 );
-// getChainTickers was a map, now the redux state
-export const getChainTickers = (state: RootState) => state.blockchain.tickers;
+export const getChainTokens = (state: RootState) => state.blockchain.tokens;
 
 export const getAllIdentities = (state: RootState) => {
   const profile = state.profile.internal.profile;

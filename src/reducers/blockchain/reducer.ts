@@ -17,7 +17,7 @@ const initState: BlockchainState = {
     codecs: {},
   },
   chains: [],
-  tickers: [],
+  tokens: [],
   accountInfo: [],
 };
 
@@ -45,7 +45,7 @@ export function blockchainReducer(
       // use block scope here so we can use same variable name in different cases
       const { chainId, tokens } = action.payload;
       const add: ReadonlyArray<ChainToken> = tokens.map(token => ({ chainId, token }));
-      return { ...state, tickers: [...state.tickers, ...add] };
+      return { ...state, tokens: [...state.tokens, ...add] };
     }
     case "GET_ACCOUNT_FULFILLED": {
       // use block scope here so we can use same variable name in different cases

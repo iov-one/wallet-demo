@@ -10,13 +10,13 @@ import { tokensSelector } from "~/routes/balance/container/selector";
 import {
   accountNameSelector,
   ChainToken,
-  getChainTickers,
+  getChainTokens,
   requireBnsConnection,
   requireSigner,
 } from "~/selectors";
 
 export interface SelectorProps {
-  readonly chainTickers: ReadonlyArray<ChainToken>;
+  readonly chainTokens: ReadonlyArray<ChainToken>;
   readonly connection: BnsConnection;
   readonly tickers: ReadonlyArray<Item>;
   readonly balanceTokens: ReadonlyArray<Amount>;
@@ -56,7 +56,7 @@ const defaultBalanceSelector = createSelector(
 );
 
 const structuredSelector: Selector<RootState, SelectorProps> = createStructuredSelector({
-  chainTickers: getChainTickers,
+  chainTokens: getChainTokens,
   connection: requireBnsConnection,
   tickers: balanceTickersSelector,
   balanceTokens: balanceTokensSelector,

@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector, Selector } from "reselect";
 import { Item } from "~/components/forms/SelectField";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain";
-import { ChainToken, getAllAccounts, getChainTickers } from "~/selectors";
+import { ChainToken, getAllAccounts, getChainTokens } from "~/selectors";
 
 export interface TickerWithAddress extends Item {
   readonly address: string;
@@ -14,13 +14,13 @@ export interface SelectorProps {
 
 export const availableTokensSelector = createSelector(
   getAllAccounts,
-  getChainTickers,
-  (accounts: ReadonlyArray<AccountInfo>, tickers: ReadonlyArray<ChainToken>) => {
-    if (tickers.length === 0) {
+  getChainTokens,
+  (accounts: ReadonlyArray<AccountInfo>, tokens: ReadonlyArray<ChainToken>) => {
+    if (tokens.length === 0) {
       return [];
     }
-    const tickersByAddress = accounts.map(acct =>
-      tickers
+    const tokensByAddress = accounts.map(acct =>
+      tokens
         .filter(t => t.chainId === acct.chainId)
         .map(t => ({
           address: acct.address,
@@ -29,7 +29,7 @@ export const availableTokensSelector = createSelector(
         })),
     );
 
-    const tickersList = tickersByAddress.reduce((acc, cur) => [...acc, ...cur], []);
+    const tickersList = tokensByAddress.reduce((acc, cur) => [...acc, ...cur], []);
     tickersList.sort((a, b) => a.name.localeCompare(b.name));
     return tickersList;
   },

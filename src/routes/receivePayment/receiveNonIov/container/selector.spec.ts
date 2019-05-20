@@ -8,8 +8,8 @@ import { availableTokensSelector } from "./selector";
 
 function callSelector(store: any): any {
   const accountInfo = store.getState().blockchain.accountInfo;
-  const tickers = store.getState().blockchain.tickers;
-  return availableTokensSelector.resultFunc(accountInfo, tickers);
+  const tokens = store.getState().blockchain.tokens;
+  return availableTokensSelector.resultFunc(accountInfo, tokens);
 }
 
 describe("selector", () => {
@@ -28,7 +28,7 @@ describe("selector", () => {
           username: "test1",
         },
       ],
-      tickers: [
+      tokens: [
         {
           chainId: "chain-1" as ChainId,
           token: {
@@ -60,7 +60,7 @@ describe("selector", () => {
     it("should return 1 chain : 2 tickers : 1 address relation", () => {
       const mockRootStore: typeof mockRootStoreBase = JSON.parse(JSON.stringify(mockRootStoreBase));
       // tslint:disable-next-line: readonly-array
-      (mockRootStore.blockchain.tickers as ChainToken[]).push({
+      (mockRootStore.blockchain.tokens as ChainToken[]).push({
         chainId: "chain-1" as ChainId,
         token: {
           tokenTicker: "T2A" as TokenTicker,
@@ -79,7 +79,7 @@ describe("selector", () => {
     it("should return 2 chains : 2 tickers : 2 addresses relation", () => {
       const mockRootStore: typeof mockRootStoreBase = JSON.parse(JSON.stringify(mockRootStoreBase));
       // tslint:disable-next-line: readonly-array
-      (mockRootStore.blockchain.tickers as ChainToken[]).push({
+      (mockRootStore.blockchain.tokens as ChainToken[]).push({
         chainId: "chain-2" as ChainId,
         token: {
           tokenTicker: "T2A" as TokenTicker,
@@ -108,7 +108,7 @@ describe("selector", () => {
     it("should return 2 chains : 4 tickers : 2 addresses relation", () => {
       const mockRootStore: typeof mockRootStoreBase = JSON.parse(JSON.stringify(mockRootStoreBase));
       // tslint:disable-next-line: readonly-array
-      (mockRootStore.blockchain.tickers as ChainToken[]).push(
+      (mockRootStore.blockchain.tokens as ChainToken[]).push(
         {
           chainId: "chain-1" as ChainId,
           token: {

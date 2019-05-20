@@ -42,7 +42,7 @@ const tokens: ReadonlyArray<ChainToken> = [
 const txStore: DeepPartial<RootState> = {
   blockchain: {
     accountInfo: accountInfo,
-    tickers: tokens,
+    tokens: tokens,
   },
 };
 

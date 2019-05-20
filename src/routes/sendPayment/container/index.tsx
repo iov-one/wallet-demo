@@ -47,7 +47,7 @@ export class SendPaymentInternal extends React.Component<Props, State> {
   };
 
   public readonly onSendPayment = async (values: object): Promise<void> => {
-    const { defaultBalance, chainTickers } = this.props;
+    const { defaultBalance, chainTokens } = this.props;
     const formValues = values as FormType;
 
     const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
@@ -55,8 +55,8 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     const amount = formValues[AMOUNT_FIELD];
     const note = formValues[NOTE_FIELD];
 
-    const selectedTicker = chainTickers.find(chainTicker => chainTicker.token.tokenTicker === ticker);
-    const chainId = selectedTicker!.chainId;
+    const selectedToken = chainTokens.find(ct => ct.token.tokenTicker === ticker);
+    const chainId = selectedToken!.chainId;
 
     this.setState(() => ({
       page: CONFIRM_PAYMENT,
@@ -71,7 +71,7 @@ export class SendPaymentInternal extends React.Component<Props, State> {
   };
 
   public readonly onSendPaymentValidation = async (values: object): Promise<object> => {
-    const { connection, chainTickers, defaultBalance, signer } = this.props;
+    const { connection, chainTokens, defaultBalance, signer } = this.props;
     const formValues = values as FormType;
     const maybeAddress = formValues[RECIPIENT_FIELD];
 
@@ -81,8 +81,8 @@ export class SendPaymentInternal extends React.Component<Props, State> {
     }
 
     const ticker = formValues[TOKEN_FIELD] || defaultBalance.tokenTicker;
-    const chainTicker = chainTickers.find(chTicker => chTicker.token.tokenTicker === ticker);
-    const chainId = chainTicker ? chainTicker.chainId : undefined;
+    const chainToken = chainTokens.find(ct => ct.token.tokenTicker === ticker);
+    const chainId = chainToken ? chainToken.chainId : undefined;
 
     if (!isHumanReadableAddress(maybeAddress)) {
       const valid = chainId && signer.isValidAddress(chainId, maybeAddress);

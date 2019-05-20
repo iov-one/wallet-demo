@@ -13,7 +13,7 @@ export interface BlockchainState {
   // bns should be the first one here
   readonly chains: ReadonlyArray<ChainId>;
   readonly accountInfo: ReadonlyArray<AccountInfo>;
-  readonly tickers: ReadonlyArray<ChainToken>;
+  readonly tokens: ReadonlyArray<ChainToken>;
 }
 
 export interface AccountInfo {
