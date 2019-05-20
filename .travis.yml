@@ -1,5 +1,6 @@
 os:
   - linux
+dist: xenial
 
 # Workaround for Chrome sandboxing issue (https://github.com/travis-ci/travis-ci/issues/8836)
 sudo: required
@@ -15,14 +16,6 @@ node_js:
 # addons:
 #   firefox: latest
 #   chrome: stable
-
-before_install:
-# yarn is outdated on Linux images
-- |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.7.0
-    export PATH=$HOME/.yarn/bin:$PATH
-  fi
 
 install:
 - source ./scripts/retry.sh
