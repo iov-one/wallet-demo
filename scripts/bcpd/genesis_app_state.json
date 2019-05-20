@@ -28,13 +28,15 @@
   "currencies": [
     {
       "ticker": "BOV",
-      "name": "Main token of this test chain",
-      "sig_figs": 9
+      "name": "Main token of this test chain"
     },
     {
       "ticker": "ASH",
-      "name": "Another token of this chain",
-      "sig_figs": 7
+      "name": "Another token of this chain"
     }
-  ]
+  ],
+  "gconf": {
+    "cash:minimal_fee": "0.01 BOV",
+    "cash:collector_address": "0000000000000000000000000000000000000000"
+  }
 }
