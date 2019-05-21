@@ -10,32 +10,35 @@ command -v shellcheck > /dev/null && shellcheck "$0"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo
-echo ">>> Starting bns chain and faucet..."
+echo ">>> Starting bns chain..."
 echo
 bash "${SCRIPT_DIR}"/bnsd/start.sh
-bash "${SCRIPT_DIR}"/faucet/bnsd_start.sh
 
 echo
-echo ">>> Starting bcpd (demo) chain and faucet..."
+echo ">>> Starting bcpd (demo) chain..."
 echo
 bash "${SCRIPT_DIR}"/bcpd/start.sh
-bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
 
 echo
-echo ">>> Starting lisk (test) chain and faucet..."
+echo ">>> Starting lisk (test) chain..."
 echo
 bash "${SCRIPT_DIR}"/lisk/start.sh
 bash "${SCRIPT_DIR}"/lisk/init.sh
-bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 
 echo
-echo ">>> Starting ethereum (ganache) chain, scraper and faucet..."
+echo ">>> Starting ethereum (ganache) chain and scraper..."
 echo
 bash "${SCRIPT_DIR}"/ethereum/start.sh
 sleep 5
-bash "${SCRIPT_DIR}"/faucet/ethereum_start.sh
-sleep 5
 bash "${SCRIPT_DIR}"/ethereum/scraper_start.sh
+
+echo
+echo ">>> Starting faucets..."
+echo
+bash "${SCRIPT_DIR}"/faucet/bnsd_start.sh
+bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
+bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
+bash "${SCRIPT_DIR}"/faucet/ethereum_start.sh
 
 echo
 echo ">>> Waiting for faucets to load tokens..."
