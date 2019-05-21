@@ -24,14 +24,14 @@
     "surge": "surge"
   },
   "dependencies": {
-    "@iov/bns": "^0.13.3",
-    "@iov/core": "^0.13.3",
-    "@iov/crypto": "^0.13.3",
-    "@iov/ethereum": "^0.13.3",
-    "@iov/faucets": "^0.13.3",
-    "@iov/keycontrol": "^0.13.3",
-    "@iov/lisk": "^0.13.3",
-    "@iov/stream": "^0.13.3",
+    "@iov/bns": "0.13.6",
+    "@iov/core": "0.13.6",
+    "@iov/crypto": "0.13.6",
+    "@iov/ethereum": "0.13.6",
+    "@iov/faucets": "0.13.6",
+    "@iov/keycontrol": "0.13.6",
+    "@iov/lisk": "0.13.6",
+    "@iov/stream": "0.13.6",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "@sentry/browser": "4.5.2",
@@ -124,5 +124,21 @@
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.0",
     "webpack-merge": "^4.1.4"
+  },
+  "resolutions": {
+    "@iov/bcp": "0.13.6",
+    "@iov/bns": "0.13.6",
+    "@iov/core": "0.13.6",
+    "@iov/crypto": "0.13.6",
+    "@iov/dpos": "0.13.6",
+    "@iov/encoding": "0.13.6",
+    "@iov/ethereum": "0.13.6",
+    "@iov/faucets": "0.13.6",
+    "@iov/jsonrpc": "0.13.6",
+    "@iov/keycontrol": "0.13.6",
+    "@iov/lisk": "0.13.6",
+    "@iov/socket": "0.13.6",
+    "@iov/stream": "0.13.6",
+    "@iov/tendermint-rpc": "0.13.6"
   }
 }
