@@ -1,4 +1,11 @@
 #!/bin/bash
+command -v shellcheck > /dev/null && shellcheck "$0"
+
+# only run this in one job of the build matrix
+if [[ "${TRAVIS_OS_NAME:-}" != "linux" || "${TRAVIS_NODE_VERSION:-}" != "10" ]]; then
+  echo "Skipping docker publishing"
+  exit 0
+fi
 
 # Note this assumes it runs in a CI and depends on the following variables being set
 # TRAVIS_BRANCH = "master"
@@ -8,12 +15,12 @@
 
 # It also assumes to run in the root directory of the project
 
-BUILD_VERSION=$(echo ${TRAVIS_COMMIT} | cut -c 1-10);
+BUILD_VERSION=$(echo "${TRAVIS_COMMIT}" | cut -c 1-10);
 
-echo BUILD_VERSION $BUILD_VERSION
-echo TRAVIS_BRANCH $TRAVIS_BRANCH
-echo TRAVIS_TAG $TRAVIS_TAG
-echo TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_PULL_REQUEST_BRANCH
+echo "BUILD_VERSION: $BUILD_VERSION"
+echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"
+echo "TRAVIS_TAG: $TRAVIS_TAG"
+echo "TRAVIS_PULL_REQUEST_BRANCH: $TRAVIS_PULL_REQUEST_BRANCH"
 
 if [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_TAG" == "" ]] && [[ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]]; then
   echo "Building master"

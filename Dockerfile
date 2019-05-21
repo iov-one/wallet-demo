@@ -1,3 +1,6 @@
+# This docker file takes a local build from the ./dist directory and just
+# creates a webserver container. So be sure to have a clean build.
+
 # See https://hub.docker.com/_/nginx/
 FROM nginx:1.15-alpine
 

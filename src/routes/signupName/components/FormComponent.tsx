@@ -1,4 +1,4 @@
-import { BnsConnection } from "@iov/bns";
+import { BnsConnection, BnsUsernameNft } from "@iov/bns";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import Field from "~/components/forms/Field";
@@ -57,9 +57,14 @@ export const takenName = (connection: BnsConnection | undefined) => async (name:
     return "BNS connection is not active";
   }
 
-  const response = await getUsernameNftByUsername(connection, name);
+  let response: BnsUsernameNft | undefined;
+  try {
+    response = await getUsernameNftByUsername(connection, name);
+  } catch (_) {
+    return "Error while querying the BNS";
+  }
 
-  return nameValidator(response as string | undefined);
+  return nameValidator(response ? response.id : undefined);
 };
 
 const FormComponent = ({ connection, classes }: Props) => (

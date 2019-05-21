@@ -8,27 +8,31 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo
-echo ">>> Stopping bns chain and faucet..."
+echo ">>> Stopping faucets..."
 echo
 bash "${SCRIPT_DIR}"/faucet/bnsd_stop.sh
+bash "${SCRIPT_DIR}"/faucet/bcpd_stop.sh
+bash "${SCRIPT_DIR}"/faucet/lisk_stop.sh
+bash "${SCRIPT_DIR}"/faucet/ethereum_stop.sh
+
+echo
+echo ">>> Stopping bns chain..."
+echo
 bash "${SCRIPT_DIR}"/bnsd/stop.sh
 
 echo
-echo ">>> Stopping bcpd (demo) chain and faucet..."
+echo ">>> Stopping bcpd (demo) chain..."
 echo
-bash "${SCRIPT_DIR}"/faucet/bcpd_stop.sh
 bash "${SCRIPT_DIR}"/bcpd/stop.sh
 
 echo
-echo ">>> Stopping lisk chain and faucet..."
+echo ">>> Stopping lisk chain..."
 echo
-bash "${SCRIPT_DIR}"/faucet/lisk_stop.sh
 bash "${SCRIPT_DIR}"/lisk/stop.sh
 
 echo
-echo ">>> Stopping ethereum chain, scraper and faucet..."
+echo ">>> Stopping ethereum chain and scraper..."
 echo
-bash "${SCRIPT_DIR}"/faucet/ethereum_stop.sh
 bash "${SCRIPT_DIR}"/ethereum/scraper_stop.sh
 bash "${SCRIPT_DIR}"/ethereum/stop.sh
 

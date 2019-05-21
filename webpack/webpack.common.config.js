@@ -16,8 +16,6 @@ fs.writeFileSync(configFile, JSON.stringify(config));
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 const cssvariables = require(baseDir + "/src/theme/variables.js");
 
