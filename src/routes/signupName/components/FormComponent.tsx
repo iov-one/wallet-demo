@@ -64,7 +64,7 @@ export const takenName = (connection: BnsConnection | undefined) => async (name:
     return "Error while querying the BNS";
   }
 
-  return nameValidator(response as string | undefined);
+  return nameValidator(response ? response.id : undefined);
 };
 
 const FormComponent = ({ connection, classes }: Props) => (
