@@ -2,7 +2,7 @@
 command -v shellcheck > /dev/null && shellcheck "$0"
 
 # only run this in one job of the build matrix
-if [[ "${TRAVIS_OS_NAME:-}" != "linux" || "${TRAVIS_NODE_VERSION:-}" != "8" ]]; then
+if [[ "${TRAVIS_OS_NAME:-}" != "linux" || "${TRAVIS_NODE_VERSION:-}" != "10" ]]; then
   echo "Skipping docker publishing"
   exit 0
 fi
