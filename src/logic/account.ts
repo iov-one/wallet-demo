@@ -91,17 +91,14 @@ export async function sendTransaction(
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, chainId);
 
-  const unsigned: SendTransaction = {
+  const unsigned = await writer.connection(chainId).withDefaultFee<SendTransaction>({
     kind: "bcp/send",
     creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-  };
-
-  const fee = await writer.connection(chainId).getFeeQuote(unsigned);
-
-  return writer.signAndPost({ ...unsigned, fee: fee });
+  });
+  return writer.signAndPost(unsigned);
 }
 
 // registers a new username nft on the bns with the given list of chain-address pairs
@@ -113,14 +110,12 @@ export async function setName(
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, bnsId);
-  const unsigned: RegisterUsernameTx = {
+
+  const unsigned = await writer.connection(bnsId).withDefaultFee<RegisterUsernameTx>({
     kind: "bns/register_username",
     creator: creator,
     username,
     addresses,
-  };
-
-  const fee = await writer.connection(bnsId).getFeeQuote(unsigned);
-
-  return writer.signAndPost({ ...unsigned, fee: fee });
+  });
+  return writer.signAndPost(unsigned);
 }
