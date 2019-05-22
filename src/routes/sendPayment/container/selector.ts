@@ -36,10 +36,11 @@ const balanceTickersSelector = createSelector(
   balanceTokensSelector,
   (balanceTokens: ReadonlyArray<Amount>) => {
     const sortedTokens = [...balanceTokens].sort((a, b) => a.tokenTicker.localeCompare(b.tokenTicker));
-    return sortedTokens.map(balanceToken => ({
-      name: balanceToken.tokenTicker as string,
-      additionaName: "Hmmmm, no idea what to put here. Is this even shown?",
-    }));
+    return sortedTokens.map(
+      (balanceToken): Item => ({
+        name: balanceToken.tokenTicker,
+      }),
+    );
   },
 );
 
