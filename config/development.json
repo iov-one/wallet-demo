@@ -12,16 +12,6 @@
   "chains": [
     {
       "chainSpec": {
-        "codecType": "bov",
-        "bootstrapNodes": ["wss://bov.hugnet.iov.one/"]
-      },
-      "faucetSpec": {
-        "uri": "https://bov-faucet.hugnet.iov.one",
-        "token": "ALT"
-      }
-    },
-    {
-      "chainSpec": {
         "codecType": "lsk",
         "bootstrapNodes": ["https://testnet.lisk.io"]
       }

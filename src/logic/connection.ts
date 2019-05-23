@@ -16,7 +16,6 @@ import { ensureIdentity } from "./profile";
 
 export enum CodecType {
   Bns = "bns",
-  Bov = "bov",
   Lsk = "lsk",
   Eth = "eth",
 }
@@ -44,7 +43,6 @@ export function specToConnector(spec: BlockchainSpec): ChainConnector {
 
   switch (spec.codecType) {
     case CodecType.Bns:
-    case CodecType.Bov:
       return { ...bnsConnector(uri), expectedChainId: spec.chainId };
     case CodecType.Lsk:
       return { ...liskConnector(uri), expectedChainId: spec.chainId };

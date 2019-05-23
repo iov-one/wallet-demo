@@ -48,8 +48,6 @@ function selectWalletAndPath(
   switch (codecType) {
     case "bns":
       return { walletId: edWallet, path: HdPaths.iov(0) };
-    case "bov":
-      return { walletId: edWallet, path: HdPaths.iov(1) };
     case "lsk":
       return { walletId: edWallet, path: HdPaths.bip44Like(134, 0) };
     case "eth":
