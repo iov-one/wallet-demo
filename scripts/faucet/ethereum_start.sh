@@ -23,4 +23,6 @@ docker run --read-only \
   start ethereum "$BLOCKCHAIN_URL" \
   > "$LOGFILE" &
 
-echo "Faucet running and logging into $LOGFILE"
+echo "Faucet running and logging into $LOGFILE. Showing the first few seconds of the log:"
+sleep 8
+cat "$LOGFILE"
