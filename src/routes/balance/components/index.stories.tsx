@@ -1,30 +1,28 @@
-import { BcpCoin, TokenTicker } from "@iov/bcp";
+import { Amount, TokenTicker } from "@iov/bcp";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import PageMenu from "~/components/pages/PageMenu";
 import { RootMatchMedia } from "~/utils/storybook";
 import Layout from "./index";
 
-const TOKENS: ReadonlyArray<BcpCoin> = [
+const TOKENS: ReadonlyArray<Amount> = [
   {
     quantity: "82500",
     fractionalDigits: 4,
     tokenTicker: "IOV" as TokenTicker,
-    tokenName: "Main token",
   },
   {
     quantity: "1226775",
     fractionalDigits: 5,
     tokenTicker: "ETH" as TokenTicker,
-    tokenName: "Ethereum token",
   },
 ];
 
-const NO_TOKENS: ReadonlyArray<BcpCoin> = [];
+const NO_TOKENS: ReadonlyArray<Amount> = [];
 
 const ACCOUNT_NAME = "adolfo*iov";
 
-const renderProps = (tokens: ReadonlyArray<BcpCoin>) => (phone: boolean) => (
+const renderProps = (tokens: ReadonlyArray<Amount>) => (phone: boolean) => (
   <Layout
     name={ACCOUNT_NAME}
     tokens={tokens}

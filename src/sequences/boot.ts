@@ -2,7 +2,7 @@ import { firstEvent } from "@iov/stream";
 import debounce from "xstream/extra/debounce";
 
 import {
-  BcpConnection,
+  BlockchainConnection,
   ConfirmedTransaction,
   isConfirmedTransaction,
   PublicIdentity,
@@ -22,7 +22,7 @@ import {
   getUsernameNftByChainAddressAsyncAction,
   setBnsChainId,
   setChainIds,
-  TickerInfo,
+  TokenInfo,
   updateUsernameNft,
 } from "~/reducers/blockchain";
 import { fixTypes } from "~/reducers/helpers";
@@ -81,7 +81,7 @@ export const bootSequence = (
   let initAccounts: ReadonlyArray<Promise<AccountInfo>> = [
     watchAccountAndTransactions(dispatch, bnsConn, bnsConn, value.identity, bnsCodec),
   ];
-  let initTickers: ReadonlyArray<Promise<{ readonly value: TickerInfo }>> = [getTickers(dispatch, bnsConn)];
+  let initTickers: ReadonlyArray<Promise<{ readonly value: TokenInfo }>> = [getTickers(dispatch, bnsConn)];
 
   // then we connect all other chains, in parallel
   // bns chain is the first one we connect to, so we can pull out the chainId later
@@ -130,7 +130,7 @@ export const bootSequence = (
   return { accounts, signer };
 };
 
-function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<any> {
+function getTickers(dispatch: RootThunkDispatch, conn: BlockchainConnection): Promise<any> {
   const tickerAction = getTickersAsyncAction.start(conn, {}, {}, {});
   return fixTypes(dispatch(tickerAction));
 }
@@ -138,7 +138,7 @@ function getTickers(dispatch: RootThunkDispatch, conn: BcpConnection): Promise<a
 async function watchAccountAndTransactions(
   dispatch: RootThunkDispatch,
   bnsConn: BnsConnection,
-  conn: BcpConnection,
+  conn: BlockchainConnection,
   identity: PublicIdentity,
   codec: TxCodec,
 ): Promise<AccountInfo> {

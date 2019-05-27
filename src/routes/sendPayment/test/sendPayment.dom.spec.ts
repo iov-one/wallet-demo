@@ -1,4 +1,3 @@
-import { BcpCoin } from "@iov/bcp";
 import TestUtils from "react-dom/test-utils";
 import { Store } from "redux";
 import { mayTestBns, randomString } from "~/logic/testhelpers";
@@ -47,7 +46,7 @@ describe("DOM > Feature > Send Payment", () => {
       const sendPaymentComponent = TestUtils.findRenderedComponentWithType(BalanceDom, SendPaymentInternal);
       expect(sendPaymentComponent.state.page).toBe(FILL_PAYMENT);
 
-      await processPaymentTo(BalanceDom, `${userFooAccount}*iov`);
+      await processPaymentTo(BalanceDom, `${userFooAccount}*iov`, "1.0");
       await sleep(800);
 
       expect(sendPaymentComponent.state.page).toBe(CONFIRM_PAYMENT);
@@ -56,10 +55,14 @@ describe("DOM > Feature > Send Payment", () => {
 
       expectRoute(userBarStore, BALANCE_ROUTE);
 
-      const tokens = balanceTokensSelector(userBarStore.getState());
-      const iovToken = tokens.find((token: BcpCoin) => token.tokenTicker === "IOV");
+      const balance = balanceTokensSelector(userBarStore.getState());
+      const iovToken = balance.find(amount => amount.tokenTicker === "IOV");
       expect(iovToken).not.toBeFalsy();
-      expect(iovToken!.quantity).toEqual("9000000000");
+      // + 10.00 IOV (from faucet)
+      // -  5.00 IOV (register name fee)
+      // -  1.00 IOV (send amount)
+      // -  0.01 IOV (send fee)
+      expect(iovToken!.quantity).toEqual("3990000000");
     },
     90000,
   );

@@ -28,13 +28,21 @@
   "currencies": [
     {
       "ticker": "IOV",
-      "name": "Internet of Values",
-      "sig_figs": 9
+      "name": "Internet of Values"
     },
     {
       "ticker": "CASH",
-      "name": "Quick trading token",
-      "sig_figs": 9
+      "name": "Quick trading token"
+    }
+  ],
+  "gconf": {
+    "cash:minimal_fee": "0.01 IOV",
+    "cash:collector_address": "0000000000000000000000000000000000000000"
+  },
+  "msgfee": [
+    {
+      "msg_path": "nft/username/issue",
+      "fee": "5 IOV"
     }
   ]
 }

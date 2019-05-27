@@ -43,21 +43,16 @@ describe("ensureIdentity", () => {
     const profile = await createProfile();
     const ident1 = await ensureIdentity(profile, "bns-chain" as ChainId, "bns");
     expect(ident1).toBeTruthy();
-    const ident2 = await ensureIdentity(profile, "bov-chain" as ChainId, "bov");
+    const ident2 = await ensureIdentity(profile, "lisk-chain" as ChainId, "lsk");
     expect(ident2).toBeTruthy();
-    const ident3 = await ensureIdentity(profile, "lisk-chain" as ChainId, "lsk");
+    const ident3 = await ensureIdentity(profile, "rinkeby-chain" as ChainId, "eth");
     expect(ident3).toBeTruthy();
-    const ident4 = await ensureIdentity(profile, "rinkeby-chain" as ChainId, "eth");
-    expect(ident4).toBeTruthy();
 
     // compare all pairs of identities to ensure all have unique derivations
     const pairs: ReadonlyArray<ReadonlyArray<PublicIdentity>> = [
       [ident1, ident2],
       [ident1, ident3],
-      [ident1, ident4],
       [ident2, ident3],
-      [ident2, ident4],
-      [ident3, ident4],
     ];
     for (const [id1, id2] of pairs) {
       expect(id1).not.toEqual(id2);
@@ -79,7 +74,7 @@ describe("getWalletAndIdentity", () => {
 
   it("should error if other chains registered", async () => {
     const profile = await createProfile();
-    await ensureIdentity(profile, "bov-chain" as ChainId, "bov");
+    await ensureIdentity(profile, "rinkeby" as ChainId, "eth");
     expect(() => getWalletAndIdentity(profile, "bns-chain" as ChainId)).toThrow(/No identity found/);
   });
 

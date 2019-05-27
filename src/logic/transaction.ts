@@ -1,5 +1,5 @@
 import {
-  BcpConnection,
+  BlockchainConnection,
   ChainId,
   ConfirmedTransaction,
   isBlockInfoFailed,
@@ -12,12 +12,10 @@ import {
   TxCodec,
   UnsignedTransaction,
 } from "@iov/bcp";
-import { BnsConnection, RegisterBlockchainTx } from "@iov/bns";
-import { MultiChainSigner, UserProfile } from "@iov/core";
+import { BnsConnection } from "@iov/bns";
 import { ReadonlyDate } from "readonly-date";
 
 import { getNameByAddress } from "./account";
-import { getWalletAndIdentity } from "./profile";
 
 export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = SendTransaction>
   extends ConfirmedTransaction<T> {
@@ -36,7 +34,7 @@ export interface AnnotatedConfirmedTransaction<T extends UnsignedTransaction = S
 
 export const parseConfirmedTransaction = async (
   bnsConn: BnsConnection,
-  conn: BcpConnection,
+  conn: BlockchainConnection,
   trans: ConfirmedTransaction,
   identity: PublicIdentity,
   codec: TxCodec,
@@ -74,34 +72,6 @@ export const parseConfirmedTransaction = async (
     memo: payload.memo,
   };
 };
-
-export async function checkBnsBlockchainNft(
-  profile: UserProfile,
-  connection: BnsConnection,
-  writer: MultiChainSigner,
-  chainId: ChainId,
-  codecName: string,
-): Promise<void> {
-  const result = await connection.getBlockchains({ chainId });
-  if (result.length === 0) {
-    const { identity: creator } = getWalletAndIdentity(profile, connection.chainId());
-
-    const blockchainRegistration: RegisterBlockchainTx = {
-      kind: "bns/register_blockchain",
-      creator: creator,
-      chain: {
-        chainId: chainId,
-        production: false,
-        enabled: true,
-        name: "Wonderland",
-        networkId: "7rg047g4h",
-      },
-      codecName,
-      codecConfig: `{ }`,
-    };
-    await waitForCommit(writer.signAndPost(blockchainRegistration));
-  }
-}
 
 // this waits for one commit to be writen, then returns the response
 // if either CheckTx or DeliverTx error, then this will throw an error.

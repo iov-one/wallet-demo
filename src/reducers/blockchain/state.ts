@@ -1,7 +1,7 @@
-import { Account, Address, BcpConnection, BcpTicker, TokenTicker, TxCodec } from "@iov/bcp";
+import { Account, Address, BlockchainConnection, Token, TokenTicker, TxCodec } from "@iov/bcp";
 import { BnsUsernameNft } from "@iov/bns";
 import { ChainId, MultiChainSigner } from "@iov/core";
-import { ChainTicker } from "~/selectors";
+import { ChainToken } from "~/selectors";
 
 export interface BlockchainState {
   readonly internal: InternalDetails;
@@ -13,7 +13,7 @@ export interface BlockchainState {
   // bns should be the first one here
   readonly chains: ReadonlyArray<ChainId>;
   readonly accountInfo: ReadonlyArray<AccountInfo>;
-  readonly tickers: ReadonlyArray<ChainTicker>;
+  readonly tokens: ReadonlyArray<ChainToken>;
 }
 
 export interface AccountInfo {
@@ -72,25 +72,22 @@ export function updateUsernameNft(
     ); // set
 }
 
-export function getTickerByChain(
-  tickers: ReadonlyArray<ChainTicker>,
-  chainId: ChainId,
-): ReadonlyArray<BcpTicker> {
-  return tickers.filter(t => t.chainId === chainId).map(t => t.ticker);
+export function getTickerByChain(tokens: ReadonlyArray<ChainToken>, chainId: ChainId): ReadonlyArray<Token> {
+  return tokens.filter(t => t.chainId === chainId).map(t => t.token);
 }
 
 export function getChainByTicker(
-  tickers: ReadonlyArray<ChainTicker>,
+  tokens: ReadonlyArray<ChainToken>,
   ticker: TokenTicker,
 ): ChainId | undefined {
-  const result = tickers.find(t => t.ticker.tokenTicker === ticker);
+  const result = tokens.find(t => t.token.tokenTicker === ticker);
   return result ? result.chainId : undefined;
 }
 
 export interface InternalDetails {
   readonly signer?: MultiChainSigner;
   readonly connections: {
-    readonly [chainId: string]: BcpConnection;
+    readonly [chainId: string]: BlockchainConnection;
   };
   readonly codecs: {
     readonly [chainId: string]: TxCodec;

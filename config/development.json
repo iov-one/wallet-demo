@@ -2,24 +2,14 @@
   "bns": {
     "chainSpec": {
       "codecType": "bns",
-      "bootstrapNodes": ["wss://bns.hugnet.iov.one/"]
+      "bootstrapNodes": ["wss://bns.zebranet.iov.one/"]
     },
     "faucetSpec": {
-      "uri": "https://bns-faucet.hugnet.iov.one",
+      "uri": "https://bns-faucet.zebranet.iov.one",
       "token": "IOV"
     }
   },
   "chains": [
-    {
-      "chainSpec": {
-        "codecType": "bov",
-        "bootstrapNodes": ["wss://bov.hugnet.iov.one/"]
-      },
-      "faucetSpec": {
-        "uri": "https://bov-faucet.hugnet.iov.one",
-        "token": "ALT"
-      }
-    },
     {
       "chainSpec": {
         "codecType": "lsk",

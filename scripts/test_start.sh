@@ -15,11 +15,6 @@ echo
 bash "${SCRIPT_DIR}"/bnsd/start.sh
 
 echo
-echo ">>> Starting bcpd (demo) chain..."
-echo
-bash "${SCRIPT_DIR}"/bcpd/start.sh
-
-echo
 echo ">>> Starting lisk (test) chain..."
 echo
 bash "${SCRIPT_DIR}"/lisk/start.sh
@@ -36,7 +31,6 @@ echo
 echo ">>> Starting faucets..."
 echo
 bash "${SCRIPT_DIR}"/faucet/bnsd_start.sh
-bash "${SCRIPT_DIR}"/faucet/bcpd_start.sh
 bash "${SCRIPT_DIR}"/faucet/lisk_start.sh
 bash "${SCRIPT_DIR}"/faucet/ethereum_start.sh
 

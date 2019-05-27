@@ -3,18 +3,16 @@ set -o errexit -o nounset -o pipefail
 command -v shellcheck > /dev/null && shellcheck "$0"
 
 # Choose from https://hub.docker.com/r/iov1/iov-faucet/tags/
-FAUCET_VERSION="v0.5.2"
+FAUCET_VERSION="v0.6.0"
 
 TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/faucet_start.XXXXXXXXX")
 LOGFILE="$TMP_DIR/faucet.log"
 
-docker pull "alpine"
 DOCKER_HOST_IP=$(docker run --rm alpine ip route | awk 'NR==1 {print $3}')
 
 BLOCKCHAIN_URL="ws://$DOCKER_HOST_IP:23456"
 echo "Connecting to $BLOCKCHAIN_URL"
 
-docker pull "iov1/iov-faucet:${FAUCET_VERSION}"
 docker run --read-only \
   --name "bnsd_faucet" \
   --env "FAUCET_CONCURRENCY=3" \
@@ -25,4 +23,6 @@ docker run --read-only \
   start bns "$BLOCKCHAIN_URL" \
   > "$LOGFILE" &
 
-echo "Faucet running and logging into $LOGFILE"
+echo "Faucet running and logging into $LOGFILE. Showing the first few seconds of the log:"
+sleep 8
+cat "$LOGFILE"

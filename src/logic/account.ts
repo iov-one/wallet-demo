@@ -2,7 +2,7 @@ import {
   Account,
   Address,
   Amount,
-  BcpConnection,
+  BlockchainConnection,
   ChainId,
   PostTxResponse,
   PublicIdentity,
@@ -18,7 +18,7 @@ import { getWalletAndIdentity } from "./profile";
 // queries account on bns chain by default
 // TODO: how to handle toher chains easier
 export async function getAccount(
-  connection: BcpConnection,
+  connection: BlockchainConnection,
   ident: PublicIdentity,
   codec: TxCodec,
 ): Promise<Account | undefined> {
@@ -29,7 +29,7 @@ export async function getAccount(
 
 // looks up account for a given address (or undefined)
 export async function getAccountByAddress(
-  connection: BcpConnection,
+  connection: BlockchainConnection,
   address: Address,
 ): Promise<Account | undefined> {
   const result = await connection.getAccount({ address });
@@ -66,7 +66,7 @@ export interface Unsubscriber {
 // call cb with current state and again on any change.
 // it returns an unsubscribe function that can be called to turn off callbacks
 export function watchAccount(
-  connection: BcpConnection,
+  connection: BlockchainConnection,
   ident: PublicIdentity,
   cb: (acct?: Account, err?: any) => any,
   codec: TxCodec,
@@ -91,17 +91,14 @@ export async function sendTransaction(
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, chainId);
 
-  const unsigned: SendTransaction = {
+  const unsigned = await writer.connection(chainId).withDefaultFee<SendTransaction>({
     kind: "bcp/send",
     creator: creator,
     recipient: recipient,
     memo: memo || undefined, // use undefined not "" for compatibility with golang codec
     amount,
-  };
-
-  const fee = await writer.connection(chainId).getFeeQuote(unsigned);
-
-  return writer.signAndPost({ ...unsigned, fee: fee });
+  });
+  return writer.signAndPost(unsigned);
 }
 
 // registers a new username nft on the bns with the given list of chain-address pairs
@@ -113,14 +110,12 @@ export async function setName(
   addresses: ReadonlyArray<ChainAddressPair>,
 ): Promise<PostTxResponse> {
   const { identity: creator } = getWalletAndIdentity(profile, bnsId);
-  const unsigned: RegisterUsernameTx = {
+
+  const unsigned = await writer.connection(bnsId).withDefaultFee<RegisterUsernameTx>({
     kind: "bns/register_username",
     creator: creator,
     username,
     addresses,
-  };
-
-  const fee = await writer.connection(bnsId).getFeeQuote(unsigned);
-
-  return writer.signAndPost({ ...unsigned, fee: fee });
+  });
+  return writer.signAndPost(unsigned);
 }

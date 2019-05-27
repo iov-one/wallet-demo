@@ -1,4 +1,4 @@
-import { Account, BcpConnection, BcpTicker, PublicIdentity, TxCodec } from "@iov/bcp";
+import { Account, BlockchainConnection, PublicIdentity, Token, TxCodec } from "@iov/bcp";
 import { ChainId, MultiChainSigner } from "@iov/core";
 import { UserProfile } from "@iov/keycontrol";
 
@@ -34,17 +34,17 @@ export const getTickersAsyncAction = createPromiseAction(
   "GET_TICKERS_PENDING",
   "GET_TICKERS_FULFILLED",
   "GET_TICKERS_REJECTED",
-)(getTickers);
+)(getTokens);
 
-export interface TickerInfo {
+export interface TokenInfo {
   readonly chainId: ChainId;
-  readonly tickers: ReadonlyArray<BcpTicker>;
+  readonly tokens: ReadonlyArray<Token>;
 }
 
-async function getTickers(connection: BcpConnection): Promise<TickerInfo> {
+async function getTokens(connection: BlockchainConnection): Promise<TokenInfo> {
   const chainId = connection.chainId();
-  const tickers = await connection.getAllTickers();
-  return { chainId, tickers };
+  const tokens = await connection.getAllTokens();
+  return { chainId, tokens };
 }
 
 export interface AccountWithChain {
@@ -54,7 +54,7 @@ export interface AccountWithChain {
 
 // simple extension of logic function to return data more suited to redux
 const getAccountWithChain = async (
-  connection: BcpConnection,
+  connection: BlockchainConnection,
   ident: PublicIdentity,
   codec: TxCodec,
 ): Promise<AccountInfo> => {
@@ -77,7 +77,7 @@ export const getAccountAsyncAction = createPromiseAction(
 )(getAccountWithChain);
 
 function watchAccountWithChain(
-  connection: BcpConnection,
+  connection: BlockchainConnection,
   ident: PublicIdentity,
   cb: (acct?: AccountWithChain, err?: any) => any,
   codec: TxCodec,

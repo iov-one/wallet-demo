@@ -1,11 +1,11 @@
-import { Address, BcpTicker } from "@iov/bcp";
+import { Address, TokenTicker } from "@iov/bcp";
 import { ChainId } from "@iov/core";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { DeepPartial } from "redux";
 import { RootState } from "~/reducers";
 import { AccountInfo } from "~/reducers/blockchain/state";
-import { ChainTicker } from "~/selectors";
+import { ChainToken } from "~/selectors";
 import { RootMatchMedia } from "~/utils/storybook";
 import ReceiveNonIov from "./index";
 
@@ -20,29 +20,29 @@ const accountInfo: ReadonlyArray<AccountInfo> = [
   },
 ];
 
-const tickers: ReadonlyArray<ChainTicker> = [
+const tokens: ReadonlyArray<ChainToken> = [
   {
     chainId: "chain-test1" as ChainId,
-    ticker: {
-      tokenTicker: "TEST",
+    token: {
+      tokenTicker: "TEST" as TokenTicker,
       tokenName: "test storybook",
       fractionalDigits: 5,
-    } as BcpTicker,
+    },
   },
   {
     chainId: "chain-test2" as ChainId,
-    ticker: {
-      tokenTicker: "TST",
+    token: {
+      tokenTicker: "TST" as TokenTicker,
       tokenName: "another test",
       fractionalDigits: 5,
-    } as BcpTicker,
+    },
   },
 ];
 
 const txStore: DeepPartial<RootState> = {
   blockchain: {
     accountInfo: accountInfo,
-    tickers: tickers,
+    tokens: tokens,
   },
 };
 

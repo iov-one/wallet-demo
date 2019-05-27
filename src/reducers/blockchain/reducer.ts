@@ -1,4 +1,5 @@
 import { ActionType } from "typesafe-actions";
+import { ChainToken } from "~/selectors";
 import * as logoutActions from "~/store/logout/actions";
 
 import * as actions from "./actions";
@@ -16,7 +17,7 @@ const initState: BlockchainState = {
     codecs: {},
   },
   chains: [],
-  tickers: [],
+  tokens: [],
   accountInfo: [],
 };
 
@@ -42,9 +43,9 @@ export function blockchainReducer(
     }
     case "GET_TICKERS_FULFILLED": {
       // use block scope here so we can use same variable name in different cases
-      const { chainId, tickers } = action.payload;
-      const add = tickers.map(ticker => ({ chainId, ticker }));
-      return { ...state, tickers: [...state.tickers, ...add] };
+      const { chainId, tokens } = action.payload;
+      const add: ReadonlyArray<ChainToken> = tokens.map(token => ({ chainId, token }));
+      return { ...state, tokens: [...state.tokens, ...add] };
     }
     case "GET_ACCOUNT_FULFILLED": {
       // use block scope here so we can use same variable name in different cases
