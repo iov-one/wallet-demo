@@ -19,7 +19,7 @@
     {
       "chainSpec": {
         "codecType": "eth",
-        "bootstrapNodes": ["https://rinkeby.infura.io"],
+        "bootstrapNodes": ["https://rinkeby.infura.io/v3/82ad5cc3a08d4fe882be0162e593655b"],
         "ethereumOptions": {
           "scraperApiUrl": "https://api-rinkeby.etherscan.io/api",
           "erc20s": [
