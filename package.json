@@ -1,6 +1,6 @@
 {
   "name": "wallet-demo",
-  "version": "0.12.3",
+  "version": "0.13.0",
   "description": "Demo web-wallet built on iov-core",
   "main": "build/index.js",
   "author": "IOV SAS <admin@iov.one>",
